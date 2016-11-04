@@ -94,7 +94,7 @@ public class WikipediaSentenceSource extends SentenceSource {
         throw new NoSuchElementException();
       }
       WikipediaSentence wikiSentence = sentences.remove(0);
-      String url = "http://" + language.getShortName() + ".wikipedia.org/wiki/" + wikiSentence.title;
+      String url = "http://" + language.getShortCode() + ".wikipedia.org/wiki/" + wikiSentence.title;
       return new Sentence(wikiSentence.sentence, getSource(), wikiSentence.title, url, wikiSentence.articleCount);
     } catch (XMLStreamException e) {
       throw new RuntimeException(e);

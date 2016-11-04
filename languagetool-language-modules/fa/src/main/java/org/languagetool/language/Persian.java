@@ -51,6 +51,11 @@ public class Persian extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "fa";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"IR", "AF"};
   }

@@ -56,7 +56,7 @@ public final class AnalyzedToken {
   }
 
   /**
-   * @return the token's part-of-speech tag {@code null}
+   * @return the token's part-of-speech tag or {@code null}
    */
   @Nullable
   public String getPOSTag() {

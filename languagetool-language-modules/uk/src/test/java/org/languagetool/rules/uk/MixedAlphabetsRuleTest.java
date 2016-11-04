@@ -52,7 +52,12 @@ public class MixedAlphabetsRuleTest {
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("mixed"), matches[0].getSuggestedReplacements());
-    
+
+    matches = rule.match(langTool.getAnalyzedSentence("горíти"));  // umlaut instead of accented і
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("горі́ти"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("XІ")); // cyrillic І and latin X
 
     assertEquals(1, matches.length);
@@ -75,7 +80,7 @@ public class MixedAlphabetsRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("група А")); // cyrillic А
     assertEquals(1, matches.length);
     assertEquals("A", matches[0].getSuggestedReplacements().get(0));
-    
+
     matches = rule.match(langTool.getAnalyzedSentence("На 0,6°С.")); // cyrillic С
     assertEquals(1, matches.length);
     assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));

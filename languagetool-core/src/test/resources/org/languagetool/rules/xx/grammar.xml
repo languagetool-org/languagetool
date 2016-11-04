@@ -377,11 +377,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>7</token>
                     <token>8</token>
                     <token/>
-                    <token>10</token>
+                    <token>ten</token>
                 </pattern>
                 <message>I suggest: <suggestion><match no="10"/> blahblah</suggestion>.</message>
                 <example>blah</example>
-                <example correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+                <example correction="ten blahblah"><marker>1 2 3 4 5 6 7 8 9 ten</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -394,11 +394,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>7</token>
                     <token>8</token>
                     <token/>
-                    <token>10</token>
+                    <token>ten</token>
                 </pattern>
                 <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
                 <example>blah</example>
-                <example correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+                <example correction="ten blahblah"><marker>1 2 3 4 5 6 7 8 9 ten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>one</token>
+                    <token>two</token>
+                    <token>three</token>
+                    <token>four</token>
+                    <token>five</token>
+                    <token/>
+                    <token>seven</token>
+                    <token>eight</token>
+                    <token/>
+                    <token>ten</token>
+                    <token>eleven</token>
+                    <token>twelve</token>
+                    <token>thirteen</token>
+                </pattern>
+                <message>I suggest: <suggestion>\10 \13 \11 \5</suggestion>.</message>
+                <short>Error</short>
+                <example>blah</example>
+                <example correction="ten thirteen eleven five"><marker>one two three four five six seven eight nine ten eleven twelve thirteen</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="test_match_conv" name="example of case conversion">

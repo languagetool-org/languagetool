@@ -25,7 +25,6 @@ import java.util.List;
 /**
  * Filter rule matches so that only the first match is kept from overlapping
  * matches with the same rule group (actually: the same id).
- *
  * @since 1.8
  */
 public class SameRuleGroupFilter implements RuleMatchFilter {
@@ -39,7 +38,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
     List<RuleMatch> filteredRules = new ArrayList<>();
     for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch match = ruleMatches.get(i);
-      while (i <  ruleMatches.size() - 1 && overlapAndMatch(match, ruleMatches.get(i + 1))) {
+      while (i < ruleMatches.size() - 1 && overlapAndMatch(match, ruleMatches.get(i + 1))) {
         i++;  // skip next match
       }
       filteredRules.add(match);

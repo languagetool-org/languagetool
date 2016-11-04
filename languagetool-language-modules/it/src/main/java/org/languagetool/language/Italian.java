@@ -59,6 +59,11 @@ public class Italian extends Language implements AutoCloseable {
   }
   
   @Override
+  public String getShortCode() {
+    return "it";
+  }
+  
+  @Override
   public String[] getCountries() {
     return new String[]{"IT", "CH"};
   }
@@ -105,7 +110,7 @@ public class Italian extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }
@@ -118,7 +123,10 @@ public class Italian extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
+  /**
+   * Closes the language model, if any. 
+   * @since 3.1
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {

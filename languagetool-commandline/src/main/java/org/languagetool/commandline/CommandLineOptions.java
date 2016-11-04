@@ -29,6 +29,16 @@ import java.util.*;
  * Options that can be set via command line arguments.
  */
 public class CommandLineOptions {
+  
+  /**
+   * Constants for rule matches output in command-line.
+   * @since 3.6
+   */
+  public enum OutputFormat {
+    PLAINTEXT,
+    JSON,
+    XML
+  }
 
   private final Set<CategoryId> enabledCategories = new HashSet<>();
   private final Set<CategoryId> disabledCategories = new HashSet<>();
@@ -40,7 +50,7 @@ public class CommandLineOptions {
   private boolean recursive = false;
   private boolean taggerOnly = false;
   private boolean singleLineBreakMarksParagraph = false;
-  private boolean apiFormat = false;
+  private OutputFormat outputFormat = OutputFormat.PLAINTEXT;
   private boolean listUnknown = false;
   private boolean applySuggestions = false;
   private boolean profile = false;
@@ -124,12 +134,32 @@ public class CommandLineOptions {
     this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;
   }
 
-  public boolean isApiFormat() {
-    return apiFormat;
+  /**
+   * @since 3.6
+   */
+  public boolean isXmlFormat() {
+    return this.outputFormat == OutputFormat.XML;
+  }
+  
+  /**
+   * @since 3.6
+   */
+  public void setXmlFormat() {
+    this.outputFormat = OutputFormat.XML;
   }
 
-  public void setApiFormat(boolean apiFormat) {
-    this.apiFormat = apiFormat;
+  /**
+   * @since 3.6
+   */
+  public boolean isJsonFormat() {
+    return this.outputFormat == OutputFormat.JSON;
+  }
+
+  /**
+   * @since 3.6
+   */
+  public void setJsonFormat() {
+    this.outputFormat = OutputFormat.JSON;
   }
 
   public boolean isListUnknown() {

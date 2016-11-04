@@ -9,8 +9,6 @@ Copyright (C) 2010-2014 Dominique Pellé <dominique.pelle@gmail.com>
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
 de ĝia verkisto Bertilo Wennergren.
 
-Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
-
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -164,7 +162,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="2" regexp_match="ec(oj?n?)$" regexp_replace="$1"/></suggestion> anstataŭ «\2».</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-eblo.php</url>
       <example correction="eblon">Mi havas <marker>eblecon</marker> ŝanĝi laboron.</example>
     </rule>
     <rulegroup id="RAKETO_RAKEDO" name="rankedo anstataŭ raketo">
@@ -743,6 +740,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="superrealism$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/real.html#real.sur0ismo</url>
       <example correction="superrealismo">La <marker>surrealismo</marker> de tiu artisto.</example>
+    </rule>
+    <rule id="GUATEMALO" name="Gŭatemalo (Gvatemalo)">
+      <pattern>
+        <token inflected="yes">Gŭatemalo</token>
+      </pattern>
+      <message>Laŭ PMEG, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="Gv"/></suggestion>.</message>
+      <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
+      <example correction="Gvatemalo">Le loĝas en <marker>Gŭatemalo</marker>.</example>
+    </rule>
+    <rule id="UATO" name="ŭato (vato)">
+      <pattern>
+        <token inflected="yes">ŭato</token>
+      </pattern>
+      <message>Laŭ PMEG, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="v"/></suggestion>.</message>
+      <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
+      <example correction="Vaton">10 <marker>Ŭaton</marker>.</example>
+    </rule>
+    <rule id="DIGITA" name="diĝita (cifereca)">
+      <pattern>
+        <token inflected="yes">diĝita</token>
+      </pattern>
+      <message>Laŭ Revo kaj PIV, la vorto «\1» estas evitinda. Uzu <suggestion><match no="11" regexp_match="^....." regexp_replace="ciferec"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/digxit.html#digxit.0a</url>
+      <example correction="ciferecan">Mi aĉetis <marker>diĝitan</marker> fotilon.</example>
     </rule>
     <rulegroup id="GEEDZIGXI" name="gedziĝi, edziniĝi, edziĝi">
       <rule>
@@ -1568,7 +1589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi1.php</url>
+      <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html</url>
       <example correction="ĉi-jare">Mi vojaĝos <marker>ĉi jare</marker>.</example>
       <example>Ĉu tiu ĉi vere okazis?</example>
       <example>Mi loĝas ĉi tie.</example>
@@ -1620,12 +1641,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="ĉi libron|ĉi tiun libron">Mi ŝatis <marker>ĉi-libron</marker>.</example>
     </rule>
     <rulegroup id="CXI_TIU" name="ĉi-tiu (ĉi tiu)">
+      <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html</url>
       <rule>
         <pattern>
           <token regexp="yes">ĉi-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
         <example correction="ĉi tiun">Mi deziras <marker>ĉi-tiun</marker>.</example>
       </rule>
       <rule>
@@ -1633,7 +1654,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-ĉi</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
         <example correction="tiun ĉi">Mi deziras <marker>tiun-ĉi</marker>.</example>
       </rule>
     </rulegroup>
@@ -1706,7 +1726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Ĉu vi intencis <suggestion>\1 da</suggestion> anstataŭ «\1 de»?</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-kilogramo_de.php</url>
+      <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/da/bazaj_reguloj.html</url>
       <example correction="kilogramon da">Mi aĉetis kilogramon <marker>de</marker> terpomoj.</example>
     </rule>
     <rule id="BONVOLU_U" name="bonvolu + u-verbo">
@@ -1730,7 +1750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">(?:(?:(?:kilo)?metr)|(?:(?:ge)?(?:person|hom))|(?:.*ul)|(?:jarmil|jarcent|jardek|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
       </pattern>
       <message>Misuzo de la vorto «po».</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-po.php</url>
+      <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/aliaj_rolvortetoj/po.html#i-4ov</url>
       <example correction="">Kostas du eŭroj <marker>po persono</marker>.</example>
       <example>Kostas po du eŭroj por persono.</example>
       <example correction="">Mi veturis 100 kilometrojn <marker>po horo</marker>.</example>
@@ -1785,7 +1805,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Uzu <suggestion><match no="2" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-pri_vin.php</url>
         <example correction="vi">Mi pensas pri <marker>vin</marker>.</example>
         <example correction="veturilo">Mi vojaĝas sen <marker>veturilon</marker>.</example>
         <example>Por tion fari</example>
@@ -2817,7 +2836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3 \4n</suggestion>?</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-metas_sur_tablo.php</url>
+        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/n/direkto.html</url>
         <example correction="sur la tablon">Mi metas la libron <marker>sur la tablo</marker>.</example>
         <example>Mi sidas sur tiu seĝo.</example>
       </rule>
@@ -2879,7 +2898,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion>\3n</suggestion>.</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-kiel_kovrilo.php</url>
       <example correction="kovrilon">Mi uzas la tukon kiel <marker>kovrilo</marker>.</example>
       <example>Mi elektis lin kiel prezidanto.</example>
       <example>Mi elektis lin kiel prezidanton.</example>
@@ -2900,7 +2918,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="SENT_END|T.* k .*" postag_regexp="yes"/>
         </pattern>
         <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(([aiou]s)|[iu])$" regexp_replace="iĝ$1"/></suggestion>?</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-interesas_pri_tio.php</url>
         <example correction="interesegiĝas">Mi <marker>interesegas</marker> pri tio.</example>
         <example correction="vekiĝis">Mi <marker>vekis</marker> kiam mi aŭdis tion.</example>
         <example>Ni <marker>kolektu</marker> pli da informo.</example>
@@ -2966,7 +2983,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="O nak .*" postag_regexp="yes"/>
         </pattern>
         <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis <suggestion><match no="1" regexp_match="o(j?)$" regexp_replace="u$1"/></suggestion>?</message>
-        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-io_libro.php</url>
         <example correction="Iu"><marker>Io</marker> libro mankas.</example>
         <example>Estas tio, kio komputilo estas.</example>
         <example>Pro tio homoj ne komprenas.</example>

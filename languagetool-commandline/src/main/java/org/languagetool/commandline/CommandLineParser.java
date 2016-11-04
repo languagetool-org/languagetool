@@ -112,23 +112,43 @@ public class CommandLineParser {
         }
       } else if (args[i].equals("-b")) {
         options.setSingleLineBreakMarksParagraph(true);
-      } else if (args[i].equals("--api")) {
-        options.setApiFormat(true);
+      } else if (args[i].equals("--json")) {
+        options.setJsonFormat();
         if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions");
+          throw new IllegalArgumentException("JSON output format makes no sense for automatic application of suggestions");
+        }
+        if (options.isLineByLine()) {
+          throw new IllegalArgumentException("JSON output format is not implemented for \"line by line\" analysis");
+        }
+        if (options.isBitext()) {
+          throw new IllegalArgumentException("JSON output format is not implemented for Bitext");
+        }
+        if (options.isListUnknown()) {
+          throw new IllegalArgumentException("You cannot list unknown words in JSON output format");
+        }
+      } else if (args[i].equals("--api")) {
+        options.setXmlFormat();
+        if (options.isApplySuggestions()) {
+          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         options.setApplySuggestions(true);
         if (options.isTaggerOnly()) {
           throw new IllegalArgumentException("You cannot apply suggestions when tagging only");
         }
-        if (options.isApiFormat()) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions");
+        if (options.isXmlFormat()) {
+          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
+        }
+        if (options.isJsonFormat()) {
+          throw new IllegalArgumentException("JSON output format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         options.setProfile(true);
-        if (options.isApiFormat()) {
-          throw new IllegalArgumentException("API format makes no sense for profiling");
+        if (options.isXmlFormat()) {
+          throw new IllegalArgumentException("XML API format makes no sense for profiling");
+        }
+        if (options.isJsonFormat()) {
+          throw new IllegalArgumentException("JSON output format makes no sense for profiling");
         }
         if (options.isApplySuggestions()) {
           throw new IllegalArgumentException("Applying suggestions makes no sense for profiling");
@@ -177,7 +197,8 @@ public class CommandLineParser {
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
             + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
-            + "  --api                    print results as XML\n"
+            + "  --api                    print results as XML (deprecated, please use --json or the JSON API in server mode)\n"
+            + "  --json                   print results as JSON\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
@@ -190,7 +211,7 @@ public class CommandLineParser {
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported\n"
-            + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)\n"
+            + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
     );
   }
@@ -202,7 +223,7 @@ public class CommandLineParser {
   }
 
   private Language getLanguage(String userSuppliedLangCode) {
-    return Languages.getLanguageForShortName(userSuppliedLangCode);
+    return Languages.getLanguageForShortCode(userSuppliedLangCode);
   }
 
 }

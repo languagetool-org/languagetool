@@ -62,7 +62,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       this.ownIps = new HashSet<>();
     }
     afterTheDeadlineMode = config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline;
-    this.textCheckerV1 = new V1TextChecker(config, internal);
+    this.textCheckerV1 = new V1EOLTextChecker(config, internal);
     this.textCheckerV2 = new V2TextChecker(config, internal);
   }
 
@@ -127,7 +127,7 @@ class LanguageToolHttpHandler implements HttpHandler {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
           }
-          textCheckerV1.checkText(text, httpExchange, parameters, handleCount);
+          textCheckerV1.checkText(text, httpExchange, parameters);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -255,7 +255,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       query = requestedUri.getRawQuery();
     }
-    return parseQuery(query);
+    return parseQuery(query, httpExchange);
   }
 
   private String readerToString(Reader reader, int maxTextLength) throws IOException {
@@ -288,25 +288,30 @@ class LanguageToolHttpHandler implements HttpHandler {
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
-  private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
+  private Map<String, String> parseQuery(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
     Map<String, String> parameters = new HashMap<>();
     if (query != null) {
-      String[] pairs = query.split("[&]");
-      Map<String, String> parameterMap = getParameterMap(pairs);
+      Map<String, String> parameterMap = getParameterMap(query, httpExchange);
       parameters.putAll(parameterMap);
     }
     return parameters;
   }
 
-  private Map<String, String> getParameterMap(String[] pairs) throws UnsupportedEncodingException {
+  private Map<String, String> getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
+    String[] pairs = query.split("[&]");
     Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       int delimPos = pair.indexOf('=');
       if (delimPos != -1) {
         String param = pair.substring(0, delimPos);
         String key = URLDecoder.decode(param, ENCODING);
-        String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
-        parameters.put(key, value);
+        try {
+          String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
+          parameters.put(key, value);
+        } catch (IllegalArgumentException e) {
+          throw new RuntimeException("Could not decode query. Query length: " + query.length() +
+                                     " Request method: " + httpExchange.getRequestMethod(), e);
+        }
       }
     }
     return parameters;
@@ -330,7 +335,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     xmlBuffer.append("\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
-              lang.getShortName(), lang.getShortNameWithCountryAndVariant()));
+              lang.getShortCode(), lang.getShortCodeWithCountryAndVariant()));
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();

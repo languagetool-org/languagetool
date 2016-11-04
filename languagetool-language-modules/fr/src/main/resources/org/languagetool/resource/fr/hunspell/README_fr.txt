@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    DICTIONNAIRES ORTHOGRAPHIQUES FRANÇAIS
-   version 5.6
+   version 5.7
 
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte : http://www.dicollecte.org/
@@ -17,8 +17,8 @@ _______________________________________________________________________________
    - Jean-Luc T. ;
    - Sylvain P. ;
    - Laurent Dubois ;
-   - Pierre Poisson ;
    - Dominique Pellé ;
+   - Pierre Poisson ;
    - Pierre-Yves ;
    - Pierre Choffardet ;
    - Leywen ;

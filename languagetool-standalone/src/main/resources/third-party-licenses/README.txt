@@ -7,6 +7,7 @@ annotations.jar: Apache License 2.0, http://search.maven.org/#search|ga|1|com.in
 berkeleylm.jar: Apache License 2.0, https://code.google.com/p/berkeleylm/
 cjftransform.jar: Apache License 2.0, http://code.google.com/p/cjftransform/
 commons-*: Apache License 2.0, http://commons.apache.org/lang/
+german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest
 hunspell-native-libs.jar: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
@@ -23,6 +24,7 @@ log4j.jar: Apache License 2.0, http://logging.apache.org/log4j/1.2/
 lucene-analyzers-common|core|queries|sandbox|test-framework.jar: Apache License 2.0, http://lucene.apache.org
 lucene-gosen-ipadic.jar: LGPL v2.1, http://code.google.com/p/lucene-gosen/
 morfologik-*.jar: Morfologik-license.txt, http://morfologik.blogspot.com, http://www.cs.put.poznan.pl/dweiss
+morfologik-ukrainian.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 opennlp-*: Apache License 2.0, http://opennlp.apache.org, http://opennlp.sourceforge.net/models-1.5
 ptk-common.jar: Apache License 2.0, http://sweble.org
 rats-runtime.jar: LGPL version 2.1, http://cs.nyu.edu/rgrimm/xtc/

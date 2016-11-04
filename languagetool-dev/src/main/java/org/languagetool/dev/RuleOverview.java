@@ -99,7 +99,7 @@ public final class RuleOverview {
         continue;
       }
       System.out.print("<tr>");
-      final String langCode = lang.getShortName();
+      final String langCode = lang.getShortCode();
       final File langSpecificWebsite = new File(webRoot, langCode);
       final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
@@ -175,9 +175,7 @@ public final class RuleOverview {
       String maintainerInfo = getMaintainerInfo(lang);
       String maintainerText;
       boolean greyOutMaintainer = false;
-      if (langCode.equals("pt")) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span> - ";
-      } else if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
+      if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
         maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
@@ -231,7 +229,7 @@ public final class RuleOverview {
   private List<Language> getVariants(List<Language> allLanguages, Language lang) {
     List<Language> variants = new ArrayList<>();
     for (Language sortedLanguage : allLanguages) {
-      if (sortedLanguage.isVariant() && lang.getShortName().equals(sortedLanguage.getShortName())) {
+      if (sortedLanguage.isVariant() && lang.getShortCode().equals(sortedLanguage.getShortCode())) {
         variants.add(sortedLanguage);
       }
     }
@@ -274,7 +272,7 @@ public final class RuleOverview {
     int pos = 0;
     int count = 0;
     while (true) {
-      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortName(), pos + 1);
+      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortCode(), pos + 1);
       if (pos == -1) {
         break;
       }
@@ -311,7 +309,7 @@ public final class RuleOverview {
   }
 
   private int countConfusionPairs(Language lang) {
-    String path = "/" + lang.getShortName() + "/confusion_sets.txt";
+    String path = "/" + lang.getShortCode() + "/confusion_sets.txt";
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {

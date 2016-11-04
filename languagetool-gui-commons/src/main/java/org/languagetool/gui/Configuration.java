@@ -98,8 +98,7 @@ public class Configuration {
     this(baseDir, CONFIG_FILE, lang);
   }
 
-  public Configuration(File baseDir, String filename, Language lang)
-      throws IOException {
+  public Configuration(File baseDir, String filename, Language lang) throws IOException {
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
@@ -377,11 +376,11 @@ public class Configuration {
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
       }
       String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Languages.getLanguageForShortName(motherTongueStr);
+        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
       }
       String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
@@ -448,7 +447,7 @@ public class Configuration {
   private String getQualifier(Language lang) {
     String qualifier = "";
     if (lang != null) {
-      qualifier = "." + lang.getShortNameWithCountryAndVariant();
+      qualifier = "." + lang.getShortCodeWithCountryAndVariant();
     }
     return qualifier;
   }
@@ -456,7 +455,7 @@ public class Configuration {
   private void loadConfigForOtherLanguages(Language lang, Properties prop) {
     for (Language otherLang : Languages.get()) {
       if (!otherLang.equals(lang)) {
-        String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
+        String languageSuffix = "." + otherLang.getShortCodeWithCountryAndVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, ENABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_KEY + languageSuffix);
@@ -488,10 +487,10 @@ public class Configuration {
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
-      props.setProperty(LANGUAGE_KEY, language.getShortNameWithCountryAndVariant());
+      props.setProperty(LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }
     if (motherTongue != null) {
-      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortName());
+      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortCode());
     }
     if (ngramDirectory != null) {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());

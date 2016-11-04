@@ -48,8 +48,9 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
-  private List<String> correctExamples = new ArrayList<>();
+  private List<CorrectExample> correctExamples = new ArrayList<>();
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
+  private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
@@ -191,14 +192,14 @@ public abstract class Rule {
   /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
-  public final void setCorrectExamples(List<String> correctExamples) {
+  public final void setCorrectExamples(List<CorrectExample> correctExamples) {
     this.correctExamples = Objects.requireNonNull(correctExamples);
   }
 
   /**
    * Get example sentences that are correct and thus will not match this rule.
    */
-  public final List<String> getCorrectExamples() {
+  public final List<CorrectExample> getCorrectExamples() {
     return Collections.unmodifiableList(correctExamples);
   }
 
@@ -214,6 +215,22 @@ public abstract class Rule {
    */
   public final List<IncorrectExample> getIncorrectExamples() {
     return Collections.unmodifiableList(incorrectExamples);
+  }
+
+  /**
+   * Set the examples that are correct but still trigger the rule due to an issue with the rule.
+   * @since 3.5
+   */
+  public final void setErrorTriggeringExamples(List<ErrorTriggeringExample> examples) {
+    this.errorTriggeringExamples = Objects.requireNonNull(examples);
+  }
+
+  /**
+   * Get the examples that are correct but still trigger the rule due to an issue with the rule.
+   * @since 3.5
+   */
+  public final List<ErrorTriggeringExample> getErrorTriggeringExamples() {
+    return Collections.unmodifiableList(this.errorTriggeringExamples);
   }
 
   /**
@@ -300,7 +317,7 @@ public abstract class Rule {
    * with the error corrected.
    * @since 2.5
    */
-  protected void addExamplePair(IncorrectExample incorrectSentence, String correctSentence) {
+  protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
     incorrectExamples.add(incorrectSentence);
     correctExamples.add(correctSentence);
   }

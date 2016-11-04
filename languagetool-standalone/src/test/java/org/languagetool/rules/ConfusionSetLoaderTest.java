@@ -38,9 +38,14 @@ public class ConfusionSetLoaderTest {
   public void testConfusionSetLoading() throws IOException {
     int count = 0;
     for (Language language : Languages.get()) {
-      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+      List<Rule> rules;
+      try {
+        rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+      } catch (Exception e) {
+        throw new RuntimeException("Could not load confusion pairs for " + language.getName(), e);
+      }
       if (rules.size() > 0) {
-        String path = "/" + language.getShortName() + "/confusion_sets.txt";
+        String path = "/" + language.getShortCode() + "/confusion_sets.txt";
         try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
           ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
           Map<String, List<ConfusionSet>> set = confusionSetLoader.loadConfusionSet(confusionSetStream);

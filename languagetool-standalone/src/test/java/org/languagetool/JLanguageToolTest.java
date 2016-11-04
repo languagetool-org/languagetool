@@ -73,13 +73,13 @@ public class JLanguageToolTest {
     assertTrue(ruleIds3.contains("DEMO_RULE"));
     assertFalse(ruleIds3.contains("IN_OFF_CATEGORY"));
     
-    lt.enableDefaultOffRuleCategory(new CategoryId("DEFAULT_OFF"));
+    lt.enableRuleCategory(new CategoryId("DEFAULT_OFF"));
     List<String> ruleIds4 = getActiveRuleIds(lt);
     assertTrue(ruleIds4.contains("DEMO_RULE"));
     assertTrue(ruleIds4.contains("IN_OFF_CATEGORY"));
     assertFalse(ruleIds4.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
     
-    lt.enableDefaultOffRule("IN_OFF_CATEGORY_OFF_ITSELF");
+    lt.enableRule("IN_OFF_CATEGORY_OFF_ITSELF");
     List<String> ruleIds5 = getActiveRuleIds(lt);
     assertTrue(ruleIds5.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
   }

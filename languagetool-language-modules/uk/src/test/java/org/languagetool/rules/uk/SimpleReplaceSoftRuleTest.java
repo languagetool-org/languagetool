@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class SimpleReplaceSoftRuleTest {
@@ -47,6 +48,17 @@ public class SimpleReplaceSoftRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("Цей брелок."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("Не знайде спасіння."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("рятування", "рятунок", "порятунок", "визволення"), matches[0].getSuggestedReplacements());
+    assertTrue(matches[0].getMessage().contains(": релігія"));
+
+    //refl
+    matches = rule.match(langTool.getAnalyzedSentence("відображаються"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
+    assertTrue("No context: " + matches[0].getMessage(), matches[0].getMessage().contains(": математика"));
 
     // test ignoreTagged
 //    matches = rule.match(langTool.getAnalyzedSentence("щедрота"));

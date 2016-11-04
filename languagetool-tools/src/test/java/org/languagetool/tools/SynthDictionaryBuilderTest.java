@@ -41,7 +41,7 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   @Ignore("for interactive use only")
   public void testExportPosDictAndCreateSynth() throws Exception {
     for (Language language : Languages.get()) {
-      String langCode = language.getShortName();
+      String langCode = language.getShortCode();
       File dir = new File("./languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool/resource/" + langCode);
       File oldBinarySynthFile = new File(dir, language.getName().toLowerCase() + "_synth.dict");
       if (!oldBinarySynthFile.exists()) {

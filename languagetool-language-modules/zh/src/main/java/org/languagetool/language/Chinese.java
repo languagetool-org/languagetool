@@ -51,6 +51,11 @@ public class Chinese extends Language implements AutoCloseable {
   }
 
   @Override
+  public String getShortCode() {
+    return "zh";
+  }
+
+  @Override
   public String getName() {
     return "Chinese";
   }
@@ -101,7 +106,7 @@ public class Chinese extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }
@@ -114,7 +119,10 @@ public class Chinese extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
+  /**
+   * Closes the language model, if any. 
+   * @since 3.1
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {

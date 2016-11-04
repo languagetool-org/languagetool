@@ -38,7 +38,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 public class UkrainianHybridDisambiguator implements Disambiguator {
   private static final String LAST_NAME_TAG = ":lname";
-  private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]");
+  private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]\\.");
   private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
 
@@ -54,20 +54,21 @@ public class UkrainianHybridDisambiguator implements Disambiguator {
 
   private void retagInitials(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokens();
-    for (int i = 0; i < tokens.length - 2; i++) {
+    for (int i = 1; i < tokens.length - 1; i++) {
       if( isInitial(tokens, i) ) {
-        boolean spaced = isSpace(tokens[i+2].getToken());
+        boolean spaced = isSpace(tokens[i+1].getToken());
         int spacedOffset = spaced ? 1 : 0;
 
-        int nextPos = i + 2 + spacedOffset;
+        int nextPos = i + 1 + spacedOffset;
         
-        if( nextPos + 2 + spacedOffset < tokens.length
+        // checking for :patr
+        if( nextPos + 1 + spacedOffset < tokens.length
             && isInitial(tokens, nextPos)
-            && (! spaced || isSpace(tokens[nextPos+2].getToken()) )
-            && tokens[nextPos + 2 + spacedOffset].hasPartialPosTag(LAST_NAME_TAG) ) {
+            && (! spaced || isSpace(tokens[nextPos+1].getToken()) )
+            && tokens[nextPos + 1 + spacedOffset].hasPartialPosTag(LAST_NAME_TAG) ) {
           
           int currPos = nextPos;
-          nextPos += 2 + spacedOffset;
+          nextPos += 1 + spacedOffset;
           
           AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "patr");
           tokens[currPos] = newReadings;
@@ -97,8 +98,7 @@ public class UkrainianHybridDisambiguator implements Disambiguator {
   }
 
   private static boolean isInitial(AnalyzedTokenReadings[] tokens, int pos) {
-    return pos < tokens.length - 2
-        && tokens[pos+1].getToken().equals(".")
+    return pos < tokens.length - 1
         && INITIAL_REGEX.matcher(tokens[pos].getToken()).matches();
   }
   

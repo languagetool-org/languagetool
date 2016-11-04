@@ -61,10 +61,14 @@ public class Esperanto extends Language {
   public String getName() {
     return "Esperanto";
   }
-
-
+  
   @Override
   public String getShortName() {
+    return "eo";
+  }
+
+  @Override
+  public String getShortCode() {
     return "eo";
   }
 

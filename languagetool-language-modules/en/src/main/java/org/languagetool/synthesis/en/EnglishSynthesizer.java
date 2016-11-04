@@ -58,7 +58,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   // A special tag to add only indefinite articles.
   private static final String ADD_IND_DETERMINER = "+INDT";
 
-  private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortName("en")));
+  private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
   public EnglishSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);

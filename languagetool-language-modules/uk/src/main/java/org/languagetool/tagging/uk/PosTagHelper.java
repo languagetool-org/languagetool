@@ -1,5 +1,6 @@
 package org.languagetool.tagging.uk;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -83,6 +84,10 @@ public final class PosTagHelper {
   }
 
   public static boolean hasPosTag(AnalyzedTokenReadings analyzedTokenReadings, String posTagRegex) {
+    return hasPosTag(analyzedTokenReadings.getReadings(), posTagRegex);
+  }
+  
+  public static boolean hasPosTag(Collection<AnalyzedToken> analyzedTokenReadings, String posTagRegex) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
       if( hasPosTag(analyzedToken, posTagRegex) )
         return true;
@@ -94,6 +99,23 @@ public final class PosTagHelper {
     String posTag = analyzedToken.getPOSTag();
     return posTag != null && posTag.matches(posTagRegex);
   }
+
+	public static String getGenders(AnalyzedTokenReadings tokenReadings, String posTagRegex) {
+		Pattern posTagPattern = Pattern.compile(posTagRegex);
+		
+		StringBuilder sb = new StringBuilder(4);
+		for (AnalyzedToken tokenReading: tokenReadings) {
+			String posTag = tokenReading.getPOSTag();
+			if( posTagPattern.matcher(posTag).matches() ) {
+				String gender = getGender(posTag);
+				if( sb.indexOf(gender) == -1 ) {
+					sb.append(gender);
+				}
+			}
+		}
+		
+		return sb.toString();
+	}
 
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);

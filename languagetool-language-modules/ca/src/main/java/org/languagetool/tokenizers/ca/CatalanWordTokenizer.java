@@ -49,7 +49,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïü])l[.\u2022]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
   private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -190,7 +190,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         l.addAll(wordsToAdd(s));
       }
     }
-    return joinUrls(l);
+    return joinEMailsAndUrls(l);
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */

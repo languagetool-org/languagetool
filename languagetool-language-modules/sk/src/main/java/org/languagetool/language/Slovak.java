@@ -58,6 +58,11 @@ public class Slovak extends Language {
   }
   
   @Override
+  public String getShortCode() {
+    return "sk";
+  }
+  
+  @Override
   public String[] getCountries() {
     return new String[]{"SK"};
   }
@@ -115,7 +120,7 @@ public class Slovak extends Language {
   public List<String> getRuleFileNames() {
     List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortCode() + "/";
     for (String ruleFile : RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
     }

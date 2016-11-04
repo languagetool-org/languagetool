@@ -112,7 +112,7 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
-    if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
+    if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);
     }
     return moreSuggestions;
@@ -189,6 +189,10 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }
+
+  protected boolean isEMail(String token) {
+    return WordTokenizer.isEMail(token);
+  }
   
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
@@ -209,16 +213,16 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.7
    */
   protected String getIgnoreFileName() {
-    return language.getShortName() + SPELLING_IGNORE_FILE;
+    return language.getShortCode() + SPELLING_IGNORE_FILE;
   }
 
   /**
    * Get the name of the spelling file, which lists words to be accepted
    * and used for suggestions, even when the spell checker would not accept them.
-   * @since 2.9
+   * @since 2.9, public since 3.5
    */
-  protected String getSpellingFileName() {
-    return language.getShortName() + SPELLING_FILE;
+  public String getSpellingFileName() {
+    return language.getShortCode() + SPELLING_FILE;
   }
 
   /**
@@ -227,7 +231,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected String getProhibitFileName() {
-    return language.getShortName() + SPELLING_PROHIBIT_FILE;
+    return language.getShortCode() + SPELLING_PROHIBIT_FILE;
   }
 
   /**
@@ -325,6 +329,25 @@ public abstract class SpellingCheckRule extends Rule {
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
+  }
+  
+  /**
+   * Checks whether a <code>word</code> starts with an ignored word
+   * @param word - entire word
+   * @param caseSensitive - determines whether the check is case-sensitive
+   * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
+   * If there are several matches from the set of ignored words, the length of the longest matching word is returned.
+   * @since 3.5
+   */
+  protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
+    Optional<String> match;
+    if(caseSensitive) {
+      match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).max(Comparator.naturalOrder()); 
+    } else {
+      String lowerCaseWord = word.toLowerCase();
+      match = wordsToBeIgnored.stream().filter(s -> lowerCaseWord.startsWith(s.toLowerCase())).max(Comparator.naturalOrder());
+    }
+    return match.isPresent() ? match.get().length() : 0;
   }
 
 }

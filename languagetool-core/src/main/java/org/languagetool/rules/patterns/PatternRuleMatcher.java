@@ -279,7 +279,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
       if (backslashPos >= 0 && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {
         int numLen = 1;
         while (backslashPos + numLen < errorMessage.length()
-            && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + numLen))) {
+            && Character.isDigit(errorMessage.charAt(backslashPos + numLen))) {
           numLen++;
         }
         int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos
@@ -308,9 +308,9 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
             String leftSide = errorMessage.substring(0, backslashPos);
             String rightSide = errorMessage.substring(backslashPos + numLen);
             if (matches.length == 1) {
-              // if we removed optional token from suggestion squeeze two spaces into one:
-              if (matches[0].isEmpty() && leftSide.endsWith(" ") && rightSide.startsWith(" ")) {
-                errorMessage = leftSide.substring(0, leftSide.length()-1) + rightSide;
+              // if we removed optional token from suggestion then remove leading space from the next word
+              if (matches[0].isEmpty() && (leftSide.endsWith(" ") || leftSide.endsWith("suggestion>")) && rightSide.startsWith(" ")) {
+                errorMessage = leftSide + rightSide.substring(1);
               } else {
                 errorMessage = leftSide + matches[0] + rightSide;
               }

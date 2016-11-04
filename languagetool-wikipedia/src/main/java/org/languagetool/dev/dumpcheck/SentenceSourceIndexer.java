@@ -95,7 +95,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     String languageCode = args[2];
     int maxSentences = Integer.parseInt(args[3]);
 
-    Language language = Languages.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortCode(languageCode);
     if (maxSentences == 0) {
       System.out.println("Going to index contents from " + dumpFilesNames);
     } else {
@@ -104,15 +104,14 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     System.out.println("Output index dir: " + indexDir);
     
     long start = System.currentTimeMillis();
-    try (FSDirectory fsDirectory = FSDirectory.open(indexDir.toPath())) {
-      SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences);
+    try (FSDirectory fsDirectory = FSDirectory.open(indexDir.toPath());
+         SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences)) {
       try {
         indexer.run(dumpFilesNames, language);
       } catch (DocumentLimitReachedException e) {
         System.out.println("Sentence limit (" + e.getLimit() + ") reached, stopping indexing");
       } finally {
         indexer.writeMetaDocuments();
-        indexer.close();
       }
     }
     long end = System.currentTimeMillis();

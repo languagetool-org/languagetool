@@ -81,9 +81,9 @@ public class RuleTest {
   }
 
   private void testCorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
-    List<String> correctExamples = rule.getCorrectExamples();
-    for (String correctExample : correctExamples) {
-      String input = cleanMarkers(correctExample);
+    List<CorrectExample> correctExamples = rule.getCorrectExamples();
+    for (CorrectExample correctExample : correctExamples) {
+      String input = cleanMarkers(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Got unexpected rule match for correct example sentence:\n"
@@ -111,8 +111,6 @@ public class RuleTest {
       lt.disableRule(rule.getId());
     }
     lt.enableRule(ruleToActivate.getId());
-    //make sure that the rule that is by default off is on
-    lt.enableDefaultOffRule(ruleToActivate.getId());
   }
 
   private String cleanMarkers(String example) {

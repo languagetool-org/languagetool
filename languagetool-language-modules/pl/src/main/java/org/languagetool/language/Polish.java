@@ -61,6 +61,11 @@ public class Polish extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "pl";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"PL"};
   }

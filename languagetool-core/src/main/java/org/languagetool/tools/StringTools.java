@@ -38,25 +38,25 @@ public final class StringTools {
   /**
    * Constants for printing XML rule matches.
    */
-  public enum XmlPrintMode {
+  public enum ApiPrintMode {
     /**
      * Normally output the rule matches by starting and
-     * ending the XML output on every call.
+     * ending the XML/JSON output on every call.
      */
-    NORMAL_XML,
+    NORMAL_API,
     /**
-     * Start XML output by printing the preamble and the
+     * Start XML/JSON output by printing the preamble and the
      * start of the root element.
      */
-    START_XML,
+    START_API,
     /**
-     * End XML output by closing the root element.
+     * End XML/JSON output by closing the root element.
      */
-    END_XML,
+    END_API,
     /**
      * Simply continue rule match output.
      */
-    CONTINUE_XML
+    CONTINUE_API
   }
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
@@ -195,7 +195,7 @@ public final class StringTools {
    */
   @Nullable
   public static String uppercaseFirstChar(String str, Language language) {
-    if (language != null && "nl".equals(language.getShortName()) && str != null && str.toLowerCase().startsWith("ij")) {
+    if (language != null && "nl".equals(language.getShortCode()) && str != null && str.toLowerCase().startsWith("ij")) {
       // hack to fix https://github.com/languagetool-org/languagetool/issues/148
       return "IJ" + str.substring(2);
     } else {
@@ -351,7 +351,7 @@ public final class StringTools {
     String space = " ";
     if (word.length() == 1) {
       char c = word.charAt(0);
-      if ("fr".equals(language.getShortName())) {
+      if ("fr".equals(language.getShortCode())) {
         if (c == '.' || c == ',') {
           space = "";
         }

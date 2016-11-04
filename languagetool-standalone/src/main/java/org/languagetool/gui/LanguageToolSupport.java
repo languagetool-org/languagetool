@@ -47,6 +47,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
@@ -90,7 +92,7 @@ class LanguageToolSupport {
   /**
    * LanguageTool support for a JTextComponent
    */
-  public LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
+  LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
     this(frame, textComponent, null);
   }
 
@@ -98,7 +100,7 @@ class LanguageToolSupport {
    * LanguageTool support for a JTextComponent
    * @since 2.7
    */
-  public LanguageToolSupport(JFrame frame, JTextComponent textComponent, UndoRedoSupport support) {
+  LanguageToolSupport(JFrame frame, JTextComponent textComponent, UndoRedoSupport support) {
     this.frame = frame;
     this.textComponent = textComponent;
     this.messages = JLanguageTool.getMessageBundle();
@@ -175,27 +177,44 @@ class LanguageToolSupport {
       update = true;
     }
 
-    Set<String> disabledCategories = config.getDisabledCategoryNames();
-    if (disabledCategories == null) {
-      disabledCategories = Collections.emptySet();
+    Set<String> disabledCategoryNames = config.getDisabledCategoryNames();
+    if (disabledCategoryNames == null) {
+      disabledCategoryNames = Collections.emptySet();
     }
-    common = new HashSet<>(disabledCategories);
-    common.retainAll(languageTool.getDisabledCategories());
-    toDisable = new HashSet<>(disabledCategories);
-    toDisable.removeAll(common);
-    toEnable = new HashSet<>(languageTool.getDisabledCategories());
-    toEnable.removeAll(common);
+    Set<CategoryId> disabledCategories = new HashSet<>();
+    Map<CategoryId, Category> langCategories = languageTool.getCategories();
+    
+    for (CategoryId id : langCategories.keySet()) {
+      String categoryName = langCategories.get(id).getName();
+      if (disabledCategoryNames.contains(categoryName)) {
+        disabledCategories.add(id);
+      }
+    }
 
-    if (!toDisable.isEmpty()) {
-      languageTool.getDisabledCategories().addAll(toDisable);
-      // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<>());
-      update = true;
+    Set<CategoryId> ltDisabledCategories = new HashSet<>();
+    for (CategoryId id : langCategories.keySet()) {
+      if (languageTool.isCategoryDisabled(id)) {
+        ltDisabledCategories.add(id);
+      }
     }
-    if (!toEnable.isEmpty()) {
-      languageTool.getDisabledCategories().removeAll(toEnable);
+    
+    Set<CategoryId> commonCat = new HashSet<>(disabledCategories);
+    commonCat.retainAll(ltDisabledCategories);
+
+    Set<CategoryId> toDisableCat = new HashSet<>(disabledCategories);
+    toDisableCat.removeAll(commonCat);
+
+    Set<CategoryId> toEnableCat = new HashSet<>(ltDisabledCategories);
+    toEnableCat.removeAll(commonCat);
+
+    for(CategoryId id : toDisableCat) {
+      languageTool.disableCategory(id);
+    }
+    for(CategoryId id : toEnableCat) {
+      languageTool.enableRuleCategory(id);
+    }      
+    if (!toDisableCat.isEmpty() || !toEnableCat.isEmpty()) {
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<>());
       update = true;
     }
 
@@ -204,8 +223,8 @@ class LanguageToolSupport {
       enabledRules = Collections.emptySet();
     }
     for (String ruleName : enabledRules) {
-      languageTool.enableDefaultOffRule(ruleName);
       languageTool.enableRule(ruleName);
+      update = true;
     }
 
     if (update) {
@@ -230,7 +249,7 @@ class LanguageToolSupport {
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       Tools.configureFromRules(languageTool, config);
       if (config.getNgramDirectory() != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortName());
+        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortCode());
         if (ngramLangDir.exists()) {
           try {
             languageTool.activateLanguageModelRules(config.getNgramDirectory());
@@ -337,12 +356,7 @@ class LanguageToolSupport {
     };
     this.textComponent.addMouseListener(mouseListener);
 
-    actionListener = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        _actionPerformed(e);
-      }
-    };
+    actionListener = e -> _actionPerformed(e);
 
     mustDetectLanguage = config.getAutoDetect();
     if (!this.textComponent.getText().isEmpty() && backgroundCheckEnabled) {
@@ -435,7 +449,6 @@ class LanguageToolSupport {
     }
     if (rule.isDefaultOff()) {
       config.getEnabledRuleIds().add(ruleId);
-      languageTool.enableDefaultOffRule(ruleId);
     } else {
       config.getDisabledRuleIds().remove(ruleId);
     }
@@ -483,21 +496,11 @@ class LanguageToolSupport {
       popup.add(new JSeparator());
 
       JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
-      moreItem.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          showDialog(textComponent, span.msg, span.desc, span.rule);
-        }
-      });
+      moreItem.addActionListener(e -> showDialog(textComponent, span.msg, span.desc, span.rule));
       popup.add(moreItem);
 
       JMenuItem ignoreItem = new JMenuItem(messages.getString("guiTurnOffRule"));
-      ignoreItem.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          disableRule(span.rule.getId());
-        }
-      });
+      ignoreItem.addActionListener(e -> disableRule(span.rule.getId()));
       popup.add(ignoreItem);
       popup.applyComponentOrientation(
         ComponentOrientation.getOrientation(Locale.getDefault()));
@@ -593,12 +596,7 @@ class LanguageToolSupport {
       count++;
       String id = rule.getId();
       JMenuItem ruleItem = new JMenuItem(rule.getDescription());
-      ruleItem.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          enableRule(id);
-        }
-      });
+      ruleItem.addActionListener(e -> enableRule(id));
       menu.add(ruleItem);
 
       if (rules.size() <= MAX_RULES_PER_MENU) {
@@ -701,12 +699,7 @@ class LanguageToolSupport {
             fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
           } else {
             try {
-              SwingUtilities.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                  fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
-                }
-              });
+              SwingUtilities.invokeAndWait(() -> fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller));
             } catch (InterruptedException ex) {
               //ignore
             } catch (InvocationTargetException ex) {
@@ -720,12 +713,7 @@ class LanguageToolSupport {
       fireEvent(LanguageToolEvent.Type.CHECKING_STARTED, caller);
     } else {
       try {
-        SwingUtilities.invokeAndWait(new Runnable() {
-          @Override
-          public void run() {
-            fireEvent(LanguageToolEvent.Type.CHECKING_STARTED, caller);
-          }
-        });
+        SwingUtilities.invokeAndWait(() -> fireEvent(LanguageToolEvent.Type.CHECKING_STARTED, caller));
       } catch (InterruptedException ex) {
         //ignore
       } catch (InvocationTargetException ex) {
@@ -740,12 +728,9 @@ class LanguageToolSupport {
     int v = check.get();
     if (v == 0) {
       if (!SwingUtilities.isEventDispatchThread()) {
-        SwingUtilities.invokeLater(new Runnable() {
-          @Override
-          public void run() {
-            updateHighlights(matches);
-            fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller, elapsedTime);
-          }
+        SwingUtilities.invokeLater(() -> {
+          updateHighlights(matches);
+          fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller, elapsedTime);
         });
       } else {
         updateHighlights(matches);
@@ -848,7 +833,7 @@ class LanguageToolSupport {
   }
 
   private void showDialog(Component parent, String title, String message, Rule rule) {
-    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortNameWithCountryAndVariant());
+    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortCodeWithCountryAndVariant());
   }
 
   private static class ReplaceMenuItem extends JMenuItem {

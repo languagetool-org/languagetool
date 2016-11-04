@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
 
@@ -38,6 +39,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
 
   public GermanWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     addExamplePair(Example.wrong("In diesem Satz <marker>ist ist</marker> ein Wort doppelt."),
                    Example.fixed("In diesem Satz <marker>ist</marker> ein Wort doppelt."));
   }

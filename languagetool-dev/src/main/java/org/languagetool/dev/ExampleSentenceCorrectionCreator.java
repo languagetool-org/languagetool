@@ -49,7 +49,7 @@ final class ExampleSentenceCorrectionCreator {
     if (!basePath.exists()) {
       throw new RuntimeException("basePath does not exist: " + basePath);
     }
-    String langCode = lang.getShortName();
+    String langCode = lang.getShortCode();
     File xml = new File(basePath, "/" + langCode + "/src/main/resources/org/languagetool/rules/" + langCode + "/grammar.xml");
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
@@ -75,7 +75,6 @@ final class ExampleSentenceCorrectionCreator {
         tool.disableRule(r.getId());
       }
       tool.enableRule(rule.getId());
-      tool.enableDefaultOffRule(rule.getId());
       String incorrectSentence = incorrectExample.getExample().replaceAll("</?marker>", "");
       List<RuleMatch> matches = tool.check(incorrectSentence);
       System.err.println("no corrections: " + rule.getId() + ", " + matches.size() + " matches");
@@ -142,7 +141,7 @@ final class ExampleSentenceCorrectionCreator {
 
   public static void main(String[] args) throws IOException {
     ExampleSentenceCorrectionCreator prg = new ExampleSentenceCorrectionCreator();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

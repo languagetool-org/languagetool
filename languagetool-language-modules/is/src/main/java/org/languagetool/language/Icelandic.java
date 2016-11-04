@@ -50,6 +50,11 @@ public class Icelandic extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "is";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"IS"};
   }

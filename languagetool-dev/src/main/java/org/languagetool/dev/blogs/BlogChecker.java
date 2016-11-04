@@ -69,7 +69,7 @@ class BlogChecker {
       System.exit(1);
     }
     BlogChecker checker = new BlogChecker();
-    Language lang = Languages.getLanguageForShortName(args[0]);
+    Language lang = Languages.getLanguageForShortCode(args[0]);
     checker.check(new File(args[1]), lang);
   }
 }

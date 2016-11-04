@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -48,12 +49,22 @@ public class Russian extends Language implements AutoCloseable {
   private LuceneLanguageModel languageModel;
 
   @Override
+  public Pattern getIgnoredCharactersRegex() {
+    return Pattern.compile("[\u00AD\u0301\u0300]");
+  }
+
+  @Override
   public String getName() {
     return "Russian";
   }
 
   @Override
   public String getShortName() {
+    return "ru";
+  }
+
+  @Override
+  public String getShortCode() {
     return "ru";
   }
 
@@ -122,7 +133,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }
@@ -135,7 +146,10 @@ public class Russian extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
+  /**
+   * Closes the language model, if any. 
+   * @since 3.1
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {

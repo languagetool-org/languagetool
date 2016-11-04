@@ -55,7 +55,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     //languages.add(new German());
     languages.addAll(Languages.get());
     for (Language language : languages) {
-      File file = new File(dir, "tatoeba-" + language.getShortName() + ".txt");
+      File file = new File(dir, "tatoeba-" + language.getShortCode() + ".txt");
       if (!file.exists()) {
         System.err.println("No data found for " + language + ", language will not be tested");
       } else {
@@ -95,7 +95,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     long startTime = System.currentTimeMillis();
     counter.incrementAndGet();
     checkByPOST(language, textSubstring);
-    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortNameWithCountryAndVariant()
+    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortCodeWithCountryAndVariant()
             + ", Length: " + textSubstring.length() + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");
   }
 

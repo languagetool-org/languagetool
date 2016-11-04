@@ -157,7 +157,7 @@ class Main {
       if (options.isApplySuggestions()) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isApiFormat());
+        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isXmlFormat());
       }
     } else {
       String text = getFilteredText(filename, encoding, xmlFiltering);
@@ -180,11 +180,11 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!options.isTaggerOnly()) {
-        CommandLineTools.checkText(text, lt, options.isApiFormat(), 0, options.isListUnknown());
+        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.isListUnknown());
       } else {
         CommandLineTools.tagText(text, lt);
       }
-      if (options.isListUnknown() && !options.isApiFormat()) {
+      if (options.isListUnknown() && !options.isXmlFormat() && !options.isJsonFormat()) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
     }
@@ -195,7 +195,7 @@ class Main {
     if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
-    if (!options.isApiFormat() && !options.isApplySuggestions()) {
+    if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       if (isStdIn(filename)) {
         System.err.println("Working on STDIN...");
       } else {
@@ -214,7 +214,7 @@ class Main {
     }
     int lineOffset = 0;
     int tmpLineOffset = 0;
-    handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
+    handleLine(ApiPrintMode.START_API, 0, new StringBuilder());
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
@@ -246,7 +246,7 @@ class Main {
           tmpLineOffset++;
 
           if (isBreakPoint(line)) {
-            matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
+            matches += handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb);
             sentences += lt.getSentenceCount();
             if (profileRules) {
               sentences += lt.sentenceTokenize(sb.toString()).size();
@@ -262,13 +262,13 @@ class Main {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
         }
-        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
+        matches += handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb);
         // printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
       }
     }
   }
 
-  private int handleLine(XmlPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
+  private int handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
     int matches = 0;
     String s = filterXML(sb.toString());
     if (options.isApplySuggestions()) {
@@ -276,8 +276,8 @@ class Main {
       } else if (profileRules) {
         matches += Tools.profileRulesOnLine(s, lt, currentRule);
       } else if (!options.isTaggerOnly()) {
-        matches += CommandLineTools.checkText(s, lt, options.isApiFormat(), -1, lineOffset,
-                matches, mode, options.isListUnknown(), Collections.<String>emptyList());
+        matches += CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
+            lineOffset, matches, mode, options.isListUnknown(), Collections.<String>emptyList());
       } else {
         CommandLineTools.tagText(s, lt);
       }
@@ -409,12 +409,12 @@ class Main {
 
     String languageHint = null;
     if (options.getLanguage() == null) {
-      if (!options.isApiFormat() && !options.isAutoDetect()) {
+      if (!options.isXmlFormat() && !options.isAutoDetect()) {
         System.err.println("No language specified, using English (no spell checking active, " +
                 "specify a language variant like 'en-GB' if available)");
       }
       options.setLanguage(new English());
-    } else if (!options.isApiFormat() && !options.isApplySuggestions()) {
+    } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
 
@@ -465,7 +465,7 @@ class Main {
   private static void printLanguages() {
     List<String> languages = new ArrayList<>();
     for (Language language : Languages.get()) {
-      languages.add(language.getShortNameWithCountryAndVariant() + " " + language.getName());
+      languages.add(language.getShortCodeWithCountryAndVariant() + " " + language.getName());
     }
     Collections.sort(languages);
     for (String s : languages) {

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Daily API usage reports. To be run as a cronjob at the end of the day.
 # dnaber, 2015-11-14
 
@@ -24,11 +24,14 @@ printf "Total text checks : %'d\n" $TOTAL >>$OUTFILE
 TOTALHOME=`grep "Check done:" $TMPFILE | grep -c languagetool.org`
 printf "Checks from lt.org: %'d\n" $TOTALHOME >>$OUTFILE
 
-FF=`grep -c "languagetoolfx"  $TMPFILE`
-printf "Firefox Requests  : %'d\n" $FF >>$OUTFILE
-
 CHROME=`grep -c "chrome-extension" $TMPFILE`
 printf "Chrome Requests   : %'d\n" $CHROME >>$OUTFILE
+
+WEBEXTFF=`grep -c "webextension-firefox" $TMPFILE`
+printf "WebExtension FF   : %'d\n" $WEBEXTFF >>$OUTFILE
+
+WEBEXTCHROME=`grep -c "webextension-chrome" $TMPFILE`
+printf "WebExtension Chr. : %'d\n" $WEBEXTCHROME >>$OUTFILE
 
 ANDROID=`grep -c "androidspell" $TMPFILE`
 printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
@@ -36,10 +39,17 @@ printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
 CLIENT=`grep -c "java-http-client" $TMPFILE`
 printf "Java Client Req   : %'d\n" $CLIENT >>$OUTFILE
 
-echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID" >>/home/languagetool/api/api-log.csv
+GOOGLEAPP=`grep -c ":googledocs" $TMPFILE`
+printf "Google Docs       : %'d\n" $GOOGLEAPP >>$OUTFILE
+
+SUBLIME=`grep -c ":sublime" $TMPFILE`
+printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
+
+echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT" >>/home/languagetool/api/api-log.csv
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
+echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
 #echo "TextTooLongException : `grep -c 'TextTooLongException' $TMPFILE`" >>$OUTFILE
@@ -56,10 +66,40 @@ echo "" >>$OUTFILE
 echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
 echo "v2 API                     : `grep -c 'V2TextChecker' $TMPFILE`" >>$OUTFILE
 
+#echo "" >>$OUTFILE
+#echo "Up to 50 client errors sent to the server:" >>$OUTFILE
+#grep "Log message from client:" $TMPFILE | head -n 50 >>$OUTFILE
+#echo "Total client errors: `grep -c "Log message from client:" $TMPFILE`" >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "Client errors:" >>$OUTFILE
+TMPFILE_ALL=/tmp/log-all-client-errors.temp
+
+cat log-[12].txt log-[0-9]-$DATE1*.txt log-1.txt log-2.txt | grep "$DATE2" | grep "Log message from client:" >$TMPFILE_ALL
+
+echo -n "siteNotSupported: " >>$OUTFILE
+grep -c "siteNotSupported" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "freshInstallReload: " >>$OUTFILE
+grep -c "freshInstallReload" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "Exception and failing fallback in checkText: " >>$OUTFILE
+grep -c "Exception and failing fallback in checkText:" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "couldNotCheckText: " >>$OUTFILE
+grep -c "couldNotCheckText" $TMPFILE_ALL >>$OUTFILE
+
+
+
 DATE_APACHE=`LANG=C date +"%a %b %d"`
 YEAR=`date +"%Y"`
 # note: requires a root cronjob to copy the error.log file to ~/api/apache_error.log:
 echo "" >>$OUTFILE
-echo "no buffer (Apache)         : `grep \"$DATE_APACHE\" /home/languagetool/api/apache_error.log | grep $YEAR | grep -c \"No buffer space available\"`" >>$OUTFILE
+echo "Apache errors (max. 30):" >>$OUTFILE
+grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 30 >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "Apache not found errors (filtered, max. 10):" >>$OUTFILE
+grep "$DATE_APACHE" /home/languagetool/api/apache_not_found.log | grep $YEAR | tail -n 10 >>$OUTFILE
 
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org

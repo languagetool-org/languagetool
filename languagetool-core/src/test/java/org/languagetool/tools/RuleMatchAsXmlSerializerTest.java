@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.languagetool.tools.StringTools.XmlPrintMode.*;
+import static org.languagetool.tools.StringTools.ApiPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
 public class RuleMatchAsXmlSerializerTest {
@@ -50,7 +50,7 @@ public class RuleMatchAsXmlSerializerTest {
 
   @Test
   public void testLanguageAttributes() throws IOException {
-    String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_API, LANG, Collections.<String>emptyList());
     assertTrue(xml1.contains("shortname=\"xx-XX\""));
     assertTrue(xml1.contains("name=\"Testlanguage\""));
     String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, LANG, new FakeLanguage());
@@ -64,16 +64,16 @@ public class RuleMatchAsXmlSerializerTest {
 
   @Test
   public void testApiModes() throws IOException {
-    String xmlStart = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, START_XML, LANG, Collections.<String>emptyList());
+    String xmlStart = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, START_API, LANG, Collections.<String>emptyList());
     assertThat(StringUtils.countMatches(xmlStart, "<matches"), is(1));
     assertThat(StringUtils.countMatches(xmlStart, "</matches>"), is(0));
-    String xmlMiddle = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, CONTINUE_XML, LANG, Collections.<String>emptyList());
+    String xmlMiddle = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, CONTINUE_API, LANG, Collections.<String>emptyList());
     assertThat(StringUtils.countMatches(xmlMiddle, "<matches"), is(0));
     assertThat(StringUtils.countMatches(xmlMiddle, "</matches>"), is(0));
-    String xmlEnd = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, END_XML, LANG, Collections.<String>emptyList());
+    String xmlEnd = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, END_API, LANG, Collections.<String>emptyList());
     assertThat(StringUtils.countMatches(xmlEnd, "<matches"), is(0));
     assertThat(StringUtils.countMatches(xmlEnd, "</matches>"), is(1));
-    String xml = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_API, LANG, Collections.<String>emptyList());
     assertThat(StringUtils.countMatches(xml, "<matches"), is(1));
     assertThat(StringUtils.countMatches(xml, "</matches>"), is(1));
   }
@@ -89,7 +89,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.<String>emptyList());
     assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
@@ -158,7 +158,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.<String>emptyList());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
@@ -176,7 +176,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.<String>emptyList());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +

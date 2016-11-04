@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 <!DOCTYPE rules [
     <!ENTITY interp "[\p{Punct}\-–−—―„«»…’&amp;&amp;[^\)]]+">
+    <!ENTITY interp_no_quote "[\p{Punct}&amp;&amp;[^\)]]+">
     <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
@@ -357,9 +358,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <antipattern>
                                     <token>gotów</token>
                                 </antipattern>
+                                <!-- antipattern> Not needed?
+                                  <token postag="subst:sg:nom:n2">to<exception scope="previous" regexp="yes">jak|gdzie</exception></token>
+                                  <marker>
+                                  <token postag="verb:fin:sg:ter:imperf:nonrefl">jest</token>
+                                  </marker>
+                                </antipattern -->
                                         <pattern>
                             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
-                                                    <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/>
+                                                    <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_ZNACZY&gt;|verb:winien.*" postag_regexp="yes" scope="current"/>
                                                     <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception>
                                                 </token>
                             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
@@ -383,70 +390,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>To jest jedna osoba.</example>
                         <example correction=""><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
                         <example correction="">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
-                                        <example>Od wieków najwyższy arcykapłan zwykł był witać lud pozdrowieniem.</example>
-                                        <example>Jurek wygląda wypisz wymaluj jak babcia.</example>
-                                        <example>I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
-                                        <example>Zwykł był chadzać do parku.</example>
-                                        <example>Dosiadł już był dzielnego rumaka Rosynanta.</example>
-                                        <example>Wynalazł był znakomite miejsce.</example>
-                                        <example>Rozjuszony Don Kichot pewno by mu był nie darował.</example>
-                                        <example>Każdy inny, prócz naszego bohatera, byłby się był przeląkł.</example>
-                                        <example>Ponieważ powiedziałeś, że gdybyś był słuchał rad moich, uniknąłbyś tego wypadku...</example>
-                                        <example>Gdyż zaledwie wylądowałam w Osunie, zaraz doszły mnie o nim cuda i dziwy.</example>
-                                        <example correction="">Marek <marker>może być marszałkiem pozostając w partii opozycyjnej.</marker></example>
-                                        <example correction="">Marek <marker>pozostając w partii opozycyjnej może być marszałkiem.</marker></example>
-                                        <example correction="">Marek <marker>pomoże Romanowi przecież miał kupić łososia.</marker></example>
-                                        <example correction="">Marek <marker>miał szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
-                                        <example correction=""><marker>Poszedł do łóżka od razu jak znalazł się w domu.</marker></example>
-                                        <example>Dla Stefki zaś było jak znalazł, żeby wyrwać się z tej dziury.</example>
-                                        <example correction="">Jeżeli w węglowodorze <marker>występuje wiązanie podwójne i potrójne to ważniejsze przy nazewnictwie jest podwójne.</marker></example>
-                                        <example correction="">Jeżeli do danego atomu węgla <marker>są przyłączone dwa lub więcej podstawników to przypisujemy im tą samą cyfrę.</marker></example>
-                                        <example>Proces asymilacji został w pełni zakończony i Japonia jest krajem monoetnicznym.</example>
-                                        <example>Według jednego z nich Afrodyta nie miała rodziców i pewnego dnia wyłoniła się z piany morskiej w pobliżu Cypru.</example>
-                                        <example correction="">Tym, co <marker>spostrzegamy (wzrokowo, słuchowo itd.) są cechy przedmiotu.</marker></example>
-                                        <example>Początkowo działała pod nazwą American Engineering Standards Committee (AESC), w 1928 roku zmieniła nazwę na American Standards Association (ASA).</example>
-                                        <example>Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
-                                        <example>Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
-                                        <example>Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
-                                        <example correction="">Sam jej właściciel, jak odniosłem wrażenie, <marker>wydawał się nieco bledszy i poważniejszy niż zazwyczaj go widywałem.</marker></example>
-                                        <example correction="">Romuald <marker>odpowiedział z ważną i tajemniczą miną zwielokrotniając głoskę.</marker></example>
-                                        <example correction="">Kali przypomniał sobie poniewczasie, że <marker>mając myśl zatroskaną i zajętą czym innym zapomniał kazać związać czarowników.</marker></example>
-                                        <example correction="">Fatma <marker>ucałowawszy ręce obu inżynierów i dzieci wyszła,</marker> błogosławiąc szczególniej Nel.</example>
-                                        <example correction="">Potężny zwierz <marker>ujrzawszy jeźdźców i konie podniósł się na przednie łapy i</marker> począł na nich patrzeć.</example>
-                                        <example>Nastąpiło głosowanie i Wilczur został wybrany.</example>
-                                        <example>Przyrzekł mi sekret i rzecz była ukryta, aż póki się moje suknie nie rozpadły.</example>
-                                        <example correction="">Tymczasem Szmul przestał się modlić i <marker>zdjąwszy śmiertelną koszulę i cycełe poszedł je schować do alkierza.</marker></example>
-                                        <example correction="">Nie należy do tych, co <marker>obnażając nasze błędy i wady sądzą,</marker> że już wszystko zdziałali.</example>
-                                        <example correction="">Apostoł zaś <marker>broniąc się od podzięki i czci rzekł:</marker></example>
-                                        <example correction="">Kazał mu jechać za sobą, ten zaś <marker>poznawszy trybuna i augustianina nie śmiał się rozkazowi sprzeciwić.</marker></example>
-                                        <example correction="">Wydało mu się, że <marker>zalecając czystość i walkę z żądzami starzec śmie tym samym nie tylko potępiać jego miłość,</marker> ale zraża Ligię do niego.</example>
-                                        <example correction="">Na trzeci dzień Fabrycy był w Parmie, gdzie <marker>ubawił hrabiego i księżnę opowiadając im z najdrobniejszymi szczegółami,</marker> jak czynił zawsze, historię swej podróży.</example>
-                                        <example>Stanisław podsunął mu cygaro i sam podawał ogień.</example>
-                                        <example>Trupia bladość pokryła mu twarz i ciało poczęło tężeć.</example>
-                                        <example>Muszę tam czekać śmierci, gdyż jestem stary i nerwy moje są chore.</example>
-                                        <example>— Dobrześ ułożyła dziś fałdy i rad jestem z ciebie, Eunice.</example>
-                                        <example>Rząd jednak nie zdecydował się na tę zmianę i państwo nadal zachowuje militarną neutralność.</example>
-                                        <example correction="">Tymczasem, kiedy <marker>odwiedziliśmy Państwowe Gospodarstwo Rolne tego regionu żniwa trwały już dziesięć dni,</marker> a nie był to nawet półmetek.</example>
-                                        <example>Obiecywał, że to już jutro zwycięży, a te jutra tworzyły długie miesiące i zwycięstwa nie było.</example>
-                                        <example correction="">Jak <marker>wykazała autopsja jego obiektywnego ciała przyczyną śmierci była poważna infekcja dróg oddechowych.</marker></example>
-                                        <example>Starał się jak mógł.</example>
-                                        <example>Rzekłszy to, spiął Rosynanta i błyskawicy lotem zjechał z pagórka na dolinę.</example>
-                                        <example>— Mości kawalerze — odparł Don Kichot — mamże ja minę gospodarza?</example>
-                                        <example>Czyliż skaleczono ci nogę, złamano żebro lub głowę rozbito?</example>
-                                        <example>Jednakże niechaj się nie boi.</example>
-                                        <example>Ale panowie Miller i Szulc mieli fizjognomie jaśniejące nadzieją.</example>
-                                        <example>Jak bryła masła stal się między nie wślizguje.</example>
-                                        <example>Jakim sposobem Patna została uszkodzona, nie sposób było się dowiedzieć.</example>
-                                        <example>Byłbym niezawodnie zemdlał, gdyby Lopez nie był mi pośpieszył na pomoc.</example>
-                                        <example>Wziąłem był Adę ze sobą na tę wycieczkę.</example>
-                                        <example>Inaczej wprawdzie wyobrażałem sobie był niegdyś małżeństwo „jednego z nas” z Martą.</example>
-                                        <example>Nie sposób było w takiej ciasnocie zachować wszystkie przepisy przyzwoitego urządzenia domu.</example>
-                                        <example correction="">— Właśnie przejechał; <marker>pędził jak gdyby go diabli ścigali.</marker></example>
-                                        <example>Rzeka Loara opływała klasztor od strony północy.</example>
-                                        <example>Natomiast nie podoba mu się sposób, w jaki zepchnięto jego stację.</example>
-                                        <example>Nie jest tajemnicą, że Fidel w taki właśnie sposób się ich pozbywa.</example>
-                                        <example>Zarzuca mu się sposób zachowania charakterystyczny dla pokerzysty.</example>
-                                        <example>Mają być one gotowe do 2003 roku.</example>
+                        <example>Od wieków najwyższy arcykapłan zwykł był witać lud pozdrowieniem.</example>
+                        <example>Jurek wygląda wypisz wymaluj jak babcia.</example>
+                        <example>I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
+                        <example>Zwykł był chadzać do parku.</example>
+                        <example>Dosiadł już był dzielnego rumaka Rosynanta.</example>
+                        <example>Wynalazł był znakomite miejsce.</example>
+                        <example>Rozjuszony Don Kichot pewno by mu był nie darował.</example>
+                        <example>Każdy inny, prócz naszego bohatera, byłby się był przeląkł.</example>
+                        <example>Ponieważ powiedziałeś, że gdybyś był słuchał rad moich, uniknąłbyś tego wypadku...</example>
+                        <example>Gdyż zaledwie wylądowałam w Osunie, zaraz doszły mnie o nim cuda i dziwy.</example>
+                        <example correction="">Marek <marker>może być marszałkiem pozostając w partii opozycyjnej.</marker></example>
+                        <example correction="">Marek <marker>pozostając w partii opozycyjnej może być marszałkiem.</marker></example>
+                        <example correction="">Marek <marker>pomoże Romanowi przecież miał kupić łososia.</marker></example>
+                        <example correction="">Marek <marker>miał szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
+                        <example correction=""><marker>Poszedł do łóżka od razu jak znalazł się w domu.</marker></example>
+                        <example>Dla Stefki zaś było jak znalazł, żeby wyrwać się z tej dziury.</example>
+                        <example correction="">Jeżeli w węglowodorze <marker>występuje wiązanie podwójne i potrójne to ważniejsze przy nazewnictwie jest podwójne.</marker></example>
+                        <example correction="">Jeżeli do danego atomu węgla <marker>są przyłączone dwa lub więcej podstawników to przypisujemy im tą samą cyfrę.</marker></example>
+                        <example>Proces asymilacji został w pełni zakończony i Japonia jest krajem monoetnicznym.</example>
+                        <example>Według jednego z nich Afrodyta nie miała rodziców i pewnego dnia wyłoniła się z piany morskiej w pobliżu Cypru.</example>
+                        <example correction="">Tym, co <marker>spostrzegamy (wzrokowo, słuchowo itd.) są cechy przedmiotu.</marker></example>
+                        <example>Początkowo działała pod nazwą American Engineering Standards Committee (AESC), w 1928 roku zmieniła nazwę na American Standards Association (ASA).</example>
+                        <example>Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
+                        <example>Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
+                        <example>Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
+                        <example correction="">Sam jej właściciel, jak odniosłem wrażenie, <marker>wydawał się nieco bledszy i poważniejszy niż zazwyczaj go widywałem.</marker></example>
+                        <example correction="">Romuald <marker>odpowiedział z ważną i tajemniczą miną zwielokrotniając głoskę.</marker></example>
+                        <example correction="">Kali przypomniał sobie poniewczasie, że <marker>mając myśl zatroskaną i zajętą czym innym zapomniał kazać związać czarowników.</marker></example>
+                        <example correction="">Fatma <marker>ucałowawszy ręce obu inżynierów i dzieci wyszła,</marker> błogosławiąc szczególniej Nel.</example>
+                        <example correction="">Potężny zwierz <marker>ujrzawszy jeźdźców i konie podniósł się na przednie łapy i</marker> począł na nich patrzeć.</example>
+                        <example>Nastąpiło głosowanie i Wilczur został wybrany.</example>
+                        <example>Przyrzekł mi sekret i rzecz była ukryta, aż póki się moje suknie nie rozpadły.</example>
+                        <example correction="">Tymczasem Szmul przestał się modlić i <marker>zdjąwszy śmiertelną koszulę i cycełe poszedł je schować do alkierza.</marker></example>
+                        <example correction="">Nie należy do tych, co <marker>obnażając nasze błędy i wady sądzą,</marker> że już wszystko zdziałali.</example>
+                        <example correction="">Apostoł zaś <marker>broniąc się od podzięki i czci rzekł:</marker></example>
+                        <example correction="">Kazał mu jechać za sobą, ten zaś <marker>poznawszy trybuna i augustianina nie śmiał się rozkazowi sprzeciwić.</marker></example>
+                        <example correction="">Wydało mu się, że <marker>zalecając czystość i walkę z żądzami starzec śmie tym samym nie tylko potępiać jego miłość,</marker> ale zraża Ligię do niego.</example>
+                        <example correction="">Na trzeci dzień Fabrycy był w Parmie, gdzie <marker>ubawił hrabiego i księżnę opowiadając im z najdrobniejszymi szczegółami,</marker> jak czynił zawsze, historię swej podróży.</example>
+                        <example>Stanisław podsunął mu cygaro i sam podawał ogień.</example>
+                        <example>Trupia bladość pokryła mu twarz i ciało poczęło tężeć.</example>
+                        <example>Muszę tam czekać śmierci, gdyż jestem stary i nerwy moje są chore.</example>
+                        <example>— Dobrześ ułożyła dziś fałdy i rad jestem z ciebie, Eunice.</example>
+                        <example>Rząd jednak nie zdecydował się na tę zmianę i państwo nadal zachowuje militarną neutralność.</example>
+                        <example correction="">Tymczasem, kiedy <marker>odwiedziliśmy Państwowe Gospodarstwo Rolne tego regionu żniwa trwały już dziesięć dni,</marker> a nie był to nawet półmetek.</example>
+                        <example>Obiecywał, że to już jutro zwycięży, a te jutra tworzyły długie miesiące i zwycięstwa nie było.</example>
+                        <example correction="">Jak <marker>wykazała autopsja jego obiektywnego ciała przyczyną śmierci była poważna infekcja dróg oddechowych.</marker></example>
+                        <example>Starał się jak mógł.</example>
+                        <example>Rzekłszy to, spiął Rosynanta i błyskawicy lotem zjechał z pagórka na dolinę.</example>
+                        <example>— Mości kawalerze — odparł Don Kichot — mamże ja minę gospodarza?</example>
+                        <example>Czyliż skaleczono ci nogę, złamano żebro lub głowę rozbito?</example>
+                        <example>Jednakże niechaj się nie boi.</example>
+                        <example>Ale panowie Miller i Szulc mieli fizjognomie jaśniejące nadzieją.</example>
+                        <example>Jak bryła masła stal się między nie wślizguje.</example>
+                        <example>Jakim sposobem Patna została uszkodzona, nie sposób było się dowiedzieć.</example>
+                        <example>Byłbym niezawodnie zemdlał, gdyby Lopez nie był mi pośpieszył na pomoc.</example>
+                        <example>Wziąłem był Adę ze sobą na tę wycieczkę.</example>
+                        <example>Inaczej wprawdzie wyobrażałem sobie był niegdyś małżeństwo „jednego z nas” z Martą.</example>
+                        <example>Nie sposób było w takiej ciasnocie zachować wszystkie przepisy przyzwoitego urządzenia domu.</example>
+                        <example correction="">— Właśnie przejechał; <marker>pędził jak gdyby go diabli ścigali.</marker></example>
+                        <example>Rzeka Loara opływała klasztor od strony północy.</example>
+                        <example>Natomiast nie podoba mu się sposób, w jaki zepchnięto jego stację.</example>
+                        <example>Nie jest tajemnicą, że Fidel w taki właśnie sposób się ich pozbywa.</example>
+                        <example>Zarzuca mu się sposób zachowania charakterystyczny dla pokerzysty.</example>
+                        <example>Mają być one gotowe do 2003 roku.</example>
+                        <example correction="">A jednak łatwo wyobrażamy sobie istoty ludzkie jako świadome, nawet jeśli nadal nie <marker>potrafimy wyobrazić sobie jak może się to dziać.</marker></example>
                     </rule>
                     <!--powinien + exception: powinien był-->
                     <rule>
@@ -626,11 +634,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <example>Będą umrzeć musieli.</example>
                                 </rule>
                     <rule>
-                                        <antipattern>
-                                            <marker><token regexp="yes">trzeba|można|wolno|trza|sposób</token></marker>
-                                            <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
-                                            <token>będzie</token>
-                                        </antipattern>
+                        <antipattern>
+                            <marker><token regexp="yes">trzeba|można|wolno|trza|sposób|warto</token></marker>
+                            <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
+                            <token>będzie</token>
+                        </antipattern>
                         <pattern>
                             <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*imperf.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|dość</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
                             <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
@@ -642,9 +650,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
                         <example>Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
                         <example correction="">Jurek <marker>pomoże Romanowi odrabiać lekcje a Marek będzie szukać okularów.</marker></example>
-                                        <example>Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
-                                    <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
-                                        <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
+                        <example>Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
+                        <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
+                        <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
+                        <example>Na bazie rozmów telefonicznych podczas przerw lunchowych (samochodem pod McDonald’s i potem w przerwach pomiędzy kęsami dzwonienie z zeszytem przed sobą) selekcjonowałem te, które uznałem, że warto będzie zobaczyć.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -1023,7 +1032,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
                                 <pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception><exception regexp="yes">[ia]|lub|albo</exception></token>
-										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
+										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak
+										  <exception postag="(:?subst|adj).*" postag_regexp="yes" inflected="yes">to</exception>
+										</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|gdy|kiedy</token>
 								</pattern>
@@ -1031,11 +1042,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example correction="odejdę, nawet jeśli">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
 								<example>Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
-                                <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
-                                <example>Zrobiłbym to, gdybym mógł.</example>
-                                <example>Sam najlepiej przekonasz się o tym, gdy zawieziesz ode mnie list, cały wierszem.</example>
-                                <example>I miłe są te kobiety, przy których, kiedy im człowiek w najlepszej wierze oddaje…</example>
-                                <example>— Dlaczegóż to, jeżeli łaska?…</example>
+                <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
+                <example>Zrobiłbym to, gdybym mógł.</example>
+                <example>Sam najlepiej przekonasz się o tym, gdy zawieziesz ode mnie list, cały wierszem.</example>
+                <example>I miłe są te kobiety, przy których, kiedy im człowiek w najlepszej wierze oddaje…</example>
+                <example>— Dlaczegóż to, jeżeli łaska?…</example>
+                <example>Te dwie hipotezy różnią się zasadniczo jedynie tym, kiedy poszczególne wrażenia zostały odczute.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -1491,6 +1503,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <token postag_regexp="yes" postag="verb:inf.*"/>
                                     </marker>
                                 </antipattern>
+                                <antipattern>
+                                  <marker><token skip="-1" inflected="yes" postag="verb:(praet|inf).*" postag_regexp="yes">być<exception scope="next" regexp="yes">&interp;</exception></token></marker>
+                                  <token>w</token>
+                                  <token skip="-1">stanie<exception scope="next" regexp="yes">&interp;</exception></token>
+                                  <token postag_regexp="yes" postag="verb:inf.*"/>
+                                </antipattern>
                                 <pattern>
 										<token inflected="yes" regexp="yes" skip="-1" postag="comp">(?:a?by|a?żeby|iżby)
                                             <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/>
@@ -1516,21 +1534,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nawet byś nie uwierzył, gdybyśmy ci wszystkie te bzdury powtórzyć mieli.</example>
 								<example>Aby spryskać się Przemysławką, Przemysław wstąpił do domu.</example>
 								<example correction=""><marker>Aby spryskać się Przemysławką Przemysław wstąpił</marker> do domu.</example>
-                                <example>— Nie sądzę, żeby to także dla mnie być miało — przerwał Sancho.</example>
-                                <example correction="">Trochę nie dojeść, trochę nie dopić, ale <marker>ażeby zostać dobrym wojownikiem wszystko to znieść</marker> trzeba.</example>
-                                <example>Wolno narazić dwóch przyjaciół na to, aby się znienawidzili i być może pozabijali.</example>
-                                <example>Czy to ziemia jest rajem, żeby od niej wszystkiego dobrego razem wymagać było można!</example>
-                                <example>Ani mu przez myśl nie przeszło, by próbować się bronić.</example>
-                                <example>— Nie mówię ja — rzekł Don Kichot — żeby powinnością rycerza miało być samą tylko grubą strawą się żywić.</example>
-                                <example>Właśnie historycy (powieściopisarze) powinni by się nauczyć nie zaniedbywać niczego i szczegółowiej pisać.</example>
-                                <example>Nie dostrzegłem nic takiego, od czego by się prędzej można rozkochać niż przestraszyć.</example>
-                                <example>Miał tylko żonę, na którą pracował, aby mogła corocznie jeździć do Franzensbadu leczyć się.</example>
-                                <example>Teraz chodziło jej tylko o to, by jak najprędzej dać słoniowi jeść.</example>
-                                <example>Już twoją będzie rzeczą, by wolała nazajutrz zostać niż wrócić.</example>
-                                <example>Rozważał w duszy, co by mu czynić należało.</example>
-                                <example>Nie sądzę wszakże, ażeby nią gardzić należało.</example>
-                                <example correction=""><marker>Aby uniknąć powstawania amin wyższego rzędu należy</marker> użyć nadmiaru amoniaku.</example>
-                                <example>Nic nie jest skrytego, co by nie miało być objawione.</example>
+                <example>— Nie sądzę, żeby to także dla mnie być miało — przerwał Sancho.</example>
+                <example correction="">Trochę nie dojeść, trochę nie dopić, ale <marker>ażeby zostać dobrym wojownikiem wszystko to znieść</marker> trzeba.</example>
+                <example>Wolno narazić dwóch przyjaciół na to, aby się znienawidzili i być może pozabijali.</example>
+                <example>Czy to ziemia jest rajem, żeby od niej wszystkiego dobrego razem wymagać było można!</example>
+                <example>Ani mu przez myśl nie przeszło, by próbować się bronić.</example>
+                <example>— Nie mówię ja — rzekł Don Kichot — żeby powinnością rycerza miało być samą tylko grubą strawą się żywić.</example>
+                <example>Właśnie historycy (powieściopisarze) powinni by się nauczyć nie zaniedbywać niczego i szczegółowiej pisać.</example>
+                <example>Nie dostrzegłem nic takiego, od czego by się prędzej można rozkochać niż przestraszyć.</example>
+                <example>Miał tylko żonę, na którą pracował, aby mogła corocznie jeździć do Franzensbadu leczyć się.</example>
+                <example>Teraz chodziło jej tylko o to, by jak najprędzej dać słoniowi jeść.</example>
+                <example>Już twoją będzie rzeczą, by wolała nazajutrz zostać niż wrócić.</example>
+                <example>Rozważał w duszy, co by mu czynić należało.</example>
+                <example>Nie sądzę wszakże, ażeby nią gardzić należało.</example>
+                <example correction=""><marker>Aby uniknąć powstawania amin wyższego rzędu należy</marker> użyć nadmiaru amoniaku.</example>
+                <example>Nic nie jest skrytego, co by nie miało być objawione.</example>
+                <example>Co zrobić, aby być w stanie śpiewać?</example>
 						</rule>
                         <rule>
                             <pattern>
@@ -1589,7 +1608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało|przynajmniej|któż|wówczas<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
 												<token postag="comp">kiedy</token>
 										</marker>
-										<token><exception regexp="yes">&interp;|niekiedy|indziej</exception></token>
+										<token><exception regexp="yes">&interp_no_quote;|niekiedy|indziej</exception></token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1606,7 +1625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|przynajmniej|wówczas|tylko<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
 												<token>gdy</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp_no_quote;</exception></token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1614,6 +1633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Kupuj zapałki, przynajmniej gdy chcesz zapalać ogniska.</example>
                                 <example>Czemuż nie umarłam, mając szesnaście lat, wówczas gdy chciałam się zabić!</example>
 								<example correction="domu, gdy">Przemysław wstąpił do <marker>domu gdy</marker> poczuł brak Przemysławki.</example>
+								<example correction="znajdujemy, gdy">Co <marker>znajdujemy gdy</marker> „spoglądamy” wewnątrz?</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1963,7 +1983,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token>jak</token>
                           <token postag_regexp="yes" postag=".*sup"/>
                       </antipattern>
-                  <pattern>                                          
+                      <antipattern>
+                        <marker>
+                        <token>czy</token>
+                        <token>nie</token>
+                        </marker>
+                        <token regexp="yes">[\?,;]</token>
+                      </antipattern>
+                  <pattern>
                       <token/>
                       <marker>
                       <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"/><exception scope="previous">mimo</exception></token>
@@ -1982,6 +2009,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Tworzą mimo to jak gdyby rodzinę.</example>
                   </rule>
                 </rulegroup>
+            <rule id="BRAK_PRZECINKA_PRZED_GDZIE" name="Brak przecinka przed „gdzie”">
+             <pattern>
+              <marker>
+              <token inflected='yes' regexp='yes'>tam|miejsce</token>
+              <token>gdzie</token>
+              </marker>
+              <token><exception postag="SENT_END"/></token>
+              <token><exception postag='comma:interp.*|SENT_END' postag_regexp='yes'/></token>
+             </pattern>
+             <message>Prawdopodobnie brak przecinka: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+             <short>Błąd interpunkcyjny</short>
+             <example correction='Tam, gdzie'><marker>Tam gdzie</marker> nie ma dróg, jadę sam.</example>
+            </rule>                
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
 						<rule>
 								<pattern case_sensitive="no">
@@ -2017,7 +2057,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">jaki|który</token>
                     </marker>
-                    <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
+                    <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes">
+                      <exception inflected="yes">były</exception>                      
+                      <exception scope="next" postag="verb:.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
                 </unify>
                 <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
             </antipattern>
@@ -2076,8 +2118,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <marker>
                                         <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">który|jaki<exception scope="previous" postag="adj.*" postag_regexp="yes" /></token>
                                     </marker>
-                                        <token postag="(subst|adj):.*" postag_regexp="yes"/>
+                                        <token postag="(subst|adj):.*" postag_regexp="yes">
+                                          <exception>to</exception>
+                                        </token>
                                     </unify>
+                                </antipattern>
+                                <antipattern case_sensitive="yes">
+                                <token postag="SENT_START"/>
+                                <marker>
+                                <token postag="UNKNOWN" regexp="yes">.{1,3}</token>
+                                <token regexp="yes">[KJ]\p{Ll}+</token>
+                                </marker>
                                 </antipattern>
 								<pattern>
 										<marker>
@@ -2092,17 +2143,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Mało który spełnia warunki formalne.</example>
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="kamienny, którego">To węgiel <marker>kamienny którego</marker> Jurek nienawidzi.</example>
-                                <example>Czy w Łabajówce mieszkają jakie strachy?</example>
-                                <example>A wy może byście byli jeszcze znaleźli jaki środek uleczenia go.</example>
-                                <example>Przemówienia przerywano religijną muzyką i tańcem, w czasie wykonywania których tron zasypywano wieńcami i bukietami.</example>
-                                <example>„Oni tam także nie śpią, zda się; może zaniemógł który”.</example>
-                                <example>Wszystko razem mogło sięgać jakich trzydziestu tysięcy dusz.</example>
-                                <example>Wchodzę niekiedy do biblioteki i biorę jaką książkę; najczęściej jest to książka historyczna.</example>
-                                <example>Jeżeli chciałem złapać którego ptaka, śmiało się do mnie obracał i dziobem groził.</example>
-                                <example>...witriolu preparował jakiś gaz (już nawet nie pamiętam jaki) i napełniał nim balon nieduży wprawdzie…</example>
-                                <example>— Poślij którego z młodszych oficerów do Dagona.</example>
-                                <example>A wartość jego połowę przynajmniej jakiego królestwa wynosi.</example>
-                                <example correction="ważne, która">Nie jest <marker>ważne która</marker> drużyna wygrywa mecz.</example>
+                <example>Czy w Łabajówce mieszkają jakie strachy?</example>
+                <example>A wy może byście byli jeszcze znaleźli jaki środek uleczenia go.</example>
+                <example>Przemówienia przerywano religijną muzyką i tańcem, w czasie wykonywania których tron zasypywano wieńcami i bukietami.</example>
+                <example>„Oni tam także nie śpią, zda się; może zaniemógł który”.</example>
+                <example>Wszystko razem mogło sięgać jakich trzydziestu tysięcy dusz.</example>
+                <example>Wchodzę niekiedy do biblioteki i biorę jaką książkę; najczęściej jest to książka historyczna.</example>
+                <example>Jeżeli chciałem złapać którego ptaka, śmiało się do mnie obracał i dziobem groził.</example>
+                <example>...witriolu preparował jakiś gaz (już nawet nie pamiętam jaki) i napełniał nim balon nieduży wprawdzie…</example>
+                <example>— Poślij którego z młodszych oficerów do Dagona.</example>
+                <example>A wartość jego połowę przynajmniej jakiego królestwa wynosi.</example>
+                <example correction="ważne, która">Nie jest <marker>ważne która</marker> drużyna wygrywa mecz.</example>
+                <example>1 Jakie mam prawo mówić o opiniach i życzeniach tych nie do końca jeszcze świadomych przodków?</example>
+                <example correction="Wybierz, który"><marker>Wybierz który</marker> chcesz.</example>
+                <example correction="wyobrazić, jakie">Łatwo jest sobie <marker>wyobrazić jakie</marker> to musiało dla nich być – choć z różnicami zapożyczonymi z naszego własnego doświadczenia.</example>
 						</rule>
 						<rule>
                                <antipattern>
@@ -2129,6 +2183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="Marek, którego">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
 								<example>Wiecznie bukiety wiążą, a co który zwiąże, to miotła.</example>
+								<example correction="założeń, jakie">Jest to jedno z podstawowych <marker>założeń jakie</marker> mamy o umysłach – lub o świadomości.</example>
                                 <!-- niżej jest reguła, która wykrywa błędny szyk w zdaniu poniższym: -->
                                 <example>Jest to niewielki elektromagnes, <marker>uzwojenie którego</marker> łączymy ze źródłem prądu.</example>
 						</rule>
@@ -2338,7 +2393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token skip="-1">im</token>
                             <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
                         <marker>
-                            <token>tym<exception scope="previous">,</exception></token>
+                            <token>tym<exception scope="previous" regexp="yes">[i,a]|czy|bądź|ani|lub|albo|oraz</exception></token>
                         </marker>
                             <token postag="(adj|adv).*:com" postag_regexp="yes"></token>
                     </pattern>
@@ -2346,13 +2401,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd interpunkcyjna</short>
                     <example>Im większa, tym lepiej.</example>
                     <example correction=", tym">Im większa<marker> tym</marker> lepiej.</example>
+                    <example>Im jest ono szersze, tym bogatsze są detale, dokładniej rozróżnialne są pragnienia, a tym gorzej jest, gdy pragnienia zostają udaremnione.</example>
                 </rule>
                 <rule>
                     <pattern>
                         <token skip="-1">im</token>
                         <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
                         <marker>
-                            <token>tym<exception scope="previous">,</exception></token>
+                            <token>tym<exception scope="previous" regexp="yes">[i,a]|czy|bądź|ani|lub|albo|oraz</exception></token>
                         </marker>
                         <token regexp="yes">więcej|mniej</token>
                     </pattern>
@@ -2817,7 +2873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip='-1'>nie<exception regexp='yes' scope='next'>[,\(\);]</exception><exception regexp='yes' scope='next'>ani|lub|albo|czy|oraz|i</exception></token>
                     <marker>
-                        <token postag='subst:.*' postag_regexp='yes'><exception postag='subst:sg:voc:f'></exception></token>
+                        <token postag='subst:.*' postag_regexp='yes'><exception postag='subst:sg:voc:f'/><exception>to</exception></token>
                         <token>tylko</token>
                     </marker>
                         <token><exception postag="prep.*" postag_regexp="yes"/></token>
@@ -2827,6 +2883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='przedmiot, tylko'>Traktuj człowieka nie jako <marker>przedmiot tylko</marker> właśnie jako podmiot.</example>
                 <example>Traktuj człowieka nie jako przedmiot, tylko właśnie jako podmiot.</example>
                 <example>Nigdy nie podardzaj człowiekiem tylko z powodu jego ubóstwa.</example>
+                <example>Nie jest to tylko epistemologiczne twierdzenie.</example>
             </rule>
 				<rulegroup default="off" id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
 						<rule>
@@ -3143,6 +3200,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="fascynujący, a to">Był to spektakl <marker>fascynujący a to</marker> z powodu gry aktorów.</example>
 				</rule>
                 <rulegroup id="BRAK_PRZECINKA_CZY" name="Brak przecinka przed „czy”">
+                    <antipattern>
+                    <marker>
+                    <token>czy</token>
+                    <token>nie</token>
+                    </marker>
+                    <token regexp="yes">[\?,;]</token>
+                    </antipattern>
                     <rule>
                     <pattern>
                         <token inflected='yes' regexp='yes'>(:?za)?wahać|zastanawiać|zastanowić|upewnia?ć|dowiedzieć|przekonać|dopytywać|zorientować|obawiać|rozstrzygnąć|spierać|martwić|okazać</token>
@@ -3156,13 +3220,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </rule>
                     <rule>
                         <pattern>
-                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
+                        <marker>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić|słuchać|rozważać|sądzić|(?:po)?myśleć|wyjaśnia?ć|rozstrzygnąć|pokazać|dyskutować|słyszeć</token>
                             <token>czy</token>
+                        </marker>
                         </pattern>
                         <message>Prawdopodobny brak przecinka. Poprawnie: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
                         <short>Brak przecinka</short>
                         <example correction="sprawdzić, czy">Musisz <marker>sprawdzić czy</marker> to prawda.</example>
                         <example>Musisz sprawdzić, czy to prawda.</example>
+                        <example>Ustalone czy nie, działo się to od wieków.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                        <marker>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić|słuchać|rozważać|sądzić|(?:po)?myśleć|wyjaśnia?ć|rozstrzygnąć|pokazać|dyskutować|słyszeć</token>
+                            <token>
+                              <exception regexp="yes">[,–—:…;]</exception>
+                              <exception postag=".*nom.*" postag_regexp="yes"/>
+                            </token>
+                            <token>czy</token>
+                        </marker>
+                        </pattern>
+                        <message>Prawdopodobny brak przecinka. Poprawnie: <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
+                        <short>Brak przecinka</short>
+                        <example correction="spytać ich, czy">Musisz <marker>spytać ich czy</marker> to prawda.</example>
+                        <example>Musisz sprawdzić, czy to prawda.</example>
+                        <example>Mówiłem to czy nie?</example>
+                        <example>Przy losowaniu metodą rzucania monetą pada zwykle pytanie orzeł czy reszka?</example>
                     </rule>
                 </rulegroup>
 				<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
@@ -3466,7 +3551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <pattern>
 								<token postag="SENT_START"></token>
 								<marker>
-										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred|subst:sg:nom:m1" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:–—\-]</exception><exception scope="next" postag="conj">,</exception></token>
+										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred|subst:sg:nom:m1" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w|według<exception scope="next" regexp="yes">[(:–—\-]</exception><exception scope="next" postag="conj">,</exception></token>
 										<token>,<exception scope="previous">ciebie</exception><exception postag="conj"/></token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
@@ -3835,63 +3920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="0,5">Wynik wynosi <marker>0.5</marker>.</example>
       <example>W wydaniu 7.0.1 dodana została wtyczka Camera RAW.</example>
     </rule>
-    </rulegroup>
-    <rule id="LICZBA_DZIESIETNA_ZE_SPACJA" name="Zbędna spacja po przecinku w liczbie dziesiętnej">
-    <antipattern>
-    <token regexp="yes">poz|wyd|pol|cz</token>
-    <token spacebefore="no">.</token>
-    <marker><token regexp="yes">\d+</token></marker>
-    </antipattern>
-    <antipattern>
-    <marker>
-      <token regexp="yes">\d+</token>
-    </marker>
-    <token>i</token>
-    <token regexp="yes">\d+</token>
-    <token><exception>,</exception></token>
-    </antipattern>
-    <antipattern>
-    <marker><token regexp="yes">\d+</token></marker>
-    <token regexp="yes">[x×]</token>
-    <token regexp="yes">\d+</token>
-    </antipattern>
-    <antipattern>
-    <marker>
-      <token regexp="yes">\d+</token>
-      <token spacebefore="no">.</token>
-      <token regexp="yes">\d+</token>
-    </marker>
-    </antipattern>
-    <antipattern> <!-- liczby dziesiętne z kropką lub cokolwiek, co nie może być liczbą dziesiętną -->
-    <marker><token regexp="yes">\d+</token></marker>
-    <token spacebefore="no">.</token>
-    <token regexp="yes">\d+.*|\p{L}</token>
-    </antipattern>
-    <pattern>
-        <marker>
-        <token regexp="yes">\d+
-            <exception scope="previous" regexp="yes">\d+|[\-–—,/:]|nr|pkt|w</exception>
-            <exception scope="previous" inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
-            <!-- Biblia -->
-            <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
-        </token>
-        <token>,</token>
-        <token regexp="yes" spacebefore="yes">\d+%?</token>
-        </marker>
-        <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
-    </pattern>
-    <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
-    <short>Błąd typogrficzny</short>
-    <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
-    <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
-    <example>Wygrała 6:4, 3:6, 6:3.</example>
-    <example>Biblioteka Narodowa, sygn.: 2676, 2981.</example>
-    <example>Ankyra była miejscem kilku ważnych synodów (w 314, 358 i 375).</example>
-    <example>Chrystus podtrzymywany przez anioła - ok. 1645, 137 x 100 cm, Prado, Madryt</example>
-    <example>„Kwartalnik Historyczny”, R.112, cz. 3, 2005.</example>
-    <example>Współrzędne CIE XYZ wynoszące (0.310, 0.316, 0.374)</example>
-    <example>Gdy doszło do niej w czerwcu 1994, 4.4BSD Lite zostało wypuszczone na rynek.</example>
-    </rule>
+    </rulegroup>    
     <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
         <antipattern>
             <token regexp="yes">[\p{Lu}\d].*</token>
@@ -4092,6 +4121,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
           <rulegroup id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
             <rule>
+              <antipattern>
+              <token regexp="yes">poz|wyd|pol|cz</token>
+              <token spacebefore="no">.</token>
+              <marker><token regexp="yes">\d+</token></marker>
+              </antipattern>
+              <antipattern>
+              <marker>
+                <token regexp="yes">\d+</token>
+              </marker>
+              <token>i</token>
+              <token regexp="yes">\d+</token>
+              <token><exception>,</exception></token>
+              </antipattern>
+              <antipattern>
+              <marker><token regexp="yes">\d+</token></marker>
+              <token regexp="yes">[x×]</token>
+              <token regexp="yes">\d+</token>
+              </antipattern>
+              <antipattern>
+              <marker>
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+              </marker>
+              </antipattern>
+              <antipattern> <!-- liczby dziesiętne z kropką lub cokolwiek, co nie może być liczbą dziesiętną -->
+              <marker><token regexp="yes">\d+</token></marker>
+              <token spacebefore="no">.</token>
+              <token regexp="yes">\d+.*|\p{L}</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                  <token regexp="yes">\d+
+                      <exception scope="previous" regexp="yes">\d+|[\-–—,/:]|nr|pkt|w</exception>
+                      <exception scope="previous" inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
+                      <!-- Biblia -->
+                      <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
+                  </token>
+                  <token>,</token>
+                  <token regexp="yes" spacebefore="yes">\d+</token>
+                  </marker>
+                  <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
+              </pattern>
+              <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
+              <short>Błąd typogrficzny</short>
+              <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
+              <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
+              <example>Wygrała 6:4, 3:6, 6:3.</example>
+              <example>Biblioteka Narodowa, sygn.: 2676, 2981.</example>
+              <example>Ankyra była miejscem kilku ważnych synodów (w 314, 358 i 375).</example>
+              <example>Chrystus podtrzymywany przez anioła - ok. 1645, 137 x 100 cm, Prado, Madryt</example>
+              <example>„Kwartalnik Historyczny”, R.112, cz. 3, 2005.</example>
+              <example>Współrzędne CIE XYZ wynoszące (0.310, 0.316, 0.374)</example>
+              <example>Gdy doszło do niej w czerwcu 1994, 4.4BSD Lite zostało wypuszczone na rynek.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
@@ -4109,7 +4194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
+                        <token regexp='yes'>[1-9]\d*</token>
                         <token>,</token>
                         <token regexp='yes' spacebefore='yes'>\d+%</token>
                     </marker>                    
@@ -4550,6 +4635,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <message>To słowo należy pisać bez spacji i z dywizem: <suggestion>\1-\3</suggestion>.</message>
                     <short>Błąd typograficzny</short>
                     <example correction="19-latek">To był <marker>19 — latek</marker></example>
+                </rule>
+                <rule id="X-LATEK" name="Dywiz ze spacją w określeniach wieku (np. 25 - latek)">
+                 <pattern case_sensitive='yes'>
+                  <token regexp='yes'>[1-9]\d*</token>
+                  <token spacebefore='yes'>-</token>
+                  <or>
+                  <token regexp='yes' spacebefore='yes'>lat(?:ce|ek|ków|k[ąęaiou]|kach|kami|kiem|kom|kowie?)</token>
+                  <token regexp="yes" spacebefore="yes">le(?:ci[eau]?|ci[eo]m|cia(?:ch|mi))</token>
+                  <token inflected="yes" spacebefore="yes" regexp="yes">letni|majowy|złotowy|procentowy|dolarowy|liniowy|bitowy</token>
+                  </or>
+                 </pattern>
+                 <message>Prawdopodobna zbędna spacja: <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>.</message>
+                 <url>http://sjp.pwn.pl/zasady/;629548</url>
+                 <short>Zbędna spacja</short>
+                 <example correction='25-latek'>To jest <marker>25 - latek</marker>.</example>                 
+                 <example correction="25-letni">To jest <marker>25 - letni</marker> mężczyzna.</example>
+                 <example correction="70-lecie">To było nasze <marker>70 - lecie</marker></example>
                 </rule>
                 <rule id="MYSLNIK_ZAMIAST_DYWIZU_WYLICZENIE" name="Myślnik zamiast dywizu w wyliczeniu">
                     <pattern>
@@ -6909,6 +7011,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>513.45 Beskid Śląski (czes. Slezské Beskydy)</example>
           <example>Pomiędzy rokiem 600 i 900 miasto było wielokrotnie zajmowane.</example>
         </rule>
+        <rule>
+        <antipattern> <!-- w 100% udana -->
+        <token regexp="yes">w|na</token>
+        <token regexp="yes">\d+%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>
+        </antipattern>
+        <antipattern> <!-- w 100% udana -->
+        <token regexp="yes">w|na</token>
+        <token regexp="yes">\d+</token>
+        <token>,</token>
+        <token regexp="yes">\d+%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>        
+        </antipattern>
+        <antipattern>
+        <token>100%</token>
+        <token>pewność</token>
+        </antipattern>
+        <antipattern>
+        <token>100%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>        
+        <token regexp="yes">[;:,\.!]</token>
+        </antipattern>
+        <pattern>
+              <token regexp="yes">\d+%<exception scope="previous">o</exception></token>
+                <marker>
+                    <token postag='(subst|ger|adj|pact|ppas).*nom.*' postag_regexp='yes' regexp="yes">\p{Ll}+
+                    <exception postag='.*gen.*' postag_regexp='yes'/>
+                    <exception postag="adj.*:com" postag_regexp="yes"/>
+                    <exception regexp="yes">[tc]o|wzrost|zysk|podatek|udział|skok|spadek|ma|każdy|wszystko|nikt|nic|off|zwiększenie|przewaga</exception>
+                    </token>
+                </marker>
+          </pattern>
+          <message>Wyraz po wartości procentowej (\2) przypuszczalnie powinien być w dopełniaczu.</message>
+          <example correction="">Mam 1,5% <marker>chleb</marker>.</example>
+          <example>8% Prawo i Sprawiedliwość – 30.</example>
+          <example>A przy okresie 15-letnim nawet ponad 30% niższy.</example>
+          <example>Kupno towaru przez internet u pewnego dilera jest w 99,99999% bezpieczne, nie mniej niż w sklepie stacjonarnym.</example>
+          <example>15% to inwestorzy, którzy inaczej dzielą inwestycje.</example>
+          <example>Szampon to RENE FURTERER OKARA przedłużający o 80% trwałość koloru włosów farbowanych.</example>
+        </rule>
         </rulegroup>
         
         <rule id="IMIESLOW_POMYLONY_PODMIOT" name="Imiesłów przysłówkowy z innym podmiotem niż orzeczenie główne">        
@@ -8399,7 +8547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='żebyś przyznała'>Radził, <marker>żeby przyznałaś</marker> się do winy.</example>
                 <example correction="Gdybyś zrobił"><marker>Gdybyś zrobiłeś</marker> błąd, popraw go.</example>
             </rule>            
-                <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
+                <rulegroup id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
                     <antipattern> <!-- dokonałbym ... był -->
                         <unify>
                             <feature id="number"/><feature id="gender"/>
@@ -8425,7 +8573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern> <!-- to jest zamiast unifikacji: wyjątek może trochę zbyt hojnie napisany, ale inaczej trzeba by mieć 2 x 9 reguł, pfuj -->
                         <marker>
-                        <token inflected='yes' postag='verb:praet:.*:ter.*' postag_regexp='yes'>być</token>
+                        <token inflected='yes' postag='verb:(praet|pot):.*:ter.*' postag_regexp='yes'>być</token>
                         </marker>
                         <token skip="10" postag='ppas:.*inst.*' postag_regexp='yes'><exception scope="next" postag="(?:comp|interp):comma" postag_regexp="yes"/></token>
                         <token postag_regexp="yes" postag="subst.*inst.*"/>
@@ -8437,10 +8585,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token></marker>
                         </unify>
                     </antipattern>
+                <rule>
                     <pattern>
                     <unify negate="yes">
                         <feature id="gender"/><feature id="number"/>
-                        <token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
                         <token postag='ppas:.*' postag_regexp='yes'><exception postag="ppas:pl:gen.loc.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -8455,6 +8604,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
                     <example>Kolumbowie jako sztuka o powstaniu warszawskim poprzedzeni zostali zorganizowaną nagonką polityczną reakcyjnego odłamu Polonii.</example>
                 </rule>
+                <rule>
+                    <antipattern>
+                    <unify><feature id="gender"/><feature id="number"/>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                        <token postag="(adj|subst).*nom.*" postag_regexp="yes"/>
+                    </unify>
+                    </antipattern>
+                    <pattern>
+                    <unify negate="yes">
+                        <feature id="gender"/><feature id="number"/>
+                        <token postag='ppas:.*nom.*' postag_regexp='yes'><exception postag="ppas:pl:gen.loc.*" postag_regexp="yes"/></token>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                    </unify>
+                </pattern>
+                    <message>Forma imiesłowu („\1”) nie jest zgodna z formą czasownika („\2”).</message>
+                    <short>Błąd gramatyczny</short>
+                    <example correction=""><marker>Zrobiony zostało</marker>.</example>
+                    <example>Kilka osób zostało zabitych.</example>
+                    <example>Został zrobiony.</example>
+                    <example>Spostrzegła była rozkochane spojrzenie.</example>
+                    <example>Daleko w przestrzeni widać było przymglony las Meudon.</example>
+                    <example>Eurycjusz nie był zmyśloną postacią.</example>
+                    <example>Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
+                    <example>Kolumbowie jako sztuka o powstaniu warszawskim poprzedzeni zostali zorganizowaną nagonką polityczną reakcyjnego odłamu Polonii.</example>
+                    <example>Na stole przygotowane było śniadanie.</example>
+                    <example>Pewien był wygranej, więc przyglądał się.</example>
+                    <example>Ale Darci był przezorny.</example>
+                    <example>Tu wszyscy poczęli mówić, jaką tragedią niesłychaną byłby obraz takiego miasta.</example>
+                    <example>Te nici były nieskończonej długości.</example>
+                </rule>
+                </rulegroup>
                 <rule id="KTOS_KTOREGO" name="„ktoś, którego” (czyjego, kogo)">
                     <pattern>
                         <token>ktoś</token>
@@ -8978,7 +9158,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="najbliżej">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
 				</rule>
 				<rule id="ROZUMIEC_POD" name="Błąd związku rządu: „rozumieć coś pod czymś” (przez coś)">
-						<!-- FIXME: podpowiedź nie uwzględnia odmiany -->
+				  <antipattern>
+				  <marker><token skip="1">pod</token></marker>
+				  <token>względem</token>
+				  </antipattern>  
+						<!-- FIXME: podpowiedź nie uwzględnia odmiany -->						
 						<pattern>
 								<token negate="yes" skip="1">przez</token>
 								<token inflected="yes" skip="5">rozumieć<exception regexp="yes" scope="next">przez|,</exception></token>
@@ -8991,6 +9175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="przez">Rozumiał czasem <marker>pod</marker> tym pojęciem wolę.</example>
 						<example>Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
 						<example>Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
+						<example>Zwierz rozumie też zachwyt nad jej rolą pod tym względem.</example>
 				</rule>
 				<rule id="INNY_JAK" name="„inny jak” (inny niż)">
 						<pattern>
@@ -9031,14 +9216,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
 				  <antipattern> <!-- też ndm -->
   				  <marker>
-				  <token>sir</token>
+				      <token>sir</token>
 				    </marker>
 				  </antipattern>
+				  <antipattern> <!-- też ndm -->
+  				  <marker>
+				      <token>McDonald</token>
+				    </marker>
+				    <token regexp="yes">['’]</token>
+				    <token>s</token>
+				  </antipattern>
 						<rule>
-                                <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
-                                    <token>mimo</token>
-                                    <token>chodem</token>
-                                </antipattern>
+                <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
+                    <token>mimo</token>
+                    <token>chodem</token>
+                </antipattern>
 								<pattern>
 										<token postag="prep:gen.*" postag_regexp="yes"><exception regexp="yes">doń|(?:za)?miast|[zw]ewnątrz</exception><exception postag="prep:(?!gen).*|adv" postag_regexp="yes"/></token>
 										<marker>
@@ -9119,6 +9311,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <token>Bóg</token>
                                     <token>żywy</token>
                                 </antipattern>
+                                <antipattern>                                
+                                <token>po</token>
+                                <marker>
+                                <token>temu</token>
+                                </marker>
+                                </antipattern>
 								<pattern>
 										<token postag="prep:acc.*" postag_regexp="yes"><exception>przezeń</exception><exception>temu</exception><exception postag="prep:(?!acc).*" postag_regexp="yes"/></token>
 										<marker>
@@ -9133,6 +9331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nie przejmował się niezawinionymi przezeń winami.</example>
 								<example>On mówił przez <marker>nos</marker>.</example>
 								<example>Pisze się o literaturze.</example>
+								<example>Ma po temu powody.</example>
                         <example>zagnieżdżenie się zapłodnionej komórki jajowej w błonie śluzowej macicy</example>
                         <example>Przez Bóg żywy!</example>
                         <example>Upił się po przegranym meczu przez New York Islanders.</example>
@@ -9210,6 +9409,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token>temu</token>
                             </antipattern>
                             <antipattern>
+                                <token regexp="yes">tysiące|miliony|miliardy|setki</token>
+                                <token>)</token>
+                                <marker>
+                                    <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                            </antipattern>
+                            <antipattern>
                                 <token regexp="yes">\d+</token>
                                 <token spacebefore="no">,</token>
                                 <token  regexp="yes">\d+</token>
@@ -9240,6 +9447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>To znalezisko jest datowane na około 409 milionów lat temu, a może 250-200 milionów lat temu.</example>
                                 <example>Narodziłem się w Anglii, skąd wyjechałem lat temu około pięciu.</example>
                     					<example>Odkryto pięć rodzajów wilków workowatych żyjących miliony lat temu.</example>
+                    					<example>Było to tysiące (albo miliony lub miliardy) lat temu.</example>
 						</rule>
                         <rule>
                             <antipattern>
@@ -9316,7 +9524,401 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <example correction="największych">Wystawa paryska pozwala przywrócić opinię, że Chagall jest bez wątpienia jednym z <marker>największym</marker> malarzy XX wieku.</example> 
                          <example>Ostatnio jednak zobaczyliśmy owsiankę w menu jednego z super turbo bistro w cenie 15 złotych.</example>
                         </rule>
-				</rulegroup>
+                        <rule>
+                        <antipattern>
+                          <token>o</token> <!-- o której los się martwię -->
+                          <marker>
+                            <token inflected="yes" postag="adj.*gen.*" postag_regexp="yes">który</token>
+                          </marker>
+                          <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+                        </antipattern>
+                        <antipattern>
+                          <token>o</token> <!-- o ich los się martwię -->
+                          <marker>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+                        </antipattern>
+                        <antipattern> <!-- o jej północno-zachodniej części -->
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token>o</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                        <antipattern> <!-- o lat kilkanaście -->
+                          <token>o</token>
+                          <marker>
+                            <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                        </antipattern>
+                        <antipattern> <!-- o lat kilkanaście -->
+                          <token>o</token>
+                          <marker>
+                            <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag="adv:pos|qub" postag_regexp="yes"/>
+                          <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                        </antipattern>
+                        <antipattern case_sensitive="yes">
+                        <token>O</token>
+                        <token>Jezus</token>
+                        </antipattern>
+                        <antipattern> <!-- o której -->
+                        <token postag="SENT_START|.*:comma" postag_regexp="yes"></token>
+                          <marker>
+                            <token>o</token>
+                            <token>której</token>
+                          </marker>
+                        </antipattern>
+                         <pattern>
+                          <token postag="prep.*" postag_regexp="yes">o</token>
+                          <marker>
+                          <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception></token>
+                          </marker>
+                         </pattern>
+                         <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
+                         <short>Przyimek wymaga biernika lub miejscownika</short>
+                         <example correction=''>Dowód Turinga nie mówi nic o <marker>prędkością</marker>.</example>
+                         <example>Dowód Turinga nie mówi nic o prędkości.</example>
+                         <example>O łajdak!</example>
+                         <example>Przeżył go o lat niemal dwadzieścia.</example>
+                         <example>Nie wiem, o której dziewczynie mówisz.</example>
+                         <example>Większość Azji Zachodniej stanowią obszary o wyżynno-górzystym ułożeniu terenu.</example>
+                         <example>Nasze przekonanie o nim może być kruche.</example>
+                        </rule>
+                        <rule> <!-- „na”: z miejscownikiem lub biernikiem -->
+                          <antipattern> <!-- na lat kilkanaście -->
+                            <token>na</token>
+                            <marker>
+                              <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                            </marker>
+                            <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                          </antipattern>
+                          <antipattern> <!-- na lat 5 -->
+                            <token>na</token>
+                            <marker>
+                              <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                            </marker>
+                            <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                          </antipattern>
+                          <antipattern>
+                            <marker>
+                            <token>na</token>
+                            <token>koń</token>
+                            </marker>
+                          </antipattern>
+                          <antipattern>
+                            <marker>
+                            <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                            <token>na</token>
+                            <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                            <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                            </unify>
+                            </marker>
+                          </antipattern>
+                          <antipattern> <!-- na jej północno-zachodniej części -->
+                            <marker>
+                            <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                            <token inflected="yes">na</token>
+                            <unify-ignore>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                            <token postag="adja"/>
+                            <token spacebefore="no">-</token>
+                            </unify-ignore>
+                            <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                            </unify>
+                            </marker>
+                          </antipattern>
+                          <antipattern>
+                          <token>na</token> <!-- na ich los nie narzekam -->
+                          <marker>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+                        </antipattern>
+                          <antipattern case_sensitive="yes">
+                          <marker>
+                          <token>na</token>
+                          <token>Anioł</token>
+                          </marker>
+                          <token>Pański</token>
+                          </antipattern>
+                          <antipattern> <!-- jest inna reguła -->
+                            <token>na</token>
+                            <marker>
+                                  <token>tą</token>
+                            </marker>
+                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:acc:f"></exception></token>
+                          </antipattern>
+                       <pattern>
+                        <token postag="prep.*" postag_regexp="yes">na</token>
+                        <marker>
+                        <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                          <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>
+                          <exception>stojaka</exception>
+                          </token>
+                        </marker>
+                       </pattern>
+                       <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
+                       <short>Przyimek wymaga biernika lub miejscownika</short>
+                       <example correction=''>Nie zależy mi na <marker>prędkością</marker>.</example>         
+                       <example>Wąwóz, dość przy ujściu szeroki, zmieniał się w zamkniętą z obu boków pionowymi skałami kotlinkę, na której dnie rosło kilka drzew.</example>
+                       <example>Następnie odmówił z Kubańczykami modlitwę na Anioł Pański i pobłogosławił kamień węgielny.</example>
+                       <example>Czy autobus numer 19 jedzie na Main Street?</example>
+                       <example>Dotkliwie przeżyła pierwsze (1935) aresztowania syna i męża (zwolniono ich po tygodniu), a potem drugie (1938) syna, skazanego wkrótce w pierwszej instancji na 10 lat obozu, a ostatecznie na lat 5.</example>
+                       <example>Ja jestem z nim na per świnia.</example>
+                       <example>W kuchni na stojaka zjada kanapki, nawet nie popijając.</example>
+                      </rule>                      
+                  <rule>
+                  <antipattern> <!-- uporał się z tym w lat kilkanaście -->
+                        <token inflected="yes">w</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                      </antipattern>
+                      <antipattern> <!-- w lat 5 -->
+                        <token inflected="yes">w</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">w</token>
+                        <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">w</token>
+                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- w jej północno-zachodniej części -->
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">w</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- inna reguła -->
+                      <token>w</token>
+                      <token>/</token>
+                      <marker><token>w</token></marker>
+                      </antipattern>
+                      <antipattern> <!-- ust: brev:pun -->
+                      <token>w</token>
+                      <marker>
+                        <token>ust</token>
+                      </marker>
+                      <token spacebefore="no">.</token>
+                      <token regexp="yes">\d.*</token>
+                      </antipattern>
+              <pattern>
+                <token inflected="yes" postag="prep.*" postag_regexp="yes">w</token>
+                <marker>
+                <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                  <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>                          
+                  <exception>ciąż</exception>
+                  </token>
+                </marker>
+               </pattern>
+               <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
+               <short>Przyimek wymaga biernika lub miejscownika</short>
+               <example correction=''>To się działo w <marker>twoi</marker> mózgu.</example>
+               <example>W Victorii było zamknięte, w Grand Hotelu także.</example>
+               <example>Wykonujemy zalewę z w/w składników.</example>
+               <example>Obszary nizinne występują w jej północno-zachodniej części.</example>
+               <example>W średniowieczu pojawia się litera W powstała z podwojonego V oznaczającego samogłoskę /U/.</example>
+               <example>art. 16 w ust. 1 w pkt 25 w lit.</example>
+              </rule>         
+              <rule> <!-- nad, pod, pomiędzy, przed -->
+                      <antipattern> <!-- podchodził pod lat kilkanaście -->
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                      </antipattern>
+                      <antipattern> <!-- pod lat 5 -->
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore>
+                          <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                          <token min="0" max="1" postag="verb.*" postag_regexp="yes"/>
+                        </unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore><token>pani</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- przed jej północno-zachodnią częścią -->
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                    <pattern>
+                    <token inflected="yes" postag="prep.*" postag_regexp="yes" regexp="yes">nad|pod|pomiędzy|przed<exception scope="previous">z</exception></token>
+                    <marker>
+                    <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                      <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*inst.*)' postag_regexp='yes'></exception>                          
+                      </token>
+                    </marker>
+                   </pattern>
+                   <message>Ten przyimek jest używany z biernikiem lub narzędnikiem.</message>
+                   <short>Przyimek wymaga biernika lub narzędnika</short>
+                   <example correction=''>Stałem pod <marker>sklepie</marker>.</example>
+                   <example correction=''>Stałem przed <marker>sklepie</marker>.</example>
+                   <example correction=''>Stałem nad <marker>przepaściach</marker>.</example>
+                   <example>Jakie są uwagi pod pani adresem?</example>
+                   <example>Przed Grand Prix Wielkiej Brytanii</example>
+                   <example>Orkiestra PFB pod dyr. J. Maksymiuka — Długi Targ</example>
+                   <example>Takie podejście chroni NIK i kontrolowanego przed ew. pomyłkami.</example>
+                   <example>Park jest wyjątkowo przepełniony w pierwszy weekend października (długi weekend z okazji Columbus Day, Dnia Krzysztofa Kolumba), a przed jego pięcioma bramami tworzą się długie kolejki samochodów.</example>
+                   <example>Oficjalna północ pod Big Benem</example>
+                   <example>W tym momencie w mojej lodówce stoi „wegański” smalec, pod którego jestem wrażeniem.</example>
+                   <example>Na bazie rozmów telefonicznych podczas przerw lunchowych (samochodem pod McDonald’s i potem w przerwach pomiędzy kęsami dzwonienie z zeszytem przed sobą) selekcjonowałem te, które uznałem, że warto będzie zobaczyć.</example>
+                   <!-- inna reguła -->
+                   <example>Z pod tej marchwi wyłonił się królik.</example>
+                   <example>Z przed tej marchwi wyłonił się królik.</example>                   
+                   <example>Z nad tej marchwi wyłonił się królik.</example>
+                   <example>Z pomiędzy krzaków wyłonił się królik.</example>
+                  </rule>
+                </rulegroup>
+                <rule id="PO" name="„po”">
+                  <antipattern> <!-- uporał się z tym w lat kilkanaście -->
+                        <token inflected="yes">po</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                      </antipattern>
+                      <antipattern> <!-- w lat 5 -->
+                        <token inflected="yes">po</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">po</token>
+                        <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">po</token>
+                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- po jej północno-zachodniej części -->
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">po</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- ust: brev:pun -->
+                      <token>po</token>
+                      <marker>
+                        <token>ust</token>
+                      </marker>
+                      <token spacebefore="no">.</token>
+                      <token regexp="yes">\d.*</token>
+                      </antipattern>
+              <pattern>
+                <token postag="prep.*" postag_regexp="yes">po<exception case_sensitive="yes">PO</exception></token>
+                <marker>
+                <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                  <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>                                            
+                  <exception postag="adj:sg:dat:m1.m2.m3.n1.n2:pos" inflected="yes" regexp="yes" negate="yes">.*[csz]ki</exception>
+                  </token>
+                </marker>
+               </pattern>
+               <message>Ten przyimek jest używany z biernikiem lub miejscownikiem (lub formy -u, np. „po litewsku”).</message>
+               <short>Przyimek wymaga biernika lub miejscownika</short>
+               <example correction=''>To się działo po <marker>twoi</marker> występie.</example>              
+               <example correction="">Mówił po <marker>litewskiemu</marker></example>
+               <example>Polityka PO polskim rolnikom bardzo się przysłużyła.</example>
+               <example>Poszedł po jej dwa psy.</example>
+              </rule>         
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
 								<token postag="adj.*:com" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>
@@ -10539,7 +11141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
 										</marker>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
 								<url>http://sjp.pwn.pl/poradnia/haslo/posiadac;5384.html</url>
@@ -10554,7 +11156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										</marker>
 										<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
 										  <token postag="adj.*" postag_regexp="yes"/>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
 										</unify>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
@@ -10570,7 +11172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
                     <unify-ignore><token postag="adv.*" postag_regexp="yes"/></unify-ignore>
                     <token postag="adj.*" postag_regexp="yes"/>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
                   </unify>
               </pattern>
               <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
@@ -13002,7 +13604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd fonetyczny</short>
 								<example>Ludwik ma randkę z Przemysławem we wtorek.</example>
 								<example correction="we wtorek">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
-                                <example>To jedenaście punktów radykalnej naprawy sytuacji w ww. czasopismach.</example>
+                <example>To jedenaście punktów radykalnej naprawy sytuacji w ww. czasopismach.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13067,10 +13669,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Ludwik ma kochankę ze Świecia</example>
 								<example>To przedni wyrób z ZSRR.</example>
 								<example correction="ze Świecia">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
-                                <example>Żyjemy tylko z wpływów z biletów.</example>
-                                <example>Może nas czekać walka z wtórnym analfabetyzmem.</example>
-                                <example>To wszystko wynika z wpływu wywieranego na odbiorców.</example>
-                                <example>Noc z wtorku na środę</example>
+                <example>Żyjemy tylko z wpływów z biletów.</example>
+                <example>Może nas czekać walka z wtórnym analfabetyzmem.</example>
+                <example>To wszystko wynika z wpływu wywieranego na odbiorców.</example>
+                <example>Noc z wtorku na środę</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13097,9 +13699,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Dostaniesz ze trzy tysiące premii za ten donos.</example>
 								<example>Nawet Horacy drwił ze &quot;szkodliwego hazardu&quot;.</example>
 								<example>Żegnaliśmy go ze łzami.</example>
-                                <example>To trzydzieści miast, ze Lwowem włącznie.</example>
+								<example>To trzydzieści miast, ze Lwowem włącznie.</example>
 								<example correction="z Łodzi">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
-                                <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
+                <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13117,15 +13719,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="OD_MNIE" name="„od/bez mnie” (ode/beze mnie)">
 						<pattern>
 								<marker>
-										<token regexp="yes">od|bez</token>
+										<token regexp="yes">od|bez|s?pod</token>
 								</marker>
-								<token>mnie</token>
+								<token regexp="yes">mnie|mną</token>
 						</pattern>
 						<message>Ten przyimek należy zapisać tak: <suggestion>\1e</suggestion>.</message>
 						<short>Błąd fonetyczny</short>
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
 						<example correction="ode">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>od</marker> mnie!</example>
 						<example correction="beze">Możesz <marker>bez</marker> mnie żyć...</example>
+						<example correction="spode">Nie wyrywaj krzesła <marker>spod</marker> mnie.</example>
 				</rule>
 				<rule id="ODE_CZEGO" name="„ode czego” (od czego)">
 						<pattern>
@@ -13138,6 +13741,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd fonetyczny</short>
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
 						<example correction="od|odę">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
+				</rule>
+				<rule id="SPOD_LBA" name="„spod łba” (spode łba)">
+						<pattern>
+								<marker>
+										<token>spod</token>
+								</marker>
+								<token>łba</token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion>\1e</suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
+						<example correction="spode">Nie patrz na mnie <marker>spod</marker> łba!</example>						
+				</rule>
+				<rule id="SPODE_CZEGO" name="„spode/znade czego” (spod/znad czego)">
+						<pattern>
+								<marker>
+										<token regexp="yes">spode|znade</token>
+								</marker>
+								<token><exception regexp="yes">mnie|łba</exception></token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion><match no="1" regexp_match="e" regexp_replace=""/></suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Patrzył na mnie spode łba.</example>
+						<example correction="spod">Wylazł <marker>spode</marker> kamienia.</example>
+						<example>Atleta, podejrzliwie znade łba wysuwając antenki, szedł za nimi.</example>
+				</rule>
+				<rule id="PODE_CZEGO" name="„pode czego” (pod czego)">
+						<pattern>
+								<marker>
+										<token>pode</token>
+								</marker>
+								<token><exception regexp="yes">mnie|mną</exception></token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion>pod</suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Kopał dołki pode mną.</example>
+						<example correction="pod">Włazł <marker>pode</marker> kamień.</example>
 				</rule>
 				<rule id="BEZE_CZEGO" name="„beze czego” (bez czego)">
 						<pattern>
@@ -14930,6 +15570,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+          <rule id="KOD_MORSA_KOD_MORSEA" name="„kod Morsa” (kod Morse’a)">
+           <pattern>
+            <token inflected='yes' regexp='yes'>kod|alfabet</token>
+            <token>morsa</token>
+           </pattern>
+           <message>Czy chodziło o <suggestion><match no="1"/> Morse’a</suggestion>?</message>
+           <url>https://pl.wikipedia.org/wiki/Kod_Morse%E2%80%99a</url>
+           <short>Błąd ortograficzny</short>
+           <example correction='kodzie Morse’a'>Napisałem to w <marker>kodzie Morsa</marker>.</example>
+          </rule>
           <rule id="LICZBA_BEZ_DYWIZU_Z_PRZYMIOTNIKIEM" name="Brak dywizu w wyrazie zawierającym liczbę">
           <antipattern>
           <token>w</token>
@@ -17165,14 +17815,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Andrzej będzie umawiał się z Renatą przeciwko Jarosławowi <marker>cotygodniowo</marker>.</example>
                         <example>Stołownicy dostają tylko obiad, za co miesięcznie płacą trzydzieści franków.</example>
 				</rule>
-				<rule id="W_SROD" name="„w śród” (wśród)">
+				<rule id="W_SROD" name="„w śród, w ciąż” (wśród, wciąż)">
 						<pattern>
 								<token>w</token>
-								<token>śród</token>
+								<token regexp="yes">śród|ciąż</token>
 						</pattern>
-						<message>Ten przyimek piszemy łącznie: <suggestion>wśród</suggestion>.</message>
+						<message>Ten wyraz piszemy łącznie: <suggestion>w\2</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="wśród">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
+						<example correction="Wciąż"><marker>W ciąż</marker> w Hiszpanii nie szanuje się hiszpańskich piłkarzy</example>
 						<example>Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
 				</rule>
 				<!--brakuje wielu innych przypadków (np. "wszyscy w koło się upijali")-->
@@ -19148,6 +19799,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="MAS_MEDIA_MASS_MEDIA" name="„mas media” (mass media)">
+         <pattern>
+          <token>mas</token>
+          <token inflected='yes'>media</token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mass <match no="2"/></suggestion>?</message>
+         <url>http://sjp.pl/mass+media</url>
+         <short>Prawdopodobna literówka</short>
+         <example correction='mass mediami'>Szerzenie nienawiści do Rosjan w postaci zawładnięcia <marker>mas mediami</marker></example>         
+        </rule>
+        <rule id="OGROMY_OGROMNY" name="„ogromy” (ogromny)">
+         <pattern>
+          <marker>
+          <token>ogromy</token>
+          </marker>
+          <token postag='subst:sg:(acc|nom):m3|subst:sg:nom:m[21]' postag_regexp='yes'></token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ogromny</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='ogromny'>Patrzę na <marker>ogromy</marker> dom.</example>
+         <example>Patrzę na ogromny dom.</example>
+        </rule>
+        <rule id="W_PRZEPADKU_W_PRZYPADKU" name="„W przepadku” (w przypadku)">
+         <pattern>
+          <marker>
+          <token>przepadku</token>
+          </marker>
+          <token><exception>mienia</exception></token>
+         </pattern>
+         <message>Czy chodziło o <suggestion>przypadku</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='przypadku'>W <marker>przepadku</marker> Polski wystarczy podać tylko przykład paliw.</example> 
+        </rule>
+        <rule id="CO_SIE_STALY" name="„co się stały” (co się stało)">
+         <pattern>
+          <token skip='1'>co<exception regexp='yes' negate='yes' scope='next'>by|się</exception></token>
+          <token>się</token>
+          <marker>
+          <token>stały</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>stało</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='stało'>A co by się <marker>stały</marker>, jakbyś polubiła swoje wady?</example>
+         <example correction='stało'>Co się <marker>stały</marker>?</example>
         </rule>
         <rule id="WIERZE_WIERZE" name="„wierze” (wierzę)">
          <pattern>

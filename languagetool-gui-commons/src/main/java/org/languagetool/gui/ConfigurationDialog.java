@@ -100,7 +100,7 @@ public class ConfigurationDialog implements ActionListener {
         if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
           enabled = false;
         }
-        if (rule.getCategory().isDefaultOff()) {
+        if(rule.getCategory().isDefaultOff()) {
           enabled = false;
         }
         DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
@@ -342,11 +342,13 @@ public class ConfigurationDialog implements ActionListener {
         node = (DefaultMutableTreeNode) node.getChildAt(index);
         if (node instanceof RuleNode) {
           RuleNode o = (RuleNode) node;
-          if (o.getRule().isDefaultOff()) {
+          if (o.getRule().isDefaultOff() || o.getRule().getCategory().isDefaultOff()) {
             if (o.isEnabled()) {
               config.getEnabledRuleIds().add(o.getRule().getId());
+              config.getDisabledRuleIds().remove(o.getRule().getId());
             } else {
               config.getEnabledRuleIds().remove(o.getRule().getId());
+              config.getDisabledRuleIds().add(o.getRule().getId());
             }
           } else {
             if (o.isEnabled()) {
@@ -412,7 +414,7 @@ public class ConfigurationDialog implements ActionListener {
                 }
                 Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
                         rule.getDescription(), rule, messages,
-                        lang.getShortNameWithCountryAndVariant());
+                        lang.getShortCodeWithCountryAndVariant());
               }
             });
             popup.add(aboutRuleMenuItem);
@@ -518,7 +520,7 @@ public class ConfigurationDialog implements ActionListener {
         if (newDir != null) {
           try {
             if (config.getLanguage() != null) {  // may happen in office context
-              File checkDir = new File(newDir, config.getLanguage().getShortName());
+              File checkDir = new File(newDir, config.getLanguage().getShortCode());
               LuceneLanguageModel.validateDirectory(checkDir);
             }
             config.setNgramDirectory(newDir);

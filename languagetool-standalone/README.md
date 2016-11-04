@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 3.4-SNAPSHOT, 2016-xx-yy  
+Version 3.5, 2016-09-30  
 Copyright (C) 2005-2016 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 Homepage: https://www.languagetool.org
 
@@ -23,12 +23,12 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-3.3.oxt`. The extension should
+1. Double-click `LanguageTool-3.5.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 2. If the above method doesn't work, call `Tools > Extension
-   Manager > Add...` in OpenOffice.org/LibreOffice and browse for the
-   `LanguageTool-3.3.oxt` file.
+   Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
+   `LanguageTool-3.5.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -254,8 +254,10 @@ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
  
 #### German
 
+See https://github.com/languagetool-org/german-pos-dict:
 The German data for part-of-speech tagging is taken from Morphy
-(http://www.wolfganglezius.de/doku.php?id=cl:morphy)
+(http://www.wolfganglezius.de/doku.php?id=cl:morphy) with extensions
+and corrections from Julian von Heyl (https://www.korrekturen.de/flexion/)
 under Creative Commons Attribution-Share Alike 4.0.
 
 #### Greek
@@ -359,8 +361,9 @@ Ve. Elanjelian <tamiliam@gmail.com>. It is released under GPLv3 licence.
   The corpus data is released under GPLv3, as well.
 * The grammatical rules themselves are based on "thamizhnadaik kaiyEdu" (2004)
  and "thamizhil nAmum thavaRillAmal ezhuthalAm" (2007)
- 
+
 #### Ukrainian
 
-The Ukrainian data for part-of-speech tagging were created by Andriy Rysin
-It's based on spell-uk (http://sourceforge.net/projects/ispell-uk/) which is licensed under GPL/LGPL.
+The Ukrainian data for part-of-speech tagging was created by Andriy Rysin.
+It's based on https://github.com/brown-uk/dict_uk project and is licensed under
+Creative Commons Attribution-ShareAlike 4.0 International license.

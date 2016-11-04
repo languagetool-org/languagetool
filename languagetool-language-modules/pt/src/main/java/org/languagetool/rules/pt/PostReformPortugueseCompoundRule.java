@@ -42,7 +42,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getId() {
-    return "PT_COMPOUNDS_PRE_REFORM";
+    return "PT_COMPOUNDS_POST_REFORM";
   }
 
   @Override

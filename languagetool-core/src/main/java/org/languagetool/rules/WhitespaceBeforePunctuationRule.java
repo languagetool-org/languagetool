@@ -82,11 +82,12 @@ public class WhitespaceBeforePunctuationRule extends Rule {
         } else if (token.equals(";")) {
           msg = messages.getString("no_space_before_semicolon");
           suggestionText = ";";
-        } else if (i > 1
-            && token.equals("%")
-            && Character.isDigit(tokens[i - 2].getToken().charAt(0))) {
-          msg = messages.getString("no_space_before_percentage");
-          suggestionText = "%";
+        } else if (i > 1 && token.equals("%")) {
+          String prevPrevToken = tokens[i - 2].getToken();
+          if (prevPrevToken.length() > 0 && Character.isDigit(prevPrevToken.charAt(0))) {
+            msg = messages.getString("no_space_before_percentage");
+            suggestionText = "%";
+          }            
         }
       }
       if (msg != null) {

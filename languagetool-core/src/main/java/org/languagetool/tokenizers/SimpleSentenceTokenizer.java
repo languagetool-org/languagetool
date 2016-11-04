@@ -41,6 +41,9 @@ public class SimpleSentenceTokenizer extends SRXSentenceTokenizer {
     @Override public String getShortName() {
       return "xx";
     }
+    @Override public String getShortCode() {
+      return "xx";
+    }
     @Override public String getName() {
       return "FakeLanguage";
     }

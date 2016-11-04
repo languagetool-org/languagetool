@@ -19,13 +19,13 @@
 package org.languagetool.dev.bigdata;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionSet;
@@ -42,6 +42,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"resource", "CallToPrintStackTrace"})
 class AutomaticConfusionRuleEvaluator {
   
+  private static final String LANGUAGE = "en";
+  private static final boolean CASE_SENSITIVE = false;
   private static final int MAX_EXAMPLES = 1000;
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final float MIN_PRECISION = 0.99f;
@@ -59,9 +61,9 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private void run(List<String> lines, File indexDir) throws IOException {
-    English english = new English();
+    Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
-    ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(english, lm);
+    ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(language, lm, CASE_SENSITIVE);
     for (String line : lines) {
       if (line.contains("#")) {
         System.out.println("Ignoring: " + line);
@@ -109,9 +111,7 @@ class AutomaticConfusionRuleEvaluator {
     Map<Long, ConfusionRuleEvaluator.EvalResult> bestResults = findBestFactor(results);
     if (bestResults.size() > 0) {
       for (Map.Entry<Long, ConfusionRuleEvaluator.EvalResult> entry : bestResults.entrySet()) {
-        String start = part1 + ";" + part2 + ";" + entry.getKey();
-        String spaces = StringUtils.repeat(" ", 82 - start.length());
-        System.out.println("=> " + start + spaces + "    # " + entry.getValue().getSummary());
+        System.out.println("=> " + entry.getValue().getSummary());
       }
     } else {
       System.out.println("No good result found for " + part1 + "/" + part2);
@@ -142,17 +142,31 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private void findExampleSentences(String word, FileWriter fw) throws IOException {
-    Term term = new Term(TextIndexCreator.FIELD, word);
-    TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES);
+    Term term = new Term(TextIndexCreator.FIELD, CASE_SENSITIVE ? word.toLowerCase() : word);
+    TopDocs topDocs = searcher.search(new TermQuery(term), CASE_SENSITIVE ? Integer.MAX_VALUE : MAX_EXAMPLES);
+    int count = 0;
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String sentence = searcher.doc(scoreDoc.doc).get(TextIndexCreator.FIELD);
-      fw.write(sentence + "\n");
+      if (CASE_SENSITIVE) {
+        if (sentence.contains(word)) {
+          fw.write(sentence + "\n");
+          count++;
+        }
+      } else {
+        fw.write(sentence + "\n");
+        count++;
+      }
+      if (count > MAX_EXAMPLES) {
+        break;
+      }
     }
+    System.out.println("Found " + count + " examples for " + word);
   }
 
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
       System.out.println("Usage: " + AutomaticConfusionRuleEvaluator.class.getSimpleName() + " <confusionPairCandidates> <exampleSentenceIndexDir> <ngramDir>");
+      System.out.println("   <confusionPairCandidates> is a semicolon-separated list of words (one pair per line)");
       System.out.println("   <exampleSentenceIndexDir> is a Lucene index created by TextIndexCreator");
       System.exit(1);
     }

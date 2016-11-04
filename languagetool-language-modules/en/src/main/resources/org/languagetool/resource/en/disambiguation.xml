@@ -1227,11 +1227,13 @@
         <pattern>
             <marker>
             <token postag="TO">to</token>
-            <token postag="VB"/>
+            <token postag="VB"><exception postag="NNP"/></token>
             </marker>
             <token postag="PRP\$?|DT" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
+        <example type="untouched">Peter admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
+        <example type="ambiguous" inputform="bill[bill/NN,bill/VB,bill/VBP]" outputform="bill[bill/VB]">I admit to <marker>bill</marker> the customer incorrectly.</example>
     </rule>
     
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
@@ -1266,7 +1268,7 @@
             <token regexp="yes">['’]</token>
             <token>t</token>
         </pattern>
-        <disambig action="filter" postag="MD|VBP"/>
+        <disambig action="filter" postag="MD"/>
     </rule>
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
@@ -3136,6 +3138,7 @@
     	</pattern>
     	<disambig postag="VBZ"/>
     	<example type="untouched">He comes from another city.</example>
+    	<example type="untouched">In music, a <marker>comes</marker> is the answer to the first subject (dux) in a fugue. [Shorter OED, 1985.]</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
       </rule>
       <rule>
@@ -4101,14 +4104,14 @@
     </rule>
     
     <rule name="Immunize 'the line of least resistance'" id="LEAST_RESISTANCE">
-    <pattern>
-      <token>the</token>
-      <token>line</token>
-      <token>of</token>
-      <token>least</token>
-      <token>resistance</token>
-    </pattern>
-    <disambig action="immunize"/>
+      <pattern>
+        <token>the</token>
+        <token>line</token>
+        <token>of</token>
+        <token>least</token>
+        <token>resistance</token>
+      </pattern>
+      <disambig action="immunize"/>
     </rule>
 
     <rule name="Immunize 'World Wide Web'" id="WORLD_WIDE_WEB">
@@ -4127,6 +4130,14 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule name="Ignore spelling of 'status quo'" id="STATUS_QUO">
+      <pattern>
+        <token>status</token>
+        <token>quo</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     
     <rule name="Immunize 'Hong Kong'" id="HONG_KONG">
       <pattern>
@@ -4134,5 +4145,35 @@
         <token>Kong</token>
       </pattern>
       <disambig action="immunize"/>
+    </rule>
+    <rule name="Ignore spelling of NNP (mid and end sentence)" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z]+</token>
+        <marker>
+          <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+<!-- For action="ignore_spelling", it is not possible to use example sentences that testrules validates.
+Find. The hoopes are defective.
+Find. Hoopes, loops, and other types of coil are used in this test.
+Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
+Find. These coils, Hoopes, and other types of loops are satisfactory.
+Find. Get these items: 
+	* Hoopes
+	* Loops
+	* Coils.
+Find. Get these items: 1) Hoopes 2) Loops 3) Coils.
+Ignore spelling. "Ah! I'm dying," said Pierrette, falling to her knees.
+Ignore spelling. "Ah, this is my idiot son Takashi."
+Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
+Ignore spelling. "Does he live with a princess?" asked Gerda.
+Ignore spelling. Is the average Dalek dangerous?
+False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
+False positive. Zelda told me to tell you to go away.
+False positive. Geez is a Semitic language that was spoken in Ethiopia.
+False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
+False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
+-->
     </rule>
 </rules>

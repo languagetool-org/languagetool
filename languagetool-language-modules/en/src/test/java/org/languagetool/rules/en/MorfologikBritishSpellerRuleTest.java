@@ -52,6 +52,8 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
     //with doesn't
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
+    //with diacritics 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("The entrée at the café.")).length);
     //with an abbreviation:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);

@@ -40,7 +40,7 @@ import org.languagetool.rules.RuleMatch;
  * 
  * <p>Also see the javadoc of {@link JLanguageTool}.</p>
  * 
- * <p><b>Thread-safety:</b> See the remarks at {@link JLanguageTool}.
+ * <p><b>Thread-safety:</b> this class is <b>not</b> thread-safe, see the remarks at {@link JLanguageTool}.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
   

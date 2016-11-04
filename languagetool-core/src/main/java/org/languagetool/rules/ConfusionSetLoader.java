@@ -50,9 +50,14 @@ public class ConfusionSetLoader {
         }
         List<ConfusionString> confusionStrings = new ArrayList<>();
         Set<String> loadedForSet = new HashSet<>();
+        String prevWord = null;
         for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
           String[] subParts = part.split("\\|");
           String word = subParts[0];
+          if (prevWord != null && word.compareTo(prevWord) < 0) {
+            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line);
+          }
+          prevWord = word;
           String description = subParts.length == 2 ? subParts[1] : null;
           if (loadedForSet.contains(word)) {
             throw new RuntimeException("Word appears twice in same confusion set: '" + word + "'");

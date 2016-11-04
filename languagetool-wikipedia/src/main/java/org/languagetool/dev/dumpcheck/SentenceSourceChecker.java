@@ -142,7 +142,7 @@ public class SentenceSourceChecker {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
-    Language lang = Languages.getLanguageForShortName(langCode);
+    Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
@@ -211,11 +211,6 @@ public class SentenceSourceChecker {
     }
     for (String ruleId : ruleIds) {
       languageTool.enableRule(ruleId);
-    }
-    for (Rule rule : languageTool.getAllRules()) {
-      if (rule.isDefaultOff()) {
-        languageTool.enableDefaultOffRule(rule.getId());
-      }
     }
     warnOnNonExistingRuleIds(ruleIds, languageTool);
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));

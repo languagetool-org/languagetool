@@ -54,7 +54,10 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
    */
   public static void validateDirectory(File topIndexDir) {
     if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
-      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
+      throw new RuntimeException("Not found or is not a directory:\n" +
+              topIndexDir + "\n" +
+              "As ngram directory, please select the directory that has a subdirectory like 'en'\n" +
+              "(or whatever language code you're using).");
     }
     List<String> dirs = new ArrayList<>();
     for (String name : topIndexDir.list()) {
@@ -195,6 +198,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
         String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
         result += Long.parseLong(countStr);
       }
+      //System.out.println(term + " -> " + result);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

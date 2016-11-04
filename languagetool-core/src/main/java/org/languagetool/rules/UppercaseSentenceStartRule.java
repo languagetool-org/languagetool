@@ -50,7 +50,7 @@ public class UppercaseSentenceStartRule extends Rule {
   private String lastParagraphString = "";
   
   /** @since 3.3 */
-  public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, String correctExample) {
+  public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     this.language = language;
@@ -61,7 +61,7 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   /**
-   * @deprecated use {@link #UppercaseSentenceStartRule(ResourceBundle, Language, IncorrectExample, String)} instead (deprecated since 3.3)
+   * @deprecated use {@link #UppercaseSentenceStartRule(ResourceBundle, Language, IncorrectExample, CorrectExample)} instead (deprecated since 3.3)
    */
   public UppercaseSentenceStartRule(ResourceBundle messages, Language language) {
     this(messages, language, null, null);
@@ -130,7 +130,7 @@ public class UppercaseSentenceStartRule extends Rule {
       preventError = true;
     }
     
-    if (isUrl(checkToken)) {
+    if (isUrl(checkToken) || isEMail(checkToken)) {
       preventError = true;
     }
 
@@ -151,7 +151,7 @@ public class UppercaseSentenceStartRule extends Rule {
   @Nullable
   private String dutchSpecialCase(String firstToken,
       String secondToken, AnalyzedTokenReadings[] tokens) {
-    if (!language.getShortName().equals("nl")) {
+    if (!language.getShortCode().equals("nl")) {
       return null;
     }
     if (tokens.length >= 3 && firstToken.equals("'")
@@ -170,4 +170,7 @@ public class UppercaseSentenceStartRule extends Rule {
     return WordTokenizer.isUrl(token);
   }
 
+  protected boolean isEMail(String token) {
+    return WordTokenizer.isEMail(token);
+  }
 }

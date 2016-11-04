@@ -126,7 +126,7 @@ public final class Tools {
     List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
     BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
-    String name = "/" + target.getShortName() + "/bitext.xml";
+    String name = "/" + target.getShortCode() + "/bitext.xml";
     if (JLanguageTool.getDataBroker().ruleFileExists(name)) {
       InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
       if (is != null) {
@@ -327,7 +327,6 @@ public final class Tools {
     }
     if (enabledCategories.size() > 0) {
       for (CategoryId id : enabledCategories) {
-        lt.enableDefaultOffRuleCategory(id);
         lt.enableRuleCategory(id);
       }
       if (useEnabledOnly) {
@@ -347,7 +346,6 @@ public final class Tools {
     // enable rules
     if (enabledRules.size() > 0) {
       for (String ruleName : enabledRules) {
-        lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);
       }
       if (useEnabledOnly) {

@@ -28,6 +28,8 @@ import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 
+import static org.junit.Assert.fail;
+
 /**
  * Common pattern test routines (usable for Disambiguation rules as well).
  *
@@ -50,6 +52,19 @@ public final class PatternTestTools {
   private PatternTestTools() {
   }
 
+  public static void failIfWhitespaceInToken(List<PatternToken> patternTokens, AbstractPatternRule rule, Language lang) {
+    if (patternTokens != null) {
+      for (PatternToken token : patternTokens) {
+        if (token.getString() != null && token.getString().matches(".*\\s.*")) {
+          fail("Whitespace found in token '" + token.getString() + "' of rule " + rule.getFullId() +
+               " (language " + lang.getShortCodeWithCountryAndVariant() + "): " +
+               "Using whitespace in a token will not work, as text gets split at whitespace. " +
+               "Use a new <token> element instead.");
+        }
+      }
+    }
+  }
+  
   // TODO: probably this would be more useful for exceptions
   // instead of adding next methods to PatternRule
   // we can probably validate using XSD and specify regexes straight there
@@ -312,7 +327,7 @@ public final class PatternTestTools {
     // Use a different regexp to check for probable regexp in Polish POS tags
     // since Polish uses dot '.' in POS tags. So a dot does not indicate that
     // it's a probable regexp for Polish POS tags.
-    Pattern regexPattern = (isPos && lang.getShortName().equals("pl"))
+    Pattern regexPattern = (isPos && lang.getShortCode().equals("pl"))
             ? PROBABLE_PATTERN_PL_POS // Polish POS tag.
             : PROBABLE_PATTERN;       // something else than Polish POS tag.
 

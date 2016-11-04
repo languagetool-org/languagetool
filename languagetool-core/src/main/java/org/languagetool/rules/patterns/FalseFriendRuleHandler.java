@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -86,7 +87,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inPattern = true;
       String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
       }
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
@@ -94,20 +95,22 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inTranslation = true;
       String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
-        Language tmpLang = Languages.getLanguageForShortName(languageStr);
+        Language tmpLang = Languages.getLanguageForShortCode(languageStr);
         currentTranslationLanguage = tmpLang;
         if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
           translationLanguage = tmpLang;
         }
       }
-    } else if (qName.equals(EXAMPLE)
-        && attrs.getValue(TYPE).equals("correct")) {
-      inCorrectExample = true;
+    } else if (qName.equals(EXAMPLE)) {
       correctExample = new StringBuilder();
-    } else if (qName.equals(EXAMPLE)
-        && attrs.getValue(TYPE).equals("incorrect")) {
-      inIncorrectExample = true;
       incorrectExample = new StringBuilder();
+      if (attrs.getValue(TYPE).equals("incorrect")) {
+        inIncorrectExample = true;
+      } else if (attrs.getValue(TYPE).equals("correct")) {
+        inCorrectExample = true;
+      } else if (attrs.getValue(TYPE).equals("triggers_error")) {
+        throw new RuntimeException("'triggers_error' is not supported for false friend XML");
+      }
     } else if (qName.equals(MESSAGE)) {
       inMessage = true;
       message = new StringBuilder();
@@ -129,9 +132,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           formatter.applyPattern(messages.getString("false_friend_hint"));
           String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
           Object[] messageArguments = {tokensAsString,
-                  messages.getString(textLanguage.getShortName()),
+                  messages.getString(textLanguage.getShortCode()),
                   formatTranslations(translations),
-                  messages.getString(motherTongue.getShortName())};
+                  messages.getString(motherTongue.getShortCode())};
           String description = formatter.format(messageArguments);
           PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "
@@ -169,7 +172,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         if (inCorrectExample) {
-          correctExamples.add(correctExample.toString());
+          correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           incorrectExamples.add(new IncorrectExample(incorrectExample.toString()));
         }

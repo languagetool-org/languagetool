@@ -179,6 +179,6 @@ class AfterTheDeadlineEvaluator {
       System.exit(1);
     }
     AfterTheDeadlineEvaluator evaluator = new AfterTheDeadlineEvaluator(args[1]);
-    evaluator.run(Languages.getLanguageForShortName(args[0]));
+    evaluator.run(Languages.getLanguageForShortCode(args[0]));
   }
 }

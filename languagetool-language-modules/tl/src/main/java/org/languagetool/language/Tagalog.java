@@ -54,6 +54,11 @@ public class Tagalog extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "tl";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[] {"PH"};
   }

@@ -153,7 +153,7 @@ USA
                 </marker>
                 <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
             </pattern>
-            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(.*)" postag_replace="$1">boot</match></suggestion>.</message>
+            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">boot</match></suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
             <short>AmE/BrE: trunk/boot</short>
             <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
@@ -176,14 +176,26 @@ USA
             <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
             <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
             <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
-            <!-- <example type="correct">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>-->
-            <!-- <example type="correct">The <marker>trunk</marker> was in the Ford.</example>-->
-            <!-- <example type="correct">Mr Ford has a large blue <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The <marker>trunk</marker> was on the back seat of the Ford.</example>-->
-            <!-- <example type="correct">The abandoned car contained a stolen <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>-->
-            <!-- <example type="correct">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>-->
+            <example type="triggers_error">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>
+            <example type="triggers_error">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>
+            <example type="triggers_error">The <marker>trunk</marker> was in the Ford.</example>
+            <example type="triggers_error">Mr Ford has a large blue <marker>trunk</marker>.</example>
+            <example type="triggers_error">The <marker>trunk</marker> was on the back seat of the Ford.</example>
+            <example type="triggers_error">The abandoned car contained a stolen <marker>trunk</marker>.</example>
+            <example type="triggers_error">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="triggers_error">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>
+        </rule>
+        <rule id="AIR_PLANE_AEROPLANE" name="air plane/aeroplane"><!-- 'airplane' is in replace.txt -->
+            <pattern>
+                <token>air</token>
+                <token postag_regexp="yes" postag="NN|NNS" regexp="yes">planes?</token>
+            </pattern>
+            <message>The term '\1 \2' is common for American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">aeroplane</match></suggestion>.</message>
+            <url>https://en.oxforddictionaries.com/definition/airplane</url>
+            <short>AmE/BrE: air plane/aeroplane</short>
+            <example type="incorrect" correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
+            <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
+            <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
         </rule>
     </category>
 

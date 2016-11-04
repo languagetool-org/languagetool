@@ -65,14 +65,23 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
-  <rule id="LE_LA_PR_OBJ" name="le/la pronom objet">
-    <pattern>
-      <token regexp="yes">je|tu|ils?|ne</token>
-      <marker><token regexp="yes">l[ae]?|les</token></marker>
-      <token postag="V.*" postag_regexp="yes"/>
-    </pattern>
-    <disambig action="filter" postag="R pers.*"/>
-  </rule>
+  <rulegroup id="LE_LA_PR_OBJ" name="le/la pronom objet">
+    <rule>
+      <pattern>
+        <token regexp="yes">je|tu|ils?|ne</token>
+        <marker><token regexp="yes">l[ae]?|les</token></marker>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">à|de</token>
+        <marker><token>les?</token></marker>
+      </pattern>
+      <disambig action="filter" postag="R.*"/>
+    </rule>
+  </rulegroup>
 
   <rule name="UN" id="un">
     <pattern><token>un</token></pattern>
@@ -400,6 +409,50 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 2 p"/>
     </rule>
+    <rule name="ce que vous v 3 p">
+      <pattern>
+        <token>ce</token>
+        <token>que</token>
+        <marker><token regexp="yes">[nv]ous</token></marker>
+        <token postag="V.* 3 p" postag_regexp="yes"/>
+        <token postag="D . p" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj [12] p"/>
+    </rule>
+    <rule name="ce que vous V 3 s">
+      <pattern>
+        <token>ce</token>
+        <token>que</token>
+        <marker><token regexp="yes">[nv]ous</token></marker>
+        <token postag="V.* 3 s" postag_regexp="yes"/>
+        <token postag="D . s|Z .*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj [12] p"/>
+    </rule>
+    <rule name="ce que ne vous V 3 p">
+      <pattern>
+        <token>ce</token>
+        <token>que</token>
+        <token>ne</token>
+        <marker><token regexp="yes">[nv]ous</token></marker>
+        <token postag="V.* 3 p" postag_regexp="yes"/>
+        <token regexp="yes">pas|plus</token>
+        <token postag="D . p" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj [12] p"/>
+    </rule>
+    <rule name="ce que vous V 3 s">
+      <pattern>
+        <token>ce</token>
+        <token>que</token>
+        <token>ne</token>
+        <marker><token regexp="yes">[nv]ous</token></marker>
+        <token postag="V.* 3 s" postag_regexp="yes"/>
+        <token regexp="yes">pas|plus</token>
+        <token postag="D . s|Z .*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj [12] p"/>
+    </rule>
     <rule name="que ça vous">
       <pattern>
         <token regexp="yes">quand|que|si|lorsque|où</token>
@@ -560,7 +613,7 @@ RB => Règles Brutes
       <pattern>
         <token>que</token>
         <marker>
-          <token>nous</token>
+          <token postag="R pers suj 1 p">nous</token>
         </marker>
       </pattern>
       <disambig postag="R pers suj 1 p"/>
@@ -579,7 +632,7 @@ RB => Règles Brutes
       <pattern>
         <token>que</token>
         <marker>
-          <token>vous</token>
+          <token postag="R pers suj 2 p">vous</token>
         </marker>
       </pattern>
       <disambig postag="R pers suj 2 p"/>
@@ -611,7 +664,7 @@ RB => Règles Brutes
   <rulegroup name="ne + verbe" id="NE_V">
     <rule>
       <pattern>
-        <token regexp="yes">ne|je|tu|ils?|on|y</token>
+        <token regexp="yes">ne|je|tu|ils?|on|y|cela|ceci</token>
         <marker>
           <token postag="V.*" postag_regexp="yes"/>
         </marker>

@@ -46,8 +46,8 @@ public class LanguageTest {
 
   @Test
   public void testGetShortNameWithVariant() {
-    assertEquals("en-US", new AmericanEnglish().getShortNameWithCountryAndVariant());
-    assertEquals("de", new German().getShortNameWithCountryAndVariant());
+    assertEquals("en-US", new AmericanEnglish().getShortCodeWithCountryAndVariant());
+    assertEquals("de", new German().getShortCodeWithCountryAndVariant());
   }
 
   @Test

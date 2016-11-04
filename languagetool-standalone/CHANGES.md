@@ -1,6 +1,127 @@
 # LanguageTool Change Log
 
-## 3.4 (release planned for 2016-06-27)
+## 3.6 (release planned for 2016-12-28)
+
+#### Catalan
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * added about 59 confusion pairs like woman/women (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * The American and Canadian English (en-US, en-CA) spelling dictionaries have
+    been updated to the latest version from http://wordlist.aspell.net (2016.06.26)
+  * The Australian English (en-AU) spelling dictionary has been updated to the
+    latest version from http://extensions.libreoffice.org/extension-center/english-dictionaries
+    (2016-03-14 according to that page)
+
+#### French
+  * added and improved rules
+  * upgraded dictionaries to Dicollecte-5.7
+
+#### German
+  * added and improved rules
+  * added about 34 confusion pairs like ihm/im (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * bugfix regarding errors in the last word of a sentence (#273)
+  * The internal part-of-speech dictionary has been updated with the help of
+    Julian von Heyl of http://korrekturen.de - many entries have been fixed and
+    added. Technically, the new data has its own Maven and git project now
+    (https://github.com/languagetool-org/german-pos-dict)
+
+#### Portuguese
+  * added and improved many rules
+
+#### Russian
+  * added/improved several rules
+
+#### HTTP API
+ * The old API has been deactivated, as documented at
+   https://languagetool.org/http-api/migration.php - it
+   now returns a pseudo error pointing to the migration page
+
+#### Java API
+  * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
+    instead
+  * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
+    `Language.getShortCodeWithCountryAndVariant()` instead
+  * `Languages.getLanguageForShortName()` has been deprecated, use
+    `Languages.getLanguageForShortCode()` instead
+  
+#### Command-line
+  * Added a `--json` option as an alternative to `--api` (deprecated XML output)
+    See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
+
+
+## 3.5 (2016-09-30)
+
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+
+#### English
+  * added and improved rules
+  * added about 50 confusion pairs like talking/taking (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * added category `MISUSED_TERMS_EU_PUBLICATIONS`
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
+
+#### Esperanto
+  * added and improved rules
+
+#### French
+  * added and improved rules
+
+#### German
+  * added rules
+  * fixed several false alarms
+
+#### Polish
+  * added and improved rules
+
+#### Portuguese (European)
+  * added and improved rules
+ 
+#### Portuguese (Brazilian)
+  * added rules
+
+#### Russian
+  * now possible checking the texts with the signs of stress
+  * added and improved many new grammar and style rules
+  * added words suggested by users
+  * improved disambiguation rules
+  * for review, test and improve rules, feedback in bugtracker thanks to Konstantin Ladutenko
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * added ~6k new words
+  * added many new grammar and styling rules
+  * added many new barbarism replacement suggestions
+  * improved dynamic word tagging
+
+#### General
+  * Bugfix: avoid repeating the same suggestion
+  * Enhancement: ignore e-mail addresses
+
+#### Java API
+  * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
+    instead of a list of `String`s.
+
+#### GUI (stand-alone version)
+  * speed up for long texts with many errors (#530)
+  * add new menu item for showing/hiding the result area
+
+#### Command-line
+  * Deprecated the `--api` option - we recommend using LanguageTool
+    in server mode (JSON API), which is faster as it has no start up
+    overhead for each call. See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
+
+
+## 3.4 (2016-06-27)
 
 #### Catalan
   * added and improved rules
@@ -35,13 +156,20 @@
   * upgraded Hunspell dictionary to 2.1
 
 #### Russian
-  * rebuild spellchecker dictionary
+  * rebuilt spellchecker dictionary
   * added words suggested by users
-  * improved some rules
+  * added and improved rules
+
+#### Ukrainian
+  * big dictionary update (thousands of new words and many fixes)
+  * compound tagger improvements
+  * several new rules and many improvements to existing ones
+  * new token inflection agreement rule (still work-in-progress so turned off by default)
+  * new replacement suggestions for barbarisms
 
 #### Java API
   * some formerly deprecated code has been removed
-  * all rules have now a category ("Misc" if the rule doesn't specify a category)
+  * all rules now have a category ("Misc" if the rule doesn't specify a category)
   * a new module `languagetool-http-client` has been added with a class
     `RemoteLanguageTool` that you can use to query a remote LanguageTool server
     via HTTP or HTTPS
@@ -55,32 +183,31 @@
     Please do not use the old XML-based HTTP API anymore. 
     Information about migrating from the old to the new API
     can be found at https://languagetool.org/http-api/migration.php
-  * changed behaviour for OutOfMemory situations: the server
+  * Changed behaviour for OutOfMemory situations: the server
     process now stops instead of being in an unstable state
-  * missing parameters (like `text`) now cause a `400 Bad Request`
+  * Missing parameters (like `text`) now cause a `400 Bad Request`
     response (it used to produce `500 Internal Server Error`)
-  * New parameter `preferredvariants` to specify which variant is preferred
+  * New parameter `preferredVariants` to specify which variant is preferred
     when the language is auto-detected: Example:
-    `autodetect=yes&preferredvariants=en-GB,de-AT` - if English text is detected,
+    `language=auto&preferredVariants=en-GB,de-AT` - if English text is detected,
     British English will be used, if German text is detected, German (Austria)
-    will be used. In the new API, the parameter is called `preferredVariants`.
+    will be used.
   * Code refactorings: methods have been removed without being deprecated first,
     e.g. in `LanguageToolHttpHandler`
 
 #### Rule Syntax
   * groups of rules and categories are now required to have non-empty names
-   to avoid user confusion
+    to avoid user confusion
 
 #### GUI (stand-alone version)
-
   * detect encoding of files with BOM header
   * add new menu to open recent files
   * add new configuration option to allow user to select the GUI language
   * preserve GUI state between program restarts
 
 #### Command-line
-
   * detect encoding of files with BOM header when there is no `encoding` parameter
+
 
 ## 3.3 (2016-03-28)
 

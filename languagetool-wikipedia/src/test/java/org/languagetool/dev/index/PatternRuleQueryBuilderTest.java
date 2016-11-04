@@ -26,8 +26,6 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.sandbox.queries.regex.RegexQuery;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
@@ -114,24 +112,28 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testCaseSensitive() throws Exception {
-
-    InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" + "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'>" + "  <token>How</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'>" + "  <token>how</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_3' name='test_3'> <pattern>" + "  <token>How</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_4' name='test_4'> <pattern>" + "  <token>how</token>" + "</pattern> </rule>" + "</category> </rules>").getBytes());
+    InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" +
+            "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'><token>How</token></pattern> </rule>" +
+            "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token>" + "</pattern> </rule>" +
+            "<rule id='TEST_RULE_3' name='test_3'> <pattern><token>How</token></pattern> </rule>" +
+            "<rule id='TEST_RULE_4' name='test_4'> <pattern><token>how</token></pattern> </rule>" +
+            "</category> </rules>").getBytes());
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
     List<AbstractPatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
-    Query query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    Query query1 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
+    assertEquals(1, searcher.search(query1, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(1));
-    assertEquals(0, searcher.search(query, null, 1000).totalHits);
+    Query query2 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(1));
+    assertEquals(0, searcher.search(query2, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(2));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    Query query3 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(2));
+    assertEquals(1, searcher.search(query3, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(3));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    Query query4 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(3));
+    assertEquals(1, searcher.search(query4, 1000).totalHits);
   }
 
   public void testUnsupportedPatternRule() throws Exception {
@@ -153,19 +155,19 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   public void testSpecialRegexSyntax() throws Exception {
     AbstractPatternRule patternRule = makeRule("<token regexp='yes'>\\p{Punct}</token>", false);
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
-    Query query = queryBuilder.buildRelaxedQuery(patternRule);
-    assertEquals("+fieldLowercase:\\p{Punct}", query.toString());
-    assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
-    assertMatches(patternRule, 2);
+    try {
+      queryBuilder.buildRelaxedQuery(patternRule);
+      fail();
+    } catch (UnsupportedPatternRuleException ignore) {}
   }
 
   public void testSpecialRegexSyntax2() throws Exception {
     AbstractPatternRule patternRule = makeRule("<token regexp='yes' inflected='yes'>\\p{Lu}\\p{Ll}+</token>", false);
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
-    Query query = queryBuilder.buildRelaxedQuery(patternRule);
-    assertEquals("+fieldLowercase:\\p{Lu}\\p{Ll}+", query.toString());
-    assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
-    assertMatches(patternRule, 0);
+    try {
+      queryBuilder.buildRelaxedQuery(patternRule);
+      fail();
+    } catch (UnsupportedPatternRuleException ignore) {}
   }
 
   public void testNumberRegex() throws Exception {
@@ -274,7 +276,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = queryBuilder.buildRelaxedQuery(patternRule);
     //System.out.println("QUERY: " + query);
-    int matches = searcher.search(query, null, 1000).totalHits;
+    int matches = searcher.search(query, 1000).totalHits;
     assertEquals("Query failed: " + query, expectedMatches, matches);
   }
 

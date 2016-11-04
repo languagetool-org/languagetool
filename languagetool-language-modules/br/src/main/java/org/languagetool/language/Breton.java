@@ -75,6 +75,11 @@ public class Breton extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "br";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[] {"FR"};
   }

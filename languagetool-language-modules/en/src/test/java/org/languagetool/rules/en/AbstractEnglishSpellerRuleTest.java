@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -71,6 +72,8 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hygeine", "hygiene");
     assertFirstMatch("vehical", "medical", "vehicle");
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You couldn't; he didn't; it doesn't; they aren't; I hadn't; etc.")).length);
 
     // currently solved as a special case, also see https://github.com/morfologik/morfologik-stemming/issues/32:
     assertFirstMatch("alot", "a lot");
@@ -93,7 +96,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertTrue("Expected at least one suggestion for '" + text + "'", suggestions.size() > 0);
     int i = 0;
     for (String expectedSuggestion : expectedSuggestions) {
-      assertThat("Expected suggestion '" + expectedSuggestion + "' not found in suggestions"
+      assertThat("Expected suggestion '" + expectedSuggestion + "' not found at position " + i + " in suggestions: "
               + suggestions, suggestions.get(i), is(expectedSuggestion));
       i++;
     }

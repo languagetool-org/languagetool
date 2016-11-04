@@ -49,6 +49,11 @@ public class Danish extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "da";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"DK"};
   }

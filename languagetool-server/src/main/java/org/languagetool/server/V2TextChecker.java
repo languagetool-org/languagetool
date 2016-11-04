@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.util.*;
 
@@ -49,7 +50,7 @@ class V2TextChecker extends TextChecker {
   @Override
   protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
-    return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang, motherTongue);
+    return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang);
   }
 
   @NotNull
@@ -102,7 +103,7 @@ class V2TextChecker extends TextChecker {
     if (getLanguageAutoDetect(parameters)) {
       lang = detectLanguageOfString(text, null, preferredVariants);
     } else {
-      lang = Languages.getLanguageForShortName(langParam);
+      lang = Languages.getLanguageForShortCode(langParam);
     }
     return lang;
   }

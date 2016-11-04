@@ -85,7 +85,7 @@ public class HTTPSServerTest {
       fail("HTTP should not work, only HTTPS");
     } catch (SocketException ignored) {}
 
-    String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
+    String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check";
 
     String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
@@ -111,7 +111,7 @@ public class HTTPSServerTest {
   }
 
   private String check(Language lang, String text) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortName();
+    String urlOptions = "/?language=" + lang.getShortCode();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);

@@ -64,7 +64,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
-  protected String getSpellingFileName() {
+  public String getSpellingFileName() {
     return SPELLING_FILE;
   }
 

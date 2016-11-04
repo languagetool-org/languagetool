@@ -84,6 +84,11 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("einer").build(),
       new PatternTokenBuilder().token("jeden").build(),
       new PatternTokenBuilder().posRegex("SUB:GEN:.*").build()  // "Kern einer jeden Tragödie..."
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("kein").build(),
+      new PatternTokenBuilder().token("schöner").build(),
+      new PatternTokenBuilder().token("Land").build()  // https://de.wikipedia.org/wiki/Kein_sch%C3%B6ner_Land
     )
   );
 
@@ -296,7 +301,7 @@ public class AgreementRule extends GermanRule {
     boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
     String token = tokens[pos].getToken();
-    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem")) {
+    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && token.equalsIgnoreCase("allem")) {
       relevantPronoun = false;
     } else if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase())) {
       relevantPronoun = false;

@@ -57,6 +57,6 @@ class SentenceChecker {
       System.exit(1);
     }
     SentenceChecker checker = new SentenceChecker();
-    checker.run(Languages.getLanguageForShortName(args[0]), new File(args[1]));
+    checker.run(Languages.getLanguageForShortCode(args[0]), new File(args[1]));
   }
 }

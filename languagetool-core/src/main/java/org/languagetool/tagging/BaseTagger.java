@@ -149,6 +149,9 @@ public abstract class BaseTagger implements Tagger {
     return tokenReadings;
   }
 
+  /**
+   * @deprecated deprecated since 3.5 (not used anywhere) 
+   */
   protected List<AnalyzedTokenReadings> tag(String token) throws IOException {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     List<AnalyzedToken> l = getAnalyzedTokens(token);

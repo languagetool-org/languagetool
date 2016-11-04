@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
@@ -26,6 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,20 +38,24 @@ import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  // used on http://languagetool.org/java-api/
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-api")
+  @Test
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    // comment in to use statistical ngram data:
+    //langTool.activateLanguageModelRules(new File("/data/google-ngram-data"));
     List<RuleMatch> matches = langTool.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
-      System.out.println("Potential error at line " +
-          match.getLine() + ", column " +
-          match.getColumn() + ": " + match.getMessage());
-      System.out.println("Suggested correction: " +
+      System.out.println("Potential error at characters " +
+          match.getFromPos() + "-" + match.getToPos() + ": " +
+          match.getMessage());
+      System.out.println("Suggested correction(s): " +
           match.getSuggestedReplacements());
     }
   }
 
-  // used on http://languagetool.org/java-spell-checker/
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
     for (Rule rule : langTool.getAllRules()) {
@@ -59,47 +65,71 @@ public class JLanguageToolTest {
     }
     List<RuleMatch> matches = langTool.check("A speling error");
     for (RuleMatch match : matches) {
-      System.out.println("Potential typo at line " +
-          match.getLine() + ", column " +
-          match.getColumn() + ": " + match.getMessage());
+      System.out.println("Potential typo at characters " +
+          match.getFromPos() + "-" + match.getToPos() + ": " +
+          match.getMessage());
       System.out.println("Suggested correction(s): " +
           match.getSuggestedReplacements());
     }
   }
 
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Test
+  public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    for (Rule rule : langTool.getAllRules()) {
+      if (rule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule) rule).addIgnoreTokens(Arrays.asList("myspecialword", "anotherspecialword"));
+      }
+    }
+    List<RuleMatch> matches = langTool.check("These are myspecialword and anotherspecialword");
+    System.out.println(matches.size() + " matches");   // => "0 matches"
+  }
+
   @Test
   public void testEnglish() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new English());
-    assertEquals(0, tool.check("A test that should not give errors.").size());
-
     //more error-free sentences to deal with possible regressions
-    assertEquals(0, tool.check("As long as you have hope, a chance remains.").size());
-    assertEquals(0, tool.check("A rolling stone gathers no moss.").size());
-    assertEquals(0, tool.check("Hard work causes fitness.").size());
-    assertEquals(0, tool.check("Gershwin overlays the slow blues theme from section B in the final “Grandioso.”").size());
-    assertEquals(0, tool.check("Making ingroup membership more noticeable increases cooperativeness.").size());
-    assertEquals(0, tool.check("Dog mushing is more of a sport than a true means of transportation.").size());
-    assertEquals(0, tool.check("No one trusts him any more.").size());
-    assertEquals(0, tool.check("A member of the United Nations since 1992, Azerbaijan was elected to membership in the newly established Human Rights Council by the United Nations General Assembly on May 9, 2006 (the term of office began on June 19, 2006).").size());
-    assertEquals(0, tool.check("Anatomy and geometry are fused in one, and each does something to the other.").size());
-    assertEquals(0, tool.check("Certain frogs that lay eggs underground have unpigmented eggs.").size());
-    assertEquals(0, tool.check("It's a kind of agreement in which each party gives something to the other, Jack said.").size());
-    assertEquals(0, tool.check("Later, you shall know it better.").size());
-    assertEquals(0, tool.check("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.").size());
-    assertEquals(0, tool.check("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason why he had fled the army.").size());
-    assertEquals(0, tool.check("I think it's better, and it's not a big deal.").size());
+    if (System.getProperty("disableHardcodedTests") == null) {
+      JLanguageTool lt = new JLanguageTool(new English());
+      assertNoError("A test that should not give errors.", lt);
+      assertNoError("As long as you have hope, a chance remains.", lt);
+      assertNoError("A rolling stone gathers no moss.", lt);
+      assertNoError("Hard work causes fitness.", lt);
+      assertNoError("Gershwin overlays the slow blues theme from section B in the final “Grandioso.”", lt);
+      assertNoError("Making ingroup membership more noticeable increases cooperativeness.", lt);
+      assertNoError("Dog mushing is more of a sport than a true means of transportation.", lt);
+      assertNoError("No one trusts him any more.", lt);
+      assertNoError("A member of the United Nations since 1992, Azerbaijan was elected to membership in the newly established Human Rights Council by the United Nations General Assembly on May 9, 2006 (the term of office began on June 19, 2006).", lt);
+      assertNoError("Anatomy and geometry are fused in one, and each does something to the other.", lt);
+      assertNoError("Certain frogs that lay eggs underground have unpigmented eggs.", lt);
+      assertNoError("It's a kind of agreement in which each party gives something to the other, Jack said.", lt);
+      assertNoError("Later, you shall know it better.", lt);
+      assertNoError("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.", lt);
+      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason why he had fled the army.", lt);
+      assertNoError("I think it's better, and it's not a big deal.", lt);
 
-    assertEquals(1, tool.check("A test test that should give errors.").size());
-    assertEquals(1, tool.check("I can give you more a detailed description.").size());
-    assertTrue(tool.getAllRules().size() > 1000);
-    assertEquals(0, tool.check("The sea ice is highly variable - frozen solid during cold, calm weather and broke...").size());
-    assertTrue(tool.getAllRules().size() > 3);
-    assertEquals(1, tool.check("I can give you more a detailed description.").size());
-    tool.disableRule("MORE_A_JJ");
-    assertEquals(0, tool.check("I can give you more a detailed description.").size());
-    assertEquals(1, tool.check("I've go to go.").size());
-    tool.disableCategory(Categories.TYPOS.getId());
-    assertEquals(0, tool.check("I've go to go.").size());
+      assertOneError("A test test that should give errors.", lt);
+      assertOneError("I can give you more a detailed description.", lt);
+      assertTrue(lt.getAllRules().size() > 1000);
+      assertNoError("The sea ice is highly variable - frozen solid during cold, calm weather and broke...", lt);
+      assertTrue(lt.getAllRules().size() > 3);
+      assertOneError("I can give you more a detailed description.", lt);
+      lt.disableRule("MORE_A_JJ");
+      assertNoError("I can give you more a detailed description.", lt);
+      assertOneError("I've go to go.", lt);
+      lt.disableCategory(Categories.TYPOS.getId());
+      assertNoError("I've go to go.", lt);
+    }
+  }
+
+  private void assertNoError(String input, JLanguageTool lt) throws IOException {
+    List<RuleMatch> matches = lt.check(input);
+    assertEquals("Did not expect an error in test sentence: '" + input + "', but got: " + matches, 0, matches.size());
+  }
+
+  private void assertOneError(String input, JLanguageTool lt) throws IOException {
+    List<RuleMatch> matches = lt.check(input);
+    assertEquals("Did expect 1 error in test sentence: '" + input + "', but got: " + matches, 1, matches.size());
   }
 
   @Test

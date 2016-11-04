@@ -36,6 +36,9 @@ import java.io.IOException;
  */
 final class LargestNGramFinder {
 
+  private LargestNGramFinder() {
+  }
+
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
       System.out.println("Usage: " + LargestNGramFinder.class.getSimpleName() + " <ngramIndexDir>");

@@ -48,6 +48,11 @@ public class Swedish extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "sv";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"SE", "FI"};
   }

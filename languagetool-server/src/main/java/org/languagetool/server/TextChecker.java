@@ -74,7 +74,7 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters, int handleCount) throws Exception {
+  void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     if (text.length() > config.maxTextLength) {
@@ -86,7 +86,7 @@ abstract class TextChecker {
     List<String> preferredVariants = getPreferredVariants(parameters);
     Language lang = getLanguage(text, parameters, preferredVariants);
     String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
+    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
     List<String> enabledRules = getEnabledRuleIds(parameters);
 
@@ -130,8 +130,8 @@ abstract class TextChecker {
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
-                " milliseconds (cancelled: " + cancelled + ", handleCount: " + handleCount +
-                ", language: " + lang.getShortNameWithCountryAndVariant() +
+                " milliseconds (cancelled: " + cancelled +
+                ", language: " + lang.getShortCodeWithCountryAndVariant() +
                 ", " + text.length() + " characters of text)", e);
       }
     }
@@ -139,7 +139,7 @@ abstract class TextChecker {
     setHeaders(httpExchange);
     String xmlResponse = getResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
-    String languageMessage = lang.getShortNameWithCountryAndVariant();
+    String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
@@ -149,7 +149,7 @@ abstract class TextChecker {
       messageSent = "notSent: " + exception.getMessage();
     }
     if (motherTongue != null) {
-      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
+      languageMessage += " (mother tongue: " + motherTongue.getShortCodeWithCountryAndVariant() + ")";
     }
     if (autoDetectLanguage) {
       languageMessage += "[auto]";
@@ -157,7 +157,7 @@ abstract class TextChecker {
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     String clazz = this.getClass().getSimpleName();
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + "handlers:" + handleCount + ", " + matches.size() + " matches, "
+            + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
             + ", " + messageSent);
   }
@@ -180,7 +180,7 @@ abstract class TextChecker {
       }
       print("Checking bilingual text, with source length " + sourceText.length() +
               " and target length " + text.length() + " (characters), source language " +
-              motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
+              motherTongue + " and target language " + lang.getShortCodeWithCountryAndVariant());
       JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
       JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
       List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
@@ -212,7 +212,7 @@ abstract class TextChecker {
   Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
-      lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
     }
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
@@ -220,8 +220,8 @@ abstract class TextChecker {
           throw new IllegalArgumentException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
-        if (preferredVariantLang.equals(lang.getShortName())) {
-          lang = Languages.getLanguageForShortName(preferredVariant);
+        if (preferredVariantLang.equals(lang.getShortCode())) {
+          lang = Languages.getLanguageForShortCode(preferredVariant);
           if (lang == null) {
             throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }

@@ -54,16 +54,16 @@ public class LanguagesTest {
 
   @Test
   public void testGetLanguageForShortName() {
-    assertEquals("en-US", Languages.getLanguageForShortName("en-us").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForShortName("EN-US").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForShortName("en-US").getShortNameWithCountryAndVariant());
-    assertEquals("de", Languages.getLanguageForShortName("de").getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortCode("en-us").getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortCode("EN-US").getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortCode("en-US").getShortCodeWithCountryAndVariant());
+    assertEquals("de", Languages.getLanguageForShortCode("de").getShortCodeWithCountryAndVariant());
     try {
-      Languages.getLanguageForShortName("xy");
+      Languages.getLanguageForShortCode("xy");
       fail();
     } catch (IllegalArgumentException ignored) {}
     try {
-      Languages.getLanguageForShortName("YY-KK");
+      Languages.getLanguageForShortCode("YY-KK");
       fail();
     } catch (IllegalArgumentException ignored) {}
   }
@@ -91,44 +91,44 @@ public class LanguagesTest {
 
   @Test(expected=IllegalArgumentException.class)
   public void testInvalidShortName1() {
-    Languages.getLanguageForShortName("de-");
+    Languages.getLanguageForShortCode("de-");
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void testInvalidShortName2() {
-    Languages.getLanguageForShortName("dexx");
+    Languages.getLanguageForShortCode("dexx");
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void testInvalidShortName3() {
-    Languages.getLanguageForShortName("xyz-xx");
+    Languages.getLanguageForShortCode("xyz-xx");
   }
 
   @Test
   public void testGetLanguageForName() {
-    assertEquals("en-US", Languages.getLanguageForName("English (US)").getShortNameWithCountryAndVariant());
-    assertEquals("de", Languages.getLanguageForName("German").getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForName("English (US)").getShortCodeWithCountryAndVariant());
+    assertEquals("de", Languages.getLanguageForName("German").getShortCodeWithCountryAndVariant());
     assertEquals(null, Languages.getLanguageForName("Foobar"));
   }
 
   @Test
   public void testIsVariant() {
-    Assert.assertTrue(Languages.getLanguageForShortName("en-US").isVariant());
-    Assert.assertTrue(Languages.getLanguageForShortName("de-CH").isVariant());
+    Assert.assertTrue(Languages.getLanguageForShortCode("en-US").isVariant());
+    Assert.assertTrue(Languages.getLanguageForShortCode("de-CH").isVariant());
 
-    assertFalse(Languages.getLanguageForShortName("en").isVariant());
-    assertFalse(Languages.getLanguageForShortName("de").isVariant());
+    assertFalse(Languages.getLanguageForShortCode("en").isVariant());
+    assertFalse(Languages.getLanguageForShortCode("de").isVariant());
   }
 
   @Test
   public void testHasVariant() {
-    Assert.assertTrue(Languages.getLanguageForShortName("en").hasVariant());
-    Assert.assertTrue(Languages.getLanguageForShortName("de").hasVariant());
+    Assert.assertTrue(Languages.getLanguageForShortCode("en").hasVariant());
+    Assert.assertTrue(Languages.getLanguageForShortCode("de").hasVariant());
 
-    assertFalse(Languages.getLanguageForShortName("en-US").hasVariant());
-    assertFalse(Languages.getLanguageForShortName("de-CH").hasVariant());
-    assertFalse(Languages.getLanguageForShortName("ast").hasVariant());
-    assertFalse(Languages.getLanguageForShortName("pl").hasVariant());
+    assertFalse(Languages.getLanguageForShortCode("en-US").hasVariant());
+    assertFalse(Languages.getLanguageForShortCode("de-CH").hasVariant());
+    assertFalse(Languages.getLanguageForShortCode("ast").hasVariant());
+    assertFalse(Languages.getLanguageForShortCode("pl").hasVariant());
 
     for (Language language : Languages.getWithDemoLanguage()) {
       if (language.hasVariant()) {
@@ -139,35 +139,35 @@ public class LanguagesTest {
   
   @Test
   public void isHiddenFromGui() {
-    Assert.assertTrue(Languages.getLanguageForShortName("en").isHiddenFromGui());
-    Assert.assertTrue(Languages.getLanguageForShortName("de").isHiddenFromGui());
-    Assert.assertTrue(Languages.getLanguageForShortName("pt").isHiddenFromGui());
+    Assert.assertTrue(Languages.getLanguageForShortCode("en").isHiddenFromGui());
+    Assert.assertTrue(Languages.getLanguageForShortCode("de").isHiddenFromGui());
+    Assert.assertTrue(Languages.getLanguageForShortCode("pt").isHiddenFromGui());
 
-    assertFalse(Languages.getLanguageForShortName("en-US").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("de-CH").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("ast").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("pl").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("ca-ES").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("ca-ES-valencia").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("de-DE-x-simple-language").isHiddenFromGui());
-    assertFalse(Languages.getLanguageForShortName("de-DE").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("en-US").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("de-CH").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("ast").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("pl").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("ca-ES").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("ca-ES-valencia").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("de-DE-x-simple-language").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortCode("de-DE").isHiddenFromGui());
 
   }
 
   @Test
   public void testGetLanguageForLocale() {
-    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMAN).getShortName());
-    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMANY).getShortName());
-    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de", "DE")).getShortNameWithCountryAndVariant());
-    assertEquals("de-AT", Languages.getLanguageForLocale(new Locale("de", "AT")).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortNameWithCountryAndVariant());
-    assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en", "GB")).getShortNameWithCountryAndVariant());
+    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMAN).getShortCode());
+    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMANY).getShortCode());
+    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de", "DE")).getShortCodeWithCountryAndVariant());
+    assertEquals("de-AT", Languages.getLanguageForLocale(new Locale("de", "AT")).getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortCodeWithCountryAndVariant());
+    assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en", "GB")).getShortCodeWithCountryAndVariant());
     // fallback to the language's default variant if not specified:
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en")).getShortNameWithCountryAndVariant());
-    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de")).getShortNameWithCountryAndVariant());
-    assertEquals("pl-PL", Languages.getLanguageForLocale(new Locale("pl")).getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en")).getShortCodeWithCountryAndVariant());
+    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de")).getShortCodeWithCountryAndVariant());
+    assertEquals("pl-PL", Languages.getLanguageForLocale(new Locale("pl")).getShortCodeWithCountryAndVariant());
     // final fallback is everything else fails:
-    assertEquals("en-US", Languages.getLanguageForLocale(Locale.KOREAN).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("zz")).getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(Locale.KOREAN).getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("zz")).getShortCodeWithCountryAndVariant());
   }
 }

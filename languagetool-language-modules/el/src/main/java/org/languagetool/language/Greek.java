@@ -56,6 +56,11 @@ public class Greek extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "el";
+  }
+
+  @Override
   public String getName() {
     return "Greek";
   }

@@ -54,7 +54,7 @@ public class TokenAgreementRule extends Rule {
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
   private static final String REQUIRE_VIDMINOK_SUBSTR = ":rv_";
   private static final String VIDMINOK_SUBSTR = ":v_";
-  private static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
+  static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
   private static final String reqAnimInanimRegex = ":r(?:in)?anim";
   private static final Pattern REQ_ANIM_INANIM_PATTERN = Pattern.compile(reqAnimInanimRegex);
@@ -186,10 +186,11 @@ public class TokenAgreementRule extends Rule {
 //      }
 
       //TODO: for numerics only v_naz
-      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
-        posTagsToFind.add("v_naz");
-      }
-      else if( prep.equalsIgnoreCase("замість") ) {
+//      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
+//        posTagsToFind.add("v_naz");
+//      }
+//      else 
+      if( prep.equalsIgnoreCase("замість") ) {
         posTagsToFind.add("v_naz");
       }
 
@@ -231,6 +232,11 @@ public class TokenAgreementRule extends Rule {
                 || (posTag.matches(".*[fl]name.*")
                     && ((i > 1 && NAMES.contains(tokens[i-2].getAnalyzedToken(0).getToken()))
                         || (i > 2 && NAMES.contains(tokens[i-3].getAnalyzedToken(0).getLemma()))))) {
+            reqTokenReadings = null;
+            continue;
+          }
+          // handled by xml rule
+          if( token.equals("манер") ) {
             reqTokenReadings = null;
             continue;
           }
@@ -316,13 +322,10 @@ public class TokenAgreementRule extends Rule {
 
           if( tokens.length > i+2 ) {
             // спиралося на місячної давнини рішення
-            if (/*prep.equalsIgnoreCase("на") &&*/ posTag.matches("adj.*:[mfn]:v_rod.*")) {
-              String gender = PosTagHelper.getGender(posTag);
-              if( gender == null ) {
-//                System.err.println("unknown gender for " + token);
-              }
+            if (/*prep.equalsIgnoreCase("на") &&*/ PosTagHelper.hasPosTag(tokenReadings, "adj.*:[mfn]:v_rod.*")) {
+              String genders = PosTagHelper.getGenders(tokenReadings, "adj.*:[mfn]:v_rod.*");
               
-              if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
+              if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:["+genders+"]:v_rod.*")) {
                 i += 1;
                 continue;
               }

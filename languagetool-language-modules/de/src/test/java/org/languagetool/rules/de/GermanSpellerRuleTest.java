@@ -156,9 +156,15 @@ public class GermanSpellerRuleTest {
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));           // from spelling.txt with suffix
     assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));                 // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));               // from spelling.txt with suffix
-    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-vorgehängt")); // from spelling.txt formed compound
-    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-Au-pair"));    // from spelling.txt formed compound
-    assertTrue(ruleGermany.doIgnoreWord("Au-pair-Wichtelmännchen"));    // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-vorgehängt")); // from spelling.txt formed hyphenated compound
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-Au-pair"));    // from spelling.txt formed hyphenated compound
+    assertTrue(ruleGermany.doIgnoreWord("Fermi-Dirac-Statistik"));      // from spelling.txt formed hyphenated compound
+    assertTrue(ruleGermany.doIgnoreWord("Au-pair-Wichtelmännchen"));    // from spelling.txt formed hyphenated compound
+    assertTrue(ruleGermany.doIgnoreWord("Secondhandware"));             // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Feynmandiagramme"));           // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Helizitätsoperator"));         // from spelling.txt formed compound
+    assertFalse(ruleGermany.doIgnoreWord("Helizitätso"));               // from spelling.txt formed compound (second part is too short)
+    assertFalse(ruleGermany.doIgnoreWord("Feynmand"));                  // from spelling.txt formed compound (second part is too short)
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
     assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss
@@ -214,6 +220,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Arbeitnehmer")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Verhaltensänderung")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er bzw. sie.")).length); // abbreviations
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
@@ -221,6 +228,7 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
   
@@ -236,7 +244,10 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Autuverkehr", "Autoverkehr");
     assertCorrection(rule, "Rechtschreibprüfun", "Rechtschreibprüfung");
     assertCorrection(rule, "Rechtschreib-Prüfun", "Rechtschreib-Prüfung");
-    
+    assertCorrection(rule, "bw.", "bzw.");
+    assertCorrection(rule, "kan", "kann", "an");
+    assertCorrection(rule, "kan.", "kann.", "an.");
+
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 

@@ -21,10 +21,7 @@ package org.languagetool.rules.patterns;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.IncorrectExample;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -77,7 +74,7 @@ public class PatternRuleTest {
   protected void runGrammarRulesFromXmlTest(Language ignoredLanguage) throws IOException {
     int count = 0;
     for (Language lang : Languages.get()) {
-      if (ignoredLanguage.getShortNameWithCountryAndVariant().equals(lang.getShortNameWithCountryAndVariant())) {
+      if (ignoredLanguage.getShortCodeWithCountryAndVariant().equals(lang.getShortCodeWithCountryAndVariant())) {
         continue;
       }
       runGrammarRuleForLanguage(lang);
@@ -123,18 +120,18 @@ public class PatternRuleTest {
   }
 
   private List<String> getGrammarFileNames(Language lang) {
-    String shortNameWithVariant = lang.getShortNameWithCountryAndVariant();
+    String shortNameWithVariant = lang.getShortCodeWithCountryAndVariant();
     List<String> fileNames = new ArrayList<>();
     for (String ruleFile : lang.getRuleFileNames()) {
       String nameOnly = new File(ruleFile).getName();
       String fileName;
       if (shortNameWithVariant.contains("-x-")) {
-        fileName = lang.getShortName() + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + nameOnly;
       } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
               && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1) {
-        fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + shortNameWithVariant + "/" + nameOnly;
       } else {
-        fileName = lang.getShortName() + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + nameOnly;
       }
       if (!fileNames.contains(fileName)) {
         fileNames.add(fileName);
@@ -174,6 +171,10 @@ public class PatternRuleTest {
       if (PATTERN_MARKER_START.matcher(xml).matches() && PATTERN_MARKER_END.matcher(xml).matches()) {
         System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
       }*/
+
+      // too aggressive for now:
+      //PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
+              
       PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
 
@@ -235,7 +236,7 @@ public class PatternRuleTest {
     for (Rule rule : allRules) {
       assertIdUniqueness(ids, ruleClasses, lang, rule);
       if (rule.getId().equalsIgnoreCase("ID")) {
-        System.err.println("WARNING: " + lang.getShortNameWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+        System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
       Category category = rule.getCategory();
       if (category != null && category.getId() != null) {
@@ -274,6 +275,7 @@ public class PatternRuleTest {
     for (AbstractPatternRule rule : rules) {
       testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
       testBadSentences(languageTool, allRulesLanguageTool, lang, complexRules, rule);
+      testErrorTriggeringSentences(languageTool, lang, rule);
     }
     if (!complexRules.isEmpty()) {
       Set<String> set = complexRules.keySet();
@@ -390,10 +392,21 @@ public class PatternRuleTest {
       for (RuleMatch match : matchesAllRules) {
         if (!match.getRule().getId().equals(rule.getId()) && matches.length != 0
             && rangeIsOverlapping(matches[0].getFromPos(), matches[0].getToPos(), match.getFromPos(), match.getToPos()))
-          System.err.println("WARN: " + lang.getShortName() + ": '" + badSentence + "' in "
+          System.err.println("WARN: " + lang.getShortCode() + ": '" + badSentence + "' in "
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/
 
+    }
+  }
+
+  private void testErrorTriggeringSentences(JLanguageTool languageTool, Language lang,
+                                            AbstractPatternRule rule) throws IOException {
+    for (ErrorTriggeringExample example : rule.getErrorTriggeringExamples()) {
+      String sentence = cleanXML(example.getExample());
+      List<RuleMatch> matches = getMatches(rule, sentence, languageTool);
+      if (matches.size() == 0) {
+        fail(lang + ": " + rule.getFullId() + ": Example sentence marked with 'triggers_error' didn't actually trigger an error: '" + sentence + "'");
+      }
     }
   }
 
@@ -447,12 +460,12 @@ public class PatternRuleTest {
 
   private void testCorrectSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool,
                                     Language lang, AbstractPatternRule rule) throws IOException {
-    List<String> goodSentences = rule.getCorrectExamples();
+    List<CorrectExample> goodSentences = rule.getCorrectExamples();
     // necessary for XML Pattern rules containing <or>
     List<AbstractPatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
-    for (String goodSentence : goodSentences) {
+    for (CorrectExample goodSentenceObj : goodSentences) {
       // enable indentation use
-      goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
+      String goodSentence = goodSentenceObj.getExample().replaceAll("[\\n\\t]+", "");
       goodSentence = cleanXML(goodSentence);
       assertTrue(lang + ": Empty correct example in rule " + rule.getFullId(), goodSentence.trim().length() > 0);
       boolean isMatched = false;
@@ -460,14 +473,22 @@ public class PatternRuleTest {
       for (Rule auxRule : rules) {
         isMatched = isMatched || match(auxRule, goodSentence, languageTool);
       }
-      assertFalse(lang + ": Did not expect error in:\n" +
-              "  " + goodSentence + "\n" +
-              "Matching Rule: " + rule.getFullId(), isMatched);
+      if (isMatched) {
+        AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(goodSentence);
+        StringBuilder sb = new StringBuilder("Analyzed token readings:");
+        for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
+          sb.append(" ").append(atr);
+        }
+        fail(lang + ": Did not expect error in:\n" +
+                "  " + goodSentence + "\n" +
+                "  " + sb + "\n" +
+                "Matching Rule: " + rule.getFullId());
+      }
       // avoid matches with all the *other* rules:
       /*
       List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
       for (RuleMatch match : matches) {
-        System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match "
+        System.err.println("WARN: " + lang.getShortCode() + ": '" + goodSentence + "' did not match "
                 + rule.getId() + " but matched " + match.getRule().getId());
       }
       */

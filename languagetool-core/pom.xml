@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -130,13 +130,7 @@
         <dependency>
             <groupId>com.optimaize.languagedetector</groupId>
             <artifactId>language-detector</artifactId>
-            <version>0.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>stax</groupId>
-                    <artifactId>stax-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>0.6</version>
         </dependency>
         <dependency>
             <!-- also fetched via language-detector, but language-detector might be excluded in some projects: -->
@@ -147,19 +141,25 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
-            <version>5.2.1</version>
+            <version>${lucene.version}</version>
         </dependency>
         <dependency>
             <!-- so we can open indexed created with older versions of Lucene -->
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-backward-codecs</artifactId>
-            <version>5.2.1</version>
+            <version>${lucene.version}</version>
         </dependency>
         <dependency>
             <groupId>edu.berkeley.nlp</groupId>
             <artifactId>berkeleylm</artifactId>
             <version>1.1.2</version>
         </dependency>
+	<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>

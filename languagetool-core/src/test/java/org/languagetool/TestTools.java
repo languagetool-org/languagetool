@@ -57,7 +57,7 @@ public final class TestTools {
     languages.addAll(Languages.getWithDemoLanguage());
     if (langCodes != null) {
       for (String langCode : langCodes) {
-        Language lang = Languages.getLanguageForShortName(langCode);
+        Language lang = Languages.getLanguageForShortCode(langCode);
         languages.remove(lang);
       }
     }

@@ -183,25 +183,25 @@ public class Main extends WeakBase implements XJobExecutor,
       // whether the text is e.g. Khmer or Tamil (the only "complex text layout (CTL)" languages we support so far).
       // Thus we check the text itself:
       if (new KhmerDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortName("km");
+        return Languages.getLanguageForShortCode("km");
       }
       if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortName("ta");
+        return Languages.getLanguageForShortCode("ta");
       }
 
       Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
-        return Languages.getLanguageForShortName("en-US");
+        return Languages.getLanguageForShortCode("en-US");
       }
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
       for (Language element : Languages.get()) {
         if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
-            && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
+            && element.getShortCodeWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
           langIsSupported = true;
           break;
         }
-        if (element.getShortName().equals(charLocale.Language)) {
+        if (element.getShortCode().equals(charLocale.Language)) {
           langIsSupported = true;
           break;
         }
@@ -221,12 +221,12 @@ public class Main extends WeakBase implements XJobExecutor,
   private Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
-        return Languages.getLanguageForShortName(locale.Variant);
+        return Languages.getLanguageForShortCode(locale.Variant);
       } else {
-        return Languages.getLanguageForShortName(locale.Language + "-" + locale.Country);
+        return Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
       }
     } catch (java.lang.IllegalArgumentException e) {
-      return Languages.getLanguageForShortName(locale.Language);
+      return Languages.getLanguageForShortCode(locale.Language);
     }
   }
 
@@ -305,7 +305,6 @@ public class Main extends WeakBase implements XJobExecutor,
         // copy as the config thread may access this as well
         List<String> list = new ArrayList<>(enabledRuleIds);
         for (String ruleName : list) {
-          langTool.enableDefaultOffRule(ruleName);
           langTool.enableRule(ruleName);
         }
       }
@@ -384,7 +383,7 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortName());
+        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
         }
@@ -544,16 +543,16 @@ public class Main extends WeakBase implements XJobExecutor,
         if (lang.getCountries().length == 0) {
           // e.g. Esperanto
           if (lang.getVariant() != null) {
-            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortNameWithCountryAndVariant()));
+            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortCodeWithCountryAndVariant()));
           } else {
-            locales.add(new Locale(lang.getShortName(), "", ""));
+            locales.add(new Locale(lang.getShortCode(), "", ""));
           }
         } else {
           for (String country : lang.getCountries()) {
             if (lang.getVariant() != null) {
-              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortNameWithCountryAndVariant()));
+              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortCodeWithCountryAndVariant()));
             } else {
-              locales.add(new Locale(lang.getShortName(), country, ""));
+              locales.add(new Locale(lang.getShortCode(), country, ""));
             }
           }
         }
@@ -574,10 +573,10 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       for (Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
-            && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
+            && element.getShortCodeWithCountryAndVariant().equals(locale.Variant)) {
           return true;
         }
-        if (element.getShortName().equals(locale.Language)) {
+        if (element.getShortCode().equals(locale.Language)) {
           return true;
         }
       }

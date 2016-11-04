@@ -34,6 +34,7 @@ import static org.languagetool.tools.StringTools.*;
  * Generate XML to represent matching rules.
  * 
  * @since 2.5 (as 'RuleAsXmlSerializer' up to 3.1)
+ * @deprecated don't use for new use cases, the only place this should still be used is for the API mode of the command-line client (deprecated since 3.5) 
  */
 public class RuleMatchAsXmlSerializer {
 
@@ -46,20 +47,21 @@ public class RuleMatchAsXmlSerializer {
   public String getXmlStart(Language lang, Language motherTongue) {
     StringBuilder xml = new StringBuilder(CAPACITY);
     xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+            .append("<!-- THIS OUTPUT IS DEPRECATED, PLEASE SEE http://wiki.languagetool.org/http-server FOR A BETTER APPROACH -->\n")
             .append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
             .append(JLanguageTool.BUILD_DATE).append("\">\n");
     if (lang != null || motherTongue != null) {
       String languageXml = "<language ";
       String warning = "";
       if (lang != null) {
-        languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
-        String longCode = lang.getShortNameWithCountryAndVariant();
+        languageXml += "shortname=\"" + lang.getShortCodeWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
+        String longCode = lang.getShortCodeWithCountryAndVariant();
         if ("en".equals(longCode) || "de".equals(longCode)) {
           xml.append("<!-- NOTE: The language code you selected ('").append(longCode).append("') doesn't support spell checking. Consider using a code with a variant like 'en-US'. -->\n");
         }
       }
-      if (motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
-        languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
+      if (motherTongue != null && (lang == null || !motherTongue.getShortCode().equals(lang.getShortCodeWithCountryAndVariant()))) {
+        languageXml += " mothertongueshortname=\"" + motherTongue.getShortCode() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";
       xml.append(languageXml);
@@ -169,16 +171,16 @@ public class RuleMatchAsXmlSerializer {
    * @param unknownWords unknown words to be printed in a separated list
    * @since 3.0
    */
-  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, XmlPrintMode xmlMode, Language lang, List<String> unknownWords) {
+  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, ApiPrintMode xmlMode, Language lang, List<String> unknownWords) {
     String xmlSnippet = ruleMatchesToXmlSnippet(ruleMatches, text, contextSize);
     switch (xmlMode) {
-      case START_XML:
+      case START_API:
         return getXmlStart(lang, null) + xmlSnippet;
-      case CONTINUE_XML:
+      case CONTINUE_API:
         return xmlSnippet;
-      case END_XML:
+      case END_API:
         return xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
-      case NORMAL_XML:
+      case NORMAL_API:
         return getXmlStart(lang, null) + xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
     }
     throw new IllegalArgumentException("Unknown XML mode: " + xmlMode);

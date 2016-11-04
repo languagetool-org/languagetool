@@ -27,8 +27,9 @@ Copyright (C) 2009-2012 Yakov Reztsov
 
     <!-- disambiguation for nouns' -->
     <rule name="NOUN_V" id="NOUN_V">
-        <pattern>
-            <token regexp="yes" skip="1">в|на|сквозь|через</token>
+        <pattern>		   
+            <!-- Здесь нет больниц, нам нужно поехать в ближайший город.  "Город" только NN:.*:.*:V  -->
+            <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
@@ -40,7 +41,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
     </rule>
     <rule name="NOUN_V2" id="NOUN_V2">
         <pattern>
-            <token regexp="yes" skip="1">за|под</token>
+            <token  skip="1">под</token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
@@ -49,6 +50,23 @@ Copyright (C) 2009-2012 Yakov Reztsov
             </marker>
         </pattern>
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
+    </rule>
+    <rule name="NOUN_V3" id="NOUN_V3">
+        <pattern>	 
+            <!-- Что за головная боль! -->
+            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+            <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:R" -->
+            <token  negate="yes">что</token>
+            <token  skip="1">за</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:V" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
+  <!--  <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>  -->
     </rule>
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
@@ -88,14 +106,14 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN:.*:.*:P" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="NN:.*:.*:(Nom|D|R|T)"></disambig>
     </rule>
     <!-- disambiguation for adj.' -->
     <rule name="ADJ_T" id="ADJ_T">
         <pattern>
             <!-- с  - родительный, винительный, творительный -->
-            <!-- под  - винительный, творительный   -->
-            <token regexp="yes">под|подо|над|перед</token>
+            <!-- под (подо)  - винительный, творительный   -->
+            <token regexp="yes">подо|над|перед</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:R" postag_regexp="yes"></token>
@@ -105,9 +123,29 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:T" postag_regexp="yes"></match></disambig>
     </rule>
+    <rule name="ADJ_T1" id="ADJ_T1">
+        <pattern>
+            <!-- под  - винительный, творительный   -->
+            <!-- TODO проливной is ADJ:.*:V -->
+            <!-- Я не хочу попасть под проливной дождь. -->
+            <!-- Удаляем только неверный postag, остальные не трогаем.   -->
+            <token>под</token>
+            <marker>
+                <and>
+                    <token postag="ADJ:.*:R" postag_regexp="yes"></token>
+                    <token postag="ADJ:.*:T" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADJ:.*:R"></disambig>
+    </rule>
     <rule name="ADJ_V" id="ADJ_V">
         <pattern>
-            <token regexp="yes">в|за|на|под|сквозь|через</token>
+            <!-- TODO improve за -->
+            <!-- Что за странный парень! Should leave ADJ:.*:Nom -->
+            <!-- Берёшь ли ты, Мэри, этого мужчину в законные мужья и клянёшься любить.   в законные is ADJ:PL:V  -->
+            <!-- <token regexp="yes">в|за|на|под|сквозь|через</token> -->
+            <token regexp="yes">в|на|под|сквозь|через</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
@@ -117,9 +155,24 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
+    <rule name="ADJ_Com_V" id="ADJ_Com_V">
+        <pattern>
+          <token regexp="yes">в|на|под|сквозь|через</token>
+            <marker>
+                <and>
+                    <token postag="ADJ_Com:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="ADJ_Com:.*:V" postag_regexp="yes"><exception postag="ADJ_Com:.*:P" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADJ_Com:.*:Nom"></disambig>
+    </rule>
     <rule name="ADJ_V2" id="ADJ_V2">
         <pattern>
-            <token regexp="yes">за|под</token>
+            <!-- TODO милые should stay .*:Nom -->
+            <!-- Что они за милые щеночки! -->
+            <!-- <token regexp="yes">за|под</token> -->
+            <token>под</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
@@ -162,6 +215,19 @@ Copyright (C) 2009-2012 Yakov Reztsov
                     <token postag="ADJ:.*:P" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception></token>
                 </and>
             </marker>
+        </pattern>
+        <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match></disambig>
+    </rule>
+    <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
+        <pattern>
+            <token>на</token>
+            <marker>
+                <and>
+                    <token postag="ADJ:.*:V" postag_regexp="yes"></token>
+                    <token postag="ADJ:.*:P" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match></disambig>
     </rule>
@@ -228,7 +294,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 <token>нее</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd lemma="она" pos="PNN:Sin:R:P3">нее</wd></disambig>
+        <disambig action="add"><wd lemma="она" pos="PNN:Fem:R:P3">нее</wd></disambig>
     </rule>
     <rule name="Nee_nejo_V" id="Nee_nejo_V">
         <pattern>
@@ -236,7 +302,31 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 <token>нее</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd lemma="она" pos="PNN:Sin:V:P3">нее</wd></disambig>
+        <disambig action="add"><wd lemma="она" pos="PNN:Fem:V:P3">нее</wd></disambig>
+    </rule>
+    <rule name="PNN_on" id="PNN_on">
+        <pattern>
+            <marker>
+                <token>он</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="он" pos="PNN:Sin:Nom:P3">он</wd></disambig>
+    </rule>
+    <rule name="PNN_ona" id="PNN_ona">
+        <pattern>
+            <marker>
+                <token>она</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="она" pos="PNN:Sin:Nom:P3">она</wd></disambig>
+    </rule>
+    <rule name="PNN_ono" id="PNN_ono">
+        <pattern>
+            <marker>
+                <token>оно</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="оно" pos="PNN:Sin:Nom:P3">оно</wd></disambig>
     </rule>
     <!-- fast fix for words with PosTag=NNN (Names) only, but it is not names -->
     
