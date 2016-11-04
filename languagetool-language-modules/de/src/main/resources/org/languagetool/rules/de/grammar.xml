@@ -27951,6 +27951,144 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jeder hat ohne Beschränkung auf Rasse oder Geschlecht das Rech zu wählen.</example>
                 <example>Ich ersehne das Rentenalter, um endlich ein Leben ohne Arbeitsaufgaben zu genießen.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">,</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token>als</token>
+                    <token skip="-1">auch</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[mds]ich|uns|ihn|euch|sondern|um</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="ADJ:.*:KOM.*" postag_regexp="yes" scope="next"/></token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">scheinen|pflegen|brauchen</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                     <marker>
+                         <token><exception>,</exception><exception>und</exception><exception>(</exception><exception>oder</exception><exception>beziehungsweise</exception></token>
+                     </marker>
+                     <token skip="-1">als<exception scope="next" regexp="yes">,|;|—|-</exception></token>
+                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Mit 'als' eingeleitete Infinitivgruppen werden mit Komma abgetrennt. Meinten Sie <suggestion><match no="1"/>,</suggestion>?</message>
+                <url>https://de.wikipedia.org/wiki/Kommaregeln#Erweiterter_Infinitiv</url>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction="bleiben,">Ich würde lieber noch <marker>bleiben</marker> als jetzt schon aufzubrechen.</example>
+                <example correction="schöner,">Nichts ist <marker>schöner</marker> als in die oberste Liga aufzusteigen.</example>
+                <example>Ich war zu müde, um das Spiel noch auszurpobieren.</example>
+                <example>Es ist Ihre Pflicht als Bürger aufzupassen.</example>
+                <example>Die Jungs hatten nichts Besseres zu tun, als alle Papierkörbe umzuwerfen.</example>
+                <example>Ihr Plan scheint besser als meiner zu sein.</example>
+                <example>Maria ist stärker als ich; sie zwingt mich mitzumachen.</example>
+                <example>Man tut dies, um ihn sowohl von Caesar als auch von seiner späteren Rolle als Augustus abzugrenzen.</example>
+                <example>Bevor wir anfangen, dies als nutzlos anzusehen, sollten wir es genauer betrachten.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">,|;|–|:<exception scope="next" postag="VER:[^IMP].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token skip="-1"><exception scope="next">,</exception></token>
+                    <token regexp="yes">um|willen|ohne</token>
+                </antipattern>
+                <antipattern>
+                    <token>außer</token>
+                    <token regexp="yes">Stande?</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes" inflected="yes">sorgen|drehen|kümmern|bitten|besorgt|kreisen</token>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">sein|haben</token>
+                    <token min="0">nicht</token>
+                    <token regexp="yes">ohne|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token/>
+                    <token>um</token>
+                    <token min="0">halb</token>
+                    <token regexp="yes">eins|zwei|zehn|elf|zwölf|(drei|vier|fünf|sechs|sieben|acht|neun)(zehn)?|zwanzig|(ein|zwei|drei)undzwanzig</token>
+                </antipattern>
+                <antipattern>
+                    <token postag=".*REF.*" postag_regexp="yes"/>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token>und</token>
+                </antipattern>
+                <antipattern>
+                    <token>und</token>
+                    <token postag="PRO:PER:AKK:.*" postag_regexp="yes"/>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer<exception postag="VER:EIZ:.*" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">;|—|-|:|”|„|,|"</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">scheinen|pflegen|brauchen</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token>den</token>
+                    <token regexp="yes">\d+</token>
+                    <token skip="-1">.</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|,|;|—|-</exception></token></marker>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Mit 'um', 'ohne', 'statt', 'anstatt' oder 'außer' eingeleitete Infinitivgruppen sind mit Komma abzutrennen. Vorschlag: <suggestion>\1,</suggestion> (In seltenen Fällen muss die vorgeschlagene Position des Kommas noch manuell korrigiert werden: „Er liebt es, Kaffe ohne Zucker zu trinken.”)</message>
+                <url>https://de.wikipedia.org/wiki/Kommaregeln#Erweiterter_Infinitiv</url>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction="rannte,">Das Kind <marker>rannte</marker> ohne aufzupassen über die Straße.</example>
+                <example correction="betrunken,">Er ist zu <marker>betrunken</marker> um weiterzumachen.</example>
+                <example correction="stolz,">Sie ist zu <marker>stolz</marker> um ihm nachzueifern.</example>
+                <example correction="half,">Er <marker>half</marker> ohne nachzudenken.</example>
+                <example>Sie ist zu stolz, um ihm nachzueifern.</example>
+                <example>Es scheint sich auf dieses Spiel vorzubereiten.</example>
+                <example>Er braucht sich darauf nicht vorzubereiten.</example>
+                <example>Höre auf, dich um ihn zu sorgen.</example>
+                <example>Um das Objekt um 90 Grad nach rechts abzulenken, klicken Sie den Knopf.</example>
+                <example>Jeden Donnerstagabend versammeln sie sich um einen Tisch, um über die großen Probleme nachzudenken.</example>
+                <example>Jeden Tag gehe ich um halb acht aus dem Haus und beginne nachzuforschen.</example>
+                <example>Der Lehrer sah sich im Klassenzimmer um und begann mit dem Unterricht fortzufahren.</example>
+                <example>Sie war außer Stande wiederzugeben, was er gesagt hatte.</example>
+                <example>Tom rief Maria an, um erabredung zu bitten.</example>
+                <example>Tom versuchte, das Bücherregal ohne Marias Hilfe aufzubauen.</example>
+                <example>Wir leben nicht, um uns fortzupflanzen, sondern pflanzen uns fort, um zu leben.</example>
+                <example>Dies tut man um des Spaßes willen.</example>
+                <example>Es ist nicht ohne Risiko, seinem Nachbarn nachzuspionieren.</example>
+                <example>Jeder hat ohne Beschränkung auf Rasse oder Geschlecht seine Religion auszuüben.</example>
+                <example>Ich plane um den 20. April herum zurückzukehren.</example>
+                <example>Wer ohne die Welt auszukommen glaubt, irrt sich.</example>
+                <example>Doch statt das Malheur mit einem Lappen aufzuwischen, ignorierte er es.</example>
+            </rule>
         </rulegroup>
         <rule id="KOMMA_VOR_UND_ZWAR" name="Komma vor 'und zwar'">
             <pattern>
@@ -27967,11 +28105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="INDIREKTE_FRAGE" name="indirekte Frage">
             <antipattern>
                 <token>ob</token>
-                <token postag='.*GEN.*' postag_regexp='yes'/>
-            </antipattern>
-            <antipattern>
-                <token>ob</token>
-                <token postag='UNKNOWN'/>
+                <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
