@@ -17,7 +17,7 @@ Regarding license versions:
      3. MPL Version 1.1
 
 To install : Find a suitable application that uses myspell
-    dictionaries like openoffice, or hunspell terminal aplication. Use
+    dictionaries like openoffice, or hunspell terminal application. Use
     the program dictionary application (if it has) for installing the
     dictionaries.  For openoffice, you should make sure that the
     dictionary.lst file has the following line: DICT pt PT pt_PT

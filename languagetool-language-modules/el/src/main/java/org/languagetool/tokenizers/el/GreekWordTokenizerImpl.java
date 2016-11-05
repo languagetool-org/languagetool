@@ -142,7 +142,7 @@ public final class GreekWordTokenizerImpl {
 
   /* error messages for the codes above */
   private static final String ZZ_ERROR_MSG[] = {
-    "Unkown internal scanner error",
+    "Unknown internal scanner error",
     "Error: could not match input",
     "Error: pushback value was too large"
   };
@@ -413,7 +413,7 @@ public final class GreekWordTokenizerImpl {
 
 
   /**
-   * Reports an error that occured while scanning.
+   * Reports an error that occurred while scanning.
    *
    * In a wellformed scanner (no or only correct usage of 
    * yypushback(int) and a match-all fallback rule) this method 
