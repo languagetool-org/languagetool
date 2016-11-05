@@ -3327,13 +3327,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>seid</token>
                     </marker>
-                    <token regexp="yes">letzten|vorletzten</token>
+                    <token regexp="yes">letztem|vorletztem</token>
                     <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
                 <example><marker>Seit</marker> letztem Mittwoch brennt das Licht wieder.</example>
-                <example correction="Seit"><marker>Seid</marker> letzten Mittwoch läuft es wieder.</example>
+                <example correction="Seit"><marker>Seid</marker> letztem Mittwoch läuft es wieder.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8622,6 +8622,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_START" skip="-1">
                             <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
                             <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                            <exception scope="next">seit</exception>
                         </token>
                         <token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
                         <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
@@ -8643,6 +8644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich musste mein Rad <marker>letztes Wochenende</marker> reparieren.</example>
                 <example>Rate mal, wer mich <marker>letzten Mittwoch besucht</marker> hat.</example>
                 <example>Yoko ging <marker>vorletzte Woche einkaufen</marker>.</example>
+                <example>Seit dem <marker>letzten Montag arbeitet</marker> er wieder.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HUMANEXPERIMENT" name="Mehrdeutigkeit: menschliche Experimente (Humanexperimente)">
