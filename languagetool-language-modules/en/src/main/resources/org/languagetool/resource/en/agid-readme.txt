@@ -42,7 +42,7 @@ a few special verbs):
   <past tense> [<past participle>] <-ing form> <-s form> 
 and for adjective or adverbs:
   <-er form> <-est form>
-Each form is seperated by a ' | '.  
+Each form is separated by a ' | '.  
 
 An absence of a variant level implies a variant level of 0.  Two words
 with the same whole number variant level are considered almost equal
