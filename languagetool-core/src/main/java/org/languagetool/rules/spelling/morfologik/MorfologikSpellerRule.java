@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -35,7 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
-  
+
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;
   protected Locale conversionLocale;
