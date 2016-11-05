@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 -->
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2713,19 +2713,16 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 
 
 
-    <!-- HÁ n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS ATRÁS (remove "ATRÁS") -->
-    <rule id="HÁ-ATRÁS" name="há n tempo atrás">
+ <rule id="HÁ-ATRÁS" name="há n tempo atrás">
       <pattern>
-          <token>há</token>
-	  <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-	  <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
+        <token>há</token>
+        <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
+        <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
         <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?|tempos?</token>
-	  <marker>
-		<token>atrás</token>
-	  </marker>
+        <token>atrás</token>
       </pattern>
-      <message>Com o verbo haver não é necessário usar "atrás": <suggestion></suggestion>.</message>
-      <example correction="">Há n segundos <marker>atrás</marker>.</example>
+      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all" ></match> <match no="2" include_skipped="all" ></match> <match no="3" include_skipped="all" ></match> <match no="4" include_skipped="all" ></match></suggestion>.</message>
+      <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
 
 
