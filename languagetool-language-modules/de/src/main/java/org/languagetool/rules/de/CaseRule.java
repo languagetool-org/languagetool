@@ -581,7 +581,6 @@ public class CaseRule extends GermanRule {
       String token = analyzedToken.getToken();
 
       markLowerCaseNounErrors(ruleMatches, tokens, i, analyzedToken);
-
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
       if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
@@ -598,12 +597,13 @@ public class CaseRule extends GermanRule {
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             continue;
           }
+          if (prevTokenIsDas && isFollowedByRelativeOrSubordinateClause(i, tokens)) {
+            // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
+            // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
+            continue;
+          }
         }
         if (isPrevProbablyRelativePronoun(tokens, i)) {
-          continue;
-        }
-        if (isVerbFollowedByRelativeClause(i, tokens)) {
-          // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
           continue;
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
@@ -618,7 +618,7 @@ public class CaseRule extends GermanRule {
       }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings != null
           && (lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.getToken().endsWith("innen"))) {
-        continue;  // unknown word, probably a name etc
+        continue;  // unknown word, probably a name etc.
       }
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
@@ -866,9 +866,9 @@ public class CaseRule extends GermanRule {
     return false;
   }
 
-  private boolean isVerbFollowedByRelativeClause(int i, AnalyzedTokenReadings[] tokens) {
-    if (i < tokens.length - 2 && hasPartialTag(tokens[i], "VER")) {
-      return ",".equals(tokens[i+1].getToken()) && INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken());
+  private boolean isFollowedByRelativeOrSubordinateClause(int i, AnalyzedTokenReadings[] tokens) {
+    if (i < tokens.length - 2) {
+      return ",".equals(tokens[i+1].getToken()) && (INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken()) || tokens[i+2].hasPartialPosTag("KON:UNT"));
     }
     return false;
   }
