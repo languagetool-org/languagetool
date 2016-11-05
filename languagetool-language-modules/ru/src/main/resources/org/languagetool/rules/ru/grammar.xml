@@ -4557,8 +4557,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Тосковать по дому"><marker>Тосковать по доме</marker>.</example>
             <example>Тосковать по дому.</example>
            </rule>
-        </rulegroup>
-           
+        </rulegroup>      
+        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="case"/>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception></token>
+                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                            <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+                            <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                            <!-- Слова без буквы ё имеют неправильный падеж -->
+                            <exception regexp="yes">&missing_yo;</exception>
+                            <exception case_sensitive="yes">Tом</exception>
+                        </token>
+                    </unify>				        
+                </marker>
+            </pattern>
+            <message>Притяжательное прилагательное не согласуется с существительным по падежу.</message>
+            <short>Не согласуются по падежу</short>
+            <example>это отношение</example>
+            <example correction=""><marker>этому отношение</marker></example>
+        </rule>
+        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="gender"/>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception></token>
+                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                            <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+                            <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                            <!-- Слова без буквы ё имеют неправильный падеж -->
+                            <exception regexp="yes">&missing_yo;</exception>
+                            <exception case_sensitive="yes">Tом</exception>
+                        </token>
+                    </unify>				        
+                </marker>
+            </pattern>
+            <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
+            <short>Не согласуются по роду</short>
+            <example>это отношение</example>
+            <example correction=""><marker>эта отношение</marker></example>
+        </rule>
+        <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного с существительным по числу">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception></token>
+                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                            <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+                            <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                            <!-- Слова без буквы ё имеют неправильный падеж -->
+                            <exception regexp="yes">&missing_yo;</exception>
+                            <exception case_sensitive="yes">Tом</exception>
+                        </token>
+                    </unify>				        
+                </marker>
+            </pattern>
+            <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
+            <short>Не согласуются по числу</short>
+            <example>это отношение</example>
+            <example correction=""><marker>эти отношение</marker></example>
+        </rule>                                           
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
 	        <antipattern>
 		        <marker>
