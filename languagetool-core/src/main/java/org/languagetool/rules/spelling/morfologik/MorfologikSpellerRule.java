@@ -181,7 +181,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           messages.getString("desc_spelling_short"));
       List<String> suggestions = speller1.getSuggestions(word);
       if (suggestions.size() == 0 && word.length() >= 5) {
-        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" ezc.
+        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
         suggestions.addAll(speller2.getSuggestions(word));
       }
       suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
