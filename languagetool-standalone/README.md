@@ -324,7 +324,8 @@ LGPL license.
 
 The dictionary was mainly obtained from the Freeling project:
 
-* http://devel.cpl.upc.edu/freeling/svn/latest/freeling/data/es/dicc.src
+* http://devel.cpl.upc.edu/freeling/svn/trunk/data/es/senses30.src
+* http://devel.cpl.upc.edu/freeling/svn/versions/freeling-3.1/data/es/senses30.src
 * http://garraf.epsevg.upc.es/freeling/
 
 It is released under the GNU General Public License.
