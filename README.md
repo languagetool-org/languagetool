@@ -20,7 +20,15 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 
 #### How to build from source
 
-Before start: you will need to clone from GitHub (warning, 300+ MB download) and install Java 8 and Apache Maven.
+Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
+
+Warning: a complete clone requires downloading more than 360 MB and needs more than 500 MB on disk.
+This can be reduced if you only need the last few revisions of the master branch
+by creating a shallow clone:
+
+    git clone --depth 5 https://github.com/languagetool-org/languagetool.git
+
+A shallow clone downloads less than 60 MB and needs less than 200 MB on disk.
 
 In the root project folder, run:
 
