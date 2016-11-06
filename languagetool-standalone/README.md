@@ -347,7 +347,7 @@ The words for the Tagger Dictionary were taken from the Philippine Literature
 Domain of Dalos D. Miguel's Comparative Analysis of Tagalog POS Taggers.
 The Tagger Dictionary and the Tagset are made available under LGPL.
 The Trigram Training Data is available at: The Trigram Training Data is available
-at: https://sourceforge.net/projects/tattoi.u/files/Trigram%20Text/
+at: http://storage.googleapis.com/books/ngrams/books/datasetsv2.html
 
 #### Tamil
 
