@@ -256,7 +256,7 @@ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
 
 See https://github.com/languagetool-org/german-pos-dict:
 The German data for part-of-speech tagging is taken from Morphy
-(http://www.wolfganglezius.de/doku.php?id=cl:morphy) with extensions
+(http://morphy.wolfganglezius.de/) with extensions
 and corrections from Julian von Heyl (https://www.korrekturen.de/flexion/)
 under Creative Commons Attribution-Share Alike 4.0.
 
@@ -291,7 +291,7 @@ http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and wo
 #### Malayalam
 
 The data has been collected by Jithesh.V.S. of the Centre For Development of Imaging Technology (C-DIT),
-Thiruvananthapuram, Kerala, India (http://www.cdit.org). It comes from public sources like newspapers,
+Thiruvananthapuram, Kerala, India (http://www.cdit.org/index/). It comes from public sources like newspapers,
 magazines, and novels. It is made available here under GPL.
  
 #### Polish
@@ -311,7 +311,7 @@ http://www.aot.ru/download.php file rus-src-morph.tar.gz
 or http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/ file morphs.mrd.
 It was partially converted to fsa format in 2008-2011, 2014 by Yakov Reztsov.
 Frequency information for spell-checking dictionary from www.aot.ru.
-Source frequency information http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/ file WordData.txt.
+Source frequency information https://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/WordData.txt
 It was converted to use with spell-checking dictionary in 2014 by Yakov Reztsov.
 
 #### Slovak
@@ -358,7 +358,7 @@ Ve. Elanjelian <tamiliam@gmail.com>. It is released under GPLv3 licence.
   that has had many contributors including S. Muguntharaj, Radhakrishnan, Vijay,
   A. Suji, Malathi Selvaraj, Sri Ramadoss, Yagna Kalyanaraman, and Pranava Swaroop.
 * The work also made use the Tamil corpus created by Crubadan 2.0
-  <http://borel.slu.edu/crubadan/stadas.html> for shortlisting nouns and verbs.
+  <http://crubadan.org/> for shortlisting nouns and verbs.
   The corpus data is released under GPLv3, as well.
 * The grammatical rules themselves are based on "thamizhnadaik kaiyEdu" (2004)
  and "thamizhil nAmum thavaRillAmal ezhuthalAm" (2007)
