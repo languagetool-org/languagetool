@@ -4256,7 +4256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
                 <pattern>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="1">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="1">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token postag="V.[NG].*" postag_regexp="yes"></token>
                     </marker>
@@ -4275,6 +4275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cantat|de cantar">Hem <marker>cantant</marker>.</example>
                 <example correction="votat|de votar">Ha <marker>votar</marker> en contra de les mesures adoptades.</example>
                 <example correction="tractat|de tractar">Ha <marker>tractar</marker> d'obrir.</example>
+                <example correction="estat|sigut|de ser">Han <marker>ser</marker> fetes.</example>
                 <example>No s'ha realitzat.</example>
                 <example>No hi haurà complicitat per assumir l'austeritat</example>
                 <example>N'hi ha per a complicar la situació</example>
@@ -10324,6 +10325,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="RELLEVATS_RELLEVANTS" name="rellevats/rellevants">
+            <pattern>
+                <token regexp="yes" inflected="yes">fet|esdeveniment|causa|succés</token>
+                <token min="0" regexp="yes">més|menys|poc|molt|força|gaire</token>
+                <marker>
+                    <token regexp="yes">rellevats?</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="3" regexp_match="(?ui)(relleva)(ts?)" regexp_replace="$1n$2"/></suggestion>?</message>
+            <example correction="rellevants">És un dels fets més <marker>rellevats</marker> de la guerra.</example>
+            <example correction="rellevant">És el fet més <marker>rellevat</marker> de la guerra.</example>
+        </rule>
         <rule id="PE_PER" name="*pe/per">
             <antipattern>
                 <marker>
