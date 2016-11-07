@@ -74,8 +74,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 <category id="MISC" name="Gramática Geral">
 
 
-<!--          Tiago F. Santos Rules Start         ****START**** -->
-<!-- ********************************************************** -->
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
 
  	     <!-- General gender concordance errors - O > A/AS -->
 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
@@ -96,9 +96,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
-	 <example type='incorrect'><marker>O mulher</marker> está no pasto.</example>
-	 <example type='correct'><marker>O homem</marker> está no pasto.</example>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'><marker>O vaca</marker> está no pasto.</example>
+	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
 	</rule>
 
 	<!-- General gender concordance errors - OS > A/AS -->
@@ -119,9 +119,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
-	 <example type='incorrect'><marker>Os mulher</marker> está no pasto.</example>
-	 <example type='correct'><marker>Os homens</marker> está no pasto.</example>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'><marker>Os vaca</marker> está no pasto.</example>
+	 <example type='correct'><marker>Os bois</marker> está no pasto.</example>
 	</rule>
 
 	<!-- General gender concordance errors - A > O/OS -->
@@ -142,7 +142,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
@@ -165,7 +165,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
 	</rule>
@@ -214,9 +214,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e</token>
 	 </pattern>
-	 <message>Erro de concordância do plural.
-	  <suggestion><match no="2" postag="(D[ADIP][0123]MS[0S]|NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion> ou <suggestion><match no="2"/> <match no="3" postag="(NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/></suggestion>.
-	  </message>
+	 <message>Erro de concordância do plural:</message>
+	  <suggestion><match no="2" postag="(D[ADIP][0123]MS[0S]|NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/></suggestion>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
 	
@@ -234,9 +234,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	    <exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]|nós</exception></token>
 	  </marker>
 	 </pattern>
-	 <message>Erro de concordância do plural.
-	 <suggestion><match no="2" postag="(D[ADIP][0123]MP[0P]|NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion> ou <suggestion><match no="2"/> <match no="3" postag="(NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/></suggestion>.
-	  </message>
+	 <message>Erro de concordância do plural:</message>
+	  <suggestion><match no="2" postag="(D[ADIP][0123]MP[0P]|NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/></suggestion>
 	 <example correction='Estes gatos|Este gato'><marker>Este gatos</marker> estão no pasto.</example>
 	</rule>
 
@@ -252,13 +252,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
-	 <message>Erro de concordância do plural:
-	  <suggestion><match no="2" postag="(D[ADIP][0123]FP[0P]|NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion> ou <suggestion><match no="2"/> <match no="3" postag="(NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/></suggestion>.
-	  </message>
+	 <message>Erro de concordância do plural:</message>
+	  <suggestion><match no="2" postag="(D[ADIP][0123]FP[0P]|NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/></suggestion>
 	  <example correction='As vacas|A vaca'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
-
-	
 
     <!-- General number concordance errors - AS > A -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
@@ -273,9 +271,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </marker>
 	   <token negate='yes' regexp='yes'>e</token>
 	 </pattern>
-	 <message>Erro de concordância do plural.
-	  <suggestion><match no="2" postag="(D[ADIP][0123]FS[0S]|NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion> ou <suggestion><match no="2"/> <match no="3" postag="(NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/></suggestion>.
-	  </message>
+	 <message>Erro de concordância do plural:</message>
+	  <suggestion><match no="2" postag="(D[ADIP][0123]FS[0S]|NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/></suggestion>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
  
@@ -301,8 +299,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]1S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Eu passeiam</marker> na praia.</example>
+	 <example correction='Eu passear|Eu passeara|Eu passearei|Eu passearia|Eu passeasse|Eu passeava|Eu passeei|Eu passeie|Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
 	 <example type="correct">Eu passeio na praia.</example>
 	</rule>
 	
@@ -328,8 +327,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]2S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Tu não passeia</marker> na praia.</example>
+	 <example correction='Tu não passeara|Tu não passearas|Tu não passeares|Tu não passearias|Tu não passearás|Tu não passeasses|Tu não passeaste|Tu não passeava|Tu não passeavas|Tu não passeias|Tu não passeies'><marker>Tu não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
 	</rule>
 	
@@ -355,8 +355,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Ele não passeiam</marker> na praia.</example>
+	 <example correction='Ele não passear|Ele não passeara|Ele não passearia|Ele não passeará|Ele não passeasse|Ele não passeava|Ele não passeia|Ele não passeie|Ele não passeou'><marker>Ele não passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Ele não passeia</marker> na praia.</example>
 
 	</rule>
@@ -373,8 +374,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
- 	 <example type="incorrect"><marker>Nós não passeia</marker> na praia.</example>
+ 	 <example correction='Nós não passeamo|Nós não passeamos|Nós não passearemos|Nós não passearmos|Nós não passearíamos|Nós não passeemos|Nós não passeámo|Nós não passeámos|Nós não passeáramo|Nós não passeáramos|Nós não passeássemos|Nós não passeávamo|Nós não passeávamos'><marker>Nós não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
 	</rule>
 
@@ -394,10 +396,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Eu e Rita passeiam</marker> na praia.</example>
+	 <example correction='Eu e Rita passeamo|Eu e Rita passeamos|Eu e Rita passearemos|Eu e Rita passearmos|Eu e Rita passearíamos|Eu e Rita passeemos|Eu e Rita passeámo|Eu e Rita passeámos|Eu e Rita passeáramo|Eu e Rita passeáramos|Eu e Rita passeássemos|Eu e Rita passeávamo|Eu e Rita passeávamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
-	 <example correction=''><marker>Eu e Rita passeiam</marker> na praia.</example>
 	</rule>
 
      <!-- General verbal concordance errors - We + Verb -->
@@ -413,9 +415,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
-	 <message>Erro de concordância verbal.3p</message>
+	 <message>Erro de concordância verbal.</message>
+		<suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Tu e eu passeio</marker> na praia.</example>
+	 <example correction='Tu e eu passeamo|Tu e eu passeamos|Tu e eu passearemos|Tu e eu passearmos|Tu e eu passearíamos|Tu e eu passeemos|Tu e eu passeámo|Tu e eu passeámos|Tu e eu passeáramo|Tu e eu passeáramos|Tu e eu passeássemos|Tu e eu passeávamo|Tu e eu passeávamos'><marker>Tu e eu passeio</marker> na praia.</example>
 	 <example type="correct">Tu e eu passeamos na praia.</example>
 	</rule>
 	
@@ -431,8 +434,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]2P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect"><marker>Vós passeiam</marker> na praia.</example>
+	 <example correction='Vós passeai|Vós passeais|Vós passeardes|Vós passeareis|Vós passearíeis|Vós passeaste|Vós passeastes|Vós passeeis|Vós passeárei|Vós passeáreis|Vós passeásseis|Vós passeávei|Vós passeáveis'><marker>Vós passeiam</marker> na praia.</example>
 	 <example type="correct">Vós passeais na praia.</example>
 	</rule>
 
@@ -458,8 +462,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example type="incorrect">Eles e <marker>elas passeamos</marker> na praia.</example>
+	 <example correction='elas passearam|elas passearem|elas passeariam|elas passearão|elas passeassem|elas passeavam|elas passeiam|elas passeiem'>Eles e <marker>elas passeamos</marker> na praia.</example>
 	 <example type="correct">Eles e elas passeiam na praia.</example>
 	</rule>
 
@@ -484,8 +489,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
+		<suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'/></suggestion>
 	 <url>http://books.scielo.org/id/67y3k/pdf/lobo-9788523212308-15.pdf</url>
-	 <example type="incorrect"><marker>Cão e gato é</marker> animais.</example>
+	 <example correction='Cão e gato eram|Cão e gato foram|Cão e gato forem|Cão e gato fossem|Cão e gato sejam|Cão e gato seriam|Cão e gato serão|Cão e gato são'><marker>Cão e gato é</marker> animais.</example>
 	 <example type="correct">Cão e gato são animais.</example>
 	</rule>
 
