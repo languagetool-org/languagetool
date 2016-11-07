@@ -47,6 +47,12 @@ public class GermanSynthesizerTest {
     assertThat(synth("Kühlschrankversuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
   }
 
+  @Test
+  public void testMorfologikBug() throws IOException {
+    // see https://github.com/languagetool-org/languagetool/issues/586
+    assertThat(synth("anfragen", "VER:1:PLU:KJ1:SFT:NEB"), is("[anfragen, Anfragen]"));
+  }
+
   private String synth(String word, String posTag) throws IOException {
     return Arrays.toString(synthesizer.synthesize(dummyToken(word), posTag));
   }

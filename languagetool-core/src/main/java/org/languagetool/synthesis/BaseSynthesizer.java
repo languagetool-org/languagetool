@@ -94,15 +94,9 @@ public class BaseSynthesizer implements Synthesizer {
    */
   protected void lookup(String lemma, String posTag, List<String> results) {
     synchronized (this) { // the stemmer is not thread-safe
-      try {
-        List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
-        for (WordData wd : wordForms) {
-          results.add(wd.getStem().toString());
-        }
-      } catch (Exception e) {
-        // workaround: don't crash because of Morfologik bug(?)
-        // TODO: remove once https://github.com/languagetool-org/languagetool/issues/586 is fixed
-        e.printStackTrace();
+      List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
+      for (WordData wd : wordForms) {
+        results.add(wd.getStem().toString());
       }
     }
   }
