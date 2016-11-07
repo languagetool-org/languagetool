@@ -63,6 +63,11 @@ public class Irish extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ga";
+  }
+
+  @Override
   public Language getDefaultLanguageVariant() {
     return DEFAULT_IRISH;
   }
