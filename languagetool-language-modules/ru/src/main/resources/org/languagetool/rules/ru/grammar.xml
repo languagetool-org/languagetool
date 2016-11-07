@@ -4564,7 +4564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="case"/>
-                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" >который</exception></token>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
                         <token postag="NN:.*|NNN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4585,7 +4585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="gender"/>
-                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception  postag="PADJ:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" >который</exception></token>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception  postag="PADJ:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
                         <token postag="NN:.*|NNN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4606,7 +4606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" >который</exception></token>
+                        <token postag="PADJ:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="PADJ:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
                         <token postag="NN:.*|NNN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4622,16 +4622,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>это отношение</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
-        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
+        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу">
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception></token>
+                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
                         <token postag="NN:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
-                            <exception case_sensitive="yes">Tом</exception>
                         </token>
                     </unify>				        
                 </marker>
@@ -5323,12 +5322,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="NN:.*:.*:P" postag_regexp="yes" regexp="yes">[а-яё].*<exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">«|[\p{Punct}]|[\p{Digit}]*</exception></token>
                     </marker>
                 </pattern>
-                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \2</suggestion>, <suggestion>об \2</suggestion>, <suggestion>обо \2</suggestion>, <suggestion>в \2</suggestion>, <suggestion>во \2</suggestion>, <suggestion>при \2</suggestion>, <suggestion>по \2</suggestion>, <suggestion>на \2</suggestion>.</message>
+                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \2</suggestion>, <suggestion>в \2</suggestion>, <suggestion>при \2</suggestion>, <suggestion>по \2</suggestion>, <suggestion>на \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D0%B9_%D0%BF%D0%B0%D0%B4%D0%B5%D0%B6</url>
                 <short>Пропущен предлог.</short>
                 <example>Они думали о доме.</example>
                 <example>Рабочие красили забор метрах в пятидесяти от меня.</example>
-                <example correction="о доме|об доме|обо доме|в доме|во доме|при доме|по доме|на доме">Они думали <marker>доме</marker>.</example>
+                <example correction="о доме|в доме|при доме|по доме|на доме">Они думали <marker>доме</marker>.</example>
             </rule>
             <rule>
                 <pattern>
