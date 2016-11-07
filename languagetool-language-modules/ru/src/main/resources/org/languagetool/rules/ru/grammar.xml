@@ -8598,7 +8598,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Проверка текста и т.п.</example>
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
             </rule>
-        </rulegroup>       
+        </rulegroup>
+        <rulegroup id="Defis_nibud" name="Дефисное/раздельное правописание «-нибудь»">
+           <rule>   
+                <pattern>
+                        <token postag_regexp="yes" postag="PNN:.*|ADV"></token>           
+                        <token>нибудь</token>           
+                </pattern>
+                <message>Слова с частицей «-нибудь» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion>?</message>
+                <short>Слова с «-нибудь» пишем через дефис</short>
+                <example correction="кто-нибудь">Здесь есть <marker>кто нибудь</marker>?</example>
+                <example>Здесь есть кто-нибудь?</example>
+            </rule>
+        </rulegroup>          
 
         <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
@@ -9301,8 +9313,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
         <rulegroup id="Obrazovanie_form_pril_i_mestoimenij" name="Образование местоимений 3 лица ед. и мн. ч.">
-
-
             <rule>   
                 <pattern>
                         <token>лучше</token>
@@ -9312,8 +9322,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="лучше неё">Я знаю математику <marker>лучше её</marker>.</example>
                 <example>Я знаю математику лучше неё.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token postag="SENT_START" />
@@ -9324,8 +9332,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Лучше их"><marker>Лучше них</marker> могут быть только горы.</example>
                 <example>Лучше их могут быть только горы.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token postag="SENT_START" />
@@ -9337,8 +9343,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Слева от неё"><marker>Слева от её</marker> будет магазин.</example>
                 <example>Слева от неё будет магазин.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token postag="SENT_START" />
@@ -9351,8 +9355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Между её и моим"><marker>Между неё и моим</marker> произношением нет разницы.</example>
                 <example>Между её и моим произношением нет разницы.</example>
             </rule>
-        </rulegroup>
-    
+        </rulegroup> 
 
         <rulegroup id="Obrazovanije_slozhnyh_slov" name="Образование сложных слов">
             <rule>   
@@ -9365,8 +9368,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="четвертьфинал">Команда вышла в <marker>четверть финал</marker>.</example>
                 <example>Команда вышла в четвертьфинал.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>сто</token>           
@@ -9377,8 +9378,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="стодневное">Это было <marker>сто дневное</marker> путешествие.</example>
                 <example>Это было стодневное путешествие.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>пол</token>           
@@ -9389,8 +9388,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="пол-листа">Она исписала <marker>пол листа</marker>.</example>
                 <example>Она исписала пол-листа.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>пол</token>           
@@ -9400,7 +9397,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>«Пол-луковицы» пишем через дефис</short>
                 <example correction="пол-луковицы">Для этого блюда возьмите <marker>пол луковицы</marker>.</example>
             </rule>   
-
             <rule>   
                 <pattern>
                         <token>пол</token>           
@@ -9411,8 +9407,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Пол-урока"><marker>Пол урока</marker> мы писали диктант.</example>
                 <example>Пол-урока мы писали диктант.</example>
             </rule>   
-
-
         </rulegroup>
 
 
@@ -9428,13 +9422,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="вскочить на">Он собрался <marker>заскочить на</marker> стул.</example>
                 <example>Он собрался вскочить на стул.</example>
             </rule>   
-
-
         </rulegroup>         
          
         <rulegroup id="Lishnij_sojuz" name="Лишний союз">
-
-
             <rule>   
                 <pattern>
                         <token postag="CONJ"/>
@@ -9446,8 +9436,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="однако не">Она знала, что может опоздать, <marker>но однако не</marker> вызвала такси.</example>
                 <example>Она знала, что может опоздать, однако не вызвала такси.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token postag="CONJ"/>
@@ -9460,8 +9448,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="тем более что">Мы все равно не смогли бы пойти, <marker>и тем более что</marker> билеты уже раскуплены.</example>
                 <example>Мы все равно не смогли бы пойти, тем более что билеты уже раскуплены.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>и</token>
@@ -9474,8 +9460,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="долго и упорно">Он шел к цели <marker>и долго и упорно</marker>.</example>
                 <example>Он шел к цели долго и упорно.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token postag="CONJ"/>
@@ -9488,14 +9472,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="тем не менее">Утро было солнечным, <marker>однако тем не менее</marker> вечером ударил мороз.</example>
                 <example>Утро было солнечным, тем не менее, вечером ударил мороз.</example>
             </rule>   
-
-
         </rulegroup>
 
 
         <rulegroup id="Upotreblenije_predlogov" name="Употребление предлогов">
-
-
             <rule>   
                 <pattern>
                         <token inflected="yes">описывать</token>
@@ -9506,8 +9486,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="описывать">Эта книга <marker>описывает про</marker> события, которые происходили в прошлом веке.</example>
                 <example>Эта книга описывает события, которые происходили в прошлом веке.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>от</token>
@@ -9520,7 +9498,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="С утра до вечера"><marker>От утра до вечера</marker> она трудилась в редакции.</example>
                 <example>С утра до вечера она трудилась в редакции.</example>
             </rule>   
-
             <rule>   
                 <pattern>
                         <token inflected="yes">оплатить</token>
@@ -9531,8 +9508,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="оплатить">Ты забыл <marker>оплатить за</marker> проезд.</example>
                 <example>Ты забыл оплатить проезд.</example>
             </rule>   
-
-
         </rulegroup>
 
         <rulegroup id="skolko_vremeni" name="Словосочетание «сколько времени»">
@@ -9560,8 +9535,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Контроль деятельности"><marker>Контроль за деятельностью</marker> нижестоящих органов.</example>
                 <example>Контроль деятельности нижестоящих органов.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token>контроль</token>
@@ -9573,8 +9546,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="контроль над предприятием">Приобрести <marker>контроль за предприятием</marker>.</example>
                 <example>Приобрести контроль над предприятием.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>контроль</token>
@@ -9587,8 +9558,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Осуществлять <marker>контроль над качеством работы</marker>. </example>
                 <example>Осуществлять контроль за качеством работы. </example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>контроль</token>
@@ -9600,13 +9569,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="контроль над специалистами">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
                 <example>Осуществлять контроль над специалистами на предприятии.</example>
             </rule>   
-
-
         </rulegroup>
 
         <rulegroup id="Skazuem_sovmestnoje_dejstvije" name="Согласование сказуемого с подлежащим, выраженным счётным оборотом, при подчёркнутой совместности действия" default="off">
-
-
             <rule>   
                 <pattern>
                         <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
@@ -9617,8 +9582,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">В аудитории <marker>сидели двадцать</marker> студентов.</example>
                 <example>В аудитории сидело двадцать студентов.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
@@ -9629,8 +9592,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">На семинар <marker>пришли десять</marker> человек.</example>
                 <example>На семинар пришло десять человек.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                         <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
@@ -9642,8 +9603,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Вдоль стены <marker>стояли двадцать пять</marker> стульев.</example>
                 <example>Вдоль стены стояло двадцать пять стульев.</example>
             </rule>
-
-
             <rule>   
                 <pattern>
                     <marker>
@@ -9659,13 +9618,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">В Арктический совет <marker>входят восемь</marker> приарктических стран: Дания, Финляндия, Исландия, Канада, Норвегия, Россия, Швеция, США.</example>
                 <example>На арену вышло восемь акробатов.</example>
             </rule> 
-
-
         </rulegroup>
 
         <rulegroup id="Predlogi_iz_s" name="Предлоги «из» и «с»">
-
-
             <rule>   
                 <pattern>
                        <token>с</token>          
@@ -9676,8 +9631,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="из школы">Вернувшись <marker>с школы</marker>, она сразу села читать. </example>
                 <example>Вернувшись из школы, она сразу села читать. </example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>с</token>          
@@ -9688,8 +9641,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="из командировки">Они вернулись <marker>с командировки</marker> еще вчера.</example>
                 <example>Они вернулись из командировки еще вчера.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>из</token>          
@@ -9700,8 +9651,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="с Кавказа">Мой дед родом <marker>из Кавказа</marker>.</example>
                 <example>Мой дед родом с Кавказа.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>с</token>          
@@ -9712,15 +9661,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="из армии">Он пришел <marker>с армии</marker> на прошлой неделе.</example>
                 <example>Он пришел из армии на прошлой неделе.</example>
             </rule>   
-
-
         </rulegroup>
 
 
         <rulegroup id="Trudn_sluchai_upravl" name="Трудные случаи управления">
-
-
-
             <rule>   
                 <pattern>
                         <token>жажда</token>
@@ -9731,7 +9675,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Жажда к</marker> власти погубила его.</example>
                 <example>Жажда власти погубила его.</example>
             </rule>   
-
         </rulegroup>
          
 
