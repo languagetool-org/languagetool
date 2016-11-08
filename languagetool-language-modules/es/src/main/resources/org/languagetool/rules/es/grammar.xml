@@ -367,21 +367,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
 
-      <rule id="MI_FINAL" name="Pronombre mí sin tilde al final de la oración">
-        <pattern>
-          <marker>
-            <token>mi</token>
-          </marker>
-
-            <token postag="SENT_END" regexp="yes">[.?!]</token>
-        </pattern>
-
-        <message>El pronombre personal <suggestion>mí</suggestion> lleva tilde.</message>
-
-        <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
-
-        <example>Ella estaba cerca de mí.</example>
-      </rule>
+        <rule id="MI_TILDE" name="mi/mí">
+            <pattern>
+                <token postag="SPS00"></token>
+                <marker>
+                    <token>mi</token>
+                </marker>
+                <token><exception postag="N.*|A.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Si es pronombre, se escribe con tilde.</message>
+            <suggestion>mí</suggestion>
+            <example correction="mí">A <marker>mi</marker> me gusta.</example>
+            <example correction="mí">Confía en <marker>mi</marker>.</example>
+            <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
+            <example>Me voy a mi casa.</example>
+            <example>Mi gran amigo Pedro.</example>
+        </rule>
 
     </rulegroup>
 
