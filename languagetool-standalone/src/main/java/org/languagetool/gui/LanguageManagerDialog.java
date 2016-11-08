@@ -143,7 +143,7 @@ public class LanguageManagerDialog implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
-      Configuration config = null;
+      Configuration config;
       try {
         config = new Configuration(null);
       } catch (IOException e1) {
