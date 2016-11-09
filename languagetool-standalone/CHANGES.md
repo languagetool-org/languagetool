@@ -36,9 +36,9 @@
   * added/improved several rules
 
 #### HTTP API
- * The old API has been deactivated, as documented at
-   https://languagetool.org/http-api/migration.php - it
-   now returns a pseudo error pointing to the migration page
+  * The old API has been deactivated, as documented at
+    https://languagetool.org/http-api/migration.php - it
+    now returns a pseudo error pointing to the migration page
 
 #### Java API
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
