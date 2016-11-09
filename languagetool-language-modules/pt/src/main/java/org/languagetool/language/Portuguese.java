@@ -112,7 +112,7 @@ public class Portuguese extends Language {
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
-	    new LongSentenceRule(messages),
+            new LongSentenceRule(messages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
