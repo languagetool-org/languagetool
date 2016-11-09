@@ -107,7 +107,7 @@ public class UppercaseSentenceStartRule extends Rule {
     }
 
     String lastToken = tokens[tokens.length - 1].getToken();
-    if (tokens.length >= 2 && WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
+    if (WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
       // ignore trailing whitespace or quote
       lastToken = tokens[tokens.length - 2].getToken();
     }
