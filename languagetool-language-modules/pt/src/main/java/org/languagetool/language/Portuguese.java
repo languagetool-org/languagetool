@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Pre-spelling-reform Portuguese.
+ * Post-spelling-reform Portuguese.
  */
 public class Portuguese extends Language {
 
