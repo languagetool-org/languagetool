@@ -26,9 +26,11 @@ import java.util.ResourceBundle;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 
+/**
+ * @since 3.6
+ */
 public class AngolaPortuguese extends Portuguese {
-
-
+  
   @Override
   public String[] getCountries() {
     return new String[]{"AO"};
