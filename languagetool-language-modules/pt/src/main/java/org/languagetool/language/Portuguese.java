@@ -64,7 +64,7 @@ public class Portuguese extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"AO", "MZ"};
+    return new String[]{"CV"};
   }
 
   @Override
