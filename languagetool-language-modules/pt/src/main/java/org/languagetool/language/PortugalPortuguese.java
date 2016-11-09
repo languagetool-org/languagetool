@@ -18,6 +18,14 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.languagetool.rules.*;
+import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
+
 public class PortugalPortuguese extends Portuguese {
 
   @Override
@@ -28,6 +36,14 @@ public class PortugalPortuguese extends Portuguese {
   @Override
   public String[] getCountries() {
     return new String[]{"PT"};
+  }
+
+  @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages));
+    rules.add(new PostReformPortugueseCompoundRule(messages));
+    return rules;
   }
 
 }
