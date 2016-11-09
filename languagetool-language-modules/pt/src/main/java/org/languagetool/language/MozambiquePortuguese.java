@@ -26,6 +26,9 @@ import java.util.ResourceBundle;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 
+/**
+ * @since 3.6
+ */
 public class MozambiquePortuguese extends Portuguese {
 
   @Override
