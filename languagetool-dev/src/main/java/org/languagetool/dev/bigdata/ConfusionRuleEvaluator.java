@@ -254,7 +254,7 @@ class ConfusionRuleEvaluator {
     if ("en".equals(langCode)) {
       lang = new EnglishLight();
     } else {
-      lang = Languages.getLanguageForShortName(langCode);
+      lang = Languages.getLanguageForShortCode(langCode);
     }
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortCode()));
     //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
