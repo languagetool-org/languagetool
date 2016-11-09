@@ -59,7 +59,7 @@ public class LanguageModelTest {
           long timeMillis = timeMicros/1000;
           if (ngramLength == 2) {
             System.out.println(count + "\t\t" + prevWord + " " + word + ": " + timeMicros + "µs = " + timeMillis + "ms");
-          } else if (ngramLength == 3) {
+          } else {
             System.out.println(count + "\t\t" + prevPrevWord + " " + prevWord + " " + word + ": " + timeMicros + "µs = " + timeMillis + "ms");
           }
           if (i > SKIP_FIRST_ITEMS) {
