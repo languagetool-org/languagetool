@@ -37,16 +37,17 @@ class SentenceChecker {
 
   private void run(Language language, File file) throws IOException {
     JLanguageTool lt = new JLanguageTool(language);
-    Scanner scanner = new Scanner(file);
-    int count = 0;
-    long startTime = System.currentTimeMillis();
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      lt.check(line);
-      if (++count % BATCH_SIZE == 0) {
-        long time = (System.currentTimeMillis()-startTime);
-        System.out.println(count + ". " + time + "ms per " + BATCH_SIZE + " sentences");
-        startTime = System.currentTimeMillis();
+    try (Scanner scanner = new Scanner(file)) {
+      int count = 0;
+      long startTime = System.currentTimeMillis();
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        lt.check(line);
+        if (++count % BATCH_SIZE == 0) {
+          long time = System.currentTimeMillis() - startTime;
+          System.out.println(count + ". " + time + "ms per " + BATCH_SIZE + " sentences");
+          startTime = System.currentTimeMillis();
+        }
       }
     }
   }

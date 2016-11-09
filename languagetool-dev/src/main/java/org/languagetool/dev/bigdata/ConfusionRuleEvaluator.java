@@ -50,7 +50,8 @@ import static java.util.stream.Collectors.toList;
 /**
  * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
  * and evaluates EnglishConfusionProbabilityRule with them.
- *
+ * 
+ * @see AutomaticConfusionRuleEvaluator
  * @since 3.0
  * @author Daniel Naber 
  */
