@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -98,7 +97,7 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     /*if (suggestions.size() > 10) {
       suggestions = suggestions.subList(0, 9);
     }*/
-    System.out.println(word + ": " + StringUtils.join(suggestions, ", "));
+    System.out.println(word + ": " + String.join(", ", suggestions));
   }
 
 }

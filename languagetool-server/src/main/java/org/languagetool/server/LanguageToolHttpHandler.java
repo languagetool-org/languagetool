@@ -20,7 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -211,7 +211,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (config.getTrustXForwardForHeader()) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
       if (forwardedIpsStr != null) {
-        String allForwardedIpsStr = StringUtils.join(forwardedIpsStr, ", ");
+        String allForwardedIpsStr = String.join(", ", forwardedIpsStr);
         List<String> allForwardedIps = Arrays.asList(allForwardedIpsStr.split(", "));
         return getLastIpIgnoringOwn(allForwardedIps);
       }

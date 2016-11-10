@@ -19,7 +19,7 @@
 package org.languagetool.dev.blogs;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -60,7 +60,7 @@ class BlogChecker {
       .replaceAll("<br\\s*/>", "")
       .replaceAll("<br>", "")
       .replaceAll("<.*?>", "");
-    return StringEscapeUtils.unescapeHtml(result).replace(" ", " ");  // nbsp
+    return StringEscapeUtils.unescapeHtml4(result).replace(" ", " ");  // nbsp
   }
 
   public static void main(String[] args) throws IOException {

@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.fa;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -65,7 +64,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return "اشتباه محتمل املائی پیداشده: "
-            + StringUtils.join(replacements, "، ") + ".";
+            + String.join("، ", replacements) + ".";
   }
 
   @Override

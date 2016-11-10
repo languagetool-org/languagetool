@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
@@ -139,7 +138,7 @@ public class MixedAlphabetsRule extends Rule {
   
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements) {
     String tokenString = readings.getToken();
-    String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
+    String msg = tokenString + getSuggestion(tokenString) + String.join(", ", replacements);
     
     return createRuleMatch(readings, replacements, msg);
   }
