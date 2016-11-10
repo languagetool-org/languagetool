@@ -21,10 +21,9 @@ package org.languagetool.language;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
+import org.languagetool.rules.pt.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
-import org.languagetool.rules.pt.PortugueseReplaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.pt.PortugueseTagger;
@@ -114,12 +113,12 @@ public class Portuguese extends Language {
             new HunspellNoSuggestionRule(messages, this),
             new LongSentenceRule(messages),
             new UppercaseSentenceStartRule(messages, this),
-            new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
-            new PortugueseReplaceRule(messages)
+            new PortugueseReplaceRule(messages),
+            new PortugueseWordRepeatRule(messages, this)
     );
   }
 
