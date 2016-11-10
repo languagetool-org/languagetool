@@ -11299,6 +11299,10 @@ USA
         </rule>
         <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
             <rule>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">an|the</token>
+                    <token postag="DT" case_sensitive="yes">A</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a|an|the</token>
@@ -11310,7 +11314,10 @@ USA
                 <short>Two consecutive articles</short>
                 <example correction="The|A"><marker>The a</marker> thing is this.</example>
                 <example correction="an|a">This is <marker>an a</marker> flower.</example>
+                <example correction="The|A"><marker>The A</marker> Cat Sat On A Mat.</example>
                 <example>The Thames was once a much broader river.</example>
+                <example>The third letter is <marker>the A</marker> for Aqua, not Alpha.</example>
+                <example>In this example, use <marker>an A</marker>, not a B or a C.</example>
             </rule>
             <rule>
                 <pattern>
