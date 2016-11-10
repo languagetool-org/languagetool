@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
@@ -74,7 +73,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " é uma expressão brasileira, em Português de Portugal utiliza-se: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override
