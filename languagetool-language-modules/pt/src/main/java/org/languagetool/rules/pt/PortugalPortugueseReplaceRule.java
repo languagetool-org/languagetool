@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
  *
  * @author Marcin Miłkowski
  * @author Tiago F. Santos
+ * @since 3.6
  */
  
 public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
