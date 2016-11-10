@@ -8599,8 +8599,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Defis_to" name="Дефисное/раздельное правописание «-то», «-нибудь»">
-           <rule>   
+        <rulegroup id="Defis_to" name="Дефисное правописание «-то», «-либо»">  
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token regexp="yes" >какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|то|туда|чего|что</token>           
+                        <token skip="-1">то<exception scope="next">то</exception></token>
+                    </marker>
+                    <token postag="SENT_END"/>             
+                </pattern>
+                    <message>Слова с частицей «-то» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
+                <short>Слова с «-то» пишем через дефис</short>
+                <example correction="кто-то|кто, то">Здесь есть <marker>кто то</marker>?</example>
+                <example>Здесь есть кто-то?</example>
+            </rule>
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token regexp="yes" >какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что</token>           
+                        <token skip="-1">либо<exception scope="next">либо</exception></token>
+                    </marker>
+                    <token postag="SENT_END" />           
+                </pattern>
+                    <message>Слова с частицей «-либо» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
+                <short>Слова с «-либо» пишем через дефис</short>
+                <example correction="кто-либо|кто, либо">Здесь есть <marker>кто либо</marker>?</example>
+                <example>Здесь есть какая-либо ошибка?</example>
+            </rule>
+            <!-- words with «-нибудь» are in /resource/ru/compounds.txt
+            <rule>   
                 <pattern>
                         <token postag_regexp="yes" postag="PNN:.*|ADV"></token>           
                         <token>нибудь</token>           
@@ -8609,17 +8636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Слова с «-нибудь» пишем через дефис</short>
                 <example correction="кто-нибудь">Здесь есть <marker>кто нибудь</marker>?</example>
                 <example>Здесь есть кто-нибудь?</example>
-            </rule>
-            <rule>   
-                <pattern>
-                        <token regexp="yes" >какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|то|туда|чего|что</token>           
-                        <token>то</token>           
-                </pattern>
-                    <message>Слова с частицей «-то» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
-                <short>Слова с «-то» пишем через дефис</short>
-                <example correction="кто-то|кто, то">Здесь есть <marker>кто то</marker>?</example>
-                <example>Здесь есть кто-то?</example>
-            </rule>
+            </rule>  -->
         </rulegroup>          
 
         <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
