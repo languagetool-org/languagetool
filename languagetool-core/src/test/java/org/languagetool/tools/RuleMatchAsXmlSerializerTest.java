@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;

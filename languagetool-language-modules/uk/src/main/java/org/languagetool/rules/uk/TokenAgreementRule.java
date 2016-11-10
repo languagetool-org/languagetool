@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -434,7 +433,7 @@ public class TokenAgreementRule extends Rule {
 
     List<String> suggestions = new ArrayList<>();
     
-    String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
+    String requiredPostTagsRegEx = ":(" + String.join("|", posTagsToFind) + ")";
     for (AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
     
       String oldPosTag = analyzedToken.getPOSTag();
@@ -491,7 +490,7 @@ public class TokenAgreementRule extends Rule {
     }
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
-        reqTokenReadings.getToken(), StringUtils.join(reqVidminkyNames, ", "), StringUtils.join(foundVidminkyNames, ", "));
+        reqTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
         
     if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
       msg += ". Можливо тут потрібно присвійний займенник «їхній»?";

@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.rules.RuleMatch;
 import xtc.tree.Location;
 

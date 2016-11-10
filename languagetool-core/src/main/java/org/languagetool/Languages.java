@@ -18,7 +18,6 @@
  */
 package org.languagetool;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
@@ -159,7 +158,7 @@ public final class Languages {
       }
       Collections.sort(codes);
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-              " Supported language codes are: " + StringUtils.join(codes, ", ") + ". The list of languages is read from " + PROPERTIES_PATH +
+              " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
               " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
     }
     return language;

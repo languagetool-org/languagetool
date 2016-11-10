@@ -53,6 +53,9 @@
     See https://languagetool.org/http-api/swagger-ui/#/default
     for a documentation of the new API.
 
+#### Internal
+  * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
+
 
 ## 3.5 (2016-09-30)
 
