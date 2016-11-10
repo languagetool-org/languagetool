@@ -115,6 +115,7 @@ public class Portuguese extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new WordRepeatBeginningRule(messages, this),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
