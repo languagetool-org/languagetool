@@ -11255,13 +11255,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>atenent</token>
                     </marker>
-                    <token>-se</token>
+                    <token regexp="yes">-se|-nos</token>
                     <token>a</token>
                 </pattern>
                 <message>Useu el verb "atenir-se" en comptes de "atendre".</message>
                 <suggestion>atenint</suggestion>
                 <example correction="atenint">Ho van fer <marker>atenent</marker>-se als resultats.</example>
+                <example correction="Atenint"><marker>Atenent</marker>-nos als resultats.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>atenent</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "tenir en compte" el verb "atendre" és transitiu.</message>
+                <suggestion>atenent</suggestion>
+                <suggestion>atenint-nos a</suggestion>
+                <suggestion>tenint en compte</suggestion>
+                <example correction="Atenent|Atenint-nos a|Tenint en compte"><marker>Atenent a</marker> aquesta qüestió.</example>
+            </rule>  
         </rulegroup>
         <rule id="ALTES_ALTRES" name="altes/altres">
             <pattern>
