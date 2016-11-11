@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
+<!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -2318,13 +2319,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"></token>
                 <token skip="-1">Если</token>
                 <marker>                     
-                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">–|-|—</exception></token>
+                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">&defis_libo;|–|-|—</exception></token>
                 </marker>
                 <token />          
             </pattern>
             <message>Нужна запятая или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion></message>
             <url>http://old-punctum.ru/punctum.php?sid=1191</url>
             <short>Нужна запятая или тире</short>
+            <example>Если постучится кто то дверь не открывай, а зови на помощь.</example> <!-- incorrect example, but it must detect with another rule -->
             <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
         </rule>                             
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
@@ -8603,7 +8605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                     <marker>
-                        <token regexp="yes" >какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|то|туда|чего|что</token>           
+                        <token regexp="yes" >&defis_libo;|то</token>           
                         <token skip="-1">то<exception scope="next">то</exception></token>
                     </marker>
                     <token postag="SENT_END"/>             
@@ -8616,7 +8618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                     <marker>
-                        <token regexp="yes" >какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что</token>           
+                        <token regexp="yes" >&defis_libo;</token>           
                         <token skip="-1">либо<exception scope="next">либо</exception></token>
                     </marker>
                     <token postag="SENT_END" />           
