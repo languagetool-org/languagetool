@@ -184,6 +184,20 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <example type='correct'>A vaca está no pasto.</example>
 	</rule>
 
+	<!-- Specific gender concordance errors - A > Ended in A -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+	<rule default='off' id="A_WORD_A" name="a + palavra terminada em a">
+	<pattern>
+	        <token regexp='yes'>a</token>
+        	<token postag='A..M.*|N.M.*' postag_regexp='yes' regexp='yes'>.*a$</token>
+	</pattern>
+		<message>Possível erro de concordância do género.</message>
+			<suggestion>o \2</suggestion>
+		<url>https://duvidas.dicio.com.br/em-nivel-de-a-nivel-de-ou-ao-nivel-de/</url>
+		<short>Construção gramatical incorreta.</short>
+		<example correction="O dogma"><marker>A dogma</marker> de quem muito.</example>
+	</rule>
+
 	<!-- Specific gender concordance errors - A/Em > Nível       -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
 	<rule id="A_NIVEL" name="a nível">
