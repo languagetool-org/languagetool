@@ -119,7 +119,8 @@ public class Portuguese extends Language {
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
-            new PortugueseWordRepeatRule(messages, this)
+            new PortugueseWordRepeatRule(messages, this),
+            new PortugueseWrongWordInContextRule(messages)
     );
   }
 
