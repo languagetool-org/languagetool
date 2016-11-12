@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
-<!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
+<!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -8610,10 +8610,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="SENT_END"/>             
                 </pattern>
-                    <message>Слова с частицей «-то» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
+                <message>Слова с частицей «-то» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
                 <short>Слова с «-то» пишем через дефис</short>
                 <example correction="кто-то|кто, то">Здесь есть <marker>кто то</marker>?</example>
                 <example>Здесь есть кто-то?</example>
+            </rule>
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token regexp="yes" >&defis_libo;|то</token>           
+                        <token skip="-1">то</token>
+                    </marker>
+                    <token>то</token>           
+                </pattern>
+                <message>Слова с частицей «-то» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1: \2</suggestion>?</message>
+                <short>Требуется знак препинания</short>
+                <example correction="такое-то|такое: то">Выбираю <marker>такое то</marker> сливочное, то шоколадное.</example>
+                <example>Выбираю такое: то сливочное, то шоколадное.</example>
             </rule>
             <rule>   
                 <pattern>
@@ -8623,10 +8636,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="SENT_END" />           
                 </pattern>
-                    <message>Слова с частицей «-либо» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
+                <message>Слова с частицей «-либо» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1, \2</suggestion>?</message>
                 <short>Слова с «-либо» пишем через дефис</short>
                 <example correction="кто-либо|кто, либо">Здесь есть <marker>кто либо</marker>?</example>
                 <example>Здесь есть какая-либо ошибка?</example>
+            </rule>
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token regexp="yes" >&defis_libo;</token>           
+                        <token skip="-1">либо</token>
+                    </marker>
+                    <token>либо</token>          
+                </pattern>
+                <message>Слова с частицей «-либо» пишем через дефис. Вы имели в виду <suggestion>\1-\2</suggestion> или <suggestion>\1: \2</suggestion>?</message>
+                <short>Требуется знак препинания</short>
+                <example correction="какое-либо|какое: либо">Выбирай <marker>какое либо</marker> сливочное, либо шоколадное?</example>
+                <example>Выбирай какое: либо сливочное, либо шоколадное?</example>
             </rule>
             <!-- words with «-нибудь» are in /resource/ru/compounds.txt
             <rule>   
