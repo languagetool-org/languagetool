@@ -22,10 +22,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +41,12 @@ public class EnglishConfusionProbabilityRuleTest {
   private final JLanguageTool lt = new JLanguageTool(english);
   
   private EnglishConfusionProbabilityRule rule;
+
+  @SuppressWarnings("ResultOfObjectAllocationIgnored")
+  @Test
+  public void testConstructor() {
+    new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages(), new FakeLanguageModel(), Languages.getLanguageForShortCode("en"));
+  }
 
   @Test
   @Ignore
