@@ -86,7 +86,8 @@ public class PatternRuleTest {
   }
   
   /**
-   * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
+   * To be called from language modules. Languages.get() only knows the languages that are in the classpath,
+   * and that's only the demo language for languagetool-core.
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
