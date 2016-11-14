@@ -23,7 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
-import org.languagetool.language.English;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
@@ -170,7 +170,7 @@ class Main {
         Language language = detectLanguageOfString(text);
         if (language == null) {
           System.err.println("Could not detect language well enough, using English");
-          language = new English();
+          language = new AmericanEnglish();
         }
         changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
         System.err.println("Using " + language.getName() + " for file " + filename);
@@ -235,7 +235,7 @@ class Main {
             Language language = detectLanguageOfString(line);
             if (language == null) {
               System.err.println("Could not detect language well enough, using English");
-              language = new English();
+              language = new AmericanEnglish();
             }
             System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
@@ -413,7 +413,7 @@ class Main {
         System.err.println("No language specified, using English (no spell checking active, " +
                 "specify a language variant like 'en-GB' if available)");
       }
-      options.setLanguage(new English());
+      options.setLanguage(new AmericanEnglish());
     } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
