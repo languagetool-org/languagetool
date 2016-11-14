@@ -25,11 +25,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -301,9 +299,7 @@ class Main {
     return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara() || "".equals(line);
   }
 
-  private InputStreamReader getInputStreamReader(String filename, String encoding)
-      throws UnsupportedEncodingException, FileNotFoundException, IOException {
-    InputStreamReader isr;
+  private InputStreamReader getInputStreamReader(String filename, String encoding) throws IOException {
     String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
     InputStream is = System.in;
     if (!isStdIn(filename)) {
@@ -311,13 +307,12 @@ class Main {
       BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
         ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
         ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);
-      if(bomIn.hasBOM() && encoding == null) {
+      if (bomIn.hasBOM() && encoding == null) {
         charsetName = bomIn.getBOMCharsetName();
       }
       is = bomIn;
     }
-    isr = new InputStreamReader(new BufferedInputStream(is), charsetName);
-    return isr;
+    return new InputStreamReader(new BufferedInputStream(is), charsetName);
   }
 
   private boolean isStdIn(String filename) {
