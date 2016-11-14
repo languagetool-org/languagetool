@@ -18,32 +18,45 @@
  */
 package org.languagetool.commandline;
 
+import static org.languagetool.tools.StringTools.filterXML;
+import static org.languagetool.tools.StringTools.readerToString;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tools.JnaTools;
+import org.languagetool.tools.StringTools.ApiPrintMode;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.input.BOMInputStream;
-
-import static org.languagetool.tools.StringTools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -169,7 +182,7 @@ class Main {
       if (options.isAutoDetect()) {
         Language language = detectLanguageOfString(text);
         if (language == null) {
-          System.err.println("Could not detect language well enough, using English");
+          System.err.println("Could not detect language well enough, using American English");
           language = new AmericanEnglish();
         }
         changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
@@ -234,7 +247,7 @@ class Main {
           if (lineCount == 1 && options.isAutoDetect()) {
             Language language = detectLanguageOfString(line);
             if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
+              System.err.println("Could not detect language well enough, using American English");
               language = new AmericanEnglish();
             }
             System.err.println("Language used is: " + language.getName());
@@ -413,7 +426,7 @@ class Main {
         System.err.println("No language specified, using English (no spell checking active, " +
                 "specify a language variant like 'en-GB' if available)");
       }
-      options.setLanguage(new AmericanEnglish());
+      options.setLanguage(new English());
     } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
