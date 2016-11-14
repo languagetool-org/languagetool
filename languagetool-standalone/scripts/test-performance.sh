@@ -2,7 +2,7 @@
 
 DATADIR=/home/languagetool/languagetool.org/languagetool-website/www/regression-tests
 sleep $[ ( $RANDOM % 5 )  + 1 ]s
-RUNTIME=`/usr/bin/time --format="%E" curl -s --max-time 30 "https://languagetool.org/api/v2/?language=en-US&text=my+texd" >/dev/null 2>/tmp/runtime.log`
+RUNTIME=`/usr/bin/time --format="%E" curl -s --max-time 30 "https://languagetool.org/api/v2/check?language=en-US&text=my+texd" >/dev/null 2>/tmp/runtime.log`
 RUNTIME=`cat /tmp/runtime.log | sed s/0://`
 DATE=`date +"%Y-%m-%d %H:%M:%S"`
 echo "$DATE;$RUNTIME" >>$DATADIR/performance-api.log
