@@ -28758,7 +28758,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                     <token skip="-1"><exception scope="next" postag="VER.*[1-3].*" postag_regexp="yes"/></token>
-                    <token regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"></token>
                 </antipattern>
                 <antipattern>
                     <token postag="PA2:.*|ADJ:.*" postag_regexp="yes"/>
@@ -28775,7 +28777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>zu</token>
                     <token regexp="yes">erkennen|verstehen</token>
                 </antipattern>
--->                <pattern>
+                <pattern>
                     <marker>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -28800,7 +28802,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                     <token skip="-1"><exception scope="next" postag="VER.*[1-3].*" postag_regexp="yes"/></token>
-                    <token regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token  skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"></token>
                 </antipattern>
                 <antipattern>
                     <token postag="PA2:.*|ADJ:.*" postag_regexp="yes"/>
