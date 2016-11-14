@@ -223,7 +223,6 @@ public class CaseRule extends GermanRule {
     "Sparten",
     "Heiliger",
     "Reisender",
-    "Hochdeutsch",
     "Pest",
     "Schwinge",
     "Verlies",
@@ -263,6 +262,7 @@ public class CaseRule extends GermanRule {
     "Durcheinander",
     "Eindrücke",
     "Erwachsener",
+    "Familienangehörige", // "Brüder und solche Familienangehörige, die..."
     "Flöße",
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
