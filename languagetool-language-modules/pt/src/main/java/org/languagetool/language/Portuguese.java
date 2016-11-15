@@ -26,6 +26,8 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -43,6 +45,7 @@ public class Portuguese extends Language {
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
   
   private Tagger tagger;
+  private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
 
@@ -86,6 +89,14 @@ public class Portuguese extends Language {
       tagger = new PortugueseTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new PortugueseHybridDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
