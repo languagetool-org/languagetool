@@ -26,6 +26,22 @@
     </equivalence>
   </unification>
 
+  <rule id="NUMBER" name="number">
+  <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <pattern>
+      <token regexp="yes">(\d.*)</token>
+    </pattern>
+    <disambig postag="Z0"/>
+  </rule>
+
+  <rule id="ROMAN_NUMBER" name="roman number">
+  <!-- 		l18n from French disambiguation.xml by Tiago F. Santos		-->
+    <pattern>
+      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
+    </pattern>
+    <disambig postag="ZR"/>
+  </rule>
+
   <!-- D_R_N : Det + Advérbio + Nome				-->
   <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
   <rule id="D_R_N" name="Det + Adv + Nom">
@@ -123,6 +139,69 @@
     <disambig action="filter" postag="N.*"/>
   </rule>
 
+  <!-- Verbo + Preposição: p.ex. 'a' como preposição depois de verbo	-->
+  <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+  <!-- https://pt.wikipedia.org/wiki/A_(preposi%C3%A7%C3%A3o)		-->
+ <rulegroup id="A_PREPOSIÇÂO" name="verbo + a (preposição)">
+  <rule>
+    <pattern>
+        <marker>
+            <token>a</token>
+        </marker>
+        <token postag="R.*|Z." postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="S.*"/> 
+  </rule>
+  <rule>
+    <pattern>
+        <marker>
+            <token>a</token>
+        </marker>
+    <token regexp='yes'>mim|ti|si|[nv]ós|el[ae]s?|cavalo|convite|domícilio|fim|par|poucos?|muitos?|princípio|tempo|favor|exemplo|rigor|sério|título</token>
+    </pattern>
+    <disambig action="filter" postag="S.*"/> 
+  </rule>  
+  <rule>
+    <pattern>
+        <marker>
+            <token>a</token>
+        </marker>
+    <token regexp='yes'>longo|sangue|todo</token>
+    <token regexp='yes'>prazo|frio|custo</token>
+    </pattern>
+    <disambig action="filter" postag="S.*"/> 
+  </rule>
+  <rule>
+    <pattern>
+        <token postag="V.*" postag_regexp="yes"/>
+    <token min='0' postag='R.' postag_regexp='yes'/>
+        <marker>
+            <token>a</token>
+        </marker>
+    </pattern>
+    <disambig action="filter" postag="S.*"/>
+  </rule>
+  <rule>
+    <pattern>
+        <token regexp='yes'>restrit[ao]s?|próximo</token>
+        <marker>
+            <token>a</token>
+        </marker>
+    </pattern>
+    <disambig action="filter" postag="S.*"/>
+  </rule>
+  <rule>
+    <pattern>
+    <token inflected='yes'>ser</token>
+    <token postag='A.*' postag_regexp='yes'/>
+        <marker>
+            <token>a</token>
+        </marker>
+    </pattern>
+    <disambig action="filter" postag="S.*"/>
+  </rule>
+ </rulegroup>
+  
   <!-- 		Does not apply to all portuguese variants	  -->
   <!--P_V Quando está a frente de um verbo, trata-se de um pronome-->
   <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -275,7 +354,7 @@
         </rule>
     </rulegroup>
 
-   <rule id="VOGAIS" name="[^o|letra] e[subst|conx] (e[subst])">
+   <rule id="VOGAIS" name="[^o|letra] e[subst|conj] (e[subst])">
   <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
         <pattern>
             <token><exception regexp="yes">os?|letras?|voga(l|is)</exception></token>
@@ -286,13 +365,5 @@
 
         <disambig action="remove"><wd pos="NCMS000"/></disambig>
     </rule>
-
-  <rule id="ROMAN_NUMBER" name="roman number">
-  <!-- 		l18n from French disambiguation.xml by Tiago F. Santos		-->
-    <pattern>
-      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
-    </pattern>
-    <disambig postag=""/>
-  </rule>
 
 </rules>
