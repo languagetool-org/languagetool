@@ -1,0 +1,12 @@
+
+description = 'Japanese module for LanguageTool'
+dependencies {
+  compile project(':languagetool-core')
+    compile(group: 'com.google.code', name: 'lucene-gosen-ipadic', version:'1.2.1') {
+exclude(module: 'lucene-core')
+exclude(module: 'solr-core')
+exclude(module: 'solr-solrj')
+    }
+  testCompile project(':languagetool-core')
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}
