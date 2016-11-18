@@ -87,7 +87,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	    <token postag='D[ADIP].MS0|P[ID]0MS.*|NCMS..0|A..MS0' postag_regexp='yes'>
 		<exception postag='NC[CF]S..0|A..[CF]S0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser</exception></token>
-	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
+	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho|termo|nome</token>
 	   </or>
 	    <token postag='N.F...0|A..F.0' postag_regexp='yes'>
 	     <exception postag='N.[CM]...0|A..[CM].0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
@@ -111,7 +111,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <or>
 	    <token postag='D[ADIP].MP0|P[ID]0MP.*|NCMP..0|A..MP0' postag_regexp='yes'>
 		<exception postag='NC[CF]P..0|A..[CF]P0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception></token>
-	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
+	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos|termos|nomes</token>
 	   </or>
 	    <token postag='N.F...0|A..F.0' postag_regexp='yes'>
 		<exception postag='N.[CM]...0|A..[CM].0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
@@ -136,7 +136,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	     <token postag='D[ADIP].FS0|P[ID]0FS.*|NCFS..0|A..FS0' postag_regexp='yes'>
 		<exception postag='NC[CM]S..0|A..[CM]S0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|a|mas</exception></token>
-	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
+	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha|palavra|letra</token>
 	   </or>
 	  <token postag='N.M...0|A..M.0' postag_regexp='yes'>
 	  	<exception postag='N.[CF]...0|A..[CF].0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
@@ -160,7 +160,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	    <token postag='D[ADIP].FP0|P[ID]0FP.*|NCFP..0|A..FP0' postag_regexp='yes'>
 		<exception postag='NC[CM]P..0|A..[CM]P0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|mas</exception></token>
-	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
+	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas|palavras|letras</token>
 	   </or>
 	    <token postag='N.M...0|A..M.0' postag_regexp='yes'>
 		<exception postag='N.[CF]...0|A..[CF].0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
@@ -194,7 +194,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<rule default='off' id="A_WORD_A" name="a + palavra terminada em a">
 	<pattern>
 	        <token regexp='yes'>a</token>
-        	<token postag='A..M.*|N.M.*' postag_regexp='yes' regexp='yes'>.*a$</token>
+        	<token postag='A..M.*|N.M.*' postag_regexp='yes' regexp='yes'>.*a$
+        	<exception regexp='yes'>palavra|letra</exception></token>
 	</pattern>
 		<message>Possível erro de concordância do género.</message>
 		<url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
@@ -236,7 +237,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token>o</token>
 	   <token postag='N.F...0|A..F.0' postag_regexp='yes'>
 	  	<exception postag='N.F...0|A..F.0' postag_regexp='yes' negate_pos='yes'></exception>
-		<exception regexp='yes'>uma|umas|e|ser</exception></token>
+		<exception regexp='yes'>uma|umas|e|ser|nome|termo</exception></token>
 	 </pattern>
 	 <message>Erro de concordância do género.</message>
 	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
