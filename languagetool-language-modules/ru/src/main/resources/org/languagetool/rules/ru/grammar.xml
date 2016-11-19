@@ -8077,6 +8077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Эта книга интересная.</example>
+                <example>Это не незнакомец.</example>
                 <example>Это не только не критично, но и оправданно.</example>
                 <example>Это не несёт никакой нагрузки.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
@@ -8097,7 +8098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
-                <example>Cледует пытаться избегать двойных отрицаний.</example>
+                <example>Рекомендуется избегать двойных отрицаний.</example>
                 <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
                 <example>Заявка не рассматривается и не оценивается.</example>
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
@@ -9071,12 +9072,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Янцзы вышла из берегов.</example>
             </rule>
         </rulegroup>
-        
-        <!--    -->   
-        
-        <!--    -->  
-        
-        
         <rulegroup id="Postrojenije_slovosochetanij_sobir_noun" name="Сказуемое при подлежащем, выраженном собирательными существительными">      
             <rule>   
                 <pattern>
@@ -9130,9 +9125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Выполните сборку в соответствии с инструкцией.</example>
             </rule>            
         </rulegroup>       
-        <!--    -->  
-       
-<!--    -->        
+      
         <rulegroup id="Obrazovanie_form_suschestvitelnykh_prof" name="Обозначение лиц по профессии, ...">
             
             <rule>   
@@ -9179,9 +9172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На их участке хорошая врач.</example>
             </rule>
         </rulegroup>       
-        <!--    -->        
-        
-        
+       
 <!--    
         <rulegroup id="Postrojenije_slovosochetanij_skazuem_Pl" name="Употребление числа сказуемого: мн. ч.">
             <rule>   
@@ -9308,8 +9299,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
             
         <rulegroup id="Obrazovanije_glagoln_form_imperativ" name="Образование повелительного наклонения">
-
-
             <rule>   
                 <pattern>
                         <token>давайте</token>
@@ -9746,12 +9735,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Жажда власти погубила его.</example>
             </rule>   
         </rulegroup>
-         
 
-<rulegroup id="Sklonenije_suschestvit_PL" name="Склонение некоторых существительных во множ. числе">
-
-
-            <rule>   
+        <rulegroup id="Sklonenije_suschestvit_PL" name="Склонение некоторых существительных во множ. числе">
+           <rule>   
                 <pattern>
                         <token>листья</token>                  
                         <token>бумаги</token>                  
@@ -9851,19 +9837,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="покрывало в пуху">Было <marker>покрывало в пухе</marker>.</example>
                 <example>Покрывало было в пуху.</example>
             </rule>   
-
         </rulegroup>
          
-         
-<rulegroup id="Paronimy" name="Паронимы">
-
-
+        <rulegroup id="Paronimy" name="Паронимы">
             <rule>   
                 <pattern>
-                        <token>эффектное</token>
-                        <token>средство</token>
+                        <token inflected="yes">эффектный</token>
+                        <token inflected="yes">средство</token>
                 </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion><match no="1" regexp_match="([Ээ]ффектн)(.*)" regexp_replace="эффективн$2"></match> <match no="2"></match></suggestion>?</message>
                 <short>Правильно «эффективное средство»</short>
                 <example correction="Эффективное средство"><marker>Эффектное средство</marker> от простуды.</example>
                 <example>Эффективное средство от простуды.</example>
@@ -9872,9 +9854,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                     <token inflected="yes">поставить</token>
-                    <token>роспись</token>
+                    <token inflected="yes">роспись</token>
                 </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>поставить подпись</suggestion>?</message>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion><match no="1"></match> <match no="2" regexp_match="([Рр]осп)(.*)" regexp_replace="подп$2"></match></suggestion>?</message>
                 <short>Правильно «поставить подпись»</short>
                 <example correction="поставить подпись">Здесь нужно <marker>поставить роспись</marker>.</example>
                 <example>Здесь нужно поставить подпись.</example>
@@ -9885,7 +9867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">различие</token>
                     <token>от</token>
                 </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion><match no="1" regexp_match="([Рр]азлич)(.*)" regexp_replace="отлич$2"></match> <match no="2"></match></suggestion>?</message>
                 <short>Правильно «отличие от»</short>
                 <example correction="отличие от">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
                 <example>Его отличие от предыдущего варианта незначительно.</example>
@@ -9897,69 +9879,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>в</token>
                     <token>пользование</token>
                 </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion><match no="1" regexp_match="([Пп]редстав)(.*)" regexp_replace="предостав$2"></match> <match no="2"></match> <match no="3"></match></suggestion>?</message>
                 <short>Правильно «предоставить в пользование»</short>
                 <example correction="предоставить в пользование">Мы можем <marker>представить в пользование</marker> эти словари. </example>
                 <example>Мы можем предоставить в пользование эти словари. </example>
             </rule>   
-
-
         </rulegroup>
-
-        <rulegroup id="Pleonasm" name="Плеоназм">
-            <rule>   
-                <pattern>
-                        <token>эффектное</token>
-                        <token>средство</token>
-                </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
-                <short>Правильно «эффективное средство»</short>
-                <example correction="Эффективное средство"><marker>Эффектное средство</marker> от простуды.</example>
-                <example>Эффективное средство от простуды.</example>
-            </rule>   
-
-            <rule>   
-                <pattern>
-                    <token inflected="yes">поставить</token>
-                    <token>роспись</token>
-                </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>поставить подпись</suggestion>?</message>
-                <short>Правильно 'поставить подпись'</short>
-                <example correction="поставить подпись">Здесь нужно <marker>поставить роспись</marker>.</example>
-                <example>Здесь нужно поставить подпись.</example>
-            </rule>   
-
-            <rule>   
-                <pattern>
-                    <token inflected="yes">различие</token>
-                    <token>от</token>
-                </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
-                <short>Правильно «отличие от»</short>
-                <example correction="отличие от">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
-                <example>Его отличие от предыдущего варианта незначительно.</example>
-            </rule>   
-
-            <rule>   
-                <pattern>
-                    <token inflected="yes">представить</token>
-                    <token>в</token>
-                    <token>пользование</token>
-                </pattern>
-                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
-                <short>Правильно «предоставить в пользование»</short>
-                <example correction="предоставить в пользование">Мы можем <marker>представить в пользование</marker> эти словари.</example>
-                <example>Мы можем предоставить в пользование эти словари.</example>
-            </rule>   
-
-
-        </rulegroup>
-
-
-        
+  
         <rulegroup id="Tavtologija" name="Тавтология">
-
-
             <rule>   
                 <pattern>
                         <token>следует</token>
@@ -10013,9 +9940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-<rulegroup id="Chastitsa_NI_v_ustojchiv_vyrazh" name="Частица «НИ» в устойчивых выражениях">
-
-
+        <rulegroup id="Chastitsa_NI_v_ustojchiv_vyrazh" name="Частица «НИ» в устойчивых выражениях">
             <rule>   
                 <pattern>
                         <token>не</token>
@@ -10028,8 +9953,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ни свет ни заря">Дети проснулись <marker>не свет не заря</marker>.</example>
                 <example>Дети проснулись ни свет ни заря.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>не</token>
@@ -10042,8 +9965,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Ни днем ни ночью"><marker>Не днем не ночью</marker> нет от них покоя.</example>
                 <example>Ни днем ни ночью нет от них покоя.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
                         <token>не</token>
@@ -10056,7 +9977,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ни много ни мало">Он заработал <marker>не много не мало</marker> миллион.</example>
                 <example>Он заработал ни много ни мало миллион.</example>
             </rule>   
-
             <rule>   
                 <pattern>
                         <token>не</token>
@@ -10071,8 +9991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>   
         </rulegroup>
 
-<rulegroup id="Chastitsa_NI_usilen_negat" name="Частица «НИ» для усиления отрицания">
-
+        <rulegroup id="Chastitsa_NI_usilen_negat" name="Частица «НИ» для усиления отрицания">
             <rule>   
                 <pattern>
                         <token>нет</token>
@@ -10124,7 +10043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-<rulegroup id="Dvojnoe_negate_s_NE" name="Двойное отрицание с частицей «НЕ»">
+        <rulegroup id="Dvojnoe_negate_s_NE" name="Двойное отрицание с частицей «НЕ»">
 
 
             <rule>   
@@ -10184,7 +10103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         </rulegroup>
 
-<rulegroup id="Parnoje_upotrebl_NI" name="Парное употребление частицы «НИ»">
+        <rulegroup id="Parnoje_upotrebl_NI" name="Парное употребление частицы «НИ»">
             <rule>   
                 <pattern>
                       <marker>
@@ -10253,8 +10172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         </rulegroup>
 
-<rulegroup id="Predlogi_vsledstvije_napodobije" name="Предлоги  «наподобие»">
-
+        <rulegroup id="Predlogi_vsledstvije_napodobije" name="Предлоги «наподобие»">
             <rule>   
                 <pattern>
                         <token>на</token>
@@ -10293,7 +10211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         </rulegroup>
 
-<rulegroup id="Predlog_v_zakluchenije" name="Предлог «в заключение»">
+        <rulegroup id="Predlog_v_zakluchenije" name="Предлог «в заключение»">
 
             <rule>   
                 <pattern>
@@ -10306,17 +10224,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="В заключение выступления"><marker>В заключении выступления</marker> он прочёл стихи.</example>
                 <example>В заключение выступления он прочёл стихи. </example>
             </rule>   
-
-
         </rulegroup>
 
-
-
-
-
-<rulegroup id="Adv_vposledstvii" name="Наречие «впоследствии»">
-
-
+        <rulegroup id="Adv_vposledstvii" name="Наречие «впоследствии»">
             <rule>   
                 <pattern>
                     <marker>
@@ -10344,9 +10254,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Впоследствии"><marker>В последствие</marker> девушка часто вспоминала об этом.</example>
                 <example>Впоследствии девушка часто вспоминала об этом.</example>
             </rule>   
-
         </rulegroup>
-
-
     </category> 
 </rules>
