@@ -24792,6 +24792,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="meinen">Bei <marker>meine</marker> großen Tassen.</example>
                 <example correction="meinen">Entsprechend <marker>meine</marker> Empfehlungen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token>des</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
+                <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token>eines</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
+                <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
+            </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
             <!-- TODO: allgemeines Pattern -->
