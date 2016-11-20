@@ -1162,7 +1162,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Review coverage by General Concordance Rules -->
+<!-- FIXME Conjugês is incorrect			-->
     <!-- DET_FEM_MAS words that use "os" instead of "as" -->
     <rule id="DET_FEM_MAS_AS_OS" name="palavras as-os">
       <pattern case_sensitive="no">
@@ -2282,7 +2283,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 
     <!-- DEPOIS DE após -->
-    <rule id="DEPOIS_DE" name="após">
+    <!-- 	This is a personal style rule. Not mandatory	-->
+    <!--	FIXME Move to style category			-->
+<!--
+    <rule type='style' default='off' id="DEPOIS_DE" name="após">
       <pattern>
   	    <marker>
   	    <token>depois</token>
@@ -2293,7 +2297,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «depois de» por <suggestion>após</suggestion>.</message>
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
     </rule>
-
+-->
 	
 
     <!-- DESDE QUE HAJAM desde que haja -->
@@ -2396,7 +2400,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
     <!-- ELAS TEM elas têm -->
     <rule id="ELAS_TEM" name="elas têm">
       <pattern>
@@ -2408,7 +2412,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
     <!-- ELES TEM eles têm -->
     <rule id="ELES_TEM" name="eles têm">
       <pattern>
@@ -2484,9 +2488,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
     <!-- EQUIPE: NA/EM/NUMA/SUA/NOSSA/VOSSA/TUA EQUIPE -> equipa -->
-    <rule id="EQUIPE" name="equipa">
+    <rule default='off' id="EQUIPE" name="equipa">
       <pattern>
         <token regexp="yes">na|em|numa|sua|nossa|vossa|tua</token>
         <marker>
@@ -2498,9 +2502,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO 	Variant specific - Move to pt-PT		 -->
     <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
-    <rule id="EQUIPES" name="equipas">
+    <rule default='off' id="EQUIPES" name="equipas">
       <pattern>
         <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
         <marker>
@@ -2795,6 +2799,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
     <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
     <rule id="À-HÁ_N_TEMPO" name="há n tempo">
+      <antipattern>
+      	<token>à</token>
+      	<token>última</token>
+      	<token>hora</token>
+      </antipattern>
       <pattern>
 	<marker>
 	  <token>à</token>
@@ -2981,8 +2990,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- MEIA BARALHADA meio baralhada -->
     <!-- FIXME This rule is incorrect for all pt variants. See:
     	http://escreverbem.com.br/meio-ou-meia/	-->
-<!--
-    <rule id="MEIA_BARALHADA" name="meio baralhada">
+    <rule default='off' id="MEIA_BARALHADA" name="meio baralhada">
       <pattern>
         <token>meia</token>
         <token>baralhada</token>
@@ -2990,13 +2998,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «meia baralhada» por <suggestion>meio baralhada</suggestion>.</message>
       <example correction="meio baralhada">Ela está <marker>meia baralhada</marker>.</example>
     </rule>
--->
+
 
     <!-- FIXME This rule is incorrect for all pt variants. See:
     	http://escreverbem.com.br/meio-ou-meia/	-->
     <!-- MEIA CHEIA meio cheia -->
-<!--
-    <rule id="MEIA_CHEIA" name="meio cheia">
+    <rule default='off' id="MEIA_CHEIA" name="meio cheia">
       <pattern>
         <token>meia</token>
         <token>cheia</token>
@@ -3004,7 +3011,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «meia cheia» por <suggestion>meio cheia</suggestion>.</message>
       <example correction="meio cheia">A tigela está <marker>meia cheia</marker>.</example>
     </rule>
--->
 	
 	
     <!-- MEIO-IRMÃ meia-irmã -->
@@ -3020,8 +3026,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- FIXME This rule is incorrect for all pt variants. See:
     	http://escreverbem.com.br/meio-ou-meia/	-->
     <!-- MEIA LOUCA meio louca -->
-<!--
-    <rule id="MEIA_LOUCA" name="meio louca">
+    <rule default='off'  id="MEIA_LOUCA" name="meio louca">
       <pattern>
         <token>meia</token>
         <token>louca</token>
@@ -3029,9 +3034,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «meia louca» por <suggestion>meio louca</suggestion>.</message>
       <example correction="meio louca">A Ana é <marker>meia louca</marker>.</example>
     </rule>
--->
 
-
+<!-- TODO Review coverage by General Concordance Rules -->
     <!-- MUITA > muito -->
     <rule id="MUITA" name="muito">
       <pattern>
@@ -3202,9 +3206,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<!-- CONTROLE/CONTROLO *START* -->
 	<!-- ************************* -->
 	
-	
+
     <!-- O/DE/DO CONTROLE o/de/do controlo -->
-    <rule id="O_DE_DO_CONTROLE" name="o/de/do controlo">
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
+    <rule default='off' id="O_DE_DO_CONTROLE" name="o/de/do controlo">
       <pattern>
 		<token regexp="yes">o|de|do</token>
 		<marker>
@@ -3216,9 +3221,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
     </rule>
 
-	
+
     <!-- SOB CONTROLE sob controlo -->
-    <rule id="SOB_CONTROLE" name="sob controlo">
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
+    <rule default='off' id="SOB_CONTROLE" name="sob controlo">
       <pattern>
 		<token>sob</token>
 		<marker>
