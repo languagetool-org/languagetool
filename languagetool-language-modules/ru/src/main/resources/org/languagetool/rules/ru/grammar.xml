@@ -416,9 +416,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> 
                 <pattern>
                    <token inflected="yes">производственный</token>
-                   <token>кампания</token>
+                   <token inflected="yes">кампания</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion><match no="1" /> компания</suggestion>?</message>
+                <message>Имелось в виду: <suggestion><match no="1" /> <match no="2" regexp_match="(кампан)(.*)" regexp_replace="компан$2" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="Производственная компания"><marker>Производственная кампания</marker>.</example>
                 <example>Производственная компания была основана в 1990 году.</example>
@@ -426,10 +426,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> 
                 <pattern>
                    <token inflected="yes">начаться</token>
-                   <token>компания</token>
+                   <token inflected="yes">компания</token>
                    <token>по</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion><match no="1" /> кампания <match no="3" /></suggestion>?</message>
+                <message>Имелось в виду: <suggestion><match no="1" /> <match no="2" regexp_match="(компан)(.*)" regexp_replace="кампан$2" /> <match no="3" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="Началась кампания по"><marker>Началась компания по</marker> сбору урожая.</example>
                 <example>Кампания по сбору урожая.</example>
@@ -485,7 +485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> 
                 <pattern>
                    <token inflected="yes">болотный</token>
-                   <token regexp="yes">лес|луг|долина|территория|поле|пойма|чек|лиман|опушка</token>
+                   <token regexp="yes" inflected="yes">лес|луг|долина|территория|поле|пойма|чек|лиман|опушка</token>
                 </pattern>
                 <message>Имелось в виду: <suggestion><match no="1" regexp_match="болотн(.*)" regexp_replace="болотист$1" /> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
@@ -494,7 +494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> 
                 <pattern>
                    <token inflected="yes">болотистый</token>
-                   <token regexp="yes">газ|лихорадка|лунь|козёл|козел|олень|дуб</token>
+                   <token regexp="yes" inflected="yes">газ|лихорадка|лунь|козёл|козел|олень|дуб</token>
                 </pattern>
                 <message>Имелось в виду: <suggestion><match no="1" regexp_match="болотист(.*)" regexp_replace="болотн$1" /> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
@@ -9610,20 +9610,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>контроль</token>
                         <token>над</token>
                         <token>качеством</token>
-                        <token>работы</token>
+                        <token regexp="yes">работы|работ</token>
                 </pattern>
-                <message>При существительных, обозначающих действие или признак – пишем Контроль за (за качеством работы, за работой станка)</message>
+                <message>При существительных, обозначающих действие или признак – пишем Контроль за (за качеством работы, за работой станка): <suggestion>\1 за \3 \4</suggestion></message>
                 <short>Правильно «контроль за качеством работы»</short>
-                <example correction="">Осуществлять <marker>контроль над качеством работы</marker>. </example>
+                <example correction="контроль за качеством работы">Осуществлять <marker>контроль над качеством работы</marker>. </example>
                 <example>Осуществлять контроль за качеством работы. </example>
             </rule>   
             <rule>   
                 <pattern>
                         <token>контроль</token>
                         <token>за</token>
-                        <token>специалистами</token>
+                        <token regexp="yes">специалистами|специалистом</token>
                 </pattern>
-                <message>При одушевленных существительных – пишем Контроль над. Вы имели в виду <suggestion>контроль над специалистами</suggestion>?</message>
+                <message>При одушевленных существительных – пишем Контроль над. Вы имели в виду <suggestion>\1 над \3</suggestion>?</message>
                 <short>Правильно «контроль над специалистами»</short>
                 <example correction="контроль над специалистами">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
                 <example>Осуществлять контроль над специалистами на предприятии.</example>

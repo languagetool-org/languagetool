@@ -33,7 +33,9 @@
   * added and improved many rules
 
 #### Russian
-  * added/improved several rules
+  * added and improved many rules
+  * added words suggested by users
+  * improved disambiguation rules
 
 #### HTTP API
   * The old API has been deactivated, as documented at
