@@ -49,11 +49,11 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
     </rule>
     <rule name="NOUN_V3" id="NOUN_V3">
         <pattern>	 
-            <!-- Что за головная боль! -->
+            <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
             <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:R" -->
             <token  negate="yes">что</token>
@@ -66,7 +66,6 @@ Copyright (C) 2009-2012 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
-  <!--  <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>  -->
     </rule>
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
@@ -79,7 +78,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN:.*:.*:R" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="NN:.*:.*:V"></disambig>
     </rule>
     <rule name="NOUN_D" id="NOUN_D">
         <pattern>
@@ -93,7 +92,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN:.*:.*:D" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="NN:.*:.*:P"></disambig>
     </rule>
     <rule name="NOUN_P" id="NOUN_P">
         <pattern>
@@ -121,7 +120,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="ADJ:.*:T" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="ADJ:.*:R"></disambig>
     </rule>
     <rule name="ADJ_T1" id="ADJ_T1">
         <pattern>
@@ -180,7 +179,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="ADJ:.*:Nom"></disambig>
     </rule>
     <rule name="ADJ_R" id="ADJ_R">
         <pattern>
@@ -192,7 +191,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="ADJ:.*:R" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="ADJ:.*:D"></disambig>
     </rule>
     <rule name="ADJ_D" id="ADJ_D">
         <pattern>
@@ -204,7 +203,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="ADJ:.*:D" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="ADJ:.*:P"></disambig>
     </rule>
     <rule name="ADJ_P" id="ADJ_P">
         <pattern>
@@ -216,7 +215,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="ADJ:.*:D"></disambig>
     </rule>
     <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
         <pattern>
