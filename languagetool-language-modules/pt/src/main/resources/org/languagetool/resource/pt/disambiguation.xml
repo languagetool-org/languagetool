@@ -42,6 +42,168 @@
     <disambig postag="ZR"/>
   </rule>
 
+  <!--		multiwords.txt related			-->
+  <rulegroup id="nomes_proprios_multiword" name="nomes proprios em multiwords">
+  <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
+      <rule id="nomeproprio2palavras_filtra" name="nome proprio 3 palavras">
+          <pattern>
+              <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+              <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="filterall"/>
+      </rule>
+      <rule id="nomeproprio3palavras" name="nome proprio 3 palavras">
+          <pattern>
+              <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+              <marker>
+                  <token/>
+              </marker>
+              <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="add"><wd lemma="NP" pos="NP00000"/></disambig>
+      </rule>
+      <rule id="nomeproprio4palavras" name="nome proprio 4 palavras">
+          <pattern>
+              <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+              <marker>
+                  <token/>
+                  <token/>
+              </marker>
+              <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="add"><wd lemma="NP" pos="NP00000"/><wd lemma="NP" pos="NP00000"/></disambig>
+      </rule>
+      <rule id="nomeproprio3palavras_filtra" name="nome proprio 3 palavras">
+          <pattern>
+              <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+              <token postag="NP00000"/>
+              <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="filterall"/>
+      </rule>
+      <rule id="nomeproprio4palavras-filtra" name="nome proprio 4 palavras">
+          <pattern>
+              <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+              <token postag="NP00000"/>
+              <token postag="NP00000"/>
+              <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="filterall"/>
+      </rule>
+  </rulegroup>
+  <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">
+	<!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
+      <rule id="nomecomum2palavras" name="nome comúm 2 palavras">
+          <pattern>
+              <marker>
+                  <token postag="&lt;NCFS000&gt;"/>
+                  <token postag="&lt;/NCFS000&gt;"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="NCFS000"/><wd pos="AQ0FS0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="&lt;NCMS000&gt;"/>
+                  <token postag="&lt;/NCMS000&gt;"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="NCMS000"/><wd pos="AQ0MS0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="&lt;NCMN000&gt;"/>
+                  <token postag="&lt;/NCMN000&gt;"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="&lt;NCMN000&gt;"/>
+                  <token/>
+                  <token postag="&lt;/NCMN000&gt;"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/><wd pos="AQ0MN0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="&lt;_GN_.*" postag_regexp="yes"/>
+                  <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+              </marker>
+          </pattern>
+          <disambig action="filterall"></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="&lt;_GN_.*" postag_regexp="yes"/>
+                  <token/>
+                  <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+              </marker>
+          </pattern>
+          <disambig action="filterall"></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="&lt;_GN_.*" postag_regexp="yes"/>
+              <marker>
+                  <token/>
+              </marker>
+              <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_GN_"/></disambig>
+      </rule>
+  </rulegroup>
+  <rulegroup id="VAN_GOGH" name="van Gogh">
+	<!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
+      <rule>
+          <pattern>
+              <marker>
+                  <token>van</token>
+              </marker>
+              <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
+          </pattern>
+          <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token regexp="yes">\p{Lu}.+</token>
+              <marker>
+                  <token>van</token>
+              </marker>
+              <token regexp="yes">\p{Lu}.+</token>
+          </pattern>
+          <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token regexp="yes">\p{Lu}.+</token>
+              <marker>
+                  <token>van</token>
+              </marker>
+              <token regexp="yes">den|der</token>
+              <token regexp="yes">\p{Lu}.+</token>
+          </pattern>
+          <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      </rule>
+  </rulegroup>
+  <rule id="DA_VINCI" name="da Vinci">
+	<!-- 		Rule retrieved from Catalan grammar.xml		-->
+      <pattern>
+          <marker>
+              <token>da</token>
+          </marker>
+          <token regexp="yes">(?-i)Cividale|Morte|Costa|Lingua|Língua|Gagliano|Palestrina|Perugia|Silva|Cunha|Gama|Viadana|Vinci</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+  </rule>
+
   <!-- D_R_N : Det + Advérbio + Nome				-->
   <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
   <rule id="D_R_N" name="Det + Adv + Nom">
