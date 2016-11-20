@@ -34,7 +34,7 @@ import java.util.List;
  * A {@link PartialPosTagFilter} for Russian that also runs the disambiguator. Note
  * that the disambiguator is called with a single token, so only rules
  * will apply that have a single {@code <match>} element.
- * @experimental
+ *
  * @since 3.6
  */
 public class RussianPartialPosTagFilter extends PartialPosTagFilter {
