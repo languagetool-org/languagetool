@@ -204,6 +204,19 @@
       <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
   </rule>
 
+	  <!-- Si : Pronoun or Musical note				-->
+	  <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
+  <rule id="SPS_SI" name="Preposição + Si">
+    <pattern>
+      <token postag="SP.*" postag_regexp="yes"/>
+      <marker>
+        <token>si</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="PP.*"/>
+  </rule>
+
+
   <!-- D_R_N : Det + Advérbio + Nome				-->
   <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
   <rule id="D_R_N" name="Det + Adv + Nom">
