@@ -12495,6 +12495,19 @@ USA
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
         </rule>
+        <rule id="NUMBER_OF_NNS" name="confusion of 'number or/of'">
+            <pattern>
+                <token>number</token>
+                <marker>
+                    <token>or</token>
+                </marker>
+                <token postag="NNP?S" postag_regexp="yes"/>
+                <token><exception>of</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>of</suggestion>?</message>
+            <example correction="of">This tool will help you to reduce the number <marker>or</marker> errors.</example>
+            <example>There are no limitations to the number or types of sounds that can be produced.</example>
+        </rule>
         <rule id="THAN_INTERJ" name="..., than, ... (then)">
             <pattern>
                 <token>,</token>
