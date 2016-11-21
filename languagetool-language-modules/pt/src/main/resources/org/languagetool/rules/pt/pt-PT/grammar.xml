@@ -81,8 +81,34 @@ title="Easy editing stylesheet" ?>
 
 	<!-- COMPOSTAS Colocações pronominais com dois termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
-  <rule id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
+  <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
 	<!-- 		Brazilian Portuguese has inverted colocations  -->
+   <rule>
+    <pattern>
+		<token postag='V.*' postag_regexp='yes'></token>
+		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+		<token postag='V.*' postag_regexp='yes'></token>
+	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+			false positives (Determinants & Contractions)  -->
+    </pattern>
+	<message>Palavra composta. Pretende dizer</message><suggestion>\1 \3-\2</suggestion>
+	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+	<!--		TODO Write better examples		-->
+	<example correction='vou dar‑te'>Eu <marker>vou te dar</marker> um laptop.</example>
+  </rule>
+  <rule>
+    <pattern>
+		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+		<token postag='V.*' postag_regexp='yes'></token>
+	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+			false positives (Determinants & Contractions)  -->
+    </pattern>
+	<message>Palavra composta. Pretende dizer</message><suggestion>\2-\1</suggestion>
+	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+	<!--		TODO Write better examples		-->
+	<example correction='dou‑te'>Eu <marker>te dou</marker> um laptop.</example>
+  </rule>
+  <rule>
     <pattern>
 		<token postag='V.*' postag_regexp='yes'></token>
 		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
@@ -94,6 +120,7 @@ title="Easy editing stylesheet" ?>
 	<!--		TODO Write better examples		-->
 	<example correction='dar‑me'><marker>dar me</marker>.</example>
   </rule>
+ </rulegroup>
 
 </category>
 
