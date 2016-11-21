@@ -2892,12 +2892,25 @@ USA
         <!-- on going::word=ongoing -->
         <rule id="ON_GOING" name="on going (ongoing)">
             <pattern>
-                <token>on<exception scope='previous' inflected="yes">insist</exception></token>
-                <token>going</token>
+                <marker>
+                    <token>on</token>
+                    <token>going</token>
+                </marker>
+                <token postag_regexp="yes" postag="(NNS?)|(NN:.*)"><exception postag="RP"/><exception regexp="yes">today|tonight|tomorrow|yesterday</exception></token>
             </pattern>
             <message>Did you mean <suggestion>ongoing</suggestion>?</message>
             <example correction="ongoing">There is an <marker>on going</marker> investigation.</example>
-            <example>She insisted on going for a drive.</example>
+            <example correction="ongoing">The usual <marker>on going</marker> problems must be corrected as soon as possible.</example>
+            <example correction="ongoing">... and keep <marker>on going</marker> correspondence in the file for future reference.</example>
+            <example correction="ongoing">They insisted <marker>on going</marker> correspondence was kept in the file for future reference.</example>
+            <example correction="Ongoing"><marker>On going</marker> maintenance is an important part of the work.</example>
+            <example>She insisted <marker>on going</marker> for a drive.</example>
+            <example>He depends <marker>on going</marker> in and out of Malaysia for his visa.</example>
+            <example>... and keep <marker>on going</marker> down the road to the junction.</example>
+            <example>She knew why Abigail was so insistent <marker>on going</marker> tonight.</example>
+            <example>I plan <marker>on going</marker> tomorrow morning.</example>
+            <example>My brother is banking <marker>on going</marker> to university next year.</example>
+            <example>We had a good time in London, but <marker>on going</marker> Sheffield, our holiday got even better.</example><!-- Not correct English, but out of scope of this rule. -->
         </rule>
         <!-- out grow::word=outgrow -->
         <rule id="OUT_GROW" name="out grow (outgrow)">
