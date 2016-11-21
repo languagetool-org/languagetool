@@ -107,28 +107,49 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:(Nom|D|R|T)"></disambig>
     </rule>
+    
+
+    <rule name="NOUN_NOT_NOM" id="NOUN_NOT_NOM">
+        <pattern>	 
+            <!-- Что за головная боль!    "Что за" - междометие -->
+            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+            <token  negate="yes">что</token>
+            <token regexp="yes">за|без|в|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token negate_pos="yes" postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
+    </rule>    
+    <rule name="NOUN_NOT_NOM1" id="NOUN_NOT_NOM1">
+        <pattern>	 
+            <!-- Что за головная боль!    "Что за" - междометие -->
+            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+            <token  negate="yes">что</token>
+            <token regexp="yes">за|без|в|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
+            <token postag="ADJ:.*" postag_regexp="yes"></token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token negate_pos="yes" postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
+    </rule>    
+    
     <!-- disambiguation for adj.' -->
     <rule name="ADJ_T" id="ADJ_T">
         <pattern>
             <!-- с  - родительный, винительный, творительный -->
             <!-- под (подо)  - винительный, творительный   -->
-            <token regexp="yes">подо|над|перед</token>
-            <marker>
-                <and>
-                    <token postag="ADJ:.*:R" postag_regexp="yes"></token>
-                    <token postag="ADJ:.*:T" postag_regexp="yes"></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="ADJ:.*:R"></disambig>
-    </rule>
-    <rule name="ADJ_T1" id="ADJ_T1">
-        <pattern>
-            <!-- под  - винительный, творительный   -->
             <!-- TODO проливной is ADJ:.*:V -->
             <!-- Я не хочу попасть под проливной дождь. -->
             <!-- Удаляем только неверный postag, остальные не трогаем.   -->
-            <token>под</token>
+            <token regexp="yes">под|подо|над|перед</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:R" postag_regexp="yes"></token>
