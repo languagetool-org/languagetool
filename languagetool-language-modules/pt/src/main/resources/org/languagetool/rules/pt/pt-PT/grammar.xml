@@ -127,6 +127,27 @@ title="Easy editing stylesheet" ?>
   </rule>
  </rulegroup>
 
+	<!--	 DP -> DA + DP [pt-PT] I.e. Sua -> A sua		-->
+	<!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
+	<!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
+	<!--	     TODO Move to pt-PT after regression tests		-->
+  <rule id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
+	<antipattern>
+	  <token>sua</token>
+	  <token regexp="yes">majestade|realeza|divindade|excelência|eminência</token>
+	</antipattern>
+	<pattern>
+	  <token><exception regexp="yes">[nd]?[aeo]s?|à|por|pel[ao]s?|em</exception></token>
+	  <token postag='DP.*' postag_regexp='yes'></token>
+	</pattern>
+	<message>Será que quis dizer:</message>
+	<suggestion>\1 <match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
+	<url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+	<example correction='Leve a sua'><marker>Leve sua</marker> irmã no carro.</example>
+	<example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
+        <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>	 
+  </rule>
+
 </category>
 
 <category id="CONTRACTIONS" name="Contrações">
