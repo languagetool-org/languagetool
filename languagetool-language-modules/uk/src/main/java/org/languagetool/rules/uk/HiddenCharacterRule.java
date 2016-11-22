@@ -31,7 +31,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * A rule that matches words Latin and Cyrillic characters in them
+ * A rule that finds hidden characters in the text
  * 
  * @author Andriy Rysin
  * @since 2.9
