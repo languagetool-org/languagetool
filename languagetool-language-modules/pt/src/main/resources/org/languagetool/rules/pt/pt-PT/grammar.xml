@@ -25,6 +25,14 @@ title="Easy editing stylesheet" ?>
 
 -->
 
+<!DOCTYPE rules [
+
+    <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
+    <!ENTITY contracoes_FS "à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
+    <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
+    <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
+
+]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 <!-- Unification rules retrieved from galician grammar.xml - START-->
@@ -137,7 +145,7 @@ title="Easy editing stylesheet" ?>
 	  <token regexp="yes">majestade|realeza|divindade|excelência|eminência</token>
 	</antipattern>
 	<pattern>
-	  <token><exception regexp="yes">[nd]?[aeo]s?|à|por|pel[ao]s?|em</exception></token>
+	  <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
 	  <token postag='DP.*' postag_regexp='yes'></token>
 	</pattern>
 	<message>Será que quis dizer:</message>
