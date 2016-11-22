@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 

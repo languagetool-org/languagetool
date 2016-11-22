@@ -51,10 +51,11 @@ class AutomaticConfusionRuleEvaluator {
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionSet>> knownSets;
+  
   private int ignored = 0;
 
-  AutomaticConfusionRuleEvaluator(File indexDir) throws IOException {
-    DirectoryReader reader = DirectoryReader.open(FSDirectory.open(indexDir.toPath()));
+  AutomaticConfusionRuleEvaluator(File luceneIndexDir) throws IOException {
+    DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
     knownSets = new ConfusionSetLoader().loadConfusionSet(confusionSetStream);
@@ -70,6 +71,9 @@ class AutomaticConfusionRuleEvaluator {
         continue;
       }
       String[] parts = line.split(";\\s*");
+      if (parts.length != 2) {
+        throw new IOException("Expected semicolon-separated input: " + line);
+      }
       try {
         int i = 1;
         for (String part : parts) {

@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.dumpcheck;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 
 import java.io.File;

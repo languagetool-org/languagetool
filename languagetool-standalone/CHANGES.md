@@ -7,7 +7,7 @@
 
 #### English
   * added and improved rules
-  * added about 65 confusion pairs like woman/women (works only with ngram data,
+  * added about 131 confusion pairs like woman/women (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * The American and Canadian English (en-US, en-CA) spelling dictionaries have
     been updated to the latest version from http://wordlist.aspell.net (2016.06.26)
@@ -33,12 +33,14 @@
   * added and improved many rules
 
 #### Russian
-  * added/improved several rules
+  * added and improved many rules
+  * added words suggested by users
+  * improved disambiguation rules
 
 #### HTTP API
- * The old API has been deactivated, as documented at
-   https://languagetool.org/http-api/migration.php - it
-   now returns a pseudo error pointing to the migration page
+  * The old API has been deactivated, as documented at
+    https://languagetool.org/http-api/migration.php - it
+    now returns a pseudo error pointing to the migration page
 
 #### Java API
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
@@ -52,6 +54,9 @@
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)
     See https://languagetool.org/http-api/swagger-ui/#/default
     for a documentation of the new API.
+
+#### Internal
+  * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
 
 
 ## 3.5 (2016-09-30)

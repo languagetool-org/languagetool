@@ -223,7 +223,6 @@ public class CaseRule extends GermanRule {
     "Sparten",
     "Heiliger",
     "Reisender",
-    "Hochdeutsch",
     "Pest",
     "Schwinge",
     "Verlies",
@@ -263,6 +262,7 @@ public class CaseRule extends GermanRule {
     "Durcheinander",
     "Eindrücke",
     "Erwachsener",
+    "Familienangehörige", // "Brüder und solche Familienangehörige, die..."
     "Flöße",
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
@@ -820,12 +820,12 @@ public class CaseRule extends GermanRule {
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
 
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
-    boolean isPossiblyFollowedByInfinitve = nextReadings != null && (nextReadings.getToken().equals("zu"));
-    boolean isFollowedByInfinitve = nextReadings != null && !isPossiblyFollowedByInfinitve && nextReadings.hasPartialPosTag("EIZ");
+    boolean isPossiblyFollowedByInfinitive = nextReadings != null && nextReadings.getToken().equals("zu");
+    boolean isFollowedByInfinitive = nextReadings != null && !isPossiblyFollowedByInfinitive && nextReadings.hasPartialPosTag("EIZ");
 
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
-    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitve || isFollowedByInfinitve)) {
+    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {

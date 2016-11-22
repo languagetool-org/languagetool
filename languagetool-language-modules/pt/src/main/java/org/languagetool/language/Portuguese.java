@@ -21,12 +21,13 @@ package org.languagetool.language;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
+import org.languagetool.rules.pt.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
-import org.languagetool.rules.pt.PortugueseReplaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -37,13 +38,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Pre-spelling-reform Portuguese.
+ * Post-spelling-reform Portuguese.
  */
 public class Portuguese extends Language {
 
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
   
   private Tagger tagger;
+  private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
 
@@ -64,7 +66,7 @@ public class Portuguese extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"AO", "MZ"};
+    return new String[]{"CV"};
   }
 
   @Override
@@ -90,6 +92,14 @@ public class Portuguese extends Language {
   }
 
   @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new PortugueseHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+
+  @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new PortugueseSynthesizer();
@@ -112,13 +122,16 @@ public class Portuguese extends Language {
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
+            new LongSentenceRule(messages),
             new UppercaseSentenceStartRule(messages, this),
-            new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new WordRepeatBeginningRule(messages, this),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
-            new PortugueseReplaceRule(messages)
+            new PortugueseReplaceRule(messages),
+            new PortugueseWordRepeatRule(messages, this)
+            //new PortugueseWrongWordInContextRule(messages)
     );
   }
 

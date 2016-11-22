@@ -20,13 +20,13 @@ package org.languagetool.rules.uk;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
@@ -123,6 +123,13 @@ public class MixedAlphabetsRule extends Rule {
           ruleMatches.add(potentialRuleMatch);
         }
       }
+      else if( i>1 && i<tokens.length-1
+          && tokenString.equals("i")
+          && tokens[i+1].getToken().matches("[а-яіїєґА-ЯІЇЄҐ].*") ) {
+        String msg = "Вжито латинську і замість кирилічної";
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg);
+        ruleMatches.add(potentialRuleMatch);
+      }
       else if( tokenString.endsWith("°С") ) {  // cyrillic С
         List<String> replacements = new ArrayList<>();
         int length = tokenString.length();
@@ -139,7 +146,7 @@ public class MixedAlphabetsRule extends Rule {
   
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements) {
     String tokenString = readings.getToken();
-    String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
+    String msg = tokenString + getSuggestion(tokenString) + String.join(", ", replacements);
     
     return createRuleMatch(readings, replacements, msg);
   }

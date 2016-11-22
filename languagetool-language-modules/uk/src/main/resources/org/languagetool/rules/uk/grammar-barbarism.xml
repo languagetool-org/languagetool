@@ -1742,6 +1742,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="VSI_DO_YEDYNOHO" name="Всі до єдиного">
+      <pattern>
+        <token inflected="yes" postag_regexp="yes" postag="adj:p:.*" regexp="yes">у?весь</token>
+        <token>до</token>
+        <marker>
+          <token>єдиного</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>одного</suggestion></message>
+      <suggestion>геть усі</suggestion>
+      <suggestion>чисто всі</suggestion>
+      <suggestion>всі до ноги</suggestion>
+      <example correction="одного|геть усі|чисто всі|всі до ноги">І всі до <marker>єдиного</marker></example>
+      <example correction="одного|геть усі|чисто всі|всі до ноги">І всіх до <marker>єдиного</marker></example>
+    </rule>
+
     <rule id="NEDILYA_VS_TYZHDEN" name="Неділя замість тиждень">
       <pattern>
         <!-- TODO:
@@ -3899,6 +3915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="NA_MANER" name="На манер">
       <pattern>
         <token>на</token>
+        <token postag_regexp="yes" postag="adj.*v_zna:rinanim.*" min="0"/>
         <token>манер</token>
       </pattern>
       <message>Правильно: <suggestion>на манір</suggestion></message>
@@ -3912,6 +3929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>робом</suggestion>
       <suggestion>ладом</suggestion>
       <example correction="на манір|на кшталт|на штиб|на взір|на штиль|кшталтом|штибом|способом|робом|ладом">уніфікували <marker>на манер</marker> інших елементів.</example>
+      <example correction="на манір|на кшталт|на штиб|на взір|на штиль|кшталтом|штибом|способом|робом|ладом">уніфікували <marker>на німецький манер</marker>.</example>
     </rule>
 
     <rule id="A_ADZHE" name="А адже">
@@ -3973,6 +3991,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>корислива мета</suggestion></message>
       <example correction="корислива мета">використати ділянку з якоюсь <marker>корисною метою</marker></example>
+    </rule>
+
+    <rule id="Z_LYSHNIM" name="З лишнім">
+      <pattern>
+        <token>з</token>
+        <token>лишнім</token>
+      </pattern>
+      <message>Правильно: <suggestion>з лишкою</suggestion></message>
+      <suggestion>з лишком</suggestion>
+      <suggestion>з чимось</suggestion>
+      <suggestion>з гаком</suggestion>
+      <suggestion>з верхом</suggestion>
+      <example correction="з лишкою|з лишком|з чимось|з гаком|з верхом">60 <marker>з лишнім</marker> відсотків</example>
     </rule>
 
     <!-- є в словнику Підмогильного

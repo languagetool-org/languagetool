@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.dev.errorcorpus.ErrorCorpus;

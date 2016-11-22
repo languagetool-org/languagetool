@@ -18,11 +18,33 @@
  */
 package org.languagetool.commandline;
 
+import static org.languagetool.tools.StringTools.filterXML;
+import static org.languagetool.tools.StringTools.readerToString;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
@@ -30,20 +52,9 @@ import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tools.JnaTools;
+import org.languagetool.tools.StringTools.ApiPrintMode;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.input.BOMInputStream;
-
-import static org.languagetool.tools.StringTools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -169,8 +180,8 @@ class Main {
       if (options.isAutoDetect()) {
         Language language = detectLanguageOfString(text);
         if (language == null) {
-          System.err.println("Could not detect language well enough, using English");
-          language = new English();
+          System.err.println("Could not detect language well enough, using American English");
+          language = new AmericanEnglish();
         }
         changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
         System.err.println("Using " + language.getName() + " for file " + filename);
@@ -234,8 +245,8 @@ class Main {
           if (lineCount == 1 && options.isAutoDetect()) {
             Language language = detectLanguageOfString(line);
             if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
-              language = new English();
+              System.err.println("Could not detect language well enough, using American English");
+              language = new AmericanEnglish();
             }
             System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
@@ -288,9 +299,7 @@ class Main {
     return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara() || "".equals(line);
   }
 
-  private InputStreamReader getInputStreamReader(String filename, String encoding)
-      throws UnsupportedEncodingException, FileNotFoundException, IOException {
-    InputStreamReader isr;
+  private InputStreamReader getInputStreamReader(String filename, String encoding) throws IOException {
     String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
     InputStream is = System.in;
     if (!isStdIn(filename)) {
@@ -298,13 +307,12 @@ class Main {
       BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
         ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
         ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);
-      if(bomIn.hasBOM() && encoding == null) {
+      if (bomIn.hasBOM() && encoding == null) {
         charsetName = bomIn.getBOMCharsetName();
       }
       is = bomIn;
     }
-    isr = new InputStreamReader(new BufferedInputStream(is), charsetName);
-    return isr;
+    return new InputStreamReader(new BufferedInputStream(is), charsetName);
   }
 
   private boolean isStdIn(String filename) {

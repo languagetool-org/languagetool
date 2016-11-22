@@ -28,6 +28,13 @@ title="Easy editing stylesheet" ?>
 
 $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 -->
+<!DOCTYPE rules [
+    <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
+    <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
+    <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
+    <!ENTITY dias_semana "segunda-feira|terça-feira|quarta-feira|quinta-feira|sexta-feira|sábado|domingo">
+]>
+
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -84,19 +91,20 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
 	   <or>
-	    <token postag='D[ADIP][0123]MS0|P[ID]0MS000|NCMS000|AQ0MS0' postag_regexp='yes'>
-		<exception postag='NC[CF]S000|AQ0[CF]S0|VM[CSIG][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|ser</exception></token>
-	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
+	    <token postag='D[ADIP].MS0|P[ID]0MS.*|NCMS..0|A..MS0' postag_regexp='yes'>
+		<exception postag='N.[CF]S..0|A..[CF]S0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|ser|são</exception></token>
+	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho|termo|nome</token>
 	   </or>
-	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-	     <exception postag='NC[CM][SP]000|AQ0[CM][SP]0|VM[CSI][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+	    <token postag='N.F...0|A..F.0' postag_regexp='yes'>
+	     <exception postag='N.[CM]...0|A..[CM].0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 	    </token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>O vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
 	</rule>
@@ -108,64 +116,67 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
 	  <or>
-	    <token postag='D[ADIP][0123]MP0|P[ID]0MP000|NCMP000|AQ0MP0' postag_regexp='yes'>
-		<exception postag='NC[CF]P000|AQ0[CF]P0|VM[CSIG][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
-	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
+	    <token postag='D[ADIP].MP0|P[ID]0MP.*|NCMP..0|A..MP0' postag_regexp='yes'>
+		<exception postag='N.[CF]P..0|A..[CF]P0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos|termos|nomes</token>
 	   </or>
-	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-		<exception postag='NC[CM][SP]000|AQ0[CM][SP]0|VM[CSI][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+	    <token postag='N.F...0|A..F.0' postag_regexp='yes'>
+		<exception postag='N.[CM]...0|A..[CM].0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 		</token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Os vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>Os bois</marker> está no pasto.</example>
 	</rule>
 
 	<!-- General gender concordance errors - A > O/OS -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do masculino">
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do feminino">
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
 	   <or>
-	     <token postag='D[ADIP][0123]FS0|P[ID]0FS000|NCFS000|AQ0FS0' postag_regexp='yes'>
-		<exception postag='NC[CM]S000|AQ0[CM]S0|VM[CSI][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|ser</exception></token>
-	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
+	     <token postag='D[ADIP].FS0|P[ID]0FS.*|NCFS..0|A..FS0' postag_regexp='yes'>
+		<exception postag='N.[CM]S..0|A..[CM]S0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|ser|a|mas</exception></token>
+	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha|palavra|letra</token>
 	   </or>
-	  <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
-	  	<exception postag='NC[CF][SP]000|AQ0[CF][SP]0|VM[CSIG][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?</exception></token>
+	  <token postag='N.M...0|A..M.0' postag_regexp='yes'>
+	  	<exception postag='N.[CF]...0|A..[CF].0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
 
      <!-- General gender concordance errors - AS > O/OS -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do masculino">
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do feminino">
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
 	   <or>
-	    <token postag='D[ADIP][0123]FP0|P[ID]0FP000|NCFP000|AQ0FP0' postag_regexp='yes'>
-		<exception postag='NC[CM]P000|AQ0[CM]P0|VM[CSI][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+	    <token postag='D[ADIP].FP0|P[ID]0FP.*|NCFP..0|A..FP0' postag_regexp='yes'>
+		<exception postag='N.[CM]P..0|A..[CM]P0|VM[CSI].*|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|mas</exception></token>
-	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
+	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas|palavras|letras</token>
 	   </or>
-	    <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
-		<exception postag='NC[CF][SP]000|AQ0[CF][SP]0|VM[CSIG][0FIMPS][0123][0SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?</exception></token>
+	    <token postag='N.M...0|A..M.0' postag_regexp='yes'>
+		<exception postag='N.[CF]...0|A..[CF].0|VM[CSIG].*|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
 	</rule>
@@ -175,13 +186,28 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<rule default='off' id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A" name="Erro de concordância do masculino">
 	 <pattern>
 	   <token>a</token>
-	   <token postag='NCM[SP]000|AQ0MS0' postag_regexp='yes'>
-	  	<exception postag='NCM[SP]000|AQ0MS0' postag_regexp='yes' negate_pos='yes'></exception>
+	   <token postag='N.MS..0|A..MS0' postag_regexp='yes'>
+	  	<exception postag='N.MS..0|A..MS0' postag_regexp='yes' negate_pos='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception></token>
 	 </pattern>
-	 <message>Erro de concordância do género.A</message>
+	 <message>Erro de concordância do género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
 	 <example type='incorrect'><marker>A boi</marker> está no pasto.</example>
 	 <example type='correct'>A vaca está no pasto.</example>
+	</rule>
+
+	<!-- Specific gender concordance errors - A > Ended in A -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+	<rule default='off' id="A_WORD_A" name="a + palavra terminada em a">
+	<pattern>
+	        <token regexp='yes'>a</token>
+        	<token postag='A..M.*|N.M.*' postag_regexp='yes' regexp='yes'>.*a$
+        	<exception regexp='yes'>palavra|letra</exception></token>
+	</pattern>
+		<message>Possível erro de concordância do género.</message>
+		<url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+			<suggestion>o \2</suggestion>
+		<example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
 	</rule>
 
 	<!-- Specific gender concordance errors - A/Em > Nível       -->
@@ -199,7 +225,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	<!-- Specific gender concordance errors - A/AO > Ponto de    -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
-	<rule id="A_PONTO" name="ao ponto de">
+	<rule default='off' id="A_PONTO" name="ao ponto de">
 	<pattern>
 	        <token regexp='yes'>a|ao</token>
         	<token>ponto</token>
@@ -216,11 +242,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O" name="Erro de concordância do masculino">
 	 <pattern>
 	   <token>o</token>
-	   <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-	  	<exception postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes' negate_pos='yes'></exception>
-		<exception regexp='yes'>uma|umas|e|ser</exception></token>
+	   <token postag='N.F...0|A..F.0' postag_regexp='yes'>
+	  	<exception postag='N.F...0|A..F.0' postag_regexp='yes' negate_pos='yes'></exception>
+		<exception regexp='yes'>uma|umas|e|ser|nome|termo</exception></token>
 	 </pattern>
 	 <message>Erro de concordância do género.</message>
+	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
 	 <example type='incorrect'><marker>O cadela</marker> está no pasto.</example>
 	 <example type='correct'>A cadela está no pasto.</example>
 	</rule>
@@ -231,19 +258,19 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
-	  <token postag='D[ADIP][0123]MP[0P]|NC[MC]P000|AQ0[MC]P0' postag_regexp='yes'>
-		<exception postag='CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]</exception>
+	  <token postag='D[ADIP].[CM]P[0P]|NC[MC]P..0|A..[MC]P.' postag_regexp='yes'>
+		<exception postag='C.|R.|SPS00' postag_regexp='yes'></exception>
 	  </token>
-	  <token postag='NC[MC]S000|AQ0[MC]S0' postag_regexp='yes'>
-	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00|VMG0000' postag_regexp='yes'></exception>
+	  <token postag='N.[MC]S..0|A..[MC]0S.0' postag_regexp='yes'>
+	  <exception postag='P[ID].[CFM]..*|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
 	    <exception regexp="yes">há|são|ser|haver|devido</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	  <suggestion><match no="2" postag="(D[ADIP][0123]MS[0S]|NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion>
-	  <suggestion><match no="2"/> <match no="3" postag="(NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/></suggestion>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+	  <suggestion><match no="2" postag="(D[ADIP].[CM]S[0S]|N.[MC]S0..0|A..[MC]S.)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(N.[MC]P..0|A..[MC]P.)" postag_regexp="yes"/></suggestion>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
 	
@@ -253,17 +280,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|ou|de</token>
 	  <marker>
-	  <token postag='D[ADIP][0123]MS[0S]|NC[MC]S000|AQ0[MC]S0' postag_regexp='yes'>
-	    <exception postag='CC|CS|RG|RN|SPS00|VMG0000' postag_regexp='yes'></exception>
+	  <token postag='D[ADIP].[CM]S[0S]|NC[MC]S..0|A..[MC]S.' postag_regexp='yes'>
+	    <exception postag='C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
 	    <exception regexp="yes">há|são|ser|haver|serão</exception></token>
-	  <token postag='NC[MC]P000|AQ0[MC]P0' postag_regexp='yes'>
-	    <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-	    <exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]|nós</exception></token>
+	  <token postag='N.[MC]P..0|A..[MC]P.' postag_regexp='yes'>
+	    <exception postag='P[ID].[CFM]..*|C.|R.|SPS00' postag_regexp='yes'></exception>
+	</token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	  <suggestion><match no="2" postag="(D[ADIP][0123]MP[0P]|NC[MC]P000|AQ0[MC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion>
-	  <suggestion><match no="2"/> <match no="3" postag="(NC[MC]S000|AQ0[MC]S0)" postag_regexp="yes"/></suggestion>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+	  <suggestion><match no="2" postag="(D[ADIP].[CM]P[0P]|N.[MC]P..0|A..[MC]P.)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(N.[MC]S..0|A..[MC]S.)" postag_regexp="yes"/></suggestion>
 	 <example correction='Estes gatos|Este gato'><marker>Este gatos</marker> estão no pasto.</example>
 	</rule>
 
@@ -273,15 +301,16 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
-	  <token postag='D[ADIP][0123]FS[0S]|NC[FC]S000|AQ0[FC]S0' postag_regexp='yes'>
-	  <exception postag='CC|CS|RG|RN' postag_regexp='yes'></exception></token>
-	  <token postag='NC[FC]P000|AQ0[FC]P0' postag_regexp='yes'>
-	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	  <token postag='D[ADIP].FS[0S]|NC[FC]S..0|A..[FC]S.' postag_regexp='yes'>
+	  <exception postag='C.|R.' postag_regexp='yes'></exception></token>
+	  <token postag='N.[FC]P..0|A..[FC]P.' postag_regexp='yes'>
+	  <exception postag='P[ID].[CFM]..*|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	  <suggestion><match no="2" postag="(D[ADIP][0123]FP[0P]|NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/> <match no="3"/></suggestion>
-	  <suggestion><match no="2"/> <match no="3" postag="(NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/></suggestion>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+	  <suggestion><match no="2" postag="(D[ADIP].FP[0P]|N.[FC]P..0|A..[FC]P.)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(N.[FC]S..0|A..[FC]S.)" postag_regexp="yes"/></suggestion>
 	  <example correction='As vacas|A vaca'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
 
@@ -291,19 +320,20 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 <marker>
-	 <token postag='D[ADIP][0123]FP[0P]|NC[FC]P000|AQ0[FC]P0' postag_regexp='yes'>
-	  <exception postag='CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
-	 <token postag='NC[FC]S000|AQ0[FC]S0' postag_regexp='yes'>
-	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	 <token postag='D[ADIP].FP[0P]|NC[FC]P..0|A..[FC]P.' postag_regexp='yes'>
+	  <exception postag='C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	 <token postag='N.[FC]S..0|A..[FC]S.' postag_regexp='yes'>
+	  <exception postag='P[ID].[CFM]..*|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	 </marker>
 	   <token negate='yes' regexp='yes'>e</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	  <suggestion><match no="2" postag="(D[ADIP][0123]FS[0S]|NC[FC]S000|AQ0[FC]S0)" postag_regexp="yes"/> <match no="3"/></suggestion>
-	  <suggestion><match no="2"/> <match no="3" postag="(NC[FC]P000|AQ0[FC]P0)" postag_regexp="yes"/></suggestion>
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+	  <suggestion><match no="2" postag="(D[ADIP].FS[0S]|N.[FC]S..0|A..[FC]S.)" postag_regexp="yes"/> <match no="3"/></suggestion>
+	  <suggestion><match no="2"/> <match no="3" postag="(N.[FC]P..0|A..[FC]P.)" postag_regexp="yes"/></suggestion>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
- 
+  
      <!-- General verbal concordance errors - I + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1S" name="Erro de concordância do número do verbo">
@@ -312,21 +342,21 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token/>
 	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
 	  <token>eu</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][23]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]1S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[23]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].1S0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token>eu</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][23]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]1S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[23]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].1S0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]1S0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu passear|Eu passeara|Eu passearei|Eu passearia|Eu passeasse|Eu passeava|Eu passeei|Eu passeie|Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
 	 <example type="correct">Eu passeio na praia.</example>
@@ -340,21 +370,21 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token/>
 	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
 	  <token>tu</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][13]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]2S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[13]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].2S0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token>tu</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][13]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]2S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[13]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].2S0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]2S0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu não passeara|Tu não passearas|Tu não passeares|Tu não passearias|Tu não passearás|Tu não passeasses|Tu não passeaste|Tu não passeava|Tu não passeavas|Tu não passeias|Tu não passeies'><marker>Tu não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
@@ -368,21 +398,23 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token/>
 	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
 	  <token regexp="yes">ele|ela|você</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][12]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[12]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception>
+	  <exception>como</exception></token>
 	  </marker>
 	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token regexp="yes">ele|ela|você</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][12]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[12]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception>
+	  <exception>como</exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3S0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Ele não passear|Ele não passeara|Ele não passearia|Ele não passeará|Ele não passeasse|Ele não passeava|Ele não passeia|Ele não passeie|Ele não passeou'><marker>Ele não passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Ele não passeia</marker> na praia.</example>
@@ -395,13 +427,13 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	  <marker>
 	  <token>nós</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][23]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[23]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].1P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
  	 <example correction='Nós não passeamo|Nós não passeamos|Nós não passearemos|Nós não passearmos|Nós não passearíamos|Nós não passeemos|Nós não passeámo|Nós não passeámos|Nós não passeáramo|Nós não passeáramos|Nós não passeássemos|Nós não passeávamo|Nós não passeávamos'><marker>Nós não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
@@ -415,15 +447,15 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <marker>
 	  <token>eu</token>
 	  <token regexp='yes'>e|ou</token>
-	  <token min='0' max='1' postag='DA0[MF][SP]0' postag_regexp='yes'/>
+	  <token min='0' max='1' postag='DA0[MF].0' postag_regexp='yes'/>
 	  <token/>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][23]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[23]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].1P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
+		<suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu e Rita passeamo|Eu e Rita passeamos|Eu e Rita passearemos|Eu e Rita passearmos|Eu e Rita passearíamos|Eu e Rita passeemos|Eu e Rita passeámo|Eu e Rita passeámos|Eu e Rita passeáramo|Eu e Rita passeáramos|Eu e Rita passeássemos|Eu e Rita passeávamo|Eu e Rita passeávamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
@@ -437,13 +469,13 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token regexp='yes'>tu|você|vós|vocês|ele|ela|eles|elas</token>
 	  <token regexp='yes'>e|ou</token>
 	  <token>eu</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][23]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[23]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].1P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'/></suggestion>
+		<suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu e eu passeamo|Tu e eu passeamos|Tu e eu passearemos|Tu e eu passearmos|Tu e eu passearíamos|Tu e eu passeemos|Tu e eu passeámo|Tu e eu passeámos|Tu e eu passeáramo|Tu e eu passeáramos|Tu e eu passeássemos|Tu e eu passeávamo|Tu e eu passeávamos'><marker>Tu e eu passeio</marker> na praia.</example>
 	 <example type="correct">Tu e eu passeamos na praia.</example>
@@ -455,13 +487,13 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	  <marker>
 	  <token>vós</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][13]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]2P0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[13]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].2P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]2P0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Vós passeai|Vós passeais|Vós passeardes|Vós passeareis|Vós passearíeis|Vós passeaste|Vós passeastes|Vós passeeis|Vós passeárei|Vós passeáreis|Vós passeásseis|Vós passeávei|Vós passeáveis'><marker>Vós passeiam</marker> na praia.</example>
 	 <example type="correct">Vós passeais na praia.</example>
@@ -475,21 +507,21 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token>eu</token>
 	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
 	  <token regexp='yes'>eles|elas|vocês</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][12]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[12]S0|VM[CIS].[123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token regexp='yes'>eles|elas|vocês</token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][12]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-	  <exception postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'></exception></token>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[12]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS].3P0' postag_regexp='yes'></exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'/></suggestion>
+		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3P0' postag_regexp='yes'/></suggestion>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='elas passearam|elas passearem|elas passeariam|elas passearão|elas passeassem|elas passeavam|elas passeiam|elas passeiem'>Eles e <marker>elas passeamos</marker> na praia.</example>
 	 <example type="correct">Eles e elas passeiam na praia.</example>
@@ -497,26 +529,27 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
      <!-- General verbal concordance errors - They + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Erro de concordância do número do verbo">
+     <!-- FIXME Disambiguate verbs better and then set as default='on' -->
+	<rule default='off' id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Erro de concordância do número do verbo">
 	 <pattern>
 	  <token negate='yes'>entre</token>
 	  <marker>
-	  <token postag_regexp='yes' postag='NC[MF][SP]000'>
+	  <token postag_regexp='yes' postag='N.*'>
 		<exception postag_regexp='yes' postag='SPS000|SPS000*'></exception></token>
 	  <token>e</token>
-	  <token postag_regexp='yes' postag='NC[MF][SP]000'>
+	  <token postag_regexp='yes' postag='N.*'>
 		<exception postag_regexp='yes' postag='SPS000|SPS000*'></exception>
 		<exception regexp='yes'>um|uma|uns|umas|a|o|as|os|não</exception>
 	  </token>
-	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
-	  <token postag='VM[CIS][CFIMPS][12]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
-		<exception postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'></exception>
+	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
+	  <token postag='VM[CIS].[12]P0|VM[CIS].[123]S0' postag_regexp='yes'>
+		<exception postag='VM[CIS].3P0' postag_regexp='yes'></exception>
 		<exception regexp='yes'>quentes|marinhas|silva|militares|para|como|recordes|pires|seguro|vida|vales|formas|sua|humanas|internas|ambiente|entre|individuais|sobre|pelo|penas</exception>
 	</token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
-		<suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'/></suggestion>
+		<suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS].3P0' postag_regexp='yes'/></suggestion>
 	 <url>http://books.scielo.org/id/67y3k/pdf/lobo-9788523212308-15.pdf</url>
 	 <example correction='Cão e gato eram|Cão e gato foram|Cão e gato forem|Cão e gato fossem|Cão e gato sejam|Cão e gato seriam|Cão e gato serão|Cão e gato são'><marker>Cão e gato é</marker> animais.</example>
 	 <example type="correct">Cão e gato são animais.</example>
@@ -562,7 +595,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 <!--      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
         <pattern>
           <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
-          <token postag="PP[12]C[SP]000" postag_regexp="yes"/>
+          <token postag="PP[12]C.000" postag_regexp="yes"/>
           <token>que</token>
         </pattern>
         <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de que</suggestion></message>
@@ -589,10 +622,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	<!--  ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que  -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
-      <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + AQ + de que">
+      <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + Adj. + de que">
         <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
-          <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto</exception></token>
+          <token postag="RG|A.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto</exception></token>
           <token>de</token>
           <token>que</token>
         </pattern>
@@ -608,7 +641,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 <!--      <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
         <pattern>
           <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
-          <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"/>
+          <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
           <token>de</token>
           <token>que</token>
         </pattern>
@@ -1129,7 +1162,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Review coverage by General Concordance Rules -->
+<!-- FIXME Conjugês is incorrect			-->
     <!-- DET_FEM_MAS words that use "os" instead of "as" -->
     <rule id="DET_FEM_MAS_AS_OS" name="palavras as-os">
       <pattern case_sensitive="no">
@@ -2249,7 +2283,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 
     <!-- DEPOIS DE após -->
-    <rule id="DEPOIS_DE" name="após">
+    <!-- 	This is a personal style rule. Not mandatory	-->
+    <!--	FIXME Move to style category			-->
+<!--
+    <rule type='style' default='off' id="DEPOIS_DE" name="após">
       <pattern>
   	    <marker>
   	    <token>depois</token>
@@ -2260,7 +2297,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «depois de» por <suggestion>após</suggestion>.</message>
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
     </rule>
-
+-->
 	
 
     <!-- DESDE QUE HAJAM desde que haja -->
@@ -2363,7 +2400,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
     <!-- ELAS TEM elas têm -->
     <rule id="ELAS_TEM" name="elas têm">
       <pattern>
@@ -2375,7 +2412,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
     <!-- ELES TEM eles têm -->
     <rule id="ELES_TEM" name="eles têm">
       <pattern>
@@ -2451,9 +2488,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
     <!-- EQUIPE: NA/EM/NUMA/SUA/NOSSA/VOSSA/TUA EQUIPE -> equipa -->
-    <rule id="EQUIPE" name="equipa">
+    <rule default='off' id="EQUIPE" name="equipa">
       <pattern>
         <token regexp="yes">na|em|numa|sua|nossa|vossa|tua</token>
         <marker>
@@ -2465,9 +2502,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO 	Variant specific - Move to pt-PT		 -->
     <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
-    <rule id="EQUIPES" name="equipas">
+    <rule default='off' id="EQUIPES" name="equipas">
       <pattern>
         <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
         <marker>
@@ -2750,7 +2787,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <pattern>
         <token>há</token>
         <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-        <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
+        <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
         <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?|tempos?</token>
         <token>atrás</token>
       </pattern>
@@ -2762,12 +2799,17 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
     <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
     <rule id="À-HÁ_N_TEMPO" name="há n tempo">
+      <antipattern>
+      	<token>à</token>
+      	<token>última</token>
+      	<token>hora</token>
+      </antipattern>
       <pattern>
 	<marker>
 	  <token>à</token>
 	</marker>
 	  <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-	  <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
+	  <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
           <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?|tempos?</token>
       </pattern>
 	  <message>Substituir «à» por <suggestion>há</suggestion>.</message>
@@ -2946,7 +2988,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 
     <!-- MEIA BARALHADA meio baralhada -->
-    <rule id="MEIA_BARALHADA" name="meio baralhada">
+    <!-- FIXME This rule is incorrect for all pt variants. See:
+    	http://escreverbem.com.br/meio-ou-meia/	-->
+    <rule default='off' id="MEIA_BARALHADA" name="meio baralhada">
       <pattern>
         <token>meia</token>
         <token>baralhada</token>
@@ -2956,9 +3000,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+    <!-- FIXME This rule is incorrect for all pt variants. See:
+    	http://escreverbem.com.br/meio-ou-meia/	-->
     <!-- MEIA CHEIA meio cheia -->
-    <rule id="MEIA_CHEIA" name="meio cheia">
+    <rule default='off' id="MEIA_CHEIA" name="meio cheia">
       <pattern>
         <token>meia</token>
         <token>cheia</token>
@@ -2966,7 +3011,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «meia cheia» por <suggestion>meio cheia</suggestion>.</message>
       <example correction="meio cheia">A tigela está <marker>meia cheia</marker>.</example>
     </rule>
-
 	
 	
     <!-- MEIO-IRMÃ meia-irmã -->
@@ -2979,9 +3023,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 	
-
+    <!-- FIXME This rule is incorrect for all pt variants. See:
+    	http://escreverbem.com.br/meio-ou-meia/	-->
     <!-- MEIA LOUCA meio louca -->
-    <rule id="MEIA_LOUCA" name="meio louca">
+    <rule default='off'  id="MEIA_LOUCA" name="meio louca">
       <pattern>
         <token>meia</token>
         <token>louca</token>
@@ -2990,8 +3035,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="meio louca">A Ana é <marker>meia louca</marker>.</example>
     </rule>
 
-
-
+<!-- TODO Review coverage by General Concordance Rules -->
     <!-- MUITA > muito -->
     <rule id="MUITA" name="muito">
       <pattern>
@@ -3162,9 +3206,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<!-- CONTROLE/CONTROLO *START* -->
 	<!-- ************************* -->
 	
-	
+
     <!-- O/DE/DO CONTROLE o/de/do controlo -->
-    <rule id="O_DE_DO_CONTROLE" name="o/de/do controlo">
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
+    <rule default='off' id="O_DE_DO_CONTROLE" name="o/de/do controlo">
       <pattern>
 		<token regexp="yes">o|de|do</token>
 		<marker>
@@ -3176,9 +3221,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
     </rule>
 
-	
+
     <!-- SOB CONTROLE sob controlo -->
-    <rule id="SOB_CONTROLE" name="sob controlo">
+<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
+    <rule default='off' id="SOB_CONTROLE" name="sob controlo">
       <pattern>
 		<token>sob</token>
 		<marker>
@@ -3627,8 +3673,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
+    <!-- 		TODO De-activated due to redundancy.			-->
+    <!--	   Improved with credits in POSSESSIVE_WITHOUT_ARTICLE		-->
     <!-- SUA a sua -->
+<!--
     <rule id="A_SUA" name="a sua">
       <pattern>
         <marker>
@@ -3641,7 +3689,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example>Tudo bem, mas a <marker>sua</marker> mãe está zangada.</example>
       <example>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
     </rule>
-
+-->
 
 
     <!-- TAL VEZ talvez -->
@@ -6331,6 +6379,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	<!-- COMPOSTAS Colocações pronominais com três termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+<!--	MOVED TO SPECIFIC LOCALES
   <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais três termos'>
     <pattern>
 		<token postag='V.*' postag_regexp='yes'>
@@ -6340,27 +6389,36 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2‑\3</suggestion>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+-->
 	<!--		TODO Write better examples		-->
+<!--
 	<example correction='dar‑nos‑á'><marker>dar nos á</marker>.</example>
   </rule>
-
+-->
 
 	<!-- COMPOSTAS Colocações pronominais com dois termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+<!--
   <rule default='off' id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
+-->
 	<!-- 		Brazilian Portuguese has inverted colocations  -->
+<!--
     <pattern>
 		<token postag='V.*' postag_regexp='yes'></token>
 		<token regexp='yes'>m[aeo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+-->
 	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas. They produce too many
 			false positives (Determinants & Contractions)  -->
+<!--
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2</suggestion>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+-->
 	<!--		TODO Write better examples		-->
+<!--
 	<example correction='dar‑me'><marker>dar me</marker>.</example>
   </rule>
-
+-->
 </category>
 
 
@@ -10805,6 +10863,2746 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<example correction='pela xerocópia'><marker>pela xerocopia</marker>.</example>
  </rule>
 
+ <rule id='PARONIMA_ABSINTIO_353' name='um absintio'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>absintios?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 absíntio</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um absíntio'><marker>um absintio</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ACEDIA_354' name='da acedia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>acedias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 acédia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da acédia'><marker>da acedia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ACROSTICA_355' name='uma acrostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>acrosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 acróstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma acróstica'><marker>uma acrostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ACROSTICO_356' name='no acrostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>acrosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 acróstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no acróstico'><marker>no acrostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AFRICA_357' name='na africa'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>africas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 áfrica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na áfrica'><marker>na africa</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AFRICO_358' name='algum africo'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>africos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 áfrico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum áfrico'><marker>algum africo</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AMARICA_359' name='uma amarica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>amaricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 amárica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma amárica'><marker>uma amarica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AMARICO_360' name='algum amarico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>amaricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 amárico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum amárico'><marker>algum amarico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AMPLIFICA_361' name='na amplifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>amplificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 amplífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na amplífica'><marker>na amplifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AMPLIFICO_362' name='no amplifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>amplificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 amplífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no amplífico'><marker>no amplifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ANALISE_363' name='na analise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>analises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 análise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na análise'><marker>na analise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ARICA_364' name='na arica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 árica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na árica'><marker>na arica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ARICO_365' name='do arico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 árico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do árico'><marker>do arico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ASIA_366' name='na asia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>asias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ásia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na ásia'><marker>na asia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ATICA_367' name='alguma atica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ática</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma ática'><marker>alguma atica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ATICO_368' name='um atico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ático</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um ático'><marker>um atico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AURIFICA_369' name='na aurifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aurificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 aurífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na aurífica'><marker>na aurifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AURIFICO_370' name='no aurifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>aurificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 aurífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no aurífico'><marker>no aurifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AUTOCRITICA_371' name='na autocritica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>autocriticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 autocrítica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na autocrítica'><marker>na autocritica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_AUTOCRITICO_372' name='no autocritico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>autocriticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 autocrítico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no autocrítico'><marker>no autocritico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BALBUCIE_373' name='da balbucie'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>balbucies?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 balbúcie</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da balbúcie'><marker>da balbucie</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BALIA_374' name='da balia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>balias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 bália</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da bália'><marker>da balia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BEATIFICA_375' name='na beatifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>beatificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 beatífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na beatífica'><marker>na beatifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BEATIFICO_376' name='um beatifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>beatificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 beatífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um beatífico'><marker>um beatifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BEBIA_377' name='uma bebia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>bebias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 bébia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma bébia'><marker>uma bebia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BEZOARTICA_378' name='pela bezoartica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>bezoarticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 bezoártica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela bezoártica'><marker>pela bezoartica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_BEZOARTICO_379' name='um bezoartico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>bezoarticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 bezoártico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um bezoártico'><marker>um bezoartico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CALORIFICA_380' name='da calorifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>calorificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 calorífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da calorífica'><marker>da calorifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CALORIFICO_381' name='algum calorifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>calorificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 calorífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum calorífico'><marker>algum calorifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CANTARICA_382' name='pela cantarica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cantaricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cantárica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela cantárica'><marker>pela cantarica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CANTARICO_383' name='um cantarico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cantaricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cantárico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um cantárico'><marker>um cantarico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CARDIA_384' name='alguma cardia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cardias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cárdia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma cárdia'><marker>alguma cardia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CATALISE_385' name='na catalise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>catalises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 catálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na catálise'><marker>na catalise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CERIFICA_386' name='na cerifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cerificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cerífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na cerífica'><marker>na cerifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CERIFICO_387' name='do cerifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cerificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cerífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do cerífico'><marker>do cerifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CIENTIFICA_388' name='uma cientifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cientificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 científica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma científica'><marker>uma cientifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CIENTIFICO_389' name='no cientifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cientificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 científico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no científico'><marker>no cientifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CITOLISE_390' name='na citolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>citolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 citólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na citólise'><marker>na citolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CLINICA_391' name='na clinica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>clinicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 clínica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na clínica'><marker>na clinica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CLINICO_392' name='no clinico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>clinicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 clínico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no clínico'><marker>no clinico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CONTRARREPLICA_393' name='pela contrarreplica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>contrarreplicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 contrarréplica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela contrarréplica'><marker>pela contrarreplica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CONVENIO_394' name='no convenio'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>convenios?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 convênio</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no convênio'><marker>no convenio</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRIPTANALISE_395' name='na criptanalise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>criptanalises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 criptanálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na criptanálise'><marker>na criptanalise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRIPTOANALISE_396' name='na criptoanalise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>criptoanalises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 criptoanálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na criptoanálise'><marker>na criptoanalise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRITICA_397' name='da critica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>criticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 crítica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da crítica'><marker>da critica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRITICO_398' name='algum critico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>criticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 crítico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum crítico'><marker>algum critico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CROMATOLISE_399' name='uma cromatolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cromatolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cromatólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma cromatólise'><marker>uma cromatolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRONICA_400' name='pela cronica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cronicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 crónica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela crónica'><marker>pela cronica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CRONICO_401' name='pelo cronico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cronicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 crónico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo crónico'><marker>pelo cronico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CUBICA_402' name='uma cubica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cubicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cúbica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma cúbica'><marker>uma cubica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CUBICO_403' name='pelo cubico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>cubicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cúbico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo cúbico'><marker>pelo cubico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_CURTIA_404' name='da curtia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>curtias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 cúrtia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da cúrtia'><marker>da curtia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DANIFICA_405' name='da danifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>danificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 danífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da danífica'><marker>da danifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DANIFICO_406' name='algum danifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>danificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 danífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum danífico'><marker>algum danifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DEDICA_407' name='na dedica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>dedicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 dédica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na dédica'><marker>na dedica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DEIFICA_408' name='uma deifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>deificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 deífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma deífica'><marker>uma deifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DEIFICO_409' name='pelo deifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>deificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 deífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo deífico'><marker>pelo deifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DELIA_410' name='pela delia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>delias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 délia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela délia'><marker>pela delia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DIAGNOSTICA_411' name='na diagnostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>diagnosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 diagnóstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na diagnóstica'><marker>na diagnostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DIAGNOSTICO_412' name='no diagnostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>diagnosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 diagnóstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no diagnóstico'><marker>no diagnostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DIALISE_413' name='na dialise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>dialises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 diálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na diálise'><marker>na dialise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DISTROFICA_414' name='uma distrofica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>distroficas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 distrófica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma distrófica'><marker>uma distrofica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DISTROFICO_415' name='pelo distrofico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>distroficos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 distrófico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo distrófico'><marker>pelo distrofico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DOMESTICA_416' name='pela domestica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>domesticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 doméstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela doméstica'><marker>pela domestica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DOMESTICO_417' name='no domestico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>domesticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 doméstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no doméstico'><marker>no domestico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DULCIFICA_418' name='uma dulcifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>dulcificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 dulcífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma dulcífica'><marker>uma dulcifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_DULCIFICO_419' name='pelo dulcifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>dulcificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 dulcífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo dulcífico'><marker>pelo dulcifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_EFIGIE_420' name='pela efigie'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>efigies?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 efígie</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela efígie'><marker>pela efigie</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_EFUNDIA_421' name='da efundia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>efundias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 efúndia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da efúndia'><marker>da efundia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELECTRODIAGNOSTICA_422' name='pela electrodiagnostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>electrodiagnosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 electrodiagnóstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela electrodiagnóstica'><marker>pela electrodiagnostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELECTRODIAGNOSTICO_423' name='do electrodiagnostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>electrodiagnosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 electrodiagnóstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do electrodiagnóstico'><marker>do electrodiagnostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELECTROLISE_424' name='uma electrolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>electrolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 electrólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma electrólise'><marker>uma electrolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELETROLISE_425' name='da eletrolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>eletrolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 eletrólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da eletrólise'><marker>da eletrolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELETROMEDICA_426' name='alguma eletromedica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>eletromedicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 eletromédica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma eletromédica'><marker>alguma eletromedica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ELETROMEDICO_427' name='no eletromedico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>eletromedicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 eletromédico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no eletromédico'><marker>no eletromedico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ENTROPICA_428' name='na entropica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>entropicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 entrópica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na entrópica'><marker>na entropica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ENTROPICO_429' name='pelo entropico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>entropicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 entrópico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo entrópico'><marker>pelo entropico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ESPECIE_430' name='uma especie'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>especies?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 espécie</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma espécie'><marker>uma especie</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ESPECIFICA_431' name='na especifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>especificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 específica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na específica'><marker>na especifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ESPECIFICO_432' name='no especifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>especificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 específico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no específico'><marker>no especifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_EXIMIA_433' name='pela eximia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>eximias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 exímia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela exímia'><marker>pela eximia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FABRICA_434' name='na fabrica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>fabricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 fábrica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na fábrica'><marker>na fabrica</marker>.</example>
+ </rule>
+<!--
+ <rule id='PARONIMA_FABRICO_435' name='do fabrico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>fabricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 fábrico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+			TODO Write better examples		
+	<example correction='do fábrico'><marker>do fabrico</marker>.</example>
+ </rule>
+-->
+ <rule id='PARONIMA_FALSIFICA_436' name='uma falsifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>falsificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 falsífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma falsífica'><marker>uma falsifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FALSIFICO_437' name='pelo falsifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>falsificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 falsífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo falsífico'><marker>pelo falsifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FORMICA_438' name='uma formica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>formicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 fórmica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma fórmica'><marker>uma formica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FORMICO_439' name='no formico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>formicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 fórmico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no fórmico'><marker>no formico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FRIGIA_440' name='alguma frigia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>frigias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 frígia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma frígia'><marker>alguma frigia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FRIGORIFICA_441' name='na frigorifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>frigorificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 frigorífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na frigorífica'><marker>na frigorifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_FRIGORIFICO_442' name='pelo frigorifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>frigorificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 frigorífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo frigorífico'><marker>pelo frigorifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GALICA_443' name='pela galica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>galicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 gálica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela gálica'><marker>pela galica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GALICO_444' name='algum galico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>galicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 gálico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum gálico'><marker>algum galico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GINASTICA_445' name='uma ginastica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ginasticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ginástica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma ginástica'><marker>uma ginastica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GINASTICO_446' name='pelo ginastico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ginasticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ginástico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo ginástico'><marker>pelo ginastico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GRATIFICA_447' name='na gratifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>gratificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 gratífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na gratífica'><marker>na gratifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_GRATIFICO_448' name='no gratifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>gratificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 gratífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no gratífico'><marker>no gratifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HEMODIALISE_449' name='pela hemodialise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>hemodialises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 hemodiálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela hemodiálise'><marker>pela hemodialise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HEMOLISE_450' name='uma hemolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>hemolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 hemólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma hemólise'><marker>uma hemolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HIDROLISE_451' name='da hidrolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>hidrolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 hidrólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da hidrólise'><marker>da hidrolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HONORIFICA_452' name='na honorifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>honorificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 honorífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na honorífica'><marker>na honorifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HONORIFICO_453' name='pelo honorifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>honorificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 honorífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo honorífico'><marker>pelo honorifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HORRIFICA_454' name='alguma horrifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>horrificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 horrífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma horrífica'><marker>alguma horrifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_HORRIFICO_455' name='um horrifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>horrificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 horrífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um horrífico'><marker>um horrifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_INDICA_456' name='na indica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>indicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 índica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na índica'><marker>na indica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_INDICO_457' name='um indico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>indicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 índico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um índico'><marker>um indico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_INFERIA_458' name='na inferia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>inferias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 inféria</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na inféria'><marker>na inferia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_JORNALISTICA_459' name='na jornalistica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>jornalisticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 jornalística</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na jornalística'><marker>na jornalistica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_JORNALISTICO_460' name='um jornalistico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>jornalisticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 jornalístico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um jornalístico'><marker>um jornalistico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LAPIDIFICA_461' name='uma lapidifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>lapidificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lapidífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma lapidífica'><marker>uma lapidifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LAPIDIFICO_462' name='pelo lapidifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>lapidificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lapidífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo lapidífico'><marker>pelo lapidifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LATIA_463' name='uma latia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>latias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 látia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma látia'><marker>uma latia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LATICA_464' name='uma latica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>laticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lática</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma lática'><marker>uma latica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LATICO_465' name='no latico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>laticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lático</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no lático'><marker>no latico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LETIFICA_466' name='da letifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>letificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 letífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da letífica'><marker>da letifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LETIFICO_467' name='algum letifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>letificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 letífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum letífico'><marker>algum letifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LINFOLISE_468' name='uma linfolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>linfolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 linfólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma linfólise'><marker>uma linfolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LIPOLISE_469' name='na lipolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>lipolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lipólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na lipólise'><marker>na lipolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LIRICA_470' name='da lirica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>liricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lírica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da lírica'><marker>da lirica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LIRICO_471' name='no lirico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>liricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lírico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no lírico'><marker>no lirico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LITICA_472' name='uma litica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>liticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lítica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma lítica'><marker>uma litica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LITICO_473' name='pelo litico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>liticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lítico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo lítico'><marker>pelo litico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LOGICA_474' name='da logica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>logicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lógica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da lógica'><marker>da logica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LOGICO_475' name='pelo logico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>logicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lógico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo lógico'><marker>pelo logico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LUBRICA_476' name='na lubrica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>lubricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lúbrica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na lúbrica'><marker>na lubrica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_LUBRICO_477' name='no lubrico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>lubricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 lúbrico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no lúbrico'><marker>no lubrico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MAGICA_478' name='na magica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>magicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mágica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na mágica'><marker>na magica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MAGICO_479' name='algum magico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>magicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mágico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum mágico'><marker>algum magico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MAGNIFICA_480' name='da magnifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>magnificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 magnífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da magnífica'><marker>da magnifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MAGNIFICO_481' name='um magnifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>magnificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 magnífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um magnífico'><marker>um magnifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MATICA_482' name='na matica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>maticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mática</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na mática'><marker>na matica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MATICO_483' name='um matico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>maticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mático</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um mático'><marker>um matico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MEDICA_484' name='uma medica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>medicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 médica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma médica'><marker>uma medica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MEDICO_485' name='do medico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>medicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 médico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do médico'><marker>do medico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MELIFICA_486' name='pela melifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>melificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 melífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela melífica'><marker>pela melifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MELIFICO_487' name='no melifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>melificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 melífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no melífico'><marker>no melifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_METAFISICA_488' name='na metafisica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>metafisicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 metafísica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na metafísica'><marker>na metafisica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_METAFISICO_489' name='do metafisico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>metafisicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 metafísico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do metafísico'><marker>do metafisico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MICROCOPIAR_490' name='pela microcopia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>microcopias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 microcópia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela microcópia'><marker>pela microcopia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MIMICA_491' name='alguma mimica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>mimicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mímica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma mímica'><marker>alguma mimica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MIMICO_492' name='no mimico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>mimicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mímico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no mímico'><marker>no mimico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MIRIFICA_493' name='na mirifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>mirificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mirífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na mirífica'><marker>na mirifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MIRIFICO_494' name='no mirifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>mirificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 mirífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no mirífico'><marker>no mirifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MODICA_495' name='uma modica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>modicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 módica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma módica'><marker>uma modica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MODICO_496' name='pelo modico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>modicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 módico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo módico'><marker>pelo modico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MUNIA_497' name='da munia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>munias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 múnia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da múnia'><marker>da munia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MUSICA_498' name='da musica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>musicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 música</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da música'><marker>da musica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_MUSICO_499' name='um musico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>musicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 músico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um músico'><marker>um musico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_NUTRIA_500' name='pela nutria'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>nutrias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 nútria</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela nútria'><marker>pela nutria</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_OBVIA_501' name='da obvia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>obvias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 óbvia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da óbvia'><marker>da obvia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_OSSIFICA_502' name='na ossifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ossificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ossífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na ossífica'><marker>na ossifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_OSSIFICO_503' name='um ossifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ossificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 ossífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um ossífico'><marker>um ossifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PACIFICA_504' name='na pacifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pacificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pacífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na pacífica'><marker>na pacifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PACIFICO_505' name='do pacifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pacificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pacífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do pacífico'><marker>do pacifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PANEGIRICO_506' name='no panegirico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>panegiricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 panegírico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no panegírico'><marker>no panegirico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PARALITICA_507' name='pela paralitica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>paraliticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 paralítica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela paralítica'><marker>pela paralitica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PARALITICO_508' name='algum paralitico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>paraliticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 paralítico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum paralítico'><marker>algum paralitico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PARECIA_509' name='da parecia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>parecias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pareça</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da pareça'><marker>da parecia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PARIA_510' name='na paria'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>parias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pária</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na pária'><marker>na paria</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PERVIA_511' name='da pervia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pervias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pérvia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da pérvia'><marker>da pervia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PETRIFICA_512' name='na petrifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>petrificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 petrífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na petrífica'><marker>na petrifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PETRIFICO_513' name='um petrifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>petrificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 petrífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um petrífico'><marker>um petrifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PINICA_514' name='pela pinica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pinicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pínica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela pínica'><marker>pela pinica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PINICO_515' name='do pinico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pinicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pínico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do pínico'><marker>do pinico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PIROLISE_516' name='na pirolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pirolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pirólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na pirólise'><marker>na pirolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PLASMOLISE_517' name='na plasmolise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>plasmolises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 plasmólise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na plasmólise'><marker>na plasmolise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PLASTICA_518' name='na plastica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>plasticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 plástica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na plástica'><marker>na plastica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PLASTICO_519' name='um plastico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>plasticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 plástico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um plástico'><marker>um plastico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_POLEMICA_520' name='uma polemica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>polemicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 polémica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma polémica'><marker>uma polemica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_POLEMICO_521' name='no polemico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>polemicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 polémico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no polémico'><marker>no polemico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_POLIA_522' name='na polia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>polias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pólia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na pólia'><marker>na polia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_POLITICA_523' name='uma politica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>politicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 política</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma política'><marker>uma politica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_POLITICO_524' name='no politico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>politicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 político</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no político'><marker>no politico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PREDICA_525' name='na predica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>predicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prédica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na prédica'><marker>na predica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PREVIA_526' name='uma previa'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>previas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prévia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma prévia'><marker>uma previa</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PROGNOSTICA_527' name='da prognostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>prognosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prognóstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da prognóstica'><marker>da prognostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PROGNOSTICO_528' name='um prognostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>prognosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prognóstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um prognóstico'><marker>um prognostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PROLIFICA_529' name='uma prolifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>prolificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prolífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma prolífica'><marker>uma prolifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PROLIFICO_530' name='no prolifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>prolificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 prolífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no prolífico'><marker>no prolifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PRONOSTICA_531' name='pela pronostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pronosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pronóstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela pronóstica'><marker>pela pronostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PRONOSTICO_532' name='algum pronostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>pronosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pronóstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum pronóstico'><marker>algum pronostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PSICANALISE_533' name='na psicanalise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>psicanalises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 psicanálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na psicanálise'><marker>na psicanalise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PSICOANALISE_534' name='na psicoanalise'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>psicoanalises?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 psicoanálise</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na psicoanálise'><marker>na psicoanalise</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PUBLICA_535' name='da publica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>publicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 pública</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da pública'><marker>da publica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_PUBLICO_536' name='no publico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>publicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 público</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no público'><marker>no publico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RADICA_537' name='pela radica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>radicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rádica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela rádica'><marker>pela radica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RADICO_538' name='no radico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>radicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rádico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no rádico'><marker>no radico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RADIODIAGNOSTICA_539' name='alguma radiodiagnostica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>radiodiagnosticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 radiodiagnóstica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma radiodiagnóstica'><marker>alguma radiodiagnostica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RADIODIAGNOSTICO_540' name='no radiodiagnostico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>radiodiagnosticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 radiodiagnóstico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no radiodiagnóstico'><marker>no radiodiagnostico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_REGIA_541' name='uma regia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>regias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 régia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma régia'><marker>uma regia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_REPLICA_542' name='na replica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>replicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 réplica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na réplica'><marker>na replica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_REPUBLICA_543' name='na republica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>republicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 república</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na república'><marker>na republica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_REPUBLICO_544' name='pelo republico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>republicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 repúblico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo repúblico'><marker>pelo republico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RETIFICA_545' name='da retifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>retificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 retífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da retífica'><marker>da retifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RETORICA_546' name='uma retorica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>retoricas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 retórica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma retórica'><marker>uma retorica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RETORICO_547' name='do retorico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>retoricos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 retórico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do retórico'><marker>do retorico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RIDICA_548' name='pela ridica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ridicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rídica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela rídica'><marker>pela ridica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RIDICO_549' name='um ridico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>ridicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rídico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um rídico'><marker>um ridico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RUGIA_550' name='alguma rugia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>rugias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rúgia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma rúgia'><marker>alguma rugia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RUSTIA_551' name='na rustia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>rustias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rústia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na rústia'><marker>na rustia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RUSTICA_552' name='alguma rustica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>rusticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rústica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma rústica'><marker>alguma rustica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_RUSTICO_553' name='um rustico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>rusticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 rústico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um rústico'><marker>um rustico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SABIA_554' name='uma sabia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sabias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sábia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma sábia'><marker>uma sabia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SACRIFICA_555' name='da sacrifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sacrificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sacrífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da sacrífica'><marker>da sacrifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SACRIFICO_556' name='algum sacrifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sacrificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sacrífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum sacrífico'><marker>algum sacrifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SANGUIFICA_557' name='na sanguifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sanguificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sanguífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na sanguífica'><marker>na sanguifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SANGUIFICO_558' name='do sanguifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sanguificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sanguífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do sanguífico'><marker>do sanguifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SAXIFICA_559' name='pela saxifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>saxificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 saxífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela saxífica'><marker>pela saxifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SAXIFICO_560' name='no saxifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>saxificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 saxífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no saxífico'><marker>no saxifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SERIE_561' name='uma serie'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>series?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 série</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma série'><marker>uma serie</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SERVIA_562' name='na servia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>servias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sérvia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na sérvia'><marker>na servia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SILOGISTICA_563' name='da silogistica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>silogisticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 silogística</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da silogística'><marker>da silogistica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SILOGISTICO_564' name='no silogistico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>silogisticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 silogístico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no silogístico'><marker>no silogistico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SINDICA_565' name='da sindica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sindicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 síndica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da síndica'><marker>da sindica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SINDICO_566' name='no sindico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sindicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 síndico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no síndico'><marker>no sindico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SOFISTICA_567' name='na sofistica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sofisticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sofística</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na sofística'><marker>na sofistica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SOFISTICO_568' name='algum sofistico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sofisticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sofístico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum sofístico'><marker>algum sofistico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SOMITICA_569' name='uma somitica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>somiticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 somítica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma somítica'><marker>uma somitica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SOMITICO_570' name='do somitico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>somiticos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 somítico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do somítico'><marker>do somitico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUBSTANTIFICA_571' name='alguma substantifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>substantificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 substantífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma substantífica'><marker>alguma substantifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUBSTANTIFICO_572' name='no substantifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>substantificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 substantífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no substantífico'><marker>no substantifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUDORIFICA_573' name='na sudorifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sudorificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sudorífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na sudorífica'><marker>na sudorifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUDORIFICO_574' name='do sudorifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>sudorificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 sudorífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do sudorífico'><marker>do sudorifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUPLICA_575' name='na suplica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>suplicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 súplica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na súplica'><marker>na suplica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_SUPLICO_576' name='algum suplico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>suplicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 súplico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum súplico'><marker>algum suplico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TERRIFICA_577' name='uma terrifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>terrificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 terrífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma terrífica'><marker>uma terrifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TERRIFICO_578' name='no terrifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>terrificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 terrífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no terrífico'><marker>no terrifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TIPICA_579' name='uma tipica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tipicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 típica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma típica'><marker>uma tipica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TIPICO_580' name='algum tipico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tipicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 típico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum típico'><marker>algum tipico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TISICA_581' name='alguma tisica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tisicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tísica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma tísica'><marker>alguma tisica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TISICO_582' name='do tisico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tisicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tísico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='do tísico'><marker>do tisico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TOLIA_583' name='uma tolia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tolias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tólia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma tólia'><marker>uma tolia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TOSSICA_584' name='pela tossica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tossicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tóssica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela tóssica'><marker>pela tossica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TOSSICO_585' name='no tossico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tossicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tóssico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no tóssico'><marker>no tossico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TOXICA_586' name='na toxica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>toxicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tóxica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na tóxica'><marker>na toxica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TOXICO_587' name='algum toxico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>toxicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tóxico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='algum tóxico'><marker>algum toxico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TREPLICA_588' name='na treplica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>treplicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 tréplica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na tréplica'><marker>na treplica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TRINIA_589' name='alguma trinia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>trinias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 trínia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma trínia'><marker>alguma trinia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TROPICA_590' name='uma tropica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tropicas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 trópica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma trópica'><marker>uma tropica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TROPICO_591' name='um tropico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>tropicos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 trópico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um trópico'><marker>um tropico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_TRUPIA_592' name='da trupia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>trupias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 trúpia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da trúpia'><marker>da trupia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VENEFICA_593' name='alguma venefica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>veneficas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 venéfica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma venéfica'><marker>alguma venefica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VENEFICO_594' name='pelo venefico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>veneficos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 venéfico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo venéfico'><marker>pelo venefico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VERSIFICA_595' name='pela versifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>versificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 versífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pela versífica'><marker>pela versifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VERSIFICO_596' name='um versifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>versificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 versífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='um versífico'><marker>um versifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VESTIA_597' name='na vestia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>vestias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 véstia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na véstia'><marker>na vestia</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VIATICA_598' name='alguma viatica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>viaticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 viática</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='alguma viática'><marker>alguma viatica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VIVIFICA_599' name='uma vivifica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>vivificas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 vivífica</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma vivífica'><marker>uma vivifica</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_VIVIFICO_600' name='pelo vivifico'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>vivificos?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 vivífico</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo vivífico'><marker>pelo vivifico</marker>.</example>
+ </rule>
+
+ <rule id='PARONIMA_ZINIA_601' name='da zinia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>zinias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 zínia</suggestion>?</message>
+	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+	<!--		TODO Write better examples		-->
+	<example correction='da zínia'><marker>da zinia</marker>.</example>
+ </rule>
+
+
 	<!--          Tiago F. Santos Rules End             ****END**** -->
 	<!-- ********************************************************** -->
 
@@ -11031,13 +13829,70 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         </rule>
   </category>
 
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
 		<!-- Localization of rules from the English grammar.xml - END  -->
 
-		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 
+    <category id="SEMANTICS" name="Semântica" type="inconsistency">
 
-    <category id="SEMANTICS" name="Semantica" type="inconsistency">
+		<!--      Semantics rules l18n from Catalan grammar.xml - START-->
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-13 -->
+	        <rule id="ANY20016_2016" name="*20016/2016">
+            <pattern>
+                <token regexp="yes">de|o|em|a|no|anos?|cursos?|académicos?|&meses_ano;|&meses_ano_abrev;</token>
+                <marker>
+                    <token regexp="yes">2[02]\d\d\d</token>
+                </marker>
+            </pattern>
+            <message>Pretende dizer <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
+            <example correction="2014">É o ano <marker>20014</marker>.</example>
+            <example correction="2014">És do ano <marker>20014</marker>.</example>
+            <example>É de 2015.</example>
+        </rule>
+        <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
+            <antipattern>
+                <marker>
+                    <token>Washington</token>
+                    <token>DC</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <!-- "Segunda-Feira, 7 de outubro de 2014" -->
+                    <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0">de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+                    <token> de</token>
+                    <token spacebefore="no" min="0">l</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
+                <message>Esta data não foi <match no="1" case_conversion="alllower"/>, foi {realDay}.</message>
+                <example correction=""><marker>Segunda-feira, 7 de outubro de 2014</marker></example>
+                <example correction=""><marker>Segunda-feira 7 de outubro de 2014</marker></example>
+                <example><marker>Terça-feira, 7 de outubro de 2014</marker></example>
+                <example><marker>Washington DC, 7 de outubro de 2014</marker></example>
+            </rule>
+            <!-- "Segunda-feira, 7 de out de 2014" -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <message>Esta data não foi <match no="1" case_conversion="alllower"/>, foi {realDay}.</message>
+                <example correction=""><marker>Segunda-feira, 7 out 2014</marker></example>
+                <example correction=""><marker>Segunda-feira 7 out 2014</marker></example>
+                <example><marker>Terça-feira, 7 out 2014</marker></example>
+            </rule>
+        </rulegroup>
+		<!--      Semantics rules l18n from Catalan grammar.xml -  END -->
     </category>
-		     Localization of rules from the English grammar.xml - END  -->
+
 
 		<!--          Style rules from English grammar.xml      - START-->
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
@@ -11045,7 +13900,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <category id="STYLE" name="Estilo" type="style">
         <rule id="PROFANITY" name="Profanidade">
             <pattern>
-                <token inflected="yes" regexp="yes">merdas?|cagalhão|c[uú]s?|cabrão|cabrões|foder|putices?|putas?|putarias?|punheteiros?|broches?|paneleiros?|fufas?|ratas?|conas?|cricas?|pitos?|bucetas?|caralhos?|peidos?|beitas?</token>
+                <token inflected="yes" regexp="yes">merdas?|cagalh(ão|ões)|c[uú]s?|cabrão|cabrões|foder|putices?|putas?|putarias?|punheteiros?|broches?|paneleiros?|fufas?|ratas?|conas?|cricas?|pitos?|bucetas?|caralhos?|(qui|co)lh(ão|ões)|peidos?|beitas?</token>
             </pattern>
             <message>Esta palavra é de baixo calão. Considere as alternativas:</message>
 		<suggestion>#¿$?%!¡</suggestion>
