@@ -8073,10 +8073,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>не</token>
                     <token postag_regexp="yes" regexp="yes">(не)[а-я](.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)|нес(.*)</exception></token>
                 </pattern>
+                <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:2 regexp:не(.*) postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "не" exist -->
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Эта книга интересная.</example>
                 <example>Это не незнакомец.</example>
+                <example>Он не немец.</example>
                 <example>Это не только не критично, но и оправданно.</example>
                 <example>Это не несёт никакой нагрузки.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
@@ -9441,7 +9444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>пол</token>           
                         <token>листа</token>           
                 </pattern>
-                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
+                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной «л», то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
                 <short>«Пол-листа» пишем через дефис</short>
                 <example correction="пол-листа">Она исписала <marker>пол листа</marker>.</example>
                 <example>Она исписала пол-листа.</example>
@@ -9451,7 +9454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>пол</token>           
                         <token>луковицы</token>           
                 </pattern>
-                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
+                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной «л», то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
                 <short>«Пол-луковицы» пишем через дефис</short>
                 <example correction="пол-луковицы">Для этого блюда возьмите <marker>пол луковицы</marker>.</example>
             </rule>   
@@ -9741,7 +9744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>листья</token>                  
                         <token>бумаги</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
                 <short>Правильно «листы бумаги»</short>
                 <example correction="Листы бумаги"><marker>Листья бумаги</marker> разлетелись по комнате.</example>
                 <example>Листы бумаги разлетелись по комнате.</example>
@@ -9753,7 +9756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>листы</token>                  
                         <token>деревьев</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
                 <short>Правильно «листья деревьев»</short>
                 <example correction="Листья деревьев"><marker>Листы деревьев</marker> пожелтели.</example>
                 <example>Листья деревьев пожелтели.</example>
@@ -9765,7 +9768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>коренья</token>                  
                         <token>дерева</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
                 <short>Правильно «корни дерева»</short>
                 <example correction="Корни дерева"><marker>Коренья дерева</marker> высохли.</example>
                 <example>Корни дерева высохли.</example>
@@ -9777,7 +9780,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>болят</token>                  
                         <token>зубья</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
                 <short>Правильно «болят зубы»</short>
                 <example correction="болят зубы">У него <marker>болят зубья</marker>.</example>
                 <example>У него болят зубы.</example>
@@ -9786,7 +9789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-        <rulegroup id="Okonch_susch_masc_Predlozhn_opredeliteln" name="Окончание -у в предложн. падеже у сущ. муж. р. при выражении определительных отношений">
+        <rulegroup id="Okonch_susch_masc_Predlozhn_opredeliteln" name="Окончание «-у» в предложн. падеже у сущ. муж. р. при выражении определительных отношений">
 
 
             <rule>   
@@ -9795,7 +9798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>на</token>                  
                         <token>мехе</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 на меху</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 на меху</suggestion>?</message>
                 <short>Правильно «на меху»</short>
                 <example correction="сапоги на меху">Она купила <marker>сапоги на мехе</marker>.</example>
                 <example>Она купила сапоги на меху.</example>
@@ -9807,7 +9810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>снеге</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в снегу</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в снегу</suggestion>?</message>
                 <short>Правильно «в снегу»</short>
                 <example correction="одежда в снегу">Была вся <marker>одежда в снеге</marker>.</example>
                 <example>Была вся одежда в снегу.</example>
@@ -9819,7 +9822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>меле</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в мелу</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в мелу</suggestion>?</message>
                 <short>Правильно «в мелу»</short>
                 <example correction="руки в мелу">Были его <marker>руки в меле</marker>.</example>
                 <example>Его руки были в мелу.</example>
@@ -9831,7 +9834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>пухе</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в пуху</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в пуху</suggestion>?</message>
                 <short>Правильно «в пуху»</short>
                 <example correction="покрывало в пуху">Было <marker>покрывало в пухе</marker>.</example>
                 <example>Покрывало было в пуху.</example>
@@ -10178,7 +10181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>подобии</token>
                         <token regexp="yes">тех|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
                 <short>Правильно «наподобие»</short>
                 <example correction="наподобие тех">Он купил шляпу <marker>на подобии тех</marker>, что носили в прошлом веке.</example>
                 <example>Он купил шляпу наподобие тех, что носили в прошлом веке.</example>
@@ -10190,7 +10193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>следствии</token>
                         <token regexp="yes">этого|чего|этих|этой|того|той|которого|которой|которых|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие чего"><marker>В следствии чего</marker> они были вынуждены обратиться в суд.</example>
                 <example>Вследствие чего они были вынуждены обратиться в суд.</example>
@@ -10202,7 +10205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>следствие</token>
                         <token regexp="yes">этого|чего|которого|которой|которых|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие этого"><marker>В следствие этого</marker> произошёл сбой в системе.</example>
                 <example>Вследствие этого произошёл сбой в системе.</example>
@@ -10218,7 +10221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>заключении</token>
                         <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
                 <short>Правильно «в заключение»</short>
                 <example correction="В заключение выступления"><marker>В заключении выступления</marker> он прочёл стихи.</example>
                 <example>В заключение выступления он прочёл стихи. </example>
