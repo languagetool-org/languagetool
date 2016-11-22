@@ -84,6 +84,10 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
 	<!-- 		Brazilian Portuguese has inverted colocations  -->
    <rule>
+    <antipattern>
+    		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+		<token postag='V.P.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token postag='V.*' postag_regexp='yes'></token>
 		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
@@ -95,6 +99,7 @@ title="Easy editing stylesheet" ?>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
 	<!--		TODO Write better examples		-->
 	<example correction='vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
+	<example>Ela pode ter-me visto na festa.</example>
   </rule>
   <rule>
     <pattern>
