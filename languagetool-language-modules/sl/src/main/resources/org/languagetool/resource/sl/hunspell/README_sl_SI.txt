@@ -1,4 +1,4 @@
-﻿This Slovenian spelling dictionary was created by (in alphabetical order)/
+This Slovenian spelling dictionary was created by (in alphabetical order)/
 Slovenski slovar za črkovanje so ustvarili (v abecednem redu):
    Amebis, d.o.o.
    Tomaž Erjavec

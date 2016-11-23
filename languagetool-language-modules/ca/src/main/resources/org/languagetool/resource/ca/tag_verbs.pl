@@ -1,4 +1,4 @@
-﻿# Etiqueta formes verbals
+# Etiqueta formes verbals
 # C=català central, V=valencià, B=Balear
 # X=C+V, Y=C+B, Z=V+B
 
