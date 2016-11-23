@@ -13715,13 +13715,54 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             </rule>
         </rulegroup>
 		<!--      Semantics rules l18n from Catalan grammar.xml -  END -->
+	<rulegroup id="INVALID_DATE" name="Data inválida, tal como '31 Fevereiro, 2016'">
+       		<!--      Semantics rulegroup l18n from English grammar.xml	-->
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-21	-->
+            <rule>
+                <pattern>
+                    <!-- "31 de Junho, 2016" -->
+                        <token>31</token>
+                        <token min='0'>de</token>
+                        <token regexp="yes">Abril|Abr|Junho|Jun|Setembro|Set|Novembro|Nov</token>
+                </pattern>
+                <message>O mês de \1 só tem 30 dias.</message>
+                <example correction="">Isso aconteceu no dia <marker>31 de Novembro</marker>, 2014.</example>
+                <example>Isso aconteceu no dia <marker>30 de Novembro</marker>, 2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "30 Fevereiro, 2016" -->
+                        <token regexp="yes">3[01]</token>
+                        <token min='0'>de</token>
+                        <token regexp="yes">Fevereiro|Fev</token>
+                </pattern>
+                <message>February só tem 28 days, ou 29 days em anos bisextos.</message>
+                <example correction="">Isso aconteceu a <marker>30 Fev</marker>, 2014.</example>
+                <example>Isso aconteceu a <marker>29 de Fev</marker>, 2014.</example>
+            </rule>
+            <rule>
+                    <pattern>
+                       <token regexp="yes">\d\d?</token>                      
+                       <token regexp="yes">[a–\-]</token>
+                       <token regexp="yes">\d\d?</token>
+                       <token min='0'>de</token>
+                       <token regexp="yes">&meses_ano;</token>
+                    </pattern>
+                    <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\1 y:\3"/>
+                    <message>O primeiro dia (\1) tem de ser antes do último (\3).</message>
+                    <short>Data errada</short>
+                    <example correction=""><marker>10 – 1 de Janeiro</marker>, 2016.</example>                    
+                    <example>10 a 17 Janeiro, 2016</example>
+             </rule>
+        </rulegroup>
+
     </category>
 
+    <category id="STYLE" name="Estilo" type="style">
 
 		<!--          Style rules from English grammar.xml      - START-->
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-
-    <category id="STYLE" name="Estilo" type="style">
         <rule id="PROFANITY" name="Profanidade">
             <pattern>
                 <token inflected="yes" regexp="yes">merdas?|cagalh(ão|ões)|c[uú]s?|cabrão|cabrões|foder|putices?|putas?|putarias?|punheteiros?|broches?|paneleiros?|fufas?|ratas?|conas?|cricas?|pitos?|bucetas?|caralhos?|(qui|co)lh(ão|ões)|peidos?|beitas?</token>
