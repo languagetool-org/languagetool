@@ -85,8 +85,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 ****************************************
 -->
 
-<category id="MISC" name="Gramática Geral">
-
+<category id="GRAMMAR" name="Gramática Geral" type="grammar">
 
 	<!--          Tiago F. Santos Rules Start         ****START**** -->
 	<!-- ********************************************************** -->
@@ -769,8 +768,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule> 
 
 	
-	
+	<!-- FIXME Remove. Contrary to grammar rules. 'Quem' agrees with 'whom' oration -->
     <!-- Concordance error plural - QUEM + VERB SINGULAR -->
+<!--
     <rule id="QUEM-VERB_PLURAL" name="Erro de concordância do plural QUEM + VERBO SINGULAR">
       <pattern>
 		<token>quem</token>
@@ -778,10 +778,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 			<token postag="VMIS3P0"></token>
 		</marker>
       </pattern>
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="VMIS3P0" postag_replace="VMIS3S0"/></suggestion></message>	 
+	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="VMIS3P0" postag_replace="VMIS3S0"/></suggestion></message>
+	 FIXME This example is correct	 
 	 <example correction="fez|fê">Foram eles quem <marker>fizeram</marker> os trabalhos.</example>
     </rule>	
-	
+-->	
 
 	
 	<!-- Concordance error plural - A + FEMALE PLURAL + SINGULAR VERB -->
@@ -1011,7 +1012,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <example correction="um">Quero <marker>uma</marker> bonito carro novo.</example>
     </rule> 	
 	
-	
+</category>
+
+<category id="MISC" name="Sem Categoria" type="uncategorized">
 	
     <!-- CAPTURAR IMAGENS captar imagens -->
     <rule id="CAPTURAR_IMAGENS" name="captar imagens">
@@ -1039,7 +1042,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 			<token>bala</token>
 		</marker>	
       </pattern>
-	  <message>Querias dizer <suggestion>\1 \2 \3 \4 balas</suggestion>?</message>
+	  <message>Pretende dizer <suggestion>\1 \2 \3 \4 balas</suggestion>?</message>
       <example correction="colete à prova de balas">Usa o <marker>colete à prova de bala</marker>.</example>
     </rule>	
 	
@@ -1218,30 +1221,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 
 
-    <!-- A APRENDIZ a aprendiza -->
-    <rule id="A_APRENDIZ" name="a aprendiza">
-      <pattern>
-        <token>a</token>
-        <token>aprendiz</token>
-      </pattern>
-      <message>Substituir «a aprendiz» por <suggestion>a aprendiza</suggestion>.</message>
-      <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
-    </rule>
-
-
-
-    <!-- À BOCADO há bocado -->
-    <rule id="À_BOCADO" name="há bocado">
-      <pattern>
-        <token>à</token>
-        <token>bocado</token>
-      </pattern>
-      <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
-      <example correction="há bocado">Cheguei <marker>à bocado</marker> do Algarve.</example>
-    </rule>
-
-
-
     <!-- A COMO É AS/OS a como são as/os -->
 	<rule id="A_COMO_É_AS_OS" name="a como são as/os">
 	  <pattern>
@@ -1383,22 +1362,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «a preço por» por <suggestion>apreço por</suggestion>.</message>
       <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
     </rule>
-	
-
-	
-    <!-- A POUCO E POUCO aos poucos informal -->
-	<rule id="A_POUCO_E_POUCO" name="aos poucos (informal)">
-	  <pattern>
-		<token>a</token>
-		<token>pouco</token>
-		<token>e</token>
-		<token>pouco</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>	  
-	  <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>	
-	</rule>
-	
 
 
     <!-- A QUANDO aquando -->
@@ -1475,22 +1438,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="atrevimento para">É muito <marker>atrevimento a</marker> falar assim.</example>
     </rule>
 
-
-
-    <!-- À ÚLTIMA DA HORA à última hora -->
-    <rule id="À_ÚLTIMA_DA_HORA" name="à última hora">
-      <pattern>
-        <token>à</token>
-        <token>última</token>
-        <token>da</token>
-        <token>hora</token>
-      </pattern>
-      <message>Substituir «à última da hora» por <suggestion>à última hora</suggestion>.</message>
-      <example correction="à última hora">Eles decidiram tudo <marker>à última da hora</marker>.</example>
-    </rule>
-
-
-
     <!-- A UM CONSERTO a um concerto -->
     <rule id="A_UM_CONSERTO" name="a um concerto">
       <pattern>
@@ -1512,7 +1459,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		<token>de</token>
 	    <token>vocês</token>
 	  </pattern>
-	  <message>Querias dizer <suggestion>\1 vossa \2</suggestion>?</message>
+	  <message>Pretende dizer <suggestion>\1 vossa \2</suggestion>?</message>
 	  <example correction="A vossa opinião"><marker>A opinião de vocês</marker> é importante.</example>
 	  <example>A maioria de vocês.</example>
 	</rule>
@@ -1898,36 +1845,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-
-    <!-- BEM DITO DEUS/SATANÁS bem dito Deus/Satanás -->
-    <rule id="BEM_DITO_DEUS-SATANÁS" name="bem dito Deus-Satanás">
-      <pattern>
-		<marker>
-            <token>bem</token>
-            <token>dito</token>
-         </marker>
-         <token regexp="yes">Deus|Satanás</token>
-      </pattern>
-      <message>Substituir «bem dito» por <suggestion>bendito</suggestion>.</message>
-      <example correction="bendito">És a vida, <marker>bem dito</marker> Deus.</example>
-    </rule>
-
-
-
-    <!-- BICHA DE ESPERA fila de espera -->
-	<rule id="BICHA_DE_ESPERA" name="fila de espera">
-	  <pattern>
-        <marker>	              	  
-	        <token>bicha</token>
-        </marker>          
-	    <token>de</token>
-	   	<token>espera</token>              
-      </pattern>
-      <message>Substituir «bicha» por <suggestion>fila</suggestion>.</message>
-      <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
-	</rule>
-
-
 	
     <!-- BOLOS-REI bolos-reis -->
     <rule id="BOLOS-REI" name="bolos-reis">
@@ -1993,8 +1910,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	</rule>	
 		
 
-		
+	<!-- TODO Made redundant by POSSESSIVE_WITHOUT_ARTICLE. Only applies to pt-PT -->
     <!-- COM VOSSA com a vossa -->
+<!--
     <rule id="COM_VOSSA" name="com a vossa">
       <pattern>
         <marker>
@@ -2003,24 +1921,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         </marker>
         <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
       </pattern>
-      <message>Querias dizer <suggestion>com a vossa</suggestion>?</message>
+      <message>Pretende dizer <suggestion>com a vossa</suggestion>?</message>
       <example correction="com a vossa">Usei o texto <marker>com vossa</marker> permissão.</example>
       <example>Queria falar <marker>com vossa</marker> majestade.</example>
     </rule>
-
-
-
-    <!-- COMER O ALMOÇO almoçar -->
-    <rule id="COMER_O_ALMOÇO" name="almoçar">
-      <pattern>
-        <token>comer</token>
-        <token>o</token>
-        <token>almoço</token>
-      </pattern>
-      <message>Substituir «comer o almoço» por <suggestion>almoçar</suggestion>.</message>
-      <example correction="almoçar">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
-    </rule>
-
+-->
 
 
     <!-- COMER tomar -->
@@ -2116,21 +2021,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		
 
 
-    <!-- DE ALMA E CORAÇÃO informal -->
-	<rule id="DE_ALMA_E_CORAÇÃO" name="de alma e coração (informal)">
-	  <pattern>
-		<token>de</token>
-		<token>alma</token>
-		<token>e</token>
-		<token>coração</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Sou um gestor <marker>de alma e coração</marker>.</example>
-      <example>Sou um gestor <marker>com determinação</marker>.</example>
-	</rule>
-
-	
-	
     <!-- DE CALCULO de cálculo -->
     <rule id="DE_CALCULO" name="de cálculo">
       <pattern>
@@ -2292,24 +2182,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="desde os">Isto acontece <marker>dês dos</marker> tempos da minha avó.</example>
     </rule>
 
-
-
-    <!-- DEPOIS DE após -->
-    <!-- 	This is a personal style rule. Not mandatory	-->
-    <!--	FIXME Move to style category			-->
-<!--
-    <rule type='style' default='off' id="DEPOIS_DE" name="após">
-      <pattern>
-  	    <marker>
-  	    <token>depois</token>
-  	    <token>de</token>
-  	    </marker>
-  	    <token><exception>amanhã</exception></token> 
-      </pattern>
-      <message>Substituir «depois de» por <suggestion>após</suggestion>.</message>
-      <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
-    </rule>
--->
 	
 
     <!-- DESDE QUE HAJAM desde que haja -->
@@ -2489,17 +2361,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 
 
-    <!-- ENQUANTO QUE enquanto -->
-    <rule id="ENQUANTO_QUE" name="enquanto">
-      <pattern>
-        <token>enquanto</token>
-        <token>que</token>
-      </pattern>
-      <message>Substituir «enquanto que» por <suggestion>enquanto</suggestion>.</message>
-      <example correction="enquanto">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
-    </rule>
-
-
 <!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
     <!-- EQUIPE: NA/EM/NUMA/SUA/NOSSA/VOSSA/TUA EQUIPE -> equipa -->
     <rule default='off' id="EQUIPE" name="equipa">
@@ -2527,17 +2388,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
     </rule>
 
-
-
-    <!-- ENCRENCA/ENCRENCAS informal -->
-	<rule id="ENCRENCA_ENCRENCAS" name="encrenca(s) (informal)">
-	  <pattern>
-		<token regexp="yes">encrencas?</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Que grande <marker>encrenca</marker>.</example>
-      <example>Que grande <marker>sarilho</marker>.</example>
-	</rule>
 
 
     <!-- ENTRAS TE entraste -->
@@ -2747,30 +2597,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	
 
-    <!-- GAJA/S informal -->
-	<rule id="GAJA_GAJAS" name="gaja/gajas (informal)">
-	  <pattern>
-		<token regexp="yes">gaja|gajas</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Onde está a <marker>gaja</marker>?</example>
-      <example>Onde está a <marker>senhora</marker>?</example>
-	</rule>
-	
-	
-
-    <!-- GAJO/S informal -->
-	<rule id="GAJO_GAJOS" name="gajo/gajos (informal)">
-	  <pattern>
-		<token regexp="yes">gajo|gajos</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Onde está o <marker>gajo</marker>?</example>
-      <example>Onde está o <marker>senhor</marker>?</example>
-	</rule>	
-
-	
-<!-- TODO Review coverage by VERBO_DE_QUE -->
+	<!-- TODO Review coverage by VERBO_DE_QUE -->
     <!-- GOSTO DE QUE gosto que -->
     <rule id="GOSTO_DE_QUE" name="gosto que">
       <pattern>
@@ -3096,21 +2923,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <message>Substituir «mulher músico» por <suggestion>música</suggestion>.</message>
       <example correction="música">A Ana é uma <marker>mulher músico</marker>.</example>
     </rule>
-
-
-
-    <!-- NA MEDIDA DO POSSÍVEL informal -->
-	<rule id="NA_MEDIDA_DO_POSSÍVEL" name="na medida do possível (informal)">
-	  <pattern>
-		<token>na</token>
-		<token>medida</token>
-		<token>do</token>
-		<token>possível</token>
-      </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
-      <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
-      <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
-	</rule>
 
 
 
@@ -3696,7 +3508,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         </marker>
         <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
       </pattern>
-      <message>Querias dizer <suggestion>a sua</suggestion>?</message>
+      <message>Pretende dizer <suggestion>a sua</suggestion>?</message>
       <example correction="a sua">Tudo bem, mas <marker>sua</marker> mãe está zangada.</example>
       <example>Tudo bem, mas a <marker>sua</marker> mãe está zangada.</example>
       <example>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
@@ -3772,7 +3584,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <token regexp="yes">os?|as?|um|uns|umas?</token>
         <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
       </pattern>
-      <message>Usa o verbo calçar</message>
+      <message>Utilize o verbo calçar</message>
       <example correction=""><marker>Vestir os sapatos</marker>.</example>
 	  <example><marker>Calçar os sapatos</marker>.</example>
 	</rule>
@@ -13875,14 +13687,14 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                     <token regexp="yes">\d\d?</token>
                     <token min="0">de</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
-                    <token> de</token>
+                    <token min="0">de</token>
                     <token spacebefore="no" min="0">l</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
                 <message>Esta data não foi <match no="1" case_conversion="alllower"/>, foi {realDay}.</message>
                 <example correction=""><marker>Segunda-feira, 7 de outubro de 2014</marker></example>
-                <example correction=""><marker>Segunda-feira 7 de outubro de 2014</marker></example>
+                <example correction=""><marker>Segunda-feira 7 de outubro 2014</marker></example>
                 <example><marker>Terça-feira, 7 de outubro de 2014</marker></example>
                 <example><marker>Washington DC, 7 de outubro de 2014</marker></example>
             </rule>
@@ -14015,6 +13827,177 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <example correction="os jogadores">Devemos de ajudar <marker>os jogadores e as jogadoras</marker></example>
       </rule>
      </rulegroup>
-		<!--	      Style rules from Spanish grammar.xml    - START  -->
+		<!--	      Style rules from Spanish grammar.xml    - END  -->
+
+	<!-- À ÚLTIMA DA HORA à última hora -->
+	<!-- 		TODO See link for explanation
+	https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ultima-hora/3082 -->
+    <rule id="À_ÚLTIMA_DA_HORA" name="à última hora">
+      <pattern>
+        <token>à</token>
+        <token>última</token>
+        <token>da</token>
+        <token>hora</token>
+      </pattern>
+      <message>Substituir «à última da hora» por <suggestion>à última hora</suggestion>.</message>
+      <example correction="à última hora">Eles decidiram tudo <marker>à última da hora</marker>.</example>
+    </rule>
+
+    <!-- DEPOIS DE após -->
+    <!-- 	This is a infrequent personal style rule.	 	-->
+    <rule type='style' default='off' id="DEPOIS_DE" name="após">
+      <pattern>
+  	    <marker>
+  	    <token>depois</token>
+  	    <token>de</token>
+  	    </marker>
+  	    <token><exception>amanhã</exception></token> 
+      </pattern>
+      <message>Substituir «depois de» por <suggestion>após</suggestion>.</message>
+      <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
+    </rule>
+
+    <!-- ENQUANTO QUE enquanto -->
+    <rule id="ENQUANTO_QUE" name="enquanto">
+      <pattern>
+        <token>enquanto</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «enquanto que» por <suggestion>enquanto</suggestion>.</message>
+      <example correction="enquanto">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
+    </rule>
+
   </category>
+  <category id="NON_FORMAL_SPEECH" name="Discurso Não Formal" type="style">
+
+    <!-- This is detected by pt-PT spell-checker. TODO Move to pt-BR if needed -->
+    <!-- A APRENDIZ a aprendiza -->
+    <rule id="A_APRENDIZ" name="a aprendiza">
+      <pattern>
+        <token>a</token>
+        <token>aprendiz</token>
+      </pattern>
+      <message>Substituir «a aprendiz» por <suggestion>a aprendiza</suggestion>.</message>
+      <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
+    </rule>
+
+    <!-- À BOCADO há bocado -->
+    <rule id="À_BOCADO" name="há bocado">
+      <pattern>
+        <token>à</token>
+        <token>bocado</token>
+      </pattern>
+      <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
+      <example correction="há bocado">Cheguei <marker>à bocado</marker> do Algarve.</example>
+    </rule>
+
+    <!-- A POUCO E POUCO aos poucos informal -->
+	<rule id="A_POUCO_E_POUCO" name="aos poucos">
+	  <pattern>
+		<token>a</token>
+		<token>pouco</token>
+		<token>e</token>
+		<token>pouco</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>	  
+	  <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>
+	</rule>
+
+    <!-- DE ALMA E CORAÇÃO informal -->
+	<rule id="DE_ALMA_E_CORAÇÃO" name="de alma e coração">
+	  <pattern>
+		<token>de</token>
+		<token>alma</token>
+		<token>e</token>
+		<token>coração</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Sou um gestor <marker>de alma e coração</marker>.</example>
+      <example>Sou um gestor <marker>com determinação</marker>.</example>
+	</rule>
+
+    <!-- ENCRENCA/ENCRENCAS informal -->
+	<rule id="ENCRENCA_ENCRENCAS" name="encrenca(s)">
+	  <pattern>
+		<token regexp="yes">encrencas?</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Que grande <marker>encrenca</marker>.</example>
+      <example>Que grande <marker>sarilho</marker>.</example>
+	</rule>
+
+    <!-- GAJA/S informal -->
+	<rule id="GAJA_GAJAS" name="gaja/gajas">
+	  <pattern>
+		<token regexp="yes">gaja|gajas</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Onde está a <marker>gaja</marker>?</example>
+      <example>Onde está a <marker>senhora</marker>?</example>
+	</rule>
+
+    <!-- GAJO/S informal -->
+	<rule id="GAJO_GAJOS" name="gajo/gajos">
+	  <pattern>
+		<token regexp="yes">gajo|gajos</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Onde está o <marker>gajo</marker>?</example>
+      <example>Onde está o <marker>senhor</marker>?</example>
+	</rule>
+
+    <!-- BEM DITO DEUS/SATANÁS bem dito Deus/Satanás -->
+    <rule id="BEM_DITO_DEUS-SATANÁS" name="bem dito Deus-Satanás">
+      <pattern>
+		<marker>
+            <token>bem</token>
+            <token>dito</token>
+         </marker>
+         <token regexp="yes">Deus|Satanás</token>
+      </pattern>
+      <message>Substituir «bem dito» por <suggestion>bendito</suggestion>.</message>
+      <example correction="bendito">És a vida, <marker>bem dito</marker> Deus.</example>
+    </rule>
+
+    <!-- BICHA DE ESPERA fila de espera -->
+	<rule id="BICHA_DE_ESPERA" name="fila de espera">
+	  <pattern>
+        <marker>	              	  
+	        <token>bicha</token>
+        </marker>          
+	    <token>de</token>
+	   	<token>espera</token>              
+      </pattern>
+      <message>Substituir «bicha» por <suggestion>fila</suggestion>.</message>
+      <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
+	</rule>
+
+    <!-- COMER O ALMOÇO almoçar -->
+    <rule id="COMER_O_ALMOÇO" name="almoçar">
+      <pattern>
+        <token>comer</token>
+        <token>o</token>
+        <token>almoço</token>
+      </pattern>
+      <message>Substituir «comer o almoço» por <suggestion>almoçar</suggestion>.</message>
+      <example correction="almoçar">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
+    </rule>
+
+	<!-- TODO Verify		-->
+    <!-- NA MEDIDA DO POSSÍVEL informal -->
+	<rule id="NA_MEDIDA_DO_POSSÍVEL" name="na medida do possível">
+	  <pattern>
+		<token>na</token>
+		<token>medida</token>
+		<token>do</token>
+		<token>possível</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
+      <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
+	</rule>
+
+  </category>
+
 </rules>
