@@ -5287,6 +5287,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 <languagerule languagerulename="Portuguese">
+<!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
 <beforebreak>\b(Ab|abrev|absol|a\. C|acad|Açor|A\. D|add|adj|adv|advers|Aeron|afér|Agric|Álg|aprox|art|Artilh|auxil|av|Av)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -5375,6 +5376,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b(Zool)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Two final stop abbreviations  -->
 <rule break="no">
 <beforebreak>K\.\s</beforebreak>
 <afterbreak>O\.</afterbreak>
@@ -5423,10 +5425,40 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>V\.\s</beforebreak>
 <afterbreak>S\.s</afterbreak>
 </rule>
+<!-- initials: A. C. Jones. -->
+<rule break="no">
+<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Any word in acronyms like E.U.A. or P.S.P. or C. or c.s.p. or p. e. -->
+<rule break="no">
+<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Any word in acronyms like EE.UU. or BB. DD. -->
+<rule break="no">
+<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- máx. mín. etc. -->
+<rule break="no">
+<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Composed abbrev. e.g. et al. -->
+<rule break="no">
+<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Units -->
+<rule break="no">
+<beforebreak>\b([Ee]sc|K[gm]s?|[mc]?[gml]s]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- Not break for ellipses (...) -->
 <rule break="no">
-<beforebreak>\b\.\.\.\s</beforebreak>
-<afterbreak></afterbreak>
+<beforebreak>[^\s](\Q...\E|…)\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Break rules -->
 <rule break="yes">
