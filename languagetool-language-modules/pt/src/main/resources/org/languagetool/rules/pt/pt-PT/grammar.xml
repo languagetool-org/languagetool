@@ -158,6 +158,19 @@ title="Easy editing stylesheet" ?>
 <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
   </rule>
 
+	<!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 -->
+  <rule id='AVOID_GERUND' name='Evitar o Gerúndio' type='style'>
+    <pattern>
+		<token postag='V.G.*' postag_regexp='yes'>
+			<exception postag='V.G.*' postag_regexp='yes' negate_pos='yes'/></token>
+    </pattern>
+	<message>Se possível, evite o gerúndio.</message><suggestion>a <match no='1' postag='(V.)G(.*)' postag_replace='$1N$2' postag_regexp='yes' case_conversion="alllower"/></suggestion>
+	<url>https://pt.wikipedia.org/wiki/Gerundismo</url>
+	<!--	TODO Add all wrong infinitives (á$) to remove.txt 	-->
+	<example correction='a soprar|a soprá'>...ventos do oeste, <marker>soprando</marker> por cima das águas...</example>
+  </rule>
+
 </category>
 
 <category id="CONTRACTIONS" name="Contrações">
