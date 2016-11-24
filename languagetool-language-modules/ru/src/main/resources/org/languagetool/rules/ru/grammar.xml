@@ -5566,7 +5566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="их">Там находится <marker>ихний</marker> дом.</example>
             </rule>   
         </rulegroup>
-        <rulegroup default="on" id="NN_N_pril_prich" name="Правописание «нн» или «н» в причастиях и прилагательных">
+        <rulegroup default="off" id="NN_N_pril_prich" name="Правописание «нн» или «н» в причастиях и прилагательных">
             <rule>
                 <pattern>
                     <marker>  
@@ -5594,8 +5594,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate_pos="yes" postag="N(N|NN|NF):.*:.*:T" postag_regexp="yes"></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
-                args="no:1 regexp:(.*[аеёиоуэюя][н])[н][а-мо-я]{1,3} postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "не" exist -->
-                <message>Прилагательное пишется с «н», зависимых слов нет: <suggestion><match no="1" suppress_misspelled="yes" regexp_match="(.*[аеёиоуэюя])[н][н]([а-мо-я]{1,3})" regexp_replace="$1н$2"></match></suggestion></message>
+                args="no:1 regexp:(.*[аеёиоуэюя][н])[н][а-мо-я]{1,3} postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "не" exist. req regexp  (.*[аеёиоуэюя][н])[н]([а-мо-я]{1,3})   $1$2 -->
+                 <message>Прилагательное пишется с «н», зависимых слов нет: <suggestion><match no="1" suppress_misspelled="yes" regexp_match="(.*[аеёиоуэюя])[н][н]([а-мо-я]{1,3})" regexp_replace="$1н$2"></match></suggestion></message>
                 <short>Пишется с «н»</short>
                 <example>Сегодня на ужин жареная картошка.</example>
                 <example>Сегодня у нас на ужин жаренная Иваном картошка.</example>
