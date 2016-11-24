@@ -94,7 +94,7 @@ title="Easy editing stylesheet" ?>
    <rule>
     <antipattern>
     		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
-		<token postag='V.P.*' postag_regexp='yes'></token>
+		<token postag='V.[PG].*' postag_regexp='yes'></token>
     </antipattern>
     <pattern>
 		<token postag='V.*' postag_regexp='yes'></token>
@@ -144,6 +144,11 @@ title="Easy editing stylesheet" ?>
 	  <token regexp="yes">sua|vossa</token>
 	  <token regexp="yes">majestade|realeza|divindade|excelência|eminência</token>
 	</antipattern>
+	<antipattern>
+	  <token/>
+	  <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
+	  <token regexp='yes'>(?-i)[A-Z].*</token>
+	</antipattern>
 	<pattern>
 	  <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
 	  <token postag='DP.*' postag_regexp='yes'></token>
@@ -155,6 +160,7 @@ title="Easy editing stylesheet" ?>
 	<example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
         <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
         <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
+        <example type='correct'>Hospital Nossa Senhora da Paz</example>
   </rule>
 
 </category>
