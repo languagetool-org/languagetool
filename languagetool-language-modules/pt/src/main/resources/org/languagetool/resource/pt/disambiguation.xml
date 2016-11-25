@@ -452,6 +452,12 @@
     <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
   </rule>
 
+  <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
+  	<pattern>
+  	  <token postag="VMN0000" regexp='yes'>.+[^r]$</token>
+  	</pattern>
+  	<disambig action="remove" postag="V.N.*"/>
+  </rule>
 
     <rulegroup id="PERIFRASES" name="perífrases de infinitivo">
   <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
@@ -511,7 +517,7 @@
         <rule>
             <pattern>
                 <token inflected="yes">dar</token>
-                <token>en</token>
+                <token>em</token>
                 <marker>
                     <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
                 </marker>
