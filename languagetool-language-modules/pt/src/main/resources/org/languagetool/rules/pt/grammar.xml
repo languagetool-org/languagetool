@@ -32,7 +32,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
-    <!ENTITY dias_semana "segunda-feira|terça-feira|quarta-feira|quinta-feira|sexta-feira|sábado|domingo">
+    <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -866,7 +866,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <rule id="PROCURA_SE-PROCURAM_SE" name="Erro de concordânica do plural PROCURA-SE > PROCURAM-SE">
       <pattern>
 		<marker>
-			<token>procura-se</token>	  
+			<token>procura</token>
+			<token>-</token>
+			<token>se</token>
 		</marker>
 		<token postag_regexp="yes"  postag="NCFP000|NCMP000|AQ0FP0|AQ0MP0"></token> 	
      </pattern>	 	 
@@ -1191,7 +1193,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <rule id="A_GUARDA-NOCTURNO" name="a guarda-nocturna">
       <pattern>
         <token>a</token>
-        <token>guarda-nocturno</token>
+        <token>guarda</token>
+        <token>-</token>
+        <token>nocturno</token>
       </pattern>
       <message>Substituir «a guarda-nocturno» por <suggestion>a guarda-nocturna</suggestion>.</message>
       <example correction="a guarda-nocturna">Vamos ver <marker>a guarda-nocturno</marker>.</example>
@@ -1461,7 +1465,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- ANDARES-MODELOS andares-modelo -->
     <rule id="ANDARES-MODELOS" name="andares-modelo">
       <pattern>
-        <token>andares-modelos</token>
+        <token>andares</token>
+        <token>-</token>
+        <token>modelos</token>
       </pattern>
       <message>Substituir «andares-modelos» por <suggestion>andares-modelo</suggestion>.</message>
       <example correction="andares-modelo">Vamos ver os <marker>andares-modelos</marker>.</example>
@@ -1548,7 +1554,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- ABRIR-MOS abrirmos -->
     <rule id="ABRIR-MOS" name="abrirmos">
       <pattern>
-        <token>abrir-mos</token>
+        <token>abrir</token>
+        <token>-</token>
+        <token>mos</token>
       </pattern>
       <message>Substituir «abrir-mos» por <suggestion>abrirmos</suggestion>.</message>
       <example correction="abrirmos">Pediram para <marker>abrir-mos</marker> a porta.</example>
@@ -1670,7 +1678,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- AUTO-FALANTE altifalante -->
     <rule id="AUTO-FALANTE" name="altifalante">
       <pattern>
-        <token>auto-falante</token>
+        <token>auto</token>
+        <token>-</token>
+        <token>falante</token>
       </pattern>
       <message>Substituir «auto-falante» por <suggestion>altifalante</suggestion>.</message>
       <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
@@ -1679,7 +1689,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- AUTO-FALANTES altifalantes -->
     <rule id="AUTO-FALANTES" name="altifalantes">
       <pattern>
-        <token>auto-falantes</token>
+        <token>auto</token>
+        <token>-</token>
+        <token>falantes</token>
       </pattern>
       <message>Substituir «auto-falantes» por <suggestion>altifalantes</suggestion>.</message>
       <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
@@ -1688,7 +1700,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- BOLOS-REI bolos-reis -->
     <rule id="BOLOS-REI" name="bolos-reis">
       <pattern>
-        <token>bolos-rei</token>
+        <token>bolos</token>
+        <token>-</token>
+        <token>rei</token>
       </pattern>
       <message>Substituir «bolos-rei» por <suggestion>bolos-reis</suggestion>.</message>
       <example correction="bolos-reis">Vamos comprar os <marker>bolos-rei</marker>.</example>
@@ -1950,7 +1964,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- DECRETOS-LEI decretos-leis -->
     <rule id="DECRETOS-LEI" name="decretos-leis">
       <pattern>
-        <token>decretos-lei</token>
+        <token>decretos</token>
+        <token>-</token>
+        <token>lei</token>
       </pattern>
       <message>Substituir «decretos-lei» por <suggestion>decretos-leis</suggestion>.</message>
       <example correction="decretos-leis">Vamos analisar os <marker>decretos-lei</marker>.</example>
@@ -2171,7 +2187,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- ESQUECEU-SE/ESQUECERAM-SE/ESQUECI-ME/ESQUECER-SE QUE esqueceu-se de que -->
     <rule id="ESQUECEU-SE_QUE" name="esqueceu-se de que">
       <pattern>
-        <token regexp="yes">esqueceu-se|esqueceram-se|esqueci-me|esquecer-se</token>
+        <token regexp="yes">esqueceu|esqueceram|esqueci|esquecere</token>
+        <token>-</token>
+        <token>se</token>
         <marker>
         	<token>que</token>
         </marker>
@@ -2259,7 +2277,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- FALARAM-SE DE falou-se de -->
     <rule id="FALARAM-SE_DE" name="falou-se de">
       <pattern>
-        <token>falaram-se</token>
+        <token>falaram</token>
+        <token>-</token>
+        <token>se</token>
         <token>de</token>
       </pattern>
       <message>Substituir «falaram-se de» por <suggestion>falou-se de</suggestion>.</message>
@@ -2349,7 +2369,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- GUARDAS-CHUVAS guarda-chuvas -->
     <rule id="GUARDAS-CHUVAS" name="guarda-chuvas">
       <pattern>
-        <token>guardas-chuvas</token>
+        <token>guardas</token>
+        <token>-</token>
+        <token>chuvas</token>
       </pattern>
       <message>Substituir «guardas-chuvas» por <suggestion>guarda-chuvas</suggestion>.</message>
       <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
@@ -2556,7 +2578,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- MEIO-IRMÃ meia-irmã -->
     <rule id="MEIO-IRMÃ" name="meia-irmã">
       <pattern>
-        <token>meio-irmã</token>
+        <token>meio</token>
+        <token>-</token>
+        <token>irmã</token>
       </pattern>
       <message>Substituir «meio-irmã» por <suggestion>meia-irmã</suggestion>.</message>
       <example correction="meia-irmã">A Ana é <marker>meio-irmã</marker> dele.</example>
@@ -2852,7 +2876,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- PALAVRAS-CHAVES palavras-chave -->
     <rule id="PALAVRAS-CHAVES" name="palavras-chave">
       <pattern>
-        <token>palavras-chaves</token>
+        <token>palavras</token>
+        <token>-</token>
+        <token>chaves</token>
       </pattern>
       <message>Substituir «palavras-chaves» por <suggestion>palavras-chave</suggestion>.</message>
       <example correction="palavras-chave">Estas são as <marker>palavras-chaves</marker> da tese.</example>
@@ -2970,7 +2996,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- PODERIAM-SE poder-se-iam -->
     <rule id="PODERIAM-SE" name="poder-se-iam">
       <pattern>
-        <token>poderiam-se</token>
+        <token>poderiam</token>
+        <token>-</token>
+        <token>se</token>
       </pattern>
       <message>Substituir «poderiam-se» por <suggestion>poder-se-iam</suggestion>.</message>
       <example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
@@ -3018,7 +3046,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <token>prazer</token>
          </marker>
          <token>em</token>
-         <token regexp="yes">convidá-los?|convidar-vos|convidar-te|convidar</token>
+         <token regexp="yes">convidá|convidar</token>
+         <token min='0'>-</token>
+         <token regexp="yes" min='0'>los?|vos|te</token>
       </pattern>
       <message>Substituir «prazer» por <suggestion>gosto</suggestion>.</message>
       <example correction="gosto">Terei o maior <marker>prazer</marker> em convidá-los para a festa.</example>
@@ -3096,7 +3126,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <!-- RIU-ME rio-me -->
     <rule id="RIU-ME" name="rio-me">
       <pattern>
-        <token>riu-me</token>
+        <token>riu</token>
+        <token>-</token>
+        <token>me</token>
       </pattern>
       <message>Substituir «riu-me» por <suggestion>rio-me</suggestion>.</message>
       <example correction="rio-me">Eu <marker>riu-me</marker> das tuas piadas.</example>
@@ -3167,7 +3199,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <rule id="UM_BAIXO-ASSINADO" name="um abaixo-assinado">
       <pattern>
         <token>um</token>
-        <token>baixo-assinado</token>
+        <token>baixo</token>
+        <token>-</token>
+        <token>assinado</token>
       </pattern>
       <message>Substituir «um baixo-assinado» por <suggestion>um abaixo-assinado</suggestion>.</message>
       <example correction="um abaixo-assinado">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
@@ -6468,12 +6502,14 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SUICIDOU" name="suicidar(-se) a si mesmo">
       <pattern>
-        <token inflected='yes' regexp='yes'>suicidar|suicidou-se</token>
+        <token inflected='yes' regexp='yes'>suicidar|suicidou</token>
+	<token min='0'>-</token>
+	<token min='0'>se</token>
 	<token>a</token>
 	<token>si</token>
 	<token>mesmo</token>
 	</pattern>
-	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<message>Redundância. Usar: <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
 	<!--		TODO Write better examples		-->
 	<example correction='suicidou-se'><marker>suicidou-se a si mesmo</marker></example>
@@ -13207,6 +13243,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <example correction="2014">És do ano <marker>20014</marker>.</example>
             <example>É de 2015.</example>
         </rule>
+
         <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
             <antipattern>
                 <marker>
@@ -13218,6 +13255,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                 <pattern>
                     <!-- "Segunda-Feira, 7 de outubro de 2014" -->
                     <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+                    <token min='0'>-</token>
+                    <token min='0'>feira</token>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token min="0">de</token>
@@ -13226,8 +13265,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                     <token spacebefore="no" min="0">l</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
-                <message>Esta data não foi <match no="1" case_conversion="alllower"/>, foi {realDay}.</message>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\10 month:\7 day:\5 weekDay:\1"/>
+                <message>Esta data não foi <match no="1" case_conversion="alllower" include_skipped='all'/><match no="2" include_skipped='all'/><match no="3" include_skipped='all'/>, foi {realDay}.</message>
                 <example correction=""><marker>Segunda-feira, 7 de outubro de 2014</marker></example>
                 <example correction=""><marker>Segunda-feira 7 de outubro 2014</marker></example>
                 <example><marker>Terça-feira, 7 de outubro de 2014</marker></example>
@@ -13237,18 +13276,21 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <rule>
                 <pattern>
                     <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+                    <token min='0'>-</token>
+                    <token min='0'>feira</token>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-                <message>Esta data não foi <match no="1" case_conversion="alllower"/>, foi {realDay}.</message>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\7 month:\6 day:\5 weekDay:\1"/>
+                <message>Esta data não foi <match no="1" case_conversion="alllower" include_skipped='all'/><match no="2" include_skipped='all'/><match no="3" include_skipped='all'/>, foi {realDay}.</message>
                 <example correction=""><marker>Segunda-feira, 7 out 2014</marker></example>
                 <example correction=""><marker>Segunda-feira 7 out 2014</marker></example>
                 <example><marker>Terça-feira, 7 out 2014</marker></example>
             </rule>
         </rulegroup>
+
 		<!--      Semantics rules l18n from Catalan grammar.xml -  END -->
 	<rulegroup id="INVALID_DATE" name="Data inválida, tal como '31 Fevereiro, 2016'">
        		<!--      Semantics rulegroup l18n from English grammar.xml	-->
