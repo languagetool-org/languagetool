@@ -31,6 +31,8 @@ import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,6 +48,7 @@ public class Portuguese extends Language {
   
   private Tagger tagger;
   private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
 
@@ -97,6 +100,14 @@ public class Portuguese extends Language {
       disambiguator = new PortugueseHybridDisambiguator();
     }
     return disambiguator;
+  }
+
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new PortugueseWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
