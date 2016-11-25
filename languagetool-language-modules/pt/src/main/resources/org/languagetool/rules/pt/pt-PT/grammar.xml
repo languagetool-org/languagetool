@@ -105,11 +105,15 @@ title="Easy editing stylesheet" ?>
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\1 \3-\2</suggestion>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
-	<!--		TODO Write better examples		-->
 	<example correction='vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
-	<example>Ela pode ter-me visto na festa.</example>
+	<example type='correct'>Ela pode ter-me visto na festa.</example>
   </rule>
   <rule>
+    <antipattern>
+    		<token>-</token>
+    		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+    		<token postag='V.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token regexp='yes'>ma|m[eo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
 		<token postag='V.*' postag_regexp='yes'></token>
@@ -118,8 +122,8 @@ title="Easy editing stylesheet" ?>
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\2-\1</suggestion>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
-	<!--		TODO Write better examples		-->
 	<example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
+	<example type='correct'>Ela pode ter-me visto na festa.</example>
   </rule>
   <rule>
     <pattern>
