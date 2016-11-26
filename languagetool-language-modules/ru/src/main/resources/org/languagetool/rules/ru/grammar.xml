@@ -7901,21 +7901,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ольга ж не приехала.</example>
         </rule>
 
-        <rule id="Many_PREP" name="Два предлога подряд">
+        <rule id="Many_PREP" name="Два предлога подряд">        
             <pattern>
                 <marker>
-                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо</exception></token>
-                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо</exception></token>
+                  <token postag="PREP"><exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[А-Я].*</exception></token>
+                  <token postag="PREP"><exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо|без|перед</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
             </pattern>
-            <message>Два предлога подряд.</message>         
+            <message>Два предлога подряд:  <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>         
             <short>Два предлога подряд</short>
-            <example correction="">Тренер ругал <marker>за про</marker> дело.</example>
+            <example correction="за|про">Тренер ругал <marker>за про</marker> дело.</example>
+            <example correction="на|под">Тарелка <marker>на под</marker> блюдо.</example>
+            <example correction="на|в">Кошка прыгнула <marker>на в</marker> окно.</example>
+            <example correction="в|к">Я уверен, что всё изменится <marker>в к</marker> лучшему.</example>
             <example>Тренер ругал за дело.</example>
             <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
-            <example>Возвышенность простирается с Ю на С вдоль старой дороги.</example>
+            <example>Возвышенность простирается с Ю на С от старой дороги.</example>
             <example>Она преподаёт изо в школе.</example>
+            <example>Разбил в аварии перед у машины</example>
+            <example>К ИЗО ученик подготовился.</example>
+
         </rule>
                         
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
@@ -8171,35 +8177,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
        </rulegroup>
-       <rule default="on" id="prep_prep" name="Два предлога подряд">
-	        <antipattern>
-		        <marker>
-			        <token postag="SENT_START" negate_pos="yes"/>
-			        <token case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</token>
-		        </marker>
-	        </antipattern>
-	        <pattern>
-		        <marker>
-			        <token postag="PREP">
-				        <exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes"/>
-				        <exception case_sensitive="yes" regexp="yes">[А-ЯЁ][А-ЯЁ]*</exception>
-				        <exception regexp="yes">насчёт|насчет|ради|перед</exception>
-			        </token> 
-			        <token postag="PREP">
-				        <exception postag="PREP|ABR" negate_pos="yes" postag_regexp="yes"/>
-				        <exception case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</exception>
-				        <exception regexp="yes">без|перед</exception>
-			        </token>
-		        </marker>
-		        <token><exception>.</exception></token>
-	        </pattern>
-           <message>Два предлога подряд: <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>
-           <short>Два предлога подряд</short>
-           <example>Разбил в аварии перед у машины</example>
-           <example correction="на|под">Тарелка <marker>на под</marker> блюдо.</example>
-           <example correction="на|в">Кошка прыгнула <marker>на в</marker> окно.</example>
-           <example correction="в|к">Я уверен, что всё изменится <marker>в к</marker> лучшему.</example>
-       </rule>   
        <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
             <rule>
                 <pattern>
@@ -8733,7 +8710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    </pattern>
 	    <message>Возможно, нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот. Для обозначения ударения используйте символ U+0301 в кодировке Юникод вместо букв из других алфавитов.</message>	    
 	    <url>https://ru.wikipedia.org/wiki/%D0%97%D0%BD%D0%B0%D0%BA_%D1%83%D0%B4%D0%B0%D1%80%D0%B5%D0%BD%D0%B8%D1%8F#.D0.92.D0.B2.D0.BE.D0.B4_.D0.B7.D0.BD.D0.B0.D0.BA.D0.B0_.D1.81_.D0.BA.D0.BB.D0.B0.D0.B2.D0.B8.D0.B0.D1.82.D1.83.D1.80.D1.8B</url>
-	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</short>
+	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот.</short>
             <example correction="">Книга <marker>прo</marker> Львов.</example>
 	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
 	    <example>«Far East Network» не передаёт местные новости.</example>
