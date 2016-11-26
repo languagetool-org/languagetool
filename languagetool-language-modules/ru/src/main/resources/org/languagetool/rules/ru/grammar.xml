@@ -5936,7 +5936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
   -->
                 <pattern case_sensitive="no">
-                    <token regexp= "yes" negate="yes" inflected="yes">иметь|имелось</token>
+                    <token regexp= "yes" negate="yes" inflected="yes">иметь|имелось|иметься</token>
                     <marker>
                         <token>в</token>
                         <token>виду</token>
@@ -5946,6 +5946,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пишется слитно.</short>
                 <example>Много  оборудования не использовалось в учреждении <marker>ввиду</marker> отсутствия расходных материалов.</example>
                 <example>Он имел <marker>в виду</marker> совсем другое событие.</example>
+                <example>Имелось в виду:</example>
                 <example correction="ввиду">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>
             </rule>
             
@@ -7903,8 +7904,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Many_PREP" name="Два предлога подряд">
             <pattern>
                 <marker>
-                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception>минус</exception></token>
-                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception>минус</exception></token>
+                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо</exception></token>
+                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
             </pattern>
@@ -7913,6 +7914,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Тренер ругал <marker>за про</marker> дело.</example>
             <example>Тренер ругал за дело.</example>
             <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
+            <example>Возвышенность простирается с Ю на С вдоль старой дороги.</example>
+            <example>Она преподаёт изо в школе.</example>
         </rule>
                         
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
