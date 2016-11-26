@@ -7903,8 +7903,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Many_PREP" name="Два предлога подряд">
             <pattern>
                 <marker>
-                  <token postag="PREP"><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception>минус</exception></token>
-                  <token postag="PREP"><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception>минус</exception></token>
+                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception>минус</exception></token>
+                  <token postag="PREP"><exception postag="PREP" negate_pos="yes"/><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception>минус</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
             </pattern>
@@ -7912,6 +7912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Два предлога подряд</short>
             <example correction="">Тренер ругал <marker>за про</marker> дело.</example>
             <example>Тренер ругал за дело.</example>
+            <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
         </rule>
                         
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
