@@ -57,14 +57,15 @@
     *not* mean they are going to be removed in the next version, but it's a warning
     that we cannot offer support for them or guarantee they will be included in the
     future:
-    Belarusian
-    Swedish
-    Khmer
-    Icelandic
-    Tagalog
-    Asturian
-    Danish
-    Slovenian
+    * Belarusian
+    * Swedish
+    * Khmer
+    * Icelandic
+    * Tagalog
+    * Asturian
+    * Danish
+    * Slovenian
+    
     If you're interested in contributing to one of these languages, please post to
     our forum at http://forum.languagetool.org.
 
