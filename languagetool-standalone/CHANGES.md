@@ -29,6 +29,18 @@
     added. Technically, the new data has its own Maven and git project now
     (https://github.com/languagetool-org/german-pos-dict)
 
+#### Lithuanian
+  * The `Lithuanian` class has been deprecated. Lithuanian in LT hasn't been maintained
+    for years and there's no new maintainer in sight. It has also very low usage
+    on languagetool.org and very few error detection rules anyway, so we'll remove its
+    support from LT in the next release.
+
+#### Malayalam
+  * The `Malayalam` class has been deprecated. Malayalam in LT hasn't been maintained
+    for years and there's no new maintainer in sight. It has also very low usage
+    on languagetool.org and very few error detection rules anyway, so we'll remove its
+    support from LT in the next release.
+  
 #### Portuguese
   * added and improved many rules
 
