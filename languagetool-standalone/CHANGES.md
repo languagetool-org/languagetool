@@ -49,6 +49,25 @@
   * added words suggested by users
   * improved disambiguation rules
 
+#### General
+  * The following languages have been unmaintained for a long time. A warning has been
+    shown for some time on languagetool.org and in the stand-alone GUI for these
+    languages. This warning has now been extended to Java in the form of a deprecation,
+    i.e. the constructors of the following languages have been deprecated. That does
+    *not* mean they are going to be removed in the next version, but it's a warning
+    that we cannot offer support for them or guarantee they will be included in the
+    future:
+    Belarusian
+    Swedish
+    Khmer
+    Icelandic
+    Tagalog
+    Asturian
+    Danish
+    Slovenian
+    If you're interested in contributing to one of these languages, please post to
+    our forum at http://forum.languagetool.org.
+
 #### HTTP API
   * The old API has been deactivated, as documented at
     https://languagetool.org/http-api/migration.php - it
