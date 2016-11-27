@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -242,29 +243,11 @@ public final class RuleOverview {
   }
 
   private int countXmlRules(String xmlRules) {
-    int pos = 0;
-    int count = 0;
-    while (true) {
-      pos = xmlRules.indexOf("<rule ", pos + 1);
-      if (pos == -1) {
-        break;
-      }
-      count++;
-    }
-    return count;
+    return StringUtils.countMatches(xmlRules, "<rule ");  // rules with IDs
   }
 
   private int countXmlRuleGroupRules(String xmlRules) {
-    int pos = 0;
-    int countInRuleGroup = 0;
-    while (true) {
-      pos = xmlRules.indexOf("<rule>", pos + 1);
-      if (pos == -1) {
-        break;
-      }
-      countInRuleGroup++;
-    }
-    return countInRuleGroup;
+    return StringUtils.countMatches(xmlRules, "<rule>"); // rules in rule groups have no ID
   }
 
   private int countFalseFriendRules(String falseFriendRules, Language lang) {
