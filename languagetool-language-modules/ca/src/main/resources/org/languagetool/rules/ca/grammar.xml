@@ -15838,6 +15838,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>li tributaria un culte semblant</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">industri(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar.</message>
+                <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="indústri$1"/></suggestion>
+                <example correction="indústria">En la <marker>industria</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token regexp="yes">ultim(a|es)</token>
