@@ -296,7 +296,7 @@ public class CaseRule extends GermanRule {
     "Langem",
     "Längerem",
     "Le",    // "Le Monde" etc
-    "Leichter", // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
+    // "Leichter", // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
     "Letzt",
     "Letzt",      // "zu guter Letzt"
     "Letztere",
