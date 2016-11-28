@@ -13009,17 +13009,15 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<!--		TODO Write better examples		-->
 	<example correction='da zínia'><marker>da zinia</marker>.</example>
  </rule>
-
 	<!--          Tiago F. Santos Rules End             ****END**** -->
 	<!-- ********************************************************** -->
 
 </category>
 
 		<!--     Typography rules from English grammar.xml      - START-->
-		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-
+		<!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
   <category id="TYPOGRAPHY" name="Tipografia" type="typographical">
-
+  
   <rule id="TRADEMARK" name="(TM) em vez de ™">
      <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{Lu}.*</token>
@@ -13106,31 +13104,45 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <rule>
                 <pattern>
                     <token regexp="yes">\d+</token>
+                    <token regexp="yes" min='0'>,|\.</token>
+                    <token regexp="yes" min='0'>\d+</token>
                     <token regexp="yes">[$£¥\u8371]</token>
                 </pattern>
-                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\2\1</suggestion>.</message>
+                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\4<match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
                 <short>Coloque a divisa no inicio</short>
                 <example correction="£100">Deve <marker>100 £</marker>.</example>
+                <example correction="£100.00">Deve <marker>100.00 £</marker>.</example>
             </rule>
             <rule>
             	<pattern>
-                	<token regexp="yes">[€\u8371]</token>
-                	<token regexp="yes" spacebefore="yes">\d+</token>
+                    <token regexp="yes">[€\u8371]</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">,|\.</token>
+                    <token regexp="yes">\d+</token>
+            	</pattern>
+            	<message>O símbolos de euro é colocado depois do valor: <suggestion>\2\3\4 \1</suggestion>.</message>
+	    <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+            	<short>Coloque a divisa no fim</short>
+            <example correction="100,00 €">Deve <marker>€ 100,00</marker>.</example>
+            </rule>
+            <rule>
+            	<pattern>
+                    <token regexp="yes">[€\u8371]</token>
+                    <token regexp="yes">\d+</token>
             	</pattern>
             	<message>O símbolos de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
 	    <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
             	<short>Coloque a divisa no fim</short>
             <example correction="100 €">Deve <marker>€ 100</marker>.</example>
             </rule>
-<!-- FIXME Criar padrão para reconhecer número depois do dígito + reconhecer cêntimos -->
-<!--            <rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">\d+[$£¥\u8371]</token>
                 </pattern>
                 <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
                 <short>Coloque a divisa no fim</short>
                 <example correction="£100">Deve <marker>100£</marker>.</example>
-            </rule> -->
+            </rule>
         </rulegroup>
 
         <rule type="whitespace" id="CURRENCY_SPACE" name="Símbolos monetários sem espaço em branco: '$ 100' ($100)">
@@ -13154,7 +13166,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <example correction="100 €">Deve-se <marker>100€</marker>.</example>
         </rule>
 
-<!--		FIXME PROBLEMAS COM TESTES - VERIFICAR
         <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
             <rule>
                 <pattern>
@@ -13168,9 +13179,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                 <example>“Teste”!</example>
                 <example correction="“">Isto é outro teste <marker>&quot;</marker>teste&quot;.</example>
             </rule>
-            <rule> -->
-<!--                <antipattern> --><!-- não embelezar polegadas -->
-<!--                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
+            <rule>
+                <antipattern> <!-- não embelezar polegadas -->
+                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
                     <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
                     <marker><token postag="''"/></marker>
                 </antipattern>
@@ -13185,7 +13196,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                 <example correction="”">Isto é outro teste &quot;teste<marker>&quot;</marker>.</example>
                 <example correction="”">Achilles falou na canção &quot;57821<marker>&quot;</marker>, de Janelle Monáe ft.</example>
                 <example>“Teste”!</example>
-                <example>Os assentos da classe económica tem uma profundidade de 31-33&quot;</example>
+                <!-- FIXME Clash with paired pontuation. Re-enable when fixed.
+                <example>Os assentos da classe económica tem uma profundidade de 31-33&quot;</example> -->
                 <example correction="”">O jogador de futebol apelidado de &quot;O Animal<marker>&quot;</marker></example>
             </rule>
             <rule>
@@ -13206,7 +13218,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
                 <url>https://en.wikipedia.org/wiki/„</url>
                 <example correction="“"><marker>„</marker>Teste”.</example>
             </rule>
-        </rulegroup>  -->
+        </rulegroup>
 
         <rule id="ELLIPSIS" name="Reticências inteligentes (…)">
             <pattern>
