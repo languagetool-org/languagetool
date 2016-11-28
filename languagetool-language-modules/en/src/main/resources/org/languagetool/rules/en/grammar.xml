@@ -2892,12 +2892,25 @@ USA
         <!-- on going::word=ongoing -->
         <rule id="ON_GOING" name="on going (ongoing)">
             <pattern>
-                <token>on<exception scope='previous' inflected="yes">insist</exception></token>
-                <token>going</token>
+                <marker>
+                    <token>on</token>
+                    <token>going</token>
+                </marker>
+                <token postag_regexp="yes" postag="(NNS?)|(NN:.*)"><exception postag="RP"/><exception regexp="yes">today|tonight|tomorrow|yesterday</exception></token>
             </pattern>
             <message>Did you mean <suggestion>ongoing</suggestion>?</message>
             <example correction="ongoing">There is an <marker>on going</marker> investigation.</example>
-            <example>She insisted on going for a drive.</example>
+            <example correction="ongoing">The usual <marker>on going</marker> problems must be corrected as soon as possible.</example>
+            <example correction="ongoing">... and keep <marker>on going</marker> correspondence in the file for future reference.</example>
+            <example correction="ongoing">They insisted <marker>on going</marker> correspondence was kept in the file for future reference.</example>
+            <example correction="Ongoing"><marker>On going</marker> maintenance is an important part of the work.</example>
+            <example>She insisted <marker>on going</marker> for a drive.</example>
+            <example>He depends <marker>on going</marker> in and out of Malaysia for his visa.</example>
+            <example>... and keep <marker>on going</marker> down the road to the junction.</example>
+            <example>She knew why Abigail was so insistent <marker>on going</marker> tonight.</example>
+            <example>I plan <marker>on going</marker> tomorrow morning.</example>
+            <example>My brother is banking <marker>on going</marker> to university next year.</example>
+            <example>We had a good time in London, but <marker>on going</marker> Sheffield, our holiday got even better.</example><!-- Not correct English, but out of scope of this rule. -->
         </rule>
         <!-- out grow::word=outgrow -->
         <rule id="OUT_GROW" name="out grow (outgrow)">
@@ -8883,7 +8896,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|who|which|whom|a|the</exception></token>
-                    <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
+                    <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
                     <marker>
                         <token postag="VB[DGZ]" postag_regexp="yes">
                             <exception postag="VBP|NNP" postag_regexp="yes"/>
@@ -8903,6 +8916,7 @@ USA
                 <example correction="come">They will <marker>comes</marker> home.</example>
                 <example correction="walk">He did <marker>walks</marker> to his house.</example>
                 <example correction="come">They will <marker>came</marker> home.</example>
+                <example correction="come">They'll <marker>came</marker> home.</example>
                 <example correction="happen">A catastrophe that did not <marker>happened</marker>...</example>
                 <example>Confederate commanders would need it should troops pass that way in retreat.</example>
                 <example correction="have">I would definitely <marker>has</marker> that.</example>
@@ -8910,6 +8924,7 @@ USA
                 <example correction="designate">A proposed northern bypass of Birmingham will <marker>designated</marker> as I-422.</example>
                 <example>She did <marker>experiments</marker> to test the efficacy of the medication.</example>
                 <example correction="test">She did <marker>testing</marker> the samples.</example>
+                <example correction="convey">He may <marker>conveys</marker> the message.</example>
                 <example>She did <marker>testing</marker> for a TV show.</example>
             </rule>
             <rule>
@@ -11299,6 +11314,10 @@ USA
         </rule>
         <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
             <rule>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">an|the</token>
+                    <token postag="DT" case_sensitive="yes">A</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a|an|the</token>
@@ -11310,7 +11329,10 @@ USA
                 <short>Two consecutive articles</short>
                 <example correction="The|A"><marker>The a</marker> thing is this.</example>
                 <example correction="an|a">This is <marker>an a</marker> flower.</example>
+                <example correction="The|A"><marker>The A</marker> Cat Sat On A Mat.</example>
                 <example>The Thames was once a much broader river.</example>
+                <example>The third letter is <marker>the A</marker> for Aqua, not Alpha.</example>
+                <example>In this example, use <marker>an A</marker>, not a B or a C.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12474,6 +12496,19 @@ USA
             <short>Possible typo</short>
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
+        </rule>
+        <rule id="NUMBER_OF_NNS" name="confusion of 'number or/of'">
+            <pattern>
+                <token>number</token>
+                <marker>
+                    <token>or</token>
+                </marker>
+                <token postag="NNP?S" postag_regexp="yes"/>
+                <token><exception>of</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>of</suggestion>?</message>
+            <example correction="of">This tool will help you to reduce the number <marker>or</marker> errors.</example>
+            <example>There are no limitations to the number or types of sounds that can be produced.</example>
         </rule>
         <rule id="THAN_INTERJ" name="..., than, ... (then)">
             <pattern>
@@ -18810,10 +18845,10 @@ USA
             <pattern>
                 <token regexp="yes">really|very|quite|extremely|severely</token>
             </pattern>
-            <message>Intensifier that does not intensify "\1". Use sparingly.</message>
-            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <message>Usually, the word "\1" is not necessary. Remove it unless it is necessary.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm#intensifiers</url>
             <example correction="">The band is <marker>very</marker> irritating.</example>
-            <example>The band is <marker>mind-jarringly</marker> irritating.</example>
+            <example>The band is irritating.</example>
         </rule>
     </category>
 

@@ -45,10 +45,12 @@ public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Он вышел из-за дома.");
+    check(0, "Разработка ПО за идею.");
     // Both  suggestion for some words:
     check(0, "естественно-научный");
     // incorrect sentences:
     check(1, "из за", new String[]{"из-за"});
+    check(1, "по за", new String[]{"по-за"});
     check(1, "нет нет из за да да");
     //FIXME: suggestions / longest match
     check(1, "Ростов на Дону", new String[]{"Ростов-на-Дону"});

@@ -143,7 +143,7 @@ public class LanguageManagerDialog implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
-      Configuration config = null;
+      Configuration config;
       try {
         config = new Configuration(null);
       } catch (IOException e1) {
@@ -164,13 +164,11 @@ public class LanguageManagerDialog implements ActionListener {
       if (ruleFile == null) {
         return; // dialog was canceled
       }
-      if (config != null) {
-        config.setExternalRuleDirectory(ruleFile.getParent());
-        try {
-          config.saveConfiguration(null);
-        } catch (IOException e1) {
-          throw new RuntimeException(e1);
-        }
+      config.setExternalRuleDirectory(ruleFile.getParent());
+      try {
+        config.saveConfiguration(null);
+      } catch (IOException e1) {
+        throw new RuntimeException(e1);
       }
       if (!ruleFiles.contains(ruleFile)) {
         ruleFiles.add(ruleFile);

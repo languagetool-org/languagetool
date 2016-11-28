@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -94,7 +93,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " is not valid. Use: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   public String getShort() {

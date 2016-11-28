@@ -52,7 +52,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
   /**
    * Excluded part of speech classes.
    */
-  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PREP|CONJ|PARTICLE|PNN:.*");
+  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PREP|CONJ|PARTICLE|PNN:.*|NumC:.*|Num:.*");
 
   /**
    * Excluded non-words (special symbols, Roman numerals etc.)

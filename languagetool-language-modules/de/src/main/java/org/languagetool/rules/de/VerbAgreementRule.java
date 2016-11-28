@@ -427,6 +427,7 @@ public class VerbAgreementRule extends GermanRule {
     // find the first verb reading
     AnalyzedToken verbToken = new AnalyzedToken("", "", "");
     for (AnalyzedToken token : verb.getReadings()) {
+      //noinspection ConstantConditions
       if (token.getPOSTag().startsWith("VER:")) {
         verbToken = token;
         break;

@@ -11543,6 +11543,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
         </rule>
+        <rule id="IN_DER_MACHT_STEHENDE" name="Großschreibung von 'Stehende' in 'alles in jemandes Macht Stehende'">
+            <pattern>
+                <token>in</token>
+                <token/>
+                <marker>
+                    <token>Macht</token>
+                    <token case_sensitive="yes">stehende</token>
+                </marker>
+                <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>In der Wendung 'alles in jemandes <suggestion>Macht Stehende</suggestion>' wird 'Stehende' großgeschrieben.</message>
+            <example correction="Macht Stehende">Er tat alles in seiner <marker>Macht stehende</marker>.</example>
+            <example>Im Falle eines bewaffneten Angriffs auf das Hoheitsgebiet eines Mitgliedstaats schulden die anderen Mitgliedstaaten ihm alle in ihrer Macht stehende Hilfe und Unterstützung.</example>
+        </rule>
         <rule id="RECHTENS" name="'Rechtens (rechtens)'">
             <pattern>
                 <token postag="SENT_START" negate_pos="yes"/>
@@ -24792,6 +24806,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="meinen">Bei <marker>meine</marker> großen Tassen.</example>
                 <example correction="meinen">Entsprechend <marker>meine</marker> Empfehlungen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token>des</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
+                <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token>eines</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
+                <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
+            </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
             <!-- TODO: allgemeines Pattern -->
@@ -28789,7 +28831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Ein Komma vor '\2' setzen (Einleitung Infinitivgruppe)?</message>
+                <message>Wollen Sie ein Komma vor '\2' setzen (Einleitung Infinitivgruppe)?</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
                 <example correction="kenne nichts Schöneres, als" type="incorrect">Ich <marker>kenne nichts Schöneres als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Ich <marker>kenne nichts Schöneres, als</marker> mit einem guten Buch am Kamin zu sitzen</example>
@@ -28826,7 +28868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Ein Komma vor '\2' setzen (Einleitung Infinitivgruppe)?</message>
+                <message>Wollen Sie ein Komma vor '\2' setzen (Einleitung Infinitivgruppe)?</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
                 <example correction="ging nach Hause, um" type="incorrect">Sie <marker>ging nach Hause um</marker> sich umzuziehen.</example>
                 <example>Sie <marker>ging nach Hause, um</marker> sich umzuziehen.</example>
@@ -28873,7 +28915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                 </pattern>
-                <message>Ein Komma hinter die Infinitivgruppe setzen?</message>
+                <message>Wollen Sie ein Komma hinter die Infinitivgruppe setzen?</message>
                 <suggestion><match no="1" include_skipped="all"/> \2 \3,</suggestion>
                 <example correction="Anstatt einen Brief zu schreiben," type="incorrect"><marker>Anstatt einen Brief zu schreiben</marker> könntest du auch einfach anrufen.</example>
                 <example><marker>Anstatt einen Brief zu schreiben,</marker> könntest du auch einfach anrufen.</example>
@@ -28911,7 +28953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                 </pattern>
-                <message>Ein Komma hinter die Infinitivgruppe setzen?</message>
+                <message>Wollen Sie ein Komma hinter die Infinitivgruppe setzen?</message>
                 <suggestion><match no="1" include_skipped="all"/> \2,</suggestion>
                 <example correction="Um sich umzuziehen," type="incorrect"><marker>Um sich umzuziehen</marker> ging sie nach Hause.</example>
                 <example><marker>Um sich umzuziehen,</marker> ging sie nach Hause.</example>
@@ -28926,7 +28968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sondern</token>
                     </marker>
                 </pattern>
-                <message>Ein Komma vor '\2' setzen?</message>
+                <message>Wollen Sie ein Komma vor '\2' setzen?</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Sommer, sondern" type="incorrect">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
@@ -28939,7 +28981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">nämlich|insbesondere</token>
                     </marker>
                 </pattern>
-                <message>Ein Komma vor '\2' setzen?</message>
+                <message>Wollen Sie ein Komma vor '\2' setzen?</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Jahreszeiten, nämlich" type="incorrect">Es gibt vier <marker>Jahreszeiten nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
                 <example>Es gibt vier <marker>Jahreszeiten, nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
@@ -28972,7 +29014,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder</token>
                     </marker>
                 </pattern>
-                <message>Das Komma vor '\2' löschen?</message>
+                <message>Sollten Sie das Komma vor '\2' löschen?</message>
                 <suggestion> \2</suggestion>
                 <example correction=" und" type="incorrect">Die Sonne versank hinter dem Horizont<marker>, und</marker> die Schatten der Nacht senkten sich über das Land.</example>
                 <example>Die Sonne versank hinter dem Horizont<marker> und</marker> die Schatten der Nacht senkten sich über das Land.</example>
@@ -29063,7 +29105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
-                <message>Hier ein Komma vor '\3' einfügen (Relativsatz ***)?</message>
+                <message>Sollten Sie hier ein Komma vor '\3' einfügen (Relativsatz ***)?</message>
                 <suggestion>\2, <match no="3" include_skipped="all"/> \4</suggestion>
                 <example correction="Auto, das am Straßenrand steht" type="incorrect">Das <marker>Auto das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
                 <example>Das <marker>Auto, das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
@@ -29133,7 +29175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     </marker>
                 </pattern>
-                <message>Hier ein Komma vor '\3' einfügen (Relativsatz)?</message>
+                <message>Sollten Sie hier ein Komma vor '\3' einfügen (Relativsatz)?</message>
                 <suggestion>\2, <match no="3" include_skipped="all"/> \4</suggestion>
                 <example correction="Auto, das am Straßenrand steht" type="incorrect">Im Halteverbot parkt das <marker>Auto das am Straßenrand steht</marker>.</example>
                 <example>Im Halteverbot parkt das <marker>Auto, das am Straßenrand steht</marker>.</example>
@@ -29200,7 +29242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
-                <message>Hier ein Komma vor '\3 \4' einfügen (Relativsatz)?</message>
+                <message>Sollten Sie hier ein Komma vor '\3 \4' einfügen (Relativsatz)?</message>
                 <suggestion>\2, \3 <match no="4" include_skipped="all"/> \5</suggestion>
                 <example correction="Auto, in dem der Mann sitzt" type="incorrect">Das <marker>Auto in dem der Mann sitzt</marker>, parkt im Halteverbot.</example>
                 <example>Das <marker>Auto, in dem der Mann sitzt</marker>, parkt im Halteverbot.</example>
@@ -29422,7 +29464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>zu</exception>
                     </token>
                 </pattern>
-                <message>Hier ein Komma hinter '\4' einfügen (Relativsatz)?</message>
+                <message>Sollten Sie hier ein Komma hinter '\4' einfügen (Relativsatz)?</message>
                 <suggestion>\2 <match no="3" include_skipped="all"/> \4,</suggestion>
                 <example correction="in dem der Mann sitzt," type="incorrect">Das Auto, <marker>in dem der Mann sitzt</marker> parkt im Halteverbot.</example>
                 <example>Das Auto, <marker>in dem der Mann sitzt,</marker> parkt im Halteverbot.</example>
@@ -29651,5 +29693,4 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-
 </rules>

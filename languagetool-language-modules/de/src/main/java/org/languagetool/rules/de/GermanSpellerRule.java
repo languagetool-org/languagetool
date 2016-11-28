@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.German;
@@ -215,7 +215,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     boolean ignore = super.ignoreWord(words, idx);
-    boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(WordUtils.uncapitalize(words.get(0)));
+    boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if(words.get(idx).contains("-")) {
@@ -412,10 +412,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String partialWord = word.substring(end);
       boolean needFugenS = ENDINGS_NEEDING_FUGEN_S.stream().anyMatch(ending -> ignoredWord.endsWith(ending));
       if(!needFugenS && partialWord.length() > 1) {
-          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       } else if(needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
           partialWord = partialWord.substring(1);
-          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       }
       return false;
     }

@@ -33,7 +33,9 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  * @author Anton Karl Ingason
+ * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
+@Deprecated
 public class Icelandic extends Language {
 
   private Tagger tagger;

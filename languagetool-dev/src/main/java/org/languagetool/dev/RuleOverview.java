@@ -18,7 +18,6 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -104,7 +103,7 @@ public final class RuleOverview {
       final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
       if (variants.size() > 0) {
-        variantsText = "<br/><span class='langVariants'>Variants for: " + StringUtils.join(variants, ", ") + "</span>";
+        variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
       if (langSpecificWebsite.isDirectory()) {
         System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");

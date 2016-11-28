@@ -66,6 +66,7 @@ public class WikipediaSentenceSource extends SentenceSource {
     super(language, filter);
     textFilter.enableMapping(false);  // improves performance
     try {
+      System.setProperty("jdk.xml.totalEntitySizeLimit", String.valueOf(Integer.MAX_VALUE));  // see https://github.com/dbpedia/extraction-framework/issues/487
       XMLInputFactory factory = XMLInputFactory.newInstance();
       reader = factory.createXMLEventReader(xmlInput);
       sentenceTokenizer = language.getSentenceTokenizer();

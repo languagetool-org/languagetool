@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -50,7 +50,8 @@ import static java.util.stream.Collectors.toList;
 /**
  * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
  * and evaluates EnglishConfusionProbabilityRule with them.
- *
+ * 
+ * @see AutomaticConfusionRuleEvaluator
  * @since 3.0
  * @author Daniel Naber 
  */
@@ -254,7 +255,7 @@ class ConfusionRuleEvaluator {
     if ("en".equals(langCode)) {
       lang = new EnglishLight();
     } else {
-      lang = Languages.getLanguageForShortName(langCode);
+      lang = Languages.getLanguageForShortCode(langCode);
     }
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortCode()));
     //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));

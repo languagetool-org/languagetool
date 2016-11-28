@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.rules.ConfusionSet;
