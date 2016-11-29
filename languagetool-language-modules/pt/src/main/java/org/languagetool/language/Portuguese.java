@@ -94,6 +94,9 @@ public class Portuguese extends Language {
     return tagger;
   }
 
+  /**
+   * @since 3.6
+   */
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
@@ -102,6 +105,9 @@ public class Portuguese extends Language {
     return disambiguator;
   }
 
+  /**
+   * @since 3.6
+   */
   @Override
   public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
