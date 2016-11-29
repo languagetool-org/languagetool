@@ -581,19 +581,21 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
 
         <!--INF_PP_QUE Queísmo: convenceram-nos que -> convenceram-nos de que -->
-	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28     -->
-      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
-<!--      <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
+        <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
+        <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
         <pattern>
-          <token regexp="yes">(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)[-](me|te|lh[ea][s]?|se|nos|os)</token>
+          <token regexp="yes" inflected='yes'>(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
+          <token>-</token>
+          <token regexp="yes">(me|te|lh[ea][s]?|se|nos|os)</token>
           <token>que</token>
         </pattern>
-        <message>Neste contexto, o verbo é seguido normalmente da preposição 'de': <suggestion>\1 de \2</suggestion></message>
+        <message>Neste contexto, o verbo é seguido normalmente da preposição 'de': <suggestion>\1\2\3 de \4</suggestion></message>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
         <short>Possível queísmo.</short>
         <example correction="alegrar-se de que">Está bem <marker>alegrar-se que</marker> haja dinheiro para todos.</example>
+        <example correction="Informa-se de que"><marker>Informa-se que</marker> ocorreu alterações ao código.</example>
         <example>Não pareces <marker>alegrar-te de que</marker> tudo está resolvido.</example>
-      </rule> -->
+      </rule>
 
         <!-- ESTAR_SEGURO_QUE Queísmo: Estou seguro que -> Estou seguro de que -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
@@ -611,20 +613,19 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       </rule>
 
         <!--       PP_V_QUE Queísmo: alegro-me que -> alegro-me de que         -->
-	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
-      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
-<!--      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
+-      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
         <pattern>
-          <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
           <token postag="PP[12]C.000" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
           <token>que</token>
         </pattern>
         <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de que</suggestion></message>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
         <short>Possível queísmo.</short>
-        <example correction="Alegramos-nos de que"><marker>Alegramos-nos que</marker> haja comida para todos.</example>
+        <example correction="Me preocupo de que"><marker>Me preocupo que</marker> haja comida para todos.</example>
         <example>Foi quando <marker>informaste-os de que</marker> acabou-se a temporada.</example>
-      </rule> -->
+      </rule>
 
 	<!--          VERBO_DE_QUE Queísmo: Penso de que -> Penso que         -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
@@ -656,22 +657,22 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrar-mo-nos</example>
       </rule>
 
-        <!--       V3_DE_QUE Dequeísmo: Me alegra de que -> Alegra-me que      -->
-	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
-      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
-<!--      <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
+        <!--       V3_DE_QUE Dequeísmo: alegra-me de que -> Alegra-me que      -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
+      <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
         <pattern>
           <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
+          <token>-</token>
           <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
           <token>de</token>
           <token>que</token>
         </pattern>
-        <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
+        <message>Possível dequeísmo: <suggestion>\1\2\3 \5</suggestion>.</message>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
 	<short>Possível 'dequeísmo'.</short>
         <example correction="Alegra-me que"><marker>Alegra-me de que</marker> voltemos a encontrar-nos</example>
         <example><marker>Entristece-me que</marker> tenham mudado de marca.</example>
-      </rule>  -->
+      </rule>
 
 	<!--   INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que     -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
