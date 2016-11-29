@@ -13376,6 +13376,46 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
     <category id="STYLE" name="Estilo" type="style">
 
+	<!-- EVITAR A FORMA PASSIVA Evitar formas passivas de discurso	-->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+	<!-- 	TODO Set to default='off' after regression tests	-->
+  <rulegroup id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='on'>
+        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
+    <rule>
+	<!-- 			Analitic Passive Voice			-->
+       <pattern>
+	  <token inflected='yes' regexp='yes'>ser|estar</token>
+	  <token postag='V.P.+' postag_regexp='yes'/>
+        </pattern>
+	<message>Evite a voz passiva.</message>
+	<example type='incorrect'>O trabalho <marker>foi feito</marker> por ele.</example>
+	<example type='correct'>Ele <marker>fez</marker> o trabalho.</example>
+    </rule>
+    <rule>
+	<!-- 			Synthetic Passive Voice			-->
+      <pattern>
+	  <token postag='V...3.+' postag_regexp='yes'>
+	  	<exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
+	  <token spacebefore='no'>-</token>
+	  <token spacebefore='no'>se</token>
+      </pattern>
+	<message>Evite a voz passiva.</message>
+	<example type='incorrect'>O trabalho <marker>fez-se</marker>.</example>
+	<example type='correct'>Alguém <marker>fez</marker> o trabalho.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+        <pattern>
+	  <token postag='V.P.+' postag_regexp='yes'/>
+       </pattern>
+	<message>Evite a voz passiva.</message>
+	<url>https://portugues-fcr.blogspot.pt/2010/12/funcoes-sintacticas-complemento-agente.html</url>
+	<example type='incorrect'>Este é um caso <marker>conhecido</marker> de todos.</example>
+	<example type='correct'>Todos <marker>conhecem</marker> este caso.</example>
+    </rule>
+
 		<!--          Style rules from English grammar.xml      - START-->
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
         <rule id="PROFANITY" name="Profanidade">
