@@ -7597,14 +7597,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Я прочитал газетную статью <marker>о предстоящая</marker> ярмаркой.</example>
         </rule>
         <rule default="on" id="PREP_PO_and_Noun" name="Предлог «по» и существительное">
+          <!--  PREP  по -> NN:.*:D or  NN:.*:P, (NN:.*:PL:V   "ходить в лес по грибы"  )  -->
+            <antipattern>
+              <token inflected="yes" skip="2" regexp="yes">ходить|пойти</token>   
+              <token>по</token>
+              <token postag="NN:.*:PL:V"  postag_regexp="yes" ></token>   
+            </antipattern>    
             <pattern case_sensitive="yes">
-                <!--  PREP  по -> NN:.*:D or  NN:.*:P, (NN:.*:V ?)  -->
                 <token>по</token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «по» предполагает употребление существительного в дательном или предложном падеже.</message>
             <short>Требуется дательный или предложный падеж.</short>
             <example>Я шёл по снегу.</example>
+            <example>Я ходил в лес по грибы.</example>
+            <example>Я ходил по грибы.</example>
             <example correction="">Я шёл <marker>по снега</marker>.</example>
         </rule>
         <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
