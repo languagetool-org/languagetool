@@ -459,6 +459,68 @@
   	<disambig action="remove" postag="V.N.*"/>
   </rule>
 
+    <rulegroup name="Quotation marks" id="QUOT">
+  <!-- 		l18n from English disambiguation.xml by Tiago F. Santos		-->
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>&quot;</token>
+                </marker>
+            </pattern>
+            <disambig postag="``"/>
+            <example type="untouched">Examplo 'a'</example>
+            <example type="untouched">Examplo &quot;a</example>
+            <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception regexp="yes">\p{Ps}</exception></token>
+                <marker>
+                    <and>
+                        <token postag="``" spacebefore="no">&quot;</token>
+                        <token postag="''" spacebefore="no">&quot;</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig postag="''"/>
+            <example type="untouched">Examplo 'a'</example>
+            <example type="untouched">Examplo &quot;a</example>
+            <example type="untouched">Examplo (&quot;a</example>
+            <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="''" spacebefore="yes">&quot;</token>
+                        <token postag="``" spacebefore="yes">&quot;</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig postag="``"/>
+            <example type="untouched">Examplo 'a'</example>
+            <example type="untouched">Examplo a&quot;</example>
+            <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Ps}</token>
+                <marker>
+                    <and>
+                        <token postag="``" spacebefore="no">&quot;</token>
+                        <token postag="''" spacebefore="no">&quot;</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig postag="``"/>
+            <example type="untouched">Examplo 'a'</example>
+            <example type="untouched">Examplo &quot;a</example>
+            <example type="untouched">Examplo a&quot;</example>
+            <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="PERIFRASES" name="perífrases de infinitivo">
   <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
         <rule>

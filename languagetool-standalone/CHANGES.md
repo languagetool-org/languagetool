@@ -42,7 +42,23 @@
     support from LT in the next release.
   
 #### Portuguese
-  * added and improved many rules
+  * former rules and messages revision, improvement and classification
+  * post-reform agreement support added and pre-reform components updated
+  * European Portuguese specific rule group added
+    * post-reform agreement by default
+    * compound verbs, possessive pronouns, reflexive forms placement, gerund and more
+  * pre-reform agreement locales support added
+    * Angola, Cape Verde and Mozambique
+  * new sentence disambiguator and new word tokenizer
+  * sentence segmentation improvements
+  * general agreement rules added
+    * complete number and gender verification and general verb agreement
+    * accentuated form confusion, 'dequeísmos' and many more
+  * style category rules added
+    * new word repetitions rules, fragment detection, verbosity checks, passive voice and many other
+  * new compound form detection (in pt-PT recognizes all compound verbal derivations)
+  * redundancies, typography and semantics categories added
+  * various dictionary and part-of-speech fixes
 
 #### Russian
   * added and improved many rules

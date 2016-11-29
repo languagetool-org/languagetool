@@ -5544,13 +5544,14 @@ USA
             <pattern>
                 <token regexp="yes">some|many|most|two|three|four|five|six|seven|eight|nine|ten</token>
                 <marker>
-                    <token regexp="yes">faculty|committee|staff"</token>
+                    <token regexp="yes">faculty|committee|staff</token>
                 </marker>
                 <token><exception postag="NNS"/></token>
             </pattern>
             <message>Use <suggestion><match no="2"/> members</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: missing plural noun</short>
             <example correction="faculty members">Three <marker>faculty</marker> support the change.</example>
+            <example>Three <marker>faculty members</marker> support the change.</example>
             <example>Three committee members were present.</example>
             <example>No faculty member has too many committee assignments.</example>
         </rule>
@@ -5907,11 +5908,6 @@ USA
         </rule>
         <rulegroup id="AFFORD_VB" name="'afford', 'choose', etc. used with base form instead of infinitive">
             <rule>
-                <antipattern>
-                    <token>learn</token>
-                    <token>sign</token>
-                    <token>language</token>
-                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
                     <marker>
@@ -5919,11 +5915,12 @@ USA
                     </marker>
                 </pattern>
                 <message>This verb is used with the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: missing 'to'</short>
+                <example correction="to spend">We cannot afford <marker>spend</marker> the whole month in the Alps.</example>
+                <example>We cannot afford <marker>to spend</marker> the whole month in the Alps.</example>
                 <example>He didn't deserve to lose his job.</example>
                 <example>...that gorillas are intelligent enough to learn sign language.</example>
                 <example>I choose uniform objects.</example>
-                <example correction="to spend">We cannot afford <marker>spend</marker> the whole month in Alps.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5934,8 +5931,8 @@ USA
                     </marker>
                 </pattern>
                 <message>This verb is used with the infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
-                <example correction="to spend">We cannot afford not <marker>spend</marker> the whole month in Alps.</example>
+                <short>Grammatical problem: missing 'to'</short>
+                <example correction="to spend">We cannot afford not <marker>spend</marker> the whole month in the Alps.</example>
             </rule>
         </rulegroup>
         <rule id="BE_FOND_TO" name="Wrong preposition: 'be fond to' (be fond of)">
@@ -6083,8 +6080,8 @@ USA
                     <token>and</token>
                 </pattern>
                 <message>Incorrect form of the pronoun 'he'. Use: <suggestion>\1 him</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example correction="between him">His opposition against homosexuality causes tension <marker>between he</marker> and his gay roommate, Davis.</example>
+                <short>Grammatical problem: incorrect pronoun</short>
+                <example correction="between him">His opposition to homosexuality causes tension <marker>between he</marker> and his gay roommate, Davis.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6095,9 +6092,9 @@ USA
                     <token>and</token>
                 </pattern>
                 <message>Incorrect form of the pronoun 'I'. Use: <suggestion>\1 me</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-                <example correction="between me">His opposition against homosexuality causes tension <marker>between I</marker> and Davis.</example>
+                <short>Grammatical problem: incorrect pronoun</short>
+                <example>His opposition to homosexuality causes tension <marker>between me</marker> and Davis.</example>
+                <example correction="between me">His opposition to homosexuality causes tension <marker>between I</marker> and Davis.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6108,9 +6105,9 @@ USA
                     <token>and</token>
                 </pattern>
                 <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 them</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-                <example correction="between them">His opposition against homosexuality causes tension <marker>between they</marker> and Davis.</example>
+                <short>Grammatical problem: incorrect pronoun</short>
+                <example>His opposition to homosexuality causes tension <marker>between them</marker> and Davis.</example>
+                <example correction="between them">His opposition to homosexuality causes tension <marker>between they</marker> and Davis.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6121,9 +6118,9 @@ USA
                     <token>and</token>
                 </pattern>
                 <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 her</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-                <example correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
+                <short>Grammatical problem: incorrect pronoun</short>
+                <example>His opposition to homosexuality causes tension <marker>between her</marker> and Davis.</example>
+                <example correction="between her">His opposition to homosexuality causes tension <marker>between she</marker> and Davis.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_WHO" name="Preposition + who (whom)">
@@ -6638,16 +6635,17 @@ USA
         </rule>
         <rule id="A_RB_NN" name="Adverb instead of an adjective">
             <pattern>
-                <token inflected="yes">a</token>
-                <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after</exception></token>
-                <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after</exception></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes"/></token>
+                </marker>
             </pattern>
             <message>You used an adverb ('\2') instead an adjective, or a noun ('\3') instead of another adjective.</message>
             <url>http://www.ucl.ac.uk/internet-grammar/adverbs/xadvb1.htm</url>
-            <short>Grammatical problem</short>
-            <example>This is a philosophical question.</example>
+            <short>Grammatical problem: incorrect adverb</short>
+            <example>This is a <marker>philosophical question</marker>.</example>
             <example>Mc-Master-Carr is a supply company.</example>
-            <example correction="">This is <marker>a philosophically question</marker>.</example>
+            <example correction="">This is a <marker>philosophically question</marker>.</example>
         </rule>
         <rulegroup id="WANT_THAT_I" name="want that I (want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
@@ -6775,9 +6773,9 @@ USA
                 </marker>
             </pattern>
             <message>Are you missing a verb?</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: missing verb</short>
             <example correction="">I <marker>accidentally the</marker> flashlight.</example>
-            <example>I accidentally dropped the flashlight.</example>
+            <example>I <marker>accidentally dropped the</marker> flashlight.</example>
             <example correction="">I <marker>rarely the</marker> the flashlight.</example>
             <example correction="">I <marker>quickly the</marker> the flashlight.</example>
             <example correction="">We <marker>quickly the</marker> the flashlight.</example>
@@ -6863,7 +6861,7 @@ USA
                 <token>t</token>
             </pattern>
             <message>Substandard usage of 'let'. The standard is: <suggestion>\1\2\3 not</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: non-standard "don't"</short>
             <example correction="Let's not"><marker>Let's don't</marker> go there.</example>
         </rule>
         <rule id="THESE_ONES" name="these/those ones (these/those)">
@@ -6886,7 +6884,7 @@ USA
             </pattern>
             <message>'Each', 'every', 'either' and 'neither' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
             <url>http://www.grammaring.com/determiners-with-countable-and-uncountable-nouns-some-any-no-many-much-few-little-etc</url>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: use 'all'</short>
             <example correction="All"><marker>Each</marker> children are happy.</example>
             <example><marker>Each</marker> children's services are available...</example>
             <example><marker>Each</marker> children services are available...</example>
@@ -6998,7 +6996,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example>The dog of war is released.</example>
                 <example correction="are">The dogs of war <marker>is</marker> released.</example>
             </rule>
@@ -7014,7 +7012,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example>The dogs of war <marker>are</marker> released.</example>
                 <example>The dog of war was released.</example>
                 <example correction="were">The dogs of war <marker>was</marker> released.</example>
@@ -7231,7 +7229,7 @@ USA
                     <token><exception postag="VBG"/></token>
                 </pattern>
                 <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example>I have always done that.</example>
                 <example correction="written">I must have always <marker>wrote</marker> that.</example>
                 <example>I have always liked her.</example>
@@ -7247,7 +7245,7 @@ USA
                     <token><exception postag="VBG"/></token>
                 </pattern>
                 <message>Possible agreement error -- use past participle here: <suggestion><match no="4" postag="VBN"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example>I have always done that.</example>
                 <example correction="written">I have not always <marker>wrote</marker> that.</example>
                 <example>I have always liked her.</example>
@@ -7261,7 +7259,7 @@ USA
                     <token postag="PRP"/>
                 </pattern>
                 <message>Possible agreement error – use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="liked">I have <marker>like</marker> her.</example>
             </rule>
             <rule>
@@ -7421,7 +7419,7 @@ USA
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="is">The marketing <marker>are</marker> bad for you.</example>
                 <example>The city is an international transport hub and a popular tourist destination.</example>
                 <example>Those wanting are the Canines.</example>
@@ -7442,7 +7440,7 @@ USA
                     <token postag="SENT_END" regexp="yes">[.!]</token>
                 </pattern>
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="eats">The dog <marker>eat</marker>.</example>
                 <example>The committee are all against it.</example>
             </rule>
@@ -7457,7 +7455,8 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>am</suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
+                <example>I <marker>am</marker> at the restaurant.</example>
                 <example>I <marker>ate</marker> at the restaurant.</example>
                 <example correction="am">I <marker>is</marker> at the restaurant.</example>
             </rule>
@@ -7470,7 +7469,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>am</suggestion> or <suggestion>ate</suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="am|ate">I <marker>are</marker> at the restaurant.</example>
             </rule>
             <rule>
@@ -7482,7 +7481,8 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>was</suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
+                <example>I <marker>was</marker> at the restaurant.</example>
                 <example>I <marker>ate</marker> at the restaurant.</example>
                 <example>I <marker>am</marker> at the restaurant.</example>
                 <example correction="was">I <marker>were</marker> at the restaurant.</example>
@@ -7496,7 +7496,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Use second person verb with 'you': <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="are|were">You <marker>is</marker> too old for that.</example>
             </rule>
             <rule>
@@ -7508,7 +7508,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Use third-person verb with '<match no="2"/>': <suggestion><match no="3" postag="VBZ"/></suggestion> or <suggestion>was</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="is|was">He <marker>were</marker> too old for that.</example>
                 <example correction="is|was">She <marker>were</marker> too old for that.</example>
             </rule>
@@ -7520,7 +7520,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Use first person plural verb with 'we': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="are|were">We <marker>is</marker> too old for that.</example>
             </rule>
             <rule>
@@ -7531,7 +7531,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Use third-person plural verb with 'they': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Possible agreement error</short>
                 <example correction="are|were">They <marker>is</marker> too old for that.</example>
             </rule>
         </rulegroup>
@@ -7561,11 +7561,11 @@ USA
                 </marker>
             </pattern>
             <message>The verb after "to" should be in the base form: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
-            <short>Grammatical problem</short>
-            <example>He spoke to chosen people.</example>
-            <example>Morocco's disputed claim to portions of western Algeria</example>
+            <short>Grammatical problem: use the base form</short>
             <example correction="learn">I was surprised to <marker>learns</marker> this.</example>
             <example correction="laugh">He tried not to <marker>laughs</marker>.</example>
+            <example>I was surprised to <marker>learn</marker> this.</example>
+            <example>Morocco's disputed claim to portions of western Algeria</example>
             <example>He spoke to chosen people.</example>
             <example>You are to report at 5am.</example>
             <example>It is important to make this explicit.</example>
@@ -7719,9 +7719,10 @@ USA
                 <token postag="NNS" regexp="yes">\p{Lower}+<exception postag="PRP$"/></token>
             </pattern>
             <message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say <suggestion>\1 \3</suggestion>.</message>
-            <short>Grammatical problem</short>
-            <example>Some of his students do their homework.</example>
+            <short>Grammatical problem: missing 'the'</short>
             <example correction="Most of the students|Most students"><marker>Most of students</marker> do their homework.</example>
+            <example><marker>Most of the students</marker> do their homework.</example>
+            <example>Some of his students do their homework.</example>
             <example>Buy a collection of most of Rand's works in a CD-ROM format.</example>
             <example><marker>Some of the students</marker> do their homework.</example>
         </rule>
@@ -7736,7 +7737,7 @@ USA
                     <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>
                 </pattern>
                 <message>When we speak of types of meals, the article is not required: <suggestion>\1 \3</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: unnecessary article</short>
                 <example correction="had breakfast">We <marker>had a breakfast</marker> in the hotel restaurant.</example>
             </rule>
             <rule>
@@ -7750,9 +7751,10 @@ USA
                     <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>
                 </pattern>
                 <message>When we speak of types of meals, the article is not required: <suggestion>\2 \4</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>We were invited today to lunch in the hotel restaurant.</example>
+                <short>Grammatical problem: unnecessary article</short>
                 <example correction="to dinner">Ray and Helen have invited us out <marker>to a dinner</marker> in the hotel restaurant.</example>
+                <example>Ray and Helen have invited us out <marker>to dinner</marker> in the hotel restaurant.</example>
+                <example>We were invited today to lunch in the hotel restaurant.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7765,9 +7767,10 @@ USA
                     <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>
                 </pattern>
                 <message>When we speak of types of meals, the article is not required: <suggestion>\2 \4</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>We were invited today to lunch in the hotel restaurant.</example>
+                <short>Grammatical problem: unnecessary article</short>
                 <example correction="for dinner">Ray and Helen went with us <marker>for a dinner</marker> in the hotel restaurant.</example>
+                <example>Ray and Helen went with us <marker>for dinner</marker> in the hotel restaurant.</example>
+                <example>We were invited today to lunch in the hotel restaurant.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_1990s" name="Missing definite article in the date">
@@ -8342,10 +8345,11 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <short>Grammatical problem: use the infinitive</short>
+                <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in the Alps.</example>
+                <example>We cannot afford <marker>to spend</marker> the whole month in the Alps.</example>
                 <example>He didn't deserve to lose his job.</example>
-                <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8355,9 +8359,9 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example correction="to spend">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
+                <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
+                <short>Grammatical problem: use the infinitive</short>
+                <example correction="to spend">We cannot afford not <marker>spending</marker> the whole month in the Alps.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADMIT_ENJOY_VB" name="'admit', 'appreciate', 'avoid', 'enjoy' etc. with a base form of a verb">
@@ -8368,9 +8372,10 @@ USA
                     <token>to</token>
                     <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <message>The verb '\1' is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
                 <example correction="enjoy running">I <marker>enjoy to run</marker>.</example>
+                <example>I <marker>enjoy running</marker>.</example>
                 <example>A three-man committee has recommended to Commission Chairman Charles O. Emmerich...</example>
                 <example>Although Peter also seems happy on the surface, he admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
             </rule>
@@ -8380,10 +8385,11 @@ USA
                     <token>to</token>
                     <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">say|inform|tell|announce|state|learn|report|note|hear|mention|advise</exception></token>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>I regret saying this.</example>
+                <message>The verb '\1' is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
                 <example correction="regret reading">I <marker>regret to read</marker> this book.</example>
+                <example>I <marker>regret reading</marker> this book.</example>
+                <example>I regret saying this.</example>
                 <example>Dear Madam, I regret to say that you are dead.</example>
             </rule>
             <rule>
@@ -8392,12 +8398,13 @@ USA
                     <token>to</token>
                     <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">be|have|include</exception></token>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <message>The verb '\1' is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
+                <example correction="consider running">I <marker>consider to run</marker> my favourite sport.</example>
+                <example>I <marker>consider running</marker> my favourite sport.</example>
                 <example>They were a vagabond lot and considered to be shady and undesirable characters.</example>
                 <example>The lethal dose for adult zebrafish has been reported to be as high as 40 Gy.</example>
                 <example>"Anthropology" is from the Greek anthrōpos, "man", understood to mean humankind or humanity, and -logia (-λογία).</example>
-                <example correction="consider running">I <marker>consider to run</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8408,10 +8415,11 @@ USA
                         <token postag="VB"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="2"/> <match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>I am accustomed to hearing non-sense.</example>
+                <message>The verb '\1' is used with the gerund form: <suggestion><match no="2"/> <match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
                 <example correction="accustomed to running">I am <marker>accustomed to run</marker>.</example>
+                <example>I am <marker>accustomed to running</marker>.</example>
+                <example>I am accustomed to hearing nonsense.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8423,11 +8431,13 @@ USA
                         <token postag="VB"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <message>In the grammatical structure 'pronoun + be/get + used + to + verb', the verb '\3' is used with the gerund: <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
+                <example correction="used to running">I am <marker>used to run</marker>. I run every day for 30 minutes.</example>
+                <example>I <marker>used to run</marker> every day, but I hurt my knee. Now, I cannot run.</example>
+                <example>I am <marker>used to running</marker>.</example>
                 <example>I used to enjoy running.</example>
                 <example>When used with the infinitive, however, these verbs can be used to speak about something that hasn't happened yet.</example>
-                <example correction="used to running">I am <marker>used to run</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8440,11 +8450,12 @@ USA
                         <token postag="VB"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="4"/> <match no="5"/> <match no="6" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <message>In the grammatical structure 'pronoun + be/get + used + to + verb', the verb '\4' is used with the gerund: <suggestion><match no="4"/> <match no="5"/> <match no="6" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
+                <example correction="used to running">I'm <marker>used to run</marker>. I run every day for 30 minutes.</example>
+                <example>I <marker>used to run</marker> every day, but I hurt my knee. Now, I cannot run.</example>
                 <example>I used to enjoy running.</example>
                 <example>When used with the infinitive, however, these verbs can be used to speak about something that hasn't happened yet.</example>
-                <example correction="used to running">I'm <marker>used to run</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8455,10 +8466,11 @@ USA
                         <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>This verb is used with the gerund form: <suggestion><match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>But he was looking forward to snow.</example>
+                <message>In the grammatical structure 'look + forward + to + verb', the verb '\3' is used with the gerund: <suggestion><match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
+                <short>Grammatical problem: use 'ing'</short>
                 <example correction="to seeing">I look forward <marker>to see</marker> you.</example>
+                <example>I look forward <marker>to seeing</marker> you.</example>
+                <example>But he was looking forward to snow.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
@@ -8642,10 +8654,10 @@ USA
                     <token min="0" max="1" postag="RB"/>
                     <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|want|wish|appear|hear|seem|smell|sound|taste|agree|deny|disagree|impress|mean|please|promise|satisfy|belong|concern|consist|contain|depend|deserve|involve|matter|need|own|possess</token>
                 </pattern>
-                <message>This verb is normally not used in the progressive form. Try a simple form instead.</message>
-                <short>Grammatical problem</short>
-                <example>I doubt.</example>
-                <example correction="">I <marker>am doubting</marker>.</example>
+                <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
+                <short>Grammatical problem: do not use the progressive</short>
+                <example>I <marker>doubt</marker> these results.</example>
+                <example correction="">I <marker>am doubting</marker> these results.</example>
                 <example correction="">I <marker>am not understanding</marker> whether my mails...</example>
             </rule>
             <rule>
@@ -8654,9 +8666,9 @@ USA
                     <token min="0" max="1" postag="RB"/>
                     <token regexp="yes">astonishing|surprising|lacking|fitting</token>
                 </pattern>
-                <message>This verb is normally not used in the progressive form. Try a simple form instead.</message>
-                <short>Grammatical problem</short>
-                <example>I am surprised.</example>
+                <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
+                <short>Grammatical problem: do not use the progressive</short>
+                <example>I <marker>am surprised</marker>.</example>
                 <example correction="">I <marker>am surprising</marker>.</example>
             </rule>
         </rulegroup>
@@ -8670,8 +8682,9 @@ USA
                     <token><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
-                <short>Grammatical problem</short>
-                <example correction="These"><marker>This</marker> errors are easy to fix.</example>
+                <short>Grammatical problem: use 'these'</short>
+                <example correction="these">If <marker>this</marker> errors are easy to fix...</example><!-- Refer to THIS_NNS_VB -->
+                <example>If <marker>these</marker> errors are easy to fix...</example>
                 <example>This forms a sharp contract with...</example>
                 <example>I cannot lift this stone.</example>
                 <example>This fish is big.</example>
@@ -8691,7 +8704,7 @@ USA
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>this <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="NNS"/></suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'this'</short>
                 <example>These are errors.</example>
                 <example correction="This kind|These kinds"><marker>These kind</marker> of errors are easy to fix.</example>
                 <example correction="This error|These errors"><marker>These error</marker> are easy to fix.</example>
@@ -8709,7 +8722,7 @@ USA
                     <token regexp="yes">are|were</token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'these'</short>
                 <example correction="These"><marker>This</marker> are errors.</example>
             </rule>
             <rule>
@@ -8721,7 +8734,7 @@ USA
                     <token regexp="yes">is|was</token>
                 </pattern>
                 <message>Did you mean <suggestion>this</suggestion>?</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'this'</short>
                 <example>These are errors.</example>
                 <example correction="This"><marker>These</marker> was an error.</example>
             </rule>
@@ -8735,8 +8748,9 @@ USA
                 <token postag="NN|NN:U|NN:UN" postag_regexp="yes"><exception postag="JJR"/></token>
             </pattern>
             <message>Maybe you should omit the article 'a', leaving only <suggestion>much</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: unnecessary 'a'</short>
             <example correction="much">This will be <marker>a much</marker> work.</example>
+            <example>This will be <marker>much</marker> work.</example>
             <example>These concerns now seem a much bolder move.</example>
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
@@ -8745,7 +8759,7 @@ USA
                 <token postag="JJS|RBS" postag_regexp="yes"/>
             </pattern>
             <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the superlative.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: unnecessary 'more/most'</short>
             <example correction="oldest">Kyoto is the <marker>most oldest</marker> city.</example>
         </rule>
         <rulegroup id="MOST_COMPARATIVE" name="No 'more' or 'most' before comparatives">
@@ -8755,8 +8769,9 @@ USA
                     <token postag="JJR|RBR" postag_regexp="yes"/>
                 </pattern>
                 <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: unnecessary 'most'</short>
                 <example correction="older">Kyoto is a <marker>most older</marker> city.</example>
+                <example>Kyoto is an <marker>older</marker> city.</example>
                 <example>When is more better?</example>
             </rule>
             <rule>
@@ -8765,7 +8780,7 @@ USA
                     <token postag="JJR|RBR" postag_regexp="yes"><exception>later</exception></token>
                 </pattern>
                 <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: unnecessary 'more'</short>
                 <example>Kyoto is an <marker>older</marker> city.</example>
                 <example>When is more better?</example>
                 <example>It was for the worse.</example>
@@ -8782,7 +8797,7 @@ USA
                 <token postag="JJ[RS]" postag_regexp="yes"/>
             </pattern>
             <message>Non-standard use of the comparative or superlative. Did you mean <suggestion><match no="1"/> <match no="2" postag="JJ"/></suggestion>?</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: non-standard comparative/superlative</short>
             <example correction="less hard">This is <marker>less harder</marker>.</example>
         </rule>
         <rule id="LEAST_COMPARATIVE" name="'less' before comparative or superlative">
@@ -8791,9 +8806,9 @@ USA
                 <token postag="JJ[RS]" postag_regexp="yes"><exception>most</exception></token>
             </pattern>
             <message>Non-standard use of the comparative or superlative. Did you mean <suggestion><match no="1"/> <match no="2" postag="JJ"/></suggestion>?</message>
-            <short>Grammatical problem</short>
-            <example>This is the least hard task.</example>
-            <example correction="least hard">This is the <marker>least harder</marker>.</example>
+            <short>Grammatical problem: non-standard comparative/superlative</short>
+            <example>This is the <marker>least hard</marker> task.</example>
+            <example correction="least hard">This is the <marker>least harder</marker> task.</example>
             <example>This is at <marker>least harder</marker> than the trivial task.</example>
             <example correction="least hard">This is the <marker>least hardest</marker>.</example>
         </rule>
@@ -8820,9 +8835,10 @@ USA
                     <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
                 </pattern>
                 <message>Use <suggestion>the</suggestion> with the superlative.</message>
-                <short>Grammatical problem</short>
-                <example>And Truly It Is <marker>a</marker> Most Glorious Thing</example>
+                <short>Grammatical problem: use 'the'</short>
                 <example correction="the">Kyoto is <marker>an</marker> oldest city.</example>
+                <example>Kyoto is <marker>the</marker> oldest city.</example>
+                <example>And Truly It Is <marker>a</marker> Most Glorious Thing</example>
                 <example>He made a fortune by writing a best selling novel.</example>
             </rule>
             <rule>
@@ -8834,9 +8850,10 @@ USA
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>He is my best friend.</example>
+                <short>Grammatical problem: missing determiner</short>
                 <example correction="is the funniest">The guy <marker>is funniest</marker> friend.</example>
+                <example>The guy <marker>is the funniest</marker> friend.</example>
+                <example>He is my best friend.</example>
                 <example>Confucianism was particularly strong during the Han Dynasty, whose greatest thinker was Dong Zhongshu.</example>
                 <example>American placed the "largest aircraft order in history" in July 2011, purchasing 460 "next generation" Boeing 737 and Airbus A320 aircraft for delivery between 2013 and 2022.</example>
                 <example>Second largest &amp; busiest Railway station in Asia.</example>
@@ -8856,9 +8873,10 @@ USA
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: missing determiner</short>
                 <example>He is at least my friend.</example>
                 <example correction="is the least">The guy <marker>is least</marker> funny friend.</example>
+                <example>The guy <marker>is the least</marker> funny friend.</example>
                 <example>He is least likely to come.</example>
             </rule>
             <rule>
@@ -8871,9 +8889,10 @@ USA
                     <token><exception>by</exception></token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
-                <short>Grammatical problem</short>
-                <example>He is my best friend.</example>
+                <short>Grammatical problem: missing determiner</short>
                 <example correction="is the best">The guy <marker>is best</marker> driver.</example>
+                <example>The guy <marker>is the best</marker> driver.</example>
+                <example>He is my best friend.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
@@ -8894,6 +8913,11 @@ USA
                       <token postag="VBG"/>
                     </and>
                 </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">May</token>
+                    <token skip="1"/>
+                    <token postag="VB[DZ]" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+</token>
+                </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|who|which|whom|a|the</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
@@ -8906,17 +8930,17 @@ USA
                     </marker>
                 </pattern>
                 <message>The verb '<match no="2"/>' requires the base form of the verb: <suggestion><match no="3" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use the base form</short>
+                <example correction="come">They will <marker>comes</marker> home.</example>
+                <example>They will <marker>come</marker> home.</example>
                 <!-- 'did' is used for emphasis here: -->
                 <example>All I did was to go to the cinema.</example>
                 <example>They commonly produce much stronger odors than they would sitting under water in a western toilet.</example>
                 <example correction="go|wend">Peter did <marker>went</marker> to the cinema.</example>
                 <example correction="walk">He did <marker>walked</marker> to his house.</example>
                 <example correction="walk">He did <marker>walking</marker> to his house.</example>
-                <example correction="come">They will <marker>comes</marker> home.</example>
                 <example correction="walk">He did <marker>walks</marker> to his house.</example>
                 <example correction="come">They will <marker>came</marker> home.</example>
-                <example correction="come">They'll <marker>came</marker> home.</example>
                 <example correction="happen">A catastrophe that did not <marker>happened</marker>...</example>
                 <example>Confederate commanders would need it should troops pass that way in retreat.</example>
                 <example correction="have">I would definitely <marker>has</marker> that.</example>
@@ -8926,6 +8950,8 @@ USA
                 <example correction="test">She did <marker>testing</marker> the samples.</example>
                 <example correction="convey">He may <marker>conveys</marker> the message.</example>
                 <example>She did <marker>testing</marker> for a TV show.</example>
+                <example>May sometimes <marker>spends</marker> the time by herself.</example>
+                <example>Latest News: Government May Sometimes <marker>Spends</marker> More Money Than It Has.</example><!-- False negative because disambiguation UPPER_NNP removes MD. -->
             </rule>
             <rule>
                 <pattern>
@@ -8935,7 +8961,7 @@ USA
                     </marker>
                 </pattern>
                 <message>The verb '<match no="1"/>' requires the base form of the verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use the base form</short>
                 <example correction="have">Mozilla should <marker>has</marker> a grammar checker.</example>
             </rule>
             <rule>
@@ -8949,9 +8975,9 @@ USA
                     </marker>
                 </pattern>
                 <message>The verb '<match no="2"/>' requires base form of the verb: <suggestion><match no="5" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
-                <example correction="have">Since he does not <marker>has</marker> any connection with us...</example>
+                <short>Grammatical problem: use the base form</short>
                 <example correction="have">Since he does not really <marker>has</marker> any connection with us...</example>
+                <example correction="have">Since he does not <marker>has</marker> any connection with us...</example><!-- DOES_X_HAS -->
             </rule>
             <rule>
                 <pattern>
@@ -8965,9 +8991,10 @@ USA
                     </marker>
                 </pattern>
                 <message>The verb '<match no="2"/>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use the base form</short>
                 <example correction="have">Since he doesn't <marker>has</marker> any connection with us...</example>
                 <example correction="understand">Sorry but am a newbie and didn't clearly <marker>understood</marker> this approach.</example>
+                <example>Since he doesn't <marker>have</marker> any connection with us...</example>
                 <example>I didn't - understood?</example>
             </rule>
         </rulegroup>
@@ -8980,7 +9007,7 @@ USA
                 <token postag="VB"/>
             </pattern>
             <message>After 'must', the verb is used without 'to'. Probably, you should use <suggestion>must</suggestion> or <suggestion>have to</suggestion> here.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: unnecessary 'to'</short>
             <example correction="must|have to">I <marker>must to</marker> go shopping.</example>
         </rule>
         <rule id="AS_ADJ_AS" name="Comparison with 'as'">
@@ -8992,9 +9019,10 @@ USA
                 </marker>
             </pattern>
             <message>Comparison is written 'as \2 <suggestion>as</suggestion>'.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: use 'as'</short>
             <example correction="as">This house is as big <marker>than</marker> mine.</example>
             <example correction="as">This box contains as much <marker>like</marker> possible.</example>
+            <example>This house is as big <marker>as</marker> mine.</example>
             <example>It is inappropriate to cite this document as other than work in progress.</example>
             <example>This strikes me as less than a satisfactory expression of appreciation.</example>
         </rule>
@@ -9007,7 +9035,7 @@ USA
                 </marker>
             </pattern>
             <message>With 'eager to', use the base form of the verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: use the base form</short>
             <example>Bangladesh is eager to <marker>buy</marker> cars from Iran.</example>
             <example correction="buy">Bangladesh is eager to <marker>buying</marker> cars from Iran.</example>
             <example correction="try">I'd be eager to <marker>trying</marker> out your patch.</example>
@@ -9025,8 +9053,9 @@ USA
                     <token><exception regexp="yes">to|if|follows|early|much|though|well</exception></token>
                 </pattern>
                 <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'than'</short>
                 <example correction="than">The tagger will return more <marker>as</marker> one tag.</example>
+                <example>The tagger will return more <marker>than</marker> one tag.</example>
                 <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
                 <example>It is faster as well.</example>
             </rule>
@@ -9038,7 +9067,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'than'</short>
                 <example correction="than">The tagger will return more <marker>then</marker> one tag.</example>
             </rule>
             <rule>
@@ -9053,8 +9082,9 @@ USA
                     <token><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use 'than'</short>
                 <example correction="than">This house is bigger <marker>then</marker> mine.</example>
+                <example>This house is bigger <marker>than</marker> mine.</example>
                 <example>This palace was used later as a prison.</example>
             </rule>
         </rulegroup>
@@ -9087,18 +9117,19 @@ USA
                 <token postag="JJ|VBN" postag_regexp="yes"/>
             </pattern>
             <message>Did you mean <suggestion>a more \3</suggestion>?</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: word order</short>
             <example correction="a more detailed">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
             <example correction="a more analyzed">I wish it was <marker>more an analyzed</marker> case</example>
+            <example>I can give you <marker>a more detailed</marker> description of what's necessary.</example>
             <example>It is no more a component.</example>
         </rule>
         <!-- this works now, and accounts for subjunctive
              i.e., she recommended that he use his money... -->
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: agreement error</short>
             <rule>
                 <pattern>
-                    <token skip="1">I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
+                    <token case_sensitive="yes" skip="1">I<exception scope="previous" regexp="yes" case_sensitive="no">phase|am</exception></token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|MD"/><exception>is</exception><exception scope="previous">need</exception></token>
                     </marker>
@@ -9106,10 +9137,14 @@ USA
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
                 <example correction="work">I <marker>works</marker> here.</example>
                 <example correction="work">I cannot <marker>works</marker> here.</example>
+                <example>I <marker>work</marker> here.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
                 <example>Am I nuts?</example>
+                <example>... or am I nuts?</example>
                 <example correction="have">I rarely <marker>has</marker> a bad day.</example>
+                <example>Step i corresponds to the ...</example>
+                <example>... and if phase I corresponds to the ...</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9538,9 +9573,10 @@ USA
                 <token>equally</token>
                 <token>as</token>
             </pattern>
-            <message>Don't say 'equally as'. You can use either <suggestion>equally</suggestion> or <suggestion>as</suggestion> on its own. When comparing two nouns, use <suggestion>just as</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <message>Use either <suggestion>equally</suggestion> or <suggestion>as</suggestion> on its own. When comparing two nouns, use <suggestion>just as</suggestion>.</message>
+            <short>Grammatical problem: equally as</short>
             <example correction="equally|as|just as">This model is <marker>equally as</marker> effective.</example>
+            <example>This model is <marker>equally</marker> effective.</example>
             <example>My new grammar checker is just as slow as the old one.</example>
         </rule>
         <rulegroup default="off" id="CANT_HELP_BUT" name="can't help but (can't help + gerund)">
@@ -9593,7 +9629,7 @@ USA
                 <token regexp="yes">an|a</token>
             </pattern>
             <message>Don't include '\3' after a classification term. Use simply <suggestion>\1 \2</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: unnecessary 'a/an'</short>
             <example correction="kind of">What <marker>kind of a</marker> man is Bush?</example>
         </rule>
         <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
@@ -9617,7 +9653,7 @@ USA
                 <token regexp="yes">I|he|she|we|they</token>
             </pattern>
             <message>Probable usage error. Use <suggestion>\1 \3</suggestion> instead.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: remove 'of'</short>
             <example correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
         </rule>
         <rule id="BOTH_AS_WELL_AS" name="both... as well as (and)">
@@ -9658,8 +9694,9 @@ USA
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The noun should be probably in the plural form: <suggestion><match no="3" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use a plural noun</short>
                 <example correction="spiders">I'm afraid of <marker>spider</marker>.</example>
+                <example>I'm afraid of <marker>spiders</marker>.</example>
                 <example>I'm afraid of <marker>heights</marker>.</example>
             </rule>
             <rule>
@@ -9673,7 +9710,7 @@ USA
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: use a plural noun</short>
                 <example correction="spaces">I'm afraid of open <marker>space</marker>.</example>
             </rule>
             <rule>
@@ -9686,7 +9723,7 @@ USA
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>You probably should use this form here: <suggestion>the \3</suggestion>.</message>
-                <short>Grammatical problem</short>
+                <short>Grammatical problem: missing 'the'</short>
                 <example correction="the dark">I'm afraid of <marker>dark</marker>.</example>
             </rule>
         </rulegroup>
@@ -9817,8 +9854,9 @@ USA
                 <token postag="MD"><exception>need</exception></token>
             </pattern>
             <message>Possibly wrong usage of '\2' in the question. Did you mean: <suggestion>\4 \3</suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: incorrect modal verb</short>
             <example correction="Can someone"><marker>Does someone can</marker> reproduce what I described before?</example>
+            <example><marker>Can someone</marker> reproduce what I described before?</example>
             <example>Do you need anything?</example>
         </rule>
         <rulegroup id="THERE_S_MANY" name="Possible agreement error 'there's' + plural noun">
@@ -10181,9 +10219,10 @@ USA
             <pattern>
                 <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
             </pattern>
-            <message>Use <suggestion>a <match no="1"/></suggestion>.</message>
-            <short>Grammatical problem</short>
-            <example correction="a hundred">You need almost <marker>hundred</marker> eggs.</example>
+            <message>Use <suggestion>a <match no="1"/></suggestion> or use a number before '<match no="1"/>'.</message>
+            <short>Grammatical problem: missing determiner</short>
+            <example correction="a hundred">You need almost <marker>hundred</marker> examples.</example>
+            <example>You need almost <marker>a hundred</marker> examples.</example>
             <example>The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
             <example>It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
             <example>At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
@@ -10810,7 +10849,7 @@ USA
                 <token>of</token>
             </pattern>
             <message>The phrase '\1 \2 \3' is not correct. Use a noun, not an adjective, between '\1' and '\3'.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: use a noun</short>
             <example correction="">We are not responsible for <marker>the delusional of</marker> your client.</example>
             <example correction="">We describe <marker>an unusual of</marker> benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
             <example correction="">Diamonds are <marker>the only of</marker> these mineral resources currently being developed.</example>
@@ -10974,8 +11013,9 @@ USA
             </pattern>
             <message>Did you mean <suggestion>other's</suggestion>?</message>
             <url>https://jakubmarian.com/each-others-vs-each-others-in-english/</url>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem: incorrect apostrophe</short>
             <example correction="other's">They checked each <marker>others’</marker> work.</example>
+            <example>They checked each <marker>other’s</marker> work.</example>
             <example>We saw each other's faces.</example>
         </rule>
         <rule id="SIGN_INTO" name="wrong preposition: sign into (sign in to)">
