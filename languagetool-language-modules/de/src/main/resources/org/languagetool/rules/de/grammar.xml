@@ -24290,6 +24290,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>getrennt;.</short>
             <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
         </rule>
+        <rulegroup id="GROSSSCHREIBUNG_MAL" name="Großschreibung des Wortes 'Mal'">
+            <url>http://www.duden.de/rechtschreibung/Mal_Zeitpunkt</url>
+            <rule>
+                <antipattern>
+                    <token postag="ZAL.*" postag_regexp="yes" />
+                    <token case_sensitive="yes">mal</token>
+                    <token postag="ZAL.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:NOM:SIN:NEU:.*|ADJ:AKK:SIN:NEU:.*|ZAL.*" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
+                    <marker>
+                    <token case_sensitive="yes">mal</token>
+                    </marker>
+                </pattern>
+                <message>Hier 'Mal' großschreiben?</message>
+                <suggestion>Mal</suggestion>
+                <example correction="Mal" type="incorrect">Sie sagte es ihm jedes <marker>mal</marker> wieder.</example>
+                <example>Sie sagte es ihm jedes <marker>Mal</marker> wieder.</example>
+                <example correction="Mal" type="incorrect">Sie hatte es ihm einige <marker>mal</marker> gezeigt.</example>
+                <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -29512,6 +29534,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">nur|auch|selbst|aber|außer|schon</token>
                     <token>wenn</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">aber|gerade</token>
+                    <token>weil</token>
                 </antipattern>
                 <antipattern>
                     <token>des</token>
