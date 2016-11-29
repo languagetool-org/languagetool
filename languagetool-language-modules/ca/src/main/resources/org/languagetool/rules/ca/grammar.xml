@@ -537,7 +537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>serveis</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta, esser, posader">
+        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, esser, posader">
             <rule>
                 <pattern>
                     <token inflected="yes">posader</token>
@@ -36827,6 +36827,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">`
+       <rule id="INVADIR" name="invadir/envair">
+            <pattern>
+                <token inflected="yes">invadir</token>
+            </pattern>
+            <message>Variant ecundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">envair</match></suggestion>
+            <example correction="envaïren"><marker>invadiren</marker></example>
+       </rule>
        <rule id="GALLETA" name="galleta/galeta">
             <pattern>
                 <token inflected="yes">galleta</token>
@@ -36834,7 +36842,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Forma secundària no admesa per tots els diccionaris.</message>
             <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">galeta</match></suggestion>
             <example correction="galetes"><marker>galletes</marker></example>
-            <example>galetes</example>
         </rule>
         <rule id="MINORISTA" name="minorista/detallista">
             <pattern>
