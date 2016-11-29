@@ -564,16 +564,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">galleta</token>
-                </pattern>
-                <message>Forma usada en balear.</message>
-                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">galeta</match></suggestion>
-                <short>Vocabulari balear</short>
-                <example correction="galetes"><marker>galletes</marker></example>
-                <example>galetes</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token postag="N.*" postag_regexp="yes" inflected="yes">esser</token>
                 </pattern>
                 <message>Forma balear o antiga.</message>
@@ -8896,7 +8886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">idea|malgrat|risc|fet|possibilitat|condició|fart|tip|por|temor|conscient|consciència|excepció|garantia</token>
+                    <token regexp="yes" inflected="yes">idea|malgrat|risc|fet|possibilitat|condició|fart|tip|por|temor|conscient|consciència|excepció|garantia|signe|senyal|sensació</token>
                     <token min="0" postag="AQ..S." postag_regexp="yes"></token>
                     <marker>
                         <token>de</token>
@@ -15836,6 +15826,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(?iu)(.*)ari(a|es)" regexp_replace="$1àri$2"/></suggestion>
                 <example correction="tributària">En matèria <marker>tributaria</marker>.</example>
                 <example>li tributaria un culte semblant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">industri(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar.</message>
+                <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="indústri$1"/></suggestion>
+                <example correction="indústria">En la <marker>industria</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -36826,7 +36826,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ens fa molta por</example>
         </rule>
     </category>
-    <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
+    <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">`
+       <rule id="GALLETA" name="galleta/galeta">
+            <pattern>
+                <token inflected="yes">galleta</token>
+            </pattern>
+            <message>Forma secundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">galeta</match></suggestion>
+            <example correction="galetes"><marker>galletes</marker></example>
+            <example>galetes</example>
+        </rule>
         <rule id="MINORISTA" name="minorista/detallista">
             <pattern>
                 <marker>

@@ -189,6 +189,12 @@ public class ReflexiveVerbsRule extends CatalanRule {
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     loop: for (int i = 1; i < tokens.length; i++) { // ignoring token 0, i.e., SENT_START
 
+      //exceptions, dealt with in grammar.xml
+      if (tokens[i].getToken().equalsIgnoreCase("industria") || 
+          tokens[i].getToken().equalsIgnoreCase("industries")) {
+        continue loop;
+      }
+      
       //ignore uppercase words unless at the sentence start
       if (i > 1 && StringTools.startsWithUppercase(tokens[i].getToken())) {
         continue loop;

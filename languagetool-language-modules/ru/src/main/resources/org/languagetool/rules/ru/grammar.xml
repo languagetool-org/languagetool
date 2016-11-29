@@ -5566,16 +5566,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="их">Там находится <marker>ихний</marker> дом.</example>
             </rule>   
         </rulegroup>
-        <rulegroup default="on" id="NN_N_pril_prich" name="Правописание «нн» или «н» в причастиях и прилагательных">
+        <rulegroup  id="NN_N_pril_prich" name="Правописание «нн» или «н» в причастиях и прилагательных">
             <rule>
                 <pattern>
                     <marker>  
                         <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token  postag="PREP" ></token>
+                    <token  postag="PREP" skip="1" ></token>  
+                    <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 </pattern>
-                <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
-                args="no:1 regexp:.*[аеёиоуэюя][н]([а-мо-я]{1,3}) postag_regexp:PT:.*   negate_pos:yes "/>
                 <message>Причастие пишется с «нн», есть зависимые слова: <suggestion><match no="1" suppress_misspelled="yes" regexp_match="(.*[аеёиоуэюя])[н]([а-мо-я]{1,3})" regexp_replace="$1нн$2"></match></suggestion></message>
                 <short>Пишется с «нн»</short>
                 <example>Сегодня на ужин жаренная на масле картошка.</example>
@@ -5583,21 +5582,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Вводится единый для всех ведомств госбюджет, с едиными остатками.</example>
                 <example>Пётр I приказал заменить их чулки с зелёных на красные.</example>
                 <example>Ещё один остановочный пункт существовал на острове Змеиный близ дельты Дуная.</example>
-                <example>объекты реализации единых по замыслу архитектурных проектов.</example>
+                <example>Объекты реализации единых по замыслу архитектурных проектов.</example>
                 <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
             </rule>
+        </rulegroup>
+        <rulegroup default="on" id="NN_N_pril_prich_2" name="Правописание «нн» или «н» в причастиях и прилагательных-2">
             <rule>
                 <pattern>
                     <marker>  
-                        <token postag="PT:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="PT:.*" postag_regexp="yes"></exception></token>
+                        <token postag="PT:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="PT:.*" postag_regexp="yes"></exception><exception scope="previous" >,</exception></token>
                     </marker>
                     <token negate_pos="yes"  postag="PREP" ><exception  postag="N(N|NN|NF):.*:.*:(T|D)" postag_regexp="yes"></exception><exception regexp="yes">[А-ЯЁ]</exception></token>
                     <token negate_pos="yes" postag="N(N|NN|NF):.*:.*:T" postag_regexp="yes"></token>
                 </pattern>
+                <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:1 regexp:(.*[аеёиоуэюя][н])[н]([а-мо-я]{1,3}) postag_regexp:ADJ:.*  two_groups_regexp:yes "/>     <!-- Test if word without "нн" exist. req regexp  (.*[аеёиоуэюя][н])[н]([а-мо-я]{1,3})   $1$2 -->
                 <message>Прилагательное пишется с «н», зависимых слов нет: <suggestion><match no="1" suppress_misspelled="yes" regexp_match="(.*[аеёиоуэюя])[н][н]([а-мо-я]{1,3})" regexp_replace="$1н$2"></match></suggestion></message>
                 <short>Пишется с «н»</short>
                 <example>Сегодня на ужин жареная картошка.</example>
                 <example>Сегодня у нас на ужин жаренная Иваном картошка.</example>
+                <example>Во дворце состоялось объединённое заседание.</example>
+                <example>Поступки, совершённые ими.</example>
+                <example>На фоне начинающихся массовых беспорядков, порождённых экономической и политической ситуацией, наблюдается кризис.</example>
                 <example>Декларация содержит рекомендации по охране, адресованные странам и правительствам.</example>
                 <example>Метод лингвосоционического моделирования, предложенный Л. М. Комиссаровой, применяется при анализе.</example>
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
@@ -5930,7 +5936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
   -->
                 <pattern case_sensitive="no">
-                    <token regexp= "yes" negate="yes" inflected="yes">иметь|имелось</token>
+                    <token regexp= "yes" negate="yes" inflected="yes">иметь|имелось|иметься</token>
                     <marker>
                         <token>в</token>
                         <token>виду</token>
@@ -5940,6 +5946,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пишется слитно.</short>
                 <example>Много  оборудования не использовалось в учреждении <marker>ввиду</marker> отсутствия расходных материалов.</example>
                 <example>Он имел <marker>в виду</marker> совсем другое событие.</example>
+                <example>Имелось в виду:</example>
                 <example correction="ввиду">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>
             </rule>
             
@@ -7893,6 +7900,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Иван же не приехал.</example>
             <example>Ольга ж не приехала.</example>
         </rule>
+
+        <rule id="Many_PREP" name="Два предлога подряд">        
+            <pattern>
+                <marker>
+                  <token postag="PREP"><exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[А-Я].*</exception></token>
+                  <token postag="PREP"><exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо|без|перед</exception></token>
+                </marker>
+                <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
+            </pattern>
+            <message>Два предлога подряд:  <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>         
+            <short>Два предлога подряд</short>
+            <example correction="за|про">Тренер ругал <marker>за про</marker> дело.</example>
+            <example correction="на|под">Тарелка <marker>на под</marker> блюдо.</example>
+            <example correction="на|в">Кошка прыгнула <marker>на в</marker> окно.</example>
+            <example correction="в|к">Я уверен, что всё изменится <marker>в к</marker> лучшему.</example>
+            <example>Тренер ругал за дело.</example>
+            <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
+            <example>Возвышенность простирается с Ю на С от старой дороги.</example>
+            <example>Она преподаёт изо в школе.</example>
+            <example>Разбил в аварии перед у машины</example>
+            <example>К ИЗО ученик подготовился.</example>
+
+        </rule>
+                        
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
             <pattern>
                 <token skip="-1" postag_regexp="yes" postag="PNN:.*"><exception scope="next">;</exception></token>
@@ -8073,10 +8104,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>не</token>
                     <token postag_regexp="yes" regexp="yes">(не)[а-я](.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)|нес(.*)</exception></token>
                 </pattern>
+                <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:2 regexp:не(.*) postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "не" exist -->
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Эта книга интересная.</example>
                 <example>Это не незнакомец.</example>
+                <example>Он не немец.</example>
                 <example>Это не только не критично, но и оправданно.</example>
                 <example>Это не несёт никакой нагрузки.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
@@ -8143,35 +8177,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
        </rulegroup>
-       <rule default="on" id="prep_prep" name="Два предлога подряд">
-	        <antipattern>
-		        <marker>
-			        <token postag="SENT_START" negate_pos="yes"/>
-			        <token case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</token>
-		        </marker>
-	        </antipattern>
-	        <pattern>
-		        <marker>
-			        <token postag="PREP">
-				        <exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes"/>
-				        <exception case_sensitive="yes" regexp="yes">[А-ЯЁ][А-ЯЁ]*</exception>
-				        <exception regexp="yes">насчёт|насчет|ради|перед</exception>
-			        </token> 
-			        <token postag="PREP">
-				        <exception postag="PREP|ABR" negate_pos="yes" postag_regexp="yes"/>
-				        <exception case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</exception>
-				        <exception regexp="yes">без|перед</exception>
-			        </token>
-		        </marker>
-		        <token><exception>.</exception></token>
-	        </pattern>
-           <message>Два предлога подряд: <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>
-           <short>Два предлога подряд</short>
-           <example>Разбил в аварии перед у машины</example>
-           <example correction="на|под">Тарелка <marker>на под</marker> блюдо.</example>
-           <example correction="на|в">Кошка прыгнула <marker>на в</marker> окно.</example>
-           <example correction="в|к">Я уверен, что всё изменится <marker>в к</marker> лучшему.</example>
-       </rule>   
        <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
             <rule>
                 <pattern>
@@ -8705,7 +8710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    </pattern>
 	    <message>Возможно, нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот. Для обозначения ударения используйте символ U+0301 в кодировке Юникод вместо букв из других алфавитов.</message>	    
 	    <url>https://ru.wikipedia.org/wiki/%D0%97%D0%BD%D0%B0%D0%BA_%D1%83%D0%B4%D0%B0%D1%80%D0%B5%D0%BD%D0%B8%D1%8F#.D0.92.D0.B2.D0.BE.D0.B4_.D0.B7.D0.BD.D0.B0.D0.BA.D0.B0_.D1.81_.D0.BA.D0.BB.D0.B0.D0.B2.D0.B8.D0.B0.D1.82.D1.83.D1.80.D1.8B</url>
-	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</short>
+	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот.</short>
             <example correction="">Книга <marker>прo</marker> Львов.</example>
 	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
 	    <example>«Far East Network» не передаёт местные новости.</example>
@@ -9441,7 +9446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>пол</token>           
                         <token>листа</token>           
                 </pattern>
-                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
+                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной «л», то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
                 <short>«Пол-листа» пишем через дефис</short>
                 <example correction="пол-листа">Она исписала <marker>пол листа</marker>.</example>
                 <example>Она исписала пол-листа.</example>
@@ -9451,7 +9456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>пол</token>           
                         <token>луковицы</token>           
                 </pattern>
-                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
+                <message>Если в сложном слове с корнем «пол» второе слово начинается с согласной «л», то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
                 <short>«Пол-луковицы» пишем через дефис</short>
                 <example correction="пол-луковицы">Для этого блюда возьмите <marker>пол луковицы</marker>.</example>
             </rule>   
@@ -9741,7 +9746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>листья</token>                  
                         <token>бумаги</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
                 <short>Правильно «листы бумаги»</short>
                 <example correction="Листы бумаги"><marker>Листья бумаги</marker> разлетелись по комнате.</example>
                 <example>Листы бумаги разлетелись по комнате.</example>
@@ -9753,7 +9758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>листы</token>                  
                         <token>деревьев</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
                 <short>Правильно «листья деревьев»</short>
                 <example correction="Листья деревьев"><marker>Листы деревьев</marker> пожелтели.</example>
                 <example>Листья деревьев пожелтели.</example>
@@ -9765,7 +9770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>коренья</token>                  
                         <token>дерева</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
                 <short>Правильно «корни дерева»</short>
                 <example correction="Корни дерева"><marker>Коренья дерева</marker> высохли.</example>
                 <example>Корни дерева высохли.</example>
@@ -9777,7 +9782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>болят</token>                  
                         <token>зубья</token>                  
                 </pattern>
-                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: «-ы»/«-и» или «-а»/«-я». Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
                 <short>Правильно «болят зубы»</short>
                 <example correction="болят зубы">У него <marker>болят зубья</marker>.</example>
                 <example>У него болят зубы.</example>
@@ -9786,7 +9791,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-        <rulegroup id="Okonch_susch_masc_Predlozhn_opredeliteln" name="Окончание -у в предложн. падеже у сущ. муж. р. при выражении определительных отношений">
+        <rulegroup id="Okonch_susch_masc_Predlozhn_opredeliteln" name="Окончание «-у» в предложн. падеже у сущ. муж. р. при выражении определительных отношений">
 
 
             <rule>   
@@ -9795,7 +9800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>на</token>                  
                         <token>мехе</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 на меху</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 на меху</suggestion>?</message>
                 <short>Правильно «на меху»</short>
                 <example correction="сапоги на меху">Она купила <marker>сапоги на мехе</marker>.</example>
                 <example>Она купила сапоги на меху.</example>
@@ -9807,7 +9812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>снеге</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в снегу</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в снегу</suggestion>?</message>
                 <short>Правильно «в снегу»</short>
                 <example correction="одежда в снегу">Была вся <marker>одежда в снеге</marker>.</example>
                 <example>Была вся одежда в снегу.</example>
@@ -9819,7 +9824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>меле</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в мелу</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в мелу</suggestion>?</message>
                 <short>Правильно «в мелу»</short>
                 <example correction="руки в мелу">Были его <marker>руки в меле</marker>.</example>
                 <example>Его руки были в мелу.</example>
@@ -9831,7 +9836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>                  
                         <token>пухе</token>                  
                 </pattern>
-                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в пуху</suggestion>?</message>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание «-у». Вы имели в виду <suggestion>\1 в пуху</suggestion>?</message>
                 <short>Правильно «в пуху»</short>
                 <example correction="покрывало в пуху">Было <marker>покрывало в пухе</marker>.</example>
                 <example>Покрывало было в пуху.</example>
@@ -10178,7 +10183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>подобии</token>
                         <token regexp="yes">тех|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
                 <short>Правильно «наподобие»</short>
                 <example correction="наподобие тех">Он купил шляпу <marker>на подобии тех</marker>, что носили в прошлом веке.</example>
                 <example>Он купил шляпу наподобие тех, что носили в прошлом веке.</example>
@@ -10190,7 +10195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>следствии</token>
                         <token regexp="yes">этого|чего|этих|этой|того|той|которого|которой|которых|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие чего"><marker>В следствии чего</marker> они были вынуждены обратиться в суд.</example>
                 <example>Вследствие чего они были вынуждены обратиться в суд.</example>
@@ -10202,7 +10207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>следствие</token>
                         <token regexp="yes">этого|чего|которого|которой|которых|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие этого"><marker>В следствие этого</marker> произошёл сбой в системе.</example>
                 <example>Вследствие этого произошёл сбой в системе.</example>
@@ -10218,7 +10223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>заключении</token>
                         <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
                 </pattern>
-                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
                 <short>Правильно «в заключение»</short>
                 <example correction="В заключение выступления"><marker>В заключении выступления</marker> он прочёл стихи.</example>
                 <example>В заключение выступления он прочёл стихи. </example>

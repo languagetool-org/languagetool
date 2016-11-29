@@ -5287,6 +5287,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 <languagerule languagerulename="Portuguese">
+<!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
 <beforebreak>\b(Ab|abrev|absol|a\. C|acad|Açor|A\. D|add|adj|adv|advers|Aeron|afér|Agric|Álg|aprox|art|Artilh|auxil|av|Av)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -5375,18 +5376,26 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b(Zool)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>K\.\s</beforebreak>
-<afterbreak>O\.</afterbreak>
+<beforebreak>\b(Mr|Mrs|No|pp|St|Jr|Bros|etc|vs|esp|[Ff]ig|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>B\.\s</beforebreak>
-<afterbreak>F\.</afterbreak>
+<beforebreak>\bPh\.</beforebreak>
+<afterbreak>D\.</afterbreak>
 </rule>
+<!-- Latin abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>J\.\s</beforebreak>
-<afterbreak>C\.</afterbreak>
+<beforebreak>\b(sp|spp)\.\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
+<!-- initials: A. C. Jones. -->
+<rule break="no">
+<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Two final stop abbreviations  -->
 <rule break="no">
 <beforebreak>d\.\s</beforebreak>
 <afterbreak>C\.</afterbreak>
@@ -5400,18 +5409,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>ex\.</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>S\.\s</beforebreak>
-<afterbreak>C\.</afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>S\.\s</beforebreak>
-<afterbreak>E\.</afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>S\.\s</beforebreak>
-<afterbreak>M\.</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>V\.\s</beforebreak>
 <afterbreak>Rev\.</afterbreak>
 </rule>
@@ -5419,18 +5416,86 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>v\.\s</beforebreak>
 <afterbreak>g\.</afterbreak>
 </rule>
+<!-- Don't split at e.g. "d. h." -->
 <rule break="no">
-<beforebreak>V\.\s</beforebreak>
-<afterbreak>S\.s</afterbreak>
+<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|“|«|\)|\]|\}]?\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Don't split after a white-space followed by a single letter followed
+         by a dot followed by another whitespace. e.g. " p. " -->
+<rule break="no">
+<beforebreak>\s\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<!-- Any word in acronyms like E.U.A. or P.S.P. or C. or c.s.p. or p. e. -->
+<rule break="no">
+<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"”']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Any word in acronyms like EE.UU. or BB. DD. -->
+<rule break="no">
+<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"”']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- máx. mín. etc. -->
+<rule break="no">
+<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"”'’]*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Composed abbrev. e.g. et al. -->
+<rule break="no">
+<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"”']*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Units -->
+<rule break="no">
+<beforebreak>\b([Ee]sc|K[gm]s?|[mc]?[gml]s]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"”'’]*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Split at e.g. "1a. There is..." -->
+<rule break="yes">
+<beforebreak>\d+[a-z]\.\s</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
+</rule>
+<!-- Don't split at cases like "in 13. or 14. paragraphs" -->
+<rule break="no">
+<beforebreak>\d+\.\s</beforebreak>
+<afterbreak>(e|ou|até)\s</afterbreak>
+</rule>
+<!-- Don't split [.?!] when they're quoted -->
+<rule break="no">
+<beforebreak>['"“][\.!?…]['"”]\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <!-- Not break for ellipses (...) -->
 <rule break="no">
-<beforebreak>\b\.\.\.\s</beforebreak>
+<beforebreak>[^\s](\Q...\E|…)\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- z.B. "bla (...) blubb" -> without ending sentence -->
+<rule break="no">
+<beforebreak>[\(\)\[\]]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Don't break after quote unless there's a capital letter
+         e.g.: "That's right!" he said. -->
+<rule break="no">
+<beforebreak>["”'’]\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- z.B. "This is a (!) exclamation." -->
+<rule break="no">
+<beforebreak>[\(\[][!?]{1,3}[\]\)]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- z.B. "This here is an (awesome!) phrase." -->
+<rule break="no">
+<beforebreak>[!?]{1,3}[\)\]]\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Break rules -->
 <rule break="yes">
-<beforebreak>[\.!?][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<beforebreak>[\.!?][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">

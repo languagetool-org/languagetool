@@ -39,6 +39,10 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.km.KhmerWordTokenizer;
 
+/**
+ * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
+ */
+@Deprecated
 public class Khmer extends Language {
 
   private Tagger tagger;

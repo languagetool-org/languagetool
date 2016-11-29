@@ -57,8 +57,11 @@ public class Indexer implements AutoCloseable {
   private final SentenceTokenizer sentenceTokenizer;
 
   public Indexer(Directory dir, Language language) {
+    this(dir, language, getAnalyzer(language));
+  }
+
+  public Indexer(Directory dir, Language language, Analyzer analyzer) {
     try {
-      Analyzer analyzer = getAnalyzer(language);
       IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);
       writerConfig.setOpenMode(OpenMode.CREATE);
       writer = new IndexWriter(dir, writerConfig);

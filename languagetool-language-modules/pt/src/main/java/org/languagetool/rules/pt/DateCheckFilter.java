@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Portuguese localization of {@link AbstractDateCheckFilter}.
+ * @author Tiago F. Santos based on the english version
  * @since 3.6
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
@@ -39,11 +39,11 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected int getDayOfWeek(String dayStr) {
     String day = dayStr.toLowerCase();
     if (day.equals("dom") || day.equals("domingo")) return Calendar.SUNDAY;
-    if (day.equals("seg") || day.equals("segunda-feira")) return Calendar.MONDAY;
-    if (day.equals("ter") || day.equals("terça-feira")) return Calendar.TUESDAY;
-    if (day.equals("qua") || day.equals("quarta-feira")) return Calendar.WEDNESDAY;
-    if (day.equals("qui") || day.equals("quinta-feira")) return Calendar.THURSDAY;
-    if (day.equals("sex") || day.equals("sexta-feira")) return Calendar.FRIDAY;
+    if (day.equals("seg") || day.equals("segunda")) return Calendar.MONDAY;
+    if (day.equals("ter") || day.equals("terça")) return Calendar.TUESDAY;
+    if (day.equals("qua") || day.equals("quarta")) return Calendar.WEDNESDAY;
+    if (day.equals("qui") || day.equals("quinta")) return Calendar.THURSDAY;
+    if (day.equals("sex") || day.equals("sexta")) return Calendar.FRIDAY;
     if (day.equals("sáb") || day.equals("sábado")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }

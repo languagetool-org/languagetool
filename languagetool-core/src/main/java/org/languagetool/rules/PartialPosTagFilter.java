@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
  *   <li>{@code postag_regexp}: a regular expression to match the POS tag of the part of the word, e.g. <tt>VB.?</tt>
  *       to match any verb in English.</li>
  *   <li>{@code negate_postag}: if value is yes, then the regexp is negated (not negated if not specified).</li>
+ *   <li>{@code two_groups_regexp}: if value is yes, then the regexp must contain 2 groups (if not specified - 1 groups).</li>
  * </ul>
  * @since 2.8
  */
@@ -57,13 +58,20 @@ public abstract class PartialPosTagFilter extends RuleFilter {
     Pattern pattern = Pattern.compile(args.get("regexp"));
     String requiredTagRegexp = args.get("postag_regexp");
     boolean negatePos = args.containsKey("negate_pos");
+    boolean two_groups_regexp = args.containsKey("two_groups_regexp");
     String token = patternTokens[tokenPos - 1].getToken();
     Matcher matcher = pattern.matcher(token);
-    if (matcher.groupCount() != 1) {
+    if ((matcher.groupCount() != 1) && !(two_groups_regexp)) {
       throw new RuntimeException("Got " + matcher.groupCount() + " groups for regex '" + pattern.pattern() + "', expected 1");
+    }
+    if ((matcher.groupCount() != 2) && (two_groups_regexp)) {
+      throw new RuntimeException("Got " + matcher.groupCount() + " groups for regex '" + pattern.pattern() + "', expected 2");
     }
     if (matcher.matches()) {
       String partialToken = matcher.group(1);
+      if (matcher.groupCount() == 2) {
+      partialToken = partialToken + matcher.group(2);
+      } 
       List<AnalyzedTokenReadings> tags = tag(partialToken);
       if (tags != null && partialTagHasRequiredTag(tags, requiredTagRegexp, negatePos)) {
         return match;
