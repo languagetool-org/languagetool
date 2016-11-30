@@ -13377,13 +13377,14 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	<!-- EVITAR A FORMA PASSIVA Evitar formas passivas de discurso	-->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
-	<!-- 	TODO Set to default='off' after regression tests	-->
-  <rulegroup id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='on'>
+  <rulegroup id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='off'>
         <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
     <rule>
 	<!-- 			Analitic Passive Voice			-->
        <pattern>
-	  <token inflected='yes' regexp='yes'>ser|estar</token>
+       <!--  Do not include 'estar' in order to limit positives
+                TODO Make this a percentage based rule [java?]          -->
+	  <token inflected='yes' regexp='yes'>ser</token>
 	  <token postag='V.P.+' postag_regexp='yes'/>
         </pattern>
 	<message>Evite a voz passiva.</message>
@@ -13393,7 +13394,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <rule>
 	<!-- 			Synthetic Passive Voice			-->
       <pattern>
-	  <token postag='V...3.+' postag_regexp='yes'>
+	  <token postag='V.P.3.+' postag_regexp='yes'>
 	  	<exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
 	  <token spacebefore='no'>-</token>
 	  <token spacebefore='no'>se</token>
