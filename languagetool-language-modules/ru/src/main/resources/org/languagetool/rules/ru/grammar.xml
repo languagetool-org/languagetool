@@ -1062,8 +1062,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Тавтология.</short>
                 <example correction="Суть"><marker>Главная суть</marker> рассказа</example>
             </rule>
-        </rulegroup>    
-
+        </rulegroup>
+        <rulegroup id="SVOBODNAJA_VAKANSIJA" name="Тавтология «свободная вакансия»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >свободный</token>
+                    <token inflected="yes" >вакансия</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="вакансия">На сайте размещена <marker>свободная вакансия</marker>.</example>
+            </rule>
+        </rulegroup>        
         <rulegroup id="DUMU_DUMAT" name="Тавтология «думу думать»">
             <rule> 
                 <pattern>
@@ -4562,6 +4573,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>      
         <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
+            <antipattern>
+                <token>тем</token>
+                <marker>
+                    <token>самым</token>
+                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token>во</token>
+                <marker>
+                    <token regexp="yes">всём|всем</token>
+                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>        
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -4580,6 +4605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по падежу.</message>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
+            <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
@@ -8135,14 +8161,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="DoubleNOT" name="Двойное отрицание">
-             
+        <rulegroup default="on" id="DoubleNOT" name="Двойное отрицание"> 
             <rule>
                 <!-- две частицы "не" в предложении
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception  scope="next">и</exception></token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception regexp="yes" scope="next">и|только</exception></token>
                         <token skip="-1">не</token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
@@ -8150,6 +8175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Рекомендуется избегать двойных отрицаний.</example>
+                <example>Не только не видно нигде следов роскоши, но и те самые комнаты были пусты.</example>
                 <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
                 <example>Заявка не рассматривается и не оценивается.</example>
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
@@ -8305,6 +8331,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Устойчивое выражение</short>
                 <example>Он натерпелся страху.</example>
                 <example correction="нагнал страху">Он <marker>нагнал страха</marker>.</example>
+            </rule>
+        </rulegroup>
+         <rulegroup default="on" id="skladivaetsja_oschuschenie" name="Устойчивые выражения «складывается ощущение»">
+            <rule>
+                <pattern>
+                    <token>складывается</token>
+                    <token>ощущение</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>возникает \2</suggestion>.</message>
+                <short>Устойчивое выражение</short>
+                <example>возникает ощущение</example>
+                <example correction="возникает ощущение"><marker>складывается ощущение</marker></example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token>складывалось</token>
+                    <token>ощущение</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>возникало \2</suggestion>.</message>
+                <short>Устойчивое выражение</short>
+                <example>возникало ощущение</example>
+                <example correction="возникало ощущение"><marker>складывалось ощущение</marker></example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="ni_v_koem_sluchae" name="Устойчивые выражения «ни в коем случае»">
