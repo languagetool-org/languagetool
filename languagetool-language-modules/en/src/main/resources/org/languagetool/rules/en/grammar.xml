@@ -11451,6 +11451,21 @@ USA
         <rulegroup id="PHRASE_REPETITION" name="Repetition of two words ('at the at the')">
             <!--  made more general-->
             <rule>
+                <antipattern><!-- Idiomatic expression -->
+                    <token>as</token>
+                    <token/>
+                    <token>as</token>
+                    <token><match no="1"/></token>
+                    <token regexp="yes">can|could|should</token>
+                    <token>be</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>as</token>
+                    <token regexp="yes">[a-z]+</token>
+                    <token>as</token>
+                    <token><match no="1"  case_conversion="startupper"/></token>
+                    <token postag="NNP" regexp="yes">[A-Z][a-z]+</token>
+                </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>and</exception>\p{L}+</token>
                     <token regexp="yes"><exception>and</exception>\p{L}+</token>
@@ -11462,7 +11477,16 @@ USA
                 <example correction="at the">Hepatology <marker>at the at the</marker> turn of centuries.</example>
                 <example correction="on the">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
                 <example correction="from the">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
-                <example>All we wanted to do was to stand very quietly and look and look and look.</example>
+                <example>All we wanted to do was to stand very quietly <marker>and look and look and look</marker>.</example>
+                <example>In an era where bond yields are already as <marker>low as low can be</marker>, quantitative easing promises to be...</example>
+                <example>The white spots are saturated -- <marker>as white as white can be</marker> -- and all the enhancements that everyone is...</example>
+                <example>What if you're not <marker>as good as good should be</marker>?</example>
+                <example>Northern California dispatches from 2015 were <marker>as bad as bad could be</marker>.</example>
+                <example>He needed a bell <marker>as big as</marker> Big Ben.</example>
+                <example>Very few men were <marker>as big as</marker> Big Rich.</example>
+                <example type="triggers_error">Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
+                <example type="triggers_error">No credit is almost <marker>as bad as</marker> bad credit.</example>
+                <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
         <rulegroup default="off" id="I_VE_A" name="Non-standard contractions '(I've a...)'">
