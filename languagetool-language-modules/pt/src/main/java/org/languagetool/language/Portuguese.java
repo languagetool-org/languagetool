@@ -135,16 +135,12 @@ public class Portuguese extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages,
-                Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
-                Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
+            new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
             new LongSentenceRule(messages),
-            new UppercaseSentenceStartRule(messages, this,
-                Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
-                Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
+            new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new WordRepeatBeginningRule(messages, this),
