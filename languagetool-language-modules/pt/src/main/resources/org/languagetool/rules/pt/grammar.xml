@@ -216,8 +216,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         		<exception regexp='yes'>palavra|letra</exception></token>
 	</pattern>
 		<message>Possível erro de concordância do género.</message>
+		<suggestion>o \2</suggestion>
 		<url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
-			<suggestion>o \2</suggestion>
 		<example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
 	</rule>
 
@@ -283,9 +283,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
+	   <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
 
@@ -308,9 +308,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
+		<url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
 	 <example type='correct'>Sou todo ouvidos</example>
 	</rule>
@@ -329,10 +329,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]P$2' postag_regexp="yes"/> \3</suggestion>
+	  <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
 
@@ -350,9 +349,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
+	  <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
   
