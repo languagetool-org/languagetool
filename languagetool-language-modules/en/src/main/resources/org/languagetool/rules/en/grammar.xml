@@ -2512,6 +2512,10 @@ USA
                 <example>Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>awards</token>
+                    <token regexp="yes">ceremon(y|ies)</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
@@ -2523,12 +2527,14 @@ USA
                 </pattern>
                 <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
                 <short>Possible typo</short>
+                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech.</example>
+                <example>This is a transcript of the <marker>president's</marker> speech.</example>
                 <example>Publishers today are at loss...</example>
                 <example>The Romans may have marked the centre of Londinium.</example>
                 <example>Owen was seven years younger.</example>
                 <example>Universities A and B are old universities...</example>
-                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech.</example>
                 <example>All Souls College, Oxford</example>
+                <example>They often perform those songs live at the <marker>awards ceremony</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
