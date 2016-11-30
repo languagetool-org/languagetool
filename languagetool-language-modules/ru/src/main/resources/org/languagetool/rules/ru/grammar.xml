@@ -4409,9 +4409,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Нужен предлог «о» или «по».</short>
             <example correction=""><marker>Скучаю за</marker> другом.</example>
             <example>Скучаю по другу.</example>
-        </rule>
-        
-         <rule id="oplachivat_prep" name="Грамматические ошибки «оплачивать за ... »">
+        </rule>  
+        <rulegroup id="oplachivat_prep" name="Грамматические ошибки «оплачивать за», «оплачивать по»">
+          <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
                 <token postag="PREP">за</token>      <!--     <token postag="PREP"></token>  -->
@@ -4422,8 +4422,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оплачивать проезд.</example>
             <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>
             <example>Покупатель оплачивает товар  на условиях, предусмотренных настоящим договором.</example>           
-        </rule>
-      
+          </rule>
+          <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
+                <token postag="PREP">по</token>
+                <token postag="NN:.*:.*:D" postag_regexp="yes"></token>  
+            </pattern>
+            <message>Предлог не нужен: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):D"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Предлог не нужен.</short>
+            <example correction="Оплатить картой|Оплатить картою"><marker>Оплатить по карте</marker>.</example>
+            <example>Оплачивать картой.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="sojalet_ob_etom" name="Грамматические ошибки «сожалею это», «подтвердить об этом» ">
+          <rule>
+             <pattern>
+                <token inflected="yes" >сожалеть</token>
+                <token>это</token>
+            </pattern>
+            <message>Необходим предлог «об»: <suggestion>\1 об этом</suggestion></message>         
+            <short>Нужен предлог.</short>
+            <example correction="сожалею об этом">Я <marker>сожалею это</marker>.</example>
+            <example>сожалеть об этом</example>
+          </rule>
+          <rule>
+             <pattern>
+                <token inflected="yes" >подтвердить</token>
+                <token>об</token>
+                <token>этом</token>
+            </pattern>
+            <message>Предлог «об» не нужен: <suggestion>\1 это</suggestion></message>         
+            <short>Предлог не нужен.</short>
+            <example correction="подтвердить это">Кто бы мог <marker>подтвердить об этом</marker>?</example>
+          </rule>
+        </rulegroup>
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
            <rule>
              <pattern>
