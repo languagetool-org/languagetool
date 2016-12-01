@@ -771,7 +771,8 @@ public class CaseRule extends GermanRule {
           return true;
         }
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr))) ||
+      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
+         hasPartialTag(prevToken, "DET") ||  // "die Verurteilten wurden"
          hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
          (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
@@ -781,6 +782,9 @@ public class CaseRule extends GermanRule {
 
   private boolean isNumber(String token) {
     try {
+      if(token.matches("\\d+")) {
+        return true;
+      }
       AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
       return lookup != null && lookup.hasPosTag("ZAL");
     } catch (IOException e) {
