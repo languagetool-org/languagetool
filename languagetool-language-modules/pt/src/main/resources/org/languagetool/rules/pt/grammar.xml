@@ -13377,22 +13377,22 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 	<!-- EVITAR A FORMA PASSIVA Evitar formas passivas de discurso	-->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
-  <rulegroup id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='off'>
-        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
-    <rule>
-	<!-- 			Analitic Passive Voice			-->
+    <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
        <pattern>
        <!--  Do not include 'estar' in order to limit positives
                 TODO Make this a percentage based rule [java?]          -->
-	  <token inflected='yes' regexp='yes'>ser</token>
+	  <token inflected='yes'>ser</token>
 	  <token postag='V.P.+' postag_regexp='yes'/>
         </pattern>
 	<message>Evite a voz passiva.</message>
+        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
 	<example type='incorrect'>O trabalho <marker>foi feito</marker> por ele.</example>
 	<example type='correct'>Ele <marker>fez</marker> o trabalho.</example>
     </rule>
-	<!-- 			Synthetic Passive Voice			-->
-	<!--    TODO Excess verbosity. Try statisc solution
+
+  <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva (todas a formas)' type='style' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+    	<!-- 			Synthetic Passive Voice			-->
     <rule>
       <pattern>
 	  <token postag='V...3.+' postag_regexp='yes'>
@@ -13401,14 +13401,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token spacebefore='no'>se</token>
       </pattern>
 	<message>Evite a voz passiva.</message>
+        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
 	<example type='incorrect'>O trabalho <marker>fez-se</marker>.</example>
 	<example type='correct'>Alguém <marker>fez</marker> o trabalho.</example>
     </rule>
-    -->
-  </rulegroup>
-
-    <rule id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva' type='style' default='off'>
-	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+	<!-- 		Analitic Passive Voice Complement	        -->
+    <rule>
         <pattern>
 	  <token postag='V.P.+' postag_regexp='yes'/>
        </pattern>
@@ -13417,6 +13415,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<example type='incorrect'>Caso <marker>conhecido</marker> de todos.</example>
 	<example type='correct'>Todos <marker>conhecem</marker> o caso.</example>
     </rule>
+  </rulegroup>
 
 		<!--          Style rules from English grammar.xml      - START-->
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
