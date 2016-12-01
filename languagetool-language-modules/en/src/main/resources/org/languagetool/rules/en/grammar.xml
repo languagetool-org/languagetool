@@ -7370,6 +7370,22 @@ USA
                 <example>All she does is eat.</example>
             </rule>
             <rule>
+                <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
+                    <token regexp="yes">been|was|were|is|are|am></token>
+                    <token postag="RB"></token>
+                    <and>
+                        <token postag="VBD|VBP|VB" postag_regexp="yes"/>
+                        <token chunk="E-NP-singular"/><!-- For "... is usually oil." -->
+                    </and>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">been|was|were|is|are|am></token>
+                    <token postag="RB"></token>
+                    <and>
+                        <token postag="VBD|VBP|VB" postag_regexp="yes"/>
+                        <token chunk="B-NP-singular"/><!-- For "... is usually oil and natural gas." -->
+                    </and>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception><exception postag='NNP'/></token>
                     <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
@@ -7380,12 +7396,14 @@ USA
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
-                <example>It has always been hated.</example>
+                <example>It has always been <marker>written</marker> like this.</example>
                 <example>The area the center of which is here was bombed.</example>
                 <example correction="written">I must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated">The president was always <marker>hate</marker> in Moscow.</example>
                 <example>It has always been liked.</example>
                 <example>As they are differentially <marker>phase</marker> modulated...</example>
+                <example>Indirect consumption is usually <marker>oil</marker>.</example>
+                <example>Indirect consumption is mainly <marker>oil and natural gas</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
