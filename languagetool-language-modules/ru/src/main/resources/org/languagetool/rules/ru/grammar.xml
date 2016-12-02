@@ -4413,12 +4413,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="oplachivat_prep" name="Грамматические ошибки «оплачивать за», «оплачивать по»">
           <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
+                <token inflected="yes" regexp="yes" skip="1">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
                 <token postag="PREP">за</token>      <!--     <token postag="PREP"></token>  -->
             </pattern>
             <message>Предлог не нужен.</message>         
             <short>Предлог не нужен.</short>
             <example correction=""><marker>Оплатить за</marker> проезд.</example>
+            <example correction=""><marker>Оплатить товар за</marker> евро.</example>
             <example>Оплачивать проезд.</example>
             <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>
             <example>Покупатель оплачивает товар  на условиях, предусмотренных настоящим договором.</example>           
@@ -4448,7 +4449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
           <rule>
              <pattern>
-                <token inflected="yes" >подтвердить</token>
+                <token inflected="yes" regexp="yes" >подтвердить|подтверждать</token>
                 <token>об</token>
                 <token>этом</token>
             </pattern>
@@ -4489,6 +4490,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Предлог не нужен.</short>
             <example correction="">Я <marker>удивляюсь на</marker> тебя.</example>
             <example>Я тебе удивляюсь.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="vzjat_s_nego_interview" name="Грамматические ошибки «взять с ... интервью»">
+          <rule>
+             <pattern>
+                <token inflected="yes" >взять</token>
+                <token>с</token>
+                <token skip="2"></token>
+                <token>интервью</token>
+            </pattern>
+            <message>Вместо предлога «с» необходим  «у»: <suggestion><match no="1" /> у <match no="3" include_skipped="all" /> <match no="4" /></suggestion></message>         
+            <short>Неверный предлог.</short>
+            <example correction="взял у гостя интервью">Комментатор <marker>взял с гостя интервью</marker>.</example>
+            <example correction="взял у гостя в студии интервью">Комментатор <marker>взял с гостя в студии интервью</marker>.</example>
+            <example>Комментатор взял у гостя интервью.</example>
           </rule>
         </rulegroup>
          <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
