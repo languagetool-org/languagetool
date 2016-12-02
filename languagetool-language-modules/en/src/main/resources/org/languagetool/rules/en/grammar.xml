@@ -622,6 +622,13 @@ USA
                 <example>Where is this from?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>from</token>
+                    <token/>
+                    <token regexp="yes">to|through|thru</token>
+                    <token/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">a|the</token>
                     <!--most determiners are OK, this way it's shorter-->
@@ -632,7 +639,10 @@ USA
                 <message>Did you mean <suggestion>form</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="form">Type in the <marker>from</marker> on the web page.</example>
-                <example correction="form">Fill in the <marker>from</marker> as shown below.</example>
+                <example>Type in the <marker>form</marker> on the web page.</example>
+                <example>They sponsored the Lega Basket Series A <marker>from</marker> 2012 through 2016.</example>
+                <example>Let A = seven. Take A <marker>from</marker> seventeen to leave ten.</example>
+                <example>We recommend Route A <marker>from</marker> Penrith to Carlisle.</example>
             </rule>
             <rule>
                 <antipattern>
