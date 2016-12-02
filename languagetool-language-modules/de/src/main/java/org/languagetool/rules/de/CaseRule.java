@@ -89,6 +89,28 @@ public class CaseRule extends GermanRule {
       token("Trug")
     ),
     Arrays.asList(
+        token("Zahl"),
+        pos("UNKNOWN")
+    ),
+    Arrays.asList(
+        token(","),
+        posRegex(".*ADJ.*"),
+        regex("[\\.?!]")
+    ),
+    Arrays.asList(
+        token("dass"),
+        token("das"),
+        posRegex("PA2:.*"),
+        posRegex("VER:AUX:.*")
+    ),
+    Arrays.asList(
+        token("dass"),
+        posRegex("PRO:PER:.*|EIG:.*"),
+        token("das"),
+        posRegex("PA2:.*"),
+        posRegex("VER:AUX:.*")
+    ),
+    Arrays.asList(
       token("Treu"),
       token("und"),
       token("Glauben")
@@ -772,9 +794,9 @@ public class CaseRule extends GermanRule {
         }
       }
       return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
-         hasPartialTag(prevToken, "DET") ||  // "die Verurteilten wurden"
+         hasPartialTag(prevToken, "ART") ||  // "die Verurteilten wurden"
          hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
-         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
+         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
     }
     return false;

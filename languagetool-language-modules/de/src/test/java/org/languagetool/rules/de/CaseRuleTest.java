@@ -188,6 +188,13 @@ public class CaseRuleTest {
     assertGood("Gestern habe ich 10 Spieße gegessen.");
     assertGood("Die Verurteilten wurden mit dem Fallbeil enthauptet.");
     assertGood("Den Begnadigten kam ihre Reue zugute.");
+    assertGood("Die Zahl Vier ist gerade.");
+    assertGood("Ich glaube, dass das geschehen wird.");
+    assertGood("Ich glaube, dass das geschehen könnte.");
+    assertGood("Ich glaube, dass mir das gefallen wird.");
+    assertGood("Ich glaube, dass mir das gefallen könnte.");
+    assertGood("Alldem wohnte etwas faszinierend Rätselhaftes inne.");
+    assertGood("Schau mich an, Kleine!");
   }
 
   private void assertGood(String input) throws IOException {
