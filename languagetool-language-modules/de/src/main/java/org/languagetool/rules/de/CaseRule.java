@@ -37,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -630,6 +631,10 @@ public class CaseRule extends GermanRule {
         if (isPrevProbablyRelativePronoun(tokens, i)) {
           continue;
         }
+        if (prevTokenIsDas && getTokensWithPartialPosTag(tokens, "VER").length == 1) {
+          // ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
+          continue;
+        }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
@@ -647,6 +652,10 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private AnalyzedTokenReadings[] getTokensWithPartialPosTag(AnalyzedTokenReadings[] tokens, String partialPosTag) {
+    return Arrays.asList(tokens).stream().filter(token -> token.hasPartialPosTag(partialPosTag)).toArray(size -> new AnalyzedTokenReadings[size]);
   }
 
   @Override
