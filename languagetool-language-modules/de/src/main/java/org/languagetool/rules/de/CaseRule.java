@@ -99,13 +99,13 @@ public class CaseRule extends GermanRule {
         regex("[\\.?!]")
     ),
     Arrays.asList(
-        token("dass"),
+        //token("dass"),
         token("das"),
         posRegex("PA2:.*"),
         posRegex("VER:AUX:.*")
     ),
     Arrays.asList(
-        token("dass"),
+        //token("dass"),
         posRegex("PRO:PER:.*|EIG:.*"),
         token("das"),
         posRegex("PA2:.*"),
