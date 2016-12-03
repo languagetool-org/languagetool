@@ -195,6 +195,7 @@ public class CaseRuleTest {
     assertGood("Ich glaube, dass mir das gefallen könnte.");
     assertGood("Alldem wohnte etwas faszinierend Rätselhaftes inne.");
     assertGood("Schau mich an, Kleine!");
+    assertGood("Schau mich an, Süßer!");
     assertGood("Weißt du, in welchem Jahr das geschehen ist?");
     assertGood("Das wissen viele nicht.");
     assertBad("Das sagen haben hier viele.");

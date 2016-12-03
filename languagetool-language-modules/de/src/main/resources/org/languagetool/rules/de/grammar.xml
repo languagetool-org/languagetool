@@ -6559,6 +6559,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nichtsdestotrotz"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZU_GUTE_ZUGUTE" name="zu gute (zugute)">
+            <url>http://www.duden.de/rechtschreibung/zugut</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">halten|kommen</token>
+                    <marker>
+                        <token>zu</token>
+                        <token>gute</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zugute</suggestion>?</message>
+                <example correction="zugute">Ich halte ihm <marker>zu gute</marker>, dass er krank ist.</example>
+                <example correction="zugute">Ich halte dem Mann <marker>zu gute</marker>, dass er krank ist.</example>
+                <example correction="zugute">Ihm kam <marker>zu gute</marker>, dass er durchtrainiert ist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>zu</token>
+                        <token>gute</token>
+                        <token regexp="yes">(ge)?halten|(ge)?kommen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zugute\3</suggestion>?</message>
+                <example correction="zugutegehalten">Ich habe ihm <marker>zu gute gehalten</marker>, dass er krank ist.</example>
+                <example correction="zugutekommen">Sollten wir ihm etwas <marker>zu gute kommen</marker> lassen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>zugute</token>
+                        <token regexp="yes">(ge)?halten|(ge)?kommen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zugute\2</suggestion>?</message>
+                <example correction="zugutegehalten">Ich habe ihm <marker>zugute gehalten</marker>, dass er krank ist.</example>
+                <example correction="zugutekommen">Sollten wir ihm etwas <marker>zugute kommen</marker> lassen?</example>
+            </rule>
+        </rulegroup>
         <rule id="ADDIS_ABEBA" name="Addis-Abeba (Addis Abeba)">
             <regexp case_sensitive='yes'>Addis-Abeba</regexp>
             <message>Die Hauptstadt von Äthiopien wird ohne Bindestrich geschrieben</message>

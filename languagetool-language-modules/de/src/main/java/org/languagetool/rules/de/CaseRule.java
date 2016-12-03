@@ -37,7 +37,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -95,7 +94,7 @@ public class CaseRule extends GermanRule {
     ),
     Arrays.asList(
         token(","),
-        posRegex(".*ADJ.*"),
+        posRegex(".*ADJ.*|UNKNOWN"),
         regex("[\\.?!]")
     ),
     Arrays.asList(
