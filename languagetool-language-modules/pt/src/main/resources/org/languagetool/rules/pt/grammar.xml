@@ -89,9 +89,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<!--          Tiago F. Santos Rules Start         ****START**** -->
 	<!-- ********************************************************** -->
 
- 	     <!-- General gender concordance errors - O > A/AS -->
+  <rulegroup id="GENERAL_GENDER_AGREEMENT_ERRORS" name="Erros de concordância de género (geral)">
+ 	     <!--            General gender concordance errors            -->
 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO" name="Erro de concordância do masculino">
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -109,14 +112,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>O vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
 	</rule>
-
-	<!-- General gender concordance errors - OS > A/AS -->
-	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_2" name="Erro de concordância do masculino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -134,14 +133,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Os vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
 	</rule>
-
-	<!-- General gender concordance errors - A > O/OS -->
-	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do feminino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -158,14 +153,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
-
-     <!-- General gender concordance errors - AS > O/OS -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do feminino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -182,10 +173,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
 	</rule>
+  </rulegroup>
 
 	<!-- Specific gender concordance errors - A > Masculine Noun -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
@@ -199,7 +190,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 	<suggestion>o \2</suggestion>
 	 	<suggestion>a <match no='2' postag='(A..|N.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
 	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
@@ -215,7 +206,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         	<token postag='(A..|N.)M.+' postag_regexp='yes' regexp='yes'>.+a$
         		<exception regexp='yes'>palavra|letra</exception></token>
 	</pattern>
-		<message>Possível erro de concordância do género.</message>
+		<message>Possível erro de concordância de género.</message>
 		<suggestion>o \2</suggestion>
 		<url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
 		<example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
@@ -260,7 +251,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 	<suggestion>a \2</suggestion>
 	 	<suggestion>o <match no='2' postag='(A..|N.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
 	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
@@ -268,9 +259,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <example type='correct'>A cadela está no pasto.</example>
 	</rule>
 
-     <!-- General number concordance errors - OS > O -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-       <rule id="ERRO_DE_CONCORDNCIA_DO_MASCULINO_PLURAL_OS_O" name="Erro de concordância do masculino plural">
+  <rulegroup id="GENERAL_NUMBER_AGREEMENT_ERRORS" name="Erros de concordância de número (geral)">
+ 	     <!--            General number concordance errors            -->
+	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -285,13 +279,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <message>Erro de concordância do plural:</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
-	   <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
-
-    <!-- General number concordance errors - O > OS -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS" name="Erro de concordância do plural O-OS">
+	<rule>
 	 <antipattern>
 	 	<token regexp='yes'>tod[oa]</token>
 	 	<token>ouvidos</token>
@@ -310,14 +300,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <message>Erro de concordância do plural:</message>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
-		<url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
 	 <example type='correct'>Sou todo ouvidos</example>
 	</rule>
-
-	<!-- General number concordance errors - A > AS -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-    <rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_A_AS" name="Erro de concordância do feminino plural">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -331,13 +317,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <message>Erro de concordância do plural:</message>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]P$2' postag_regexp="yes"/> \3</suggestion>
-	  <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
-
-    <!-- General number concordance errors - AS > A -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_AS_A" name="Erro de concordância do feminino singular">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 <marker>
@@ -351,13 +333,15 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <message>Erro de concordância do plural:</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
-	  <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
-  
-     <!-- General verbal concordance errors - I + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1S" name="Erro de concordância do número do verbo">
+  </rulegroup>
+
+  <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
+     <!--              General verbal concordance errors           -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
+	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
+	<rule>
 	<antipattern>
 	  <marker>
 	  <token/>
@@ -378,14 +362,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu passear|Eu passeara|Eu passearei|Eu passearia|Eu passeasse|Eu passeava|Eu passeei|Eu passeie|Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
 	 <example type="correct">Eu passeio na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - You (Singular) + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2S" name="Erro de concordância do número do verbo">
+	<rule>
 	<antipattern>
 	  <marker>
 	  <token/>
@@ -406,14 +386,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu não passeara|Tu não passearas|Tu não passeares|Tu não passearias|Tu não passearás|Tu não passeasses|Tu não passeaste|Tu não passeava|Tu não passeavas|Tu não passeias|Tu não passeies'><marker>Tu não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - He/She/It + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3S" name="Erro de concordância do número do verbo">
+	<rule>
 	  <antipattern>
 	  <marker>
 	  <token/>
@@ -436,15 +412,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Ele não passear|Ele não passeara|Ele não passearia|Ele não passeará|Ele não passeasse|Ele não passeava|Ele não passeia|Ele não passeie|Ele não passeou'><marker>Ele não passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Ele não passeia</marker> na praia.</example>
-
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>nós</token>
@@ -455,14 +426,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
  	 <example correction='Nós não passeamo|Nós não passeamos|Nós não passearemos|Nós não passearmos|Nós não passearíamos|Nós não passeemos|Nós não passeámo|Nós não passeámos|Nós não passeáramo|Nós não passeáramos|Nós não passeássemos|Nós não passeávamo|Nós não passeávamos'><marker>Nós não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-2" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>eu</token>
@@ -476,14 +443,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu e Rita passeamo|Eu e Rita passeamos|Eu e Rita passearemos|Eu e Rita passearmos|Eu e Rita passearíamos|Eu e Rita passeemos|Eu e Rita passeámo|Eu e Rita passeámos|Eu e Rita passeáramo|Eu e Rita passeáramos|Eu e Rita passeássemos|Eu e Rita passeávamo|Eu e Rita passeávamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	 <rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-3" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token regexp='yes'>tu|você|vós|vocês|ele|ela|eles|elas</token>
@@ -496,14 +459,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu e eu passeamo|Tu e eu passeamos|Tu e eu passearemos|Tu e eu passearmos|Tu e eu passearíamos|Tu e eu passeemos|Tu e eu passeámo|Tu e eu passeámos|Tu e eu passeáramo|Tu e eu passeáramos|Tu e eu passeássemos|Tu e eu passeávamo|Tu e eu passeávamos'><marker>Tu e eu passeio</marker> na praia.</example>
 	 <example type="correct">Tu e eu passeamos na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - You (Plural) + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-15 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>vós</token>
@@ -514,14 +473,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Vós passeai|Vós passeais|Vós passeardes|Vós passeareis|Vós passearíeis|Vós passeaste|Vós passeastes|Vós passeeis|Vós passeárei|Vós passeáreis|Vós passeásseis|Vós passeávei|Vós passeáveis'><marker>Vós passeiam</marker> na praia.</example>
 	 <example type="correct">Vós passeais na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - They + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <antipattern>
 	  <marker>
 	  <token>eu</token>
@@ -542,10 +497,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='elas passearam|elas passearem|elas passeariam|elas passearão|elas passeassem|elas passeavam|elas passeiam|elas passeiem'>Eles e <marker>elas passeamos</marker> na praia.</example>
 	 <example type="correct">Eles e elas passeiam na praia.</example>
 	</rule>
+  </rulegroup>
 
      <!-- General verbal concordance errors - They + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
