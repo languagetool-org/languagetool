@@ -199,6 +199,8 @@ public class CaseRuleTest {
     assertGood("Weißt du, in welchem Jahr das geschehen ist?");
     assertGood("Das wissen viele nicht.");
     assertBad("Das sagen haben hier viele.");
+    assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
+    assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
   }
 
   private void assertGood(String input) throws IOException {
