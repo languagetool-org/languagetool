@@ -199,6 +199,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
+            <pattern>
+		<token inflected="yes">совестный</token>
+                <token inflected="yes" regexp="yes">бизнес|предприятие</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1" regexp_match="(совестн)([а-я]{1,3})" regexp_replace="совместн$2"></match> <match no="2"></match></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="совместное предприятие"><marker>совестное предприятие</marker></example>
+        </rule>
         <rule id="odin_za_odnim" name="Опечатка «один за одним/один за другим»">
             <pattern>
 		<token>один</token>
@@ -4437,6 +4446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         <rulegroup id="sojalet_ob_etom" name="Грамматические ошибки «сожалею это», «подтвердить об этом» ">
+          <!-- TODO: replace "это" -->
           <rule>
              <pattern>
                 <token inflected="yes" >сожалеть</token>
@@ -4449,7 +4459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
           <rule>
              <pattern>
-                <token inflected="yes" regexp="yes" >подтвердить|подтверждать</token>
+                <token inflected="yes" regexp="yes" >подтвердить|подтверждать|указать</token>
                 <token>об</token>
                 <token>этом</token>
             </pattern>
