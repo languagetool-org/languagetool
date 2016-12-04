@@ -525,12 +525,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
+        <antipattern>
+            <marker>
+                <token>lo</token>
+                <token>hacia</token>
+                <token regexp="yes">arriba|abajo|adentro|afuera</token>
+            </marker>
+        </antipattern>
         <pattern>
-            <token regexp="yes">[sl]e|la</token>
+            <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
             <marker><token>hacia</token></marker>
         </pattern>
-        <message>Quizá quiso poner<suggestion>hacía</suggestion></message>
-        <short>El pretérito imperfecto del verbo hacer es hacía</short>
+        <message>Si es del verbo "hacer", lleva tilde.</message>
+        <suggestion>hacía</suggestion>
         <example correction="hacía">Eso se <marker>hacia</marker> mal.</example>
         <example correction="hacía">Eso le <marker>hacia</marker> mal.</example>
         <example correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
