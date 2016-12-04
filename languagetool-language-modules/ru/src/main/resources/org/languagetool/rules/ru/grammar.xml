@@ -4408,7 +4408,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="просил прощения">Он <marker>просил прощение</marker>.</example>
       
         </rule>  
-           
+        <rulegroup id="v_svjazi_s" name="Грамматические ошибки «в связи с ...»">
+          <rule>
+            <pattern>
+                <token>в</token>
+                <token>связи</token>
+                <token>с</token>
+                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+            </pattern>
+            <message>После словосочетания «в связи с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="В связи с событием|В связи с событьем"><marker>В связи с событие</marker>.</example>
+            <example>В связи с событием.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token>в</token>
+                <token>связи</token>
+                <token>с</token>
+                <token inflected="yes">это<exception>этим</exception></token>
+            </pattern>
+            <message>После словосочетания «в связи с» необходим творительный падеж:<suggestion>\1 \2 \3 этим</suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="В связи с этим"><marker>В связи с это</marker> событием.</example>
+            <example>В связи с этим событием.</example>
+          </rule>
+        </rulegroup>      
         <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
             <pattern>
                 <token inflected="yes">скучать</token>
