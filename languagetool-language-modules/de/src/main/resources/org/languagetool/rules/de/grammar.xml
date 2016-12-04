@@ -2672,13 +2672,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">vor|seit</token>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">\d+<exception>1</exception></token><marker>
                     <marker>
                         <token regexp="yes">Jahre|Tage|Monate|Woche|Stunde|Minute|Sekunde</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\3n</suggestion>?</message>
                 <example correction="Jahren">Seit 10 <marker>Jahre</marker>.</example>
+                <example>Seit 1 <marker>Woche</marker> tut er das.</example>
             </rule>
             <rule>
                 <antipattern>
