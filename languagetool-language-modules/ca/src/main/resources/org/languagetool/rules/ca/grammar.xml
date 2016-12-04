@@ -31472,6 +31472,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TREPAR_GRIMPAR" name="trepar/grimpar">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token skip="-1" inflected="yes" regexp="yes">foradar|forat|roca|broca|pedra|serra|eina|ferramenta</token>
+                    <token postag="SENT_END"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">trepar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>(enfilar-se)</suggestion>? "Trepar" és correcte en el sentit de "foradar".</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">grimpar</match></suggestion>
+            <example correction="(Enfilar-se)|Grimparen"><marker>Treparen</marker> fins a dalt.</example>
+            <example>Cal usar una broca més fina per a trepar millor la roca.</example>
+        </rule>
         <rule id="TERROSOS_TERROSSOS" name="terrosos/terrossos">
             <pattern>
                 <token postag="D..MP.|PX.MP.*" postag_regexp="yes"></token>
