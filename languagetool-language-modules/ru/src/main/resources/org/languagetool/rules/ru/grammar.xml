@@ -4413,7 +4413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>в</token>
                 <token>связи</token>
-                <token>с</token>
+                <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
             <message>После словосочетания «в связи с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
@@ -4433,7 +4433,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="В связи с этим"><marker>В связи с это</marker> событием.</example>
             <example>В связи с этим событием.</example>
           </rule>
-        </rulegroup>      
+        </rulegroup>
+        <rulegroup id="v_kontakte_s" name="Грамматические ошибки «в контакте с ...»">
+          <rule>
+            <pattern>
+                <token>в</token>
+                <token>контакте</token>
+                <token regexp="yes">с|со</token>
+                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+            </pattern>
+            <message>После словосочетания «в контакте с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="в контакте с разработчиком">Он постоянно находился <marker>в контакте с разработчик</marker>.</example>
+            <example>Он постоянно находился в контакте с разработчиком.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="v_sochetanii_s" name="Грамматические ошибки «в сочетании с ...»">
+          <rule>
+            <pattern>
+                <token>в</token>
+                <token>сочетании</token>
+                <token regexp="yes">с|со</token>
+                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+            </pattern>
+            <message>После словосочетания «в контакте с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="в сочетании с молоком">Дыню нельзя употреблять <marker>в сочетании с молока</marker>.</example>
+            <example>Дыню нельзя употреблять в сочетании с молоком.</example>
+          </rule>
+        </rulegroup>
+          <rulegroup id="v_sravnenii_s" name="Грамматические ошибки «в сравнении с ...»">
+          <rule>
+            <pattern>
+                <token>в</token>
+                <token>сравнении</token>
+                <token regexp="yes">с|со</token>
+                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+            </pattern>
+            <message>После словосочетания «в контакте с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="в сравнении со скоростью">Но <marker>в сравнении со скорость</marker> света, скорость «Пионера» выглядит просто черепашьей.</example>
+            <example>Но в сравнении со скоростью света, скорость «Пионера» выглядит просто черепашьей.</example>
+          </rule>
+        </rulegroup>                    
         <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
             <pattern>
                 <token inflected="yes">скучать</token>
