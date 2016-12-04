@@ -199,6 +199,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
+            <pattern>
+		<token inflected="yes">совестный</token>
+                <token inflected="yes" regexp="yes">бизнес|предприятие</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1" regexp_match="(совестн)([а-я]{1,3})" regexp_replace="совместн$2"></match> <match no="2"></match></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="совместное предприятие"><marker>совестное предприятие</marker></example>
+        </rule>
         <rule id="odin_za_odnim" name="Опечатка «один за одним/один за другим»">
             <pattern>
 		<token>один</token>
@@ -1062,8 +1071,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Тавтология.</short>
                 <example correction="Суть"><marker>Главная суть</marker> рассказа</example>
             </rule>
-        </rulegroup>    
-
+        </rulegroup>
+        <rulegroup id="SVOBODNAJA_VAKANSIJA" name="Тавтология «свободная вакансия»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >свободный</token>
+                    <token inflected="yes" >вакансия</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="вакансия">На сайте размещена <marker>свободная вакансия</marker>.</example>
+            </rule>
+        </rulegroup>        
         <rulegroup id="DUMU_DUMAT" name="Тавтология «думу думать»">
             <rule> 
                 <pattern>
@@ -4398,21 +4418,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Нужен предлог «о» или «по».</short>
             <example correction=""><marker>Скучаю за</marker> другом.</example>
             <example>Скучаю по другу.</example>
-        </rule>
-        
-         <rule id="oplachivat_prep" name="Грамматические ошибки «оплачивать за ... »">
+        </rule>  
+        <rulegroup id="oplachivat_prep" name="Грамматические ошибки «оплачивать за», «оплачивать по»">
+          <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
+                <token inflected="yes" regexp="yes" skip="1">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
                 <token postag="PREP">за</token>      <!--     <token postag="PREP"></token>  -->
             </pattern>
             <message>Предлог не нужен.</message>         
             <short>Предлог не нужен.</short>
             <example correction=""><marker>Оплатить за</marker> проезд.</example>
+            <example correction=""><marker>Оплатить товар за</marker> евро.</example>
             <example>Оплачивать проезд.</example>
             <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>
             <example>Покупатель оплачивает товар  на условиях, предусмотренных настоящим договором.</example>           
-        </rule>
-      
+          </rule>
+          <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
+                <token postag="PREP">по</token>
+                <token postag="NN:.*:.*:D" postag_regexp="yes"></token>  
+            </pattern>
+            <message>Предлог не нужен: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):D"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Предлог не нужен.</short>
+            <example correction="Оплатить картой|Оплатить картою"><marker>Оплатить по карте</marker>.</example>
+            <example>Оплачивать картой.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="sojalet_ob_etom" name="Грамматические ошибки «сожалею это», «подтвердить об этом» ">
+          <!-- TODO: replace "это" -->
+          <rule>
+             <pattern>
+                <token inflected="yes" >сожалеть</token>
+                <token>это</token>
+            </pattern>
+            <message>Необходим предлог «об»: <suggestion>\1 об этом</suggestion></message>         
+            <short>Нужен предлог.</short>
+            <example correction="сожалею об этом">Я <marker>сожалею это</marker>.</example>
+            <example>сожалеть об этом</example>
+          </rule>
+          <rule>
+             <pattern>
+                <token inflected="yes" regexp="yes" >подтвердить|подтверждать|указать</token>
+                <token>об</token>
+                <token>этом</token>
+            </pattern>
+            <message>Предлог «об» не нужен: <suggestion>\1 это</suggestion></message>         
+            <short>Предлог не нужен.</short>
+            <example correction="подтвердить это">Кто бы мог <marker>подтвердить об этом</marker>?</example>
+          </rule>
+        </rulegroup>
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
            <rule>
              <pattern>
@@ -4445,6 +4500,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Предлог не нужен.</short>
             <example correction="">Я <marker>удивляюсь на</marker> тебя.</example>
             <example>Я тебе удивляюсь.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="vzjat_s_nego_interview" name="Грамматические ошибки «взять с ... интервью»">
+          <rule>
+             <pattern>
+                <token inflected="yes" >взять</token>
+                <token>с</token>
+                <token skip="2"></token>
+                <token>интервью</token>
+            </pattern>
+            <message>Вместо предлога «с» необходим  «у»: <suggestion><match no="1" /> у <match no="3" include_skipped="all" /> <match no="4" /></suggestion></message>         
+            <short>Неверный предлог.</short>
+            <example correction="взял у гостя интервью">Комментатор <marker>взял с гостя интервью</marker>.</example>
+            <example correction="взял у гостя в студии интервью">Комментатор <marker>взял с гостя в студии интервью</marker>.</example>
+            <example>Комментатор взял у гостя интервью.</example>
           </rule>
         </rulegroup>
          <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
@@ -4562,6 +4632,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>      
         <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
+            <antipattern>
+                <token>тем</token>
+                <marker>
+                    <token>самым</token>
+                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token>во</token>
+                <marker>
+                    <token regexp="yes">всём|всем</token>
+                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>        
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -4580,6 +4664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по падежу.</message>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
+            <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
@@ -7596,6 +7681,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я прочитал газетную статью о предстоящей ярмарке.</example>
             <example correction="">Я прочитал газетную статью <marker>о предстоящая</marker> ярмаркой.</example>
         </rule>
+        <rule default="on" id="PREP_PO_and_Noun" name="Предлог «по» и существительное">
+          <!--  PREP  по -> NN:.*:D or  NN:.*:P, (NN:.*:PL:V   "ходить в лес по грибы"  )  -->
+    <!--    <antipattern>
+              <token inflected="yes" skip="2" regexp="yes">ходить|пойти</token>   
+              <token>по</token>
+              <token postag="NN:.*:PL:V"  postag_regexp="yes" ></token>   
+            </antipattern>    -->
+            <pattern case_sensitive="yes">
+                <token>по</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог «по» предполагает употребление существительного в дательном падеже, но возможен предложный или винительный падеж.</message>
+            <short>Требуется дательный (винительный, предложный) падеж.</short>
+            <example>Я шёл по снегу.</example>
+            <example>Я ходил в лес по грибы.</example>
+            <example>Я ходил по грибы.</example>
+            <example correction="">Я шёл <marker>по снегом</marker>.</example>
+        </rule>
         <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
@@ -8117,14 +8220,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="DoubleNOT" name="Двойное отрицание">
-             
+        <rulegroup default="on" id="DoubleNOT" name="Двойное отрицание"> 
             <rule>
                 <!-- две частицы "не" в предложении
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception  scope="next">и</exception></token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception regexp="yes" scope="next">и|только</exception></token>
                         <token skip="-1">не</token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
@@ -8132,6 +8234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Рекомендуется избегать двойных отрицаний.</example>
+                <example>Не только не видно нигде следов роскоши, но и те самые комнаты были пусты.</example>
                 <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
                 <example>Заявка не рассматривается и не оценивается.</example>
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
@@ -8287,6 +8390,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Устойчивое выражение</short>
                 <example>Он натерпелся страху.</example>
                 <example correction="нагнал страху">Он <marker>нагнал страха</marker>.</example>
+            </rule>
+        </rulegroup>
+         <rulegroup default="on" id="skladivaetsja_oschuschenie" name="Устойчивые выражения «складывается ощущение»">
+            <rule>
+                <pattern>
+                    <token>складывается</token>
+                    <token>ощущение</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>возникает \2</suggestion>.</message>
+                <short>Устойчивое выражение</short>
+                <example>возникает ощущение</example>
+                <example correction="возникает ощущение"><marker>складывается ощущение</marker></example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token>складывалось</token>
+                    <token>ощущение</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>возникало \2</suggestion>.</message>
+                <short>Устойчивое выражение</short>
+                <example>возникало ощущение</example>
+                <example correction="возникало ощущение"><marker>складывалось ощущение</marker></example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="ni_v_koem_sluchae" name="Устойчивые выражения «ни в коем случае»">

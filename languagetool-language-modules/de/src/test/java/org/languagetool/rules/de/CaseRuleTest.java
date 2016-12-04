@@ -185,6 +185,22 @@ public class CaseRuleTest {
     assertGood("   Im Folgenden beschreibe ich das Haus."); // triggers WHITESPACE_RULE, but should not trigger CASE_RULE (see github #258)
     assertGood("\"Im Folgenden beschreibe ich das Haus.\""); //triggers TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN, but should not trigger CASE_RULE 
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
+    assertGood("Gestern habe ich 10 Spieße gegessen.");
+    assertGood("Die Verurteilten wurden mit dem Fallbeil enthauptet.");
+    assertGood("Den Begnadigten kam ihre Reue zugute.");
+    assertGood("Die Zahl Vier ist gerade.");
+    assertGood("Ich glaube, dass das geschehen wird.");
+    assertGood("Ich glaube, dass das geschehen könnte.");
+    assertGood("Ich glaube, dass mir das gefallen wird.");
+    assertGood("Ich glaube, dass mir das gefallen könnte.");
+    assertGood("Alldem wohnte etwas faszinierend Rätselhaftes inne.");
+    assertGood("Schau mich an, Kleine!");
+    assertGood("Schau mich an, Süßer!");
+    assertGood("Weißt du, in welchem Jahr das geschehen ist?");
+    assertGood("Das wissen viele nicht.");
+    assertBad("Das sagen haben hier viele.");
+    assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
+    assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
   }
 
   private void assertGood(String input) throws IOException {

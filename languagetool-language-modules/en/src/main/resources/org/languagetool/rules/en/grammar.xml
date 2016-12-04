@@ -622,6 +622,13 @@ USA
                 <example>Where is this from?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>from</token>
+                    <token/>
+                    <token regexp="yes">to|through|thru</token>
+                    <token/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">a|the</token>
                     <!--most determiners are OK, this way it's shorter-->
@@ -632,7 +639,10 @@ USA
                 <message>Did you mean <suggestion>form</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="form">Type in the <marker>from</marker> on the web page.</example>
-                <example correction="form">Fill in the <marker>from</marker> as shown below.</example>
+                <example>Type in the <marker>form</marker> on the web page.</example>
+                <example>They sponsored the Lega Basket Series A <marker>from</marker> 2012 through 2016.</example>
+                <example>Let A = seven. Take A <marker>from</marker> seventeen to leave ten.</example>
+                <example>We recommend Route A <marker>from</marker> Penrith to Carlisle.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -2510,8 +2520,15 @@ USA
                 <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> oration from March.</example>
                 <example>Legalized Abortion on Crime, authored by the economists Steven D. Levitt and John Donohue.</example>
                 <example>Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
+                <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
+                <example type="triggers_error">The English <marker>darts</marker> player is likely to win this tournament.</example>
+                <example>The <marker>darts</marker> tip is made of tungsten.</example><!-- False negative -->
             </rule>
             <rule>
+                <antipattern>
+                    <token>awards</token>
+                    <token regexp="yes">ceremon(y|ies)</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
@@ -2523,12 +2540,14 @@ USA
                 </pattern>
                 <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
                 <short>Possible typo</short>
+                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech.</example>
+                <example>This is a transcript of the <marker>president's</marker> speech.</example>
                 <example>Publishers today are at loss...</example>
                 <example>The Romans may have marked the centre of Londinium.</example>
                 <example>Owen was seven years younger.</example>
                 <example>Universities A and B are old universities...</example>
-                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech.</example>
                 <example>All Souls College, Oxford</example>
+                <example>They often perform those songs live at the <marker>awards ceremony</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
@@ -6635,6 +6654,7 @@ USA
         </rule>
         <rule id="A_RB_NN" name="Adverb instead of an adjective">
             <pattern>
+                <token inflected="yes">a</token>
                 <marker>
                     <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after</exception></token>
                     <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes"/></token>
@@ -7363,6 +7383,22 @@ USA
                 <example>All she does is eat.</example>
             </rule>
             <rule>
+                <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
+                    <token regexp="yes">been|was|were|is|are|am></token>
+                    <token postag="RB"></token>
+                    <and>
+                        <token postag="VBD|VBP|VB" postag_regexp="yes"/>
+                        <token chunk="E-NP-singular"/><!-- For "... is usually oil." -->
+                    </and>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">been|was|were|is|are|am></token>
+                    <token postag="RB"></token>
+                    <and>
+                        <token postag="VBD|VBP|VB" postag_regexp="yes"/>
+                        <token chunk="B-NP-singular"/><!-- For "... is usually oil and natural gas." -->
+                    </and>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception><exception postag='NNP'/></token>
                     <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
@@ -7373,12 +7409,14 @@ USA
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
-                <example>It has always been hated.</example>
+                <example>It has always been <marker>written</marker> like this.</example>
                 <example>The area the center of which is here was bombed.</example>
                 <example correction="written">I must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated">The president was always <marker>hate</marker> in Moscow.</example>
                 <example>It has always been liked.</example>
                 <example>As they are differentially <marker>phase</marker> modulated...</example>
+                <example>Indirect consumption is usually <marker>oil</marker>.</example>
+                <example>Indirect consumption is mainly <marker>oil and natural gas</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
@@ -11444,6 +11482,21 @@ USA
         <rulegroup id="PHRASE_REPETITION" name="Repetition of two words ('at the at the')">
             <!--  made more general-->
             <rule>
+                <antipattern><!-- Idiomatic expression -->
+                    <token>as</token>
+                    <token/>
+                    <token>as</token>
+                    <token><match no="1"/></token>
+                    <token regexp="yes">can|could|should</token>
+                    <token>be</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>as</token>
+                    <token regexp="yes">[a-z]+</token>
+                    <token>as</token>
+                    <token><match no="1"  case_conversion="startupper"/></token>
+                    <token postag="NNP" regexp="yes">[A-Z][a-z]+</token>
+                </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>and</exception>\p{L}+</token>
                     <token regexp="yes"><exception>and</exception>\p{L}+</token>
@@ -11455,7 +11508,16 @@ USA
                 <example correction="at the">Hepatology <marker>at the at the</marker> turn of centuries.</example>
                 <example correction="on the">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
                 <example correction="from the">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
-                <example>All we wanted to do was to stand very quietly and look and look and look.</example>
+                <example>All we wanted to do was to stand very quietly <marker>and look and look and look</marker>.</example>
+                <example>In an era where bond yields are already as <marker>low as low can be</marker>, quantitative easing promises to be...</example>
+                <example>The white spots are saturated -- <marker>as white as white can be</marker> -- and all the enhancements that everyone is...</example>
+                <example>What if you're not <marker>as good as good should be</marker>?</example>
+                <example>Northern California dispatches from 2015 were <marker>as bad as bad could be</marker>.</example>
+                <example>He needed a bell <marker>as big as</marker> Big Ben.</example>
+                <example>Very few men were <marker>as big as</marker> Big Rich.</example>
+                <example type="triggers_error">Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
+                <example type="triggers_error">No credit is almost <marker>as bad as</marker> bad credit.</example>
+                <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
         <rulegroup default="off" id="I_VE_A" name="Non-standard contractions '(I've a...)'">

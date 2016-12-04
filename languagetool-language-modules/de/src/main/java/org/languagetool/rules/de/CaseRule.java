@@ -89,6 +89,28 @@ public class CaseRule extends GermanRule {
       token("Trug")
     ),
     Arrays.asList(
+        token("Zahl"),
+        pos("UNKNOWN")
+    ),
+    Arrays.asList(
+        token(","),
+        posRegex(".*ADJ.*|UNKNOWN"),
+        regex("[\\.?!]")
+    ),
+    Arrays.asList(
+        //token("dass"),
+        token("das"),
+        posRegex("PA2:.*"),
+        posRegex("VER:AUX:.*")
+    ),
+    Arrays.asList(
+        //token("dass"),
+        posRegex("PRO:PER:.*|EIG:.*"),
+        token("das"),
+        posRegex("PA2:.*"),
+        posRegex("VER:AUX:.*")
+    ),
+    Arrays.asList(
       token("Treu"),
       token("und"),
       token("Glauben")
@@ -591,7 +613,7 @@ public class CaseRule extends GermanRule {
           AnalyzedTokenReadings nextToken = tokens[i + 1];
           // avoid false alarm for "Das haben wir getan." etc:
           nextTokenIsPersonalOrReflexivePronoun = nextToken.hasPartialPosTag("PRO:PER") || nextToken.getToken().equals("sich") || nextToken.getToken().equals("Sie");
-          if (nextToken.isSentenceEnd()) {
+          if (nextToken.isSentenceEnd() || nextToken.getToken().equals(",")) {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
             continue;
           }
@@ -606,6 +628,10 @@ public class CaseRule extends GermanRule {
           }
         }
         if (isPrevProbablyRelativePronoun(tokens, i)) {
+          continue;
+        }
+        if (prevTokenIsDas && getTokensWithPartialPosTag(tokens, "VER").length == 1) {
+          // ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
           continue;
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
@@ -625,6 +651,10 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private AnalyzedTokenReadings[] getTokensWithPartialPosTag(AnalyzedTokenReadings[] tokens, String partialPosTag) {
+    return Arrays.asList(tokens).stream().filter(token -> token.hasPartialPosTag(partialPosTag)).toArray(size -> new AnalyzedTokenReadings[size]);
   }
 
   @Override
@@ -771,9 +801,11 @@ public class CaseRule extends GermanRule {
           return true;
         }
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr))) ||
+      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
+         hasPartialTag(prevToken, "ART") ||  // "die Verurteilten wurden"
          hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
-         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
+         (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
+         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
     }
     return false;
@@ -781,6 +813,9 @@ public class CaseRule extends GermanRule {
 
   private boolean isNumber(String token) {
     try {
+      if(token.matches("\\d+")) {
+        return true;
+      }
       AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
       return lookup != null && lookup.hasPosTag("ZAL");
     } catch (IOException e) {

@@ -89,9 +89,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<!--          Tiago F. Santos Rules Start         ****START**** -->
 	<!-- ********************************************************** -->
 
- 	     <!-- General gender concordance errors - O > A/AS -->
+  <rulegroup id="GENERAL_GENDER_AGREEMENT_ERRORS" name="Erros de concordância de género (geral)">
+ 	     <!--            General gender concordance errors            -->
 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO" name="Erro de concordância do masculino">
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -109,14 +112,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>O vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
 	</rule>
-
-	<!-- General gender concordance errors - OS > A/AS -->
-	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_2" name="Erro de concordância do masculino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -134,14 +133,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Os vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
 	</rule>
-
-	<!-- General gender concordance errors - A > O/OS -->
-	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do feminino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -158,14 +153,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
-
-     <!-- General gender concordance errors - AS > O/OS -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do feminino">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -182,10 +173,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
 	</rule>
+  </rulegroup>
 
 	<!-- Specific gender concordance errors - A > Masculine Noun -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
@@ -199,7 +190,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 	<suggestion>o \2</suggestion>
 	 	<suggestion>a <match no='2' postag='(A..|N.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
 	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
@@ -215,9 +206,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         	<token postag='(A..|N.)M.+' postag_regexp='yes' regexp='yes'>.+a$
         		<exception regexp='yes'>palavra|letra</exception></token>
 	</pattern>
-		<message>Possível erro de concordância do género.</message>
+		<message>Possível erro de concordância de género.</message>
+		<suggestion>o \2</suggestion>
 		<url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
-			<suggestion>o \2</suggestion>
 		<example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
 	</rule>
 
@@ -260,7 +251,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do género.</message>
+	 <message>Erro de concordância de género.</message>
 	 	<suggestion>a \2</suggestion>
 	 	<suggestion>o <match no='2' postag='(A..|N.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
 	 <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
@@ -268,9 +259,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <example type='correct'>A cadela está no pasto.</example>
 	</rule>
 
-     <!-- General number concordance errors - OS > O -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-       <rule id="ERRO_DE_CONCORDNCIA_DO_MASCULINO_PLURAL_OS_O" name="Erro de concordância do masculino plural">
+  <rulegroup id="GENERAL_NUMBER_AGREEMENT_ERRORS" name="Erros de concordância de número (geral)">
+ 	     <!--            General number concordance errors            -->
+	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
+	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -283,15 +277,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
-
-    <!-- General number concordance errors - O > OS -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS" name="Erro de concordância do plural O-OS">
+	<rule>
 	 <antipattern>
 	 	<token regexp='yes'>tod[oa]</token>
 	 	<token>ouvidos</token>
@@ -308,16 +298,12 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
 	 <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
 	 <example type='correct'>Sou todo ouvidos</example>
 	</rule>
-
-	<!-- General number concordance errors - A > AS -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-    <rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_A_AS" name="Erro de concordância do feminino plural">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
@@ -329,16 +315,11 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]P$2' postag_regexp="yes"/> \3</suggestion>
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
-
-    <!-- General number concordance errors - AS > A -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_AS_A" name="Erro de concordância do feminino singular">
+	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 <marker>
@@ -350,15 +331,17 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância do plural:</message>
-	 <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
-  
-     <!-- General verbal concordance errors - I + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1S" name="Erro de concordância do número do verbo">
+  </rulegroup>
+
+  <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
+     <!--              General verbal concordance errors           -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
+	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
+	<rule>
 	<antipattern>
 	  <marker>
 	  <token/>
@@ -379,14 +362,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu passear|Eu passeara|Eu passearei|Eu passearia|Eu passeasse|Eu passeava|Eu passeei|Eu passeie|Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
 	 <example type="correct">Eu passeio na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - You (Singular) + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2S" name="Erro de concordância do número do verbo">
+	<rule>
 	<antipattern>
 	  <marker>
 	  <token/>
@@ -407,14 +386,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu não passeara|Tu não passearas|Tu não passeares|Tu não passearias|Tu não passearás|Tu não passeasses|Tu não passeaste|Tu não passeava|Tu não passeavas|Tu não passeias|Tu não passeies'><marker>Tu não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - He/She/It + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3S" name="Erro de concordância do número do verbo">
+	<rule>
 	  <antipattern>
 	  <marker>
 	  <token/>
@@ -437,15 +412,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3S0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Ele não passear|Ele não passeara|Ele não passearia|Ele não passeará|Ele não passeasse|Ele não passeava|Ele não passeia|Ele não passeie|Ele não passeou'><marker>Ele não passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Ele não passeia</marker> na praia.</example>
-
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>nós</token>
@@ -456,14 +426,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
  	 <example correction='Nós não passeamo|Nós não passeamos|Nós não passearemos|Nós não passearmos|Nós não passearíamos|Nós não passeemos|Nós não passeámo|Nós não passeámos|Nós não passeáramo|Nós não passeáramos|Nós não passeássemos|Nós não passeávamo|Nós não passeávamos'><marker>Nós não passeia</marker> na praia.</example>
 	 <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-2" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>eu</token>
@@ -477,14 +443,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Eu e Rita passeamo|Eu e Rita passeamos|Eu e Rita passearemos|Eu e Rita passearmos|Eu e Rita passearíamos|Eu e Rita passeemos|Eu e Rita passeámo|Eu e Rita passeámos|Eu e Rita passeáramo|Eu e Rita passeáramos|Eu e Rita passeássemos|Eu e Rita passeávamo|Eu e Rita passeávamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
 	 <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - We + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	 <rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-3" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token regexp='yes'>tu|você|vós|vocês|ele|ela|eles|elas</token>
@@ -497,14 +459,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='VM[CIS].1P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Tu e eu passeamo|Tu e eu passeamos|Tu e eu passearemos|Tu e eu passearmos|Tu e eu passearíamos|Tu e eu passeemos|Tu e eu passeámo|Tu e eu passeámos|Tu e eu passeáramo|Tu e eu passeáramos|Tu e eu passeássemos|Tu e eu passeávamo|Tu e eu passeávamos'><marker>Tu e eu passeio</marker> na praia.</example>
 	 <example type="correct">Tu e eu passeamos na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - You (Plural) + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-15 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <pattern>
 	  <marker>
 	  <token>vós</token>
@@ -515,14 +473,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].2P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='Vós passeai|Vós passeais|Vós passeardes|Vós passeareis|Vós passearíeis|Vós passeaste|Vós passeastes|Vós passeeis|Vós passeárei|Vós passeáreis|Vós passeásseis|Vós passeávei|Vós passeáveis'><marker>Vós passeiam</marker> na praia.</example>
 	 <example type="correct">Vós passeais na praia.</example>
 	</rule>
-
-     <!-- General verbal concordance errors - They + Verb -->
-     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
-	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P" name="Erro de concordância do número do verbo">
+	<rule>
 	 <antipattern>
 	  <marker>
 	  <token>eu</token>
@@ -543,10 +497,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VM[CIS].3P0' postag_regexp='yes'/></suggestion>
-	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
 	 <example correction='elas passearam|elas passearem|elas passeariam|elas passearão|elas passeassem|elas passeavam|elas passeiam|elas passeiem'>Eles e <marker>elas passeamos</marker> na praia.</example>
 	 <example type="correct">Eles e elas passeiam na praia.</example>
 	</rule>
+  </rulegroup>
 
      <!-- General verbal concordance errors - They + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
@@ -584,7 +538,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
         <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
         <pattern>
-          <token regexp="yes" inflected='yes'>(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
+          <token regexp="yes">(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
           <token>-</token>
           <token regexp="yes">(me|te|lh[ea][s]?|se|nos|os)</token>
           <token>que</token>
@@ -593,7 +547,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
         <short>Possível queísmo.</short>
         <example correction="alegrar-se de que">Está bem <marker>alegrar-se que</marker> haja dinheiro para todos.</example>
-        <example correction="Informa-se de que"><marker>Informa-se que</marker> ocorreu alterações ao código.</example>
+        <example correction="Informar-se de que"><marker>Informar-se que</marker> ocorreu alterações ao código.</example>
         <example>Não pareces <marker>alegrar-te de que</marker> tudo está resolvido.</example>
       </rule>
 
@@ -614,7 +568,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
         <!--       PP_V_QUE Queísmo: alegro-me que -> alegro-me de que         -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
--      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
+      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
         <pattern>
           <token postag="PP[12]C.000" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
@@ -693,6 +647,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 <!-- ********************************************************** -->
 
     <!-- Concordance error plural - QUALQUER + PLURAL -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
     <rule id="QUALQUER_PLURAL" name="Erro de concordância do plural QUALQUER + PLURAL">
       <pattern>
 		<marker>
@@ -704,8 +659,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <suggestion>quaisquer</suggestion>
      <example correction="quaisquer">Tratamos de <marker>qualquer</marker> assuntos.</example>	 	 
     </rule>
+-->
 
     <!-- Concordance error plural - QUAISQUER + SINGULAR -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_O. Consider removal
     <rule id="QUAISQUER_PLURAL" name="Erro de concordância do plural QUAISQUER + SINGULAR">
       <pattern>
 		<marker>
@@ -717,6 +674,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <suggestion>qualquer</suggestion>
      <example correction="qualquer">Tratamos de <marker>quaisquer</marker> assunto.</example>	 	 
     </rule>
+-->
 
     <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
     <rule id="FOREM-ADJECTIVE_SINGULAR_FEM" name="Erro de concordância do plural FOREM + ADJ PLURAL FEM">
@@ -836,6 +794,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
     <!-- Concordance error plural - OS + ADJ PLURAL -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
     <rule id="O_ADJ-PLURAL" name="Erro de concordância do plural OS + ADJ PLURAL">
       <pattern>
 		<marker>
@@ -847,8 +806,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <suggestion>os</suggestion>
      <example correction="os">Incluindo <marker>o</marker> seguintes temas.</example>	 	 
     </rule>
+-->
 
     <!-- Concordance error plural - O + ADJ SINGULAR -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_OC. Consider removal
     <rule id="OS_ADJ-SINGULAR" name="Erro de concordância do plural O + ADJ SINGULAR">
       <pattern>
 		<marker>
@@ -860,7 +821,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <suggestion>o</suggestion>
      <example correction="o">Incluindo <marker>os</marker> seguinte tema.</example>	 	 
     </rule>
-
+-->
 		
 	<!-- Concordance error plural - A GENTE + PLURAL VERB > A GENTE + SINGULAR VERB -->
     <rule id="A_GENTE-SINGULAR_PLURAL-VERB" name="Erro de concordância do plural A GENTE + SINGULAR VERB">
@@ -932,6 +893,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
     <!-- Concordance gender - UM > UMA -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal -->
     <rule id="UM_UMA" name="Erro de concordância UM-UMA">
       <pattern>
         <marker>
@@ -944,7 +906,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <example correction="uma">Quero <marker>um</marker> foto dela.</example>
     </rule>
 
+
     <!-- Concordance gender - UMA > UM -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal -->
     <rule id="UMA_UM" name="Erro de concordância UMA-UM">
       <pattern>
         <marker>
@@ -958,6 +922,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 
     <!-- Concordance gender - UM > UMA + ADJ + NOUN -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal -->
     <rule id="UM_UMA_ADJ_NOUN" name="Erro de concordância UM-UMA + ADJ + NOUN">
       <pattern>
         <marker>
@@ -971,7 +936,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
      <example correction="uma">Quero <marker>um</marker> bonita foto dela.</example>
     </rule>
 
+
     <!-- Concordance gender - UMA > UM + ADJ + NOUN -->
+<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal -->
     <rule id="UMA_UM_ADJ_NOUN" name="Erro de concordância UMA-UM + ADJ + NOUN">
       <pattern>
         <marker>
@@ -5844,7 +5811,44 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 -->
 </category>
 
+<category id='DUPLICATION' name='Repetições' type='duplication'>
+
+  <rulegroup id="PHRASE_REPETITION" name="Duplicação de palavras (por ali por ali)">
+<!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
+          <short>Frase duplicada</short>
+      <rule>
+          <pattern>
+              <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token><match no="0"/></token>
+              <token><match no="1"/></token>
+          </pattern>
+          <message>Esta frase é duplicada. Talvez queira, apenas, dizer <suggestion>\1 \2</suggestion>.</message>
+          <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
+          <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa table</example>
+          <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
+          <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token><match no="0"/></token>
+              <token><match no="1"/></token>
+              <token><match no="2"/></token>
+          </pattern>
+          <message>Esta frase é duplicada. Talvez queira, apenas, dizer <suggestion>\1 \2 \3</suggestion>.</message>
+          <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+      </rule>
+  </rulegroup>
+
+</category>
+
 <category id="REDUNDANCY" name="Redundância">
+
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
 
     <!-- ANTES PREFIRO prefiro -->
     <rule id="ANTES_PREFIRO" name="prefiro">
@@ -5941,9 +5945,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 				tokenizer spreadsheet in the forum	     -->
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rulegroup type='style' id="PLEONASMOS" name="Pleonasmos">
+	<!--	  TODO Write better examples for all these rules	    -->
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
 	<short>Pleonasmo.</short>
 		<!-- CEGO DO OLHOS cego                                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CEGO" name="cego">
       <pattern>
         <token inflected='yes'>cego</token>
@@ -5951,13 +5956,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>olhos</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='cego'><marker>cego dos olhos</marker></example>
     </rule>
-
 		<!-- BATER PALMAS COM AS MÃOS bater palmas                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PALMAS" name="bater palmas">
       <pattern>
         <token inflected='yes'>bater</token>
@@ -5967,26 +5968,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>mãos</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
     </rule>
-
 		<!-- CLIMATOLOGIA climatologia                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CLIMATOLOGIA" name="climatologia">
       <pattern>
         <token inflected='yes'>climatologia</token>
 	<token>geográfica</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='climatologia'><marker>climatologia geográfica</marker></example>
     </rule>
-
 		<!-- DE CHAPÉU NA CABEÇA de chapéu                           -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CHAPEU" name="de chapéu">
       <pattern>
         <token>de</token>
@@ -5995,13 +5988,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token inflected='yes'>cabeça</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
     </rule>
-
 		<!-- MALUCO DA CABEÇA maluco                                 -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_MALUCO" name="maluco">
       <pattern>
         <token inflected='yes'>maluco</token>
@@ -6009,13 +5998,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token regexp='yes'>cabeças?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='maluco'><marker>maluco da cabeça</marker></example>
     </rule>
-
 		<!-- SUBIR PARA CIMA subir                                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SUBIR" name="subir para cima">
       <pattern>
         <token inflected='yes'>subir</token>
@@ -6023,13 +6008,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>cima</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='subir'><marker>subir para cima</marker></example>
     </rule>
-
 		<!-- DESCER PARA BAIXO  descer                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_DESCER" name="descer para baixo">
       <pattern>
         <token inflected='yes'>descer</token>
@@ -6037,13 +6018,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>baixo</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='descer'><marker>descer para baixo</marker></example>
     </rule>
-
 		<!-- ENTRAR PARA DENTRO  entrar                              -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ENTRAR" name="entrar para dentro">
       <pattern>
         <token inflected='yes'>entrar</token>
@@ -6051,13 +6028,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>dentro</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='entrar'><marker>entrar para dentro</marker></example>
     </rule>
-
 		<!-- SAIR PARA FORA  sair                                    -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SAIR" name="sair para fora">
       <pattern>
         <token inflected='yes'>sair</token>
@@ -6065,13 +6038,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>fora</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='sair'><marker>sair para fora</marker></example>
     </rule>
-
 		<!-- HEMORRAGIA DE SANGUE  hemorragia                        -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
 <!--    <rule id="PL_HEMORRAGIA" name="hemorragia de sangue">
       <pattern>
         <token inflected='yes'>hemorragia</token>
@@ -6079,13 +6048,10 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>sangue</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url> -->
-	<!--		TODO Write better examples		-->
+ -->
 <!--	<example correction='hemorragia'><marker>hemorragia de sangue</marker></example>
     </rule>-->
-
 		<!-- UNANIMIDADE DE TODOS  unanimidade                       -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_UNANIMIDADE" name="unanimidade de todos">
       <pattern>
         <token inflected='yes'>unanimidade</token>
@@ -6093,26 +6059,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>todos</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='unanimidade'><marker>unanimidade de todos</marker></example>
     </rule>
-
 		<!-- ACABAMENTO FINAL  acabamento                            -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ACABAMENTO" name="acabamento final">
       <pattern>
         <token inflected='yes'>acabamento</token>
 	<token regexp='yes'>final|finais</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='acabamento'><marker>acabamento final</marker></example>
     </rule>
-
 		<!-- AMANHECER O DIA  amanhecer                              -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_AMANHECER" name="amanhecer o dia">
       <pattern>
         <token inflected='yes'>amanhecer</token>
@@ -6120,39 +6078,27 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>dia</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='amanhecer'><marker>amanhecer o dia</marker></example>
     </rule>
-
 		<!-- SURPRESA INESPERADA  surpresa                           -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SURPRESA" name="surpresa inesperada">
       <pattern>
         <token inflected='yes'>surpresa</token>
 	<token regexp='yes'>inesperadas?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='surpresa'><marker>surpresa inesperada</marker></example>
     </rule>
-
 		<!-- CONVIVER JUNTOS  conviver                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CONVIVER" name="conviver juntos">
       <pattern>
         <token inflected='yes'>conviver</token>
 	<token>juntos</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='conviver'><marker>conviver juntos</marker></example>
     </rule>
-
 		<!-- DECAPITAR A CABEÇA  decapitar                           -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_DECAPITAR" name="decapitar a cabeça">
       <pattern>
         <token inflected='yes'>decapitar</token>
@@ -6160,13 +6106,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token regexp='yes'>cabeças?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='decapitar'><marker>decapitar a cabeça</marker></example>
     </rule>
-
 		<!-- ENCARAR DE FRENTE  encarar                              -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ENCARAR" name="encarar de frente">
       <pattern>
         <token inflected='yes'>encarar</token>
@@ -6174,52 +6116,36 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>frente</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='encarar'><marker>encarar de frente</marker></example>
     </rule>
-
 		<!-- GRITAR ALTO  gritar                                     -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_GRITAR" name="gritar alto">
       <pattern>
         <token inflected='yes'>gritar</token>
 	<token>alto</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='gritar'><marker>gritar alto</marker></example>
     </rule>
-
 		<!-- SUSSURAR BAIXO  sussurar                                -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SUSSURAR" name="sussurar baixo">
       <pattern>
         <token inflected='yes'>sussurar</token>
 	<token>baixo</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='sussurar'><marker>sussurar baixo</marker></example>
     </rule>
-
 		<!-- CERTEZA ABSOLUTA  certeza                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CERTEZA" name="certeza absoluta">
       <pattern>
         <token inflected='yes'>certeza</token>
 	<token>absoluta</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='certeza'><marker>certeza absoluta</marker></example>
     </rule>
-
 		<!-- CHEIRAR COM O NARIZ  cheirar                            -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CHEIRAR" name="cheirar com o nariz">
       <pattern>
         <token inflected='yes'>cheirar</token>
@@ -6228,13 +6154,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>nariz</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='cheirar'><marker>cheirar com o nariz</marker></example>
     </rule>
-
 		<!-- ELO DE LIGAÇÃO  elo                                     -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ELO" name="elo de ligação">
       <pattern>
         <token inflected='yes'>elo</token>
@@ -6242,13 +6164,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>ligação</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='elo'><marker>elo de ligação</marker></example>
     </rule>
-
 		<!-- DUPLA DE DOIS  dupla                                    -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_DUPLA" name="dupla de dois">
       <pattern>
         <token inflected='yes'>dupla</token>
@@ -6256,26 +6174,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>dois</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='dupla'><marker>dupla de dois</marker></example>
     </rule>
-
 		<!-- VERDADE VERDADEIRA  verdade                             -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_VERDADE" name="verdade verdadeira">
       <pattern>
         <token inflected='yes'>verdade</token>
 	<token regexp='yes'>verdadeiras?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='verdade'><marker>verdade verdadeira</marker></example>
     </rule>
-
 		<!-- OLHAR COM OS OLHOS  olhar                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_OLHAR" name="olhar com os olhos">
       <pattern>
         <token inflected='yes'>olhar</token>
@@ -6284,13 +6194,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>olhos</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='olhar'><marker>olhar com os olhos</marker></example>
     </rule>
-
 		<!-- LAMBER COM A LÍNGUA  lamber                             -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_LAMBER" name="lamber com a língua">
       <pattern>
         <token inflected='yes'>lamber</token>
@@ -6299,13 +6205,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>língua</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='lamber'><marker>lamber com a língua</marker></example>
     </rule>
-
 		<!-- ISTO É UM FATO REAL  isto                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ISTO" name="isto é um fato real">
       <pattern>
         <token>isto</token>
@@ -6315,13 +6217,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token inflected='yes'>real</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1 \2 \3 \4</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='isto é um facto'><marker>isto é um facto real</marker></example>
     </rule>
-
 		<!-- MULTIDÃO DE PESSOAS (GENTE)  multidão                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_MULTIDÃO" name="multidão de pessoas (gente)">
       <pattern>
         <token inflected='yes'>multidão</token>
@@ -6329,13 +6227,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token regexp='yes'>pessoas|gente</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='multidão'><marker>multidão de pessoas</marker></example>
     </rule>
-
 		<!-- MORDER COM OS DENTES  morder                            -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_MORDER" name="morder com os dentes">
       <pattern>
         <token inflected='yes'>morder</token>
@@ -6344,13 +6238,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>dentes</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='morder'><marker>morder com os dentes</marker></example>
     </rule>
-
 		<!-- ESTREIA PELA PRIMEIRA VEZ  estreia                      -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ESTREIA" name="estreia pela primeira vez">
       <pattern>
         <token inflected='yes'>estrear</token>
@@ -6359,52 +6249,36 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>vez</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='estreia'><marker>estreia pela primeira vez</marker></example>
     </rule>
-
 		<!-- PANORAMA GERAL  panorama                                -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PANORAMA" name="panorama geral">
       <pattern>
         <token inflected='yes'>panorama</token>
 	<token>geral</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='panorama'><marker>panorama geral</marker></example>
     </rule>
-
 		<!-- PREFIRO MAIS  prefiro                                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PREFIRO" name="prefiro mais">
       <pattern>
         <token inflected='yes'>preferir</token>
 	<token>mais</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='prefiro'><marker>prefiro mais</marker></example>
     </rule>
-
 		<!-- MAIS MELHOR  mais                                       -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_MAIS" name="mais melhor">
       <pattern>
         <token inflected='yes'>mais</token>
 	<token>melhor</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='mais'><marker>mais melhor</marker></example>
     </rule>
-
 		<!-- GANHAR DE GRAÇA  ganhar                                 -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_GANHAR" name="ganhar de graça">
       <pattern>
         <token inflected='yes'>ganhar</token>
@@ -6412,39 +6286,27 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>graça</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='ganhar'><marker>ganhar de graça</marker></example>
     </rule>
-
 		<!-- CRIAR NOVAS  criar                                      -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CRIAR" name="criar novas">
       <pattern>
         <token inflected='yes'>criar</token>
 	<token>novas</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='criar'><marker>criar novas</marker></example>
     </rule>
-
 		<!-- PRÓPRIA AUTOBIOGRAFIA  própria                          -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PRÓPRIA" name="própria autobiografia">
       <pattern>
         <token regexp='yes'>próprias?</token>
 	<token regexp='yes'>autobiografias?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\2</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='autobiografia'><marker>própria autobiografia</marker></example>
     </rule>
-
 		<!-- PAÍSES DO MUNDO  países                                 -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PAÍSES" name="países do mundo">
       <pattern>
         <token inflected='yes'>país</token>
@@ -6452,13 +6314,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>mundo</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='países'><marker>países do mundo</marker></example>
     </rule>
-
 		<!-- VIÚVO DA FALECIDA  viúvo                                -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_VIÚVO" name="viúvo da falecida">
       <pattern>
         <token inflected='yes'>viúvo</token>
@@ -6466,26 +6324,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>falecida</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='viúva'><marker>viúva da falecida</marker></example>
     </rule>
-
 		<!-- FACTO VERÍDICO  facto                                   -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_FACTO" name="facto verídico">
       <pattern>
         <token inflected='yes' regexp='yes'>fato|facto</token>
 	<token regexp='yes'>verídicos?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='fato'><marker>fato verídico</marker></example>
     </rule>
-
 		<!-- ALMIRANTE DA MARINHA  almirante                         -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ALMIRANTE" name="almirante da marinha">
       <pattern>
         <token inflected='yes'>almirante</token>
@@ -6493,26 +6343,18 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>marinha</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='almirante'><marker>almirante da marinha</marker></example>
     </rule>
-
 		<!-- DEMENTE MENTAL  demente                                 -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_DEMENTE" name="demente mental">
       <pattern>
         <token inflected='yes'>demente</token>
 	<token>mental</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='demente'><marker>demente mental</marker></example>
     </rule>
-
 		<!-- SUBIR PARA SUICIDOU(-SE) A SI MESMO  suicidou(-se)      -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SUICIDOU" name="suicidar(-se) a si mesmo">
       <pattern>
         <token inflected='yes' regexp='yes'>suicidar|suicidou</token>
@@ -6523,13 +6365,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>mesmo</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='suicidou-se'><marker>suicidou-se a si mesmo</marker></example>
     </rule>
-
 		<!-- COMER COM A BOCA  comer                                 -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_COMER" name="comer com a boca">
       <pattern>
         <token inflected='yes'>comer</token>
@@ -6538,13 +6376,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>boca</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='comer'><marker>comer com a boca</marker></example>
     </rule>
-
 		<!-- ANDAR OS PÉS  andar                                     -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ANDAR" name="andar os pés">
       <pattern>
         <token inflected='yes'>andar</token>
@@ -6553,13 +6387,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>pés</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='andar'><marker>andar os pés</marker></example>
     </rule>
-
 		<!-- ADIAR PARA DEPOIS  adiar                                -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ADIAR" name="adiar para depois">
       <pattern>
         <token inflected='yes'>adiar</token>
@@ -6567,13 +6397,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>depois</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='adiar'><marker>adiar para depois</marker></example>
     </rule>
-
 		<!-- 24 HORAS POR DIA  24                                    -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_24" name="24 horas por dia">
       <pattern>
         <token>24</token>
@@ -6582,52 +6408,36 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>dia</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='24 horas'><marker>24 horas por dia</marker></example>
     </rule>
-
 		<!-- COMPARECER PESSOALMENTE  comparecer                     -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_COMPARECER" name="comparecer pessoalmente">
       <pattern>
         <token inflected='yes'>comparecer</token>
 	<token>pessoalmente</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='comparecer'><marker>comparecer pessoalmente</marker></example>
     </rule>
-
 		<!-- CONCLUSÃO FINAL  conclusão                              -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_CONCLUSÃO" name="conclusão final">
       <pattern>
         <token inflected='yes'>conclusão</token>
 	<token>final</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='conclusão'><marker>conclusão final</marker></example>
     </rule>
-
 		<!-- MAR SALGADO  mar                                        -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_MAR" name="mar salgado">
       <pattern>
         <token inflected='yes'>mar</token>
 	<token>salgado</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='mar'><marker>mar salgado</marker></example>
     </rule>
-
 		<!-- SURDO DO OUVIDO  surdo                                  -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SURDO" name="surdo do ouvido">
       <pattern>
         <token regexp='yes'>surdos?</token>
@@ -6635,13 +6445,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>ouvido</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='surdo'><marker>surdo do ouvido</marker></example>
     </rule>
-
 		<!-- ARDER EM CHAMAS  arder                                  -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ARDER" name="arder em chamas">
       <pattern>
         <token inflected='yes'>arder</token>
@@ -6649,37 +6455,27 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<token>chamas</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='arder'><marker>arder em chamas</marker></example>
     </rule>
-
 		<!-- ÁGUA MOLHADA  água                                      -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ÁGUA" name="água molhada">
       <pattern>
         <token regexp='yes'>águas?</token>
 	<token regexp='yes'>molhadas?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='água'><marker>água molhada</marker></example>
     </rule>
-
 		<!-- PÁSSAROS ALADOS  pássaros                               -->
-		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_PÁSSAROS" name="pássaros alados">
       <pattern>
         <token inflected='yes'>pássaro</token>
 	<token inflected='yes'>alado</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
-	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
-	<!--		TODO Write better examples		-->
 	<example correction='pássaros'><marker>pássaros alados</marker></example>
     </rule>
-     </rulegroup>
+  </rulegroup>
 
 </category>
 
@@ -13363,6 +13159,48 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
     <category id="STYLE" name="Estilo" type="style">
 
+	<!-- EVITAR A FORMA PASSIVA Evitar formas passivas de discurso	-->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+    <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
+       <pattern>
+       <!--  Do not include 'estar' in order to limit positives
+                TODO Make this a percentage based rule [java?]          -->
+	  <token inflected='yes'>ser</token>
+	  <token postag='V.P.+' postag_regexp='yes'/>
+        </pattern>
+	<message>Evite a voz passiva.</message>
+        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
+	<example type='incorrect'>O trabalho <marker>foi feito</marker> por ele.</example>
+	<example type='correct'>Ele <marker>fez</marker> o trabalho.</example>
+    </rule>
+
+  <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva (todas a formas)' type='style' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+    	<!-- 			Synthetic Passive Voice			-->
+    <rule>
+      <pattern>
+	  <token postag='V...3.+' postag_regexp='yes'>
+	  	<exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
+	  <token spacebefore='no'>-</token>
+	  <token spacebefore='no'>se</token>
+      </pattern>
+	<message>Evite a voz passiva.</message>
+        <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
+	<example type='incorrect'>O trabalho <marker>fez-se</marker>.</example>
+	<example type='correct'>Alguém <marker>fez</marker> o trabalho.</example>
+    </rule>
+	<!-- 		Analitic Passive Voice Complement	        -->
+    <rule>
+        <pattern>
+	  <token postag='V.P.+' postag_regexp='yes'/>
+       </pattern>
+	<message>Evite a voz passiva.</message>
+	<url>https://portugues-fcr.blogspot.pt/2010/12/funcoes-sintacticas-complemento-agente.html</url>
+	<example type='incorrect'>Caso <marker>conhecido</marker> de todos.</example>
+	<example type='correct'>Todos <marker>conhecem</marker> o caso.</example>
+    </rule>
+  </rulegroup>
+
 		<!--          Style rules from English grammar.xml      - START-->
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
         <rule id="PROFANITY" name="Profanidade">
@@ -13391,7 +13229,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <rule id="E_NO_COMECO" name="Frase começa com 'E' ou 'Mas'">
             <pattern>
                 <token postag='SENT_START'/>
-                <token regexp="yes">E|Mas</token>
+                <token regexp="yes">E|Mas|Ou</token>
             </pattern>
             <message>Estilisticamente '\2' só deve ser utilizado com efeito dramático, e muito raramente.</message>
             <url>http://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>

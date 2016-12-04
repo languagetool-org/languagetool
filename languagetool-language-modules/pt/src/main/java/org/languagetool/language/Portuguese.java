@@ -69,7 +69,7 @@ public class Portuguese extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"CV"};
+    return new String[]{"", "CV", "GW", "MO", "ST", "TL"};
   }
 
   @Override
@@ -94,6 +94,9 @@ public class Portuguese extends Language {
     return tagger;
   }
 
+  /**
+   * @since 3.6
+   */
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
@@ -102,6 +105,9 @@ public class Portuguese extends Language {
     return disambiguator;
   }
 
+  /**
+   * @since 3.6
+   */
   @Override
   public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
@@ -129,18 +135,24 @@ public class Portuguese extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages,
+                Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
+                Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
             new LongSentenceRule(messages),
-            new UppercaseSentenceStartRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this,
+                Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
+                Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new WordRepeatBeginningRule(messages, this),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
+            new PortugueseReplaceRule2(messages),
+            new PortugueseClicheRule(messages),
             new PortugueseWordRepeatRule(messages, this)
             //new PortugueseWrongWordInContextRule(messages)
     );
