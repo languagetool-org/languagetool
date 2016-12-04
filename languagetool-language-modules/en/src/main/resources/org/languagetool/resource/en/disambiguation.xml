@@ -2351,10 +2351,10 @@
     </rule>
     <rule name="those/these + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
         <pattern>
-            <token regexp="yes">th[eo]se</token>
+            <token regexp="yes">those</token>
             <marker>
                 <and>
-                <token postag="VB[PN]" postag_regexp="yes"/>
+                <token postag="VBD" postag_regexp="yes"/>
                 <token postag="NN(:U?N)?" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -2363,6 +2363,22 @@
         <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
         <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
                  outputform="illustrated[illustrate/VBN]">Those <marker>illustrated</marker> are a prime example.</example>
+    </rule>
+    <rule name="those/these + VBN/NN + are -> NN" id="DT_plural_VBNNN_NN">
+        <!-- So cases like 'These book are ...' can be detected by the rules: -->
+        <pattern>
+            <token regexp="yes">th[eo]se</token>
+            <marker>
+                <and>
+                    <token postag="VB[PN]" postag_regexp="yes"/>
+                    <token postag="NN(:U?N)?" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token>are</token>
+        </pattern>
+        <disambig action="remove" postag="VB[DP]?"/>
+        <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]"
+                 outputform="book[book/NN]">These <marker>book</marker> are a prime example.</example>
     </rule>
     <rule name="those/these + so + VBN/VBD/JJ -> so = JJ" id="DT_plural_so_vbn">
         <pattern>
