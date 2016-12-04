@@ -516,15 +516,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </marker>
             <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"/><exception>hacia</exception></token>
         </pattern>
-        <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
-        <short>sé lleva tilde delante de \2</short>
+        <message>Si es del verbo "saber", lleva tilde.</message>
+        <suggestion>sé</suggestion>
         <example correction="sé">Qué <marker>se</marker> yo.</example>
         <example correction="sé">Pero <marker>se</marker> quién fue.</example>
         <example>Ella se fue.</example>
         <example>Ella se lo dijo.</example>
     </rule>
 
-    <rule id="SE_HACIA" name="Se + hacia es se hacía" type="misspelling">
+    <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
         <pattern>
             <token regexp="yes">[sl]e|la</token>
             <marker><token>hacia</token></marker>
@@ -537,6 +537,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Depende de lo hacia abajo que apuntes.</example>
     </rule>
     
+    <rule id="MAS" name="mas/más">
+        <pattern>
+            <token>mas</token>
+        </pattern>
+        <message>Si no es conjunción (= pero, sino), lleva tilde.</message>
+        <suggestion>más</suggestion>
+        <example correction="más">No hay <marker>mas</marker>.</example>
+        <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
+    </rule>
+
     <rulegroup id="AUN" name="aún/anun">
         <!-- AÚN > AUN -->
         <rule>
