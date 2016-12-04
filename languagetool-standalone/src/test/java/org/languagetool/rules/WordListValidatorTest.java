@@ -26,6 +26,7 @@ import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,6 +43,12 @@ public class WordListValidatorTest {
           "·" +   // for Catalan
           "./-]+"
   );
+
+  // Words that are valid but with special characters so are that we don't want to
+  // allow them in general:
+  private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Hidschāb/S"
+  ));
 
   @Test
   public void testWordListValidity() throws IOException {
@@ -71,7 +78,9 @@ public class WordListValidatorTest {
 
   private void validateWords(List<String> words, String spellingFileName) {
     for (String word : words) {
-      if (!VALID_CHARS.matcher(word).matches()) {
+      if (VALID_WORDS.contains(word)) {
+        // okay
+      } else if (!VALID_CHARS.matcher(word).matches()) {
         fail("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
              " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
       }
