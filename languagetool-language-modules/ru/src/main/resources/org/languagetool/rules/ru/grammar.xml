@@ -4456,13 +4456,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «в контакте с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <message>После словосочетания «в сочетании с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в сочетании с молоком">Дыню нельзя употреблять <marker>в сочетании с молока</marker>.</example>
             <example>Дыню нельзя употреблять в сочетании с молоком.</example>
           </rule>
         </rulegroup>
-          <rulegroup id="v_sravnenii_s" name="Грамматические ошибки «в сравнении с ...»">
+        <rulegroup id="v_sravnenii_s" name="Грамматические ошибки «в сравнении с ...»">
           <rule>
             <pattern>
                 <token>в</token>
@@ -4475,7 +4475,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="в сравнении со скоростью">Но <marker>в сравнении со скорость</marker> света, скорость «Пионера» выглядит просто черепашьей.</example>
             <example>Но в сравнении со скоростью света, скорость «Пионера» выглядит просто черепашьей.</example>
           </rule>
-        </rulegroup>                    
+        </rulegroup>
+        <rulegroup id="naravne_s" name="Грамматические ошибки «наравне с ...»">
+          <rule>
+            <pattern>
+                <token>наравне</token>
+                <token regexp="yes">с|со</token>
+                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+            </pattern>
+            <message>После словосочетания «наравне с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):.*"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
+            <short>Требуется творительный падеж</short>
+            <example correction="наравне с облаками">Лететь <marker>наравне с облаках</marker>.</example>
+            <example>Лететь наравне с облаками.</example>
+          </rule>
+        </rulegroup>
+        <rule id="grammar_v_protivorechii_s" name="«В противоречие с»">
+            <pattern>
+                <token>в</token>
+                <token>противоречие</token>
+                <token>с</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:.*"><exception  postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):.*" postag_replace="NN:($1):($2):T" /></suggestion>.</message>     
+            <short>Грамматическая ошибка.</short>
+            <example correction="в противоречие с правилами">Это вступает <marker>в противоречие с правил</marker>.</example>
+            <example>Это вступает в противоречие с правилами.</example>
+        </rule>                     
         <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
             <pattern>
                 <token inflected="yes">скучать</token>
