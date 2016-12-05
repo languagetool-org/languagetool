@@ -5817,6 +5817,34 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
           <short>Frase duplicada</short>
       <rule>
+          <antipattern>
+             <token>um</token>
+             <token>amigo</token>
+             <token>de</token>
+          </antipattern>
+          <pattern>
+              <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token regexp="yes"><exception>e</exception>\p{L}+</token>
+              <token><match no="0"/></token>
+              <token><match no="1"/></token>
+              <token><match no="2"/></token>
+          </pattern>
+          <message>Esta frase é duplicada. Talvez queira, apenas, dizer <suggestion>\1 \2 \3</suggestion>.</message>
+          <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+          <example>Um amigo de um amigo de seu pai não é necessariamente um amigo.</example>
+      </rule>
+      <rule>
+          <antipattern>
+             <token>passo</token>
+             <token>a</token>
+             <token>passo</token>
+          </antipattern>
+          <antipattern>
+             <token>dia</token>
+             <token>a</token>
+             <token>dia</token>
+          </antipattern>
           <pattern>
               <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
               <token regexp="yes"><exception>e</exception>\p{L}+</token>
@@ -5828,18 +5856,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
           <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa table</example>
           <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
           <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
-      </rule>
-      <rule>
-          <pattern>
-              <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
-              <token regexp="yes"><exception>e</exception>\p{L}+</token>
-              <token regexp="yes"><exception>e</exception>\p{L}+</token>
-              <token><match no="0"/></token>
-              <token><match no="1"/></token>
-              <token><match no="2"/></token>
-          </pattern>
-          <message>Esta frase é duplicada. Talvez queira, apenas, dizer <suggestion>\1 \2 \3</suggestion>.</message>
-          <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+          <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
+          <example>...integrar o dia a dia a partir do...</example>
       </rule>
   </rulegroup>
 
