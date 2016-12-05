@@ -105,7 +105,7 @@ public class PatternRuleTest {
         int sizeOfErrorMessage = ((PatternRule) rule).getMessage().length();
         if (sizeOfShortMessage >= sizeOfErrorMessage) {
           System.err.println("Warning: The content of <short> should be smaller than the content of"
-              + " <message>). Language: " + rule.language.getName() + ". Rule: " + rule.getId());
+              + " <message>. Language: " + rule.language.getName() + ". Rule: " + rule.getId());
         }
     }
   }
