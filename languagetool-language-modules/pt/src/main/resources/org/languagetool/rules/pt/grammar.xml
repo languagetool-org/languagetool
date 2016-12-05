@@ -5813,6 +5813,37 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
 <category id='DUPLICATION' name='Repetições' type='duplication'>
 
+    <rule id="CONJUNCTION_REPETITION" name="Repetição de conjunções" default='on'>
+        <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
+            <pattern>
+                <token regexp="yes"  skip='6'>mas|embora|porém|todavia|senão|obstante|contudo|logo|portanto|conforme|entretanto|entanto|também|além|demais|ademais
+                  <exception scope='next' postag="_PUNCT"/></token>
+                <marker>
+                  <token><match no="0"/></token>
+                </marker>
+            </pattern>
+            <message>Repetição incorreta.</message>
+            <example correction="">Também escreveu <marker>também</marker> para um jornal nacional.</example>
+            <example correction="">Embora não é <marker>embora</marker> definitivo.</example>
+            <example>Seja por vergonha, seja por timidez.</example>
+        </rule>
+
+    <rule id="REPEATED_WORDS" name="Palavras repetidas" default="on">
+	<!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
+       <pattern>
+         <token/>
+         <token  skip='-1'/>
+         <marker>
+           <token><match no="1"/><exception postag='(C|R|D|P|R|SP|Z).+' postag_regexp='yes'/></token>
+         </marker>
+       </pattern>
+       <message>Para melhorar o texto, procure variar mais os termos utilizados.</message>
+       <short>Problema de estilo. Palavra repetida</short>
+       <example correction="">Saiu de carro, logo depois de pegar nas chaves do <marker>carro</marker>.</example>
+       <example type='incorrect'>As repetições empobrecem o texto, porque as <marker>repetições</marker> são aborrecidas de ler.</example>
+       <example>Não virá mais.</example>
+    </rule>
+
   <rulegroup id="PHRASE_REPETITION" name="Duplicação de palavras (por ali por ali)">
 <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
           <short>Frase duplicada</short>
