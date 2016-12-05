@@ -36,7 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -90,24 +89,23 @@ public class PatternRuleTest {
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant2));
   }
   
-  @Ignore
   @Test
   public void shortMessageIsSmallerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
       MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
       for (AbstractPatternRule rule : getAllPatternRules(lang, languageTool)) {
-        failIfShortMessageSmallerThanErrorMessage(rule);
+        warnIfShortMessageSmallerThanErrorMessage(rule);
       }
     }
   }
 
-  private void failIfShortMessageSmallerThanErrorMessage(AbstractPatternRule rule) {
+  private void warnIfShortMessageSmallerThanErrorMessage(AbstractPatternRule rule) {
       if (rule instanceof PatternRule) {
         int sizeOfShortMessage = ((PatternRule) rule).getShortMessage().length();
         int sizeOfErrorMessage = ((PatternRule) rule).getMessage().length();
         if (sizeOfShortMessage >= sizeOfErrorMessage) {
-          fail("The content of <short> should be smaller than the content of <message>). "
-              + "Language: " + rule.language.getName() + ". Rule: " + rule.getId());
+          System.err.println("Warning: The content of <short> should be smaller than the content of"
+              + " <message>). Language: " + rule.language.getName() + ". Rule: " + rule.getId());
         }
     }
   }
