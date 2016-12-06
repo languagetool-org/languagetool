@@ -654,7 +654,7 @@ public class CaseRule extends GermanRule {
   }
 
   private AnalyzedTokenReadings[] getTokensWithPartialPosTag(AnalyzedTokenReadings[] tokens, String partialPosTag) {
-    return Arrays.asList(tokens).stream().filter(token -> token.hasPartialPosTag(partialPosTag)).toArray(size -> new AnalyzedTokenReadings[size]);
+    return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).toArray(size -> new AnalyzedTokenReadings[size]);
   }
 
   @Override

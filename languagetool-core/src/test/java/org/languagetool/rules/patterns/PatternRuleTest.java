@@ -18,20 +18,43 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
-import org.languagetool.*;
-import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.FakeLanguage;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.XMLValidator;
+import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CorrectExample;
+import org.languagetool.rules.ErrorTriggeringExample;
+import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * @author Daniel Naber
@@ -65,9 +88,48 @@ public class PatternRuleTest {
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant2));
   }
+  
+  @Test
+  public void shortMessageIsSmallerThanErrorMessage() throws IOException {
+    for (Language lang : Languages.get()) {
+      MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+      for (AbstractPatternRule rule : getAllPatternRules(lang, languageTool)) {
+        warnIfShortMessageLongerThanErrorMessage(rule);
+      }
+    }
+  }
+
+  private void warnIfShortMessageLongerThanErrorMessage(AbstractPatternRule rule) {
+      if (rule instanceof PatternRule) {
+        String shortMessage = ((PatternRule) rule).getShortMessage();
+        int sizeOfShortMessage = shortMessage.length();
+        int sizeOfErrorMessage = rule.getMessage().length();
+        if (sizeOfShortMessage >= sizeOfErrorMessage) {
+          if (shortMessage.equals(rule.getMessage())) {
+            System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
+                    + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                    + "  Short: " + shortMessage + "\n"
+                    + "  Long:  " + rule.getMessage());
+          } else {
+            System.err.println("Warning: The content of <short> should be smaller than the content of "
+                    + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                    + "  Short: " + shortMessage + "\n"
+                    + "  Long:  " + rule.getMessage());
+          }
+        }
+    }
+  }
+  
+  private List<AbstractPatternRule> getAllPatternRules(Language language, MultiThreadedJLanguageTool languageTool) throws IOException {
+    List<AbstractPatternRule> rules = new ArrayList<>();
+    for (String patternRuleFileName : language.getRuleFileNames()) {
+      rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
+    }
+    return rules;
+  }
 
   /**
-   * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
+   * To be called from language modules. Languages.get() knows only the languages that's in the classpath.
    * @param ignoredLanguage ignore this language - useful to speed up tests from languages that 
    *                        have another language as a dependency
    */
@@ -160,10 +222,7 @@ public class PatternRuleTest {
     }
     MultiThreadedJLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLanguageTool);
-    List<AbstractPatternRule> rules = new ArrayList<>();
-    for (String patternRuleFileName : lang.getRuleFileNames()) {
-      rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
-    }
+    List<AbstractPatternRule> rules = getAllPatternRules(lang, languageTool);
     for (AbstractPatternRule rule : rules) {
       // Test the rule pattern.
       /* check for useless 'marker' elements commented out - too slow to always run:
