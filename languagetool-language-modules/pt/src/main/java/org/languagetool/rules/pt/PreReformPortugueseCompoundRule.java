@@ -35,9 +35,9 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
   public PreReformPortugueseCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
             "Esta palavra é hifenizada.",
-            "Esta palavra é escrita em conjunto.",
-            "Esta palavra é uma palavra ou com um hífen.",
-            "Juntos grafias de palavras");
+            "Esta palavra é composta por justaposição.",
+            "Esta palavra pode ser composta por justaposição ou hifenizada.",
+            "Este conjunto forma uma palavra composta.");
   }
 
   @Override
@@ -47,7 +47,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Juntos ortografia de palavras, por exemplo 'CD-ROM' em vez de 'CD ROM'";
+    return "Palavras compostas, por exemplo 'CD-ROM' em vez de 'CD ROM'";
   }
 
   @Override
