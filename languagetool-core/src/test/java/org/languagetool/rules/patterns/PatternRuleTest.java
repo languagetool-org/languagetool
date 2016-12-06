@@ -102,7 +102,7 @@ public class PatternRuleTest {
   private void warnIfShortMessageSmallerThanErrorMessage(AbstractPatternRule rule) {
       if (rule instanceof PatternRule) {
         int sizeOfShortMessage = ((PatternRule) rule).getShortMessage().length();
-        int sizeOfErrorMessage = ((PatternRule) rule).getMessage().length();
+        int sizeOfErrorMessage = rule.getMessage().length();
         if (sizeOfShortMessage >= sizeOfErrorMessage) {
           System.err.println("Warning: The content of <short> should be smaller than the content of"
               + " <message>. Language: " + rule.language.getName() + ". Rule: " + rule.getId());
@@ -119,7 +119,7 @@ public class PatternRuleTest {
   }
 
   /**
-   * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
+   * To be called from language modules. Languages.get() knows only the languages that's in the classpath.
    * @param ignoredLanguage ignore this language - useful to speed up tests from languages that 
    *                        have another language as a dependency
    */
