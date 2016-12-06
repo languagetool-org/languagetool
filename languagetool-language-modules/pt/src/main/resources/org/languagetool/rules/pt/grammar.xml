@@ -5828,8 +5828,17 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
             <example>Seja por vergonha, seja por timidez.</example>
         </rule>
 
-    <rule id="REPEATED_WORDS" name="Palavras repetidas" default="on">
+    <rule id="REPEATED_WORDS" name="Palavras repetidas" default='off'>
 	<!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
+	<!-- TODO Add exceptios. Goal 5-10% positives and set to default='on'
+		  v2 regression tested on 2016-12-05 result:~15%	-->
+       <antipattern>
+         <token regexp='yes'>dia|passo</token>
+         <token min='0'>-</token>
+         <token>a</token>
+         <token min='0'>-</token>
+         <token regexp='yes'>dia|passo</token>
+       </antipattern>
        <pattern>
          <token><exception>-</exception></token>
          <token  skip='-1'/>
