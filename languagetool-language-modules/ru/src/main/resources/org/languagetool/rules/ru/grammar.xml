@@ -1986,13 +1986,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть/надеть»">
             <rule>      
                 <pattern>
-                    <token inflected="yes">одеть</token>
-                    <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан</token>
+                    <token inflected="yes" skip="1">одеть</token>
+                    <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан<exception scope="previous" postag="PREP" /></token>
                 </pattern>
-                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(од)(.*)" regexp_replace="над$2" /> <match no="2"  /></suggestion>?</message>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(од)(.*)" regexp_replace="над$2"  include_skipped="all" /> <match no="2" /></suggestion>?</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
                 <short>Логическая ошибка.</short>
                 <example correction="надел рубашку">Он <marker>одел рубашку</marker>.</example>
+                <example correction="надето красивое пальто">На девушке было <marker>одето красивое пальто</marker>.</example>
+                <example>Кутюрье одел модель в красивое платье.</example>
                 <example>Он надел рубашку.</example>
             </rule>  
             <rule>      
@@ -4518,7 +4520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PREP">за</token>      <!--     <token postag="PREP"></token>  -->
             </pattern>
             <message>Предлог не нужен.</message>         
-            <short>Предлог не нужен.</short>
+            <short>Лишний предлог.</short>
             <example correction=""><marker>Оплатить за</marker> проезд.</example>
             <example correction=""><marker>Оплатить товар за</marker> евро.</example>
             <example>Оплачивать проезд.</example>
@@ -4532,7 +4534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:.*:D" postag_regexp="yes"></token>  
             </pattern>
             <message>Предлог не нужен: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):D"  postag_replace="NN:$1:$2:T"/></suggestion></message>         
-            <short>Предлог не нужен.</short>
+            <short>Лишний предлог.</short>
             <example correction="Оплатить картой|Оплатить картою"><marker>Оплатить по карте</marker>.</example>
             <example>Оплачивать картой.</example>
           </rule>
@@ -4567,7 +4569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PREP"></token>
             </pattern>
             <message>Предлог не нужен.</message>         
-            <short>Предлог не нужен.</short>
+            <short>Лишний предлог.</short>
             <example correction="">Тренер <marker>ругал на</marker> футболиста.</example>
             <example>Тренер ругал футболиста.</example>
           </rule>
@@ -5874,7 +5876,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception   postag_regexp="yes" postag="NN:Fem:Sin:T|NN:Fem:Sin:R|ADJ:.*|ABR|PT:.*|PREP|CONJ|ADV"></exception><exception regexp="yes">[,"«.;:]</exception><exception>ВПП</exception></token>
                 </pattern>
                 <message>Пропущено слово.</message>
-                <short>Пропущено слово.</short>
                 <example correction=""><marker>С одной</marker> оптимизатору было проще найти минимум.</example>
                 <example>С одной стороны оптимизатору было проще найти минимум.</example>
                 <example>Микроскопы Ван Левенгука представляли собой относительно небольшие изделия с одной очень сильной линзой.</example>
@@ -8061,7 +8062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Разговорная форма слова.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%BD%D1%8B%D0%B9_%D1%81%D1%82%D0%B8%D0%BB%D1%8C</url>
-                <short>Разговорная форма слова.</short>
+                <short>Разговорная форма.</short>
                 <example>Иван Иванович</example>
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
@@ -8338,7 +8339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">для|на|к|от|по|в</token>
                 <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
             </pattern>
-            <message>Предлог в конце предложения.</message>
+            <message>Предлог в конце предложения не употребляется.</message>
             <short>Предлог в конце предложения.</short>
             <example correction=''>Не грубости ради, но порядка <marker>для.</marker></example>
             <example>Не грубости ради, но для порядка.</example>
@@ -8350,7 +8351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception></token>
                 <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
             </pattern>
-            <message>Местоимение в конце предложения.</message>
+            <message>Местоимение в конце предложения не употребляется.</message>
             <short>Местоимение в конце предложения.</short>
             <example correction=''>Не для этого <marker>оно.</marker></example>
             <example>Оно не для этого.</example>
