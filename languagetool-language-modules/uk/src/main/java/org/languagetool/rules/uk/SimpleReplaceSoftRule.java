@@ -44,12 +44,11 @@ import org.languagetool.rules.ITSIssueType;
 public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   private static final String CONTEXT_PREFIX = "ctx:";
-  private static Map<String, List<String>> wrongWords = load("/uk/replace_soft.txt");
-
+  private static final Map<String, List<String>> WRONG_WORDS = load("/uk/replace_soft.txt");
 
   @Override
   protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
+    return WRONG_WORDS;
   }
 
   public SimpleReplaceSoftRule(ResourceBundle messages) throws IOException {
@@ -95,16 +94,13 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return false;
   }
 
-  
-
   private static ContextRepl findContext(List<String> replacements) {
     ContextRepl contextRepl = new ContextRepl();
     
     for (String replacement: replacements) {
       if( replacement.startsWith(CONTEXT_PREFIX) ) {
         contextRepl.contexts.addAll(Arrays.asList(replacement.replace(CONTEXT_PREFIX, "").trim().split(", *")));
-      }
-      else {
+      } else {
         contextRepl.replacements.add(replacement);
       }
     }
