@@ -104,9 +104,7 @@ public class French extends Language implements AutoCloseable {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-        Contributors.DOMINIQUE_PELLE,
-        new Contributor("Agnes Souque"),
-        new Contributor("Hugo Voisard (2006-2007)")
+        Contributors.DOMINIQUE_PELLE
     };
   }
 
