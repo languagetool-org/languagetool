@@ -460,19 +460,19 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
 	  <token regexp='yes'>eles|elas|vocês</token>
 	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
-	  <token postag='VM[CIS].([12]S0|[123]P0)' postag_regexp='yes'>
-	    <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception></token>
+	  <token postag='VM[CIS].1P0' postag_regexp='yes'/>
 	 </antipattern>
 	 <pattern>
 	  <token regexp='yes'>eles|elas|vocês</token>
 	  <token min="0" max="2" postag='CS|R.' postag_regexp='yes'/>
-	  <token postag='VM[CIS].([12]S0|[123]P0)' postag_regexp='yes'>
+	  <token postag='VM[CIS].([12]P0|[123]S0)' postag_regexp='yes'>
 	    <exception postag='VM[CIS].3P0' postag_regexp='yes'></exception></token>
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 		<suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(VM[CIS].)([12]P0|[123]S0)' postag_replace='$13P0' postag_regexp='yes'/></suggestion>
 	 <example correction='elas passeiam'>Eles e <marker>elas passeamos</marker> na praia.</example>
 	 <example type="correct">Eles e elas passeiam na praia.</example>
+	 <example type="correct">Eu e elas vamos ao parque</example>
 	</rule>
   </rulegroup>
 
