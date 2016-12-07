@@ -98,12 +98,9 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	   <or>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MS.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|são|termo|nome</exception></token>
-	    <token regexp='yes'>&contracoes_MS;</token>
-	   </or>
 	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
 	     <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
@@ -112,19 +109,34 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <example type='incorrect'><marker>O vaca</marker> está no pasto.</example>
+	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> \3</suggestion>
+	   <suggestion>\2 <match no="3" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+	 <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
 	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
 	</rule>
 	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	  <or>
+	    <token regexp='yes'>&contracoes_MS;</token>
+	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
+	     <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>uma|mas</exception>
+	    </token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	 </pattern>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'>Foi resolvido <marker>no hora</marker> certa.</example>
+	 <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
+	</rule>
+	<rule>
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	  <marker>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MP.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CF]P.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>termos|nomes</exception></token>
-	    <token regexp='yes'>&contracoes_MP;</token>
-	   </or>
 	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
@@ -133,19 +145,35 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <example type='incorrect'><marker>Os vaca</marker> está no pasto.</example>
+	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> \3</suggestion>
+	   <suggestion>\2 <match no="3" postag="(N.|A..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+	 <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erredas.</example>
+	 <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
 	 <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
 	</rule>
 	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	   <or>
+	    <token regexp='yes'>&contracoes_MP;</token>
+	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
+		<exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>uma|mas</exception>
+		</token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	 </pattern>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'><marker>Alguns frases</marker> tem erros gramaticais.</example>
+	 <example type='correct'><marker>Algumas frases</marker> tem erros gramaticais.</example>
+	</rule>
+	<rule>
+	 <pattern>
+          <token negate='yes' regexp='yes'>e|de|-</token>
+	  <marker>
 	     <token postag='(D[ADIP].|P[ID]0|NC|A..)FS.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|a|mas|palavra|letra</exception></token>
-	     <token regexp='yes'>&contracoes_FS;</token>
-	   </or>
 	  <token postag='(N.|A..)M.+' postag_regexp='yes'>
 	  	<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
@@ -153,19 +181,33 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
+	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> \3</suggestion>
+	   <suggestion>\2 <match no="3" postag="(N.|A..)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+	 <example correction='Um boi|Uma vaca'><marker>Uma boi</marker> está no pasto.</example>
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
 	<rule>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	   <or>
+	    <token regexp='yes'>&contracoes_FS;</token>
+	    <token postag='(N.|A..)M.+' postag_regexp='yes'>
+	  	<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	 </pattern>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'><marker>Alguma boi</marker> está no pasto.</example>
+	 <example type='correct'>Algum vaca está no pasto.</example>
+	</rule>
+	<rule>
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	  <marker>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)FP.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|mas|palavras|letras</exception></token>
-	   <token regexp='yes'>&contracoes_FP;</token>
-	   </or>
 	    <token postag='(N.|A..)M.+' postag_regexp='yes'>
 		<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
@@ -173,8 +215,25 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 </pattern>
 	 <message>Erro de concordância de género.</message>
-	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
+	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> \3</suggestion>
+	   <suggestion>\2 <match no="3" postag="(N.|A..)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+	 <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
+	</rule>
+	<rule>
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	  <marker>
+	    <token regexp='yes'>&contracoes_FP;</token>
+	    <token postag='(N.|A..)M.+' postag_regexp='yes'>
+		<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de|-</token>
+	 </pattern>
+	 <message>Erro de concordância de género.</message>
+	 <example type='incorrect'><marker>Algumas bois</marker> estão no pasto.</example>
+	 <example type='correct'><marker>Algumas vacas</marker> estão no pasto.</example>
 	</rule>
   </rulegroup>
 
