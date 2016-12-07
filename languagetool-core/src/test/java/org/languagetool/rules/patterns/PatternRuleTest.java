@@ -92,6 +92,10 @@ public class PatternRuleTest {
   @Test
   public void shortMessageIsLongerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
+      if (skipCountryVariant(lang)) {
+        // Skipping because there are no specific rules for this variant
+        return;
+      }
       JLanguageTool languageTool = new JLanguageTool(lang);
       for (AbstractPatternRule rule : getAllPatternRules(lang, languageTool)) {
         warnIfShortMessageLongerThanErrorMessage(rule);
