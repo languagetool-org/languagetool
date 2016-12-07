@@ -5736,7 +5736,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 
  	     <!-- Common punctuation errors - Verb + Conjunction  -->
  	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
-    <rule id="VERB_COMMA_CONJUNCTION" name="Verbo-Vírgula-Conjugação-Vírgula">
+  <rulegroup id="VERB_COMMA_CONJUNCTION" name="Verbo, Conjugação, ...">
+    <rule>
 	<pattern>
 	    <marker>
         	<token postag='V.+' postag_regexp='yes'></token>
@@ -5748,11 +5749,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<message>Separe por vírgulas: <suggestion>\1, \2,</suggestion></message>
 	<url>http://www.lpeu.com.br/q/v73qc</url>
 	<example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
-     </rule>
-
- 	     <!-- Common punctuation errors - Verb + Conjunction  -->
- 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
-    <rule id="VERB_COMMA_CONJUNCTION-2" name="Verbo-Vírgula-Conjugação-Vírgula">
+    </rule>
+    <rule>
 	<pattern>
 	    <marker>
         	<token postag='V.+' postag_regexp='yes'></token>
@@ -5764,11 +5762,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<message>Separe por vírgulas: <suggestion>\1, \3,</suggestion></message>
 	<url>http://www.lpeu.com.br/q/v73qc</url>
 	<example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas, portanto</marker> que não posso sair.</example>
-     </rule>
-
- 	     <!-- Common punctuation errors - Verb + Não Obstante  - -->
- 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
-    <rule id="VERB_COMMA_CONJUNCTION-3" name="Verbo-Vírgula-Não Obstante-Vírgula">
+    </rule>
+    <rule>
 	<pattern>
 	    <marker>
         	<token postag='V.+' postag_regexp='yes'></token>
@@ -5782,10 +5777,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<url>http://www.lpeu.com.br/q/v73qc</url>
 	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas não obstante</marker> que não posso sair.</example>
      </rule>
-
- 	     <!-- Common punctuation errors - Verb + Não Obstante - -->
- 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
-    <rule id="VERB_COMMA_CONJUNCTION-4" name="Verbo-Vírgula-Não Obstante-Vírgula">
+     <rule>
 	<pattern>
 	    <marker>
         	<token postag='V.+' postag_regexp='yes'></token>
@@ -5799,6 +5791,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	<url>http://www.lpeu.com.br/q/v73qc</url>
 	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas, não obstante</marker> que não posso sair.</example>
      </rule>
+   </rulegroup>
 
 </category>
 
