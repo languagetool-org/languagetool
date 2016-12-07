@@ -626,14 +626,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>aun</token>
                 </marker>
-                <token regexp="yes">no|más</token>
+                <token>no</token>
                 <token><exception postag="V.G.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Se acentúan si equivale a "todavía".</message>
             <suggestion>aún</suggestion>
             <example correction="Aún"><marker>Aun</marker> no está claro.</example>
-            <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
             <example>Aun no siendo así, es fantástico.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aun</token>
+                </marker>
+                <token regexp="yes">más|menos|mejor|peor</token>
+                <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
         </rule>
         <rule>
             <pattern>
