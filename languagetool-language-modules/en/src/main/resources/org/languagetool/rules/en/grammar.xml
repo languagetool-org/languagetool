@@ -5567,12 +5567,13 @@ USA
                 </marker>
                 <token><exception postag="NNS"/></token>
             </pattern>
-            <message>Use <suggestion><match no="2"/> members</suggestion>.</message>
+            <message>Use a plural noun after '<match no="1"/>' or use <suggestion><match no="2"/> members</suggestion>.</message><!-- TODO: Cannot use postag_replace="NNS" in a suggestion because committee=NNS and staff=JJ -->
             <short>Grammatical problem: missing plural noun</short>
             <example correction="faculty members">Three <marker>faculty</marker> support the change.</example>
             <example>Three <marker>faculty members</marker> support the change.</example>
             <example>Three committee members were present.</example>
             <example>No faculty member has too many committee assignments.</example>
+            <example>Some <marker>committees</marker> are a waste of time.</example>
         </rule>
         <rule id="NEITHER_NOR" name="neither X or Y (neither X nor Y)">
             <!-- This rule only catches some cases where "or" needs to be change to "nor" -->
@@ -6792,7 +6793,7 @@ USA
                     <token><exception postag="VB.*|,|\.|CC|IN|JJ|WP|MD|RB" postag_regexp="yes" /><exception regexp="yes">\(|\)|\[|\"</exception></token>
                 </marker>
             </pattern>
-            <message>Are you missing a verb?</message>
+            <message>A verb is probably missing after '\3'.</message>
             <short>Grammatical problem: missing verb</short>
             <example correction="">I <marker>accidentally the</marker> flashlight.</example>
             <example>I <marker>accidentally dropped the</marker> flashlight.</example>
