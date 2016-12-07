@@ -92,7 +92,7 @@ public class PatternRuleTest {
   @Test
   public void shortMessageIsLongerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
-      MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+      JLanguageTool languageTool = new JLanguageTool(lang);
       for (AbstractPatternRule rule : getAllPatternRules(lang, languageTool)) {
         warnIfShortMessageLongerThanErrorMessage(rule);
       }
@@ -100,27 +100,27 @@ public class PatternRuleTest {
   }
 
   private void warnIfShortMessageLongerThanErrorMessage(AbstractPatternRule rule) {
-      if (rule instanceof PatternRule) {
-        String shortMessage = ((PatternRule) rule).getShortMessage();
-        int sizeOfShortMessage = shortMessage.length();
-        int sizeOfErrorMessage = rule.getMessage().length();
-        if (sizeOfShortMessage >= sizeOfErrorMessage) {
-          if (shortMessage.equals(rule.getMessage())) {
-            System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
-                    + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                    + "  Short: " + shortMessage + "\n"
-                    + "  Long:  " + rule.getMessage());
-          } else {
-            System.err.println("Warning: The content of <short> should be smaller than the content of "
-                    + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                    + "  Short: " + shortMessage + "\n"
-                    + "  Long:  " + rule.getMessage());
-          }
+    if (rule instanceof PatternRule) {
+      String shortMessage = ((PatternRule) rule).getShortMessage();
+      int sizeOfShortMessage = shortMessage.length();
+      int sizeOfErrorMessage = rule.getMessage().length();
+      if (sizeOfShortMessage >= sizeOfErrorMessage) {
+        if (shortMessage.equals(rule.getMessage())) {
+          System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
+                  + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                  + "  Short: " + shortMessage + "\n"
+                  + "  Long:  " + rule.getMessage());
+        } else {
+          System.err.println("Warning: The content of <short> should be smaller than the content of "
+                  + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                  + "  Short: " + shortMessage + "\n"
+                  + "  Long:  " + rule.getMessage());
         }
+      }
     }
   }
   
-  private List<AbstractPatternRule> getAllPatternRules(Language language, MultiThreadedJLanguageTool languageTool) throws IOException {
+  private List<AbstractPatternRule> getAllPatternRules(Language language, JLanguageTool languageTool) throws IOException {
     List<AbstractPatternRule> rules = new ArrayList<>();
     for (String patternRuleFileName : language.getRuleFileNames()) {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
