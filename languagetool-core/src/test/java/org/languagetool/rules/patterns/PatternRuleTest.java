@@ -90,7 +90,7 @@ public class PatternRuleTest {
   }
   
   @Test
-  public void shortMessageIsSmallerThanErrorMessage() throws IOException {
+  public void shortMessageIsLongerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
       MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
       for (AbstractPatternRule rule : getAllPatternRules(lang, languageTool)) {
