@@ -7795,13 +7795,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="grammar_bez_ucheta_and_Noun" name="Оборот «без учёта» и существительное">
             <pattern>
                 <token>без</token>
-                <token>учёта</token>
+                <token regexp="yes">учёта|учета</token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Оборот «без учёта» предполагает употребление существительного в родительном падеже.</message>
+            <message>Оборот «без учёта» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
             <example>Без учёта таксиста в машине нас было четверо.</example>
-            <example correction=""><marker>Без учёта таксистом</marker> в машине нас было четверо.</example>
+            <example correction="Без учёта таксиста"><marker>Без учёта таксистом</marker> в машине нас было четверо.</example>
+        </rule>
+        <rule default="on" id="grammar_v_adress_and_Noun" name="Оборот «в адрес» и существительное">
+            <pattern>
+                <token>в</token>
+                <token>адрес</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Оборот «в адрес» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
+            <short>Требуется родительный падеж.</short>
+            <example>В адрес организации мы направили письмо.</example>
+            <example correction="В адрес организации"><marker>В адрес организацией</marker> мы направили письмо.</example>
+        </rule>
+        <rule default="on" id="grammar_v_vedenie_and_Noun" name="Оборот «в ведение» и существительное">
+            <pattern>
+                <token>в</token>
+                <token>ведение</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Оборот «в ведение» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
+            <short>Требуется родительный падеж.</short>
+            <example>В ведение организации было передано имущество.</example>
+            <example correction="В ведение организации"><marker>В ведение организацией</marker> было передано имущество.</example>
+        </rule>
+        <rule default="on" id="grammar_v_vide_and_Noun" name="Оборот «в виде» и существительное">
+            <pattern>
+                <token>в</token>
+                <token>виде</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Оборот «в виде» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
+            <short>Требуется родительный падеж.</short>
+            <example>Звезда берет своё начало в виде облака газа и пыли, которое называют туманностью.</example>
+            <example correction="в виде облака">Звезда берет своё начало <marker>в виде облаком</marker> газа и пыли, которое называют туманностью.</example>
+        </rule>
+         <rule default="on" id="grammar_v_vidah_and_Noun" name="Оборот «в видах» и существительное">
+            <pattern>
+                <token>в</token>
+                <token>видах</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Оборот «в видах» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
+            <short>Требуется родительный падеж.</short>
+            <example>Предлагаем разобраться в видах соли.</example>
+            <example correction="в видах газировки">Предлагаем разобраться <marker>в видах газировка</marker>.</example>
         </rule>
         <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
