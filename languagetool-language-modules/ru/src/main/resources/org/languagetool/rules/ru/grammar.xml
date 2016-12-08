@@ -7792,6 +7792,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я ходил по грибы.</example>
             <example correction="">Я шёл <marker>по снегом</marker>.</example>
         </rule>
+        <rule default="on" id="grammar_bez_ucheta_and_Noun" name="Оборот «без учёта» и существительное">
+            <pattern>
+                <token>без</token>
+                <token>учёта</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Оборот «без учёта» предполагает употребление существительного в родительном падеже.</message>
+            <short>Требуется родительный падеж.</short>
+            <example>Без учёта таксиста в машине нас было четверо.</example>
+            <example correction=""><marker>Без учёта таксистом</marker> в машине нас было четверо.</example>
+        </rule>
         <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
