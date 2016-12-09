@@ -33649,11 +33649,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="GEMA_GEMMA" name="gema/gemma">
             <pattern>
-                <token regexp="yes">gem(a|es)</token>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">gem(a|es)</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral) en lloc de "<match no="1"/>" (= pastís de rovell d'ou)?</message>
-            <short>Possible confusió</short>
-            <example correction="gemma">En forma de <marker>gema</marker>.</example>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral)? "Gema" és acceptable en gastronomia (= pastís de rovell d'ou)?</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">rovell</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">palpís</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">tou</match></suggestion>
+            <suggestion>crema</suggestion>
+            <suggestion>crema cremada</suggestion>
+            <example correction="gemma|rovell|palpís|tou|crema|crema cremada">En forma de <marker>gema</marker>.</example>
+            <example correction="gemmes|rovells|palpissos|tous|crema|crema cremada">En forma de <marker>gemes</marker>.</example>
             <example>Les gemmes floriren.</example>
         </rule>
         <rule id="PEGAMENT" name="pegament">
