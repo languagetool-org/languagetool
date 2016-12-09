@@ -17062,6 +17062,28 @@ USA
             <example correction="">The <marker>security protection software</marker> we offer is the state-of-the art achievement.</example>
             <example>The security software we offer is the state-of-the art achievement.</example>
         </rule>
+        <rulegroup default="off" id="MISSING_HYPHEN" name="Missing hyphens in compounds with numbers">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <token postag="JJ" min="0"/>
+                    <marker>
+                        <token postag="CD"><exception regexp="yes">one|1</exception></token>
+                        <token regexp="yes">second|minute|min|hour|day|week|month|year|foot|meter|metre|mile|inch|page</token>
+                    </marker>
+                    <token postag="NN.*|JJ" postag_regexp="yes"/>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, consider using a hyphen: <suggestion>\3-\4</suggestion>?</message>
+                <url>http://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
+                <short>Missing hyphen</short>
+                <example correction="35-hour">France has a <marker>35 hour</marker> working week.</example>
+                <example correction="100-metre">He won the <marker>100 metre</marker> sprint.</example>
+                <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
+                <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
+                <example correction="two-year">Rudolph is a <marker>two year</marker> old reindeer.</example>
+                <example>Rudolph is two years old.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
