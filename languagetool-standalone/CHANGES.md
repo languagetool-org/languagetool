@@ -104,6 +104,7 @@
 
 #### Internal
   * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
+  * Updated lucene-gosen-ipadic to 6.0.1 (#376)
 
 
 ## 3.5 (2016-09-30)
