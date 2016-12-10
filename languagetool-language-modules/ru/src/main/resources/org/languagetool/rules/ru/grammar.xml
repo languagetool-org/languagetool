@@ -8860,9 +8860,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Они пошли к реке, по которой плавала лодка.</example>
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
-        <rulegroup name="Благозвучность" id="BLAGOZVUCHNOST">
+        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">.*([йцкнгшщзхфвпрлджчсмтб]{2,2})</token>
                     <token regexp="yes">([йцкнгшщзхфвпрлджчсмтб]{3,3}).*</token>
                 </pattern>
@@ -8999,7 +8999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Книга <marker>прo</marker> Львов.</example>
 	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
 	    <example>«Far East Network» не передаёт местные новости.</example>
-	    <example>В XXI веке.</example>
+            <example>В XXI веке.</example>
 	    <example>о̀колозе́мный</example>
 	    <example>имеют температуру менее минус 0,8 ºC на севере</example>
 	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
@@ -9079,7 +9079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
                     <marker>
-                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*</token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
@@ -9091,7 +9091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                        <token regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*</token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
