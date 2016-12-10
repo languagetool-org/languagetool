@@ -112,13 +112,13 @@ public class PatternRuleTest {
         if (shortMessage.equals(rule.getMessage())) {
           System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
                   + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                  + "  Short: " + shortMessage + "\n"
-                  + "  Long:  " + rule.getMessage());
+                  + "  <short>:   " + shortMessage + "\n"
+                  + "  <message>: " + rule.getMessage());
         } else {
-          System.err.println("Warning: The content of <short> should be smaller than the content of "
+          System.err.println("Warning: The content of <short> should be shorter than the content of "
                   + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                  + "  Short: " + shortMessage + "\n"
-                  + "  Long:  " + rule.getMessage());
+                  + "  <short>:   " + shortMessage + "\n"
+                  + "  <message>: " + rule.getMessage());
         }
       }
     }
