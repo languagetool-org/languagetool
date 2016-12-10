@@ -431,9 +431,186 @@ title="Easy editing stylesheet" ?>
  </rule>
  
 </rulegroup>
+
+</category>
+
+<category id='A90_AGREEMENT' name='Acordo ortográfico de 90'>
+
+ <rulegroup id='COMPOUNDS_A90_GENERIC_PREFIX' name='Hifenizador de palavras pós-reforma'>
+	<!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-02 -->
+<!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
+		<url>http://pucrs.br/gpt/hifen.php</url>-->
+        <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>
+   <rule>
+    <pattern>
+		<token regexp='yes'>ex|sota|soto|vice|vizo|grã|pós|pré|pró|recém</token>
+	<!-- além|aquém|bem|sem|grão are better dealt by PortugueseCompoundRule.java -->
+		<token>
+		  <exception regexp='yes'>[-,.!?\(\)]</exception>
+		  <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+		    </token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='vice-diretor'>Tem uma reunião marcada com o <marker>vice diretor</marker>.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token>
+		  <exception regexp='yes'>[-,.!?\(\)]</exception>
+		  <exception postag='(C|R|S|NP).+' postag_regexp='yes'/>
+		    </token>
+		<token regexp='yes'>açu|guaçu|mirim</token>
+		<!-- These suffixes are used in Brazilian Portuguese -->
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='Escuteiro-Mirim'>Manual do  <marker>Escuteiro Mirim</marker></example>
+   </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa|contra|extra|infra|intra|supra|ultra|mega|ante|entre|sobre|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro|circum|pan|hiper|inter|super|sub</token>
+	<!-- além|aquém|sem|grão|bem|mal are better dealt by PortugueseCompoundRule.java -->
+		<token regexp='yes'>h.+
+		  <exception regexp='yes'>[-,.!?\(\)]</exception>
+		  <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+		    </token>
+    </pattern>
+	<message>Palavra provavelmente hifenizada. Pretende dizer </message><suggestion>\1-\2</suggestion>
+	<example correction='co-herdada'>A análise do ADN mostrou uma mutação <marker>co herdada</marker> por todos os membros da família afetados.</example>
+	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>
+	<example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
+   </rule>
+   
+	<!--	TODO Rule for (des|in)-h... -> (des|in)...	-->
+   
+   <rule>
+    <pattern>
+		<token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^rs].+</token>
+    </pattern>
+	<message>Este prefixo deixou de ser hifenizado. Pretende dizer </message><suggestion>\1\3</suggestion>
+	<example correction='codependência'>Vivem em regime de <marker>co-dependência</marker>.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>não|quase</token>
+		<token>-</token>
+		<token/>
+    </pattern>
+	<message>Este prefixo deixou de ser hifenizado. Pretende dizer </message><suggestion>\1 \3</suggestion>
+	<example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>contra|extra|infra|intra|supra|ultra|mega</token>
+		<token regexp='yes'>a.+
+		  <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+		  </token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='contra-ataque'>O <marker>contra ataque</marker> do Benfica, garantiu a vitória.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>ante|entre|sobre|tele</token>
+		<token regexp='yes'>e.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='sobre-elevar'>Fez um esforço para <marker>sobre elevar</marker> o estado da arte.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+		<token regexp='yes'>i.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='anti-herói'>Acabou por ser o <marker>anti herói</marker> da história.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token regexp='yes'>o.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='micro-ondas'>Aquece 10 minutos no <marker>micro ondas</marker> altos.</example>
+   </rule>
+
+        <!-- TODO special rules for  contra|entre|sobre  -->
+
+   <rule>
+    <pattern>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^rs].+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
+        <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>r.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1r\3</suggestion>
+	<example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>s.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1s\3</suggestion>
+	<example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>hiper|inter|super</token>
+		<token regexp='yes'>r.+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='super-resistente'>Estamos a desenvolver um liga <marker>super resistente</marker>.</example>
+    </rule>
+    <rule>
+    <pattern>
+		<token regexp='yes'>ab|ob|sob|sub</token>
+		<token regexp='yes'>[br].+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>
+	<example correction='sub-reino'>No <marker>sub reino</marker> dos Eumetazoa podemos encontrar...</example>
+    </rule>
+    <pattern>
+		<tokenregexp='yes'>ab|ob|sob|sub</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^,.!\(\)].+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
+	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>
+	<example correction='subnível'>Em caso de emergência, saia pelo <marker>sub nível</marker> 1.</example>
+   </rule>
+    <pattern>
+		<token regexp='yes'>circum|pan</token>
+		<token regexp='yes'>[mnaeiou].+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+	<example correction='Circum-navegação'><marker>Circum navegação</marker> é uma viagem marítima em torno de um lugar.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>circum|pan</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^,.!\(\)].+</token>
+    </pattern>
+	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
+	<example correction='panteísmo'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+   </rule>
+ </rulegroup>
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
-
+ 
 </category>
 
 </rules>
