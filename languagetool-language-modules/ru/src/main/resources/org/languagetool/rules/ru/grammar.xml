@@ -2170,7 +2170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
             <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                 <antipattern>
-                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PNN:.*|NN:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
                     <marker>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|</exception></token>           
@@ -2197,13 +2197,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Пролетели года, и настало время.</example>
                 <example>Могу ли я уточнить время и место нашей встречи?</example>
                 <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
+                <example>Исполнитель оставляет за собой право досрочно завершить работы по настоящему Договору и сдать результат работ.</example>
                 <example>Мой отец и мой брат.</example>
                 <example correction="Пролетели года, и настало время"><marker>Пролетели года и настало время</marker>.</example>
             </rule>
             <rule>
             <!--             VB:.*   NN:.*   и       NN:.*  VB:.*     -->
                 <antipattern>
-                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PNN:.*|NN:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
                     <marker>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|</exception></token>           
@@ -2237,7 +2238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--           NN:.*   VB:.*    и      NN:.*   VB:.*     -->    
                 <antipattern>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
-                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PNN:.*|NN:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
                      <marker>
                         <token postag="N(N|NN|NF):.*:.*:Nom|PNN:.*" postag_regexp="yes"><exception negate_pos="yes" postag="N(N|NN|NF):.*:.*:.*|PNN:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-|;|–</exception></token>
@@ -2273,7 +2274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <!--      <rule>   
                <antipattern>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
-                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PNN:.*|NN:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
                      <marker>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-|;|–</exception></token>
@@ -8859,21 +8860,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Они пошли к реке, по которой плавала лодка.</example>
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
-        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
+        <rulegroup name="Благозвучность" id="BLAGOZVUCHNOST">
             <rule>
                 <pattern>
-                    <token regexp="yes">.*[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб]</token>
-                    <token regexp="yes">[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб].*</token>
+                    <token regexp="yes">.*([йцкнгшщзхфвпрлджчсмтб]{2,2})</token>
+                    <token regexp="yes">([йцкнгшщзхфвпрлджчсмтб]{3,3}).*</token>
                 </pattern>
-                <message>Сложно произнести подряд 4 согласных звука.</message>
-                <short>4 согласных подряд.</short>
-                <example>Гимнаст активно тренировался.</example>
-                <example correction="">
-                    <marker>Гимнаст тренировался</marker>.</example>
+                <message>Сложно произнести пять согласных звука подряд.</message>
+                <short>5 согласных подряд.</short>
+                <example>Гимнаст отлично справился с заданием.</example>
+                <example correction=""><marker>Гимнаст справился</marker> с заданием.</example>
             </rule>
         </rulegroup>
-        
-        
     </category>
     
     <category id="SPELL" name="Проверка орфографии">
