@@ -8412,7 +8412,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оно не для этого.</example>
             <example>Ты ужасный человек, - сказала она.</example>
         </rule>
-        
+        <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
+            <rule>
+                <pattern>
+                  <token><exception postag="NN:.*" postag_regexp="yes"></exception></token>
+                  <marker>  
+                    <token postag="ADJ:.*|ADJ_Sup:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ_Sup:.*" /></token> 
+                    <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
+                  </marker>
+                </pattern>
+                <message>Опущено существительное в конце предложения.</message>
+                <short>Опущено существительное</short>
+                <example>Так он и запил горькую судьбу.</example>
+                <example correction="">Так он и выбрал <marker>красивую.</marker></example>
+            </rule>
+       </rulegroup>
        <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд">
             <rule>
                 <pattern>
