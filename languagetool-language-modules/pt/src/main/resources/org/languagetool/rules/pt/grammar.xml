@@ -112,7 +112,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> \3</suggestion>
 	   <suggestion>\2 <match no="3" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
 	 <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
-	 <example type='correct'><marker>O boi</marker> está no pasto.</example>
+	 <example>Faça-me uma omelete sem ovos.</example>
+	 <example><marker>O boi</marker> está no pasto.</example>
 	</rule>
 	<rule>
 	 <pattern>
@@ -147,6 +148,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	 <message>Erro de concordância de género.</message>
 	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> \3</suggestion>
 	   <suggestion>\2 <match no="3" postag="(N.|A..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+	 <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte...</example>
 	 <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erredas.</example>
 	 <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
 	 <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
@@ -708,8 +710,8 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     <example>Apesar de o cão ladrar muito, continua a ser um cão simpático.</example>
     <example>Vamos ao cinema, depois de jantar.</example>
     <example>Não, não é nada longe.</example>
-    <example>Não posso andar porque estou com a perna quebrada.</example>
-    <example>Cerca de mil pessoas participaram de manifestação.</example>
+    <example>Não posso andar, porque estou com a perna quebrada.</example>
+    <example>Cerca de mil pessoas participaram na manifestação.</example>
     <example>Segundo: os crioulo (pessoas de descendência espanhola...</example>
       </rule>
       <rule>
@@ -13368,6 +13370,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         </pattern>
 	<message>Evite a voz passiva.</message>
         <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
+	<example type='incorrect'><marker>Era integrada</marker> por navegadores experientes, como Bartolomeu...</example>
 	<example type='incorrect'>O trabalho <marker>foi feito</marker> por ele.</example>
 	<example type='correct'>Ele <marker>fez</marker> o trabalho.</example>
     </rule>
