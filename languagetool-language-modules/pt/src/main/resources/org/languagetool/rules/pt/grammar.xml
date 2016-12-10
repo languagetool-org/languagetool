@@ -696,7 +696,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
         <marker>
       <token postag='SENT_START'/>
       <token postag='C.|R.' postag_regexp='yes' skip="-1">
-          <exception postag="DT"/>
+          <exception negate_pos='yes' postag='C.|R.' postag_regexp='yes'/>
       </token>
         </marker>
         <token postag='SENT_END'/>
@@ -729,7 +729,6 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
       <token regexp='yes'>Mesmo|Então|Portanto</token>
       <token regexp='yes' min='0'>[,:]</token>
       <token postag='C.|R.' postag_regexp='yes' skip='-1'>
-          <exception postag="DT"/>
       </token>
         </marker>
         <token postag='SENT_END'/>
