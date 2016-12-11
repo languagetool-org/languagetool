@@ -559,10 +559,9 @@ public class JLanguageTool {
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
-     return cleanOverlappingMatches(ruleMatches);
-    } else {
-      return ruleMatches;
+      ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
+    return ruleMatches;
   }
   
   /**
@@ -651,65 +650,6 @@ public class JLanguageTool {
     }
     return new SameRuleGroupFilter().filter(sentenceMatches);
   }
-  
-  /* 
-   * Clean the list of rule matches from overlapping errors. 
-   * (Assumes the input list is ordered by start position)
-   * @since 3.6
-   */
-  public List<RuleMatch> cleanOverlappingMatches(List<RuleMatch> ruleMatches) {
-    List<RuleMatch> cleanList = new ArrayList<RuleMatch>();
-    RuleMatch prevRuleMatch = null;
-    for(RuleMatch ruleMatch: ruleMatches) {
-      // first item
-      if (prevRuleMatch == null) {
-        prevRuleMatch = ruleMatch;
-        continue;
-      }
-      // no overlapping
-      if (ruleMatch.getFromPos() > prevRuleMatch.getToPos()) {
-        cleanList.add(prevRuleMatch);
-        prevRuleMatch = ruleMatch;
-        continue;
-      }
-      //overlapping
-      
-      // get priorities
-      int currentPriority = getMatchPriority(ruleMatch);
-      int prevPriority = getMatchPriority(prevRuleMatch);
-      // break the tie
-      if (currentPriority == prevPriority) {
-        // take the longest error
-        currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
-        prevPriority = prevRuleMatch.getToPos() - prevRuleMatch.getFromPos();
-      }
-      if (currentPriority == prevPriority) {
-        currentPriority++; // take the last one (to keep the current results in the web UI) 
-      }
-      // compare
-      if (currentPriority > prevPriority ) {
-        //skip prevRuleMatch
-        prevRuleMatch = ruleMatch;
-      } //else skip current RuleMatch;
-    }
-    //last match
-    if (prevRuleMatch != null) {
-      cleanList.add(prevRuleMatch);
-    }
-    return cleanList;
-  }
-  
-  private int getMatchPriority(RuleMatch r) {
-    int categoryPriority = this.getLanguage().getPriorityForId(r.getRule().getCategory().getId().toString());
-    int rulePriority = this.getLanguage().getPriorityForId(r.getRule().getId());
-    // if there is a priority defined for rule it takes precedende over category priority
-    if (rulePriority != 0) {
-      return rulePriority;
-    } else {
-      return categoryPriority;
-    }
-  }
-  
 
   private boolean ignoreRule(Rule rule) {
     Category ruleCategory = rule.getCategory();
