@@ -119,7 +119,8 @@ public class JLanguageTool {
   private PrintStream printStream;
   private int sentenceCount;
   private boolean listUnknownWords;
-  private Set<String> unknownWords;  
+  private Set<String> unknownWords;
+  private boolean cleanOverlappingMatches;
 
   /**
    * Constants for correct paragraph-rule handling.
@@ -164,6 +165,7 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
+    this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
       activateDefaultFalseFriendRules();
@@ -213,6 +215,16 @@ public class JLanguageTool {
    */
   public void setListUnknownWords(boolean listUnknownWords) {
     this.listUnknownWords = listUnknownWords;
+  }
+  
+  /**
+   * Whether the {@link #check(String)} methods return overlapping errors. If set to
+   * <code>true</code> (default: true), it removes overlapping errors according to 
+   * the priorities established for the language. 
+   * @since 3.6
+   */
+  public void setCleanOverlappingMatches(boolean cleanOverlappingMatches) {
+    this.cleanOverlappingMatches = cleanOverlappingMatches;
   }
 
   /**
@@ -546,7 +558,11 @@ public class JLanguageTool {
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
-    return ruleMatches;
+    if (cleanOverlappingMatches) {
+     return cleanOverlappingMatches(ruleMatches);
+    } else {
+      return ruleMatches;
+    }
   }
   
   /**
@@ -635,6 +651,65 @@ public class JLanguageTool {
     }
     return new SameRuleGroupFilter().filter(sentenceMatches);
   }
+  
+  /* 
+   * Clean the list of rule matches from overlapping errors. 
+   * (Assumes the input list is ordered by start position)
+   * @since 3.6
+   */
+  public List<RuleMatch> cleanOverlappingMatches(List<RuleMatch> ruleMatches) {
+    List<RuleMatch> cleanList = new ArrayList<RuleMatch>();
+    RuleMatch prevRuleMatch = null;
+    for(RuleMatch ruleMatch: ruleMatches) {
+      // first item
+      if (prevRuleMatch == null) {
+        prevRuleMatch = ruleMatch;
+        continue;
+      }
+      // no overlapping
+      if (ruleMatch.getFromPos() > prevRuleMatch.getToPos()) {
+        cleanList.add(prevRuleMatch);
+        prevRuleMatch = ruleMatch;
+        continue;
+      }
+      //overlapping
+      
+      // get priorities
+      int currentPriority = getMatchPriority(ruleMatch);
+      int prevPriority = getMatchPriority(prevRuleMatch);
+      // break the tie
+      if (currentPriority == prevPriority) {
+        // take the longest error
+        currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
+        prevPriority = prevRuleMatch.getToPos() - prevRuleMatch.getFromPos();
+      }
+      if (currentPriority == prevPriority) {
+        currentPriority++; // take the last one (to keep the current results in the web UI) 
+      }
+      // compare
+      if (currentPriority > prevPriority ) {
+        //skip prevRuleMatch
+        prevRuleMatch = ruleMatch;
+      } //else skip current RuleMatch;
+    }
+    //last match
+    if (prevRuleMatch != null) {
+      cleanList.add(prevRuleMatch);
+    }
+    return cleanList;
+  }
+  
+  private int getMatchPriority(RuleMatch r) {
+    int categoryPriority = this.getLanguage().getPriorityForId(r.getRule().getCategory().getId().toString());
+    int rulePriority = this.getLanguage().getPriorityForId(r.getRule().getId());
+    // if there is a priority defined for rule it takes precedende over category priority
+    if (rulePriority != 0) {
+      return rulePriority;
+    } else {
+      return categoryPriority;
+    }
+  }
+  
 
   private boolean ignoreRule(Rule rule) {
     Category ruleCategory = rule.getCategory();
