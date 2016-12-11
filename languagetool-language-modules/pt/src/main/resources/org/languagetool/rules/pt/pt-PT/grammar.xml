@@ -434,9 +434,9 @@ title="Easy editing stylesheet" ?>
 
 </category>
 
-<category id='A90_AGREEMENT' name='Acordo ortográfico de 90'>
+<category id='AO90_AGREEMENT' name='Acordo ortográfico de 90'>
 
- <rulegroup id='COMPOUNDS_A90_GENERIC_PREFIX' name='Hifenizador de palavras pós-reforma'>
+ <rulegroup id='COMPOUNDS_AO90_GENERIC_PREFIX' name='Hifenizador de palavras pós-reforma'>
 	<!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-02 -->
 <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
@@ -468,8 +468,8 @@ title="Easy editing stylesheet" ?>
    </rule>
    <rule>
     <pattern>
-		<token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa|contra|extra|infra|intra|supra|ultra|mega|ante|entre|sobre|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro|circum|pan|hiper|inter|super|sub</token>
-	<!-- além|aquém|sem|grão|bem|mal are better dealt by PortugueseCompoundRule.java -->
+		<token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa|extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro|circum|pan|hiper|inter|super|sub</token>
+	<!-- além|aquém|sem|grão|bem|mal|contra|entre|sobre|ante are better dealt by PortugueseCompoundRule.java -->
 		<token regexp='yes'>h.+
 		  <exception regexp='yes'>[-,.!?\(\)]</exception>
 		  <exception postag='C.|R.|S.+' postag_regexp='yes'/>
@@ -477,7 +477,7 @@ title="Easy editing stylesheet" ?>
     </pattern>
 	<message>Palavra provavelmente hifenizada. Pretende dizer </message><suggestion>\1-\2</suggestion>
 	<example correction='co-herdada'>A análise do ADN mostrou uma mutação <marker>co herdada</marker> por todos os membros da família afetados.</example>
-	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>
+<!--	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>-->
 	<example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
    </rule>
    
@@ -487,9 +487,9 @@ title="Easy editing stylesheet" ?>
     <pattern>
 		<token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
 		<token min='0'>-</token>
-		<token regexp='yes'>[^rs].+</token>
+		<token regexp='yes' case_sensitive="yes">[^hrs].+</token>
     </pattern>
-	<message>Este prefixo deixou de ser hifenizado. Pretende dizer </message><suggestion>\1\3</suggestion>
+	<message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1\3</suggestion>
 	<example correction='codependência'>Vivem em regime de <marker>co-dependência</marker>.</example>
     </rule>
     <rule>
@@ -498,26 +498,46 @@ title="Easy editing stylesheet" ?>
 		<token>-</token>
 		<token/>
     </pattern>
-	<message>Este prefixo deixou de ser hifenizado. Pretende dizer </message><suggestion>\1 \3</suggestion>
+	<message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1 \3</suggestion>
 	<example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
    </rule>
    <rule>
     <pattern>
-		<token regexp='yes'>contra|extra|infra|intra|supra|ultra|mega</token>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
+	<!-- contra are better dealt by PortugueseCompoundRule.java -->
 		<token regexp='yes'>a.+
 		  <exception postag='C.|R.|S.+' postag_regexp='yes'/>
 		  </token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-	<example correction='contra-ataque'>O <marker>contra ataque</marker> do Benfica, garantiu a vitória.</example>
+	<example correction='infra-acústico'>O som foi produzido no espetro <marker>infra acústico</marker>.</example>
    </rule>
    <rule>
     <pattern>
-		<token regexp='yes'>ante|entre|sobre|tele</token>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^ahrs].+</token>
+    </pattern>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+        <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token>tele</token>
+	<!-- ante|entre|sobre are better dealt by PortugueseCompoundRule.java -->
 		<token regexp='yes'>e.+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-	<example correction='sobre-elevar'>Fez um esforço para <marker>sobre elevar</marker> o estado da arte.</example>
+	<example correction='tele-educação'>Os filhos tiveram que recorrer à <marker>tele educação</marker>.</example>
+   </rule>
+   <rule>
+    <pattern>
+		<token>tele</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^ehrs].+</token>
+    </pattern>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+        <example correction='televisão'>Nem tudo o que aparece na <marker>tele-visão</marker> é verdade.</example>
     </rule>
     <rule>
     <pattern>
@@ -529,40 +549,49 @@ title="Easy editing stylesheet" ?>
    </rule>
    <rule>
     <pattern>
+		<token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^ihrs].+</token>
+    </pattern>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+        <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
+   </rule>
+   <rule>
+    <pattern>
 		<token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
 		<token regexp='yes'>o.+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
 	<example correction='micro-ondas'>Aquece 10 minutos no <marker>micro ondas</marker> altos.</example>
    </rule>
+   <rule>
+    <pattern>
+		<token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token min='0'>-</token>
+		<token regexp='yes'>[^hors].+</token>
+    </pattern>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+        <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
+   </rule>
 
-        <!-- TODO special rules for  contra|entre|sobre  -->
+        <!-- TODO special rules for  ante|contra|entre|sobre  -->
 
    <rule>
     <pattern>
-		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-		<token min='0'>-</token>
-		<token regexp='yes'>[^rs].+</token>
-    </pattern>
-	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
-        <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
-    </rule>
-    <rule>
-    <pattern>
-		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
 		<token min='0'>-</token>
 		<token regexp='yes'>r.+</token>
     </pattern>
-	<message>Palavra hifenizada.</message><suggestion>\1r\3</suggestion>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1r\3</suggestion>
 	<example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
     </rule>
     <rule>
     <pattern>
-		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|ante|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+		<token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
 		<token min='0'>-</token>
 		<token regexp='yes'>s.+</token>
     </pattern>
-	<message>Palavra hifenizada.</message><suggestion>\1s\3</suggestion>
+	<message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1s\3</suggestion>
 	<example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
     </rule>
     <rule>
@@ -575,27 +604,29 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
     <pattern>
-		<token regexp='yes'>ab|ob|sob|sub</token>
-		<token regexp='yes'>[br].+</token>
+		<token regexp='yes'>ob|sub</token>
+	<!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
+		<token regexp='yes' case_sensitive="yes">[br].+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>
+<!--	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>-->
 	<example correction='sub-reino'>No <marker>sub reino</marker> dos Eumetazoa podemos encontrar...</example>
     </rule>
     <rule>
     <pattern>
-		<token regexp='yes'>ab|ob|sob|sub</token>
+		<token regexp='yes'>ob|sub</token>
+	<!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
 		<token min='0'>-</token>
-		<token regexp='yes'>[^,.!\(\)].+</token>
+		<token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
-	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>
+<!--	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>-->
 	<example correction='subnível'>Em caso de emergência, saia pelo <marker>sub nível</marker> 1.</example>
    </rule>
    <rule>
     <pattern>
 		<token regexp='yes'>circum|pan</token>
-		<token regexp='yes'>[mnaeiou].+</token>
+		<token regexp='yes'>[mnaeiouh].+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
 	<example correction='Circum-navegação'><marker>Circum navegação</marker> é uma viagem marítima em torno de um lugar.</example>
@@ -604,7 +635,7 @@ title="Easy editing stylesheet" ?>
     <pattern>
 		<token regexp='yes'>circum|pan</token>
 		<token min='0'>-</token>
-		<token regexp='yes'>[^,.!\(\)].+</token>
+		<token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
     </pattern>
 	<message>Palavra hifenizada.</message><suggestion>\1\3</suggestion>
 	<example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
