@@ -6026,7 +6026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>на</token>
                     <token regexp="yes" >счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
-                    <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|кредитор|заёмщик|организация|денежный|([0-9]*)</exception></token>
+                    <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|кредитор|заёмщик|заемщика|организация|денежный|([0-9]*)</exception></token>
                     <token><exception  regexp="yes" >([0-9]*)[0-9.]</exception></token> 
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
@@ -8416,7 +8416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
-                  <token><exception postag="NN:.*" postag_regexp="yes"></exception></token>
+                  <token><exception postag="NN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:.*|ADJ_Sup:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ_Sup:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
@@ -8425,6 +8425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Опущено существительное в конце предложения.</message>
                 <short>Опущено существительное</short>
                 <example>Так он и запил горькую судьбу.</example>
+                <example>Это кольцо является волшебным.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
             </rule>
        </rulegroup>
