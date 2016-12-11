@@ -24791,7 +24791,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">Positiv|Negativ</exception>
                     </token>
                 </marker>
-                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'><exception regexp="yes">sind|spielen</exception></token>
+                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'>
+                    <exception regexp="yes">sind|spielen</exception>
+                    <exception postag="SENT_END"/>
+                </token>
             </pattern>
             <message>Bitte prüfen, ob hier der Plural benutzt werden muss.</message>
             <example correction=''><marker>Regelsystem</marker> nutzen Verfahren wie diese.</example>
@@ -24803,6 +24806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Freitag gehen wir essen.</example>
             <example>Sie wollen in die 2. Liga aufsteigen.</example>
             <example>Sie wollen im 2. Stock wohnen.</example>
+            <example>Softwareverteilung steuern</example><!-- Headline style -->
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
