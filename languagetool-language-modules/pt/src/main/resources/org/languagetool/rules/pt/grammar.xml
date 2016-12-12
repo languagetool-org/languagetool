@@ -6,9 +6,9 @@ title="Easy editing stylesheet" ?>
 
 <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright (C) 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright (C) 2016 Matheus Poletto
- Copyright (C) 2016 Tiago F. Santos
+ Copyright © 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016 Matheus Poletto
+ Copyright © 2016 Tiago F. Santos
  
  Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -3519,6 +3519,16 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
     </rule>
 <!-- *************************** -->
 <!-- RULES TU/TI -> EU/MIM *END* -->
+
+    <!-- VOTOS BRANCOS votos em branco -->
+    <rule id="VOTOS_BRANCOS" name="votos em branco">
+      <pattern>
+        <token>votos</token>
+        <token>brancos</token>
+      </pattern>
+      <message>Substituir «votos brancos» por <suggestion>votos em branco</suggestion>.</message>
+      <example correction="votos em branco">Houve muitos <marker>votos brancos</marker> na eleição.</example>
+    </rule>
 
 <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
 <!-- ************************************************************* -->
@@ -13583,7 +13593,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		<token>e</token>
 		<token>pouco</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>	  
 	  <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>
 	</rule>
@@ -13596,7 +13606,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		<token>e</token>
 		<token>coração</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Sou um gestor <marker>de alma e coração</marker>.</example>
       <example>Sou um gestor <marker>com determinação</marker>.</example>
 	</rule>
@@ -13606,7 +13616,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <pattern>
 		<token regexp="yes">encrencas?</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Que grande <marker>encrenca</marker>.</example>
       <example>Que grande <marker>sarilho</marker>.</example>
 	</rule>
@@ -13616,7 +13626,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <pattern>
 		<token regexp="yes">gaja|gajas</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Onde está a <marker>gaja</marker>?</example>
       <example>Onde está a <marker>senhora</marker>?</example>
 	</rule>
@@ -13626,7 +13636,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 	  <pattern>
 		<token regexp="yes">gajo|gajos</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Onde está o <marker>gajo</marker>?</example>
       <example>Onde está o <marker>senhor</marker>?</example>
 	</rule>
@@ -13677,7 +13687,7 @@ $Id: grammar.xml,v 1.195 2016-11-05 09:50:00 marcoagpinto Exp $
 		<token>do</token>
 		<token>possível</token>
       </pattern>
-      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
 	</rule>
