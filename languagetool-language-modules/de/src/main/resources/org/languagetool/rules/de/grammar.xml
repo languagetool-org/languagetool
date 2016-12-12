@@ -25099,6 +25099,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example>von Rechts wegen die Bestrafung</example>
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
+                <example>Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
+                <example>Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3 m².</example>
+                <example correction="">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3 m².</example>
+                <example>Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
+                <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
+                <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">wegen|(ab|zu)züglich|angesichts|abseits|anhand|aufgrund|infolge|innerhalb|außerhalb|jenseits|kraft|mithilfe|namens|seitens|unfern|zwecks</token>
+                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
+                <short>Diese Präposition erfordert den Genitiv</short>
+                <example>von Rechts wegen die Bestrafung</example>
+                <example>Er ist der Sache wegen dem Bruder begegnet.</example>
                 <example correction="">Ich bin <marker>wegen dem</marker> Unfall zu spät gekommen.</example>
                 <example correction="">Ich bin <marker>wegen einem</marker> Unfall zu spät gekommen.</example>
                 <example correction="">Ich bin <marker>wegen einem</marker> schweren Unfall zu spät gekommen.</example>
@@ -25107,7 +25126,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin <marker>wegen eines</marker> Unfalls zu spät gekommen.</example>
                 <example>Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
                 <example>Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3 m².</example>
-                <example correction="">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3 m².</example>
                 <example correction="">Ich bin <marker>wegen deinem</marker> Auto gekommen.</example>
                 <example>Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
                 <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
