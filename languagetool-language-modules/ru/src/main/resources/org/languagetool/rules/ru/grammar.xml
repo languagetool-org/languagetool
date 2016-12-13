@@ -8416,7 +8416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
-                  <token><exception postag="NN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
+                  <token><exception postag="NN:.*|ADV" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:.*|ADJ_Sup:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ_Sup:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
@@ -8426,6 +8426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Опущено существительное</short>
                 <example>Так он и запил горькую судьбу.</example>
                 <example>Это кольцо является волшебным.</example>
+                <example>Такой подход оказался достаточно универсальным.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
             </rule>
        </rulegroup>
