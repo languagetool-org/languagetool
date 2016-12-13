@@ -80,12 +80,13 @@ public class UppercaseSentenceStartRule extends Rule {
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     if (tokens.length < 2) {
       return toRuleMatchArray(ruleMatches);
     }
     int matchTokenPos = 1; // 0 = SENT_START
-    String firstToken = tokens[matchTokenPos].getToken();
+    AnalyzedTokenReadings firstTokenObj = tokens[matchTokenPos];
+    String firstToken = firstTokenObj.getToken();
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
@@ -129,8 +130,8 @@ public class UppercaseSentenceStartRule extends Rule {
          || tokens[matchTokenPos+1].getToken().equals(")"))) {
       preventError = true;
     }
-    
-    if (isUrl(checkToken) || isEMail(checkToken)) {
+
+    if (isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
       preventError = true;
     }
 
