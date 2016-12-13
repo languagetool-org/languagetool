@@ -25,7 +25,9 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
 /**
@@ -71,6 +73,8 @@ public class PortugueseWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
   public PortugueseWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("Além disso, a rua é quase completamente residêncial. <marker>Além</marker> disso, foi chamada em nome de um poeta."),
                    Example.fixed("Além disso, a rua é quase completamente residêncial. <marker>Foi</marker> chamada em nome de um poeta."));
   }

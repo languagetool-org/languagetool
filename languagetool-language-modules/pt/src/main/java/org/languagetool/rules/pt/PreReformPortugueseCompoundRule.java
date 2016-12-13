@@ -20,6 +20,8 @@ package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -38,6 +40,8 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
             "Esta palavra é composta por justaposição.",
             "Esta palavra pode ser composta por justaposição ou hifenizada.",
             "Este conjunto forma uma palavra composta.");
+    super.setCategory(Categories.COMPOUNDING.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   @Override
