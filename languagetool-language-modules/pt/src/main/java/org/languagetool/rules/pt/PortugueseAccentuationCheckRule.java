@@ -95,7 +95,7 @@ public class PortugueseAccentuationCheckRule extends PortugueseRule {
 
   @Override
   public String getId() {
-    return "ACCENTUATION_CHECK";
+    return "ACCENTUATION_CHECK_2";
   }
 
   @Override
