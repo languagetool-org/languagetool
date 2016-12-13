@@ -153,8 +153,7 @@ public class Portuguese extends Language {
             new PortugueseReplaceRule2(messages),
             new PortugueseClicheRule(messages),
             new PortugueseWordRepeatRule(messages, this),
-            new PortugueseWordRepeatBeginningRule(messages, this),
-            new PortugueseAccentuationCheckRule(messages)
+            new PortugueseWordRepeatBeginningRule(messages, this)
             //new PortugueseWrongWordInContextRule(messages)
     );
   }
