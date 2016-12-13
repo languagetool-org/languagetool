@@ -639,7 +639,6 @@
     </pattern>
     <disambig postag="ZR"/>
   </rule>
-<!-- TODO Activate progressively and watch for regressions
   <rule>
       <pattern case_sensitive="yes">
           <marker>
@@ -648,6 +647,7 @@
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
   </rule>
+<!-- TODO Activate progressively and watch for regressions
   <rule>
       <pattern case_sensitive="yes">
           <marker>
@@ -677,13 +677,17 @@
 -->
  </rulegroup>
 
+<!-- FIXME Percentage number and gender agrees with the noun it refers to. Disambiguate better.
  <rule id="PERCENTAGE" name="percentagens">
      <pattern>
+     TODO Verify why regexp fails with commas
          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
      </pattern>
      <disambig action="replace"><wd pos="NCMS000"/></disambig>
  </rule>
+-->
 
+<!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
  <rule id="NUMBER_DEGREE" name="número+graus">
      <pattern>
          <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEWO]?</token>
@@ -693,14 +697,14 @@
 
  <rule id="DEGREE" name="graus">
      <pattern>
-         <token regexp="yes">°[CFKNSEW]</token>
+         <token regexp="yes">°[CFKNSEWO]</token>
      </pattern>
      <disambig action="replace"><wd pos="NCMN000"/></disambig>
  </rule>
 
  <rule id="ONE_DEGREE" name="1 grau">
      <pattern>
-         <token regexp="yes">1°[CFNSEW]?</token>
+         <token regexp="yes">1[°′″‴][CFKNSEWO]?</token>
      </pattern>
      <disambig action="replace"><wd pos="NCMS000"/></disambig>
  </rule>
