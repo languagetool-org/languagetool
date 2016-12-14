@@ -54,7 +54,7 @@ public class ReflexiveVerbsRuleTest {
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
-
+    assertCorrect("T'enduràs això.");
     assertCorrect("Alguns ens adonàrem que era veritat");
     assertCorrect("M'he baixat moltes imatges");
     assertCorrect("baixeu-vos l'Aspell des de http://aspell.net/win32/");

@@ -4845,26 +4845,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>Bleistiftmine</marker></example>
             </rule>
         </rulegroup>
-        <!-- TODO many false alarms because of not recognizing a neuter noun and when 'das' is used as pronoun (Er sagt, das sei in Ordnung) -->
-        <rulegroup id="DASS" name="'das (dass)'" default="off">
+        <rulegroup id="RELATIVPRONOMEN_STATT_DASS" name="'das' anstatt 'dass'" default="on">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1">
-                        <exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"/>
-                        <exception scope="next" postag="UNKNOWN"/>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1">das
+                        <exception scope="next" postag="VER:.*|NEG:.*|ABK:.*" postag_regexp="yes"/>
+                        <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token regexp="yes" inflected="yes">sagen|berichten|meinen|glauben|schreiben|denken</token>
+                    <token skip="-1" postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|UNKNOWN" postag_regexp="yes"/>
+                    <token regexp="yes">,|;|\.|\?|!|:|-|–|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token regexp="yes">dort|da|hier|allein|alles|gestern|heute|letztens</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token>mit</token>
+                    <token postag="PRO:PER:.*|EIG:.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1">das</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1">das</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" skip="-1">
+                        <exception scope="next" postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|PRO:.*SIN.*NEU.*|PRO:IND.*|UNKNOWN" postag_regexp="yes"/>
+                    </token>
                     <token>,</token>
                     <marker>
                         <token skip="-1">das
-                            <exception scope="next" postag=".*NEU.*" postag_regexp="yes"/>
-                            <!-- <exception scope="next" postag="UNKNOWN"/> TODO not working -->
-                            <exception scope="next">heißt</exception>
+                           <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                         </token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SUB:NOM.*|EIG:NOM.*|PRO:PER.*|UNKNOWN" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)? Für das Relativpronomen 'das' wurde kein Beziehungswort gefunden.</message>
+                <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)?</message>
                 <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
                 <example correction="dass">Er sagt, <marker>das</marker> er sie liebt.</example>
                 <example correction="dass">Er hat geschrieben, <marker>das</marker> er sie liebt.</example>
@@ -4872,10 +4903,95 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er sagt, <marker>das</marker> ihm gehörende Haus sei schön.</example>
                 <example>Er meint, <marker>das</marker> heißt nichts.</example>
                 <example>Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
+                <example>Er sagt, <marker>das</marker> sei in Ordnung</example>
+                <example>Ich glaube, das hier gehört mir.</example>
+                <example>Ich konnte dich sehen, das allein macht mich froh.</example>
+                <example>Ich glaube, das mit uns hat einfach keinen Zweck.</example>
+                <example>Ich weigere mich, das von Tom abgegebene Geschmiere, das er seine Bearbeitung nennt, anzunehmen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" skip="-1">Das
+                        <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                    </token>
+                    <token postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token skip="-1" postag="ADJ.*SIN.*NEU.*|SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token regexp="yes">dort|da|hier|allein|alles|gestern|heute|letztens</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token>mit</token>
+                    <token postag="PRO:PER:.*|EIG:.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" skip="-1">Das</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" skip="-1">Das</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" skip="-1">Das
+                           <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                    </marker>
+                    <token skip="-1" postag="SUB:NOM.*|EIG:NOM.*|PRO:PER.*|UNKNOWN" postag_regexp="yes"/>
+                    <token>,</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Dass</suggestion> (Subjunktion)?</message>
+                <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example correction="Dass"><marker>Das</marker> er sie liebt, sagt er.</example>
+                <example correction="Dass"><marker>Das</marker> er sie liebt, hat er geschrieben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="dass/das">
             <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+            <rule>
+                <antipattern>
+                    <token skip="-1">,<exception scope="next">dass</exception></token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>dass</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                        <token skip="-1">dass
+                           <exception postag="SUB:NOM.*|EIG:NOM.*|PRO:.*|UNKNOWN" postag_regexp="yes" scope="next"/>
+                        </token>
+                    <token>,</token>
+                    <token postag="PRO:RIN:.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token skip="-1" postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|PRO:.*SIN.*NEU.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <marker>
+                        <token skip="-1">dass
+                           <exception postag="SUB:.*|EIG:NOM.*|PRO:.*|UNKNOWN" postag_regexp="yes" scope="next"/>
+                        </token>
+                    </marker>
+                    <token regexp="yes">,|\.|:|\?|!|;</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>das</suggestion>?</message>
+                <example correction="das">Das Kind, <marker>dass</marker> dort spielt.</example>
+                <example correction="das">Er hat kein Stück geschrieben, <marker>dass</marker> nicht erfolgreich wurde.</example>
+                <example>Er sagt, <marker>dass</marker> er sie liebt.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -11050,9 +11166,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Geschlechtergerechte Sprache -->
     <!-- ====================================================================== -->
     <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
-        <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' etc. statt 'Kaufmänner'">
+        <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'">
             <antipattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens|Ombuds)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Berufsfeuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts|Werbefach)männern?</token>
                 <token>und</token>
                 <token>-frauen</token>
             </antipattern>
@@ -24675,7 +24791,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">Positiv|Negativ</exception>
                     </token>
                 </marker>
-                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'><exception regexp="yes">sind|spielen</exception></token>
+                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'>
+                    <exception regexp="yes">sind|spielen</exception>
+                    <exception postag="SENT_END"/>
+                </token>
             </pattern>
             <message>Bitte prüfen, ob hier der Plural benutzt werden muss.</message>
             <example correction=''><marker>Regelsystem</marker> nutzen Verfahren wie diese.</example>
@@ -24687,6 +24806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Freitag gehen wir essen.</example>
             <example>Sie wollen in die 2. Liga aufsteigen.</example>
             <example>Sie wollen im 2. Stock wohnen.</example>
+            <example>Softwareverteilung steuern</example><!-- Headline style -->
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
@@ -24979,6 +25099,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example>von Rechts wegen die Bestrafung</example>
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
+                <example>Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
+                <example>Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3 m².</example>
+                <example correction="">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3 m².</example>
+                <example>Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
+                <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
+                <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">wegen|(ab|zu)züglich|angesichts|abseits|anhand|aufgrund|infolge|innerhalb|außerhalb|jenseits|kraft|mithilfe|namens|seitens|unfern|zwecks</token>
+                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
+                <short>Diese Präposition erfordert den Genitiv</short>
+                <example>von Rechts wegen die Bestrafung</example>
+                <example>Er ist der Sache wegen dem Bruder begegnet.</example>
                 <example correction="">Ich bin <marker>wegen dem</marker> Unfall zu spät gekommen.</example>
                 <example correction="">Ich bin <marker>wegen einem</marker> Unfall zu spät gekommen.</example>
                 <example correction="">Ich bin <marker>wegen einem</marker> schweren Unfall zu spät gekommen.</example>
@@ -24987,7 +25126,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin <marker>wegen eines</marker> Unfalls zu spät gekommen.</example>
                 <example>Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
                 <example>Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3 m².</example>
-                <example correction="">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3 m².</example>
                 <example correction="">Ich bin <marker>wegen deinem</marker> Auto gekommen.</example>
                 <example>Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
                 <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>

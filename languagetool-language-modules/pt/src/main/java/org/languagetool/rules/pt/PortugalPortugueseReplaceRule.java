@@ -19,6 +19,7 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
@@ -51,6 +52,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public PortugalPortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
+    super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Onde está o <marker>banheiro</marker>?"),
                    Example.fixed("Onde está o <marker>toilet</marker>?"));

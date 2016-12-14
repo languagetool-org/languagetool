@@ -147,13 +147,14 @@ public class Portuguese extends Language {
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new WordRepeatBeginningRule(messages, this),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
             new PortugueseReplaceRule2(messages),
             new PortugueseClicheRule(messages),
-            new PortugueseWordRepeatRule(messages, this)
+            new PortugueseWordRepeatRule(messages, this),
+            new PortugueseWordRepeatBeginningRule(messages, this),
+            new PortugueseAccentuationCheckRule(messages)
             //new PortugueseWrongWordInContextRule(messages)
     );
   }

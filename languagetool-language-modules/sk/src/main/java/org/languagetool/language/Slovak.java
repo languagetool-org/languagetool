@@ -127,9 +127,4 @@ public class Slovak extends Language {
     return ruleFileNames;
   }
 
-  @Override
-  public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
-  }
-
 }

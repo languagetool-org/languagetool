@@ -126,7 +126,7 @@ public class GermanChunkerTest {
     assertBasicChunks("Herr/B Finn/I Westerwalbesloh/I isst eine/B leckere/I Lasagne/I");
     assertBasicChunks("Unsere/B schöne/I Heimat/I geht den/B Bach/I runter");
     assertBasicChunks("Er meint das/B Haus/I am grünen/B Hang/I");
-    assertBasicChunks("Ich muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
+    assertBasicChunks("Ich/B muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
     //assertChunks("Ich muss dem/B Hund/I Futter/B geben");
     assertBasicChunks("Das/B Wasser/I , das die/B Wärme/I überträgt");
     assertBasicChunks("Er mag das/B Wasser/I , das/B Meer/I und die/B Luft/I");
