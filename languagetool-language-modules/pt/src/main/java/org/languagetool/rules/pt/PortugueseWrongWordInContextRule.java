@@ -24,13 +24,17 @@ package org.languagetool.rules.pt;
 
 import java.util.ResourceBundle;
 
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
   public PortugueseWrongWordInContextRule(ResourceBundle messages) {
     super(messages);
+    super.setCategory(Categories.SEMANTICS.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("A fruta vem da <marker>arvore</marker>."),
                    Example.fixed("A fruta vem da <marker>árvore</marker>."));
   }

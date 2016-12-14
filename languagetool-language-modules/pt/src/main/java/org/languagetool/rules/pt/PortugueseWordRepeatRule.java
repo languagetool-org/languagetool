@@ -23,7 +23,10 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ITSIssueType;
+
 import org.languagetool.rules.WordRepeatRule;
 
 /**
@@ -40,6 +43,8 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
 
   public PortugueseWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setCategory(Categories.MISC.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Duplication);
     addExamplePair(Example.wrong("Este <marker>é é</marker> apenas uma frase de exemplo."),
                    Example.fixed("Este <marker>é</marker> apenas uma frase de exemplo."));
   }

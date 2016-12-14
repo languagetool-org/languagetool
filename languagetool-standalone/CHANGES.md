@@ -96,6 +96,9 @@
     
     If you're interested in contributing to one of these languages, please post to
     our forum at http://forum.languagetool.org.
+  * The uppercase sentence start rule (id `UPPERCASE_SENTENCE_START`) now ignores
+    immunized tokens - this way users can add lowercase words to `disambiguation.xml`
+    so the rule won't complain about these lowercase words at the beginning of a sentence.
   
 #### Command-line
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)
@@ -104,6 +107,7 @@
 
 #### Internal
   * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
+  * Updated lucene-gosen-ipadic to 6.2.1 (#376)
 
 
 ## 3.5 (2016-09-30)

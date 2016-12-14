@@ -31,7 +31,7 @@ public class JapaneseWordTokenizer implements Tokenizer {
   private final StringTagger stringTagger;
 
   public JapaneseWordTokenizer() {
-    stringTagger = SenFactory.getStringTagger(null);
+    stringTagger = SenFactory.getStringTagger(null, false);
   }
 
   @Override  
