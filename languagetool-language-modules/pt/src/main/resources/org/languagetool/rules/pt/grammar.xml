@@ -5979,6 +5979,45 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
      </rule>
    </rulegroup>
 
+   <rulegroup id="DOUBLE_PONTUATION" name="Pontuação duplicada">
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
+     <rule>
+      <regexp>[.][.][.][.]</regexp>
+        <message>Pontuação duplicada</message>
+          <suggestion>…</suggestion>
+	  <example correction='…'>A situação financeira era estável<marker>....</marker></example>
+     </rule>
+     <rule>
+      <regexp>[.][.][^.]</regexp>
+        <message>Pontuação duplicada</message>
+          <suggestion>.</suggestion>
+          <suggestion>…</suggestion>
+	  <example correction='.|…'>A situação financeira era estável<marker>.. </marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
+          <token><match no="0"/></token>
+        </pattern>
+        <message>Pontuação duplicada</message>
+          <suggestion>\1</suggestion>
+        <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp='yes'>[.][.][.]</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[.,;:!?…]</token>
+          <token regexp="yes">[.,;:!?…]</token>
+        </pattern>
+        <message>Pontuação duplicada</message>
+          <suggestion>\1</suggestion>
+          <suggestion>\2</suggestion>
+        <example correction=',|.'>A situação financeira era estável<marker>,.</marker>e a fazenda garantia um bom rendimento.</example>
+      </rule>
+    </rulegroup>
+
 </category>
 
 <category id='DUPLICATION' name='Repetições' type='duplication'>
