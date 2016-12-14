@@ -29227,7 +29227,145 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich wollte nur „Danke!“ sagen.</example>
             </rule>
         </rulegroup>
-
+        <rulegroup id="KOMMA_VOR_NICHT_WAHR" name="Fehlendes Komma vor 'nicht wahr' etc.">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token>nicht</token>
+                    <token>wahr</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2 \3' setzen?</message>
+                <suggestion>\1, \2 \3</suggestion>
+                <example correction='morgen, nicht wahr' type="incorrect">Du kommst <marker>morgen nicht wahr</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ach</token>
+                    <token>ja</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token  regexp="yes">oder|ja</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2' setzen?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction='morgen, oder' type="incorrect">Du kommst <marker>morgen oder</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token>oder</token>
+                    </marker>
+                    <token min='0' max='1'>etwa</token>
+                    <token>nicht</token>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2' setzen?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction='morgen, oder' type="incorrect">Du kommst <marker>morgen oder</marker> etwa nicht?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma vor und nach Relativsatz  -->
             <rule>
@@ -29534,7 +29672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:AUX:.*:KJ1|VER:AUX:.*:KJ2" postag_regexp="yes"/>
+                    <token postag="VER:AUX:.*" postag_regexp="yes"/>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -29691,6 +29829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2 <match no="3" include_skipped="all"/> \4,</suggestion>
                 <example correction="in dem der Mann sitzt," type="incorrect">Das Auto, <marker>in dem der Mann sitzt</marker> parkt im Halteverbot.</example>
                 <example>Das Auto, <marker>in dem der Mann sitzt,</marker> parkt im Halteverbot.</example>
+                <example>Das Ziel, das sie hatten erreichen wollen, mussten sie zumindest für diese Mission abschreiben.</example>
             </rule>
 <!--  Komma vor 'auch wenn' etc.  -->
             <rule>
