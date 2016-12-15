@@ -42,6 +42,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
 
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões"> 
+    <!ENTITY unidades_de_medida "([µnmcdhk]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -114,8 +115,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	   <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> \3</suggestion>
 	   <suggestion>\2 <match no="3" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
 	 <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
-	 <example>Faça-me uma omelete sem ovos.</example>
-	 <example><marker>O boi</marker> está no pasto.</example>
+	 <example correction='uma omelete|um (omelete)'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
+	 <example>O Um torna-se Dois, o Dois torna-se Três.</example>
+	 <example>Diz-se que a cada dia nasce um trouxa, e disso o vigarista sabe.</example>
+	 <example correction='uma sanduíche|um (sanduíche)'>Estão comendo <marker>um sanduíche</marker>.</example>
 	</rule>
 	<rule>
 	 <pattern>
@@ -6050,12 +6053,12 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
        </antipattern>
        <pattern>
          <token><exception>-</exception></token>
-         <token  skip='-1'/>
+         <token skip='-1'/>
          <marker>
            <token><match no="1"/>
              <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT' postag_regexp='yes'/>
              <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-             <exception regexp='yes'>['"/\|]</exception>
+             <exception regexp='yes'>\d+|['"/\|]|&unidades_de_medida;</exception>
              </token>
          </marker>
          <token negate='yes'>-</token>
@@ -6072,6 +6075,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
        <example>Grupos indígenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinto Camacã.</example>
        <example>Isto são exemplos do dia a dia.</example>
        <example>É preciso dar tempo ao tempo.</example>
+       <example>371 575 m³ para Gás Natural Comprimido, 243 024 m³ para usuários comerciais, 120 119 m³ para</example>
+       <example>99,6% com iluminação pública, 99,3% com coleta de resíduos e 89,7% dos lares tem</example>
     </rule>
 
     <rule id="REPEATED_WORDS_3X" name="Palavras repetidas (3x)" default='on'>
@@ -6080,14 +6085,14 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		  v2 regression tested on 2016-12-05 result:~15%	-->
        <pattern>
          <token><exception>-</exception></token>
-         <token  skip='-1'/>
+         <token skip='-1'/>
          <token><match no="1"/></token>
-         <token  skip='-1'/>
+         <token skip='-1'/>
          <marker>
            <token><match no="1"/>
              <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT' postag_regexp='yes'/>
              <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-             <exception regexp='yes'>['"/\|]</exception>
+             <exception regexp='yes'>\d+|['"/\|]|&unidades_de_medida;</exception>
              </token>
          </marker>
          <token negate='yes'>-</token>
@@ -6103,6 +6108,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
        <example>...pela posse do diploma fornecido pela autoridade educacional e...</example>
        <example>Clube de Choro do Rio de Janeiro</example>
        <example>Grupos indígenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinto Camacã.</example>
+       <example>371 575 m³ para Gás Natural Comprimido, 243 024 m³ para usuários comerciais, 120 119 m³ para</example>
+       <example>99,6% com iluminação pública, 99,3% com coleta de resíduos e 99,7% dos lares tem</example>
     </rule>
 
   <rulegroup id="PHRASE_REPETITION" name="Duplicação de palavras (por ali por ali)">
