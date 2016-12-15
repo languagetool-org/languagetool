@@ -72,6 +72,11 @@
     now returns a pseudo error pointing to the migration page
 
 #### Java API
+  * A new method for removing overlapping errors has been implemented. By default,
+    it is enabled for the HTTP API and LibreOffice outputs, and disabled for the
+    command-line output. If necessary, priorities for rules and categories can bet set
+    in Language.getPriorityForId(String id). Default value is 0, positive integers have
+    higher priority and negative integers have lower priority.
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
     instead
   * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
