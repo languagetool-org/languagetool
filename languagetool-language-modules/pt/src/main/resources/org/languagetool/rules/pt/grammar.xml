@@ -5985,17 +5985,25 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
    <rulegroup id="DOUBLE_PONTUATION" name="Pontuação duplicada">
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
      <rule>
-      <regexp>[.][.][.][.]</regexp>
+        <regexp>[.][.][.][.]</regexp>
         <message>Pontuação duplicada</message>
           <suggestion>…</suggestion>
 	  <example correction='…'>A situação financeira era estável<marker>....</marker></example>
      </rule>
      <rule>
-      <regexp>[.][.][^.]</regexp>
+        <antipattern>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+        </antipattern>
+        <pattern>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+        </pattern>
         <message>Pontuação duplicada</message>
           <suggestion>.</suggestion>
           <suggestion>…</suggestion>
-	  <example correction='.|…'>A situação financeira era estável<marker>.. </marker></example>
+	  <example correction='.|…'>A situação financeira era estável<marker>..</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -6008,10 +6016,17 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       </rule>
       <rule>
         <antipattern>
-          <token regexp='yes'>[.][.][.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>[!][?]</token>
+          <token regexp='yes'>[!]</token>
+          <token regexp='yes'>[?]</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[,;]<exception postag='SENT_END'/></token>
         </antipattern>
         <pattern>
           <token regexp="yes">[.,;:!?…]</token>
@@ -6021,6 +6036,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
           <suggestion>\1</suggestion>
           <suggestion>\2</suggestion>
         <example correction=',|.'>A situação financeira era estável<marker>,.</marker>e a fazenda garantia um bom rendimento.</example>
+        <example>…cana-de-açúcar, cacau, tomate, críticos, etc., para exportação.</example>
+        <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith Di…</example>
       </rule>
     </rulegroup>
 
