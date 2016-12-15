@@ -47,6 +47,7 @@ public class ToolsTest {
   @Test
   public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool tool = new JLanguageTool(new Polish());
+    tool.setCleanOverlappingMatches(false);
 
     String correct = Tools.correctText("To jest całkowicie prawidłowe zdanie.", tool);
     assertEquals("To jest całkowicie prawidłowe zdanie.", correct);

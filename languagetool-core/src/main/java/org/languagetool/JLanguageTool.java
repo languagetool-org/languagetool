@@ -119,7 +119,8 @@ public class JLanguageTool {
   private PrintStream printStream;
   private int sentenceCount;
   private boolean listUnknownWords;
-  private Set<String> unknownWords;  
+  private Set<String> unknownWords;
+  private boolean cleanOverlappingMatches;
 
   /**
    * Constants for correct paragraph-rule handling.
@@ -164,6 +165,7 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
+    this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
       activateDefaultFalseFriendRules();
@@ -213,6 +215,16 @@ public class JLanguageTool {
    */
   public void setListUnknownWords(boolean listUnknownWords) {
     this.listUnknownWords = listUnknownWords;
+  }
+  
+  /**
+   * Whether the {@link #check(String)} methods return overlapping errors. If set to
+   * <code>true</code> (default: true), it removes overlapping errors according to 
+   * the priorities established for the language. 
+   * @since 3.6
+   */
+  public void setCleanOverlappingMatches(boolean cleanOverlappingMatches) {
+    this.cleanOverlappingMatches = cleanOverlappingMatches;
   }
 
   /**
@@ -546,6 +558,9 @@ public class JLanguageTool {
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
+    if (cleanOverlappingMatches) {
+      ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
+    }
     return ruleMatches;
   }
   
