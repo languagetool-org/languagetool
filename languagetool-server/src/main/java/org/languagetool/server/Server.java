@@ -126,6 +126,14 @@ abstract class Server {
     System.out.println("  --verbose, -v  in case of exceptions, log the input text (up to 500 characters)");
   }
 
+  protected static void checkForNonRootUser() {
+    if ("root".equals(System.getProperty("user.name"))) {
+      System.out.println("****************************************************************************************************");
+      System.out.println("*** WARNING: this process is running as root - please do not run it as root for security reasons ***");
+      System.out.println("****************************************************************************************************");
+    }
+  }
+  
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
