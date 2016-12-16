@@ -110,6 +110,12 @@
     See https://languagetool.org/http-api/swagger-ui/#/default
     for a documentation of the new API.
 
+#### ngrams
+  * Portuguese hs been prepared to use ngram data, that means it has a
+    `confusion_sets.txt` file where word pairs can be added.
+    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
+    for information on where to download the ngram data.
+
 #### Internal
   * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
   * Updated lucene-gosen-ipadic to 6.2.1 (#376)
