@@ -52,14 +52,13 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         throw new RuntimeException(
             "The list of rule matches is not ordered. Make sure it is sorted by start position.");
       }
-      // no overlapping
-      if (ruleMatch.getFromPos() > prevRuleMatch.getToPos()) {
+      // no overlapping (juxtaposed errors are not removed)
+      if (ruleMatch.getFromPos() >= prevRuleMatch.getToPos()) {
         cleanList.add(prevRuleMatch);
         prevRuleMatch = ruleMatch;
         continue;
       }
       //overlapping
-      
       // get priorities
       int currentPriority = getMatchPriority(ruleMatch);
       int prevPriority = getMatchPriority(prevRuleMatch);
