@@ -3059,6 +3059,13 @@ USA
         </rule>
         <!-- world wide::word=worldwide -->
         <rule id="WORLD_WIDE" name="world wide (worldwide)">
+            <antipattern case_sensitive="yes">
+                <token>World</token>
+                <token>Wide</token>
+                <token>Fund</token>
+                <token regexp="yes">For|for</token><!-- Lower case 'f' is a style decision -->
+                <token>Nature</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>world</token>
@@ -3068,6 +3075,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>worldwide</suggestion>?</message>
             <example correction="worldwide">There was a <marker>world wide</marker> epidemic.</example>
+            <example>There was a <marker>world-wide</marker> epidemic.</example>
+            <example>The '<marker>World Wide Fund For Nature</marker>' is also known as the 'World Wildlife Fund' (https://wwf.panda.org/who_we_are/wwf_offices/uk/).</example>
         </rule>
         <!-- worth while::word=worthwhile -->
         <rule id="WORTH_WHILE" name="worth while (worthwhile)">
