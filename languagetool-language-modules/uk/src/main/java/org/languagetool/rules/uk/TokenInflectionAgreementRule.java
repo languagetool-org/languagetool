@@ -19,47 +19,50 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.uk.InflectionHelper.Inflection;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * A rule that checks if tokens in the sentence agree on inflection etc
+ * A rule that checks if adjective and following noun agree on gender and inflection
  * 
  * @author Andriy Rysin
  */
 public class TokenInflectionAgreementRule extends Rule {
-  private static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або");
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
-  private static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
-  private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile(":((?:[iu]n)?anim):([mfnp]):(v_...)");
+  static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
+  static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
+  static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug");
+//  private static final Logger logger = LoggerFactory.getLogger(TokenInflectionAgreementRule.class);
 
-  private static final Map<String, Set<String>> inflectionControl = loadMap("/uk/case_government.txt");
-  
-  
+  private final Ukrainian ukrainian = new Ukrainian();
+
+
   public TokenInflectionAgreementRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
-    setDefaultOff();
+//    setDefaultOff();
   }
 
   @Override
@@ -69,527 +72,263 @@ public class TokenInflectionAgreementRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Узгодження відмінків/числа/роду прикметників та іменників";
+    return "Узгодження відмінків, роду і числа прикметника та іменника";
   }
 
   public String getShort() {
-    return "Узгодження прикметників та іменників";
-  }
-  /**
-   * Indicates if the rule is case-sensitive. 
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
-  public boolean isCaseSensitive() {
-    return false;
+    return "Узгодження прикметника та іменника";
   }
 
   @Override
   public final RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     ArrayList<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings adjAnalyzedTokenReadins = null;
-    boolean adjpPresent = false;
-    boolean numrPresent = false;
-    boolean pronPresent = false;
 
-    for (int i = 0; i < tokens.length; i++) {
+    for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
-      String posTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
+      String posTag0 = tokenReadings.getAnalyzedToken(0).getPOSTag();
 
-      //TODO: skip conj напр. «бодай»
-
-      if (posTag == null
-          || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
-      	adjTokenReadings.clear();
+      if( posTag0 == null ) {
+//          || posTag0.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
+        adjTokenReadings.clear();
         continue;
       }
 
-      
       // grab initial adjective inflections
-      
+
       if( adjTokenReadings.isEmpty() ) {
-        if( i == tokens.length - 1 ) // no need to start checking on last token
+
+        // no need to start checking on last token or if no noun
+        if( i == tokens.length - 1 )
           continue;
 
-        adjpPresent = false;
-        numrPresent = false;
-        pronPresent = false;
-        
+        //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
+        if( PosTagHelper.hasPosTagPart(tokens[i], ":nv")
+            //TODO: turn back on when we can handle pron
+            || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+            || PosTagHelper.hasPosTagPart(tokens[i], "<") )
+          continue;
+
+        if( ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
+            || PosTagHelper.hasPosTagPart(tokens[i+1], ":nv")
+            || PosTagHelper.hasPosTagPart(tokens[i+1], "&pron")
+            || PosTagHelper.hasPosTagPart(tokens[i+1], "<") )
+          continue;
+
+        //TODO: TEMP?
+
+        if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("червоний", "правий", "місцевий", "найсильніший", "найкращі"), ":p:")
+            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("новенький", "головний", "вибраний", "більший", "побачений", "подібний"), ":n:")
+            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("державний"), ":f:") ) {
+          adjTokenReadings.clear();
+          break;
+        }
+
+
+
         for (AnalyzedToken token: tokenReadings) {
           String adjPosTag = token.getPOSTag();
-          
-          if( adjPosTag == null ) {
-            System.err.println("Null tag: " + tokenReadings);
+
+          if( adjPosTag == null ) { // can happen for words with \u0301 or \u00AD
             continue;
           }
-          
-          if( adjPosTag.startsWith("adj") && ! adjPosTag.contains(NO_VIDMINOK_SUBSTR) ) {		//TODO: nv still can be wrong if :np/:ns is present
+
+          if( adjPosTag.startsWith("adj") ) {
+
             adjTokenReadings.add(token);
             adjAnalyzedTokenReadins = tokenReadings;
-
-            if( adjPosTag.contains("&pron") ) {
-              pronPresent = true;
-//              adjTokenReadings.clear();
-//              break;
-            }
-            
-            if( adjPosTag.startsWith("<") ) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-            
-            // кількох десятих відсотка
-            if( Arrays.asList("десятий", "сотий", "тисячний", "мільйонний", "мільярдний").contains(token.getLemma().toLowerCase())
-                  && adjPosTag.matches(".*:[fp]:.*") ) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-
-            if( i>1 && Arrays.asList("який", "котрий").contains(token.getLemma()) 
-            		&& reverseConjFind(tokens, i-1, 3) ) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-            
-            // 33 народних обранці
-            if( i>1 && adjPosTag.contains(":p:v_rod") 
-            		&& tokens[i-1].getAnalyzedToken(0).getLemma() != null
-            		&& tokens[i-1].getAnalyzedToken(0).getLemma().matches(".*[2-4]|два|три|чотири") 
-            		&& PosTagHelper.hasPosTag(tokens[i+1], ".*:p:v_naz.*")) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-
-            // Водночас сам Рибалко
-            if( Arrays.asList("сам", "саме").contains(token.getToken().toLowerCase()) ) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-            
-            if( i > 0 && PosTagHelper.hasPosTag(tokens[i-1], "(</)?prep.*") ) {
-            	if( Arrays.asList("який", "якийсь", "такий", "котрий", "увесь", "весь", "останній").contains(token.getLemma()) ) {
-            		Collection<String> governedCases = getPrepGovernedCases(tokens[i-1]);
-            		boolean boo = false;
-            		for (String governedCase : governedCases) {
-              		if( token.getPOSTag().contains(governedCase) ) {
-              			boo = true;
-              			break;
-              		}
-            		}
-            		if( boo ) { 
-                	adjTokenReadings.clear();
-                	break;
-            		}
-            	}
-            }
-
-            if( adjPosTag.contains("adjp:pasv") ) { // could be :&adjp or :&_adjp
-              adjpPresent = true;
-            }
-            
-            if( adjPosTag.contains(":&numr") ) {
-              // Ставши 2003-го прем’єром
-            	if( token.getLemma().matches("([12][0-9])?[0-9][0-9]-.*") ) {
-            		adjTokenReadings.clear();
-            		break;
-            	}
-            	if( i > 0 && Arrays.asList("на", "в", "у", "за", "о").contains(tokens[i-1].getAnalyzedToken(0).getLemma()) ) {
-            		adjTokenReadings.clear();
-            		break;
-            	}
-            
-              numrPresent = true;
-            }
-            
-            if( i > 0 && adjPosTag.contains(":v_oru") && hasButyLemma(tokens[i-1]) ) {
-              	adjTokenReadings.clear();
-              	break;
-            }
-
-          }
-          else if ( adjPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) ) {
-            continue;
           }
           else {
             adjTokenReadings.clear();
             break;
           }
         }
-        
+
         continue;
       }
-      
-      
-      // see if we can check
-//      System.out.println("Check for noun: " + tokenReadings);
-            
-      ArrayList<AnalyzedToken> slaveTokenReadings = new ArrayList<>(); 
+
+
+      ArrayList<AnalyzedToken> slaveTokenReadings = new ArrayList<>();
+
       for (AnalyzedToken token: tokenReadings) {
-         String posTag2 = token.getPOSTag();
+        String nounPosTag = token.getPOSTag();
 
-         if( posTag2 == null ) {
-           System.err.println("Null tag: " + tokenReadings);
-           continue;
-         }
-         
-         if( posTag2.startsWith("noun") && ! posTag2.contains(NO_VIDMINOK_SUBSTR) ) {
-           
-           //TODO: temp: ignore &pron
-           if( posTag2.contains("&pron") ) {
-          	 slaveTokenReadings.clear();
-             break;
-           }
+        if( nounPosTag == null ) { // can happen for words with \u0301 or \u00AD
+          continue;
+        }
 
-           if( token.getToken().equals("ім.") ) {
-           	adjTokenReadings.clear();
-           	break;
-           }
+        if( nounPosTag.startsWith("noun") 
+            && ! nounPosTag.contains(NO_VIDMINOK_SUBSTR) ) {
 
-           if( token.getToken().equals("віком") && adjAnalyzedTokenReadins.getAnalyzedToken(0).getToken().matches(".*старший|.*молодший") ) {
-            	adjTokenReadings.clear();
-            	break;
-            }
-
-           if( posTag2.startsWith("</") ) {
-           	adjTokenReadings.clear();
-           	break;
-           }
-           
-           if( adjpPresent && posTag2.contains("v_oru") ) {
-          	 slaveTokenReadings.clear();
-             break;
-           }
-           else if( numrPresent && Arrays.asList("ранок", "день", "вечір", "ніч", "пополудень").contains(token.getLemma()) && token.getPOSTag().contains("v_rod") ) {
-          	 slaveTokenReadings.clear();
-             break;
-           }
-           else if( pronPresent && token.getLemma().equals("решта") ) {
-          	 slaveTokenReadings.clear();
-             break;
-           }
-           
-           slaveTokenReadings.add(token);
-         }
-         else if ( posTag2.equals(JLanguageTool.SENTENCE_END_TAGNAME) ) {
-           continue;
-         }
-         else {
-           slaveTokenReadings.clear();
-           break;
-         }
+          slaveTokenReadings.add(token);
+        }
+        else if ( nounPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME)
+            || nounPosTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) {
+          continue;
+        }
+        else {
+          slaveTokenReadings.clear();
+          break;
+        }
       }
+
 
       // no slave token - restart
-      
-      if( slaveTokenReadings.isEmpty() ) {
-      	adjTokenReadings.clear();
-      	continue;
-      }
-      
-//      System.err.println("=== Checking ");
-//      System.err.println("\t" + adjTokenReadings);
-//      System.err.println("\t" + slaveTokenReadings);
-      
-      // perform check
-      
-      List<Inflection> masterInflections = getAdjInflections(adjTokenReadings);
 
-      List<Inflection> slaveInflections = getNounInflections(slaveTokenReadings);
+      if( slaveTokenReadings.isEmpty() ) {
+        adjTokenReadings.clear();
+        continue;
+      }
+
+      if( DEBUG ) {
+        System.err.println(MessageFormat.format("=== Checking:\n\t{}\n\t{}", adjTokenReadings, slaveTokenReadings));
+      }
+
+      // perform the check
+
+      List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(adjTokenReadings);
+
+      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(slaveTokenReadings);
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
 
-      	// моїх маму й сестер
-      	if( i < tokens.length - 2
-      			&& PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj:p:.*")
-      			&& forwardConjFind(tokens, i+1, 2)
-      			&& ! disjointIgnoreGender(masterInflections, slaveInflections) ) {
-      		//    					&& PosTagHelper.hasPosTag(tokens[i+2], "(numr|noun):.*") ) {	// TODO: must match 1st noun inflection (but number may differ)
-      		adjTokenReadings.clear();
-      		continue;
-      	}
+        if( TokenInflectionExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, adjTokenReadings, slaveTokenReadings) ) {
+          adjTokenReadings.clear();
+          continue;
+        }
 
-      	// два нових горнятка (див. #1 нижче)
-      	if( i > 1
-      			&& PosTagHelper.hasPosTag(tokenReadings, "noun:.*:p:(v_naz|v_zna).*")
-      			&& Arrays.asList("два", "три", "чотири").contains(tokens[i-2].getAnalyzedToken(0).getLemma())
-      			&& PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj.*:p:v_rod.*") ) {
-      		adjTokenReadings.clear();
-      		continue;
-      	}
-      	// порядок денний
-      	if( i > 1 
-      			&& PosTagHelper.hasPosTag(tokens[i-2], "noun:.*")
-      			&& ! Collections.disjoint(masterInflections, getNounInflections(tokens[i-2].getReadings())) ) {
-      		adjTokenReadings.clear();
-      		continue;
-      	}
+        if( DEBUG ) {
+          System.err.println(MessageFormat.format("=== Found:\n\t{}\n\t",
+            adjAnalyzedTokenReadins.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadins,
+            slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
+        }
 
-      	// навчальної та середньої шкіл
-      	if( i > 2 
-      			&& PosTagHelper.hasPosTag(tokenReadings, "noun:.*:p:.*")
-      			&& reverseConjFind(tokens, i-2, 2)
-      			&& ! disjointIgnoreGender(masterInflections, slaveInflections) ) {
-      		//      				&& PosTagHelper.hasPosTag(tokens[i-3], "adj.*") ) {	// TODO: must match 2nd adj inflection
-      		adjTokenReadings.clear();
-      		continue;
-      	}
+        String msg = String.format("Потенційна помилка: прикметник неузгоджений з іменником: \"%s\": [%s] і \"%s\": [%s]", 
+            adjTokenReadings.get(0).getToken(), formatInflections(masterInflections, true),
+            slaveTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
 
-      	// ані судова, ані правоохоронна системи
-      	if( i > 2 
-      			&& PosTagHelper.hasPosTag(tokenReadings, "noun:.*:p:.*")
-      			&& Arrays.asList("ані", "також").contains(tokens[i-2].getAnalyzedToken(0).getLemma())
-      			&& ! disjointIgnoreGender(masterInflections, slaveInflections) ) {
-      		adjTokenReadings.clear();
-      		continue;
-      	}
+        if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
+            && tokens[i].getToken().matches(".*[ую]")
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
+          msg += ". Можливо вжито неунормований родовий відмінок ч.р. з закінченням -у/ю замість -а/я?";
+        }
 
-      	// зробити відкритим доступ
-      	if( i > 1
-      			&& PosTagHelper.hasPosTag(tokens[i-2], "verb:.*")
-      			&& PosTagHelper.hasPosTag(tokens[i-1], "adj.*:v_oru.*")
-      			&& PosTagHelper.hasPosTag(tokens[i], "noun:.*:v_zna.*") 
-      			&& genderMatches(masterInflections, slaveInflections, "v_oru", "v_zna") ) {
-      		adjTokenReadings.clear();
-      		continue;
-      	}
-
-      	
-      	if( inflectionControlMatches(adjTokenReadings, slaveInflections) ) {
-      		adjTokenReadings.clear();
-      		continue;
-      	}
-      	
-//        System.err.println("===");
-//        System.err.println("\t" + adjAnalyzedTokenReadins.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadins);
-//        System.err.println("\t" + slaveTokenReadings.get(0).getToken() + ": " + slaveInflections);
+        RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadins.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         
-        String msg = String.format("Неузгоджені прикметник з іменником: \"%s\" (%s) і \"%s\" (%s)", 
-            adjTokenReadings.get(0).getToken(), masterInflections, slaveTokenReadings.get(0).getToken(), slaveInflections);
-				RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadins.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-      	ruleMatches.add(potentialRuleMatch);
+        Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
+        List<String> suggestions = new ArrayList<>();
+
+
+        try {
+
+        for (Inflection adjInflection : masterInflections) {
+          String genderTag = ":"+adjInflection.gender+":";
+          String vidmTag = adjInflection._case;
+
+
+            if( ! adjInflection._case.equals("v_kly")
+                && (adjInflection._case.equals("p")
+                || PosTagHelper.hasPosTagPart(slaveTokenReadings, genderTag)) ) {
+              for(AnalyzedToken nounToken: slaveTokenReadings) {
+
+                if( adjInflection.animMatters() ) {
+                  if( ! nounToken.getPOSTag().contains(":" + adjInflection.animTag) )
+                    continue;
+                }
+
+                String newNounPosTag = nounToken.getPOSTag().replaceFirst(":.:v_...", genderTag + vidmTag);
+
+                String[] synthesized = ukrainianSynthesizer.synthesize(nounToken, newNounPosTag, false);
+
+                for (String string : synthesized) {
+                  String suggestion = adjAnalyzedTokenReadins.getToken() + " " + string;
+                  if( ! suggestions.contains(suggestion) ) {
+                    suggestions.add(suggestion);
+                  }
+                }
+              }
+            }
+
+        }
+
+        for (Inflection nounInflection : slaveInflections) {
+          String genderTag = ":"+nounInflection.gender+":";
+          String vidmTag = nounInflection._case;
+
+                if( nounInflection.animMatters() ) {
+                    vidmTag += ":r" + nounInflection.animTag;
+                }
+
+              for(AnalyzedToken adjToken: adjTokenReadings) {
+                String newAdjTag = adjToken.getPOSTag().replaceFirst(":.:v_...(:r(in)?anim)?", genderTag + vidmTag);
+
+                String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
+
+                for (String string : synthesized) {
+                  String suggestion = string + " " + tokenReadings.getToken();
+                  if( ! suggestions.contains(suggestion) ) {
+                    suggestions.add(suggestion);
+                  }
+                }
+              }
+
+        }
+
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+
+//        System.err.println("### " + suggestions);
+
+        if( suggestions.size() > 0 ) {
+            potentialRuleMatch.setSuggestedReplacements(suggestions);
+        }
+
+        ruleMatches.add(potentialRuleMatch);
       }
 
       adjTokenReadings.clear();
     }
-    
+
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static boolean hasButyLemma(AnalyzedTokenReadings analyzedTokenReadings) {
-  	for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
-  		if( "бути".equalsIgnoreCase(analyzedToken.getLemma()) )
-  			return true;
-  	}
-  	return false;
+  private static String formatInflections(List<Inflection> inflections, boolean adj) {
+
+    Collections.sort(inflections);
+    
+    Map<String, List<String>> map = new LinkedHashMap<>();
+    
+    for (Inflection inflection : inflections) {
+      if( ! map.containsKey(inflection.gender) ) {
+        map.put(inflection.gender, new ArrayList<String>());
+      }
+      String caseStr = PosTagHelper.VIDMINKY_MAP.get(inflection._case);
+      if( adj && inflection.animTag != null ) {
+        caseStr += " (" + (inflection.animTag.equals("ranim") ? "іст." : "неіст.") + ")";
+      }
+      map.get(inflection.gender).add(caseStr);
+    }
+
+    
+    ArrayList<String> list = new ArrayList<>();
+    for(Entry<String, List<String>> entry : map.entrySet()) {
+      String genderStr = PosTagHelper.GENDER_MAP.get(entry.getKey());
+      
+      List<String> caseValues = entry.getValue();
+
+      list.add(genderStr + ": " + StringUtils.join(caseValues, ", "));
+    }
+    
+    return StringUtils.join(list, ", ");
   }
 
-	private boolean genderMatches(List<Inflection> masterInflections, List<Inflection> slaveInflections, String masterCaseFilter, String slaveCaseFilter) {
-//  	System.err.println("master " + masterInflections + " / " + slaveInflections);
-  	for (Inflection masterInflection : masterInflections) {
-  		for (Inflection slaveInflection : slaveInflections) {
-//  			System.err.println("matching gender " + masterInflection.gender + " = " + slaveInflection.gender );
-  			if( masterInflection._case.equals(masterCaseFilter)
-  					&& slaveInflection._case.equals(slaveCaseFilter)
-  					&& slaveInflection.gender.equals(masterInflection.gender) ) 
-  				return true;
-  		}
-  	}
-  	return false;
-	}
-
-	private Collection<String> getPrepGovernedCases(AnalyzedTokenReadings analyzedTokenReadings) {
-  	ArrayList<String> reqCases = new ArrayList<>(); 
-  	for(AnalyzedToken reading: analyzedTokenReadings.getReadings()) {
-  		String posTag = reading.getPOSTag();
-  		if( posTag != null && posTag.contains("rv_") ) {
-  			Matcher matcher = TokenAgreementRule.REQUIRE_VIDMINOK_REGEX.matcher(posTag);
-  			while( matcher.find() ) {
-  				reqCases.add(matcher.group(1));
-  			}
-  			break;
-  		}
-  	}
-  	return reqCases;
-  }
-
-	private boolean reverseConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
-  	for(int i=pos; i>pos-depth && i>=0; i--) {
-  		if( CONJ_FOR_PLURAL.contains(tokens[i].getAnalyzedToken(0).getLemma())
-  				|| tokens[i].getAnalyzedToken(0).getToken().equals(",") )
-  			return true;
-  	}
-		return false;
-  }
-
-  private boolean forwardConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
-  	for(int i=pos; i<tokens.length && i<= pos+depth; i++) {
-  		if( CONJ_FOR_PLURAL.contains(tokens[i].getAnalyzedToken(0).getLemma())
-  				|| tokens[i].getAnalyzedToken(0).getToken().equals(",") )
-  			return true;
-  	}
-		return false;
-  }
-
-  private boolean inflectionControlMatches(List<AnalyzedToken> adjTokenReadings, List<Inflection> slaveInflections) {
-    // TODO: key tags (e.g. pos) should be part of the map key
-  	return adjTokenReadings.stream().map(p -> p.getLemma()).distinct().anyMatch( item -> {
-  	  	Set<String> inflections = inflectionControl.get( item );
-//  	  	System.err.println("Found inflections " + item + ": " + inflections);
-  	  	  if( inflections != null ) {
-    		for (Inflection inflection : slaveInflections) {
-      		  if( inflections.contains(inflection._case) )
-      			return true;
-      		}
-      	  }
-      	  return false;
-      	}
-  	);
-  }
-
-	private List<Inflection> getAdjInflections(List<AnalyzedToken> adjTokenReadings) {
-	List<Inflection> masterInflections = new ArrayList<>();
-	for (AnalyzedToken token: adjTokenReadings) {
-	  String posTag2 = token.getPOSTag();
-		Matcher matcher = ADJ_INFLECTION_PATTERN.matcher(posTag2);
-	  matcher.find();
-	  
-		String gen = matcher.group(1);
-		String vidm = matcher.group(2);
-		String animTag = null;
-		if (matcher.group(3) != null) {
-			animTag = matcher.group(3).substring(2);	// :rinanim/:ranim
-		}
-		
-		masterInflections.add(new Inflection(gen, vidm, animTag));
-	}
-	return masterInflections;
-	}
-
-  private List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings) {
-  	List<Inflection> slaveInflections = new ArrayList<>();
-  	for (AnalyzedToken token: nounTokenReadings) {
-  		String posTag2 = token.getPOSTag();
-  		Matcher matcher = NOUN_INFLECTION_PATTERN.matcher(posTag2);
-  		if( ! matcher.find() ) {
-//  			System.err.println("Failed to find slave inflection tag in " + posTag2 + " for " + nounTokenReadings);
-  			continue;
-  		}
-  		String gen = matcher.group(2);
-  		String vidm = matcher.group(3);
-  		String animTag = matcher.group(1);
-
-  		slaveInflections.add(new Inflection(gen, vidm, animTag));
-  	}
-  	return slaveInflections;
-  }
-
-
-  private boolean disjointIgnoreGender(List<Inflection> masterInflections, List<Inflection> slaveInflections) {
-  	for (Inflection mInflection : masterInflections) {
-  		for(Inflection sInflection : slaveInflections) {
-  			if( mInflection.equalsIgnoreGender(sInflection) )
-  				return false;
-  		}
-  	}
-  	return true;
-	}
-
-	@Override
+  @Override
   public void reset() {
   }
 
-  private static class Inflection {
-  	final String gender;
-  	final String _case;
-  	final String animTag;
-
-  	public Inflection(String gender, String _case, String animTag) {
-  		this.gender = gender;
-  		this._case = _case;
-  		this.animTag = animTag;
-  	}
-
-	@Override
-  	public int hashCode() {
-  		final int prime = 31;
-  		int result = 1;
-  		result = prime * result + ((_case == null) ? 0 : _case.hashCode());
-  		result = prime * result + ((animTag == null) ? 0 : animTag.hashCode());
-  		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-  		return result;
-  	}
-
-  	@Override
-  	public boolean equals(Object obj) {
-  		if (this == obj)
-  			return true;
-  		if (obj == null)
-  			return false;
-  		if (getClass() != obj.getClass())
-  			return false;
-
-  		Inflection other = (Inflection) obj;
-  		return gender.equals(other.gender)
-  				&& _case.equals(other._case)
-  				&& (animTag == null || other.animTag == null 
-  				|| ! animMatters() || ! other.isAnimalSensitive() || animTag.equals(other.animTag));
-  	}
-
-  	public boolean equalsIgnoreGender(Inflection other) {
-  		return //gender.equals(other.gender)
-  				_case.equals(other._case)
-  				&& (animTag == null || other.animTag == null 
-  				|| ! animMatters() || animTag.equals(other.animTag));
-  	}
-
-  	private boolean animMatters() {
-  		return _case.equals("v_zna") && isAnimalSensitive();
-  	}
-
-  	private boolean isAnimalSensitive() {
-  		return "mp".contains(gender);
-  	}
-
-  	@Override
-  	public String toString() {
-  		return ":" + gender + ":" + _case
-  				+ (animMatters() ? "_"+animTag : "");
-  	}
-
-  }
-
-
-  private static Map<String, Set<String>> loadMap(String path) {
-  	Map<String, Set<String>> result = new HashMap<>();
-  	try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-  			Scanner scanner = new Scanner(is, "UTF-8")) {
-  		while (scanner.hasNextLine()) {
-  			String line = scanner.nextLine();
-  			String[] parts = line.split(" ");
-  			String[] vidm = parts[1].split(":");
-  			result.put(parts[0], new HashSet<String>(Arrays.asList(vidm)));
-  		}
-//  		System.err.println("Found case governments: " + result.size());
-  		return result;
-  	} catch (IOException e) {
-  		throw new RuntimeException(e);
-  	}
-  }
-
-// #1 Із «Теоретичної граматики» (с.173):
-//	
-//	"Якщо в числівниково-іменникових конструкціях із числівниками два, три,  
-//	чотири (а також зі складеними числівниками, де кінцевими компонентами  
-//	виступають два, три, чотири) у формах називного — знахідного відмінка множини
-//	вживаються прикметники, дієприкметники або займенникові прикметники, то
-//	ці означальні компоненти або узгоджуються з іменником, набуваючи форм  
-//	відповідно називного чи знахідного відмінка множини, або функціонують у  
-//	формі родового відмінка множини, напр.: Тенор переплітається з сопраном,  
-//	неначе дві срібні нитки (І. Нечуй-Левицький,); Дві людських руки вкупі— се кільце,
-//	за яке, ухопившися, можна зрушити землю (Ю. Яновський)."
-
-  
 }
