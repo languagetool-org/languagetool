@@ -119,7 +119,7 @@
     for a documentation of the new API.
 
 #### ngrams
-  * Portuguese hs been prepared to use ngram data, that means it has a
+  * Portuguese has been prepared to use ngram data, that means it has a
     `confusion_sets.txt` file where word pairs can be added.
     See http://wiki.languagetool.org/finding-errors-using-n-gram-data
     for information on where to download the ngram data.
