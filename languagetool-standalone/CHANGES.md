@@ -66,6 +66,14 @@
   * added words suggested by users
   * improved disambiguation rules
 
+#### Ukrainian
+  * significant dictionary update
+  * new adj/noun inflection rule 
+  * dynamic tagging improvements
+  * disambiguation improvements
+  * some improvements to existing rules
+  * experimental noun/verb agreement rule
+
 #### HTTP API
   * The old API has been deactivated, as documented at
     https://languagetool.org/http-api/migration.php - it
