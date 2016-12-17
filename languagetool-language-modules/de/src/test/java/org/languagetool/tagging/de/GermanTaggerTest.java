@@ -59,6 +59,10 @@ public class GermanTaggerTest {
             "groß/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("großer")));
     assertEquals("groß", aToken3.getReadings().get(0).getLemma());
     
+    // checks for github issue #635: Some German verbs on the beginning of a sentences are identified only as substantive
+    assertTrue(tagger.tag(Collections.singletonList("Haben"), true).toString().contains("VER"));
+    assertTrue(tagger.tag(Collections.singletonList("Können"), true).toString().contains("VER"));
+
     // from both german.dict and added.txt:
     AnalyzedTokenReadings aToken4 = tagger.lookup("Interessen");
     assertEquals("Interessen[Interesse/SUB:AKK:PLU:NEU, Interesse/SUB:DAT:PLU:NEU, " +
