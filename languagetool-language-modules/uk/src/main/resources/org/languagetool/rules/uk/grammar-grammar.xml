@@ -80,7 +80,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">можна</token>
         </antipattern>
         <pattern>
-          <token regexp="yes" inflected="yes">варто|годі|можна|повинно|треба
+          <token regexp="yes">варто|годі|можна|повинно|треба
             <exception scope="previous" regexp="yes">кого</exception>
           </token>
           <token regexp="yes" min="0">було|буде</token>
@@ -100,8 +100,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Треба буде таке писати</example>
         <example>В кого треба видалено.</example>
         <example>можна буде встояти.</example>
+        <example>Комерційний підхід до треб є незрозумілим</example>
+        <!--  verb:inf:coll not in default dictionary
         <example>Не можна встоять.</example>
         <example>суспільство повинно довірять не лише програмі дій</example>
+         -->
         <example correction="писати">Треба <marker>писав</marker>.</example>
         <example correction="сподіватись|сподіватися">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
         <example correction="бути">розвиватися взагалі більше не треба, варто <marker>були</marker> тільки галасливо-крикливим і наглим</example>
@@ -720,6 +723,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
         <example correction="о п'ять годині двадцять п'ять хвилин|п'ять годин до двадцять"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
         <example>п'ять хвилин на дев'яту</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">(2[0-4]|1[0-9]|[1-9]):[0-9]{2}</token>
+        </pattern>
+        <message>Правильно: <suggestion>о <match no="2"/></suggestion></message>
+        <example correction="о 17:00">почнеться <marker>в 17:00</marker> за місцевим часом</example>
+        <example>з рахунком 22:33</example>
       </rule>
 
       <rule>
