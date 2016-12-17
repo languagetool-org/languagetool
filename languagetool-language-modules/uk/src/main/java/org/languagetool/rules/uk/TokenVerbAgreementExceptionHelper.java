@@ -1,6 +1,5 @@
 package org.languagetool.rules.uk;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -10,10 +9,17 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.tagging.uk.PosTagHelper;
 
-public class TokenVerbAgreementExceptionHelper {
-  public static boolean isException(AnalyzedTokenReadings[] tokens, int i, 
-      List<TokenVerbAgreementRule.Inflection> masterInflections, List<TokenVerbAgreementRule.Inflection> slaveInflections, 
-      ArrayList<AnalyzedToken> nounTokenReadings, ArrayList<AnalyzedToken> verbTokenReadings) {
+/**
+ * @since 3.6
+ */
+public final class TokenVerbAgreementExceptionHelper {
+
+  private TokenVerbAgreementExceptionHelper() {
+  }
+
+  public static boolean isException(AnalyzedTokenReadings[] tokens, int i,
+                                    List<TokenVerbAgreementRule.Inflection> masterInflections, List<TokenVerbAgreementRule.Inflection> slaveInflections,
+                                    List<AnalyzedToken> nounTokenReadings, List<AnalyzedToken> verbTokenReadings) {
 
     if( PosTagHelper.hasPosTag(verbTokenReadings, ".*:p(:.*|$)") ) {
 

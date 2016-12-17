@@ -7,6 +7,9 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.uk.PosTagHelper;
 
+/**
+ * @since 3.6
+ */
 public abstract class LemmaHelper {
 
   public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, List<String> lemmas) {
@@ -83,7 +86,7 @@ public abstract class LemmaHelper {
     return false;
   }
 
-  static boolean reverseSeach(AnalyzedTokenReadings[] tokens, int pos, int depth, Pattern lemma, Pattern postag) {
+  static boolean reverseSearch(AnalyzedTokenReadings[] tokens, int pos, int depth, Pattern lemma, Pattern postag) {
     for(int i=pos; i>pos-depth && i>=0; i--) {
       if( (lemma == null || hasLemma(tokens[i], lemma))
            && (postag == null || PosTagHelper.hasPosTag(tokens[i], postag)) )

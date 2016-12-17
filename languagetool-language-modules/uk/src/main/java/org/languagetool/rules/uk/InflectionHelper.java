@@ -8,14 +8,20 @@ import java.util.regex.Matcher;
 
 import org.languagetool.AnalyzedToken;
 
+/**
+ * @since 3.6
+ */
 class InflectionHelper {
+
+  private InflectionHelper() {
+  }
 
   static class Inflection implements Comparable<Inflection> {
     final String gender;
     final String _case;
     final String animTag;
   
-    public Inflection(String gender, String _case, String animTag) {
+    Inflection(String gender, String _case, String animTag) {
       this.gender = gender;
       this._case = _case;
       this.animTag = animTag;
@@ -124,8 +130,8 @@ class InflectionHelper {
     return slaveInflections;
   }
 
-  static final Map<String,Integer> GEN_ORDER = new HashMap<>();
-  static final Map<String,Integer> VIDM_ORDER = new HashMap<>();
+  private static final Map<String,Integer> GEN_ORDER = new HashMap<>();
+  private static final Map<String,Integer> VIDM_ORDER = new HashMap<>();
   
   static {
     GEN_ORDER.put("m", 0);
@@ -141,7 +147,6 @@ class InflectionHelper {
     VIDM_ORDER.put("v_oru", 50);
     VIDM_ORDER.put("v_mis", 60);
     VIDM_ORDER.put("v_kly", 70);
-
   }
 
 }

@@ -42,8 +42,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A rule that checks if adjective and following noun agree on gender and inflection
@@ -51,14 +49,15 @@ import org.slf4j.LoggerFactory;
  * @author Andriy Rysin
  */
 public class TokenInflectionAgreementRule extends Rule {
-  private static final String NO_VIDMINOK_SUBSTR = ":nv";
+  
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
   static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug");
 //  private static final Logger logger = LoggerFactory.getLogger(TokenInflectionAgreementRule.class);
 
-  private final Ukrainian ukrainian = new Ukrainian();
+  private static final String NO_VIDMINOK_SUBSTR = ":nv";
 
+  private final Ukrainian ukrainian = new Ukrainian();
 
   public TokenInflectionAgreementRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -84,8 +83,8 @@ public class TokenInflectionAgreementRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
-    ArrayList<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
-    AnalyzedTokenReadings adjAnalyzedTokenReadins = null;
+    List<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
+    AnalyzedTokenReadings adjAnalyzedTokenReadings = null;
 
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -140,7 +139,7 @@ public class TokenInflectionAgreementRule extends Rule {
           if( adjPosTag.startsWith("adj") ) {
 
             adjTokenReadings.add(token);
-            adjAnalyzedTokenReadins = tokenReadings;
+            adjAnalyzedTokenReadings = tokenReadings;
           }
           else {
             adjTokenReadings.clear();
@@ -152,7 +151,7 @@ public class TokenInflectionAgreementRule extends Rule {
       }
 
 
-      ArrayList<AnalyzedToken> slaveTokenReadings = new ArrayList<>();
+      List<AnalyzedToken> slaveTokenReadings = new ArrayList<>();
 
       for (AnalyzedToken token: tokenReadings) {
         String nounPosTag = token.getPOSTag();
@@ -203,7 +202,7 @@ public class TokenInflectionAgreementRule extends Rule {
 
         if( DEBUG ) {
           System.err.println(MessageFormat.format("=== Found:\n\t{}\n\t",
-            adjAnalyzedTokenReadins.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadins,
+            adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadings,
             slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
         }
 
@@ -217,7 +216,7 @@ public class TokenInflectionAgreementRule extends Rule {
           msg += ". Можливо вжито неунормований родовий відмінок ч.р. з закінченням -у/ю замість -а/я?";
         }
 
-        RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadins.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         
         Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();
@@ -244,8 +243,8 @@ public class TokenInflectionAgreementRule extends Rule {
 
                 String[] synthesized = ukrainianSynthesizer.synthesize(nounToken, newNounPosTag, false);
 
-                for (String string : synthesized) {
-                  String suggestion = adjAnalyzedTokenReadins.getToken() + " " + string;
+                for (String s : synthesized) {
+                  String suggestion = adjAnalyzedTokenReadings.getToken() + " " + s;
                   if( ! suggestions.contains(suggestion) ) {
                     suggestions.add(suggestion);
                   }
@@ -268,8 +267,8 @@ public class TokenInflectionAgreementRule extends Rule {
 
                 String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
 
-                for (String string : synthesized) {
-                  String suggestion = string + " " + tokenReadings.getToken();
+                for (String s : synthesized) {
+                  String suggestion = s + " " + tokenReadings.getToken();
                   if( ! suggestions.contains(suggestion) ) {
                     suggestions.add(suggestion);
                   }
@@ -305,7 +304,7 @@ public class TokenInflectionAgreementRule extends Rule {
     
     for (Inflection inflection : inflections) {
       if( ! map.containsKey(inflection.gender) ) {
-        map.put(inflection.gender, new ArrayList<String>());
+        map.put(inflection.gender, new ArrayList<>());
       }
       String caseStr = PosTagHelper.VIDMINKY_MAP.get(inflection._case);
       if( adj && inflection.animTag != null ) {
@@ -315,7 +314,7 @@ public class TokenInflectionAgreementRule extends Rule {
     }
 
     
-    ArrayList<String> list = new ArrayList<>();
+    List<String> list = new ArrayList<>();
     for(Entry<String, List<String>> entry : map.entrySet()) {
       String genderStr = PosTagHelper.GENDER_MAP.get(entry.getKey());
       

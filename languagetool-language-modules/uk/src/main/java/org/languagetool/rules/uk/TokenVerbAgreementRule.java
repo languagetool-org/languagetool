@@ -40,6 +40,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * A rule that checks if noun and verb agree
  * 
  * @author Andriy Rysin
+ * @since 3.6
  */
 public class TokenVerbAgreementRule extends Rule {
   private static final Pattern VERB_INFLECTION_PATTERN = Pattern.compile(":([mfnps])(:([123])?|$)");
@@ -81,8 +82,8 @@ public class TokenVerbAgreementRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
 
-    ArrayList<AnalyzedToken> nounTokenReadings = new ArrayList<>(); 
-    AnalyzedTokenReadings nounAnalyzedTokenReadins = null;
+    List<AnalyzedToken> nounTokenReadings = new ArrayList<>(); 
+    AnalyzedTokenReadings nounAnalyzedTokenReadings = null;
 
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -119,7 +120,7 @@ public class TokenVerbAgreementRule extends Rule {
 
           if( nounPosTag.startsWith("noun") && nounPosTag.contains("v_naz") ) {
             nounTokenReadings.add(token);
-            nounAnalyzedTokenReadins = tokenReadings;
+            nounAnalyzedTokenReadings = tokenReadings;
           }
 //          else if ( nounPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) ) {
 //            continue;
@@ -137,7 +138,7 @@ public class TokenVerbAgreementRule extends Rule {
       // see if we get a following verb
 //       System.err.println("Check for verb: " + tokenReadings);
 
-      ArrayList<AnalyzedToken> verbTokenReadings = new ArrayList<>(); 
+      List<AnalyzedToken> verbTokenReadings = new ArrayList<>(); 
       for (AnalyzedToken token: tokenReadings) {
         String verbPosTag = token.getPOSTag();
 
@@ -192,13 +193,13 @@ public class TokenVerbAgreementRule extends Rule {
 
         if( DEBUG ) {
           System.err.println(MessageFormat.format("=== Found noun/verb mismatch\n\t{}\n\t{}",
-            nounAnalyzedTokenReadins.getToken() + ": " + masterInflections + " // " + nounAnalyzedTokenReadins,
+            nounAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + nounAnalyzedTokenReadings,
             verbTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + verbTokenReadings));
         }
         
         String msg = String.format("Неузгоджені іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
             nounTokenReadings.get(0).getToken(), masterInflections, verbTokenReadings.get(0).getToken(), slaveInflections);
-        RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadins.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         ruleMatches.add(potentialRuleMatch);
       }
 
@@ -275,7 +276,7 @@ public class TokenVerbAgreementRule extends Rule {
     final String plural;
     final String person;
 
-    public Inflection(String gender, String person) {
+    Inflection(String gender, String person) {
       if( gender.equals("s") || gender.equals("p") ) {
         this.gender = null;
         this.plural = gender;
