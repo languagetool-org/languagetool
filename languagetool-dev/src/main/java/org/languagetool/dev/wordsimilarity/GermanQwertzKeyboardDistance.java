@@ -29,7 +29,7 @@ public class GermanQwertzKeyboardDistance implements KeyboardDistance {
             { 'y', 'x', 'c', 'v', 'b', 'n', 'm' }      
     };
     
-    class Position {
+    static class Position {
         int row;
         int column;
         
