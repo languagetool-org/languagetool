@@ -147,6 +147,10 @@ title="Easy editing stylesheet" ?>
 	<!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
 	<!--	     TODO Move to pt-PT after regression tests		-->
   <rule id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
+        <antipattern>
+	  <token inflected="yes">ser</token>
+	  <token postag='DP.*' postag_regexp='yes'></token>
+	</antipattern>
 	<antipattern>
 	  <token regexp="yes">sua|vossa</token>
 	  <token regexp="yes">majestade|realeza|divindade|excelência|eminência</token>
@@ -163,6 +167,7 @@ title="Easy editing stylesheet" ?>
 	<example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
         <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
         <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
+        <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>
 <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
   </rule>
 
@@ -440,7 +445,8 @@ title="Easy editing stylesheet" ?>
 	<!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-02 -->
 <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
-		<url>http://pucrs.br/gpt/hifen.php</url>-->
+		<url>http://pucrs.br/gpt/hifen.php</url>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>-->
         <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>
    <rule>
     <pattern>
