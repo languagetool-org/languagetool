@@ -15501,7 +15501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
-            <rule id="ESTA_BE" name="*esta bé/està bé">
+            <rule>
                 <antipattern>
                     <marker>
                         <token postag="_GN_FS">esta</token>
@@ -15540,7 +15540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta bonica casa és la d'en Joan.</example>
                 <example>Amb l'aplicació d'esta.</example>
             </rule>
-            <rule id="ORIGINARIA" name="originaria">
+            <rule>
                 <pattern>
                     <token><exception postag="P.*" postag_regexp="yes"/></token>
                     <marker>
@@ -15556,7 +15556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que ell originaria de manera immediata</example>
                 <example>que allò originaria de manera immediata</example>
             </rule>
-            <rule id="NOMES" name="nomes/només">
+            <rule>
                 <pattern>
                     <token><exception postag="D..MP.*" postag_regexp="yes"/></token>
                     <marker>
@@ -15567,7 +15567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="només">Un gran silenci <marker>nomes</marker> trencat per la brisa.</example>
             </rule>
-            <rule id="RADIO" name="radio/ràdio">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>Radio</token>
@@ -15705,7 +15705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vàries">Diuen que ho va dir <marker>varies</marker> vegades.</example>
                 <example>varies el rumb</example>
             </rule>
-            <rule id="PRESENCIA" name="presencia">
+            <rule>
                 <pattern>
                     <token>en</token>
                     <marker>
@@ -15717,7 +15717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="presència">En <marker>presencia</marker> del Senyor.</example>
                 <example>en presència de</example>
             </rule>
-            <rule id="AVIA" name="avia/àvia">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">[mts]'|hi|ens|us|vos|els|les</exception></token>
                     <marker>
@@ -15728,7 +15728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="àvia">És la nostra <marker>avia</marker>.</example>
                 <example>Els avia al carrer.</example>
             </rule>
-            <rule id="AVIES" name="avies/àvies">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">[mtsl]'|hi|ens|us|vos|els</exception></token>
                     <marker>
@@ -15773,11 +15773,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">es</token>
                         <token min="0" inflected="yes">en</token>
-                        <token>seqüencia</token>
+                        <token regexp="yes">seqüencia|consciencia</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>campanya</token>
+                        <token>consciencia</token>
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(conferenci|vivenci|intermedi|seqüenci)(a|es)</token>
+                    <token regexp="yes">(conscienci|conferenci|vivenci|intermedi|seqüenci)(a|es)</token>
                 </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*)(a|es)" regexp_replace="$1ar"/>".</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.*)e(di|nci)(a|es)" regexp_replace="$1è$2$3"/></suggestion>
@@ -15785,6 +15791,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vivències"><marker>Vivencies</marker> del president.</example>
                 <example>Se seqüencia tot.</example>
                 <example>Se'n seqüencia la meitat.</example>
+                <example>Quan es consciencia del problema.</example>
             </rule>
             <rule>
                 <antipattern>

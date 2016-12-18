@@ -163,6 +163,7 @@ public class Catalan extends Language {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "ACCENTUATION_CHECK": return 10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
