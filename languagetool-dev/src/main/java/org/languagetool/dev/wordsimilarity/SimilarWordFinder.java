@@ -74,7 +74,14 @@ class SimilarWordFinder {
         List<String> simWords = findSimilarWordsFor(reader, word, topDocs);
         //System.out.println(word + " -> " + String.join(", ", simWords));
         for (String simWord : simWords) {
-            System.out.println(word + "; " + simWord);
+            float dist;
+            if (word.length() == simWord.length()) {
+                int firstDiffPos = getDiffPos(simWord.toLowerCase(), word.toLowerCase());
+                dist = keyDistance.getDistance(word.charAt(firstDiffPos), simWord.charAt(firstDiffPos));
+            } else {
+                dist = 0;
+            }
+            System.out.println(dist + "; " + word + "; " + simWord);
         }
     }
 
