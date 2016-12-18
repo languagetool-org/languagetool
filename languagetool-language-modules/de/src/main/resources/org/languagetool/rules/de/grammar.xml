@@ -6673,6 +6673,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nichtsdestotrotz"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
             </rule>
         </rulegroup>
+        <rule id="GUT_TUN_GUTTUN" name="gut tun (gutttun)">
+            <antipattern>
+                <token skip="-1">was</token>
+                <token>wohl</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag=".*:DAT:.*" skip="-1"/>
+                <marker>
+                    <token regexp="yes"  case_sensitive="yes">gut|wohl</token>
+                    <token regexp="yes">tu[ne]|getan|tuend</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\2\3</suggestion> (eine Form des unregelmäßigen Verbs '\2tun' mit der Bedeutung 'helfen')?</message>
+            <url>https://www.korrekturen.de/nachgefragt/wehtun_und_guttun.shtml</url>
+            <short>&getrennt;</short>
+            <example correction="gutgetan">Das hat mir <marker>gut getan</marker>.</example>
+            <example correction="wohlgetan">Die Kur hat mir <marker>wohl getan</marker>.</example>
+            <example>Das kann er genauso gut tun.</example>
+            <example>Das wird ihm guttun.</example>
+            <example>Gut getan ist besser als gut gesagt.</example>
+            <example>Tom fragte sich, wo Maria sei und was sie wohl tue.</example>
+        </rule>
         <rulegroup id="ZU_GUTE_ZUGUTE" name="zu gute (zugute)">
             <url>http://www.duden.de/rechtschreibung/zugut</url>
             <rule>
