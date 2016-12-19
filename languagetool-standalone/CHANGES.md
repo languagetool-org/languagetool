@@ -100,7 +100,6 @@
     future:
     * Belarusian
     * Swedish
-    * Khmer
     * Icelandic
     * Tagalog
     * Asturian
