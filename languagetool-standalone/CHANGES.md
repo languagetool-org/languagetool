@@ -60,6 +60,12 @@
     * pre-reform agreement locales support added
       * Angola, Cape Verde, East Timor, Guinea Bissau, Macau, Mozambique and São Tomé e Principe
   * various dictionary and part-of-speech fixes
+  * Portuguese has been prepared to use ngram data, that means it has a
+    `confusion_sets.txt` file where word pairs could be added.
+    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
+    for more information but note that we cannot offer the required
+    ngram data yet for Portuguese, as we rely on the Google ngram
+    data and Portuguese isn't part of that.
 
 #### Russian
   * added and improved many rules
@@ -117,12 +123,6 @@
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)
     See https://languagetool.org/http-api/swagger-ui/#/default
     for a documentation of the new API.
-
-#### ngrams
-  * Portuguese has been prepared to use ngram data, that means it has a
-    `confusion_sets.txt` file where word pairs can be added.
-    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
-    for information on where to download the ngram data.
 
 #### Internal
   * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
