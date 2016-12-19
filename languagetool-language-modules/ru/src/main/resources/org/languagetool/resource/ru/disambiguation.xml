@@ -143,6 +143,30 @@ Copyright (C) 2009-2016 Yakov Reztsov
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>    
     
+    <!-- disambiguation for 2P and 2R -->
+    <rule name="NOUN_2R" id="NOUN_2R">
+        <pattern>
+            <!-- второй родительный  -->
+            <token postag="NN:Inanim:Masc:Sin:2R"></token>
+        </pattern>
+        <disambig action="add" postag="NN:Inanim:Masc:Sin:R"></disambig>
+    </rule>
+    <rule name="NOUN_2P_Masc" id="NOUN_2P_Masc">
+        <pattern>
+            <!-- второй предложный  -->
+            <token postag="NN:Inanim:Masc:Sin:2P"></token>
+        </pattern>
+        <disambig action="add" postag="NN:Inanim:Masc:Sin:P"></disambig>
+    </rule>
+    <rule name="NOUN_2P_Fem" id="NOUN_2P_Fem">
+        <pattern>
+            <!-- второй предложный  -->
+            <token postag="NN:Inanim:Fem:Sin:2P"></token>
+        </pattern>
+        <disambig action="add" postag="NN:Inanim:Fem:Sin:P"></disambig>
+    </rule>
+    <!-- **************************** --> 
+    
     <!-- disambiguation for adj.' -->
     <rule name="ADJ_T" id="ADJ_T">
         <pattern>
@@ -177,20 +201,6 @@ Copyright (C) 2009-2016 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:Nom"></disambig>
     </rule>
-    <!-- this release in ADJ_V now
-    <rule name="ADJ_Com_V" id="ADJ_Com_V">
-        <pattern>
-          <token regexp="yes">в|на|под|сквозь|через</token>
-            <marker>
-                <and>
-                    <token postag="ADJ:Comp:.*:Nom" postag_regexp="yes"></token>
-                    <token postag="ADJ:Comp:.*:V" postag_regexp="yes"><exception postag="ADJ:Comp:.*:P" postag_regexp="yes"></exception></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="ADJ:Comp:.*:Nom"></disambig>
-    </rule>
-    -->
     <rule name="ADJ_V2" id="ADJ_V2">
         <pattern>
             <!-- TODO милые should stay .*:Nom -->
@@ -352,7 +362,7 @@ Copyright (C) 2009-2016 Yakov Reztsov
         </pattern>
         <disambig action="remove"><wd lemma="оно" pos="PNN:Sin:Nom:P3">оно</wd></disambig>
     </rule>
-    <!-- fast fix for words with PosTag=NNN (Names) only, but it is not names -->
+    <!-- fast fix for words with PosTag=NN:Name (Names) only, but it is not names -->
     
     <rule name="Name_fix1" id="Name_fix1">
         <pattern>
@@ -362,22 +372,5 @@ Copyright (C) 2009-2016 Yakov Reztsov
         </pattern>
         <disambig   postag="NN" />
     </rule>
-    <rule name="three" id="three">
-        <pattern>
-            <marker>
-                <token>трём</token>
-            </marker>
-        </pattern>
-      <disambig action="add"><wd lemma="три" pos="Num">трём</wd></disambig>
-    </rule>
-
     <!--end fast fix -->
-<rule name="besprovodnoj" id="besprovodnoj">
-        <pattern>
-            <marker>
-                <token>беспроводной</token>
-            </marker>
-        </pattern>
-      <disambig action="add"><wd lemma="беспроводный" pos="ADJ:Posit:Masc:Nom">беспроводной</wd></disambig>
-    </rule>
 </rules>

@@ -4741,14 +4741,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>тем</token>
                 <marker>
                     <token>самым</token>
-                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token>
                 </marker>
             </antipattern>
             <antipattern>
                 <token>во</token>
                 <marker>
                     <token regexp="yes">всём|всем</token>
-                    <token postag="NN:.*|NNN:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token>
                 </marker>
             </antipattern>        
             <pattern>
@@ -4756,7 +4756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="case"/>
                         <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
-                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                        <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
@@ -4778,7 +4778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="gender"/>
                         <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
-                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                        <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
@@ -4799,7 +4799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="number"/>
                         <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
-                        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
+                        <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
@@ -4926,7 +4926,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <!-- Нам объявят необходимыми игры на свежем воздухе. -->
 	        <!-- Делала политически невозможной отмену единожды данных им законом прав -->
 	        <antipattern>
-		        <token postag="PT:.*:PL:.*" postag_regexp="yes" skip="2">
+		        <token postag="PT:.*:.*:PL:.*" postag_regexp="yes" skip="2">
 			        <exception scope="next" regexp="yes">[«»",]</exception>
 		        </token>
 			        <token postag="ADJ:Posit:PL:T"/>
@@ -4936,7 +4936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        </antipattern>
 
 	        <antipattern>
-		        <token postag="PT:.*:.*" postag_regexp="yes" skip="2">
+		        <token postag="PT:.*:.*:.*" postag_regexp="yes" skip="2">
 			        <exception postag=".*:PL:.*" postag_regexp="yes"/>
 			        <exception scope="next"  regexp="yes">[«»",]</exception>
 		        </token>
@@ -5039,7 +5039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
 						        <exception case_sensitive="yes">Божию</exception>
 					        </token>
-					        <token postag="(NN|NNN):.*" postag_regexp="yes">
+					        <token postag="NN:.*" postag_regexp="yes">
 						        <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
 						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
 						        <exception case_sensitive="yes">Tом</exception>
@@ -7234,7 +7234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			            <exception scope="next" postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)|PREP" postag_regexp="yes"></exception>
 				        <exception scope="next">нет</exception>
 				     </token>
-			        <token skip="1" postag="(PT|NN|NNN):.*" postag_regexp="yes">
+			        <token skip="1" postag="(PT|NN):.*" postag_regexp="yes">
 				        <exception postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке|процентов</exception>
 				        <exception>дат</exception>
@@ -7284,7 +7284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        <token>в</token>
 			        <token skip="5" inflected="yes">какой</token>
 			        <token postag="VB:.*" postag_regexp="yes"/>
-			        <token postag="(PT|NN|NNN):.*:P" postag_regexp="yes"/>
+			        <token postag="(PT|NN):.*:P" postag_regexp="yes"/>
 		        </marker>
 	        </antipattern>
 
@@ -7292,7 +7292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <marker>
 			        <token postag="PT:.*:P" postag_regexp="yes"/>
 			        <token postag="VB:INF:"/>
-			        <token postag="(PT|NN|NNN):.*:P" postag_regexp="yes"/>
+			        <token postag="(PT|NN):.*:P" postag_regexp="yes"/>
 		        </marker>
 		    </antipattern>
 		    <!-- о продолжавшем меняться мире. -->
@@ -7300,14 +7300,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <pattern>
 		        <marker>
 			        <token skip="3" postag="VB:.*" postag_regexp="yes">
-		                <exception postag="PT:.*|DPT:.*|PREP|CONJ|ADV|ADJ:MPR:.*|(NN|NNN).*|NumC:.*" postag_regexp="yes" />
+		                <exception postag="PT:.*|DPT:.*|PREP|CONJ|ADV|ADJ:MPR:.*|NN:.*|NumC:.*" postag_regexp="yes" />
 		                <exception scope="previous" postag="PREP"/><exception regexp="yes" scope="next" >метрах|сантиметрах|километрах|саженях|шагах</exception>
 			            <exception scope="next" regexp="yes">,|:|-|—|«|»|"|[0-9]+.*|\(|\)</exception>
 			            <exception scope="next" postag="ADJ:Sup|ADV|PREP|VB:.*|Num:.*" postag_regexp="yes" />
 			            <exception scope="next" postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)|PREP|PT:.*|DPT:.*" postag_regexp="yes"></exception>
 			            <exception>моем</exception>
 			        </token>
-			        <token postag="(PT|NN|NNN):.*" postag_regexp="yes">
+			        <token postag="(PT|NN):.*" postag_regexp="yes">
 				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup|ADJ:.*|ADV|PARTICLE" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке</exception>
 				        <exception>дат</exception>
