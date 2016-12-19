@@ -65,6 +65,7 @@
   * added and improved many rules
   * added words suggested by users
   * improved disambiguation rules
+  * updated tagger dictionary from AOT rev.268 with extended POS tags
 
 #### Ukrainian
   * significant dictionary update
