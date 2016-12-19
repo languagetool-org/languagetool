@@ -474,10 +474,10 @@ public abstract class Language {
     return false;
   }
   
-  /* 
-   * Returns a priority for Rule or Category Id (default: 0)
-   * Positive integers have higher priority
-   * Negative integers have lower priority
+  /**
+   * Returns a priority for Rule or Category Id (default: 0).
+   * Positive integers have higher priority.
+   * Negative integers have lower priority.
    * @since 3.6
    */
   public int getPriorityForId(String id) {
