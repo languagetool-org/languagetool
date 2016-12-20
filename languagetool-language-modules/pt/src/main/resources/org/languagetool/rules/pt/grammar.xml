@@ -865,7 +865,9 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 -->
 
     <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
-    <rulegroup id="FOREM-ADJECTIVE" name="Erro de concordância de número FOREM + ADJ">
+  <rulegroup id="FOREM-ADJECTIVE" name="Erro de concordância de número FOREM + ADJ">
+      <short>Erro de concordância de número</short>
+      <rule>
       <pattern>
 		<token>forem</token>
 		<marker>			
@@ -926,7 +928,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     </rule>	
 -->
 
-  <rulegroup id="A_NOUN_VERB" name="Erro de concordância de número DETERMINANTE + NOME + VERBO NO"
+  <rulegroup id="A_NOUN_VERB" name="Erro de concordância de número DETERMINANTE + NOME + VERBO NO">
+    <short>Erro de concordância de número</short>
 	<!-- TODO Use pos_regexp to improve rule. Suggestion V....S.	-->
 	<!-- TODO Merge specific concordance rules in rulegroup to compact options -->
 	<!-- Concordance error plural - A + FEMALE PLURAL + SINGULAR VERB -->
@@ -1017,6 +1020,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
          </marker>
      </pattern>
      <message>Erro de concordância de número: <suggestion><match no="3" postag_regexp= "yes" postag="VMIP1P0" postag_replace="VMIP3S0"/></suggestion></message>	 
+      <short>Erro de concordância de número</short>
      <example correction="vai">A gente <marker>vamos</marker> à praia.</example>   
     </rule>
 
@@ -1051,6 +1055,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     -->
 
   <rulegroup id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO/A">
+      <short>Erro de concordância de género</short>
     <!-- TODO Improve with inflections. Suggestion <token inflected='yes'>ser</token>	-->
     <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA -->
     <rule>
@@ -1289,9 +1294,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     </rule>
 -->
 
-	<!-- TODO Merge specific concordance rules in rulegroup to compact options -->
+  <rulegroup id="DET_MAS_FEM_O_A" name="Erros de concordância de género específicos"> 
+      <short>Erro de concordância de género</short>
     <!-- DET_MAS_FEM words that use "a" instead of "o" -->
-    <rule id="DET_MAS_FEM_O_A" name="Palavras o-a">
+    <rule>
       <pattern case_sensitive="no">
 		 <marker>
             <token>o</token>
@@ -1301,10 +1307,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Erro de género. Usar: <suggestion>a</suggestion>.</message>
       <example correction="a">Temos de ver <marker>o</marker> mascote.</example>
     </rule>
-
-	<!-- TODO Merge specific concordance rules in rulegroup to compact options -->
-    <!-- DET_MAS_FEM words that use "as" instead of "os" -->
-    <rule id="DET_MAS_FEM_OS_AS" name="Palavras os-as">
+    <rule>
       <pattern case_sensitive="no">
 		 <marker>
             <token>os</token>
@@ -1314,6 +1317,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Erro de género. Usar: <suggestion>as</suggestion>.</message>
       <example correction="as">Temos de ver <marker>os</marker> mascotes.</example>
     </rule>
+  </rulegroup>
 
     <!-- A COMO É AS/OS a como são as/os -->
 	<rule id="A_COMO_É_AS_OS" name="A como são as/os">
@@ -3654,7 +3658,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substituir «tiveram» por <suggestion>estiveram</suggestion>.</message>
 		<example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>	 	 
     </rule>
-
+  </rulegroup>
 <!-- TIVER/ESTIVER AND DERIVATES - POSSIBLE REPLACEMENT SUGGESTIONS *****END***** -->
 <!-- **************************************************************************** -->
 
