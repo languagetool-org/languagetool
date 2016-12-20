@@ -4847,48 +4847,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <antipattern>
 		        <token regexp="yes">&human;</token>
 		        <marker>
-			        <token postag="NN:.*:(Nom|R)"
-			               postag_regexp="yes" />
+			        <token postag="NN:.*:(Nom|R)" postag_regexp="yes" />
 		        </marker>
 	        </antipattern>
 	        <antipattern>
 		        <token regexp="yes">&time;</token>
 		        <marker>
-			        <token postag="NN:.*:*"
-			               postag_regexp="yes" />
+			        <token postag="NN:.*:*" postag_regexp="yes" />
 		        </marker>
 	        </antipattern>
 	        <antipattern>
 		        <token regexp="yes">&human;</token>
 		        <marker>
-			        <token postag="NN:.*:T|ADV"
-			               postag_regexp="yes">
-				        <exception postag="NN:.*:T|ADV"
-				                   postag_regexp="yes" negate_pos='yes'/> 
+			        <token postag="NN:.*:T|ADV"  postag_regexp="yes">
+				        <exception postag="NN:.*:T|ADV" postag_regexp="yes" negate_pos='yes'/> 
 			        </token>
 		        </marker>
 	        </antipattern>
 
 	        <antipattern>
 		        <marker>
-			        <token regexp="yes" postag="ADJ:.*"
-			               postag_regexp="yes">&nation;</token>
+			        <token regexp="yes" postag="ADJ:.*" postag_regexp="yes">&nation;</token>
 		        </marker>
 	        </antipattern>
 	        <antipattern>		        
 		        <marker>
-			        <token postag="NN:.*" postag_regexp="yes"
-			               regexp="yes">&dual;</token>
+			        <token postag="NN:.*" postag_regexp="yes" regexp="yes">&dual;</token>
 		        </marker>
 	        </antipattern> <!-- TODO remove after adding PL tags -->
 
 	        <antipattern>
 		        <marker>
 			        <token postag="VB:INF:" />
-			        <token postag="ADJ:.*"
-			               postag_regexp="yes"/>
-			        <token postag="NN:.*"
-			               postag_regexp="yes"/>			        
+			        <token postag="ADJ:.*" postag_regexp="yes"/>
+			        <token postag="NN:.*"  postag_regexp="yes"/>			        
 		        </marker>
 	        </antipattern>
 
@@ -4926,12 +4918,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <!-- Нам объявят необходимыми игры на свежем воздухе. -->
 	        <!-- Делала политически невозможной отмену единожды данных им законом прав -->
 	        <antipattern>
-		        <token postag="PT:.*:.*:PL:.*" postag_regexp="yes" skip="2">
-			        <exception scope="next" regexp="yes">[«»",]</exception>
-		        </token>
-			        <token postag="ADJ:Posit:PL:T"/>
+		        <token postag="PT:.*:.*:PL:.*" postag_regexp="yes" skip="2"><exception scope="next" regexp="yes">[«»",]</exception></token>
+			<token postag="ADJ:Posit:PL:T"/>
 		        <marker>
-			        <token postag="NN:.*" postag_regexp="yes"/>
+			   <token postag="NN:.*" postag_regexp="yes"/>
 		        </marker>
 	        </antipattern>
 
@@ -4940,11 +4930,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        <exception postag=".*:PL:.*" postag_regexp="yes"/>
 			        <exception scope="next"  regexp="yes">[«»",]</exception>
 		        </token>
-		        <token postag="ADJ:*:T" postag_regexp="yes">
-			        <exception postag=".*:PL:.*" postag_regexp="yes"/>
-		        </token>
+		        <token postag="ADJ:*:T" postag_regexp="yes"><exception postag=".*:PL:.*" postag_regexp="yes"/></token>
 		        <marker>
-			        <token postag="NN:.*" postag_regexp="yes"/>
+			    <token postag="NN:.*" postag_regexp="yes"/>
 		        </marker>
 	        </antipattern>
 
@@ -4968,249 +4956,224 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        </marker>
 	        </antipattern>
 
-	        <rule  id="Unify_Adj_NN_number">
-		        <pattern>
-			        <marker>
-				        <unify negate="yes">
-					        <feature id="number"/>
-					        <token postag="ADJ:.*"
-					               postag_regexp="yes">
-						        <exception scope="previous"
-						                   regexp="yes">,|и|-|—</exception>
-						        <exception postag="ADV|ADJ:Sup|PT:.*|NN:.*"
-						                   postag_regexp='yes'/>
-						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
-					        </token>
-					        <token postag="NN:.*" postag_regexp="yes">
-						        <exception postag="CONJ|PREP|ADV" postag_regexp="yes" />
-						        <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
-					        </token>
-				        </unify>				        
-			        </marker>
-			        <token>
-				        <exception regexp="yes">и|[«»",]</exception>
-				        <exception postag="NN:.*" postag_regexp="yes"/>
-			        </token>
-		        </pattern>
+                <rule  id="Unify_Adj_NN_number">
+                    <pattern>
+                        <marker>
+                            <unify negate="yes">
+                                <feature id="number"/>
+                                <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception scope="previous"  regexp="yes">,|и|-|—</exception>
+                                    <exception postag="ADV|ADJ:Sup|PT:.*|NN:.*" postag_regexp='yes'/>
+                                    <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                                </token>
+                                <token postag="NN:.*" postag_regexp="yes">
+                                    <exception postag="CONJ|PREP|ADV" postag_regexp="yes" />
+                                    <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
+                                </token>
+                            </unify>				        
+                        </marker>
+                        <token>
+                            <exception regexp="yes">и|[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                        </token>
+                    </pattern>
+                    <message>Прилагательное не согласуется с существительным по числу.</message>
+                    <short>Грамматическая ошибка в согласовании числа.</short>
+                    <example>Крепкие столы.</example>
+                    <example>Суеверие — это религия слабых духом.</example>
+                    <example>Счастливые часов не наблюдают.</example>
+                    <example>Смелого пуля боится.</example>
+                    <example>Быть умным Николаю мешала лень.</example>
+                    <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
+                    <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
+                    <example>Нам объявят необходимым запрет на спиртное.</example>
+                    <example>Нам объявят необходимыми игры на свежем воздухе.</example>
+                    <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
+                    <example>Для оставшейся неготовой лодки соорудили бокс.</example>
+                    <example>Умные уже тут.</example>
+                    <example>Мы чужие друг другу.</example>
+                    <example>Белый стул.</example>
+                    <example>Больных гриппом просим не входить.</example>
+                    <example>Если загорелся зелёный машинам, то можно ехать.</example>
+                    <example>Преподавать русский инострацам сложно.</example>
+                    <example>Корзина была полная ягод.</example>
+                    <example>Воспользуемся средним чисел а и б.</example>
+                    <example>После выходных работник смотрелся не важно.</example>
+                    <example correction=""><marker>Железные кровать</marker>.</example>
+                    <example>Вдали виднелись красивые сосны.</example>
+                    <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
+                    <example>Мебель сделана из красивой сосны.</example>
+                    <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
+                </rule>
 
-		        <message>Прилагательное не согласуется с
-		        существительным по числу:
-		        </message>
-		        <short>Грамматическая ошибка в согласовании числа.</short>
-		        <example>Крепкие столы.</example>
-		        <example>Суеверие — это религия слабых духом.</example>
-		        <example>Счастливые часов не наблюдают.</example>
-		        <example>Смелого пуля боится.</example>
-		        <example>Быть умным Николаю мешала лень.</example>
-		        <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
-		        <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
-		        <example>Нам объявят необходимым запрет на спиртное.</example>
-		        <example>Нам объявят необходимыми игры на свежем воздухе.</example>
-		        <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
-		        <example>Для оставшейся неготовой лодки соорудили бокс.</example>
-		        <example>Умные уже тут.</example>
-		        <example>Мы чужие друг другу.</example>
-		        <example>Белый стул.</example>
-		        <example>Больных гриппом просим не входить.</example>
-		        <example>Если загорелся зелёный машинам, то можно ехать.</example>
-		        <example>Преподавать русский инострацам сложно.</example>
-		        <example>Корзина была полная ягод.</example>
-		        <example>Воспользуемся средним чисел а и б.</example>
-		        <example>После выходных работник смотрелся не важно.</example>
-		        <example correction=""><marker>Железные кровать</marker>.</example>
-                <example>Вдали виднелись красивые сосны.</example>
-                <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
-                <example>Мебель сделана из красивой сосны.</example>
-                <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
-	        </rule>
+                <rule  id="Unify_Adj_NN_gender">
+                    <pattern>
+                        <marker>
+                            <unify negate="yes">
+                                <feature id="gender"/>
+                                <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception scope="previous" regexp="yes">,|-|—</exception>
+                                    <exception postag="ADV|ADJ:Sup|PT:.*|NN:.*" postag_regexp="yes"/>
+                                    <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
+                                    <exception case_sensitive="yes">Божию</exception>
+                                </token>
+                                <token postag="NN:.*" postag_regexp="yes">
+                                    <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                                    <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
+                                    <exception case_sensitive="yes">Tом</exception>
+                                </token>
+                            </unify>				        
+                        </marker>
+                        <token>
+                            <exception regexp="yes">и|[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                        </token>
+                    </pattern>
+                    <message>Прилагательное не согласуется с существительным по роду.</message>
+                    <example>Крепкие столы.</example>
+                    <example>Суеверие — это религия слабых духом.</example>
+                    <example>Счастливые часов не наблюдают.</example>
+                    <example>Смелого пуля боится.</example>
+                    <example>Быть умным Николаю мешала лень.</example>
+                    <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
+                    <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
+                    <example>Нам объявят необходимым запрет на спиртное.</example>
+                    <example>Нам объявят необходимыми игры на свежем воздухе.</example>
+                    <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
+                    <example>Для оставшейся неготовой лодки соорудили бокс.</example>
+                    <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
+                    <example>Крепкий стол.</example>
+                    <example>Крепкая ограда.</example>
+                    <example>Умные уже тут.</example>
+                    <example>Мы чужие друг другу.</example>
+                    <example>Белый стул.</example>
+                    <example>Больных гриппом просим не входить.</example>
+                    <example>Если загорелся зелёный машинам, то можно ехать.</example>
+                    <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
+                    <example>Преподавать русский инострацам сложно.</example>
+                    <example>Корзина была полная ягод.</example>
+                    <example>Воспользуемся средним чисел а и б.</example>
+                    <example>После выходных работник смотрелся не важно.</example>
+                    <example correction=""><marker>Железный кровать</marker>.</example>
+                    <example>Вдали виднелись красивые сосны.</example>
+                    <example correction="">Вдали виднелись <marker>красивый ёлка</marker>.</example>
+                    <example>Мебель сделана из красивой сосны.</example>
+                    <example correction="">Столы сделаны из <marker>красивая деревьев</marker>.</example>
+                    <example correction=""><marker>Твердолобая тори</marker>.</example>
+                    <example>Был построен добротный дом.</example>
+                    <example correction="">Был построен <marker>добротная дом</marker>.</example>
+                    <example>Пушистая кошка грелась на солнышке.</example>
+                    <example correction="">Эта <marker>пушистое кошка</marker> грелась.</example>
+                    <example>Вдали виднелось синее небо.</example>
+                    <example correction="">Вдали виднелось <marker>синий небо</marker>.</example>
+                </rule>
 
-	        <rule  id="Unify_Adj_NN_gender">
-		        <pattern>
-			        <marker>
-				        <unify negate="yes">
-					        <feature id="gender"/>
-					        <token postag="ADJ:.*|ADJ:Comp:.*"
-					               postag_regexp="yes">
-						        <exception scope="previous"
-						                   regexp="yes">,|-|—</exception>
-						        <exception
-						            postag="ADV|ADJ:Sup|PT:.*|NN:.*"
-						            postag_regexp="yes"/>
-						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
-						        <exception case_sensitive="yes">Божию</exception>
-					        </token>
-					        <token postag="NN:.*" postag_regexp="yes">
-						        <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
-						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
-						        <exception case_sensitive="yes">Tом</exception>
-					        </token>
-				        </unify>				        
-			        </marker>
-			        <token>
-				        <exception regexp="yes">и|[«»",]</exception>
-				        <exception postag="NN:.*" postag_regexp="yes"/>
-			        </token>
-		        </pattern>
-		        <message>Прилагательное не согласуется с существительным по роду.</message>
-		        <example>Крепкие столы.</example>
-		        <example>Суеверие — это религия слабых духом.</example>
-		        <example>Счастливые часов не наблюдают.</example>
-		        <example>Смелого пуля боится.</example>
-		        <example>Быть умным Николаю мешала лень.</example>
-		        <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
-		        <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
-		        <example>Нам объявят необходимым запрет на спиртное.</example>
-		        <example>Нам объявят необходимыми игры на свежем воздухе.</example>
-		        <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
-		        <example>Для оставшейся неготовой лодки соорудили бокс.</example>
-		        <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
-		        <example>Крепкий стол.</example>
-		        <example>Крепкая ограда.</example>
-		        <example>Умные уже тут.</example>
-		        <example>Мы чужие друг другу.</example>
-		        <example>Белый стул.</example>
-		        <example>Больных гриппом просим не входить.</example>
-		        <example>Если загорелся зелёный машинам, то можно ехать.</example>
-		        <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
-		        <example>Преподавать русский инострацам сложно.</example>
-		        <example>Корзина была полная ягод.</example>
-		        <example>Воспользуемся средним чисел а и б.</example>
-		        <example>После выходных работник смотрелся не важно.</example>
-		        <example correction=""><marker>Железный кровать</marker>.</example>
-                <example>Вдали виднелись красивые сосны.</example>
-                <example correction="">Вдали виднелись <marker>красивый ёлка</marker>.</example>
-                <example>Мебель сделана из красивой сосны.</example>
-                <example correction="">Столы сделаны из <marker>красивая деревьев</marker>.</example>
-                <example correction=""><marker>Твердолобая тори</marker>.</example>
-                <example>Был построен добротный дом.</example>
-                <example correction="">Был построен <marker>добротная дом</marker>.</example>
-                <example>Пушистая кошка грелась на солнышке.</example>
-                <example correction="">Эта <marker>пушистое кошка</marker> грелась.</example>
-                <example>Вдали виднелось синее небо.</example>
-                <example correction="">Вдали виднелось <marker>синий небо</marker>.</example>
-	        </rule>
-
-	        <rule  id="Unify_Adj_NN_case">
-		        <antipattern>
-				        <token postag="ADJ:.*:.*:T" postag_regexp='yes'>
-					        <exception postag="ADJ:.*:.*:T"
-					                   postag_regexp='yes' negate_pos='yes'/>
-				        </token>
-                    <marker>
-				        <token postag="NN:.*:.*:.*:Nom" postag_regexp='yes' />
-			        </marker>
-		        </antipattern>
+                <rule  id="Unify_Adj_NN_case">
+                    <antipattern>
+                        <token postag="ADJ:.*:.*:T" postag_regexp='yes'><exception postag="ADJ:.*:.*:T" postag_regexp='yes' negate_pos='yes'/></token>
+                        <marker>
+                            <token postag="NN:.*:.*:.*:Nom" postag_regexp='yes' />
+                        </marker>
+                    </antipattern>
 		        
-		        <antipattern>
-				        <token postag="ADJ:Posit:PL:T">
-					        <exception postag="ADJ:MPR:.*"
-					                   postag_regexp='yes' scope="previous"/>
-				        </token>
-                    <marker>
-				        <token postag="NN:.*:.*:PL:V" postag_regexp='yes' />
-			        </marker>
-		        </antipattern>
-		        <!-- Временными правительства называли журналисты. -->
-		        <antipattern>
-				        <token postag="ADJ:.*:(Masc|Fem|Neut):T" postag_regexp="yes">
-					        <exception postag="ADJ:MPR:.*"
-					                   postag_regexp='yes' scope="previous"/>
-				        </token>
-                    <marker>
-				        <token postag="NN:.*:.*:Sin:V" postag_regexp='yes' />
-			        </marker>
-		        </antipattern>
-		        <!-- Временной заплату считали недолго. -->
-
-		        <pattern>
-			        <marker>
-				        <unify negate="yes">
-					        <feature id="case"/>
-					        <token postag="ADJ:.*"
-					               postag_regexp="yes">
-						        <exception scope="previous"
-						                   regexp="yes">,|-|—</exception>
-						        <exception postag="PT:.*|ADV|ADJ:Sup|NN:.*" postag_regexp="yes" />
-						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
-						        <exception postag="ADJ:Posit:Masc:.*"
-						                   postag_regexp="yes" regexp="yes">
-							        &color;|мобильн.*
-						        </exception>
-						        <exception case_sensitive="yes">Божию</exception>
-					        </token>
-					        <token postag="NN:.*" postag_regexp="yes">
-						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
-						        <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
-						        <!-- Слова без буквы ё имеют неправильный падеж -->
-						        <exception regexp="yes">&missing_yo;</exception>
-						        <exception case_sensitive="yes">Tом</exception>
-					        </token>
-				        </unify>				        
-			        </marker>
-			        <token>
-				        <exception regexp="yes">[«»",]</exception>
-				        <exception postag="NN:.*" postag_regexp="yes"/>
-				        <exception>щеткой</exception>
-			        </token>
-		        </pattern>
-		        <message>Прилагательное не согласуется с существительным по падежу.</message>
-		        <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
-		        <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
-		        <example>Временными правительства называли журналисты.</example>
-		        <example>Временной заплату считали недолго.</example>
-		        <example>Среди них наибольшей известностью пользовались простые шутки.</example>
-		        <example>Среди них большей известностью пользовались простые шутки.</example>
-		        <example>Крепкие столы.</example>
-		        <example>Суеверие — это религия слабых духом.</example>
-		        <example>Счастливые часов не наблюдают.</example>
-		        <example>Смелого пуля боится.</example>
-		        <example>Быть умным Николаю мешала лень.</example>
-		        <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
-		        <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
-		        <example>Нам объявят необходимым запрет на спиртное.</example>
-		        <example>Нам объявят необходимыми игры на свежем воздухе.</example>
-		        <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
-		        <example>Для оставшейся неготовой лодки соорудили бокс.</example>
-		        <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
-		        <example>Крепкий стол.</example>
-		        <example>Крепкая ограда.</example>
-		        <example>Умные уже тут.</example>
-		        <example>Мы чужие друг другу.</example>
-		        <example>Белый стул.</example>
-		        <example>Больных гриппом просим не входить.</example>
-		        <example>Если загорелся зелёный машинам, то можно ехать.</example>
-		        <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
-		        <example>Преподавать русский инострацам сложно.</example>
-		        <example>Корзина была полная ягод.</example>
-		        <example>Воспользуемся средним чисел а и б.</example>
-		        <example>После выходных работник смотрелся не важно.</example>
-		        <example correction=""><marker>Железная кроватью</marker>.</example>
-                <example>Вдали виднелись красивые сосны.</example>
-                <example correction="">Вдали виднелись <marker>красивой ёлка</marker>.</example>
-                <example>Мебель сделана из красивой сосны.</example>
-                <example>При императрице Екатерине Великой Россия успешно воевала с Турцией</example>
-                <example>При Ярославе Мудром митрополит впервые был избран из числа русских священников</example>
-                <example>В бассейне Нижней Таймыры есть такие объекты как Река Мамонта</example>
-                <!-- <example correction="">Столы сделаны из <marker>красивых куски</marker> древесины.</example> -->
-                <!-- <example correction="">Столы сделаны из <marker>красивых деревья</marker>.</example> -->
-                <example>Был построен добротный дом.</example>
-                <example correction="">Был построен <marker>добротный дому</marker>.</example>
-                <example>Пушистая кошка грелась на солнышке.</example>
-                <example correction="">Эта <marker>пушистая кошкой</marker> грелась.</example>
-                <example>Вдали виднелось синее небо.</example>
-                <example>Оно смотрелось синее неба.</example>
-                <example>Добротная усадьба.</example>
-                <example correction=""><marker>Добротная усадьбе</marker>.</example>
-                <example>Нет крепкого сна.</example>
-                <example correction="">Нет <marker>крепкому сна</marker>.</example>
-                <example>Вода стекала по мягкому жёлобу.</example>
-                <example correction="">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
-                <example>Мы увидели бурной реку и стремительными рыб, идущих против течения.</example>
-                <example>Они справились с бурной рекой</example>
-                <example correction="">Они справились с <marker>бурную рекой</marker>.</example>
-                <example>Они думали о родном доме.</example>
-                <example correction="">Они думали о <marker>родного доме</marker>.</example>
-	        </rule>
+                    <antipattern>
+                        <token postag="ADJ:Posit:PL:T"><exception postag="ADJ:MPR:.*"  postag_regexp='yes' scope="previous"/></token>
+                        <marker>
+                            <token postag="NN:.*:.*:PL:V" postag_regexp='yes' />
+                        </marker>
+                    </antipattern>
+                    <!-- Временными правительства называли журналисты. -->
+                    <antipattern>
+                        <token postag="ADJ:.*:(Masc|Fem|Neut):T" postag_regexp="yes"><exception postag="ADJ:MPR:.*" postag_regexp='yes' scope="previous"/></token>
+                        <marker>
+                            <token postag="NN:.*:.*:Sin:V" postag_regexp='yes' />
+                        </marker>
+                    </antipattern>
+                    <!-- Временной заплату считали недолго. -->
+                    <pattern>
+                        <marker>
+                            <unify negate="yes">
+                                <feature id="case"/>
+                                <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception scope="previous" regexp="yes">,|-|—</exception>
+                                    <exception postag="PT:.*|ADV|ADJ:Sup|NN:.*" postag_regexp="yes" />
+                                    <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
+                                    <exception postag="ADJ:Posit:Masc:.*" postag_regexp="yes" regexp="yes">&color;|мобильн.*</exception>
+                                    <exception case_sensitive="yes">Божию</exception>
+                                </token>
+                                <token postag="NN:.*" postag_regexp="yes">
+                                    <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+                                    <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                                    <!-- Слова без буквы ё имеют неправильный падеж -->
+                                    <exception regexp="yes">&missing_yo;</exception>
+                                    <exception case_sensitive="yes">Tом</exception>
+                                </token>
+                            </unify>				        
+                        </marker>
+                        <token>
+                            <exception regexp="yes">[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                            <exception>щеткой</exception>
+                        </token>
+                    </pattern>
+                    <message>Прилагательное не согласуется с существительным по падежу.</message>
+                    <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
+                    <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
+                    <example>Временными правительства называли журналисты.</example>
+                    <example>Временной заплату считали недолго.</example>
+                    <example>Среди них наибольшей известностью пользовались простые шутки.</example>
+                    <example>Среди них большей известностью пользовались простые шутки.</example>
+                    <example>Крепкие столы.</example>
+                    <example>Суеверие — это религия слабых духом.</example>
+                    <example>Счастливые часов не наблюдают.</example>
+                    <example>Смелого пуля боится.</example>
+                    <example>Быть умным Николаю мешала лень.</example>
+                    <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
+                    <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
+                    <example>Нам объявят необходимым запрет на спиртное.</example>
+                    <example>Нам объявят необходимыми игры на свежем воздухе.</example>
+                    <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
+                    <example>Для оставшейся неготовой лодки соорудили бокс.</example>
+                    <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
+                    <example>Крепкий стол.</example>
+                    <example>Крепкая ограда.</example>
+                    <example>Умные уже тут.</example>
+                    <example>Мы чужие друг другу.</example>
+                    <example>Белый стул.</example>
+                    <example>Больных гриппом просим не входить.</example>
+                    <example>Если загорелся зелёный машинам, то можно ехать.</example>
+                    <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
+                    <example>Преподавать русский инострацам сложно.</example>
+                    <example>Корзина была полная ягод.</example>
+                    <example>Воспользуемся средним чисел а и б.</example>
+                    <example>После выходных работник смотрелся не важно.</example>
+                    <example correction=""><marker>Железная кроватью</marker>.</example>
+                    <example>Вдали виднелись красивые сосны.</example>
+                    <example correction="">Вдали виднелись <marker>красивой ёлка</marker>.</example>
+                    <example>Мебель сделана из красивой сосны.</example>
+                    <example>При императрице Екатерине Великой Россия успешно воевала с Турцией</example>
+                    <example>При Ярославе Мудром митрополит впервые был избран из числа русских священников</example>
+                    <example>В бассейне Нижней Таймыры есть такие объекты как Река Мамонта</example>
+                    <!-- <example correction="">Столы сделаны из <marker>красивых куски</marker> древесины.</example> -->
+                    <!-- <example correction="">Столы сделаны из <marker>красивых деревья</marker>.</example> -->
+                    <example>Был построен добротный дом.</example>
+                    <example correction="">Был построен <marker>добротный дому</marker>.</example>
+                    <example>Пушистая кошка грелась на солнышке.</example>
+                    <example correction="">Эта <marker>пушистая кошкой</marker> грелась.</example>
+                    <example>Вдали виднелось синее небо.</example>
+                    <example>Оно смотрелось синее неба.</example>
+                    <example>Добротная усадьба.</example>
+                    <example correction=""><marker>Добротная усадьбе</marker>.</example>
+                    <example>Нет крепкого сна.</example>
+                    <example correction="">Нет <marker>крепкому сна</marker>.</example>
+                    <example>Вода стекала по мягкому жёлобу.</example>
+                    <example correction="">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
+                    <example>Мы увидели бурной реку и стремительными рыб, идущих против течения.</example>
+                    <example>Они справились с бурной рекой</example>
+                    <example correction="">Они справились с <marker>бурную рекой</marker>.</example>
+                    <example>Они думали о родном доме.</example>
+                    <example correction="">Они думали о <marker>родного доме</marker>.</example>
+                </rule>
         </rulegroup>
 
         
