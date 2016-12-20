@@ -181,12 +181,10 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.G0+' postag_regexp='yes'/>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!-- FIXME Neither removed.txt (tested) nor disambiguation work in the suggestions
-	                this can be fixed with a dictionary rebuild -->
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
-	<example type='incorrect'><marker>Vou olhando</marker> para o que acontece.</example>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
    </rule>
-   <rule>
+   <rule><!-- TODO Review all cases and consider disabling temporarily-->
     <pattern>
     		<token>-</token>
     		<token postag='PP.*' postag_regexp='yes'/>
@@ -194,9 +192,8 @@ title="Easy editing stylesheet" ?>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
-	<example type='incorrect'>As luzes iam<marker>-se acendendo</marker> à medida que ela passava.</example>
-	<example type='correct'>Se acendendo as luzes, apenas à medida que ela passava...</example>
+        <suggestion>\1\2 <match no='3' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='-se acender'>As luzes iam<marker>-se acendendo</marker> à medida que ela passava.</example>
    </rule>
    <rule>
     <pattern>
@@ -205,11 +202,11 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.G0+' postag_regexp='yes'>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
 	<message>Se possível, evite o gerúndio.</message>
-	<example type='incorrect'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
-	<example type='incorrect'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
-	<example type='incorrect'><marker>Vou olhando</marker> para o que acontece.</example>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
+	<example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
+        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
    </rule>
   </rulegroup>
 
@@ -221,11 +218,10 @@ title="Easy editing stylesheet" ?>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!-- FIXME Neither removed.txt (tested) nor disambiguation work in the suggestions -->
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
+        <suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<url>https://pt.wikipedia.org/wiki/Gerundismo</url>
-	<example type='incorrect'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
-	<example type='incorrect'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
+	<example correction='a soprar'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
+	<example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
   </rule>
 
 </category>
