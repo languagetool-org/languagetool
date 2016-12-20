@@ -12310,6 +12310,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUB_VER_KLEIN" name="Verben, die auch Substantive sein können (z.B. 'ich Besuche (besuche)) (nur 1. Person Singular)'">
             <!-- TODO weitere Personen -->
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:1.*" postag_regexp="yes"/>
+                    <token>ich</token>
+                </antipattern>    
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
                     <marker>
@@ -12324,6 +12329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&verende;</message>
                 <short>&prgk;.</short>
                 <example correction="besuche">Momentan <marker>Besuche</marker> ich die katholische Grundschule in Kaarst.</example>
+                <example>Habe ich Ihnen weh getan?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
