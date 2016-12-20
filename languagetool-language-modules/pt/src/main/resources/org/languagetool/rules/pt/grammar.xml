@@ -344,7 +344,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
-	 <message>Erro de concordância do plural:</message>
+	 <message>Erro de concordância de número:</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
@@ -365,7 +365,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do plural:</message>
+	 <message>Erro de concordância de número:</message>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
 	 <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
@@ -382,7 +382,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
-	 <message>Erro de concordância do plural:</message>
+	 <message>Erro de concordância de número:</message>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]P$2' postag_regexp="yes"/> \3</suggestion>
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
@@ -398,7 +398,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	 </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
-	 <message>Erro de concordância do plural:</message>
+	 <message>Erro de concordância de número:</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]S$2' postag_regexp="yes"/> \3</suggestion>
 	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
@@ -836,14 +836,14 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
     <!-- Concordance error plural - QUALQUER + PLURAL -->
 <!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
-    <rule id="QUALQUER_PLURAL" name="Erro de concordância do plural QUALQUER + PLURAL">
+    <rule id="QUALQUER_PLURAL" name="Erro de concordância de número QUALQUER + PLURAL">
       <pattern>
 		<marker>
 			<token>qualquer</token>	  
 		</marker>
 		<token postag_regexp="yes"  postag="NCFP000|NCMP000"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>quaisquer</suggestion>
      <example correction="quaisquer">Tratamos de <marker>qualquer</marker> assuntos.</example>	 	 
     </rule>
@@ -851,65 +851,61 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
     <!-- Concordance error plural - QUAISQUER + SINGULAR -->
 <!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_O. Consider removal
-    <rule id="QUAISQUER_PLURAL" name="Erro de concordância do plural QUAISQUER + SINGULAR">
+    <rule id="QUAISQUER_PLURAL" name="Erro de concordância de número QUAISQUER + SINGULAR">
       <pattern>
 		<marker>
 			<token>quaisquer</token>	  
 		</marker>
 		<token postag_regexp="yes"  postag="NCFS000|NCMS000"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>qualquer</suggestion>
      <example correction="qualquer">Tratamos de <marker>quaisquer</marker> assunto.</example>	 	 
     </rule>
 -->
 
-    <!-- TODO Inflect forem (ser) and merge all FOREM rules -->
     <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
-    <rule id="FOREM-ADJECTIVE_SINGULAR_FEM" name="Erro de concordância do plural FOREM + ADJ PLURAL FEM">
+    <rulegroup id="FOREM-ADJECTIVE" name="Erro de concordância de número FOREM + ADJ">
       <pattern>
 		<token>forem</token>
 		<marker>			
 			<token postag="AQ0FS0"><exception postag="VMIP3S0"></exception></token>
 		</marker>		 	
      </pattern>	 	 
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0FS0" postag_replace="AQ0FP0"/></suggestion></message>	 
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0FS0" postag_replace="AQ0FP0"/></suggestion></message>	 
 	 <example correction="necessárias">Quando forem <marker>necessária</marker> novas medidas.</example>   
     </rule>
-
-    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL MASC-->
-    <rule id="FOREM-ADJECTIVE_SINGULAR_MASC" name="Erro de concordância do plural FOREM + ADJ PLURAL MASC">
+    <rule>
       <pattern>
 		<token>forem</token>
 		<marker>			
 			<token postag="AQ0MS0"><exception postag="VMIP1S0"></exception></token>
 		</marker>		 	
      </pattern>	 	 
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0MS0" postag_replace="AQ0MP0"/></suggestion></message>	 
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0MS0" postag_replace="AQ0MP0"/></suggestion></message>	 
 	 <example correction="necessários">Quando forem <marker>necessário</marker> mais meios.</example>   
     </rule>
-
-    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL MASC2-->
-    <rule id="FOREM-ADJECTIVE_SINGULAR_MASC2" name="Erro de concordância do plural FOREM + ADJ PLURAL MASC2">
+    <rule>
       <pattern>
 		<token>forem</token>
 		<marker>			
 			<token postag="AQ0CS0"></token>
 		</marker>		 	
      </pattern>	 	 
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0CS0" postag_replace="AQ0CP0"/></suggestion></message>	 
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0CS0" postag_replace="AQ0CP0"/></suggestion></message>	 
 	 <example correction="urgentes">Todos os exames que forem <marker>urgente</marker> serão marcados.</example>   
     </rule>
+  </rulegroup>
 
     <!-- Concordance error plural - É + PLURAL -->
-    <rule id="É_PLURAL" name="Erro de concordância do plural É+PLURAL">
+    <rule id="É_PLURAL" name="Erro de concordância de número É+PLURAL">
       <pattern>
 		<marker>
 			<token>é</token>	  
 		</marker>
 		<token postag_regexp="yes"  postag="AQ0CP0|AQ0MP0|AQ0FP0|VMII2P0"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>são</suggestion>
      <example correction="são">Os correctores gramaticais <marker>é</marker> funcionais.</example>	 	 
     </rule>
@@ -917,23 +913,24 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	<!-- FIXME Remove. Contrary to grammar rules. 'Quem' agrees with 'whom' oration -->
     <!-- Concordance error plural - QUEM + VERB SINGULAR -->
 <!--
-    <rule id="QUEM-VERB_PLURAL" name="Erro de concordância do plural QUEM + VERBO SINGULAR">
+    <rule id="QUEM-VERB_PLURAL" name="Erro de concordância de número QUEM + VERBO SINGULAR">
       <pattern>
 		<token>quem</token>
 		<marker>
 			<token postag="VMIS3P0"></token>
 		</marker>
       </pattern>
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="VMIS3P0" postag_replace="VMIS3S0"/></suggestion></message>
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="VMIS3P0" postag_replace="VMIS3S0"/></suggestion></message>
 	 FIXME This example is correct	 
 	 <example correction="fez|fê">Foram eles quem <marker>fizeram</marker> os trabalhos.</example>
     </rule>	
 -->
 
+  <rulegroup id="A_NOUN_VERB" name="Erro de concordância de número DETERMINANTE + NOME + VERBO NO"
 	<!-- TODO Use pos_regexp to improve rule. Suggestion V....S.	-->
 	<!-- TODO Merge specific concordance rules in rulegroup to compact options -->
 	<!-- Concordance error plural - A + FEMALE PLURAL + SINGULAR VERB -->
-    <rule id="A_FEMALE-PLURAL_SINGULAR-VERB" name="Erro de concordância do plural A + FEMALE SINGULAR + SINGULAR VERB">
+    <rule>
       <pattern>
         <token>a</token>
         <marker>
@@ -941,13 +938,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
          </marker>
          <token postag="VMIP3S0"></token>
      </pattern>
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="NCFP000" postag_replace="NCFS000"/></suggestion></message>	 
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCFP000" postag_replace="NCFS000"/></suggestion></message>	 
 	 <example correction="vaca">A <marker>vacas</marker> está no pasto.</example>   
     </rule>
-
-	<!-- TODO Use pos_regexp to improve rule. Suggestion V....S.	-->
-	<!-- Concordance error plural - AS + FEMALE SINGULAR + PLURAL VERB -->
-    <rule id="AS_FEMALE-SINGULAR_PLURAL-VERB" name="Erro de concordância do plural AS + FEMALE PLURAL + PLURAL VERB">
+    <rule>
       <pattern>
         <token>as</token>
         <marker>
@@ -955,12 +949,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
          </marker>
          <token postag="VMIP3P0"></token>
      </pattern>
-	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="NCFS000" postag_replace="NCFP000"/></suggestion></message>	 
+	 <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCFS000" postag_replace="NCFP000"/></suggestion></message>	 
 	 <example correction="vacas">As <marker>vaca</marker> estão no pasto.</example>   
     </rule>
-
-	<!-- Concordance error plural - O + MALE PLURAL + SINGULAR VERB -->
-    <rule id="O_MALE-PLURAL_SINGULAR-VERB" name="Erro de concordância do plural O + MALE SINGULAR + SINGULAR VERB">
+    <rule>
       <pattern>
         <token>o</token>
         <marker>
@@ -968,13 +960,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
          </marker>
          <token postag="VMIP3S0"></token>
      </pattern>
-     <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="NCMP000" postag_replace="NCMS000"/></suggestion></message>	 
+     <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCMP000" postag_replace="NCMS000"/></suggestion></message>	 
      <example correction="boi">O <marker>bois</marker> está no pasto.</example>   
     </rule>
-
-	<!-- TODO Use pos_regexp to improve rule. Suggestion V....P.	-->
-	<!-- Concordance error plural - OS + MALE SINGULAR + PLURAL VERB -->
-    <rule id="OS_MALE-SINGULAR_PLURAL-VERB" name="Erro de concordância do plural OS + MALE PLURAL + PLURAL VERB">
+    <rule>
       <pattern>
         <token>os</token>
         <marker>
@@ -982,20 +971,21 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
          </marker>
          <token postag="VMIP3P0"></token>
      </pattern>
-     <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="NCMS000" postag_replace="NCMP000"/></suggestion></message>	 
+     <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCMS000" postag_replace="NCMP000"/></suggestion></message>	 
      <example correction="bois">Os <marker>boi</marker> estão no pasto.</example>   
     </rule>
+  </rulegroup>
 
     <!-- Concordance error plural - OS + ADJ PLURAL -->
 <!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
-    <rule id="O_ADJ-PLURAL" name="Erro de concordância do plural OS + ADJ PLURAL">
+    <rule id="O_ADJ-PLURAL" name="Erro de concordância de número OS + ADJ PLURAL">
       <pattern>
 		<marker>
 			<token>o</token>	  
 		</marker>
 		<token postag="AQ0CP0"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>os</suggestion>
      <example correction="os">Incluindo <marker>o</marker> seguintes temas.</example>	 	 
     </rule>
@@ -1003,14 +993,14 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
     <!-- Concordance error plural - O + ADJ SINGULAR -->
 <!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_OC. Consider removal
-    <rule id="OS_ADJ-SINGULAR" name="Erro de concordância do plural O + ADJ SINGULAR">
+    <rule id="OS_ADJ-SINGULAR" name="Erro de concordância de número O + ADJ SINGULAR">
       <pattern>
 		<marker>
 			<token>os</token>	  
 		</marker>
 		<token postag="AQ0CS0"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>o</suggestion>
      <example correction="o">Incluindo <marker>os</marker> seguinte tema.</example>	 	 
     </rule>
@@ -1018,7 +1008,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		
 	<!-- TODO Use pos_regexp to improve rule. Suggestion V....P.	-->	
 	<!-- Concordance error plural - A GENTE + PLURAL VERB > A GENTE + SINGULAR VERB -->
-    <rule id="A_GENTE-SINGULAR_PLURAL-VERB" name="Erro de concordância do plural A GENTE + SINGULAR VERB">
+    <rule id="A_GENTE-SINGULAR_PLURAL-VERB" name="Erro de concordância de número A GENTE + SINGULAR VERB">
       <pattern>
         <token>a</token>
 		<token>gente</token>
@@ -1026,7 +1016,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
             <token postag="VMIP1P0"></token>
          </marker>
      </pattern>
-     <message>Erro de concordância do plural: <suggestion><match no="3" postag_regexp= "yes" postag="VMIP1P0" postag_replace="VMIP3S0"/></suggestion></message>	 
+     <message>Erro de concordância de número: <suggestion><match no="3" postag_regexp= "yes" postag="VMIP1P0" postag_replace="VMIP3S0"/></suggestion></message>	 
      <example correction="vai">A gente <marker>vamos</marker> à praia.</example>   
     </rule>
 
@@ -1041,7 +1031,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		</marker>
 		<token postag_regexp="yes"  postag="NCFP000|NCMP000|AQ0FP0|AQ0MP0"></token> 	
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>procuram-se</suggestion>
      <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
     </rule>
@@ -1060,9 +1050,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     </rule>
     -->
 
+  <rulegroup id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO/A">
     <!-- TODO Improve with inflections. Suggestion <token inflected='yes'>ser</token>	-->
     <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA -->
-    <rule id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO-NECESSÁRIA">
+    <rule>
       <pattern>
 		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
         <marker>
@@ -1074,11 +1065,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
      <example correction="necessária">É <marker>necessário</marker> uma festa.</example>
     </rule>
-
-    <!-- TODO Improve with inflections. Suggestion <token inflected='yes'>ser</token>	
-    			and merge with rulegroup to improve options	-->
-    <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA + UMA + ADJ + NOUN -->
-    <rule id="NECESSÁRIO_NECESSÁRIA_ADJ_NOUN" name="Erro de concordância NECESSÁRIO-NECESSÁRIA + UMA + ADJ + NOUN">
+    <rule>
       <pattern>
 		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
         <marker>
@@ -1091,6 +1078,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
      <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
     </rule>
+  </rulegroup>
 
     <!-- Concordance gender - UM > UMA -->
 <!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal 
@@ -3086,7 +3074,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	</rule>
 
     <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
-    <rule id="O_MAIS_ADJ-PLURAL_POSSÍVEIS" name="Erro de concordância do plural - possíveis-possível">
+    <rule id="O_MAIS_ADJ-PLURAL_POSSÍVEIS" name="Erro de concordância de número - possíveis-possível">
       <pattern>
 		<token>o</token>	
 		<token>mais</token>	
@@ -3095,7 +3083,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 			<token>possíveis</token>	  
 		</marker>
      </pattern>	 	 
-     <message>Erro de concordância do plural.</message>
+     <message>Erro de concordância de número.</message>
      <suggestion>possível</suggestion>
      <example correction="possível">Faz perguntas o mais abrangentes <marker>possíveis</marker>.</example>	 	 
     </rule>
@@ -3468,8 +3456,9 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
 <!-- RULES TU/TI -> EU/MIM *START* -->
 <!-- ***************************** -->
+  <rulegroup id='TU_TI_EU_MIM' name='Confusão de palavras TU - TI / EU - MIM'>
     <!-- A TU a ti -->
-    <rule id="A_TU" name="A ti">
+    <rule>
       <pattern>
         <token>a</token>
         <token>tu</token>
@@ -3477,9 +3466,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «a tu» por <suggestion>a ti</suggestion>.</message>
       <example correction="a ti">Isto deve-se <marker>a tu</marker>.</example>
     </rule>
-
-    <!-- DE EU de mim -->
-    <rule id="DE_EU" name="De mim">
+    <rule>
       <pattern>
         <token>de</token>
         <token>eu</token>
@@ -3487,9 +3474,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «de eu» por <suggestion>de mim</suggestion>.</message>
       <example correction="de mim">Isto é <marker>de eu</marker> para o Rui.</example>
     </rule>
-
-    <!-- ENTRE EU entre mim -->
-    <rule id="ENTRE_EU" name="Entre mim">
+    <rule>
       <pattern>
         <token>entre</token>
         <token>eu</token>
@@ -3497,9 +3482,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «entre eu» por <suggestion>entre mim</suggestion>.</message>
       <example correction="entre mim">O que se passou <marker>entre eu</marker> e o Rui?</example>
     </rule>
-
-    <!-- ENTRE TU E EU entre ti e mim -->
-    <rule id="ENTRE_TU_E_EU" name="Entre ti e mim">
+    <rule>
       <pattern>
         <token>entre</token>
         <token>tu</token>
@@ -3509,9 +3492,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «entre tu e eu» por <suggestion>entre ti e mim</suggestion>.</message>
       <example correction="entre ti e mim">O que se passou <marker>entre tu e eu</marker>?</example>
     </rule>
-
-    <!-- PARA TU para ti -->
-    <rule id="PARA_TU" name="Para ti">
+    <rule>
       <pattern>
         <token>para</token>
         <token>tu</token>
@@ -3519,9 +3500,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «para tu» por <suggestion>para ti</suggestion>.</message>
       <example correction="para ti">Isto é <marker>para tu</marker>.</example>
     </rule>
-
-    <!-- SEM TU sem ti -->
-    <rule id="SEM_TU" name="Sem ti">
+    <rule>
       <pattern>
         <token>sem</token>
         <token>tu</token>
@@ -3529,6 +3508,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «sem tu» por <suggestion>sem ti</suggestion>.</message>
       <example correction="sem ti">Isto não é o mesmo <marker>sem tu</marker>.</example>
     </rule>
+  </rulegroup>
 <!-- *************************** -->
 <!-- RULES TU/TI -> EU/MIM *END* -->
 
@@ -3542,12 +3522,12 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="votos em branco">Houve muitos <marker>votos brancos</marker> na eleição.</example>
     </rule>
 
-	<!-- TODO Merge XEQUE and similar rule sets in rulegroups to compact options
-			Some rules can be condensed and expanded with regexps	 -->
+
 <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
 <!-- ************************************************************* -->
+  <rulegroup id='XEQUE_CHEQUE' name='Confusão Xeque - Cheque'>
     <!-- XEQUE AVULSO CARECA CRUZADO VISADO cheque avulso careca cruzado visado -->
-	<rule id="XEQUE_AVULSO_CARECA_CRUZADO_VISADO" name="Cheque avulso careca cruzado visado">
+	<rule>
 	  <pattern case_sensitive="no">
 	    <marker>
           <token>xeque</token>         
@@ -3557,9 +3537,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> cruzado.</example>
 	</rule>
-
-    <!-- XEQUES_AVULSO CARECAS CRUZADOS VISADOS cheques avulso carecas cruzados visados -->
-	<rule id="XEQUES_AVULSO_CARECAS_CRUZADOS_VISADOS" name="Cheques avulso carecas cruzados visados">
+	<rule>
 	  <pattern case_sensitive="no">
 	    <marker>
           <token>xeques</token>         
@@ -3569,9 +3547,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> visados.</example>
 	</rule>
-
-    <!-- XEQUE SEM COBERTURA cheque sem cobertura -->
-	<rule id="XEQUE_SEM_COBERTURA" name="Cheque sem cobertura">
+	<rule>
 	  <pattern case_sensitive="no">
 	    <marker>
           <token>xeque</token>            
@@ -3582,9 +3558,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> sem cobertura.</example>
 	</rule>
-
-    <!-- XEQUES SEM COBERTURA cheques sem cobertura -->
-	<rule id="XEQUES_SEM_COBERTURA" name="Cheques sem cobertura">
+	<rule>
 	  <pattern case_sensitive="no">
 	    <marker>
           <token>xeques</token>         
@@ -3595,9 +3569,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> sem cobertura.</example>
 	</rule>
-
-    <!-- XEQUE EM BRANCO cheque em branco -->
-	<rule id="XEQUE_EM_BRANCO" name="Cheque em branco">
+	<rule>
 	  <pattern case_sensitive="no">
 	    <marker>
           <token>xeque</token>         
@@ -3608,9 +3580,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> em branco.</example>
 	</rule>
-
-    <!-- XEQUES EM BRANCO cheques em branco -->
-	<rule id="XEQUES_EM_BRANCO" name="Cheques em branco">
+	<rule>
 	  <pattern case_sensitive="no">
   	    <marker>	  
           <token>xeques</token>         
@@ -3621,18 +3591,15 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> em branco.</example>
 	</rule>
-
+  </rulegroup>
 <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
 <!-- *********************************************************** -->
 
-
-	<!-- TODO Merge TIVER and similar rule sets in rulegroups to compact options
-			Some rules can be condensed and expanded with regexps	 -->
 <!-- TIVER/ESTIVER AND DERIVATES - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
 <!-- **************************************************************************** -->
-
+  <rulegroup id='TIVER_ESTIVER' name='Confusão ESTIVER - ESTIVER'>
     <!-- TIVER + A + INF-VERB estiver + a + inf-verb-->
-    <rule id="TIVER_A_INF-VERB" name="Estiver + a + inf-verb">
+    <rule>
 		<pattern>
 			<marker>
 				<token>tiver</token>	  
@@ -3643,9 +3610,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substituir «tiver» por <suggestion>estiver</suggestion>.</message>
 		<example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>	 	 
     </rule>
-
-    <!-- TIVERES + A + INF-VERB estiveres + a + inf-verb-->
-    <rule id="TIVERES_A_INF-VERB" name="Estiveres + a + inf-verb">
+    <rule>
 		<pattern>
 			<marker>
 				<token>tiveres</token>	  
@@ -3656,9 +3621,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substituir «tiveres» por <suggestion>estiveres</suggestion>.</message>
 		<example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>	 	 
     </rule>
-
-    <!-- TIVEREM + A + INF-VERB estiverem + a + inf-verb-->
-    <rule id="TIVEREM_A_INF-VERB" name="Estiverem + a + inf-verb">
+    <rule>
 		<pattern>
 			<marker>
 				<token>tiverem</token>	  
@@ -3669,9 +3632,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substituir «tiverem» por <suggestion>estiverem</suggestion>.</message>
 		<example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>	 	 
     </rule>
-
-    <!-- TIVERMOS + A + INF-VERB estivermos + a + inf-verb-->
-    <rule id="TIVERMOS_A_INF-VERB" name="Estivermos + a + inf-verb">
+    <rule>
 		<pattern>
 			<marker>
 				<token>tivermos</token>	  
@@ -3682,9 +3643,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substituir «tivermos» por <suggestion>estivermos</suggestion>.</message>
 		<example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>	 	 
     </rule>
-
-    <!-- TIVERAM + A + INF-VERB estiveram + a + inf-verb-->
-    <rule id="TIVERAM_A_INF-VERB" name="Estiveram + a + inf-verb">
+    <rule>
 		<pattern>
 			<marker>
 				<token>tiveram</token>	  
