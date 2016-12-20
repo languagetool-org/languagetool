@@ -84,10 +84,10 @@ public class GermanTagger extends BaseTagger {
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
-      if (firstWord && taggerTokens.size() == 0 && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
+      if (firstWord && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
         firstWord = word.matches("^\\W?$");
-      } else if (pos == 0 && ignoreCase && word.endsWith("en")) {   // "Haben", "Sollen", "Können" etc. at start of sentence
+      } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       }
       if (taggerTokens.size() > 0) {
