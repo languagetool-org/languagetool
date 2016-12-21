@@ -4788,6 +4788,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
                             <exception case_sensitive="yes">Tом</exception>
+                            <!-- полчаса, полдня -->
+                            <exception regexp="yes">пол.*</exception>  
                         </token>
                     </unify>				        
                 </marker>
@@ -4795,6 +4797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
             <short>Не согласуются по роду</short>
             <example>моё отношение</example>
+            <example>Он каждые полчаса бежит в лабораторию.</example>
             <example correction=""><marker>моей отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного с существительным по числу">
@@ -4809,6 +4812,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
                             <exception case_sensitive="yes">Tом</exception>
+                            <!-- полчаса, полдня -->
+                            <exception regexp="yes">пол.*</exception>
                         </token>
                     </unify>				        
                 </marker>
@@ -4816,6 +4821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
+            <example>Он каждые полчаса бежит в лабораторию.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
         <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
@@ -4967,7 +4973,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <feature id="number"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous"  regexp="yes">,|и|-|—</exception>
-                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|NN:.*" postag_regexp='yes'/>
+                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
@@ -4997,6 +5003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Умные уже тут.</example>
                     <example>Мы чужие друг другу.</example>
                     <example>Белый стул.</example>
+                    <example>Вы должны помочь мне!</example>
                     <example>Больных гриппом просим не входить.</example>
                     <example>Если загорелся зелёный машинам, то можно ехать.</example>
                     <example>Преподавать русский инострацам сложно.</example>
@@ -5018,7 +5025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <feature id="gender"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous" regexp="yes">,|-|—</exception>
-                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|NN:.*" postag_regexp="yes"/>
+                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
                                     <exception case_sensitive="yes">Божию</exception>
                                 </token>
@@ -5052,6 +5059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Умные уже тут.</example>
                     <example>Мы чужие друг другу.</example>
                     <example>Белый стул.</example>
+                    <example>Ты должен вести себя спокойнее.</example>
                     <example>Больных гриппом просим не входить.</example>
                     <example>Если загорелся зелёный машинам, то можно ехать.</example>
                     <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
@@ -5147,6 +5155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Умные уже тут.</example>
                     <example>Мы чужие друг другу.</example>
                     <example>Белый стул.</example>
+                    <example>Вы должны помочь мне!</example>
                     <example>Больных гриппом просим не входить.</example>
                     <example>Если загорелся зелёный машинам, то можно ехать.</example>
                     <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
@@ -8356,10 +8365,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception regexp="yes" scope="next">и|только</exception></token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;»"']</exception><exception regexp="yes" scope="next">и|только</exception></token>
                         <token skip="-1">не</token>
                     </marker>
-                    <token regexp="yes">[.!?:;]</token>
+                    <token regexp="yes">[.!?:;»"']</token>
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
