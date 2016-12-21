@@ -3111,15 +3111,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <!--TODO: Detect 2 comma.-->
             <rule>
-                <pattern> <!--  remove case sensitive --> 
+                <pattern> <!--  remove case sensitive -->
+                  <marker> 
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)|но|однако|только|а<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
+                  </marker>
+                  <token><exception inflected="yes" regexp="yes" >аналогичный|типовой|похожий|нетиповой|непохожий|одинаковый|различный</exception></token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
                 <short>Пропущена запятая.</short>
                 <example>Около костра, кроме Ивана, грелось ещё пять человек.</example>
                 <example>Он ел вместо груш яблоки.</example>
+                <example>Возможно, нужна буква из кириллицы вместо аналогичной по начертанию из латинского алфавита.</example>
                 <example>Но вместо нужной конструкции привезли типовую.</example>
                 <example>Однако вместо нужной конструкции привезли типовую.</example>
                 <example>А вместо нужной конструкции привезли типовую.</example>
@@ -7604,9 +7608,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
-                    <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*:.*" postag_regexp="yes">
+                    <exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже:
@@ -7635,7 +7639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>В университете лаборатории созданы при кафедре и факультете.</example>
             <example correction="при кафедре и факультете">В университете лаборатории созданы <marker>при кафедре и факультет</marker>.</example>
         </rule>
-                <rule>
+        <rule>
             <pattern>
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
@@ -8393,7 +8397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
-                  <token><exception postag="NN:.*|ADV" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
+                  <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:.*|ADJ:Sup:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ:Sup:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
@@ -8402,6 +8406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Опущено существительное в конце предложения.</message>
                 <short>Опущено существительное</short>
                 <example>Так он и запил горькую судьбу.</example>
+                <example>Он богат.</example>
                 <example>Это кольцо является волшебным.</example>
                 <example>Такой подход оказался достаточно универсальным.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
