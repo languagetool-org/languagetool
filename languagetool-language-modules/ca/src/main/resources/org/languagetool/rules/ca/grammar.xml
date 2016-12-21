@@ -24750,6 +24750,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="OFERTA_OFEREIX" name="oferta/ofereix">
+            <pattern>
+                <token postag="&pronom_feble;|R.*|CS" postag_regexp="yes" ><exception postag="A.*|D..FS.|DA.CS.|PX.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>oferta</token>
+                </marker>
+            </pattern>
+            <message>Si és un verb, cal dir <suggestion>ofereix</suggestion>.</message>
+            <example correction="ofereix">Ningú no <marker>oferta</marker> res per ell.</example>
+            <example correction="ofereix">Ningú no ens <marker>oferta</marker> res.</example>
+            <example correction="ofereix">Si <marker>oferta</marker> res, digues que no.</example>
+            <example>A igual oferta</example>
+            <example>L'oferta és bona.</example>
+        </rule>
         <rule id="EN_EL_TOCANT_A" name="en el/allò tocant a">
             <pattern>
                 <token>en</token>
@@ -33855,21 +33869,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els dubtes que havia tingut sempre.</example>
             </rule>
         </rulegroup>
-        <rule id="PLANOL_PLA" name="plànol / pla">
-            <pattern>
-                <marker>
-                    <token inflected="yes">plànol</token>
-                </marker>
-                <token min="0" inflected="yes">de</token>
-                <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
-            <url>http://esadir.cat/entrades/fitxa/id/2157</url>
-            <short>Possible confusió</short>
-            <example correction="pla">en el <marker>plànol</marker> personal</example>
-            <example correction="pla">en <marker>plànol</marker> d'igualtat</example>
-            <example>pla personal</example>
-        </rule>
+        <rulegroup id="PLANOL_PLA" name="plànol / pla">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">plànol</token>
+                    </marker>
+                    <token min="0" inflected="yes">de</token>
+                    <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2157</url>
+                <short>Possible confusió</short>
+                <example correction="pla">en el <marker>plànol</marker> personal</example>
+                <example correction="pla">en <marker>plànol</marker> d'igualtat</example>
+                <example>pla personal</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>el</exception></token>
+                    <token postag="AO.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>plànol</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pla</suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2157</url>
+                <short>Possible confusió</short>
+                <example correction="pla">En primer <marker>plànol</marker>, hi ha la casa.</example>
+                <example>El primer plànol de la Torre Eiffel.</example>
+            </rule>
+          </rulegroup>
         <rulegroup id="FULLA_FULL" name="fulla/full">
             <rule>
                 <pattern>
