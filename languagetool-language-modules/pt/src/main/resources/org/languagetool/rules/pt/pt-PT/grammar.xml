@@ -183,8 +183,9 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
    </rule>
-<!--   <rule> TODO Review all cases and consider disabling temporarily
+   <rule>
     <pattern>
+    		<token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
     		<token>-</token>
     		<token postag='PP.*' postag_regexp='yes'/>
 		<token postag='V.G0+' postag_regexp='yes'>
@@ -193,7 +194,7 @@ title="Easy editing stylesheet" ?>
 	<message>Se possível, evite o gerúndio.</message>
         <suggestion>\1\2 <match no='3' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<example correction='-se acender'>As luzes iam<marker>-se acendendo</marker> à medida que ela passava.</example>
-   </rule>-->
+   </rule>
    <rule>
     <pattern>
     		<token postag='V.+' postag_regexp='yes'>
