@@ -15501,7 +15501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
-            <rule id="ESTA_BE" name="*esta bé/està bé">
+            <rule>
                 <antipattern>
                     <marker>
                         <token postag="_GN_FS">esta</token>
@@ -15540,7 +15540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta bonica casa és la d'en Joan.</example>
                 <example>Amb l'aplicació d'esta.</example>
             </rule>
-            <rule id="ORIGINARIA" name="originaria">
+            <rule>
                 <pattern>
                     <token><exception postag="P.*" postag_regexp="yes"/></token>
                     <marker>
@@ -15556,7 +15556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que ell originaria de manera immediata</example>
                 <example>que allò originaria de manera immediata</example>
             </rule>
-            <rule id="NOMES" name="nomes/només">
+            <rule>
                 <pattern>
                     <token><exception postag="D..MP.*" postag_regexp="yes"/></token>
                     <marker>
@@ -15567,7 +15567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="només">Un gran silenci <marker>nomes</marker> trencat per la brisa.</example>
             </rule>
-            <rule id="RADIO" name="radio/ràdio">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>Radio</token>
@@ -15705,7 +15705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vàries">Diuen que ho va dir <marker>varies</marker> vegades.</example>
                 <example>varies el rumb</example>
             </rule>
-            <rule id="PRESENCIA" name="presencia">
+            <rule>
                 <pattern>
                     <token>en</token>
                     <marker>
@@ -15717,7 +15717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="presència">En <marker>presencia</marker> del Senyor.</example>
                 <example>en presència de</example>
             </rule>
-            <rule id="AVIA" name="avia/àvia">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">[mts]'|hi|ens|us|vos|els|les</exception></token>
                     <marker>
@@ -15728,7 +15728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="àvia">És la nostra <marker>avia</marker>.</example>
                 <example>Els avia al carrer.</example>
             </rule>
-            <rule id="AVIES" name="avies/àvies">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">[mtsl]'|hi|ens|us|vos|els</exception></token>
                     <marker>
@@ -15773,11 +15773,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">es</token>
                         <token min="0" inflected="yes">en</token>
-                        <token>seqüencia</token>
+                        <token regexp="yes">seqüencia|consciencia</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>campanya</token>
+                        <token>consciencia</token>
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(conferenci|vivenci|intermedi|seqüenci)(a|es)</token>
+                    <token regexp="yes">(conscienci|conferenci|vivenci|intermedi|seqüenci)(a|es)</token>
                 </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*)(a|es)" regexp_replace="$1ar"/>".</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.*)e(di|nci)(a|es)" regexp_replace="$1è$2$3"/></suggestion>
@@ -15785,15 +15791,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vivències"><marker>Vivencies</marker> del president.</example>
                 <example>Se seqüencia tot.</example>
                 <example>Se'n seqüencia la meitat.</example>
+                <example>Quan es consciencia del problema.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>que</token>
+                        <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                        <token>substancia</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">se|es</token>
+                        <token>substancia</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">(circumstanci|instanci|pagin)(a|es)</token>
+                    <token regexp="yes">(circumstanci|instanci|pagin|substanci)(a|es)</token>
                 </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*)(a|es)" regexp_replace="$1ar"/>".</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.*)a(nci|gin)(a|es)" regexp_replace="$1à$2$3"/></suggestion>
                 <example correction="Instància">Jutjat de Primera <marker>Instancia</marker>.</example>
                 <example correction="Pàgina"><marker>Pagina</marker> 34.</example>
+                <example>Això no se substancia en res.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17377,7 +17398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token postag="SENT_START"/>
-                        <token regexp="yes">[a-z]|\d+</token>
+                        <token regexp="yes">[a-z]|\d+|1r|2n|3r|4t|[0-9]+è</token>
                         <token regexp="yes">[\).]</token>
                         <token/>
                     </marker>
@@ -17405,6 +17426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>c) Guanya el jugador que arriba primer</example>
                 <example>(Vegeu el llibre Tirant lo Blanch.</example>
                 <example>És cal Trempat</example>
+                <example>1r) Llegiu atentament l'enunciat del problema.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: *anyadir, *arrepentir">
@@ -19541,7 +19563,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Tu hi entens <marker>mes</marker>.</example>
                 <example>El passat mes de gener.</example>
                 <example>S'anomena mes lunar.</example>
@@ -19558,7 +19579,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Com <marker>mes</marker> especifiques millor.</example>
                 <example correction="més">És la que <marker>mes</marker> li agrada.</example>
                 <example>Aquell mateix mes fou despatxat.</example>
@@ -19581,7 +19601,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">El <marker>mes</marker> valent és ell.</example>
                 <example>el <marker>més</marker> valent és ell.</example>
                 <example>el mes passat</example>
@@ -19603,7 +19622,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">La <marker>mes</marker> valenta és ella.</example>
                 <example>La més valenta és ella.</example>
             </rule>
@@ -19617,7 +19635,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Els <marker>mes</marker> valents són ells.</example>
                 <example>Els més valents són ells.</example>
             </rule>
@@ -19631,7 +19648,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Les <marker>mes</marker> valentes són elles.</example>
                 <example>Les més valentes són elles.</example>
             </rule>
@@ -19645,7 +19661,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Necessita <marker>mes</marker> temps.</example>
                 <example correction="més">un dels edificis <marker>mes</marker> emblemàtics de la vila</example>
                 <example>Ha estat un mes fantàstic</example>
@@ -19689,7 +19704,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">A <marker>mes</marker> de cantar, balla.</example>
                 <example>Com a mes més fred</example>
                 <example>Es paga mes a mes.</example>
@@ -19708,7 +19722,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">De <marker>mes</marker> de 100 kg</example>
                 <example>Per a poder arribar a final de mes, a la tarda treballa.</example>
                 <!-- el canvi de mes de febrer a març -->
@@ -19723,7 +19736,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Per <marker>mes</marker> que cantis, no plourà.</example>
                 <example>Hi va dues vegades per mes, cada mes.</example>
             </rule>
@@ -19738,7 +19750,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Necessita <marker>mes</marker> de quatre hores.</example>
                 <example>un mes de trenta dies</example>
                 <example>un altre mes de trenta dies</example>
@@ -19758,7 +19769,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Necessita <marker>mes</marker> de 24 hores.</example>
                 <example correction="més">De <marker>mes</marker> d'un micró.</example>
                 <example correction="més">De <marker>mes</marker> d'11 anys.</example>
@@ -19775,7 +19785,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Necessito tres coses <marker>mes</marker>.</example>
             </rule>
             <rule>
@@ -19788,7 +19797,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi. Correcte si equival a 'però'.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més"><marker>mes</marker> tard va pujar </example>
                 <example correction="més"><marker>mes</marker> sovint </example>
                 <example>més tard va pujar </example>
@@ -19815,7 +19823,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">si res <marker>mes</marker> no</example>
                 <example correction="més">No passarà mai <marker>mes</marker></example>
                 <example correction="més">Passa molt <marker>mes</marker> que abans.</example>
@@ -19832,7 +19839,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">De manera <marker>mes</marker> o menys immediata</example>
                 <example>més o menys</example>
             </rule>
@@ -19844,7 +19850,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">Retarden cada vegada <marker>mes</marker> l'edat d'emancipació.</example>
                 <example>Cada cop més.</example>
             </rule>
@@ -19856,12 +19861,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="més">En cal una mica <marker>mes</marker>.</example>
                 <example>Una mica més.</example>
             </rule>
             <!-- Situació inversa: accentuar "més" quan no toca-->
-            <rule id="UN_MES" name="un *més/mes">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">l'|cada|per</exception></token>
                     <token>un</token>
@@ -19872,7 +19876,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>que</exception><exception postag="N.MS.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Accent diacrític</short>
                 <example correction="mes">Ha estat un <marker>més</marker> fantàstic.</example>
                 <example correction="mes">Ha estat un <marker>més</marker> intens.</example>
                 <example>un més intens pessimisme</example>
@@ -19891,7 +19894,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- <token regexp="yes">&mesos_any;</token> -->
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">Aquest <marker>més</marker> de novembre.</example>
                 <example correction="mes">El <marker>més</marker> de Maria.</example>
                 <example>el més de mig segle que havia passat</example>
@@ -19909,7 +19911,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">Ho fan un cop el <marker>més</marker>.</example>
                 <example correction="mes">Una volta el <marker>més</marker> fan vacances.</example>
                 <example>Tal vegada el més bonic</example>
@@ -19924,7 +19925,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">Ho fan un cop al <marker>més</marker>.</example>
                 <example correction="mes">Una volta al <marker>més</marker> fan vacances.</example>
                 <example>és el més bonic</example>
@@ -19938,7 +19938,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent</token>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">El <marker>més</marker> propvinent.</example>
                 <example>El més gran dedicat a sant Llorenç</example>
             </rule>
@@ -19952,11 +19951,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ve</token>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">El <marker>més</marker> que ve.</example>
                 <example>El més gran dedicat a sant Llorenç</example>
             </rule>
-            <rule id="UN_MES_ABANS" name="un *més/mes abans">
+            <rule>
                 <pattern>
                     <token>un</token>
                     <marker>
@@ -19965,11 +19963,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">abans|després</token>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">Un <marker>més</marker> abans.</example>
                 <example>Un mes abans</example>
             </rule>
-            <rule id="CADA_MES" name="cada *més/cada mes">
+            <rule>
                 <pattern>
                     <token>cada</token>
                     <marker>
@@ -19977,9 +19974,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <short>Sobra l'accent diacrític</short>
                 <example correction="mes">Ho fan cada <marker>més</marker>.</example>
-                <example>Ho fan cada mes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">més|menys|manco</token>
+                    <token>d'</token>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
+                <example correction="mes">En menys d'un <marker>més</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RES" name="res/rés">
@@ -24743,6 +24750,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="OFERTA_OFEREIX" name="oferta/ofereix">
+            <pattern>
+                <token postag="&pronom_feble;|R.*|CS" postag_regexp="yes" ><exception postag="A.*|D..FS.|DA.CS.|PX.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>oferta</token>
+                </marker>
+                <token><exception postag="CC"/></token>
+            </pattern>
+            <message>Si és un verb, cal dir <suggestion>ofereix</suggestion>.</message>
+            <example correction="ofereix">Ningú no <marker>oferta</marker> res per ell.</example>
+            <example correction="ofereix">Ningú no ens <marker>oferta</marker> res.</example>
+            <example correction="ofereix">Si <marker>oferta</marker> res, digues que no.</example>
+            <example>A igual oferta</example>
+            <example>L'oferta és bona.</example>
+            <example>Quan oferta i demanda es conjuguen.</example>
+        </rule>
         <rule id="EN_EL_TOCANT_A" name="en el/allò tocant a">
             <pattern>
                 <token>en</token>
@@ -25305,6 +25328,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>de baix cost</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/low-cost</url>
             <example correction="baix cost|de baix cost">Una companyia <marker>low-cost</marker>.</example>
+        </rule>
+        <rule id="ON_LINE" name="on line/en línia">
+            <pattern>
+                <token>on</token>
+                <token min="0">-</token>
+                <token>line</token>
+            </pattern>
+            <message>Anglicisme innecessari.</message>
+            <suggestion>en línia</suggestion>
+            <suggestion>digital</suggestion>
+            <suggestion>electrònic</suggestion>
+            <example correction="en línia|digital|electrònic">Aprenentatge <marker>on line</marker>.</example>
         </rule>
         <rule id="ENTRE_PITOS_I_FLAUTES" name="entre pitos i flautes">
             <pattern>
@@ -30976,7 +31011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ressituats"><marker>resituats</marker></example>
                 <example>ressituats.</example>
             </rule>
-            <rule id="TERMOESTABLE" name="Exigeix 'termostable'">
+            <!--<rule id="TERMOESTABLE" name="Exigeix 'termostable'">
                 <pattern>
                     <token inflected="yes">termoestable</token>
                 </pattern>
@@ -30984,7 +31019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ortografia discutida</short>
                 <example correction="termostables"><marker>termoestables</marker></example>
                 <example>resituats.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar, termostable" default="on">
             <!--<rule id="CORESPONSABLE" name="Exigeix 'corresponsable' (i derivats)">
@@ -31009,7 +31044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="resituats"><marker>ressituats</marker></example>
                 <example>resituats.</example>
             </rule>
-            <rule id="TERMOSTABLE" name="Exigeix 'termoestable'">
+            <!--<rule id="TERMOSTABLE" name="Exigeix 'termoestable'">
                 <pattern>
                     <token inflected="yes">termostable</token>
                 </pattern>
@@ -31018,7 +31053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ortografia discutida</short>
                 <example correction="termoestables"><marker>termostables</marker></example>
                 <example>resituats.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
     </category>
     <category id="CONDEMNED_BY_SOME" name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
@@ -33836,21 +33871,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els dubtes que havia tingut sempre.</example>
             </rule>
         </rulegroup>
-        <rule id="PLANOL_PLA" name="plànol / pla">
-            <pattern>
-                <marker>
-                    <token inflected="yes">plànol</token>
-                </marker>
-                <token min="0" inflected="yes">de</token>
-                <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
-            <url>http://esadir.cat/entrades/fitxa/id/2157</url>
-            <short>Possible confusió</short>
-            <example correction="pla">en el <marker>plànol</marker> personal</example>
-            <example correction="pla">en <marker>plànol</marker> d'igualtat</example>
-            <example>pla personal</example>
-        </rule>
+        <rulegroup id="PLANOL_PLA" name="plànol / pla">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">plànol</token>
+                    </marker>
+                    <token min="0" inflected="yes">de</token>
+                    <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2157</url>
+                <short>Possible confusió</short>
+                <example correction="pla">en el <marker>plànol</marker> personal</example>
+                <example correction="pla">en <marker>plànol</marker> d'igualtat</example>
+                <example>pla personal</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>el</exception></token>
+                    <token postag="AO.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>plànol</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pla</suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2157</url>
+                <short>Possible confusió</short>
+                <example correction="pla">En primer <marker>plànol</marker>, hi ha la casa.</example>
+                <example>El primer plànol de la Torre Eiffel.</example>
+            </rule>
+          </rulegroup>
         <rulegroup id="FULLA_FULL" name="fulla/full">
             <rule>
                 <pattern>

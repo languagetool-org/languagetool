@@ -19,7 +19,6 @@
 package org.languagetool.dev.wordsimilarity;
 
 import org.junit.Test;
-import org.languagetool.dev.wordsimilarity.GermanQwertzKeyboardDistance;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -40,6 +39,8 @@ public class GermanQwertzKeyboardDistanceTest {
         assertThat(distance.getDistance('c', 'n'), is(3.0f));
         assertThat(distance.getDistance('q', 'y'), is(2.0f));
         assertThat(distance.getDistance('q', 'm'), is(8.0f));
+        assertThat(distance.getDistance('p', 'ß'), is(2.0f));
+        assertThat(distance.getDistance('o', 'ß'), is(3.0f));
         // uppercase:
         assertThat(distance.getDistance('C', 'n'), is(3.0f));
         assertThat(distance.getDistance('c', 'N'), is(3.0f));

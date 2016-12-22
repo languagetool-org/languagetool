@@ -325,7 +325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
 
-    <rulegroup id="ABBREVIATIONS" name="Скорочення">
+    <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
       <rule>
@@ -384,6 +384,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Роки скорочено пишуться <suggestion>рр.</suggestion></message>
         <example correction="рр.">70-80 <marker>р.р.</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ABBREVIATIONS_MISSING_DOT" name="Скорочення - пропущена крапка">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[0-9]</token>
+          <marker>
+            <token>коп</token>
+          </marker>
+        </pattern>
+        <message>Скорочення з відкиданням літер пишуться з крапкою: <suggestion><match no="2"/>.</suggestion></message>
+        <example correction="коп.">зросла на 50—70 <marker>коп</marker>/л</example>
+        <example correction="коп.">496 грн 75 <marker>коп</marker> за екземпляр</example>
       </rule>
     </rulegroup>
 
@@ -483,7 +497,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="розповіси"><marker>розповісиш</marker>.</example>
       <example>вивісиш</example>
     </rule>
+<!--
+    <rule id="INVALID_APOSTROPHE" name="Неправильний символ апострофа">
+      <pattern>
+        <token regexp="yes">[а-яіїєґ'-]+`[єїюя].*</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="(.*)`(.*)" regexp_replace="$1'$2"/></suggestion></message>
+      <example correction="кар'єра"><marker>кар`єра</marker>.</example>
+    </rule>
+-->
 
+    <rulegroup id="BEZVISTI_VS_BEZVISTY" name="Безвісті/безвісти">
+      <rule>
+        <pattern>
+          <token regexp="yes">зник.*|пропа[вл].*</token>
+          <marker>
+            <token>безвісті</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>безвісти</suggestion></message>
+        <example correction="безвісти">зниклих <marker>безвісті</marker>.</example>
+        <example correction="безвісти">пропали <marker>безвісті</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>безвісті</token>
+          </marker>
+          <token regexp="yes">зник.*|пропа[вл].*</token>
+        </pattern>
+        <message>Правильно: <suggestion>безвісти</suggestion></message>
+        <example correction="безвісти"><marker>безвісті</marker> зникли.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="UL_VS_VUL" name="ул. і вул.">
+      <pattern>
+        <marker>
+          <token>ул</token>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>вул.</suggestion></message>
+      <example correction="вул.">на <marker>ул.</marker> Городецькій.</example>
+      <example>вул.</example>
+    </rule>
   </category>
 
 </rules>

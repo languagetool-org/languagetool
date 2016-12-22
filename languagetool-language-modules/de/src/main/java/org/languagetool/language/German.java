@@ -251,4 +251,12 @@ public class German extends Language implements AutoCloseable {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
+    }
+    return 0;
+  }
+
 }

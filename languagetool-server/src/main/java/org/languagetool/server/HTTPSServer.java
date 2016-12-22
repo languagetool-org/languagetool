@@ -135,6 +135,7 @@ public class HTTPSServer extends Server {
     try {
       HTTPSServerConfig config = new HTTPSServerConfig(args);
       try {
+        checkForNonRootUser();
         HTTPSServer server;
         if (config.isPublicAccess()) {
           System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");

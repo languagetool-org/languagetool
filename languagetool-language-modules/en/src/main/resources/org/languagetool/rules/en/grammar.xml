@@ -3059,6 +3059,13 @@ USA
         </rule>
         <!-- world wide::word=worldwide -->
         <rule id="WORLD_WIDE" name="world wide (worldwide)">
+            <antipattern case_sensitive="yes">
+                <token>World</token>
+                <token>Wide</token>
+                <token>Fund</token>
+                <token regexp="yes">For|for</token><!-- Lower case 'f' is a style decision -->
+                <token>Nature</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>world</token>
@@ -3068,6 +3075,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>worldwide</suggestion>?</message>
             <example correction="worldwide">There was a <marker>world wide</marker> epidemic.</example>
+            <example>There was a <marker>world-wide</marker> epidemic.</example>
+            <example>The '<marker>World Wide Fund For Nature</marker>' is also known as the 'World Wildlife Fund' (https://wwf.panda.org/who_we_are/wwf_offices/uk/).</example>
         </rule>
         <!-- worth while::word=worthwhile -->
         <rule id="WORTH_WHILE" name="worth while (worthwhile)">
@@ -12447,7 +12456,7 @@ USA
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
                 </pattern>
-                <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3-\4</suggestion>?</message>
+                <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3-\4</suggestion></message>
                 <url>http://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
                 <short>Missing hyphens</short>
                 <example correction="two-year-old">Rudolph is a <marker>two year old</marker> reindeer.</example>
@@ -12462,7 +12471,7 @@ USA
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
                 </pattern>
-                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\2-\3</suggestion>?</message>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\2-\3</suggestion></message>
                 <url>http://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
                 <short>Missing hyphen</short>
                 <example correction="two-year-old">Rudolph is a <marker>two-year old</marker> reindeer.</example>
@@ -12473,12 +12482,12 @@ USA
                     <token regexp="yes">an?|the</token>
                     <token postag="JJ" min="0"/>
                     <marker>
-                        <token postag="CD"><exception regexp="yes">one|1</exception></token>
+                        <token postag="CD"></token>
                         <token regexp="yes">second|minute|min|hour|day|week|month|year|foot|meter|metre|mile|inch|page</token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"/>
                 </pattern>
-                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3-\4</suggestion>?</message>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3-\4</suggestion></message>
                 <url>http://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
                 <short>Missing hyphen</short>
                 <example correction="35-hour">France has a <marker>35 hour</marker> working week.</example>
