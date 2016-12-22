@@ -4776,7 +4776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
-        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
+        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">          
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -4801,6 +4801,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>моей отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного с существительным по числу">
+            <antipattern>
+              <marker>
+                <token postag="ADJ:MPR:.*" postag_regexp="yes">
+                    <exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" />
+                    <exception scope="previous" regexp="yes">,|-|—|при</exception>
+                    <exception inflected="yes" regexp="yes" >который|такой</exception>
+                </token>
+                <token postag="NN:.*" postag_regexp="yes">
+                    <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+                    <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                    <!-- Слова без буквы ё имеют неправильный падеж -->
+                    <exception regexp="yes">&missing_yo;</exception>
+                    <exception case_sensitive="yes">Tом</exception>
+                    <!-- полчаса, полдня -->
+                    <exception regexp="yes">пол.*</exception>
+                </token>
+              </marker>
+              <token regexp="yes">и|или|,</token>
+              <token postag="NN:.*" postag_regexp="yes"></token>
+            </antipattern>    
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -4818,10 +4838,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
-            <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
+            <message>Притяжательное прилагательное не согласуется с существительным по числу.</message>
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
+            <example>Унёс <marker>свои тело</marker> и душу.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
         <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
@@ -8365,10 +8386,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;»"']</exception><exception regexp="yes" scope="next">и|только</exception></token>
-                        <token skip="-1">не</token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception regexp="yes" scope="next">и|только</exception></token>
+                        <token skip="-1">не<exception  scope="previous" regexp="yes">['"«]</exception></token>
                     </marker>
-                    <token regexp="yes">[.!?:;»"']</token>
+                    <token regexp="yes">[.!?:;]</token>
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
@@ -8376,6 +8397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Не только не видно нигде следов роскоши, но и те самые комнаты были пусты.</example>
                 <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
                 <example>Заявка не рассматривается и не оценивается.</example>
+                <example>Не ставьте два «не» подряд.</example>
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
             </rule>
         </rulegroup>                 
@@ -8425,14 +8447,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="NN:.*:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:R" /></token>
-                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
-                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
-                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
-                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:(Inanim|Anim|Inanimanim):.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:(Inanim|Anim|Inanimanim):.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:(Inanim|Anim|Inanimanim):.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:(Inanim|Anim|Inanimanim):.*:.*:R" postag_regexp="yes"></token>
                 </pattern>
                 <message>Более 4 существительных в родительном падеже подряд. Перефразируйте предложение.</message>
                 <short>Перефразируйте предложение.</short>
                 <example>Кнопка выбора пути файла для сохранения цвета фона.</example>
+                <example>Один из водных путей экспансии варягов из района проживания.</example>
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
        </rulegroup>
@@ -9026,7 +9049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <pattern>
 		    <token  regexp="yes">a|o|b|c|k</token>
 	    </pattern>
-	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</message>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот.</message>
 	    <example correction="">Книга <marker>o</marker> Львове.</example>
 	    <example correction=""><marker>K</marker> тебе приехали.</example>
 	    <example correction=""><marker>B</marker> лесу тихо.</example>
