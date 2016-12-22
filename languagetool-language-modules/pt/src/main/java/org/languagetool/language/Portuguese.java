@@ -33,16 +33,19 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.io.File;
 
 /**
  * Post-spelling-reform Portuguese.
  */
-public class Portuguese extends Language {
+public class Portuguese extends Language implements AutoCloseable {
 
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
   
@@ -51,6 +54,7 @@ public class Portuguese extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
+  private LuceneLanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -138,7 +142,6 @@ public class Portuguese extends Language {
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
-            new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
             new LongSentenceRule(messages),
@@ -152,6 +155,7 @@ public class Portuguese extends Language {
             new PortugueseReplaceRule(messages),
             new PortugueseReplaceRule2(messages),
             new PortugueseClicheRule(messages),
+            new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages)
@@ -164,4 +168,36 @@ public class Portuguese extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  /** @since 3.6 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.6 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new PortugueseConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.6 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "WIKIPEDIA_COMMON_ERRORS": return -100;
+    }
+    return 0;
+  }
 }

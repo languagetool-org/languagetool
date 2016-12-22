@@ -119,7 +119,8 @@ public class JLanguageTool {
   private PrintStream printStream;
   private int sentenceCount;
   private boolean listUnknownWords;
-  private Set<String> unknownWords;  
+  private Set<String> unknownWords;
+  private boolean cleanOverlappingMatches;
 
   /**
    * Constants for correct paragraph-rule handling.
@@ -164,6 +165,7 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
+    this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
       activateDefaultFalseFriendRules();
@@ -213,6 +215,16 @@ public class JLanguageTool {
    */
   public void setListUnknownWords(boolean listUnknownWords) {
     this.listUnknownWords = listUnknownWords;
+  }
+  
+  /**
+   * Whether the {@link #check(String)} methods return overlapping errors. If set to
+   * <code>true</code> (default: true), it removes overlapping errors according to 
+   * the priorities established for the language. 
+   * @since 3.6
+   */
+  public void setCleanOverlappingMatches(boolean cleanOverlappingMatches) {
+    this.cleanOverlappingMatches = cleanOverlappingMatches;
   }
 
   /**
@@ -343,7 +355,7 @@ public class JLanguageTool {
   /**
    * Disable a given rule so the check methods like {@link #check(String)} won't use it.
    * @param ruleId the id of the rule to disable - no error will be thrown if the id does not exist
-   * @see #enableRule(java.lang.String) 
+   * @see #enableRule(String) 
    */
   public void disableRule(String ruleId) {
     disabledRules.add(ruleId);
@@ -377,7 +389,7 @@ public class JLanguageTool {
    * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
    * @param id the id of the category to disable - no error will be thrown if the id does not exist
    * @since 3.3
-   * @see #enableRuleCategory(org.languagetool.rules.CategoryId) 
+   * @see #enableRuleCategory(CategoryId) 
    */
   public void disableCategory(CategoryId id) {
     disabledRuleCategories.add(id);
@@ -426,7 +438,7 @@ public class JLanguageTool {
    *
    * From 3.5 this method only calls {@link #enableRuleCategory(org.languagetool.rules.CategoryId)}.
    * @since 3.3
-   * @deprecated use {@link #enableRuleCategory(org.languagetool.rules.CategoryId)} instead (deprecated since 3.5)
+   * @deprecated use {@link #enableRuleCategory(CategoryId)} instead (deprecated since 3.5)
    */
   public void enableDefaultOffRuleCategory(CategoryId id) {
     enableRuleCategory(id);
@@ -436,7 +448,7 @@ public class JLanguageTool {
    * Get category names of the rule categories that have been explicitly disabled.
    * 
    * @return a set containing the names of explicitly disabled categories.
-   * @deprecated use {@link #enableRuleCategory(org.languagetool.rules.CategoryId)} instead (deprecated since 3.5)
+   * @deprecated use {@link #enableRuleCategory(CategoryId)} instead (deprecated since 3.5)
    */
   public Set<String> getDisabledCategories() {
     Set<String> names = new HashSet<>();
@@ -454,7 +466,7 @@ public class JLanguageTool {
    * are off by default. This will <em>not</em> throw an exception if the given rule id 
    * doesn't exist.
    * @param ruleId the id of the rule to enable
-   * @see #disableRule(java.lang.String)
+   * @see #disableRule(String)
    */
   public void enableRule(String ruleId) {
     disabledRules.remove(ruleId);
@@ -546,6 +558,9 @@ public class JLanguageTool {
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
+    if (cleanOverlappingMatches) {
+      ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
+    }
     return ruleMatches;
   }
   
@@ -825,7 +840,7 @@ public class JLanguageTool {
   /**
    * Get all rule categories for the current language.
    * 
-   * @return a map of {@link org.languagetool.rules.Category Categories}, keyed by their {@link org.languagetool.rules.CategoryId id}.
+   * @return a map of {@link Category Categories}, keyed by their {@link CategoryId id}.
    * @since 3.5
    */
   public Map<CategoryId, Category> getCategories() {

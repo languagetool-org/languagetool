@@ -81,7 +81,20 @@
     <example type="untouched">От така за раза.</example>
   </rule>
 
-
+  <rule name="Короткого метру" id="KOROTKOGO_METRU">
+    <pattern>
+      <token regexp="yes">короткого|повного</token>
+      <marker>
+        <token>метру</token>
+      </marker>
+    </pattern>
+    <disambig><wd lemma="метр" pos="noun:inanim:m:v_rod:xp1"/></disambig>
+    <example type="ambiguous"
+        inputform="метру[метр/noun:anim:m:v_dav:xp1,метр/noun:anim:m:v_mis:xp1,метр/noun:inanim:m:v_dav:xp2,метр/noun:inanim:m:v_mis:xp2]"
+        outputform="метру[метр/noun:inanim:m:v_rod:xp1]">Фестиваль короткого <marker>метру</marker>.</example>
+    <example type="untouched">На тому метру.</example>
+  </rule>
+<!-- 
   <rule name="Кличний для неістот" id="V_KLY_FOR_INANIM">
     <pattern>
       <and>
@@ -90,12 +103,34 @@
       </and>
     </pattern>
     <disambig action="remove" postag="noun:inanim.*:v_kly.*"/>
-    <example type="ambiguous" 
-        inputform="криля[криля/noun:inanim:n:v_kly,криля/noun:inanim:n:v_naz,криля/noun:inanim:n:v_zna]" 
-        outputform="криля[криля/noun:inanim:n:v_naz,криля/noun:inanim:n:v_zna]">Перебите <marker>криля</marker>.</example>
-    <example type="untouched">Весне.</example>
+    <example type="ambiguous"
+        inputform="крило[крило/noun:inanim:n:v_kly,крило/noun:inanim:n:v_naz,крило/noun:inanim:n:v_zna,крити/verb:imperf:past:n]"
+        outputform="крило[крило/noun:inanim:n:v_naz,крило/noun:inanim:n:v_zna,крити/verb:imperf:past:n]">Перебите <marker>крило</marker>.</example>
+    <example type="untouched">Весне</example>
+    <example type="untouched">Гей, черепахо.</example>
+    TODO: can't do it nicely without antipattern support 
+    <example type="untouched">Мій дорогий, розколений кришталю,</example>
   </rule>
-
+ -->
+<!-- 
+  == Moved to Java code ==
+  <rule name="Множина імен" id="PLURAL_FOR_NAMES">
+    <pattern>
+      <and>
+        <token postag_regexp="yes" postag="noun:anim:p:.*:fname.*"/>
+        <token negate_pos="yes" postag_regexp="yes" postag="noun:anim:p:.*:fname.*"/>
+      </and>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:p:.*:fname.*"/>
+    <example type="ambiguous"
+        inputform="..."
+        outputform="..."><marker>Василів</marker> чайник.</example>
+    <example type="untouched">Весне</example>
+    <example type="untouched">Гей, черепахо.</example>
+    TODO: can't do it nicely without antipattern support 
+    <example type="untouched">Мій дорогий, розколений кришталю,</example>
+  </rule>
+ -->
   <rule name="Рідкі слова" id="DIS_RARE_WORDS">
     <pattern>
       <and>
@@ -262,7 +297,7 @@
         inputform="С.[с./noun:inanim:n:v_dav:nv:np:abbr,с./noun:inanim:n:v_mis:nv:np:abbr,с./noun:inanim:n:v_naz:nv:np:abbr,с./noun:inanim:n:v_oru:nv:np:abbr,с./noun:inanim:n:v_rod:nv:np:abbr,с./noun:inanim:n:v_zna:nv:np:abbr]" 
         outputform="С.[С.]"><marker>С.</marker> Мокітмі.</example>
     <example type="ambiguous" 
-        inputform="С.[с./noun:inanim:n:v_dav:nv:np:abbr,с./noun:inanim:n:v_mis:nv:np:abbr,с./noun:inanim:n:v_naz:nv:np:abbr,с./noun:inanim:n:v_oru:nv:np:abbr,с./noun:inanim:n:v_rod:nv:np:abbr,с./noun:inanim:n:v_zna:nv:np:abbr]" 
+        inputform="С.[С./noun:anim:m:v_naz:prop:fname:abbr]" 
         outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
   </rule>
 
@@ -286,7 +321,8 @@
       <and>
         <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
           <exception scope="previous" postag="SENT_START"/>
-          <exception scope="previous" regexp="yes">[«„“\[\](—–-]</exception>
+          <exception scope="previous" regexp="yes">[«„“*\[\]:(—–-]</exception>
+          <exception>Як</exception>
         </token>
         <token postag_regexp="yes" postag="(verb|prep|adv).*"/>
       </and>
@@ -301,6 +337,9 @@
     <example type="untouched">То є Більш всього.</example>
     <example type="untouched">(Пізніше Вальтер став першим.</example>
     <example type="untouched">— Раніше Україна неодноразово заявляла.</example>
+    <example type="untouched">Читайте також: Менше законів.</example>
+    <example type="untouched">Слово подяки Як побачать читачі</example>
+    <example type="untouched">* Нехай роблять все</example>
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->

@@ -84,13 +84,6 @@ public class TokenAgreementRule extends Rule {
   public String getShort() {
     return "Узгодження слів у реченні";
   }
-  /**
-   * Indicates if the rule is case-sensitive. 
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
-  public boolean isCaseSensitive() {
-    return false;
-  }
 
   @Override
   public final RuleMatch[] match(AnalyzedSentence text) {
@@ -206,7 +199,7 @@ public class TokenAgreementRule extends Rule {
       }
 
       //      System.out.println("For " + tokenReadings + " to match " + posTagsToFind + " of " + reqTokenReadings.getToken());
-      if( ! getReadingWithVidmPosTag(posTagsToFind, tokenReadings) ) {
+      if( ! hasVidmPosTag(posTagsToFind, tokenReadings) ) {
         if( isTokenToSkip(tokenReadings) )
           continue;
 
@@ -335,14 +328,6 @@ public class TokenAgreementRule extends Rule {
               //          reqTokenReadings = null;
               continue;
             }
-//            // спиралося на місячної давнини рішення
-//            if (prep.equalsIgnoreCase("на") && posTag.matches("adj.*:[mfn]:v_rod.*")) {
-//              String gender = PosTagHelper.getGender(posTag);
-//              if ( hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
-//                i+=1;
-//                continue;
-//              }
-//            }
           }
         }
 
@@ -395,7 +380,7 @@ public class TokenAgreementRule extends Rule {
 //    return false;
 //  }
 
-  private boolean getReadingWithVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
+  static boolean hasVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
 
     for(AnalyzedToken token: tokenReadings) {

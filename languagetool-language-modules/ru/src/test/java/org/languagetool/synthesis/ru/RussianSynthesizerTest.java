@@ -37,8 +37,8 @@ public class RussianSynthesizerTest {
     RussianSynthesizer synth = new RussianSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
-    assertEquals("[семья]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Fem:Sin:Nom")));
-    assertEquals("[семьи]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Fem:Sin:R")));
+    assertEquals("[семья]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Inanim:Fem:Sin:Nom")));
+    assertEquals("[семьи]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Inanim:Fem:Sin:R")));
   }
 
 }

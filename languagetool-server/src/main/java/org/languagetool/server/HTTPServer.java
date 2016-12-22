@@ -125,6 +125,7 @@ public class HTTPServer extends Server {
     }
     HTTPServerConfig config = new HTTPServerConfig(args);
     try {
+      checkForNonRootUser();
       HTTPServer server;
       System.out.println("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
       if (config.isPublicAccess()) {

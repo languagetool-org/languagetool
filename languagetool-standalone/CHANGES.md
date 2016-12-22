@@ -60,11 +60,26 @@
     * pre-reform agreement locales support added
       * Angola, Cape Verde, East Timor, Guinea Bissau, Macau, Mozambique and São Tomé e Principe
   * various dictionary and part-of-speech fixes
+  * Portuguese has been prepared to use ngram data, that means it has a
+    `confusion_sets.txt` file where word pairs could be added.
+    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
+    for more information but note that we cannot offer the required
+    ngram data yet for Portuguese, as we rely on the Google ngram
+    data and Portuguese isn't part of that.
 
 #### Russian
   * added and improved many rules
   * added words suggested by users
   * improved disambiguation rules
+  * updated tagger dictionary from AOT rev.268 with extended POS tags
+
+#### Ukrainian
+  * significant dictionary update
+  * new adj/noun inflection rule 
+  * dynamic tagging improvements
+  * disambiguation improvements
+  * some improvements to existing rules
+  * experimental noun/verb agreement rule
 
 #### HTTP API
   * The old API has been deactivated, as documented at
@@ -72,6 +87,11 @@
     now returns a pseudo error pointing to the migration page
 
 #### Java API
+  * A new method for removing overlapping errors has been implemented. By default,
+    it is enabled for the HTTP API and LibreOffice outputs, and disabled for the
+    command-line output. If necessary, priorities for rules and categories can bet set
+    in `Language.getPriorityForId(String id)`. Default value is 0, positive integers have
+    higher priority and negative integers have lower priority.
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
     instead
   * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
@@ -87,7 +107,6 @@
     future:
     * Belarusian
     * Swedish
-    * Khmer
     * Icelandic
     * Tagalog
     * Asturian

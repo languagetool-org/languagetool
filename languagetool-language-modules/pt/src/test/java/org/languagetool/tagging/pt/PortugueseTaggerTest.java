@@ -48,7 +48,7 @@ public class PortugueseTaggerTest {
         "Estes/[este]DD0MP0|Estes/[este]PD0MP000 -- "
             + "são/[ser]VMIP3P0|são/[são]AQ0MS0|são/[são]NCMS000 -- "
             + "os/[o]DA0MP0|os/[o]PD0MP000|os/[o]PP3MPA00 -- "
-            + "meus/[meu]DP1MPS|meus/[meu]PX1MP0S0 -- "
+            + "meus/[meu]AP0MP1S|meus/[meu]DP1MPS -- "
             + "amigos/[amigo]AQ0MP0|amigos/[amigo]NCMP000", tokenizer, tagger);
   }
 }

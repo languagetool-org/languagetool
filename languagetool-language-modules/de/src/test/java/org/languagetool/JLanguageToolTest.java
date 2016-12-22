@@ -63,5 +63,15 @@ public class JLanguageToolTest {
     assertEquals(0, match.getLine());
     assertEquals(1, match.getColumn());
   }
+  
+  @Test
+  public void testCleanOverlappingWithGerman() throws IOException {
+    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    // Juxtaposed errors in "TRGS - Technische" should not be removed.
+    List<RuleMatch> matches = tool.check("TRGS - Technische Regeln für Gefahrstoffe");
+    assertEquals(3, matches.size());
+  }
+  
+  
 
 }

@@ -77,6 +77,7 @@ class Main {
     srcLt = null;
     bRules = null;
     lt = new MultiThreadedJLanguageTool(options.getLanguage(), options.getMotherTongue());
+    lt.setCleanOverlappingMatches(false);
     if (options.getRuleFile() != null) {
       addExternalRules(options.getRuleFile());
     }

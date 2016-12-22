@@ -144,6 +144,7 @@ public class SentenceSourceChecker {
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+    languageTool.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
     }
