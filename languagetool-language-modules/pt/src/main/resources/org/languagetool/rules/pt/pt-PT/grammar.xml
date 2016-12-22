@@ -145,7 +145,6 @@ title="Easy editing stylesheet" ?>
 	<!--	 DP -> DA + DP [pt-PT] I.e. Sua -> A sua		-->
 	<!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
 	<!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
-	<!--	     TODO Move to pt-PT after regression tests		-->
   <rule id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
         <antipattern>
 	  <token inflected="yes">ser</token>
@@ -184,7 +183,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
    </rule>
-   <rule><!-- TODO Review all cases and consider disabling temporarily-->
+<!--   <rule> TODO Review all cases and consider disabling temporarily
     <pattern>
     		<token>-</token>
     		<token postag='PP.*' postag_regexp='yes'/>
@@ -194,7 +193,7 @@ title="Easy editing stylesheet" ?>
 	<message>Se possível, evite o gerúndio.</message>
         <suggestion>\1\2 <match no='3' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<example correction='-se acender'>As luzes iam<marker>-se acendendo</marker> à medida que ela passava.</example>
-   </rule>
+   </rule>-->
    <rule>
     <pattern>
     		<token postag='V.+' postag_regexp='yes'>
