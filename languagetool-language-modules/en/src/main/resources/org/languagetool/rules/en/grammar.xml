@@ -257,6 +257,28 @@ USA
             <short>Possible typo</short>
             <example correction="as opposed to">Professional sports, <marker>as oppose to</marker> amateur sports , are sport s in which athletes receive payment for their performance</example>
         </rule>
+        <rule id="CONFUSION_OF_THESES_THESE" name="confusion of theses/these">
+            <pattern>
+                <marker><token>theses</token></marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Did you mean <suggestion>these</suggestion>?</message>
+            <example correction="these">Are <marker>theses</marker> scenes from a novel?</example>
+            <example correction="these">That's why the two countries look as they do <marker>theses</marker> days.</example>
+            <example>There are universities that are dedicated just to this field, thousands of people doing theses on Picasso, for example.</example>
+        </rule>
+        <rule id="CONFUSION_OF_ME_I" name="confusion of me/I">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token/>
+                <token>and</token>
+                <marker><token>me</token></marker>
+                <token postag="VB.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Did you mean <suggestion>I</suggestion>?</message>
+            <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
+            <example correction="I">Tim and <marker>me</marker> work together.</example>
+        </rule>
         <rule id="CONFUSION_OF_OUR_OUT" name="confusion of our/out">
             <pattern>
                 <token>we</token>
