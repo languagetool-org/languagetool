@@ -8380,6 +8380,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
                 <token>organisieren</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1" inflected="yes">geben|haben|schlagen</token>
+                <token>vor</token>
+                <token>zu</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
@@ -8422,6 +8427,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>…um so Angriffe von Frankreich <marker>aus zu verhindern</marker>.</example>
                 <example>Dort lernt man, selbst einen Toaster von Grund auf zu bauen.</example>
                 <example>Dann hören die Tröpfchen irgendwann auf zu wachsen.</example>
+                <example>Sie haben nicht vor zu gehen.</example>
+                <example>Ich schlug vor zu warten.</example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
             <rule>
@@ -29191,7 +29198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
                 <pattern>
                     <marker>
-                    <token><exception regexp="yes">,|;|-|–|\(|„|“</exception></token>
+                    <token><exception regexp="yes">,|;|-|–|\(|„|“</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
                     </marker>
                 </pattern>
