@@ -116,7 +116,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Get the line number in which the match occurs (zero-based).
-   * @deprecated rely on {@link #getFromPos()} instead (deprecated since 3.4)
+   * @deprecated rely on the character-based {@link #getFromPos()} instead (deprecated since 3.4)
    */
   public int getLine() {
     return linePosition.getStart();
@@ -147,7 +147,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Get the column number in which the match occurs (zero-based).
-   * @deprecated rely on {@link #getFromPos()} instead (deprecated since 3.4)
+   * @deprecated rely on the character-based {@link #getFromPos()} instead (deprecated since 3.4)
    */
   public int getColumn() {
     return columnPosition.getStart();

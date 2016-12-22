@@ -86,7 +86,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|zwischenzeitlich">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern|sprechen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -6673,6 +6673,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nichtsdestotrotz"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
             </rule>
         </rulegroup>
+        <rule id="GUT_TUN_GUTTUN" name="gut tun (gutttun)">
+            <antipattern>
+                <token skip="-1">was</token>
+                <token>wohl</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag=".*:DAT:.*" skip="-1"/>
+                <marker>
+                    <token regexp="yes"  case_sensitive="yes">gut|wohl</token>
+                    <token regexp="yes">tu[ne]|getan|tuend</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\2\3</suggestion> (eine Form des unregelmäßigen Verbs '\2tun' mit der Bedeutung 'helfen')?</message>
+            <url>https://www.korrekturen.de/nachgefragt/wehtun_und_guttun.shtml</url>
+            <short>&getrennt;</short>
+            <example correction="gutgetan">Das hat mir <marker>gut getan</marker>.</example>
+            <example correction="wohlgetan">Die Kur hat mir <marker>wohl getan</marker>.</example>
+            <example>Das kann er genauso gut tun.</example>
+            <example>Das wird ihm guttun.</example>
+            <example>Gut getan ist besser als gut gesagt.</example>
+            <example>Tom fragte sich, wo Maria sei und was sie wohl tue.</example>
+        </rule>
         <rulegroup id="ZU_GUTE_ZUGUTE" name="zu gute (zugute)">
             <url>http://www.duden.de/rechtschreibung/zugut</url>
             <rule>
@@ -8358,6 +8380,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
                 <token>organisieren</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1" inflected="yes">geben|haben|schlagen</token>
+                <token>vor</token>
+                <token>zu</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
@@ -8400,6 +8427,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>…um so Angriffe von Frankreich <marker>aus zu verhindern</marker>.</example>
                 <example>Dort lernt man, selbst einen Toaster von Grund auf zu bauen.</example>
                 <example>Dann hören die Tröpfchen irgendwann auf zu wachsen.</example>
+                <example>Sie haben nicht vor zu gehen.</example>
+                <example>Ich schlug vor zu warten.</example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
             <rule>
@@ -12288,6 +12317,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUB_VER_KLEIN" name="Verben, die auch Substantive sein können (z.B. 'ich Besuche (besuche)) (nur 1. Person Singular)'">
             <!-- TODO weitere Personen -->
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:1.*" postag_regexp="yes"/>
+                    <token>ich</token>
+                </antipattern>    
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
                     <marker>
@@ -12302,6 +12336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&verende;</message>
                 <short>&prgk;.</short>
                 <example correction="besuche">Momentan <marker>Besuche</marker> ich die katholische Grundschule in Kaarst.</example>
+                <example>Habe ich Ihnen weh getan?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19793,6 +19828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>
                         <exception postag_regexp="yes" postag=".*GEN.*"/>
                         <exception>leid</exception>
+                        <exception>Von</exception>
                     </token>
                     <marker>
                         <token>wegen</token>
@@ -19805,6 +19841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie tat es des Geldes <marker>wegen</marker>.</example>
                 <example>Tut mir leid <marker>wegen</marker> gestern</example>
                 <example>Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
+                <example>Von wegen!</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="'auf Schritt und Tritt'">
@@ -23548,7 +23585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">geblieben</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim|im</token>
+                    <token regexp="yes">[zZ]um|[bB]eim|im|ins</token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
@@ -23562,6 +23599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Mitnehmen">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
                 <example correction="Stehen">Ich bin fast im <marker>stehen</marker> eingeschlafen.</example>
                 <example correction="Suchen">Beim <marker>suchen</marker> fiel mir etwas ein.</example>
+                <example correction="Wanken">Seine Pläne gerieten dadurch ins <marker>wanken</marker>.</example>
                 <example>Er steht im <marker>erhalten</marker> gebliebenen Seitenflügel.</example>
             </rule>
             <rule>
@@ -29005,6 +29043,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>auch</token>
                 </antipattern>
                 <antipattern>
+                    <token>noch</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
                     <token inflected="yes" skip="-1">geben<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token>zu</token>
                     <token regexp="yes">erkennen|verstehen</token>
@@ -29046,6 +29088,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1">sowohl</token>
                     <token>als</token>
                     <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token>noch</token>
+                    <token>als</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -29154,7 +29200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
                 <pattern>
                     <marker>
-                    <token><exception regexp="yes">,|;|-|–|\(|„|“</exception></token>
+                    <token><exception regexp="yes">,|;|-|–|\(|„|“</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
                     </marker>
                 </pattern>
@@ -29216,7 +29262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip= "-1" regexp="yes">„|»|«|"</token>
                     <marker>
                     <token regexp="yes">“|»|«|"<exception scope="previous">,</exception></token>
-                    <token inflected="yes" regexp="yes">fragen|sagen|erzählen|behaupten|erwidern|antworten|entgegnen|gestehen|versichern|bekennen|äußern|bemerken|erwähnen|rufen|schreien|brüllen|warnen|kommandieren|befehlen|bitten|betteln|flehen|klagen|winseln|wimmern|jammern|beschwören|stöhnen|flüstern|wispern|raunen|murmeln|brummen</token>
+                    <token inflected="yes" regexp="yes">fragen|sagen|erzählen|behaupten|erwidern|antworten|entgegnen|gestehen|versichern|bekennen|äußern|bemerken|erwähnen|rufen|schreien|brüllen|warnen|kommandieren|befehlen|bitten|betteln|flehen|klagen|winseln|wimmern|jammern|beschwören|stöhnen|flüstern|wispern|raunen|murmeln|brummen|loben|tadeln</token>
 <!--                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>     -->
                     </marker>
                 </pattern>
@@ -29227,7 +29273,145 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich wollte nur „Danke!“ sagen.</example>
             </rule>
         </rulegroup>
-
+        <rulegroup id="KOMMA_VOR_NICHT_WAHR" name="Fehlendes Komma vor 'nicht wahr' etc.">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token>nicht</token>
+                    <token>wahr</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2 \3' setzen?</message>
+                <suggestion>\1, \2 \3</suggestion>
+                <example correction='morgen, nicht wahr' type="incorrect">Du kommst <marker>morgen nicht wahr</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ach</token>
+                    <token>ja</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token  regexp="yes">oder|ja</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2' setzen?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction='morgen, oder' type="incorrect">Du kommst <marker>morgen oder</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">&fragewoerter;
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes"></token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>
+                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception postag="SENT_START"/>
+                    </token>
+                    <token>oder</token>
+                    </marker>
+                    <token min='0' max='1'>etwa</token>
+                    <token>nicht</token>
+                    <token>?</token>
+                </pattern>
+                <message>Ein Komma vor '\2' setzen?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction='morgen, oder' type="incorrect">Du kommst <marker>morgen oder</marker> etwa nicht?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma vor und nach Relativsatz  -->
             <rule>
@@ -29534,7 +29718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:AUX:.*:KJ1|VER:AUX:.*:KJ2" postag_regexp="yes"/>
+                    <token postag="VER:AUX:.*" postag_regexp="yes"/>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -29543,6 +29727,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token regexp="yes">der|die|das|dessen|deren|dem|denen|den</token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
@@ -29620,6 +29809,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token>,</token>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
+                    <token regexp="yes">der|die|das|dessen|deren|dem|denen|den</token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token skip="-1" postag="VER:MOD:.*" postag_regexp="yes">
                           <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -29627,6 +29822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>,</token>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
                     <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen|wer|wo|wohin</token>
                     <token skip="-1" />
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -29691,6 +29887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2 <match no="3" include_skipped="all"/> \4,</suggestion>
                 <example correction="in dem der Mann sitzt," type="incorrect">Das Auto, <marker>in dem der Mann sitzt</marker> parkt im Halteverbot.</example>
                 <example>Das Auto, <marker>in dem der Mann sitzt,</marker> parkt im Halteverbot.</example>
+                <example>Das Ziel, das sie hatten erreichen wollen, mussten sie zumindest für diese Mission abschreiben.</example>
             </rule>
 <!--  Komma vor 'auch wenn' etc.  -->
             <rule>
@@ -29747,12 +29944,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token postag="KON.*|ADV.*|NEG.*|PRP.*" postag_regexp="yes"/>
-                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|seitdem|sobald</token>
+                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|sobald</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                     <token postag="KON.*|ADV.*|NEG.*|PRP.*" postag_regexp="yes"/>
-                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|seitdem|sobald</token>
+                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|sobald</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -29760,7 +29957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|seitdem|sobald</token>
+                    <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|sobald</token>
                     </marker>
                     <token>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -29792,7 +29989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen</exception>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
-                    <token regexp="yes" skip="-1">da|als|wie|bis|dann|damit|während|aber|bevor|was|solange<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1">da|als|wie|bis|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" >
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -29813,6 +30010,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="VER:INF:.*|PA2:.*" postag_regexp="yes"/>
                     <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -29851,6 +30054,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -29881,6 +30090,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3]:.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
+                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes" />
+                    <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+                </antipattern>
+                <antipattern>
                     <token skip="-1" postag="VER:[1-3]:.*" postag_regexp="yes"/>
                     <token skip="-1">sowohl</token>
                     <token>als</token>
@@ -29888,13 +30102,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
+                    <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
                     <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen|wer|wo|wohin</token>
-                    <token postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes" skip="-1">
+                    <token skip="-1" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes">
                         <exception postag="SUB:.*|ADJ:.*|PA1:.*|PA2:.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token skip="-1" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>

@@ -145,8 +145,11 @@ title="Easy editing stylesheet" ?>
 	<!--	 DP -> DA + DP [pt-PT] I.e. Sua -> A sua		-->
 	<!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
 	<!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
-	<!--	     TODO Move to pt-PT after regression tests		-->
   <rule id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
+        <antipattern>
+	  <token inflected="yes">ser</token>
+	  <token postag='DP.*' postag_regexp='yes'></token>
+	</antipattern>
 	<antipattern>
 	  <token regexp="yes">sua|vossa</token>
 	  <token regexp="yes">majestade|realeza|divindade|excelência|eminência</token>
@@ -163,6 +166,7 @@ title="Easy editing stylesheet" ?>
 	<example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
         <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
         <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
+        <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>
 <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
   </rule>
 
@@ -176,22 +180,20 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.G0+' postag_regexp='yes'/>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!-- FIXME Neither removed.txt (tested) nor disambiguation work in the suggestions
-	                this can be fixed with a dictionary rebuild -->
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
-	<example type='incorrect'><marker>Vou olhando</marker> para o que acontece.</example>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
    </rule>
    <rule>
     <pattern>
+    		<token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
     		<token>-</token>
     		<token postag='PP.*' postag_regexp='yes'/>
 		<token postag='V.G0+' postag_regexp='yes'>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
-	<example type='incorrect'>As luzes iam<marker>-se acendendo</marker> à medida que ela passava.</example>
-	<example type='correct'>Se acendendo as luzes, apenas à medida que ela passava...</example>
+        <suggestion>\1\2\3 <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='iam-se acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
    </rule>
    <rule>
     <pattern>
@@ -200,11 +202,11 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.G0+' postag_regexp='yes'>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
 	<message>Se possível, evite o gerúndio.</message>
-	<example type='incorrect'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
-	<example type='incorrect'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
-	<example type='incorrect'><marker>Vou olhando</marker> para o que acontece.</example>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
+	<example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
+        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
    </rule>
   </rulegroup>
 
@@ -216,11 +218,10 @@ title="Easy editing stylesheet" ?>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-	  <!-- FIXME Neither removed.txt (tested) nor disambiguation work in the suggestions -->
-	  <!--<suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>-->
+        <suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>
 	<url>https://pt.wikipedia.org/wiki/Gerundismo</url>
-	<example type='incorrect'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
-	<example type='incorrect'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
+	<example correction='a soprar'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
+	<example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
   </rule>
 
 </category>
@@ -230,7 +231,7 @@ title="Easy editing stylesheet" ?>
     <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
 	<!-- DE OUTRA doutra				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DOUTRA' name='de outra'>
+ <rule default='on' id='CONTRACAO_DOUTRA' name='De + outra'>
     <pattern>
 		<token>de</token>
 		<token case_sensitive="yes">outra</token>
@@ -243,7 +244,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE OUTRAS doutras				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DOUTRAS' name='de outras'>
+ <rule default='on' id='CONTRACAO_DOUTRAS' name='De + outras'>
     <pattern>
 		<token>de</token>
 		<token case_sensitive="yes">outras</token>
@@ -256,7 +257,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE OUTREM doutrem				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DOUTREM' name='de outrem'>
+ <rule default='on' id='CONTRACAO_DOUTREM' name='De + outrem'>
     <pattern>
 		<token>de</token>
 		<token case_sensitive="yes">outrem</token>
@@ -269,7 +270,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE OUTRO doutro				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DOUTRO' name='de outro'>
+ <rule default='on' id='CONTRACAO_DOUTRO' name='De + outro'>
     <pattern>
 		<token>de</token>
 		<token case_sensitive="yes">outro</token>
@@ -282,7 +283,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE OUTROS doutros				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DOUTROS' name='de outros'>
+ <rule default='on' id='CONTRACAO_DOUTROS' name='De + outros'>
     <pattern>
 		<token>de</token>
 		<token case_sensitive="yes">outros</token>
@@ -295,7 +296,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE UM dum				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DUM' name='de um'>
+ <rule default='on' id='CONTRACAO_DUM' name='De + um'>
 
     <pattern>
 	   <marker>
@@ -313,7 +314,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE UMA duma				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DUMA' name='de uma'>
+ <rule default='on' id='CONTRACAO_DUMA' name='De + uma'>
     <pattern>
 	   <marker>
 		<token>de</token>
@@ -330,7 +331,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE UMAS dumas				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DUMAS' name='de umas'>
+ <rule default='on' id='CONTRACAO_DUMAS' name='De + umas'>
     <pattern>
 	   <marker>
 		<token>de</token>
@@ -347,7 +348,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- DE UNS duns				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_DUNS' name='de uns'>
+ <rule default='on' id='CONTRACAO_DUNS' name='De + uns'>
     <pattern>
 	   <marker>
 		<token>de</token>
@@ -364,7 +365,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- EM UM num				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_NUM' name='em um'>
+ <rule default='on' id='CONTRACAO_NUM' name='Em + um'>
     <pattern>
 	   <marker>
 		<token>em</token>
@@ -381,7 +382,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- EM UMA numa				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_NUMA' name='em uma'>
+ <rule default='on' id='CONTRACAO_NUMA' name='Em + uma'>
     <pattern>
 	   <marker>
 		<token>em</token>
@@ -398,7 +399,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- EM UMAS numas				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_NUMAS' name='em umas'>
+ <rule default='on' id='CONTRACAO_NUMAS' name='Em + umas'>
     <pattern>
 	   <marker>
 		<token>em</token>
@@ -415,7 +416,7 @@ title="Easy editing stylesheet" ?>
 
 	<!-- EM UNS nums				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
- <rule default='on' id='CONTRACAO_NUMS' name='em uns'>
+ <rule default='on' id='CONTRACAO_NUMS' name='Em + uns'>
     <pattern>
 	   <marker>
 		<token>em</token>
@@ -440,7 +441,8 @@ title="Easy editing stylesheet" ?>
 	<!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-02 -->
 <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
-		<url>http://pucrs.br/gpt/hifen.php</url>-->
+		<url>http://pucrs.br/gpt/hifen.php</url>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>-->
         <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>
    <rule>
     <pattern>

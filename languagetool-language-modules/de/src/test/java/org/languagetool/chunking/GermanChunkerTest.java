@@ -92,7 +92,7 @@ public class GermanChunkerTest {
     assertFullChunks("Nach/PP sachlichen/PP und/PP militärischen/PP Kriterien/PP war das unnötig.");
     assertFullChunks("Mit/PP über/PP 1000/PP Handschriften/PP ist es die/NPS größte/NPS Sammlung/NPS");
     assertFullChunks("Es gab Beschwerden/NPP über/PP laufende/PP Sanierungsmaßnahmen/PP");
-    assertFullChunks("Gesteigerte/NPS Effizienz/NPS durch/PP Einsatz/PP größerer/PP Maschinen/PP und/PP bessere/PP Kapazitätsplanung/PP");
+    assertFullChunks("Gesteigerte/B Effizienz/I durch/PP Einsatz/PP größerer/PP Maschinen/PP und/PP bessere/PP Kapazitätsplanung/PP");
     assertFullChunks("Bei/PP sehr/PP guten/PP Beobachtungsbedingungen/PP bin ich dabei");
     assertFullChunks("Die/NPP Beziehungen/NPP zwischen/NPP Kanada/NPP und/NPP dem/NPP Iran/NPP sind unterkühlt");
     assertFullChunks("Die/PP darauffolgenden/PP Jahre/PP war es kalt");

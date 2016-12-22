@@ -199,7 +199,7 @@ public class DisambiguationRuleTest {
   }
 
   // useful for testing the rule cascade
-  private static AnalyzedSentence disambiguateUntil(
+  protected AnalyzedSentence disambiguateUntil(
       List<DisambiguationPatternRule> rules, String ruleID,
       AnalyzedSentence sentence) throws IOException {
     AnalyzedSentence disambiguated = sentence;

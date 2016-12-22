@@ -47,7 +47,8 @@ public class WordListValidatorTest {
   // Words that are valid but with special characters so are that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
-          "Hidschāb/S"
+          "Hidschāb/S",
+          "rôle", "rôles"
   ));
 
   @Test

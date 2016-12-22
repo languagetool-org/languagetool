@@ -247,6 +247,7 @@ class LanguageToolSupport {
       //  languageTool.shutdownWhenDone();
       //}
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
+      languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
       if (config.getNgramDirectory() != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), language.getShortCode());

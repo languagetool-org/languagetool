@@ -156,6 +156,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("1998 р.н.");
     assertEquals(Arrays.asList("1998", " ", "р.", "н."), testList);
 
+    testList = w.tokenize("22 коп.");
+    assertEquals(Arrays.asList("22", " ", "коп."), testList);
+
     testList = w.tokenize("18-19 ст.ст. були");
     assertEquals(Arrays.asList("18-19", " ", "ст.", "ст.", " ", "були"), testList);
     
