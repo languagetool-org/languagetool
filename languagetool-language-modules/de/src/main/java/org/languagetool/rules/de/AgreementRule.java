@@ -82,8 +82,13 @@ public class AgreementRule extends GermanRule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("für").build(),
-      new PatternTokenBuilder().tokenRegex("(viele|alle)").build(),
+      new PatternTokenBuilder().tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns)").build(),
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("das|die").build(),
+      new PatternTokenBuilder().token("einem").build(),
+      new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("einer").build(),
