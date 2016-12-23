@@ -355,8 +355,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  <marker>
 	  <token regexp='yes'>&contracoes_MP;</token>
 	  <token postag='(N.|A..)[MC]S.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-	    <exception regexp="yes">há|são|ser|haver|devido</exception></token>
+	    <exception postag='(N.|A..)[MC]P.+|NPMS.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
+	    <exception regexp="yes">há|são|ser|haver|devido|média|mídia</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
@@ -456,7 +456,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 <marker>
-	  <token regexp='yes'>&contracoes_FP;</token>
+	  <token regexp='yes'>&contracoes_FP;
+	        <exception>mas</exception></token>
 	 <token postag='(N.|A..)[FC]S.+' postag_regexp='yes'>
 	  <exception postag='(N.|A..)[FC]P.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	 </marker>
