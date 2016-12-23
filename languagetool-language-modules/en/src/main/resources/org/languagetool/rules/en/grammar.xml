@@ -257,6 +257,16 @@ USA
             <short>Possible typo</short>
             <example correction="as opposed to">Professional sports, <marker>as oppose to</marker> amateur sports , are sport s in which athletes receive payment for their performance</example>
         </rule>
+        <rule id="CONFUSION_OF_THEN_THAN" name="confusion then/than">
+            <pattern>
+                <token>more</token>
+                <token postag="JJ" skip="-1"><exception scope="next" regexp="yes">,|than|–|;|:</exception></token>
+                <marker><token>then</token></marker>
+                <token><exception postag_regexp="yes" postag="CC|SENT_END"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>than</suggestion>?</message>
+            <example correction="than">It may be more expensive on some file systems <marker>then</marker> others.</example>
+		</rule>
         <rule id="CONFUSION_OF_THESES_THESE" name="confusion of theses/these">
             <pattern>
                 <marker><token>theses</token></marker>
