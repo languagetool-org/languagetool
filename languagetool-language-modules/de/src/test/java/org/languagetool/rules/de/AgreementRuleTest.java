@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -42,8 +42,8 @@ public class AgreementRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    rule = new AgreementRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
+    rule = new AgreementRule(TestTools.getMessages("de"), new GermanyGerman());
+    langTool = new JLanguageTool(new GermanyGerman());
   }
 
   @Test
@@ -266,7 +266,7 @@ public class AgreementRuleTest {
 
   @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(new German());
+      JLanguageTool lt = new JLanguageTool(new GermanyGerman());
       // used to be not detected > 1.0.1:
       String str = "Und so.\r\nDie Bier.";
       List<RuleMatch> matches = lt.check(str);
