@@ -7,7 +7,8 @@ title="Easy editing stylesheet" ?>
 <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
 
- Copyright (C) 2016 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016 Marco A.G.Pinto (www.marcoagpinto.com)
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -224,6 +225,45 @@ title="Easy editing stylesheet" ?>
 	<example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
   </rule>
 
+    <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
+    <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
+    <rule default='off' id="EQUIPES" name="Equipas">
+      <pattern>
+        <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
+        <marker>
+        	<token>equipes</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «equipes» por <suggestion>equipas</suggestion>.</message>
+      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
+    </rule>
+
+    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
+    <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
+  <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
+    <rule>
+      <pattern>
+		<token regexp="yes">o|de|do</token>
+		<marker>
+			<token>controle</token>
+		</marker>
+		<token regexp="yes">das?|dos?|de</token>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
+    </rule>
+    <rule>
+      <pattern>
+		<token>sob</token>
+		<marker>
+			<token>controle</token>
+		</marker>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
+    </rule>
+  </rulegroup>
+
 </category>
 
 <category id="CONTRACTIONS" name="Contrações">
@@ -435,7 +475,7 @@ title="Easy editing stylesheet" ?>
 
 </category>
 
-<category id='COMPOUNDING' name='Palavras compostas'>
+<category id='COMPOUNDING' name='Palavras Compostas'>
 
  <rulegroup id='COMPOUNDS_AO90_GENERIC_PREFIX' name='Hifenizador de palavras pós-reforma'>
 	<!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->

@@ -355,8 +355,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  <marker>
 	  <token regexp='yes'>&contracoes_MP;</token>
 	  <token postag='(N.|A..)[MC]S.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-	    <exception regexp="yes">há|são|ser|haver|devido</exception></token>
+	    <exception postag='(N.|A..)[MC]P.+|NPMS.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
+	    <exception regexp="yes">há|são|ser|haver|devido|média|mídia</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
@@ -456,7 +456,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	 <marker>
-	  <token regexp='yes'>&contracoes_FP;</token>
+	  <token regexp='yes'>&contracoes_FP;
+	        <exception>mas</exception></token>
 	 <token postag='(N.|A..)[FC]S.+' postag_regexp='yes'>
 	  <exception postag='(N.|A..)[FC]P.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	 </marker>
@@ -2391,19 +2392,6 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="equipa">Devemos trabalhar em <marker>equipe</marker>.</example>
     </rule>
 
-<!-- TODO 	Variant specific - Move to pt-PT		 -->
-    <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
-    <rule default='off' id="EQUIPES" name="Equipas">
-      <pattern>
-        <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
-        <marker>
-        	<token>equipes</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substituir «equipes» por <suggestion>equipas</suggestion>.</message>
-      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
-    </rule>
-
     <!-- ENTRAS TE entraste -->
 	<rule id="ENTRAS_TE" name="Entraste">
 	  <pattern>
@@ -2959,44 +2947,12 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="não sei">Como podes ver, <marker>num sei</marker> a resposta.</example>
     </rule>
 
-	<!-- CONTROLE/CONTROLO *START* -->
-	<!-- ************************* -->
-
-    <!-- O/DE/DO CONTROLE o/de/do controlo -->
-<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
-    <rule default='off' id="O_DE_DO_CONTROLE" name="O/de/do controlo">
-      <pattern>
-		<token regexp="yes">o|de|do</token>
-		<marker>
-			<token>controle</token>
-		</marker>
-		<token regexp="yes">das?|dos?|de</token>
-      </pattern>
-      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
-    </rule>
-
-    <!-- SOB CONTROLE sob controlo -->
-<!-- TODO 	Variant specific - Move to pt-PT and set as default='on' -->
-    <rule default='off' id="SOB_CONTROLE" name="Sob controlo">
-      <pattern>
-		<token>sob</token>
-		<marker>
-			<token>controle</token>
-		</marker>
-      </pattern>
-      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
-    </rule>
-
-	<!-- CONTROLE/CONTROLO *END* -->
-	<!-- *********************** -->
-
 	<!-- O FACTO DA/DAS/DO/DOS *START* -->
 	<!-- ***************************** -->
 
+  <rulegroup id="O_FACTO_DA" name="O facto de + artigo">
     <!-- O FACTO DA o facto de a -->
-    <rule id="O_FACTO_DA" name="O facto de a">
+    <rule>
       <pattern>
         <token>o</token>
         <token>facto</token>
@@ -3005,9 +2961,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «o facto da» por <suggestion>o facto de a</suggestion>.</message>
       <example correction="o facto de a">Ter em conta <marker>o facto da</marker> aluna não saber.</example>
     </rule>
-
     <!-- O FACTO DAS o facto de as -->
-    <rule id="O_FACTO_DAS" name="O facto de as">
+    <rule>
       <pattern>
         <token>o</token>
         <token>facto</token>
@@ -3016,9 +2971,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «o facto das» por <suggestion>o facto de as</suggestion>.</message>
       <example correction="o facto de as">Ter em conta <marker>o facto das</marker> alunas não saberem.</example>
     </rule>
-
     <!-- O FACTO DO o facto de o -->
-    <rule id="O_FACTO_DO" name="O facto de o">
+    <rule>
       <pattern>
         <token>o</token>
         <token>facto</token>
@@ -3027,9 +2981,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «o facto do» por <suggestion>o facto de o</suggestion>.</message>
       <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
     </rule>	
-
     <!-- O FACTO DOS o facto de os -->
-    <rule id="O_FACTO_DOS" name="O facto de os">
+    <rule>
       <pattern>
         <token>o</token>
         <token>facto</token>
@@ -3038,6 +2991,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «o facto dos» por <suggestion>o facto de os</suggestion>.</message>
       <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
     </rule>
+  </rulegroup>
 
 	<!-- O FACTO DA/DAS/DO/DOS *END* -->
 	<!-- ***************************** -->
