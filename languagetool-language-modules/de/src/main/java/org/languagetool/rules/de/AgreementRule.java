@@ -76,9 +76,14 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("das").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("von").build(),
+      new PatternTokenBuilder().tokenRegex("von|bei").build(),
       new PatternTokenBuilder().tokenRegex("(vielen|allen)").build(),
-      new PatternTokenBuilder().posRegex("PA2:.*").build()  // "ein von vielen bewundertes Haus"
+      new PatternTokenBuilder().posRegex("PA2:.*|ADJ:AKK:PLU:.*").build()  // "ein von vielen bewundertes Haus" / "Das weckte bei vielen ungute Erinnerungen."
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("für").build(),
+      new PatternTokenBuilder().tokenRegex("(viele|alle)").build(),
+      new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("einer").build(),
