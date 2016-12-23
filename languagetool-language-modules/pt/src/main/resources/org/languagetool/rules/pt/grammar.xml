@@ -422,12 +422,16 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
 	<rule>
+	 <antipattern>
+	   <token>a</token> <!-- FIXME Improve disambiguator for a as SP cases -->
+	   <token>docentes</token>
+	 </antipattern>
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
 	  <token regexp='yes'>&contracoes_FS;</token>
 	  <token postag='(N.|A..)[FC]P.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[FC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	  <exception postag='(N.|A..)[FC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token><!-- FIXME Review patterns to include passive without crippling detection -->
 	  </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
