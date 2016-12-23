@@ -71,6 +71,12 @@ public class TokenInflectionAgreementRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволого тюльпан")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
 
+    RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
+    assertEquals(1, matches0.length);
+    assertTrue("Message is wrong: " + matches0[0].getMessage(),
+        matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
+    assertEquals(Arrays.asList("російських винищувачів", "російських винищувачах", "російського винищувача"), matches0[0].getSuggestedReplacements());
+    
     // from real examples
     
     // і-и

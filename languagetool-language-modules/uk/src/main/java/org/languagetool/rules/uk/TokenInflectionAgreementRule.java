@@ -206,7 +206,7 @@ public class TokenInflectionAgreementRule extends Rule {
             slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
         }
 
-        String msg = String.format("Потенційна помилка: прикметник неузгоджений з іменником: \"%s\": [%s] і \"%s\": [%s]", 
+        String msg = String.format("Потенційна помилка: прикметник не узгоджений з іменником: \"%s\": [%s] і \"%s\": [%s]", 
             adjTokenReadings.get(0).getToken(), formatInflections(masterInflections, true),
             slaveTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
 
@@ -230,7 +230,7 @@ public class TokenInflectionAgreementRule extends Rule {
 
 
             if( ! adjInflection._case.equals("v_kly")
-                && (adjInflection._case.equals("p")
+                && (adjInflection.gender.equals("p")
                 || PosTagHelper.hasPosTagPart(slaveTokenReadings, genderTag)) ) {
               for(AnalyzedToken nounToken: slaveTokenReadings) {
 
@@ -251,29 +251,28 @@ public class TokenInflectionAgreementRule extends Rule {
                 }
               }
             }
-
         }
 
         for (Inflection nounInflection : slaveInflections) {
           String genderTag = ":"+nounInflection.gender+":";
           String vidmTag = nounInflection._case;
 
-                if( nounInflection.animMatters() ) {
-                    vidmTag += ":r" + nounInflection.animTag;
-                }
+          if( nounInflection.animMatters() ) {
+            vidmTag += ":r" + nounInflection.animTag;
+          }
 
-              for(AnalyzedToken adjToken: adjTokenReadings) {
-                String newAdjTag = adjToken.getPOSTag().replaceFirst(":.:v_...(:r(in)?anim)?", genderTag + vidmTag);
+          for(AnalyzedToken adjToken: adjTokenReadings) {
+            String newAdjTag = adjToken.getPOSTag().replaceFirst(":.:v_...(:r(in)?anim)?", genderTag + vidmTag);
 
-                String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
+            String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
 
-                for (String s : synthesized) {
-                  String suggestion = s + " " + tokenReadings.getToken();
-                  if( ! suggestions.contains(suggestion) ) {
-                    suggestions.add(suggestion);
-                  }
-                }
+            for (String s : synthesized) {
+              String suggestion = s + " " + tokenReadings.getToken();
+              if( ! suggestions.contains(suggestion) ) {
+                suggestions.add(suggestion);
               }
+            }
+          }
 
         }
 

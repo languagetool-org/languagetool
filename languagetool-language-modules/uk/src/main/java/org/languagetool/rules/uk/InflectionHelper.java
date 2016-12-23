@@ -104,7 +104,10 @@ class InflectionHelper {
         animTag = matcher.group(3).substring(2);	// :rinanim/:ranim
       }
   
-      masterInflections.add(new Inflection(gen, vidm, animTag));
+      Inflection inflection = new Inflection(gen, vidm, animTag);
+      if( ! masterInflections.contains(inflection) ) {
+        masterInflections.add(inflection);
+      }
     }
     return masterInflections;
   }
@@ -125,7 +128,10 @@ class InflectionHelper {
       String vidm = matcher.group(3);
       String animTag = matcher.group(1);
   
-      slaveInflections.add(new Inflection(gen, vidm, animTag));
+      Inflection inflection = new Inflection(gen, vidm, animTag);
+      if( ! slaveInflections.contains(inflection) ) {
+        slaveInflections.add(inflection);
+      }
     }
     return slaveInflections;
   }
