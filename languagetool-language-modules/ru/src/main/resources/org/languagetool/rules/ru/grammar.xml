@@ -4740,14 +4740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Тосковать по дому.</example>
            </rule>
         </rulegroup>      
-        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
-            <antipattern>
-                <token>тем</token>
-                <marker>
-                    <token>самым</token>
-                    <token postag="NN:.*" postag_regexp="yes"></token>
-                </marker>
-            </antipattern>
+        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">          
             <antipattern>
                 <token>во</token>
                 <marker>
@@ -4759,7 +4752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="case"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4773,6 +4766,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по падежу.</message>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
+            <example>Сама кашу заварила, сама и расхлёбывай.</example>
+            <example>Тем самым предложение обособляется.</example>
             <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
@@ -4781,7 +4776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="gender"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4797,6 +4792,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
             <short>Не согласуются по роду</short>
             <example>моё отношение</example>
+            <example>Сама кашу заварила, сама и расхлёбывай.</example>
+            <example>Тем самым предложение обособляется.</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
             <example correction=""><marker>моей отношение</marker></example>
         </rule>
@@ -4825,7 +4822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4842,6 +4839,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
+            <example>Сама кашу заварила, сама и расхлёбывай.</example>
+            <example>Тем самым предложение обособляется.</example>
             <example>Унёс <marker>свои тело</marker> и душу.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
@@ -7025,37 +7024,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
 		            <marker>
 			            <token>был</token>
-			            <token postag="PT:Past:Masc"/>
+			            <token postag_regexp="yes" postag="PT:Past:.*:Masc"/>
 		            </marker>
             </antipattern>
             <antipattern>
 		            <marker>
 			            <token>было</token>
-			            <token postag="PT:Past:Neut"/>
+			            <token postag_regexp="yes" postag="PT:Past:.*:Neut"/>
 		            </marker>
             </antipattern>
             <antipattern>
 		            <marker>
 			            <token>была</token>
-			            <token postag="PT:Past:Fem"/>
+			            <token postag_regexp="yes"  postag="PT:Past:.*:Fem"/>
 		            </marker>
             </antipattern>
             <antipattern>
 		            <marker>
 			            <token>были</token>
-			            <token postag="PT:Past:PL"/>
+			            <token postag_regexp="yes"  postag="PT:Past:.*:PL"/>
 		            </marker>
             </antipattern>
             <antipattern>
 		            <marker>
 			            <token>будет</token>
-			            <token postag_regexp="yes" postag="PT:Past:(Masc|Fem|Neut)"/>
+			            <token postag_regexp="yes" postag="PT:Past:.*:(Masc|Fem|Neut)"/>
 		            </marker>
             </antipattern>
             <antipattern>
 		            <marker>
 			            <token>будут</token>
-			            <token postag="PT:Past:PL"/>
+			            <token postag_regexp="yes"  postag="PT:Past:.*:PL"/>
 		            </marker>
             </antipattern>
             <antipattern>
@@ -7144,6 +7143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Ошибка в примыкании.</short>
             <example>Здесь будет строиться всё больше жилья.</example>
             <example>И как попало расселись на траве.</example>
+            <example>Однако он был отвергнут.</example>
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
             <example>Думал собраться пойти купить выпить.</example>
             <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
