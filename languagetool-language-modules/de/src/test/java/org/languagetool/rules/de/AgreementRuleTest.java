@@ -130,6 +130,7 @@ public class AgreementRuleTest {
     assertGood("Ein für viele wichtiges Anliegen.");
     assertGood("Das weckte bei vielen ungute Erinnerungen.");
     assertGood("Etwas, das einem Angst macht.");
+    assertGood("Einem geschenkten Gaul schaut man nicht ins Maul.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

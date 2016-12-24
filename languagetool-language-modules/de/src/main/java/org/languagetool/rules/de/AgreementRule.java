@@ -91,6 +91,11 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
     Arrays.asList(
+      new PatternTokenBuilder().token("einem").build(),
+      new PatternTokenBuilder().token("geschenkten").build(),
+      new PatternTokenBuilder().token("Gaul").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().token("einer").build(),
       new PatternTokenBuilder().token("jeden").build(),
       new PatternTokenBuilder().posRegex("SUB:GEN:.*").build()  // "Kern einer jeden Tragödie..."
