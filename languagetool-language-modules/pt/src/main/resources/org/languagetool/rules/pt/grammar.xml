@@ -755,7 +755,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
 	<!--                  CRASE_CONFUSION, Erros de crase: Dia à dia       -->
 	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-23      -->
-  <rulegroup id="CRASE_CONFUSION" name="Erros de crase: Dia à dia">
+  <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
     <rule>
         <pattern>
           <token/>
@@ -3469,32 +3469,6 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
     </rule>
 
-<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
-<!-- **************************************************************** -->
-    <!-- DAQUI EM DIANTE doravante -->
-    <rule id="DAQUI_EM_DIANTE" name="Doravante">
-      <pattern>
-        <token>daqui</token>
-        <token>em</token>
-        <token>diante</token>        
-      </pattern>
-      <message>Substitua «daqui em diante» por <suggestion>doravante</suggestion>.</message>
-      <example correction="doravante">Isto deve ser feito <marker>daqui em diante</marker>.</example>
-    </rule>
-
-    <!-- DE HOJE PARA O FUTURO doravante -->
-    <rule id="DE_HOJE_PARA_O_FUTURO" name="Doravante">
-      <pattern>
-        <token>de</token>
-        <token>hoje</token>
-        <token>para</token>
-        <token>o</token>
-        <token>futuro</token>   
-      </pattern>
-      <message>Substitua «de hoje para o futuro» por <suggestion>doravante</suggestion>.</message>
-      <example correction="doravante">Isto deve ser feito <marker>de hoje para o futuro</marker>.</example>
-    </rule>
-
     <!-- DE ORA AVANTE doravante -->
     <rule id="DE_ORA_AVANTE" name="Doravante">
       <pattern>
@@ -3505,9 +3479,6 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «de ora avante» por <suggestion>doravante</suggestion>.</message>
       <example correction="doravante">Isto deve ser feito <marker>de ora avante</marker>.</example>
     </rule>
-<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
-<!-- ************************************************************** -->
-
 
 <!-- RULES TU/TI -> EU/MIM *START* -->
 <!-- ***************************** -->
@@ -3518,25 +3489,29 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
         <token>a</token>
         <token>tu</token>
       </pattern>
-      <message>Substitua «a tu» por <suggestion>a ti</suggestion>.</message>
-      <example correction="a ti">Isto deve-se <marker>a tu</marker>.</example>
+      <message>Substitua «a tu» por <suggestion>a ti</suggestion> ou <suggestion>a te</suggestion>.</message>
+      <example correction="a ti|a te">Isto deve-se <marker>a tu</marker>.</example>
     </rule>
     <rule>
       <pattern>
         <token>de</token>
         <token>eu</token>
       </pattern>
-      <message>Substitua «de eu» por <suggestion>de mim</suggestion>.</message>
-      <example correction="de mim">Isto é <marker>de eu</marker> para o Rui.</example>
+      <message>Substitua «de eu» por <suggestion>de mim</suggestion> ou <suggestion>de me</suggestion>.</message>
+      <example correction="de mim|de me">Isto é <marker>de eu</marker> para o Rui.</example>
     </rule>
     <rule>
       <pattern>
+       <marker>
         <token>entre</token>
         <token>eu</token>
+       </marker>
+        <token>e</token>
       </pattern>
       <message>Substitua «entre eu» por <suggestion>entre mim</suggestion>.</message>
       <example correction="entre mim">O que se passou <marker>entre eu</marker> e o Rui?</example>
     </rule>
+<!-- TODO Review more cases and validity of this rule
     <rule>
       <pattern>
         <token>entre</token>
@@ -3544,24 +3519,24 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
         <token>e</token>
         <token>eu</token>        
       </pattern>
-      <message>Substitua «entre tu e eu» por <suggestion>entre ti e mim</suggestion>.</message>
-      <example correction="entre ti e mim">O que se passou <marker>entre tu e eu</marker>?</example>
-    </rule>
+      <message>Substitua «entre tu e eu» por <suggestion>entre mim e ti</suggestion>.</message>
+      <example correction="entre mim e ti">O que se passou <marker>entre tu e eu</marker>?</example>
+    </rule>-->
     <rule>
       <pattern>
         <token>para</token>
         <token>tu</token>
       </pattern>
-      <message>Substitua «para tu» por <suggestion>para ti</suggestion>.</message>
-      <example correction="para ti">Isto é <marker>para tu</marker>.</example>
+      <message>Substitua «para tu» por <suggestion>para ti</suggestion> ou <suggestion>para te</suggestion>.</message>
+      <example correction="para ti|para te">Isto é <marker>para tu</marker>.</example>
     </rule>
     <rule>
       <pattern>
         <token>sem</token>
         <token>tu</token>
       </pattern>
-      <message>Substitua «sem tu» por <suggestion>sem ti</suggestion>.</message>
-      <example correction="sem ti">Isto não é o mesmo <marker>sem tu</marker>.</example>
+      <message>Substitua «sem tu» por <suggestion>sem ti</suggestion> ou <suggestion>sem te</suggestion>.</message>
+      <example correction="sem ti|sem te">Isto não é o mesmo <marker>sem tu</marker>.</example>
     </rule>
   </rulegroup>
 <!-- *************************** -->
@@ -13663,6 +13638,35 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       </rule>
      </rulegroup>
 		<!--	      Style rules from Spanish grammar.xml    - END  -->
+
+<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
+<!-- **************************************************************** -->
+  <rulegroup id='DORAVANTE'  name="Utilização de 'Doravante'" default='off'>
+    <!-- DAQUI EM DIANTE doravante -->
+    <rule>
+      <pattern>
+        <token>daqui</token>
+        <token>em</token>
+        <token>diante</token>        
+      </pattern>
+      <message>Substitua «daqui em diante» por <suggestion>doravante</suggestion>.</message>
+      <example correction="doravante">Isto deve ser feito <marker>daqui em diante</marker>.</example>
+    </rule>
+    <!-- DE HOJE PARA O FUTURO doravante -->
+    <rule>
+      <pattern>
+        <token>de</token>
+        <token>hoje</token>
+        <token>para</token>
+        <token>o</token>
+        <token>futuro</token>   
+      </pattern>
+      <message>Substitua «de hoje para o futuro» por <suggestion>doravante</suggestion>.</message>
+      <example correction="doravante">Isto deve ser feito <marker>de hoje para o futuro</marker>.</example>
+    </rule>
+  </rulegroup>
+<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
+<!-- ************************************************************** -->
 
 	<!-- À ÚLTIMA DA HORA à última hora -->
 	<!-- 		TODO See link for explanation
