@@ -753,6 +753,36 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       </rule>
     </rulegroup>
 
+	<!--                  CRASE_CONFUSION, Erros de crase: Dia à dia       -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-23      -->
+  <rulegroup id="CRASE_CONFUSION" name="Erros de crase: Dia à dia">
+    <rule>
+        <pattern>
+          <token/>
+          <token>à</token>
+          <token><match no='0'/></token>
+        </pattern>
+        <message>Erro de crase.</message>
+          <suggestion>\1 a \3</suggestion>
+        <url>https://pt.wikipedia.org/wiki/Crase</url>
+        <example correction="dia a dia">Foi preciso conformar com a rotina do <marker>dia à dia</marker>.</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token>de</token>
+          <marker>
+           <token postag='Z.' postag_regexp='yes'/>
+           <token>à</token>
+           <token postag='Z.' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Erro de crase.</message>
+          <suggestion>\2 a \4</suggestion>
+        <url>https://pt.wikipedia.org/wiki/Crase</url>
+        <example correction="10 a 30">Consiga descontos de <marker>10 à 30</marker> por cento nos saldos desta semana.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="SENTENCE_FRAGMENT" name="Fragmentos de frases" default="off">
 	<!--    Localized by Tiago F. Santos, from english grammar.xml, 2016-11-29      -->
       <url>http://viva-read.com/article/tipos-de-fragmentos-de-frases</url>
