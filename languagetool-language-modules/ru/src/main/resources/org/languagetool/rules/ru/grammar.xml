@@ -7263,6 +7263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
         </rule>
         <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
+        <!--TODO   неоюходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
 	        <antipattern>
 		        <marker>
 			        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
@@ -7309,7 +7310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			            <exception>моем</exception>
 			        </token>
 			        <token postag="(PT|NN):.*" postag_regexp="yes">
-				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup|ADJ:.*|ADV|PARTICLE" postag_regexp="yes"></exception>
+				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup|ADJ:.*|ADV|PARTICLE|NN:Fam|NN:Name|NN:Patr" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке</exception>
 				        <exception>дат</exception>
 			        </token>
@@ -7319,6 +7320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <message>Глагол "\1" предполагает после себя предлог перед предложным падежом (например: о, на, в).</message>
 	        <example>Однако, по сути, директива № 1 от 21 июня реально всего лишь (и прежде всего) сообщала вероятную дату нападения Германии.</example>
 	        <example>В каких оно должно быть рамках?</example>
+                <example>Я бы хотел быть Пикассо.</example>
                 <example>Сторожевые посты из крестьян стояли метрах в пятидесяти друг от друга вдоль полотна.</example>
 	        <example correction="">Не <marker>сообщайте людях</marker> о празднике.</example>
 	        <example correction="">Ложка <marker>лежала столе</marker>.</example>
@@ -7556,10 +7558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «над» и «перед» предполагают употребление существительного в творительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлоги «над» и «перед» предполагают употребление существительного в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
             <example>Перед закатом.</example>
             <example correction="Перед закатом|Закат"><marker>Перед закат</marker>.</example>
@@ -7573,10 +7572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «над» и «перед» предполагают употребление прилагательного  в творительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлоги «над» и «перед» предполагают употребление прилагательного  в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
             <example>Перед багровым закатом.</example>
             <example correction="Перед багровым|Багровый"><marker>Перед багровый</marker> закатом.</example>
@@ -7592,10 +7588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется винительный падеж.</short>
             <example>Луч света попал сквозь окно в комнату.</example>
             <example correction="сквозь окно|окном">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
@@ -7609,10 +7602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «сквозь» и «через» предполагают употребление прилагательного в винительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлоги «сквозь» и «через» предполагают употребление прилагательного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется винительный падеж.</short>
             <example>Луч света попал сквозь стеклянное окно в комнату.</example>
             <example correction="сквозь стеклянного|сквозь стеклянное|сквозь стеклянный|стеклянному">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
@@ -7643,10 +7633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлог «при» предполагает употребление существительного в предложном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
             <example>Лаборатория была создана при центре.</example>
             <example correction="при центре|центр">Лаборатория была создана <marker>при центр</marker>.</example>
@@ -7662,9 +7649,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлог «при» предполагает употребление существительного в предложном падеже:
-                <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion>
-            </message>
+            <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
             <example>В университете лаборатории созданы при кафедре и факультете.</example>
             <example correction="при кафедре и факультете">В университете лаборатории созданы <marker>при кафедре и факультет</marker>.</example>
@@ -7680,9 +7665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлог «при» предполагает употребление существительного в предложном падеже:
-                <suggestion><match no="1"></match> <match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion>
-            </message>
+            <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
             <example>В университете лаборатории созданы при кафедре, факультете.</example>
             <example correction="при кафедре, факультете">В университете лаборатории созданы <marker>при кафедре, факультет</marker>.</example>
@@ -7698,10 +7681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception>различного</exception>
                 </token>
             </pattern>
-            <message>Предлог «при» предполагает употребление прилагательного в предложном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлог «при» предполагает употребление прилагательного в предложном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
             <example>Лаборатория была создана при исследовательском центре.</example>
             <example correction="при исследовательском|исследовательский">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
@@ -7716,10 +7696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">нее|варяг|грек|роду</exception>
                 </token>
             </pattern>
-            <message>Предлог \1 предполагает употребление существительного в родительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлог \1 предполагает употребление существительного в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у опушки леса.</example>
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
@@ -7733,10 +7710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлог \1 предполагает употребление прилагательного  в родительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match></suggestion> или
-                <suggestion><match no="2"></match></suggestion>
-            </message>
+            <message>Предлог \1 предполагает употребление прилагательного  в родительном падеже:<suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у лесной опушки.</example>
             <example correction="у лесной|лесную">Заросший пруд <marker>у лесную</marker> опушки.</example>
@@ -7873,8 +7847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception>
                 </token>
             </pattern>
-            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
-                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion></message>
+            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
             <example><marker>Управляющий предприятием</marker> общественного питания.</example>
             <example><marker>Управляющая организация</marker>.</example>
@@ -7888,8 +7861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">летать|плыть</token>
                 <token regexp="yes">лодкой|вертолётом|кораблём|самолётом</token>
             </pattern>
-            <message>Существительное \1 предполагает употребление зависимого слова в предложном падеже:
-                <suggestion><match no="1"></match> на <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
+            <message>Существительное \1 предполагает употребление зависимого слова в предложном падеже: <suggestion><match no="1"></match> на <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
            
             <example correction="плыть на лодке"><marker>плыть лодкой</marker></example>
@@ -8115,11 +8087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Сын женился</marker>.</example>
                 <example correction="Дочка вышла замуж"><marker>Дочка женилась</marker>.</example>
             </rule>
-        </rulegroup>     
-        
-        
-         
-        
+        </rulegroup>           
     </category>
     <category id="STYLE" name="Стиль">
         
@@ -8187,7 +8155,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Она преподаёт изо в школе.</example>
             <example>Разбил в аварии перед у машины</example>
             <example>К ИЗО ученик подготовился.</example>
-
         </rule>
                         
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
