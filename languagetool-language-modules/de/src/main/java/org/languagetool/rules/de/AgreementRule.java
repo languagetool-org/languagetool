@@ -333,8 +333,11 @@ public class AgreementRule extends GermanRule {
       comma = tokens[pos-1].getToken().equals(",");
       String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
-      if (comma && relPronoun) {
-        return true;
+      if (comma && relPronoun && pos < tokens.length) {
+        // a true relative clause must be followed by a verb. Do not recognize "Einstein, das größte Genie" as a relative clause.
+        AnalyzedTokenReadings[] remainingTokens = Arrays.copyOfRange(tokens, pos+1, tokens.length);
+        boolean isFollowedByVerb = Arrays.stream(remainingTokens).filter(token -> token.hasPartialPosTag("VER")).count() != 0;
+        return isFollowedByVerb;
       }
     }
     if (pos >= 2) {
@@ -368,7 +371,7 @@ public class AgreementRule extends GermanRule {
     }
     set1.retainAll(set2);
     RuleMatch ruleMatch = null;
-    if (set1.size() == 0 && !isException(token1, token2)) {
+    if (set1.isEmpty() && !isException(token1, token2)) {
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.size() > 0 ?
               String.join(" und ", errorCategories) : "Kasus, Genus oder Numerus";
@@ -404,7 +407,7 @@ public class AgreementRule extends GermanRule {
       AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
-    if (set == null || set.size() == 0) {
+    if (set == null || set.isEmpty()) {
       // TODO: more detailed error message:
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
