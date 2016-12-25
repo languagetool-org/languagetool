@@ -333,11 +333,8 @@ public class AgreementRule extends GermanRule {
       comma = tokens[pos-1].getToken().equals(",");
       String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
-      if (comma && relPronoun && pos < tokens.length) {
-        // a true relative clause must be followed by a verb. Do not recognize "Einstein, das größte Genie" as a relative clause.
-        AnalyzedTokenReadings[] remainingTokens = Arrays.copyOfRange(tokens, pos+1, tokens.length);
-        boolean isFollowedByVerb = Arrays.stream(remainingTokens).filter(token -> token.hasPartialPosTag("VER")).count() != 0;
-        return isFollowedByVerb;
+      if (comma && relPronoun) {
+        return true;
       }
     }
     if (pos >= 2) {

@@ -132,10 +132,6 @@ public class AgreementRuleTest {
     assertGood("Etwas, das einem Angst macht.");
     assertGood("Einem geschenkten Gaul schaut man nicht ins Maul.");
 
-    assertGood("Gutenberg, das Genie.");
-    assertGood("Gutenberg, das größte Genie!");
-    assertGood("Gutenberg, das größte Genie aller Zeiten?");
-
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
@@ -143,9 +139,11 @@ public class AgreementRuleTest {
     assertGood("Gutenberg, der quadratische Mann.");
     assertGood("Die größte Stuttgarter Grünanlage ist der Friedhof.");
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
-    assertBad("Gutenberg, die Genie");
-    assertBad("Gutenberg, die größte Genie.");
-    assertBad("Gutenberg, die größte Genie aller Zeiten.");
+    // TODO: Find agreement errors in relative clauses
+    //assertBad("Gutenberg, die Genie");
+    //assertBad("Gutenberg, die größte Genie.");
+    //assertBad("Gutenberg, die größte Genie aller Zeiten.");
+    //assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
     // some of these used to cause false alarms:
     assertGood("Das Münchener Fest.");
     assertGood("Das Münchner Fest.");
