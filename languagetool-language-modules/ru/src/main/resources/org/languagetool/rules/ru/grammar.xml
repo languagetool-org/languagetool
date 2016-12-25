@@ -3113,7 +3113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern> <!--  remove case sensitive -->
                   <marker> 
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)|но|однако|только|а<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)|но|однако|только|а|что<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                   </marker>
                   <token><exception inflected="yes" regexp="yes" >аналогичный|типовой|похожий|нетиповой|непохожий|одинаковый|различный</exception></token>
@@ -3127,6 +3127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Но вместо нужной конструкции привезли типовую.</example>
                 <example>Однако вместо нужной конструкции привезли типовую.</example>
                 <example>А вместо нужной конструкции привезли типовую.</example>
+                <example>Оказалось, что вместо нужной конструкции привезли типовую.</example>
                 <example>Только вместо нужной конструкции привезли типовую.</example>
                 <example>Обстоятельства, возникшие помимо воли и желания сторон.</example>
                 <example correction="костра, кроме">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
@@ -7490,6 +7491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">к|ко</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:D" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7569,6 +7571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">над|перед</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:T" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7599,6 +7602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">сквозь|через</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:V" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7677,6 +7681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>при</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception>различного</exception>
                 </token>
@@ -7708,6 +7713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:.*:R" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7732,7 +7738,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  с -> ADJ:.*:R or  ADJ:.*:T   -->
                 <token regexp="yes">с|со</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление прилагательного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж.</short>
@@ -7755,7 +7761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  о -> ADJ:.*:V or  ADJ:.*:P   -->
                 <token>о</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «о» предполагает употребление прилагательного в винительном или предложном падеже.</message>
             <short>Требуется винительный или предложный падеж.</short>
@@ -8357,7 +8363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception><exception regexp="yes" scope="next">и|только</exception></token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;-–]</exception><exception regexp="yes" scope="next">и|только</exception></token>
                         <token skip="-1">не<exception  scope="previous" regexp="yes">['"«]</exception></token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
