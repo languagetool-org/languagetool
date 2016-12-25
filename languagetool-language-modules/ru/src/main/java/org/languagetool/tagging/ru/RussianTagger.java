@@ -43,6 +43,11 @@ public class RussianTagger extends BaseTagger {
     return "/ru/added.txt";
   }
 
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/ru/removed.txt";
+  }
+
   public RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));
   }
