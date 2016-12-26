@@ -4741,7 +4741,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Тосковать по дому.</example>
            </rule>
         </rulegroup>      
-        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">          
+        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
+            <!-- TODO remove свой + все формы from exception -->       
             <antipattern>
                 <token>во</token>
                 <marker>
@@ -4753,7 +4754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="case"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4772,12 +4773,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
-        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">          
+        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
+            <!-- TODO remove свой + все формы from exception -->                 
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="gender"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4799,6 +4801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>моей отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного с существительным по числу">
+            <!-- TODO remove свой + все формы from exception -->
             <antipattern>
               <marker>
                 <token postag="ADJ:MPR:.*" postag_regexp="yes">
@@ -4823,7 +4826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой</exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -4876,15 +4879,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        </marker>
 	        </antipattern>
 	        <antipattern>
-		        <token regexp="yes">&human;</token>
-		        <marker>
-			        <token postag="NN:.*:(Nom|R)" postag_regexp="yes" />
-		        </marker>
-	        </antipattern>
-	        <antipattern>
 		        <token regexp="yes">&time;</token>
 		        <marker>
 			        <token postag="NN:.*:*" postag_regexp="yes" />
+		        </marker>
+	        </antipattern>
+                <antipattern>
+		        <token regexp="yes">&human;</token>
+		        <marker>
+			        <token postag="NN:.*:(Nom|R)" postag_regexp="yes" />
 		        </marker>
 	        </antipattern>
 	        <antipattern>
@@ -4894,8 +4897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				        <exception postag="NN:.*:T|ADV" postag_regexp="yes" negate_pos='yes'/> 
 			        </token>
 		        </marker>
-	        </antipattern>
-
+	        </antipattern>   
 	        <antipattern>
 		        <marker>
 			        <token regexp="yes" postag="ADJ:.*" postag_regexp="yes">&nation;</token>
@@ -4998,7 +5000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
-                                    <exception postag="CONJ|PREP|ADV" postag_regexp="yes" />
+                                    <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
                                 </token>
                             </unify>				        
@@ -5035,6 +5037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Вдали виднелись красивые сосны.</example>
                     <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
                     <example>Мебель сделана из красивой сосны.</example>
+                    <example>Невежливо показывать на других пальцем.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
                 </rule>
@@ -5051,7 +5054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception case_sensitive="yes">Божию</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
-                                    <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                                    <exception postag="CONJ|PREP|ADV|ADJ:.*|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
                                     <exception case_sensitive="yes">Tом</exception>
                                 </token>
@@ -5139,7 +5142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
                                     <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
-                                    <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+                                    <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*|Ord:.*" postag_regexp="yes" />
                                     <!-- Слова без буквы ё имеют неправильный падеж -->
                                     <exception regexp="yes">&missing_yo;</exception>
                                     <exception case_sensitive="yes">Tом</exception>
@@ -5209,6 +5212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Они справились с бурной рекой</example>
                     <example correction="">Они справились с <marker>бурную рекой</marker>.</example>
                     <example>Они думали о родном доме.</example>
+                    <example>Традиционно первым Германским государством принято считать восточно-франкское государство.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
                 </rule>
