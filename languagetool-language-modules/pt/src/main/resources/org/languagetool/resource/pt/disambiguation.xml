@@ -656,7 +656,16 @@
   <rule>
       <pattern case_sensitive="yes">
           <marker>
-              <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+              <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)</token>
+          </marker>
+      </pattern>
+      <disambig action="add"><wd pos="AO0CN0"/></disambig>
+  </rule>
+  <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <marker>
+              <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)</token>
           </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -664,18 +673,9 @@
 <!-- TODO Activate progressively and watch for regressions
   <rule>
       <pattern case_sensitive="yes">
-          <token postag="SENT_START"/>
-          <marker>
-              <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
-          </marker>
-      </pattern>
-      <disambig action="add"><wd pos="AO0CN0"/></disambig>
-  </rule>
-  <rule>
-      <pattern case_sensitive="yes">
           <token>-</token>
           <marker>
-              <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+              <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)</token>
           </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
