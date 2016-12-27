@@ -4393,7 +4393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
                 <token regexp="yes">более|менее</token>
-                <token postag="ADJ:Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
+                <token postag="ADJ:Comp"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
             </pattern>
             <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="ADJ" postag_replace="ADJ:Posit:.*:Nom" /></suggestion>.</message>
             
@@ -4996,7 +4996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <feature id="number"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous"  regexp="yes">,|и|-|—</exception>
-                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                    <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
@@ -5049,7 +5049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <feature id="gender"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous" regexp="yes">,|-|—</exception>
-                                    <exception postag="ADV|ADJ:Sup|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
+                                    <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
                                     <exception case_sensitive="yes">Божию</exception>
                                 </token>
@@ -5135,7 +5135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <feature id="case"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous" regexp="yes">,|-|—</exception>
-                                    <exception postag="PT:.*|ADV|ADJ:Sup|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes" />
+                                    <exception postag="PT:.*|ADV|ADJ:Comp|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes" />
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
                                     <exception postag="ADJ:Posit:Masc:.*" postag_regexp="yes" regexp="yes">&color;|мобильн.*</exception>
                                     <exception case_sensitive="yes">Божию</exception>
@@ -7236,12 +7236,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			               regexp="yes">отвечать|сообщать|говорить|понимать|думать|слушать|нюхать|смотреть|терпеть|обидеть|ощущать|осязать|обнимать|ходить|сидеть|лежать|причинять
 			            <exception postag="PT:.*|DPT:.*" postag_regexp="yes" />
 			            <exception scope="next" regexp="yes">,|:|-|—|«|»|"|[0-9]+.*</exception>
-			            <exception scope="next" postag="ADJ:Sup|ADV|PREP|VB:.*|Num:.*|NumC:.*" postag_regexp="yes" />
+			            <exception scope="next" postag="ADJ:Comp|ADV|PREP|VB:.*|Num:.*|NumC:.*" postag_regexp="yes" />
 			            <exception scope="next" postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)|PREP" postag_regexp="yes"></exception>
 				        <exception scope="next">нет</exception>
 				     </token>
 			        <token skip="1" postag="(PT|NN):.*" postag_regexp="yes">
-				        <exception postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup" postag_regexp="yes"></exception>
+				        <exception postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Comp" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке|процентов</exception>
 				        <exception>дат</exception>
 				        <exception scope="next" postag="Num:.*|NumC:.*" postag_regexp="yes"/>
@@ -7310,12 +7310,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		                <exception postag="PT:.*|DPT:.*|PREP|CONJ|ADV|ADJ:MPR:.*|NN:.*|NumC:.*" postag_regexp="yes" />
 		                <exception scope="previous" postag="PREP"/><exception regexp="yes" scope="next" >метрах|сантиметрах|километрах|саженях|шагах</exception>
 			            <exception scope="next" regexp="yes">,|:|-|—|«|»|"|[0-9]+.*|\(|\)</exception>
-			            <exception scope="next" postag="ADJ:Sup|ADV|PREP|VB:.*|Num:.*" postag_regexp="yes" />
+			            <exception scope="next" postag="ADJ:Comp|ADV|PREP|VB:.*|Num:.*" postag_regexp="yes" />
 			            <exception scope="next" postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)|PREP|PT:.*|DPT:.*" postag_regexp="yes"></exception>
 			            <exception>моем</exception>
 			        </token>
 			        <token postag="(PT|NN):.*" postag_regexp="yes">
-				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Sup|ADJ:.*|ADV|PARTICLE|NN:Fam|NN:Name|NN:Patr" postag_regexp="yes"></exception>
+				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ:Comp|ADJ:.*|ADV|PARTICLE|NN:Fam|NN:Name|NN:Patr" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке</exception>
 				        <exception>дат</exception>
 			        </token>
@@ -7495,7 +7495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">к|ко</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:D" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7575,7 +7575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">над|перед</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:T" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7606,7 +7606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">сквозь|через</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:V" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7685,7 +7685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>при</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception>различного</exception>
                 </token>
@@ -7717,7 +7717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes">
                     <exception postag="ADJ:.*:.*:R" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
@@ -7742,7 +7742,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  с -> ADJ:.*:R or  ADJ:.*:T   -->
                 <token regexp="yes">с|со</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление прилагательного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж.</short>
@@ -7765,7 +7765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  о -> ADJ:.*:V or  ADJ:.*:P   -->
                 <token>о</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Sup" postag_regexp="yes"></exception><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «о» предполагает употребление прилагательного в винительном или предложном падеже.</message>
             <short>Требуется винительный или предложный падеж.</short>
@@ -8300,7 +8300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token skip="1">абсолютно</token>
-                    <token postag="ADJ:Comp:.*" postag_regexp="yes"></token>
+                    <token postag="ADJ:Sup:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Излишние прилагательные в превосходной степени: <suggestion>\2</suggestion></message>
                 <short>Излишние прилагательные в превосходной степени.</short>
@@ -8312,7 +8312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>абсолютно</token>
-                    <token postag="ADJ:Sup" ></token>
+                    <token postag="ADJ:Comp" ></token>
                 </pattern>
                 <message>Неверное образование степени сравнения прилагательного: <suggestion>\2</suggestion></message>
                 <short>Избыточное наречие.</short>       
@@ -8411,7 +8411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
-                    <token postag="ADJ:.*|ADJ:Sup:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ:Sup:.*" /></token> 
+                    <token postag="ADJ:.*|ADJ:Comp:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ:Comp:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
                   </marker>
                 </pattern>
@@ -9614,9 +9614,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>самый</token>               
-                        <token postag="ADJ:Comp:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой|лучший</exception></token>                    
+                        <token postag="ADJ:Sup:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой|лучший</exception></token>                    
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Comp:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example correction="самый талантливый">Это <marker>самый талантливейший</marker> художник 19-го века.</example>
                 <example>Это самый талантливый художник 19-го века.</example>
@@ -9625,9 +9625,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>самая</token>               
-                        <token postag="ADJ:Comp:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая|лучшая</exception></token>                    
+                        <token postag="ADJ:Sup:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая|лучшая</exception></token>                    
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Comp:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example correction="самая красивая">Это <marker>самая красивейшая</marker> девочка в классе.</example>
                 <example>Это самая красивая девочка в классе.</example>
@@ -9636,9 +9636,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>более</token>               
-                        <token postag="ADJ:Comp:.*" postag_regexp="yes"/>                    
+                        <token postag="ADJ:Sup:.*" postag_regexp="yes"/>                    
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Comp:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example correction="более вкусный">Это <marker>более вкуснейший</marker> салат.</example>
                 <example>Это более вкусный салат.</example>
@@ -9647,9 +9647,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>менее</token>               
-                        <token postag="ADJ:Comp:.*"  postag_regexp="yes"/>                    
+                        <token postag="ADJ:Sup:.*"  postag_regexp="yes"/>                    
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Comp:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example correction="менее сложная">Это <marker>менее сложнейшая</marker> задача.</example>
                 <example>Это менее сложная задача.</example>
