@@ -35,6 +35,7 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.SynthesizerTools;
 
@@ -44,7 +45,7 @@ import org.languagetool.synthesis.SynthesizerTools;
  * @author Marcin Milkowski
  */
 
-public class PolishSynthesizer implements Synthesizer {
+public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
 
   private static final String RESOURCE_FILENAME = "/pl/polish_synth.dict";
   private static final String TAGS_FILE_NAME = "/pl/polish_tags.txt";
@@ -57,20 +58,11 @@ public class PolishSynthesizer implements Synthesizer {
   private volatile Dictionary dictionary;
   private List<String> possibleTags;
 
-  private Dictionary getDictionary() throws IOException {
-    Dictionary result = this.dictionary;
-    if (result == null) {
-      synchronized (this) {
-        result = this.dictionary;
-        if (result == null) {
-          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-          this.dictionary = result = Dictionary.read(url);
-        }
-      }
-    }
-    return result;
+
+  public PolishSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
-  
+
   @Override
   public final String[] synthesize(final AnalyzedToken token,
       final String posTag) throws IOException {
