@@ -46,7 +46,7 @@
     * number and gender words agreement
     * general subject-verb agreement
     * accentuated form confusion, 'dequeísmos' and many more
-  * new compound form detection (in pt-PT recognizes all compound verbal derivations)
+  * new compound form detection (pt-PT recognizes all compound verbal derivations)
   * duplications, redundancies, typography and semantics categories added
   * style category rules added
     * new word repetitions rules, fragment detection, verbosity checks, passive voice and many other
@@ -59,7 +59,8 @@
       * compound verbs, possessive pronouns, reflexive forms placement, gerund and more
     * pre-reform agreement locales support added
       * Angola, Cape Verde, East Timor, Guinea Bissau, Macau, Mozambique and São Tomé e Principe
-  * various dictionary and part-of-speech fixes
+    * base spelling dictionary and tagger update
+    * variants dictionaries added and many part-of-speech fixes
   * Portuguese has been prepared to use ngram data, that means it has a
     `confusion_sets.txt` file where word pairs could be added.
     See http://wiki.languagetool.org/finding-errors-using-n-gram-data
