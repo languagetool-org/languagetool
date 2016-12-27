@@ -2015,6 +2015,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category id="CAT4" name="Estilo" type="style">
+        <rule id="A_NIVEL_DE" name="a nivel de" >
+            <antipattern>
+                <marker>
+                    <token>nivel</token>
+                    <token>de</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token regexp="yes">tierra|mar|agua|galería|tejado|terraza</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>nivel</token>
+                <token>de</token>
+            </pattern>
+            <message>En sentido figurado es preferible usar otras expresiones.</message>
+            <suggestion>en el ámbito de</suggestion>
+            <suggestion>en cuanto a</suggestion>
+            <suggestion>a escala de</suggestion>
+            <suggestion>en</suggestion>
+            <suggestion>entre</suggestion>
+            <suggestion>en la esfera de</suggestion>
+            <suggestion>en el terreno de</suggestion>
+            <suggestion>en lo relativo a</suggestion>
+            <suggestion>en términos de</suggestion>
+            <url>http://www.fundeu.es/recomendacion/a-nivel-de-usos-correctos-e-incorrectos-1054/</url>
+            <example correction="En el ámbito de|En cuanto a|A escala de|En|Entre|En la esfera de|En el terreno de|En lo relativo a|En términos de"><marker>A nivel de</marker> actores.</example>
+            <example>A nivel de mar.</example>
+        </rule>
 
         <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
             <pattern>
