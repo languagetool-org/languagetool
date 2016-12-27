@@ -38138,25 +38138,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="A mesura que"><marker>A mida que</marker> aneu eixint, pagueu.</example>
             <example>A mesura que eixiu, pagueu.</example>
         </rule>
-        <rulegroup id="A_NIVELL" name="a nivell / a nivell de">
+        <rulegroup id="A_NIVELL" name="*a nivell de">
             <rule>
                 <pattern>
                     <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     <token>nivell</token>
                     <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
                 </pattern>
-                <message>Val més evitar aquesta expressió.</message>
+                <message>En sentit figurat, val més evitar aquesta expressió.</message>
                 <suggestion>en l'àmbit <match no="3"/></suggestion>
                 <suggestion>a escala <match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
                 <suggestion><match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/>ment</suggestion>
                 <suggestion><match no="3"/></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/1512</url>
-                <short>Expressió preferible</short>
                 <example correction="en l'àmbit mundial|a escala mundial|mundialment|mundial">Ho varen fer <marker>a nivell mundial</marker>.</example>
                 <example>Aquest terra no és a nivell.</example>
-                <!-- <example correction="">tant a nivell català com a nivell europeu.</example> -->
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                         <token>nivell</token>
+                         <token regexp="yes">de|d'</token>
+                         <token postag="D.*" postag_regexp="yes" min="0"/>
+                         <token regexp="yes">mar|terra|galeria|teulada</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">quant|fa|respecte</exception></token>
                     <marker>
@@ -38164,10 +38170,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>nivell</token>
                         <token regexp="yes">de|d'</token>
                     </marker>
-                    <token><exception regexp="yes">mar|terra|galeria|teulada</exception></token>
-                    <token><exception regexp="yes">mar|terra|galeria|teulada</exception></token>
                 </pattern>
-                <message>Val més evitar aquesta expressió.</message>
+                <message>En sentit figurat, val més evitar aquesta expressió.</message>
                 <suggestion>en l'àmbit <match no="4"/></suggestion>
                 <suggestion>a escala <match no="4"/></suggestion>
                 <suggestion>a</suggestion>
@@ -38175,7 +38179,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>pel que fa a</suggestion>
                 <suggestion>quant a</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/1512</url>
-                <short>Expressió preferible</short>
                 <example correction="En l'àmbit d'|A escala d'|A|En|Pel que fa a|Quant a"><marker>A nivell d'</marker>Europa.</example>
                 <example>Al nivell del mar.</example>
                 <example>Pel que fa a nivell de renda, són els més alts.</example>
