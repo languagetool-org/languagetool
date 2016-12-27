@@ -69,9 +69,13 @@
 
 #### Russian
   * added and improved many rules
+  * added new rules with java filter
+  * added new java rule
   * added words suggested by users
   * improved disambiguation rules
   * updated tagger dictionary from AOT rev.268 with extended POS tags
+  * improved SRX sentences segmentation
+  * added removed.txt for words that need to remove from the dictionary
 
 #### Ukrainian
   * significant dictionary update
