@@ -53,6 +53,7 @@ public class DashRuleTest {
     // correct sentences:
     check(0, "Nie róbmy nic na łapu-capu.");
     check(0, "Jedzmy kogel-mogel.");
+    check(0, "To jest ładna nota — bene, bene — odpowiedział Józek."); // not really a real mistake
     // incorrect sentences:
     check(1, "bim – bom", new String[]{"bim-bom"});
     check(1, "Papua–Nowa Gwinea", new String[]{"Papua-Nowa"});

@@ -95,7 +95,6 @@ public class DashRule extends Rule {
           continue; // skip non-hyphenated suggestions
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
-          // onlyDashSuggestion.add(line);
         }
 
         List<PatternToken> tokList = new ArrayList<PatternToken>();
