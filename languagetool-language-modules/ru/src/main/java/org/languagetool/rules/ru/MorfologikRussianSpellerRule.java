@@ -36,7 +36,6 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   public static final String RULE_ID = "MORFOLOGIK_RULE_RU_RU";
 
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU.dict";
-  
   private static final Pattern RUSSIAN_LETTERS = Pattern.compile(".*[а-яёА-ЯЁ].*");
 
   public MorfologikRussianSpellerRule(ResourceBundle messages, Language language) throws IOException {
@@ -59,9 +58,9 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
     String word = tokens[idx].getToken();  
     // don't check words that don't have  letters
-      if (!RUSSIAN_LETTERS.matcher(word).matches()) {
-        return true;
-      }
+    if (!RUSSIAN_LETTERS.matcher(word).matches()) {
+      return true;
+    }
       
     List<String> words = new ArrayList<>();
     for (AnalyzedTokenReadings token : tokens) {
@@ -70,6 +69,5 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
     
     return ignoreWord(words, idx);
   }
- 
   
 }
