@@ -39,6 +39,7 @@ import java.util.List;
  * Another use of the compounds file -- check for compounds written with
  * dashes instead of hyphens (for example, Rabka — Zdrój). Not sure if this is generalizable for other
  * languages than Polish.
+ * @since 3.6
  */
 public class DashRule extends Rule {
 
