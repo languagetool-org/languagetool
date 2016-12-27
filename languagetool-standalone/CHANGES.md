@@ -26,7 +26,7 @@
   * bugfix regarding errors in the last word of a sentence (#273)
   * The internal part-of-speech dictionary has been updated with the help of
     Julian von Heyl of http://korrekturen.de - many entries have been fixed and
-    added. Technically, the new data has its own Maven and git project now
+    added. The new data has its own Maven and git project now
     (https://github.com/languagetool-org/german-pos-dict)
 
 #### Lithuanian
@@ -70,12 +70,12 @@
 #### Russian
   * added and improved many rules
   * added new rules with java filter
-  * added new java rule
+  * added new Java rule `RussianWordCoherencyRule`
   * added words suggested by users
   * improved disambiguation rules
   * updated tagger dictionary from AOT rev.268 with extended POS tags
   * improved SRX sentences segmentation
-  * added removed.txt for words that need to remove from the dictionary
+  * added `removed.txt` for words that need to be removed from the dictionary
 
 #### Ukrainian
   * significant dictionary update
@@ -94,7 +94,7 @@
   * A new method for removing overlapping errors has been implemented. By default,
     it is enabled for the HTTP API and LibreOffice outputs, and disabled for the
     command-line output. If necessary, priorities for rules and categories can bet set
-    in `Language.getPriorityForId(String id)`. Default value is 0, positive integers have
+    in `Language.getPriorityForId(String id)`. Default value is `0`, positive integers have
     higher priority and negative integers have lower priority.
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
     instead
