@@ -5,6 +5,7 @@ This is the list of libraries used by LanguageTool and their licenses:
 
 annotations.jar: Apache License 2.0, http://search.maven.org/#search|ga|1|com.intellij.annotations
 berkeleylm.jar: Apache License 2.0, https://code.google.com/p/berkeleylm/
+catalan-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 cjftransform.jar: Apache License 2.0, http://code.google.com/p/cjftransform/
 commons-*: Apache License 2.0, http://commons.apache.org/lang/
 german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
