@@ -1,6 +1,9 @@
 # LanguageTool Change Log
 
-## 3.6 (release planned for 2016-12-28)
+## 3.6 (2016-12-28)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -77,6 +80,9 @@
   * updated tagger dictionary from AOT rev.268 with extended POS tags
   * improved SRX sentences segmentation
   * added `removed.txt` for words that need to be removed from the dictionary
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * significant dictionary update
