@@ -206,7 +206,6 @@ public final class CommandLineTools {
    * @param srcLt Source JLanguageTool (used to analyze the text).
    * @param trgLt Target JLanguageTool (used to analyze the text).
    * @param bRules  Bilingual rules used in addition to target standard rules.
-   * @param apiFormat Whether API format should be used.
    * @return The number of rules matched on the bitext.
    * @since 1.0.1
    */
