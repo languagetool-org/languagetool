@@ -288,7 +288,7 @@ http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and wo
   these sources, correcting, and adding new words in order to improve the grammar checker -
   SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
-#### Malayalam
+#### Malayalam (inactive)
 
 The data has been collected by Jithesh.V.S. of the Centre For Development of Imaging Technology (C-DIT),
 Thiruvananthapuram, Kerala, India (http://www.cdit.org/index/). It comes from public sources like newspapers,

@@ -2,7 +2,10 @@
 
 ## 3.7 (release planned for 2017-03-27)
 
-...
+#### Lithuanian and Malayalam
+  * Lithuanian and Malayalam are not part of this release anymore. They still exist
+    in the git repository and can be re-activated as soon as a new maintainer takes
+    care of them.
 
 
 ## 3.6 (2016-12-28)
