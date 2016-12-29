@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 3.5, 2016-09-30  
+Version 3.7-SNAPSHOT, 2017-..-..  
 Copyright (C) 2005-2016 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 Homepage: https://www.languagetool.org
 
@@ -23,12 +23,12 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-3.5.oxt`. The extension should
+1. Double-click `LanguageTool-3.6.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 2. If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-3.5.oxt` file.
+   `LanguageTool-3.6.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -288,7 +288,7 @@ http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and wo
   these sources, correcting, and adding new words in order to improve the grammar checker -
   SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
-#### Malayalam
+#### Malayalam (inactive)
 
 The data has been collected by Jithesh.V.S. of the Centre For Development of Imaging Technology (C-DIT),
 Thiruvananthapuram, Kerala, India (http://www.cdit.org/index/). It comes from public sources like newspapers,

@@ -1,6 +1,17 @@
 # LanguageTool Change Log
 
-## 3.6 (release planned for 2016-12-28)
+## 3.7 (release planned for 2017-03-27)
+
+#### Lithuanian and Malayalam
+  * Lithuanian and Malayalam are not part of this release anymore. They still exist
+    in the git repository and can be re-activated as soon as a new maintainer takes
+    care of them.
+
+
+## 3.6 (2016-12-28)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -46,7 +57,7 @@
     * number and gender words agreement
     * general subject-verb agreement
     * accentuated form confusion, 'dequeísmos' and many more
-  * new compound form detection (in pt-PT recognizes all compound verbal derivations)
+  * new compound form detection (pt-PT recognizes all compound verbal derivations)
   * duplications, redundancies, typography and semantics categories added
   * style category rules added
     * new word repetitions rules, fragment detection, verbosity checks, passive voice and many other
@@ -59,7 +70,8 @@
       * compound verbs, possessive pronouns, reflexive forms placement, gerund and more
     * pre-reform agreement locales support added
       * Angola, Cape Verde, East Timor, Guinea Bissau, Macau, Mozambique and São Tomé e Principe
-  * various dictionary and part-of-speech fixes
+    * base spelling dictionary and tagger update
+    * variants dictionaries added and many part-of-speech fixes
   * Portuguese has been prepared to use ngram data, that means it has a
     `confusion_sets.txt` file where word pairs could be added.
     See http://wiki.languagetool.org/finding-errors-using-n-gram-data
@@ -76,6 +88,9 @@
   * updated tagger dictionary from AOT rev.268 with extended POS tags
   * improved SRX sentences segmentation
   * added `removed.txt` for words that need to be removed from the dictionary
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * significant dictionary update

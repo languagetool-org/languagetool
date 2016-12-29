@@ -6823,8 +6823,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 
 <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
 <!-- ********************************************************** -->
-    <!-- Confusion TRAZ > TRÁS -->
-    <rule id="TRAZ_TRÁS" name="Confusão traz-trás">
+  <rulegroup id="TRAZ_TRÁS" name="Confusão traz-trás">
+    <rule>
 		<pattern>
 			<token regexp="yes">de|para|por</token>
 			<marker>
@@ -6834,9 +6834,14 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<message>Substitua «traz» por <suggestion>trás</suggestion>.</message>
 		<example correction="trás">A Ana deve viajar no banco de <marker>traz</marker>.</example>	 	 
     </rule>
-
-    <!-- Confusion TRÁS > TRAZ -->
-    <rule id="TRÁS_TRAZ" name="Confusão trás-traz">
+    <rule>
+                <antipattern>
+                        <token>trás</token>
+                        <token>-</token>
+                        <token>os</token>
+                        <token>-</token>
+                        <token>montes</token>
+                </antipattern>
 		<pattern>
 			<token negate="yes" regexp="yes">de|para|por</token>
 			<marker>
@@ -6844,8 +6849,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 			</marker>			
 		</pattern>	 	 
 		<message>Substitua «trás» por <suggestion>traz</suggestion>.</message>
-		<example correction="traz">O Rui <marker>trás</marker> o material.</example>	 	 
-    </rule> 	
+		<example correction="traz">O Rui <marker>trás</marker> o material.</example>
+		<example>Universidade de Trás-os-Montes e Alto Douro</example>	 	 
+    </rule>
+  </rulegroup>	
 
 <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS *****END***** -->
 <!-- ********************************************************** -->	
