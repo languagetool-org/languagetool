@@ -333,7 +333,7 @@ public class AgreementRule extends GermanRule {
       comma = tokens[pos-1].getToken().equals(",");
       String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
-      if (comma && relPronoun) {
+      if (comma && relPronoun && pos+3 < tokens.length) {
         return true;
       }
     }
