@@ -689,27 +689,29 @@ title="Easy editing stylesheet" ?>
 <category id='FORMAL_PORTUGUESE' name='Linguagem formal' type='style'>
 
 <!-- TODO Add antipattern for dash and quotations -->
- <rulegroup id='FAMILIAR_ADDRESSING' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
+ <rulegroup id='T-V_DISTINCTION' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
   <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
   <short>Tratamento informal</short>
-    <rule>
+<!--    <rule>
       <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2.+" postag_regexp='yes'>
 	  <exception negate_pos='yes' postag="V.+" postag_regexp='yes'/>
 	  <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
       </pattern>
-      <message>Verifique se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="1" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
       <example correction="Escolha"><marker>Escolhe</marker> um bom projeto.</example>
       <example correction="Diga"><marker>Diz</marker> a opção correcta.</example>
-    </rule>
+    </rule>-->
     <rule>
       <pattern>
-        <token regexp='yes'>tu|te|vós</token>
+        <token regexp='yes'>tu|vós</token>
 	<token postag="R." postag_regexp='yes' min='0' max='2'/>
 	<token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
-      <message>Verifique se esta forma de tratamento informal é apropriada.</message>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
       <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
     </rule>
@@ -729,41 +731,46 @@ title="Easy editing stylesheet" ?>
         <token min='0'>-</token>
         <token>te</token>
       </pattern>
-      <message>Verifique se esta forma de tratamento informal é apropriada.</message>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion>\1-lhe</suggestion>
       <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
     </rule>
     <rule>
       <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2.+" postag_regexp='yes'>
 	  <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
         <token min='0'>-</token>
         <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
-      <message>Verifique se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="1" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\3</suggestion>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
       <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
+      <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
       <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
     </rule>
   </rulegroup>
-  <rulegroup id='FAMILIAR_ADDRESSING_ALL' name='Tratamento formal (Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
 
+  <rulegroup id='V_DISTINCTION_ALL' name='Tratamento formal (Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
     <rule>
       <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
-      <message>Verifique se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="1" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
       <short>Tratamento informal</short>
       <example correction="Cole"><marker>Cola</marker> aqui o texto.</example>
       <example correction="Veja"><marker>Vê</marker> no mapa.</example>
+      <example correction="Diga"><marker>Tu diz</marker> o aconteceu.</example>
     </rule>
     <rule>
       <pattern>
         <token regexp='yes'>você|vocês</token>
       </pattern>
-      <message>O uso explícito do pronome você pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
         <suggestion>o Senhor</suggestion>
         <suggestion>a Senhora</suggestion>
         <suggestion>o Excelentíssimo</suggestion>
@@ -773,6 +780,7 @@ title="Easy editing stylesheet" ?>
       <example correction="o Senhor|a Senhora|o Excelentíssimo|a Excelentíssima|si">Depois peço a <marker>você</marker> para me ajudar.</example>
     </rule>
   </rulegroup>
+
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
 
