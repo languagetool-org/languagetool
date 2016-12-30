@@ -98,6 +98,12 @@ public class CaseRule extends GermanRule {
         regex("[\\.?!]")
     ),
     Arrays.asList(
+        token(","),
+        regex("[md]eine?|du"),
+        posRegex(".*ADJ.*|UNKNOWN"),
+        regex("[\\.?!]")
+    ),
+    Arrays.asList(
         //token("dass"),
         token("das"),
         posRegex("PA2:.*"),
@@ -132,6 +138,11 @@ public class CaseRule extends GermanRule {
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
+    ),
+    Arrays.asList(
+      pos("UNKNOWN"),
+      token("und"),
+      posRegex("SUB:.*")
     ),
     Arrays.asList(
       // "... wie ich das prüfen sollte."
@@ -252,6 +263,7 @@ public class CaseRule extends GermanRule {
     "Stift",
     "Belange",
     "Geistlicher",
+    "Google",
     "Jenseits",
     "Abends",
     "Abgeordneter",
@@ -260,6 +272,9 @@ public class CaseRule extends GermanRule {
     "Angestellter",
     "Angestellte",
     "Angestellten",
+    "Bankangestellter",
+    "Bankangestellte",
+    "Bankangestellten",
     "Liberaler",
     "Abriss",
     "Ahne",
@@ -617,7 +632,8 @@ public class CaseRule extends GermanRule {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
             continue;
           }
-          if (prevTokenIsDas && (nextToken.getToken().equals("die") ||  nextToken.getToken().equals("zu"))) {
+          if (prevTokenIsDas && (nextToken.getToken().equals("nur") || nextToken.getToken().equals("sogar") ||
+                nextToken.getToken().equals("auch") || nextToken.getToken().equals("die") ||  nextToken.getToken().equals("zu"))) {
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             continue;
           }
