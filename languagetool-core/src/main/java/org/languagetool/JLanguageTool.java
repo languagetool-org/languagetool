@@ -117,7 +117,6 @@ public class JLanguageTool {
   private final Language motherTongue;
 
   private PrintStream printStream;
-  private int sentenceCount;
   private boolean listUnknownWords;
   private Set<String> unknownWords;
   private boolean cleanOverlappingMatches;
@@ -509,7 +508,6 @@ public class JLanguageTool {
       rule.reset();
     }
 
-    sentenceCount = sentences.size();
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
@@ -866,14 +864,6 @@ public class JLanguageTool {
     return rulesById;
   }
   
-  /**
-   * Number of sentences the latest call to a check method like {@link #check(String)} has checked.
-   * @deprecated use {@link #analyzeText(String)} instead (deprecated since 2.7)
-   */
-  public int getSentenceCount() {
-    return sentenceCount;
-  }
-
   protected void printIfVerbose(String s) {
     if (printStream != null) {
       printStream.println(s);

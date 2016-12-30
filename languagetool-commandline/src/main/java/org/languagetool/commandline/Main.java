@@ -230,9 +230,6 @@ class Main {
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
-      int matches = 0;
-      long sentences = 0;
-      long startTime = System.currentTimeMillis();
       try (
           InputStreamReader isr = getInputStreamReader(filename, encoding);
           BufferedReader br = new BufferedReader(isr)
@@ -258,10 +255,9 @@ class Main {
           tmpLineOffset++;
 
           if (isBreakPoint(line)) {
-            matches += handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb);
-            sentences += lt.getSentenceCount();
+            handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb);
             if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
+              lt.sentenceTokenize(sb.toString()).size();
             }
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
@@ -269,13 +265,11 @@ class Main {
         }
       } finally {
         if (sb.length() > 0) {
-          sentences += lt.getSentenceCount();
           if (profileRules) {
-            sentences += lt.sentenceTokenize(sb.toString()).size();
+            lt.sentenceTokenize(sb.toString()).size();
           }
         }
-        matches += handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb);
-        // printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
+        handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb);
       }
     }
   }
