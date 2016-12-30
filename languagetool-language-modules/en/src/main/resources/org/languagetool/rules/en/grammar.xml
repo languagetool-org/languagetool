@@ -5475,6 +5475,16 @@ USA
             <example>I wonder where Tom is and who he's with.</example>
             <example>I found out who Tom's father is.</example>
         </rule>
+        <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
+            <pattern>
+                <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
+                <token regexp="yes">[´`']</token>
+                <token>t</token>
+                <token regexp="yes">what|who|where|how|which|whose</token>
+            </pattern>
+            <message>Please check whether a verb is missing here.</message>
+            <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
+        </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
             <marker>
@@ -12425,6 +12435,12 @@ USA
                     <token postag="JJ"/>
                 </antipattern>
                 <antipattern>
+                    <marker><token>however</token></marker>
+                    <token/>
+                    <token inflected="yes">look</token>
+                    <token>at</token>
+                </antipattern>
+                <antipattern>
                     <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
                     <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"/></token>
                 </antipattern>
@@ -12459,6 +12475,7 @@ USA
                 <example>Thus began the infamous "prison ships" system.</example>
                 <example>However fast you may walk, you can't catch up with him.</example>
                 <example>Also specify your gender.</example>
+                <example>However you look at it, existing investors are likely to lose out.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12833,6 +12850,16 @@ USA
             <example correction="on vacation">I'm <marker>at vacation</marker> at the seaside.</example>
             <example>Where did you go for vacation?</example>
         </rule>
+        <rule id="CONFUSION_DURING_FOR" name="confusion of during/for">
+            <pattern>
+                <marker><token>during</token></marker>
+                <token>ages</token>
+                <token><exception postag="CD"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>for</suggestion>?</message>
+            <example correction="for">I haven't seen him <marker>during</marker> ages.</example>
+            <example>In that subgroup, the prevalence of HPV and high-risk HPV declined during ages 35 to 40.</example>
+        </rule>
         <rule id="MUST_MOST" name="confusion of must/most">
             <pattern>
                 <marker>
@@ -13066,6 +13093,17 @@ USA
                 <short>Possible typo</short>
                 <example correction="too">It's <marker>to</marker> good to be true.</example>
                 <example>It's too large for the box.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>To</token></marker>
+                    <token postag="JJ"/>
+                    <token min="0">,</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>\2o</suggestion>?</message>
+                <example correction="Too"><marker>To</marker> bad that you don't like cats.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
