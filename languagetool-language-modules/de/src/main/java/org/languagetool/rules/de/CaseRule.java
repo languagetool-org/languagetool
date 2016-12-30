@@ -117,6 +117,13 @@ public class CaseRule extends GermanRule {
         posRegex("VER:AUX:.*")
     ),
     Arrays.asList(
+        // Er fragte,ob das gelingen wird.
+        token("das"),
+        posRegex("VER:.*"),
+        posRegex("VER:AUX:.*"),
+        pos("PKT")
+    ),
+    Arrays.asList(
       token("Treu"),
       token("und"),
       token("Glauben")
