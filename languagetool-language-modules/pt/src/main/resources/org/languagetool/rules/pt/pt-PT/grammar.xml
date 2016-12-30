@@ -686,7 +686,7 @@ title="Easy editing stylesheet" ?>
  
 </category>
 
-<category id='FORMAL_PORTUGUESE' name='Linguagem formal'>
+<category id='FORMAL_PORTUGUESE' name='Linguagem formal' type='style'>
 
 <!-- TODO Add antipattern for dash and quotations -->
  <rulegroup id='FAMILIAR_ADDRESSING' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
@@ -710,7 +710,7 @@ title="Easy editing stylesheet" ?>
 	<token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
       <message>Verifique se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
       <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
     </rule>
     <rule>
@@ -720,7 +720,7 @@ title="Easy editing stylesheet" ?>
 	<token postag="V...3.+" postag_regexp='yes'/>
       </pattern>
       <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
-        <suggestion>\2</suggestion>
+        <suggestion>\3</suggestion>
       <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
     </rule>
     <rule>
@@ -746,8 +746,8 @@ title="Easy editing stylesheet" ?>
       <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
     </rule>
   </rulegroup>
-
   <rulegroup id='FAMILIAR_ADDRESSING_ALL' name='Tratamento formal (Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
+
     <rule>
       <pattern>
 	<token postag="V...2.+" postag_regexp='yes'/>
