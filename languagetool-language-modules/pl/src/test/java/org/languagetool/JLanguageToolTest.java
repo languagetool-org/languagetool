@@ -70,7 +70,7 @@ public class JLanguageToolTest {
     //this rule is by default off
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(0, matches.size());
-    tool.enableDefaultOffRule("PL_WORD_REPEAT");
+    tool.enableRule("PL_WORD_REPEAT");
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(1, matches.size());
     matches = tool.check("Premier drapie się w ucho co i rusz.");

@@ -134,16 +134,6 @@ public final class Languages {
   }
 
   /**
-   * Get the Language object for the given short language name.
-   * @param langCode e.g. <code>en</code> or <code>es-US</code>
-   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
-   * @deprecated use {@link #getLanguageForShortCode(String)} instead (deprecated since 3.6)
-   */
-  public static Language getLanguageForShortName(String langCode) {
-    return getLanguageForShortCode(langCode);
-  }
-
-  /**
    * Get the Language object for the given language code.
    * @param langCode e.g. <code>en</code> or <code>es-US</code>
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid

@@ -246,7 +246,7 @@ public class SentenceSourceChecker {
         for (Rule rule : languageTool.getAllRules()) {
           if (rule.getCategory().getName().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
-            languageTool.enableDefaultOffRule(rule.getId());
+            languageTool.enableRule(rule.getId());
           }
         }
       }

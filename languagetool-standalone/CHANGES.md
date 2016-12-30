@@ -7,6 +7,9 @@
     in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
+#### Java API
+  * Some deprecated methods have been removed.
+
 
 ## 3.6 (2016-12-28)
 

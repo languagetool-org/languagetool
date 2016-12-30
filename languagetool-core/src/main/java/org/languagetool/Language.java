@@ -338,18 +338,6 @@ public abstract class Language {
   }
   
   /**
-   * Get the short name of the language with country and variant (if any), if it is
-   * a single-country language. For generic language classes, get only a two- or
-   * three-character code.
-   * @since 1.8
-   * @deprecated use {@link #getShortCodeWithCountryAndVariant()} instead (deprecated since 3.6)
-   */
-  @Deprecated
-  public final String getShortNameWithCountryAndVariant() {
-    return getShortCodeWithCountryAndVariant();
-  }
-  
-  /**
    * Get the pattern rules as defined in the files returned by {@link #getRuleFileNames()}.
    * @since 2.7
    */

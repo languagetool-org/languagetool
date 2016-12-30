@@ -248,7 +248,7 @@ public class WikipediaQuickCheck {
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
       if (rule.getCategory().getName().equals("Wikipedia")) {
-        langTool.enableDefaultOffRule(rule.getId());
+        langTool.enableRule(rule.getId());
       }
     }
   }

@@ -93,7 +93,7 @@ class AtomFeedChecker {
     for (Rule rule : langTool.getAllRules()) {
       if (rule.getCategory().getName().equals(categoryName)) {
         System.out.println("Activating " + rule.getId() + " in category " + categoryName);
-        langTool.enableDefaultOffRule(rule.getId());
+        langTool.enableRule(rule.getId());
       }
     }
   }

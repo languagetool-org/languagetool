@@ -423,48 +423,8 @@ public class JLanguageTool {
   }
 
   /**
-   * Enable a rule that is switched off by default ({@code default="off"} in the XML).
-   * 
-   * From 3.5 this method only calls {@link #enableRule(String)}.
-   * @param ruleId the id of the turned off rule to enable.
-   * @deprecated use {@link #enableRule(String)} instead (deprecated since 3.5)
-   */
-  public void enableDefaultOffRule(String ruleId) {
-    enableRule(ruleId);
-  }
-
-  /**
-   * Enable a categories' rules that is switched off by default ({@code default="off"} in the XML).
-   *
-   * From 3.5 this method only calls {@link #enableRuleCategory(org.languagetool.rules.CategoryId)}.
-   * @since 3.3
-   * @deprecated use {@link #enableRuleCategory(CategoryId)} instead (deprecated since 3.5)
-   */
-  public void enableDefaultOffRuleCategory(CategoryId id) {
-    enableRuleCategory(id);
-  }
-
-  /**
-   * Get category names of the rule categories that have been explicitly disabled.
-   * 
-   * @return a set containing the names of explicitly disabled categories.
-   * @deprecated use {@link #enableRuleCategory(CategoryId)} instead (deprecated since 3.5)
-   */
-  public Set<String> getDisabledCategories() {
-    Set<String> names = new HashSet<>();
-    for(Rule rule : getAllRules()) {
-      if(disabledRuleCategories.contains(rule.getCategory().getId())) {
-        names.add(rule.getCategory().getName());
-      }
-    }
-    return names;
-  }
-
-  /**
    * Enable a given rule so the check methods like {@link #check(String)} will use it.
-   * Since 3.5 you <em>don't need</em> to use {@link #enableDefaultOffRule(String)} for rules that
-   * are off by default. This will <em>not</em> throw an exception if the given rule id 
-   * doesn't exist.
+   * This will <em>not</em> throw an exception if the given rule id doesn't exist.
    * @param ruleId the id of the rule to enable
    * @see #disableRule(String)
    */
@@ -475,9 +435,7 @@ public class JLanguageTool {
 
   /**
    * Enable all rules of the given category so the check methods like {@link #check(String)} will use it.
-   * From 3.5 you <em>don't need</em> to use {@link #enableDefaultOffRuleCategory(CategoryId)} for categories that
-   * are off by default. This will <em>not</em> throw an exception if the given rule id 
-   * doesn't exist.
+   * This will <em>not</em> throw an exception if the given rule id doesn't exist.
    * @since 3.3
    * @see #disableCategory(org.languagetool.rules.CategoryId) 
    */
