@@ -52,11 +52,6 @@ public class Polish extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "pl";
-  }
-
-  @Override
   public String getShortCode() {
     return "pl";
   }

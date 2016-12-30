@@ -71,11 +71,6 @@ public class Catalan extends Language {
   }
   
   @Override
-  public String getShortName() {
-    return "ca";
-  }
-
-  @Override
   public String getShortCode() {
     return "ca";
   }

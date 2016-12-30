@@ -69,15 +69,6 @@ public abstract class Language {
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
-   * The country parameter (e.g. "US"), if any, is not returned.
-   * @return language code
-   * @deprecated use {@link #getShortCode()} instead, deprecated since 3.6 
-   */
-  @Deprecated
-  public abstract String getShortName();
-
-  /**
-   * Get this language's character code, e.g. <code>en</code> for English.
    * For most languages this is a two-letter code according to ISO 639-1,
    * but for those languages that don't have a two-letter code, a three-letter
    * code according to ISO 639-2 is returned.

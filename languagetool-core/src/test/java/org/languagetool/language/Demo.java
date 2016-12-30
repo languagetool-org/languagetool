@@ -64,11 +64,6 @@ public class Demo extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return SHORT_NAME;
-  }
-
-  @Override
   public String getShortCode() {
     return SHORT_CODE;
   }

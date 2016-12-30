@@ -88,11 +88,6 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "en";
-  }
-
-  @Override
   public String getShortCode() {
     return "en";
   }

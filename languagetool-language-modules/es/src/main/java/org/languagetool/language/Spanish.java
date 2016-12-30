@@ -57,11 +57,6 @@ public class Spanish extends Language implements AutoCloseable{
   }
 
   @Override
-  public String getShortName() {
-    return "es";
-  }
-
-  @Override
   public String getShortCode() {
     return "es";
   }

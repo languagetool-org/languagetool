@@ -49,11 +49,6 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "ml";
-  }
-
-  @Override
   public String getShortCode() {
     return "ml";
   }

@@ -46,11 +46,6 @@ public class Persian extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "fa";
-  }
-
-  @Override
   public String getShortCode() {
     return "fa";
   }

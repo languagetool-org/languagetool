@@ -62,11 +62,6 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "pt";
-  }
-
-  @Override
   public String getShortCode() {
     return "pt";
   }

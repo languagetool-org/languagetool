@@ -101,11 +101,6 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "de";
-  }
-
-  @Override
   public String getShortCode() {
     return "de";
   }

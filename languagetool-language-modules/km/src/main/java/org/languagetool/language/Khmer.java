@@ -52,11 +52,6 @@ public class Khmer extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "km";
-  }
-
-  @Override
   public String getShortCode() {
     return "km";
   }

@@ -39,11 +39,6 @@ public class Japanese extends Language {
   private SentenceTokenizer sentenceTokenizer;
 
   @Override
-  public String getShortName() {
-    return "ja";
-  }
-
-  @Override
   public String getShortCode() {
     return "ja";
   }

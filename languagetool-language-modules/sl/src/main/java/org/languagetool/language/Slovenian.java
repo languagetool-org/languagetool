@@ -43,11 +43,6 @@ public class Slovenian extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "sl";
-  }
-  
-  @Override
   public String getShortCode() {
     return "sl";
   }

@@ -85,11 +85,6 @@ public final class LanguageBuilder {
         }
 
         @Override
-        public String getShortName() {
-          return getShortCode();
-        }
-
-        @Override
         public String getShortCode() {
           if (parts[1].length() == 2) {
             return parts[1];
@@ -169,11 +164,6 @@ public final class LanguageBuilder {
     @Override
     public Contributor[] getMaintainers() {
       return baseLanguage.getMaintainers();
-    }
-
-    @Override
-    public String getShortName() {
-      return baseLanguage.getShortCode();
     }
 
     @Override

@@ -51,11 +51,6 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "tl";
-  }
-
-  @Override
   public String getShortCode() {
     return "tl";
   }

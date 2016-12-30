@@ -48,11 +48,6 @@ public class Danish extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "da";
-  }
-
-  @Override
   public String getShortCode() {
     return "da";
   }

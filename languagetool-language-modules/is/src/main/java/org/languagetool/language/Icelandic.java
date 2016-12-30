@@ -47,11 +47,6 @@ public class Icelandic extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "is";
-  }
-
-  @Override
   public String getShortCode() {
     return "is";
   }

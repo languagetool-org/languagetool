@@ -40,11 +40,6 @@ public class Tamil extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "ta";
-  }
-
-  @Override
   public String getShortCode() {
     return "ta";
   }

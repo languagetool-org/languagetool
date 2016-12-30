@@ -51,11 +51,6 @@ public class Lithuanian extends Language {
   }
   
   @Override
-  public String getShortName() {
-    return "lt";
-  }
-
-  @Override
   public String getShortCode() {
     return "lt";
   }
