@@ -929,6 +929,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <example>Tendo em conta que o cão guarda a casa, ladrando ruidosamente.</example>
       </rule>
   </rulegroup>
+
 <!--          Tiago F. Santos Rules Ending          ****END**** -->
 <!-- ********************************************************** -->
 
@@ -1837,16 +1838,6 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       </pattern>
       <message>Substitua «adivinha» por <suggestion>advinha</suggestion>.</message>
       <example correction="advinha">A mensagem <marker>adivinha</marker> disso que ele revelou.</example>
-    </rule>
-
-    <!-- AFIM DE a fim de -->
-    <rule id="AFIM_DE" name="A fim de">
-      <pattern>
-        <token>afim</token>
-        <token>de</token>
-      </pattern>
-      <message>Substitua «afim de» por <suggestion>a fim de</suggestion>.</message>
-      <example correction="a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>
     </rule>
 
 <!-- TODO Review coverage by VERBO_DE_QUE -->
@@ -13735,6 +13726,21 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       </pattern>
       <message>Substitua «à bocado» por <suggestion>há bocado</suggestion>.</message>
       <example correction="há bocado">Cheguei <marker>à bocado</marker> do Algarve.</example>
+    </rule>
+
+    <!-- AFIM DE a fim de -->
+    <rule id="AFIM_DE" name="A fim de">
+      <pattern>
+        <token>afim</token>
+        <token>de</token>
+      </pattern>
+      <message>Pretende dizer "a fim de"? Esta expressão pode ser interpretada de forma informal. Considere alternativas</message>
+       <suggestion>de modo a</suggestion>
+       <suggestion>para</suggestion>
+       <suggestion>para que</suggestion>
+       <suggestion>a fim de</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/afima-fim-de/2680</url>
+      <example correction="de modo a|para|para que|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>      
     </rule>
 
     <!-- A POUCO E POUCO aos poucos informal -->
