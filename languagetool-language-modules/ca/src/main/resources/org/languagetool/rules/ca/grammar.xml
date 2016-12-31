@@ -24822,6 +24822,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="ALLO_REFERENT_A" name="en allò referent a">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token min="0">tot</token>
+                    <token regexp="yes">allò|el</token>
+                    <token>referent</token>
+                    <token>a</token>
+                 </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>pel que fa a</suggestion>
+                <suggestion>respecte a</suggestion>
+                <suggestion>quant a</suggestion>
+                <suggestion>a propòsit de</suggestion>
+                <example correction="Pel que fa a|Respecte a|Quant a|A propòsit de"><marker>En allò referent a</marker> l'alçada mitjana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>allò</token>
+                    <token>referent</token>
+                    <token>a</token>
+                 </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>el que fa referència a</suggestion>
+                <suggestion>el que es refereix a</suggestion>
+                <example correction="El que fa referència a|El que es refereix a"><marker>Allò referent a</marker> l'alçada mitjana.</example>
+            </rule>
+        </rulegroup>
         <rule id="OFERTA_OFEREIX" name="oferta/ofereix">
             <pattern>
                 <token postag="&pronom_feble;|R.*|CS" postag_regexp="yes" ><exception postag="A.*|D..FS.|DA.CS.|PX.*" postag_regexp="yes"/></token>
@@ -41544,7 +41572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>allò</token>
-                    <token postag="A..[MC]S.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàéèíóòú].+|mateix</exception></token>
+                    <token postag="A..[MC]S.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàéèíóòú].+|mateix|referent</exception></token>
                 </pattern>
                 <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S."/>".</message>
                 <suggestion>el fet <match no="2"/></suggestion>
