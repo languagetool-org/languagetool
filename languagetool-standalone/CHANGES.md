@@ -10,6 +10,9 @@
 #### Java API
   * Some deprecated methods have been removed.
 
+#### Internal
+  * OpenNLP has been updated from 1.6.0 to 1.7.0 (only used for English)
+
 
 ## 3.6 (2016-12-28)
 
