@@ -13381,10 +13381,48 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
             <example correction='1990s'>Onde estavas nos <marker>1990’s</marker>?</example>
             <example>Discos de travões <marker>Alvis 12/70</marker>'s adaptados a jantes mais largas.</example>
         </rule>
-  </category>
-
 		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
 		<!-- Localization of rules from the English grammar.xml - END  -->
+
+  <rulegroup id='SPACE_AFTER_PUNCTUATION' name='Espaços após pontuação'>
+		<!--   Created by Tiago F. Santos, Portuguese rule, 2016-01-01 -->
+       <rule>
+        <antipattern>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp='yes'>[.]</token>
+            <token regexp='yes'>[.]</token>
+            <token regexp='yes'>[.]</token>
+          </marker>
+          <token spacebefore='no'>
+            <exception regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception></token>
+        </pattern>
+        <message>Coloque um espaço depois das reticências</message>
+          <suggestion>… </suggestion>
+	  <example correction='… '>Cole aqui o seu texto<marker>...</marker>ou verifique este texto.</example>
+	  <example correction='… '><marker>...</marker>e os votos de Bom Ano Novo.</example>
+      </rule>
+     <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes'>…</token>
+          </marker>
+          <token spacebefore='no'>
+            <exception regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception></token>
+        </pattern>
+        <message>Coloque um espaço depois das reticências</message>
+          <suggestion>… </suggestion>
+	  <example correction='… '>Cole aqui o seu texto<marker>…</marker>ou verifique este texto.</example>
+	  <example correction='… '><marker>…</marker>e os votos de Bom Ano Novo.</example>
+      </rule>
+  </rulegroup>
+
+ </category>
 
     <category id="SEMANTICS" name="Semântica" type="inconsistency">
 
@@ -13746,13 +13784,12 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
         <token>afim</token>
         <token>de</token>
       </pattern>
-      <message>Pretende dizer "a fim de"? Esta expressão pode ser interpretada de forma informal. Considere alternativas</message>
+      <message>Pretende dizer "a fim de"? Esta expressão pode ser interpretada de forma informal. Considere alternativas.</message>
        <suggestion>de modo a</suggestion>
        <suggestion>para</suggestion>
-       <suggestion>para que</suggestion>
        <suggestion>a fim de</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/afima-fim-de/2680</url>
-      <example correction="de modo a|para|para que|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>      
+      <example correction="de modo a|para|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>      
     </rule>
 
     <!-- A POUCO E POUCO aos poucos informal -->
