@@ -7089,6 +7089,145 @@ USA
                 <example>The dog of war was released.</example>
                 <example correction="were">The dogs of war <marker>was</marker> released.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs, sacrificed by the Ichma, <marker>are</marker> often found with ropes still tied around their necks.</example>
+                <example correction="patrol">The dogs, which are specially trained to detect organic matter, <marker>patrols</marker> the nearly 4,000 vehicles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="IN"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="8" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="want">Many users in Asia, for example, <marker>wants</marker> to learn English.</example>
+                <example correction="want">Many users from Asia, for example, <marker>wants</marker> to learn English.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="JJ"/>
+                    <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="7" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs, for instance, <marker>are</marker> released.</example>
+                <example correction="bark">The black dogs, mostly dachshunds and terrier mixes, <marker>barks</marker> loudly.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="8" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war <marker>are</marker> released.</example>
+                <example>The dog of war is released.</example>
+                <example correction="bark">The dogs of war, mostly dachshunds and terrier mixes, <marker>barks</marker> loudly.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog is released.</example>
+                <example correction="are">The dogs, Bob and Ben, <marker>is</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog was released.</example>
+                <example correction="were">The dogs, Bob and Ben, <marker>was</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog of war is released.</example>
+                <example correction="are">The dogs of war, finally, <marker>is</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war, however, <marker>are</marker> released.</example>
+                <example>The dog of war, however, was released.</example>
+                <example correction="were">The dogs of war, however, <marker>was</marker> released.</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
@@ -7475,7 +7614,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
+                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|God</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <marker>
                         <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
                     </marker>
@@ -7486,6 +7625,26 @@ USA
                 <example correction="is">Marketing <marker>are</marker> bad for you.</example>
                 <example correction="means">Marketing <marker>mean</marker> a lot of trouble.</example>
                 <example correction="is">Jim <marker>are</marker> good.</example>
+                <example>I think it is bad for you.</example>
+                <example>Reporting sample size analysis is generally required in psychology.</example>
+                <example>Most have four limbs except for caecilians.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|Oh|Hey</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Consider using third-person verb forms for singular and mass nouns: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">Marketing, for instance, <marker>are</marker> bad for you.</example>
+                <example correction="means">Marketing, for example, <marker>mean</marker> a lot of trouble.</example>
+                <example correction="is">Jim, who is 8 years old, <marker>are</marker> good.</example>
                 <example>I think it is bad for you.</example>
                 <example>Reporting sample size analysis is generally required in psychology.</example>
                 <example>Most have four limbs except for caecilians.</example>
@@ -7502,7 +7661,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
@@ -7520,10 +7679,36 @@ USA
                 <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example -->
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="RB"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token>that</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">The marketing, for example, <marker>are</marker> bad for you.</example>
+                <example>The city is an international transport hub and a popular tourist destination.</example>
+                <example>Those wanting are the Canines.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
@@ -7532,6 +7717,23 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="eats">The dog <marker>eat</marker>.</example>
+                <example>The committee are all against it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!]</token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="eats">The dog, whose owner likes you, <marker>eat</marker>.</example>
                 <example>The committee are all against it.</example>
             </rule>
         </rulegroup>
@@ -11708,6 +11910,23 @@ USA
             <example correction="October 18,">My birthday is <marker>October 18</marker> 1983.</example>
             <example>He died on <marker>April 1,</marker> 1888.</example>
         </rule>
+        <rulegroup id="UNNECESSARY_COMMA" name="Unnecessary comma: 'Bob(,) and I'">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NN.*" postag_regexp="yes"/>
+                        <token>,</token>
+                    </marker>
+                    <token>and</token>
+                </pattern>
+                <message>The comma is probably incorrect: <suggestion><match no="3"/></suggestion></message>
+                <short>Comma misuse</short>
+                <example correction="aunt">My <marker>aunt,</marker> and I like skiing.</example>
+                <example correction="dog">The <marker>dog,</marker> and the cat hate each other.</example>
+            </rule>
+        </rulegroup>
         <rule id="MISSING_COMMA_AFTER_WEEKDAY" name="Missing comma after weekday">
             <pattern>
                 <marker>
