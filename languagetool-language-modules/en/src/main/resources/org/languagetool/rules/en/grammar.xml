@@ -41,6 +41,19 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rulegroup id="MISS_VERB" name="miss use (misuse)">
+            <rule>
+                <pattern>
+                    <token>miss</token>
+                    <token regexp="yes" inflected="yes" postag="VB[DNPZ]?" postag_regexp="yes">understand|spell|use|place|lead|hear|behave|interpret|evaluate|govern|connect|conceive|calculate|print|advise|date|dial</token>
+                </pattern>
+                <message>Possible spelling error: Did you mean <suggestion>mis\2</suggestion></message>
+                <short>Possible typo</short>
+                <example correction="misunderstand">Did I <marker>miss understand</marker> you?</example>
+                <example correction="misused">These words are <marker>miss used</marker>.</example>
+                <example>I did not miss using an Android phone.</example>
+            </rule>
+        </rulegroup>
         <rule id="WONT" name="wont (won't)">
             <pattern>
                 <marker>
@@ -11863,6 +11876,38 @@ USA
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation Errors" type="typographical">
+        <rulegroup id="MISSING_COMMA_WITH_NNP" name="confusion of bed/bad">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
+                    <token postag="NNP"/>
+                </pattern>
+                <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
+                <short>Missing comma</short>
+                <example correction="Please, Tom"><marker>Please Tom</marker>, let us go.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Thank</token>
+                    <token>you</token>
+                    <token postag="NNP"/>
+                </pattern>
+                <message>When a person is directly addressed, a comma should set off the name: <suggestion>\1 \2, \3</suggestion>?</message>
+                <short>Missing comma</short>
+                <example correction="Thank you, Tom"><marker>Thank you Tom</marker>, for helping us.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NNP"/>
+                    <token regexp="yes">thank|please</token>
+                </pattern>
+                <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
+                <short>Missing comma</short>
+                <example correction="Tom, thank"><marker>Tom thank</marker> you!</example>
+            </rule>
+        </rulegroup>
         <rule id="MISSING_COMMA_AFTER_INTRODUCTORY_PHRASE" name="Missing comma after introductory phrase">
         <antipattern>
         <marker>
