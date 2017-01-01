@@ -227,9 +227,20 @@ title="Easy editing stylesheet" ?>
 
     <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
     <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
-    <rule default='on' id="EQUIPES" name="Confusão Equipes - Equipas">
+  <rulegroup default='on' id="EQUIPES" name="Confusão Equipes - Equipas">
+    <rule>
       <pattern>
-        <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
+        <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
+        <marker>
+        	<token>equipe</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «equipes» por <suggestion>equipas</suggestion>.</message>
+      <example correction="equipa">A nossa <marker>equipa</marker> é a melhor.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
         <marker>
         	<token>equipes</token>
         </marker>
