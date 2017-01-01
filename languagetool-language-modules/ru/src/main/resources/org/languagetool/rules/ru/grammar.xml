@@ -5869,9 +5869,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example correction="никому не нужная">На полке лежит никому <marker>ненужная</marker> коробка.</example>
             </rule>
-            
-            
         </rulegroup>
+        
+        <rulegroup default="on" id="Upr_ne_verb_i_ni" name="Управление глагола при отрицании: «и» вместо «ни»">
+            <rule> 
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token postag="VB:Past:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes"/></token>
+                        <token>и</token>
+                        <token postag="NN:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Управление глагола при отрицании: «и» вместо «ни». <suggestion><match no="1"/> <match no="2"/> ни <match no="4"/></suggestion></message>
+                <short>Управление глагола при отрицании</short>
+                <example>За весь вечер он не сказал ни слова.</example>
+                <example correction="не сказал ни слова">За весь вечер он <marker>не сказал и слова</marker>.</example>
+            </rule>
+        </rulegroup>   
         <rulegroup default="on" id="Kak_budto" name="Сложный союз (частица) «как будто»">
             <rule>
                 <pattern case_sensitive="no">
