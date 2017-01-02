@@ -742,7 +742,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2S.+" postag_regexp='yes'>
-	  <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/>
+	  <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/></token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
@@ -750,8 +750,9 @@ title="Easy editing stylesheet" ?>
       <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
       <example>Ela está preocupada com a evolução, a física, a química, e...</example>
       <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
-      <example correction="Está">Estás bem?</example>
+      <example correction="Está"><marker>Estás</marker> bem?</example>
       <example>Está bem.</example>
+    </rule>
     <rule>
       <antipattern>
         <token postag='SENT_START'/>
