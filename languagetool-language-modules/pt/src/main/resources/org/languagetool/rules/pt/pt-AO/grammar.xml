@@ -87,18 +87,18 @@ title="Easy editing stylesheet" ?>
     <pattern>
 		<token>corrector</token>
 		<token min='0' regexp='yes'>d[ea]</token>
-		<token>bolsa|seguros|imobiliário|valores</token>
+		<token regexp='yes'>bolsa|seguros|imobiliário|valores</token>
     </pattern>
-	<message>Pretende dizer <suggestion>corretor \2 \3</suggestion>?</message>
-	<example correction='corretores imobiliários'>O Jorge é um  <marker>corrector da Bolsa</marker>.</example>
+	<message>Pretende dizer <suggestion>corretor <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
+	<example correction='corretor da Bolsa'>O Jorge é um <marker>corrector da Bolsa</marker>.</example>
   </rule>
   <rule>
     <pattern>
 		<token>correctores</token>
 		<token min='0' regexp='yes'>d[ea]</token>
-		<token>bolsa|seguros|imobiliário|valores</token>
+		<token regexp='yes'>bolsa|seguros|imobiliários|valores</token>
     </pattern>
-	<message>Pretende dizer <suggestion>corretor \2 \3</suggestion>?</message>
+	<message>Pretende dizer <suggestion>corretores <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
 	<example correction='corretores imobiliários'>Os <marker>correctores imobiliários</marker> dedicam-se à venda de imóveis.</example>
   </rule>
  </rulegroup>
