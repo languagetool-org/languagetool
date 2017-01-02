@@ -5463,6 +5463,34 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="ALL_MOST_SOME_OF_NOUN" name="all/most/some (of) + noun">
+            <antipattern>
+                    <token inflected="yes">make</token>
+                    <token>the</token>
+                    <token>most</token>
+                    <token>of</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">all|some|most</token>
+                    <token>of</token>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="PRP\$|NNP" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception regexp="yes">['´`]</exception></token>
+            </pattern>
+            <message>Consider using <suggestion>\1 \3</suggestion> or <suggestion>\1 of the \3</suggestion>.</message>
+            <url>http://www.myhappyenglish.com/free-english-lesson/2013/05/22/english-grammar-lesson-all-some-most-vs-all-of-some-of-most-of/</url>
+            <!-- url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/quantifiers/all</url -->
+            <!-- https://jakubmarian.com/is-it-all-the-or-all-of-the-in-english/ -->
+            <example correction="All students|All of the students"><marker>All of students</marker> like mathematics.</example>
+            <example correction="some food|some of the food">We should hold <marker>some of food</marker> in reserve.</example>
+            <example correction="most time|most of the time">Sometimes I go out for lunch, but <marker>most of time</marker> I bring my own lunch to work.</example>
+            <example>I like all of Tom's friends.</example>
+            <example>All of the workers were given a pay-rise at the end of the year.</example>
+            <example>The class quickly made the most of the teacher's absence.</example>
+            <example>Make the most of apples!</example>
+        </rule>
         <!--
         <rule id="PLURAL_VBZ" name="Plural phrase with singular verb">
             <pattern>
@@ -11959,7 +11987,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception>Another</exception></token>
                     <marker>
                         <token postag="NN.*" postag_regexp="yes"/>
                         <token>,</token>
