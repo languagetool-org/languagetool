@@ -740,6 +740,26 @@ title="Easy editing stylesheet" ?>
 	<token postag="V.....+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
+	<token postag="V...2S.+" postag_regexp='yes'>
+	  <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
+      <example correction="Escolhia"><marker>Escolhias</marker> um projeto melhor.</example>
+      <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
+      <example>Ela está preocupada com a evolução, a física, a química, e...</example>
+      <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
+      <example correction="Está">Estás bem?</example>
+      <example>Está bem.</example>
+    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
         <token regexp='yes'>tu|vós</token>
 	<token postag="R." postag_regexp='yes' min='0' max='2'/>
 	<token postag="V...2.+" postag_regexp='yes'/>
