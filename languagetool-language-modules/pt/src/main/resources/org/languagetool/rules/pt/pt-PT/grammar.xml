@@ -227,9 +227,20 @@ title="Easy editing stylesheet" ?>
 
     <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
     <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
-    <rule default='on' id="EQUIPES" name="Confusão Equipes - Equipas">
+  <rulegroup default='on' id="EQUIPES" name="Confusão Equipes - Equipas">
+    <rule>
       <pattern>
-        <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
+        <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
+        <marker>
+        	<token>equipe</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «equipes» por <suggestion>equipa</suggestion>.</message>
+      <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
         <marker>
         	<token>equipes</token>
         </marker>
@@ -237,6 +248,7 @@ title="Easy editing stylesheet" ?>
       <message>Grafia do Brasil. Substituir «equipes» por <suggestion>equipas</suggestion>.</message>
       <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
     </rule>
+  </rulegroup>
 
     <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
     <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
@@ -683,9 +695,180 @@ title="Easy editing stylesheet" ?>
 	<example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
    </rule>
  </rulegroup>
+ 
+</category>
+
+<category id='FORMAL_PORTUGUESE' name='Linguagem formal' type='style'>
+
+<!-- TODO Add antipattern for dash and quotations -->
+ <rulegroup id='T-V_DISTINCTION' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
+  <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
+  <short>Tratamento informal</short>
+<!--    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+        FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
+      <antipattern>
+        <token postag="V.+" postag_regexp='yes'>
+        <token min='0'>-</token>
+        <token>se</token>
+      </antipattern>
+      <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
+	<token postag="VM..2S.+" postag_regexp='yes'>
+	  <exception negate_pos='yes' postag="V.+" postag_regexp='yes'/>
+	  <exception postag="V...3S.+" postag_regexp='yes'/></token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
+      <example correction="Escolha"><marker>Escolhe</marker> um bom projeto.</example>
+      <example correction="Diga"><marker>Diz</marker> a opção correcta.</example>
+      <example>Ela está preocupada com a evolução, a física, a química, e...</example>
+      <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
+      <example>Está tudo bem.</example>
+    </rule>-->
+    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token regexp='yes'>tu|vós</token>
+	<token postag="R." postag_regexp='yes' min='0' max='2'/>
+	<token postag="V...2.+" postag_regexp='yes'/>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
+    </rule>
+    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token regexp='yes'>você|vocês</token>
+	<token postag="R." postag_regexp='yes' min='0' max='2'/>
+	<token postag="V...3.+" postag_regexp='yes'/>
+      </pattern>
+      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion>\3</suggestion>
+      <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
+    </rule>
+    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+	<token postag="V.....+" postag_regexp='yes'/>
+        <token min='0'>-</token>
+        <token>te</token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion>\1-lhe</suggestion>
+      <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
+      <example>—<marker>Garanto-te</marker> que foi mesmo assim.</example>
+      <example>«<marker>Garanto-te</marker> que foi mesmo assim.»</example>
+      <example>"<marker>Garanto-te</marker> que foi mesmo assim."</example>
+    </rule>
+    <rule>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
+          <exception scope='next' regexp='yes'>["'»”]</exception></token>
+	<token postag="V.....+" postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
+	<token postag="V...2.+" postag_regexp='yes'>
+	  <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
+        <token min='0'>-</token>
+        <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
+      <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
+      <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
+      <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal (Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
+    <rule>
+      <pattern>
+        <token min='0' regexp='yes'>tu|vós</token>
+	<token postag="V...2.+" postag_regexp='yes'/>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
+      <short>Tratamento informal</short>
+      <example correction="Cole"><marker>Cola</marker> aqui o texto.</example>
+      <example correction="Veja"><marker>Vê</marker> no mapa.</example>
+      <example correction="Diga"><marker>Tu diz</marker> o aconteceu.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>você|vocês</token>
+      </pattern>
+      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion>o Senhor</suggestion>
+        <suggestion>a Senhora</suggestion>
+        <suggestion>o Excelentíssimo</suggestion>
+        <suggestion>a Excelentíssima</suggestion>
+        <suggestion>si</suggestion>
+      <example correction="O Senhor|A Senhora|O Excelentíssimo|A Excelentíssima|Si"><marker>Você</marker> tenha mais atenção ao promenor.</example>
+      <example correction="o Senhor|a Senhora|o Excelentíssimo|a Excelentíssima|si">Depois peço a <marker>você</marker> para me ajudar.</example>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id='FORMAL_A_GENTE' name="Expressões de 'a gente'">
+    <rule>
+      <pattern>
+        <token negate='yes'>com</token>
+       <marker>
+        <token>a</token>
+        <token>gente</token>
+       </marker>
+	<token postag="V.+" postag_regexp='yes'/>
+      </pattern>
+      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover  ou substituí-lo pelo pronome maistratamente adequado.</message>
+        <suggestion></suggestion>
+        <suggestion>nós</suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+        <short>Linguagem informal</short>
+      <example correction="|Nós"><marker>A gente</marker> é que sabe.</example>
+      <example correction="|nós">E depois, <marker>a gente</marker> comeu e bebeu que nem uns loucos.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>com</token>
+        <token>a</token>
+        <token>gente</token>
+      </pattern>
+      <message>O uso de "com a gente" é informal.</message>
+        <suggestion>connosco</suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+        <short>Linguagem informal</short>
+      <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
+    </rule>
+  </rulegroup>
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
- 
+
 </category>
 
 </rules>

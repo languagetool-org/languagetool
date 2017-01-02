@@ -46,11 +46,6 @@ public class Asturian extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "ast";
-  }
-
-  @Override
   public String getShortCode() {
     return "ast";
   }

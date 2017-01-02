@@ -44,14 +44,12 @@ public class MultiThreadedJLanguageToolTest {
     lt1.setCleanOverlappingMatches(false);
     List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
     assertEquals(9, ruleMatchIds1.size()); 
-    assertEquals(4, lt1.getSentenceCount());
     lt1.shutdown();
 
     JLanguageTool lt2 = new JLanguageTool(new Demo());
     lt2.setCleanOverlappingMatches(false);
     List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
-    assertEquals(4, lt1.getSentenceCount());
   }
   
   @Test

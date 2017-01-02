@@ -59,11 +59,6 @@ public class Russian extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "ru";
-  }
-
-  @Override
   public String getShortCode() {
     return "ru";
   }

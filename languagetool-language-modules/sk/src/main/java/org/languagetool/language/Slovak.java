@@ -53,11 +53,6 @@ public class Slovak extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "sk";
-  }
-  
-  @Override
   public String getShortCode() {
     return "sk";
   }

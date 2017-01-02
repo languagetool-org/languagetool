@@ -61,11 +61,6 @@ public class Galician extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "gl";
-  }
-
-  @Override
   public String getShortCode() {
     return "gl";
   }

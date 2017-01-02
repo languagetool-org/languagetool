@@ -61,7 +61,47 @@ title="Easy editing stylesheet" ?>
     </unification>
 <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
-<category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
+<category id="ANGOLA_PORTUGUESE" name="Português de Angola (pré-AO90)">
+
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
+ <rulegroup id='CORRETOR_CORRECTOR' name='Confusão corrector-corretor'>
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-01    -->
+  <rule>
+    <pattern>
+		<token>corretor</token>
+		<token>gramatical</token>
+    </pattern>
+	<message>Pretende dizer <suggestion>corrector \2</suggestion>?</message>
+	<example correction='corrector gramatical'>O LanguageTool é um <marker>corretor gramatical</marker>.</example>
+  </rule>
+  <rule>
+    <pattern>
+		<token>corretores</token>
+		<token>gramaticais</token>
+    </pattern>
+	<message>Pretende dizer <suggestion>correctores \2</suggestion>?</message>
+	<example correction='correctores gramaticais'>Os <marker>corretores gramaticais</marker> são uma grande ajuda.</example>
+  </rule>
+  <rule>
+    <pattern>
+		<token>corrector</token>
+		<token min='0' regexp='yes'>d[ea]</token>
+		<token regexp='yes'>bolsa|seguros|imobiliário|valores</token>
+    </pattern>
+	<message>Pretende dizer <suggestion>corretor <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
+	<example correction='corretor da Bolsa'>O Jorge é um <marker>corrector da Bolsa</marker>.</example>
+  </rule>
+  <rule>
+    <pattern>
+		<token>correctores</token>
+		<token min='0' regexp='yes'>d[ea]</token>
+		<token regexp='yes'>bolsa|seguros|imobiliários|valores</token>
+    </pattern>
+	<message>Pretende dizer <suggestion>corretores <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
+	<example correction='corretores imobiliários'>Os <marker>correctores imobiliários</marker> dedicam-se à venda de imóveis.</example>
+  </rule>
+ </rulegroup>
 
 	<!-- COMPOSTAS Colocações pronominais com três termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
@@ -77,7 +117,6 @@ title="Easy editing stylesheet" ?>
 	<!--		TODO Write better examples		-->
 	<example correction='dar‑nos‑á'><marker>dar nos á</marker>.</example>
   </rule>
-
 
 	<!-- COMPOSTAS Colocações pronominais com dois termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->

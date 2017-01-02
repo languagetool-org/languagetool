@@ -46,11 +46,6 @@ public class Chinese extends Language implements AutoCloseable {
   private LuceneLanguageModel languageModel;
 
   @Override
-  public String getShortName() {
-    return "zh";
-  }
-
-  @Override
   public String getShortCode() {
     return "zh";
   }

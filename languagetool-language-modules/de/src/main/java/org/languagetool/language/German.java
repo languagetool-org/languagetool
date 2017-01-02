@@ -101,11 +101,6 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "de";
-  }
-
-  @Override
   public String getShortCode() {
     return "de";
   }
@@ -150,7 +145,6 @@ public class German extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
         new Contributor("Jan Schreiber"),
-        new Contributor("Markus Brenneis"),
         Contributors.DANIEL_NABER,
     };
   }

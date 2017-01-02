@@ -54,9 +54,6 @@ public class DashRule extends GermanRule {
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (tokens[i].isWhitespace()) {
-        continue;
-      } 
       if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
           && !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
           && prevToken.endsWith("-")) {

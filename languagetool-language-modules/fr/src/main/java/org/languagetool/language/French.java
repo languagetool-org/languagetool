@@ -62,11 +62,6 @@ public class French extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "fr";
-  }
-
-  @Override
   public String getShortCode() {
     return "fr";
   }

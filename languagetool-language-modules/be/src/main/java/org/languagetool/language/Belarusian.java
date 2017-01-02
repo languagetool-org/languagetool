@@ -49,11 +49,6 @@ public class Belarusian extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "be";
-  }
-
-  @Override
   public String getShortCode() {
     return "be";
   }

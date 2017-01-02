@@ -86,11 +86,6 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "uk";
-  }
-
-  @Override
   public String getShortCode() {
     return "uk";
   }

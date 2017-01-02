@@ -71,14 +71,6 @@ public final class AnalyzedToken {
     return lemma;
   }
 
-  /**
-   * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
-   * @deprecated deprecated since 3.4
-   */
-  public String getTokenInflected() {
-    return lemmaOrToken;
-  }
-  
   public void setWhitespaceBefore(boolean whitespaceBefore) {
     isWhitespaceBefore = whitespaceBefore;
   }

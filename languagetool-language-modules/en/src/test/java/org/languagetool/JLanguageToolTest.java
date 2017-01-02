@@ -174,25 +174,21 @@ public class JLanguageToolTest {
     //run normally
     List<RuleMatch> matches1 = tool.check("(This is an quote.\n It ends in the second sentence.");
     assertEquals(2, matches1.size());
-    assertEquals(2, tool.getSentenceCount());
 
     //run in a sentence-only mode
     List<RuleMatch> matches2 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYNONPARA);
     assertEquals(1, matches2.size());
     assertEquals("EN_A_VS_AN", matches2.get(0).getRule().getId());
-    assertEquals(1, tool.getSentenceCount());
 
     //run in a paragraph mode - single sentence
     List<RuleMatch> matches3 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYPARA);
     assertEquals(1, matches3.size());
     assertEquals("EN_UNPAIRED_BRACKETS", matches3.get(0).getRule().getId());
-    assertEquals(1, tool.getSentenceCount());
 
     //run in a paragraph mode - many sentences
     List<RuleMatch> matches4 = tool.check("(This is an quote.\n It ends in the second sentence.", true, ParagraphHandling.ONLYPARA);
     assertEquals(1, matches4.size());
     assertEquals("EN_UNPAIRED_BRACKETS", matches4.get(0).getRule().getId());
-    assertEquals(2, tool.getSentenceCount());
   }
 
   @Test

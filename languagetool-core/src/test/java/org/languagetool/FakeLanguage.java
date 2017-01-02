@@ -53,11 +53,6 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return langCode;
-  }
-
-  @Override
   public String getShortCode() {
     return langCode;
   }

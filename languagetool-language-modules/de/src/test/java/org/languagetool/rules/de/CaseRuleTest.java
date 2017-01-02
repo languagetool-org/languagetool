@@ -78,7 +78,7 @@ public class CaseRuleTest {
     assertGood("Wenn er mich das rechtzeitig wissen lässt, gerne.");
     assertGood("Und sein völlig aufgewühltes Inneres erzählte von den Geschehnissen.");
     assertGood("Aber sein aufgewühltes Inneres erzählte von den Geschehnissen.");
-    // assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen."); TODO: 'Sein' is mistagged
+    assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen.");
     assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
     assertGood("Ein Kaninchen, das zaubern kann.");
     assertGood("Keine Ahnung, wie ich das prüfen sollte.");
@@ -92,6 +92,7 @@ public class CaseRuleTest {
     assertGood("Er versuchte, Neues zu tun.");
     assertGood("Du musst das wissen, damit du die Prüfung bestehst");
     assertGood("Er kann ihr das bieten, was sie verdient.");
+    assertGood("Er fragte, ob das gelingen wird.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");

@@ -54,11 +54,6 @@ public class Italian extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "it";
-  }
-  
-  @Override
   public String getShortCode() {
     return "it";
   }

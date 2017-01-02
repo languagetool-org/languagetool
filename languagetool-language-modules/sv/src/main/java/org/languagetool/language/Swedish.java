@@ -47,11 +47,6 @@ public class Swedish extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return "sv";
-  }
-
-  @Override
   public String getShortCode() {
     return "sv";
   }

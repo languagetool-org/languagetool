@@ -62,11 +62,6 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
-    return "pt";
-  }
-
-  @Override
   public String getShortCode() {
     return "pt";
   }
@@ -196,6 +191,8 @@ public class Portuguese extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      case "T-V_DISTINCTION": return -10;
+      case "T-V_DISTINCTION_ALL": return -11;
       case "WIKIPEDIA_COMMON_ERRORS": return -100;
     }
     return 0;

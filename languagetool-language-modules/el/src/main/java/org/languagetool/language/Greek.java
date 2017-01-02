@@ -51,11 +51,6 @@ public class Greek extends Language {
   private Tagger tagger;
 
   @Override
-  public String getShortName() {
-    return "el";
-  }
-
-  @Override
   public String getShortCode() {
     return "el";
   }
