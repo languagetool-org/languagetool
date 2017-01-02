@@ -527,7 +527,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
    * @param numElement Index of elemList being analyzed
    */
   private void createRules(List<PatternToken> elemList,
-      List<PatternToken> tmpPatternTokens, int numElement) {
+    List<PatternToken> tmpPatternTokens, int numElement) {
     String shortMessage = "";
     if (this.shortMessage != null && this.shortMessage.length() > 0) {
       shortMessage = this.shortMessage.toString();

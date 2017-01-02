@@ -7033,7 +7033,6 @@ USA
                 <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="want">Many users in Asia <marker>wants</marker> to learn English.</example>
-                <example correction="want">Many users from Asia <marker>wants</marker> to learn English.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7162,7 +7161,6 @@ USA
                 <message>You should probably use <suggestion><match no="8" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="want">Many users in Asia, for example, <marker>wants</marker> to learn English.</example>
-                <example correction="want">Many users from Asia, for example, <marker>wants</marker> to learn English.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7268,6 +7266,270 @@ USA
                 <example>The dogs of war, however, <marker>are</marker> released.</example>
                 <example>The dog of war, however, was released.</example>
                 <example correction="were">The dogs of war, however, <marker>was</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception><exception>does</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs <marker>are</marker> released.</example>
+                <example>The dog is released.</example>
+                <example correction="bark">She wanted to know whether the dogs <marker>barks</marker> loudly.</example>
+                <example>How many hours does a scientist work per day?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="IN"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="want">She asked how many users from Asia <marker>wants</marker> to learn English.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="JJ"/>
+                    <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="5" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs <marker>are</marker> released.</example>
+                <example>The dog is released.</example>
+                <example correction="bark">How can we know whether the black dogs <marker>barks</marker> loudly?</example>
+                <example>The Canadian Badlands has much to offer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war <marker>are</marker> released.</example>
+                <example>The dog of war is released.</example>
+                <example correction="sleep">Is this the house in which the dogs of war <marker>sleeps</marker> each night?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog is released.</example>
+                <example correction="are">What happens when the dogs <marker>is</marker> released?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog was released.</example>
+                <example correction="were">What happened when the dogs <marker>was</marker> released?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog of war is released.</example>
+                <example correction="are">What happens when the dogs of war <marker>is</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war <marker>are</marker> released.</example>
+                <example>The dog of war was released.</example>
+                <example correction="were">What happened when the dogs of war <marker>was</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs, sacrificed by the Ichma, <marker>are</marker> often found with ropes still tied around their necks.</example>
+                <example correction="eat">Do you know what the dogs, which are specially trained to detect organic matter, <marker>eats</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="IN"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="8" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="want">Do you know how many users from Asia, for example, <marker>wants</marker> to learn English?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="JJ"/>
+                    <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="7" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs, for instance, <marker>are</marker> released.</example>
+                <example correction="bark">He asked whether the black dogs, mostly dachshunds and terrier mixes, <marker>barks</marker> loudly.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VBZ"><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="8" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war <marker>are</marker> released.</example>
+                <example>The dog of war is released.</example>
+                <example correction="bark">He asked whether the dogs of war, mostly dachshunds and terrier mixes, <marker>barks</marker> loudly.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog is released.</example>
+                <example correction="are">What happens when the dogs, Bob and Ben, <marker>is</marker> released?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog was released.</example>
+                <example correction="were">What happened when the dogs, Bob and Ben, <marker>was</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog of war is released.</example>
+                <example correction="are">What happens when the dogs of war, finally, <marker>is</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
+                    <token postag="DT"/>
+                    <token postag="NNS"/>
+                    <token>of</token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dogs of war, however, <marker>are</marker> released.</example>
+                <example>The dog of war, however, was released.</example>
+                <example correction="were">What happened when the dogs of war, two dachshunds, <marker>was</marker> released.</example>
             </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
