@@ -17674,6 +17674,16 @@ USA
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="WHEN_WHERE" name="where/when">
+            <pattern>
+                <token regexp="yes">times?|months?|weeks?|years?|days?|hours?</token>
+                <token>where</token>
+            </pattern>
+            <message>It is better to use '\1' with the time-relative pronoun 'when': <suggestion>\1 when</suggestion>. (Alternatively, use 'in/on which')</message>
+            <url>http://www.dictionary.com/browse/where</url>
+            <example correction="times when">There are <marker>times where</marker> you need to.</example>
+            <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
+        </rule>
         <rule id="PROFANITY" name="Profanity">
             <pattern>
                 <token inflected="yes" regexp="yes">shit|piss|fuck|cunt|cocksucker|motherfucker|tits|fart|turd|twat</token>
