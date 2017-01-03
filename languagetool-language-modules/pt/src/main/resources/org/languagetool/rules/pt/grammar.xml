@@ -1854,7 +1854,6 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="advinha">A mensagem <marker>adivinha</marker> disso que ele revelou.</example>
     </rule>
 
-<!-- TODO Review coverage by VERBO_DE_QUE -->
     <!-- ANTES DE QUE antes que -->
     <rule id="ANTES_DE_QUE" name="Antes que">
       <pattern>
@@ -2611,8 +2610,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
     </rule>
 
-	<!-- TODO Review coverage by VERBO_DE_QUE -->
-    <!-- GOSTO DE QUE gosto que -->
+	<!-- Covered by VERBO_DE_QUE  TODO Remove -->
+    <!-- GOSTO DE QUE gosto que 
     <rule id="GOSTO_DE_QUE" name="Gosto que">
       <pattern>
         <token>gosto</token>
@@ -2622,6 +2621,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <message>Substitua «gosto de que» por <suggestion>gosto que</suggestion>.</message>
       <example correction="gosto que">Nem sempre <marker>gosto de que</marker> me ensinem.</example>
     </rule>
+    -->
 
     <!-- GUARDAS-CHUVAS guarda-chuvas -->
     <rule id="GUARDAS-CHUVAS" name="Guarda-chuvas">
@@ -2711,28 +2711,28 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     </rule>
 
     <!-- IR NA PRAIA ir à praia -->
-    <rule id="IR_NA_PRAIA" name="Ir à praia">
+  <rulegroup id="IR_CONTRACTION_NOUN" name="Ir + na/no + nome">
+    <rule>
       <pattern>
-        <token>ir</token>
+        <token inflected='yes'>ir</token>
         <token>na</token>
-        <token>praia</token>
+        <token postag='N.F.+' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua «na» por <suggestion>à</suggestion>.</message>
-      <example correction="à">Tenho de <marker>ir na praia</marker>.</example>
+      <message>Substitua «na» por <suggestion>\1 à \3</suggestion>.</message>
+      <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
       <example>Tenho de <marker>ir à praia</marker>.</example>
     </rule>
-
-    <!-- IR NO GINÁSIO ir ao ginásio -->
-    <rule id="IR_NO_GINÁSIO" name="Ir ao ginásio">
+    <rule>
       <pattern>
-        <token>ir</token>
+        <token inflected='yes'>ir</token>
         <token>no</token>
-        <token>ginásio</token>
+        <token postag='N.M.+' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua «no» por <suggestion>ao</suggestion>.</message>
-      <example correction="ao">Tenho de <marker>ir no ginásio</marker>.</example>
+      <message>Substitua «no» por <suggestion>\1 ao \3</suggestion>.</message>
+      <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
       <example>Tenho de <marker>ir ao ginásio</marker>.</example>
     </rule>
+  </rulegroup>
 
     <!-- HÁ SUA à sua -->
     <rule id="HÁ_SUA" name="à sua">
