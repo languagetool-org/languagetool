@@ -20,6 +20,10 @@
 #### Russian
   * added and improved rules
 
+#### Command-line
+  * Added a `--languageModel` option to the embedded server, thanks to 
+    Michał Janik (issue #404)
+
 #### Java API
   * Some deprecated methods have been removed.
 
