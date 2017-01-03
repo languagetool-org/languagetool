@@ -7579,6 +7579,30 @@ USA
                 <example correction="Do dogs|Does dog"><marker>Does dogs</marker> sleep more than 15 hours per day?.</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="NNS"><exception postag="NN|NN:UN?|PRP\$" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker><token postag="VBZ"/></marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="prevent">This infrared radiation rises into the atmosphere where gases, such as carbon dioxide, <marker>prevents</marker> the infrared radiation from escaping into space.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="NNS"><exception postag="NN|NN:UN?|PRP\$" postag_regexp="yes"/></token>
+                    <marker><token postag="VBZ"/></marker>
+                </pattern>
+                <message>Possible agreement error. You should probably use: <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="prevent">This infrared radiation rises into the atmosphere where gases <marker>prevents</marker> the infrared radiation from escaping into space.</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
