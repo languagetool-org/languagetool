@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2016 Yakov Reztsov
+Copyright © 2008-2017 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -129,7 +129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			<token regexp="yes">апрель|апр|апреля|июнь|июня|сен|сентября|сентябрь|ноябрь|ноября|ноя</token>                      
                     </marker>
                 </pattern>
-                <message>В <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match> месяце  только 30 дней.</message>
+                <message>В <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match> месяце только 30 дней.</message>
                 <example correction="">Это случилось <marker>31 ноября</marker> 2014 г.</example>
                 <example correction="">Это случилось <marker>31 апреля</marker> 2014 г.</example>
                 <example>Это случилось <marker>30 ноября</marker> 2014 г.</example>
@@ -2102,7 +2102,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Лингвистическая ошибка.</short>
             <example correction="смелая идея">Это <marker>храбрая идея</marker>.</example>
             <example>Это смелая идея.</example>
-        </rule>        
+        </rule>
+        <rulegroup default="on" id="Genitsya" name="«Жениться»/«выйти замуж»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <!--          -->
+                    <token>он</token>
+                    <token>вышел</token>
+                    <token>замуж</token>
+                </pattern>
+                <message>"Выйти замуж" употребляется только со словами женского рода:<suggestion>\1 женился</suggestion></message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
+                <short>Требуется женский род.</short>
+                <example>
+                    <marker>Она вышла замуж</marker>.</example>
+                <example correction="Он женился">
+                    <marker>Он вышел замуж</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <!--          -->
+                    <token postag="NN:.*:Masc:Sin:.*" postag_regexp="yes"></token>  
+                    <token>вышел</token>
+                    <token>замуж</token>
+                </pattern>
+                <message>"Выйти замуж" употребляется только со словами женского рода:<suggestion>\1 женился</suggestion></message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
+                <short>Требуется женский род.</short>
+                <example><marker>Дочка вышла замуж</marker>.</example>
+                <example correction="Сын женился"><marker>Сын вышел замуж</marker>.</example>
+            </rule>
+            
+            <rule>
+                <pattern case_sensitive="no">
+                    <!--          -->
+                    <token>она</token>
+                    <token>женилась</token>
+                </pattern>
+                <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>               
+                <short>Требуется мужской род.</short>
+                <example><marker>Он женился</marker>.</example>
+                <example correction="Она вышла замуж"><marker>Она женилась</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <!--          -->
+                    <token postag="NN:.*:Fem:Sin:.*" postag_regexp="yes"></token>  
+                    <token>женилась</token>    
+                </pattern>
+                <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>
+                <short>Требуется мужской род.</short>
+                <example><marker>Сын женился</marker>.</example>
+                <example correction="Дочка вышла замуж"><marker>Дочка женилась</marker>.</example>
+            </rule>
+        </rulegroup>                   
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">
@@ -5869,8 +5924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example correction="никому не нужная">На полке лежит никому <marker>ненужная</marker> коробка.</example>
             </rule>
-        </rulegroup>
-        
+        </rulegroup>     
         <rulegroup default="on" id="Upr_ne_verb_i_ni" name="Управление глагола при отрицании: «и» вместо «ни»">
             <rule> 
                 <pattern>
@@ -5878,12 +5932,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>не</token>
                         <token postag="VB:Past:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes"/></token>
                         <token>и</token>
-                        <token postag="NN:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes"/></token>
+                        <token postag="NN:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes"/><exception>следа</exception></token>
                     </marker>
                 </pattern>
                 <message>Управление глагола при отрицании: «и» вместо «ни». <suggestion><match no="1"/> <match no="2"/> ни <match no="4"/></suggestion></message>
                 <short>Управление глагола при отрицании</short>
                 <example>За весь вечер он не сказал ни слова.</example>
+                <example>Там не осталось и следа.</example>
                 <example correction="не сказал ни слова">За весь вечер он <marker>не сказал и слова</marker>.</example>
             </rule>
         </rulegroup>   
@@ -8058,62 +8113,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Работа была выполнена в продолжение дня.</example>
         </rule>
         <!-- TO DO:  в продолжении (существительное) -->
-        
-        <rulegroup default="on" id="Genitsya" name="«Жениться»/«выйти замуж»">
-            <rule>
-                <pattern case_sensitive="no">
-                    <!--          -->
-                    <token>он</token>
-                    <token>вышел</token>
-                    <token>замуж</token>
-                </pattern>
-                <message>"Выйти замуж" употребляется только со словами женского рода:<suggestion>\1 женился</suggestion></message>
-                <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
-                <short>Требуется женский род.</short>
-                <example>
-                    <marker>Она вышла замуж</marker>.</example>
-                <example correction="Он женился">
-                    <marker>Он вышел замуж</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="no">
-                    <!--          -->
-                    <token postag="NN:.*:Masc:Sin:.*" postag_regexp="yes"></token>  
-                    <token>вышел</token>
-                    <token>замуж</token>
-                </pattern>
-                <message>"Выйти замуж" употребляется только со словами женского рода:<suggestion>\1 женился</suggestion></message>
-                <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
-                <short>Требуется женский род.</short>
-                <example><marker>Дочка вышла замуж</marker>.</example>
-                <example correction="Сын женился"><marker>Сын вышел замуж</marker>.</example>
-            </rule>
-            
-            <rule>
-                <pattern case_sensitive="no">
-                    <!--          -->
-                    <token>она</token>
-                    <token>женилась</token>
-                </pattern>
-                <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
-                <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>               
-                <short>Требуется мужской род.</short>
-                <example><marker>Он женился</marker>.</example>
-                <example correction="Она вышла замуж"><marker>Она женилась</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="no">
-                    <!--          -->
-                    <token postag="NN:.*:Fem:Sin:.*" postag_regexp="yes"></token>  
-                    <token>женилась</token>    
-                </pattern>
-                <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
-                <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>
-                <short>Требуется мужской род.</short>
-                <example><marker>Сын женился</marker>.</example>
-                <example correction="Дочка вышла замуж"><marker>Дочка женилась</marker>.</example>
-            </rule>
-        </rulegroup>           
     </category>
     <category id="STYLE" name="Стиль">
         
