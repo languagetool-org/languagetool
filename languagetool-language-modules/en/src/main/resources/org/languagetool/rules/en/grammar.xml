@@ -5463,6 +5463,36 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="GRADUATE_FROM" name="graduate from">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="2">graduate<exception scope="next" regexp="yes">from|of</exception><exception>graduate</exception></token>
+                    </marker>
+                    <token regexp="yes">school|university|college</token>
+                </pattern>
+                <message>The verb 'to graduate' requires the preposition 'from': <suggestion>\1 from</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/graduate</url>
+                <example correction="graduated from">He <marker>graduated</marker> the university last June.</example>
+                <example correction="graduating from">He joined the navy after <marker>graduating</marker> high school.</example>
+                <example>He became a well known graduate of the school.</example>
+                <example>This is a fully accredited graduate film school.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">will|can|could|might|should</token>
+                    <marker>
+                        <token inflected="yes" skip="2">graduate<exception scope="next" regexp="yes">from|of</exception></token>
+                    </marker>
+                    <token regexp="yes">school|university|college</token>
+                </pattern>
+                <message>The verb 'to graduate' requires the preposition 'from': <suggestion>\2 from</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/graduate</url>
+                <example correction="graduate from">She will <marker>graduate</marker> high school next month.</example>
+                <example>He became a well known graduate of the school.</example>
+                <example>This is a fully accredited graduate film school.</example>
+            </rule>
+        </rulegroup>
         <rule id="ALL_MOST_SOME_OF_NOUN" name="all/most/some (of) + noun">
             <antipattern>
                     <token inflected="yes">make</token>
@@ -7335,7 +7365,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
-                    <token postag="DT"/>
+                    <token postag="DT"><exception>many</exception></token>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>is</token>
@@ -7344,6 +7374,7 @@ USA
                 <message>You should probably use: <suggestion>are</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dog is released.</example>
+                <example>How many stations is the journey to London?</example>
                 <example correction="are">What happens when the dogs <marker>is</marker> released?</example>
             </rule>
             <rule>
@@ -8039,6 +8070,112 @@ USA
                 <example correction="eats">The dog, whose owner likes you, <marker>eat</marker>.</example>
                 <example>The committee are all against it.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|God|do</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
+                    <marker>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Consider using third-person verb forms for singular and mass nouns: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">She asked whether marketing <marker>are</marker> bad for you.</example>
+                <example correction="means">This is a company where marketing <marker>mean</marker> a lot of trouble.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|Oh|Hey|do</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Consider using third-person verb forms for singular and mass nouns: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">She asked whether marketing, for instance, <marker>are</marker> bad for you.</example>
+                <example correction="means">She asked whether marketing, for example, <marker>mean</marker> a lot of trouble.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="RB"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token>that</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">She wants to know whether this room <marker>are</marker> big enough.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="RB"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token>that</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">She wants to know whether this room, for example, <marker>are</marker> big enough.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!]</token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="eats">She asked whether the dog <marker>eat</marker>.</example>
+           </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token postag="DT"><exception regexp="yes">these|those</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!]</token>
+                </pattern>
+                <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="eats">She asked whether the dog, whose owner likes you, <marker>eat</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
             <rule>
@@ -8149,7 +8286,7 @@ USA
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">speak|talk|go|happen|listen</token>
+                    <token inflected="yes" regexp="yes">speak|talk|go|happen|listen|attach|refer|lead</token>
                     <token>to</token>
                     <token/>
                 </antipattern>
@@ -8200,6 +8337,25 @@ USA
                 <example correction="get">She is manipulating her father to <marker>got</marker> her way.</example>
                 <example correction="lift">He tried very hard to <marker>lifted</marker> the rock.</example>
                 <example>She teaches English to advanced students.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">talk|lead|refer|from|go|listen|speak</token>
+                    <token>to</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                        <token postag_regexp="yes" postag="VB[DN]"><exception postag="VB|NN.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception postag="NN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 <match no="2" postag="VB"/></suggestion>?</message>
+                <example correction="to rename">I've decided <marker>to renamed</marker> the project.</example>
+                <example>Overtraining leads to increased sympathetic activity.</example>
+                <example>Refer all servicing to qualified service personnel.</example>
+                <example>They vary in their shape from round to flattened.</example>
+                <example>The last person I told my idea to thought I was nuts.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
@@ -17681,7 +17837,7 @@ USA
             </pattern>
             <message>It is better to use '\1' with the time-relative pronoun 'when': <suggestion>\1 when</suggestion>. (Alternatively, use 'in/on which')</message>
             <url>http://www.dictionary.com/browse/where</url>
-            <example correction="times when">There are <marker>times where</marker> you need to.</example>
+            <example correction="times when">There are <marker>times where</marker> you need to measure high current devices.</example>
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
         <rule id="PROFANITY" name="Profanity">
