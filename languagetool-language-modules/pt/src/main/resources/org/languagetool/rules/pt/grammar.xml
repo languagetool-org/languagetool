@@ -33,7 +33,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
-    <!ENTITY expresoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -2099,12 +2099,12 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- DAR OS BONS DIAS dar os bons-dias -->
     <rule id="DAR_OS_BONS_DIAS" name="Dar os bons-dias">
       <pattern>
-        <token>dar</token>
+        <token inflected='yes'>dar</token>
         <token>os</token>
         <token>bons</token>
         <token>dias</token>
       </pattern>
-      <message>Substitua «dar os bons dias» por <suggestion>dar os bons-dias</suggestion>.</message>
+      <message>Substitua «dar os bons dias» por <suggestion>\1 os bons-dias</suggestion>.</message>
       <example correction="dar os bons-dias">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
     </rule>
 
@@ -2524,7 +2524,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 			<token>fazem</token>
 		</marker>
 		<token></token>
-        <token regexp="yes">&expresoes_de_tempo;</token>
+        <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
       <message>Substitua «fazem» por <suggestion>faz</suggestion>.</message>
       <example correction="faz">Rui, <marker>fazem</marker> duas semanas que não falamos.</example>
@@ -2545,7 +2545,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- FAZER AS COISAS DIREITAS fazer as coisas direito -->
     <rule id="FAZER_AS_COISAS_DIREITAS" name="Fazer as coisas direito">
       <pattern>
-        <token>fazer</token>
+        <token inflected='yes'>fazer</token>
         <token>as</token>
         <token>coisas</token>
 		<marker>
@@ -2639,7 +2639,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
         <token>há</token>
         <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
         <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
-        <token regexp="yes">&expresoes_de_tempo;</token>
+        <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
         <token>atrás</token>
       </pattern>
       <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all" ></match> <match no="2" include_skipped="all" ></match> <match no="3" include_skipped="all" ></match> <match no="4" include_skipped="all" ></match></suggestion>.</message>
@@ -2659,7 +2659,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 	</marker>
 	  <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
 	  <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
-          <token regexp="yes">&expresoes_de_tempo;</token>
+          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
       </pattern>
 	  <message>Substitua «à» por <suggestion>há</suggestion>.</message>
 	  <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
@@ -3185,11 +3185,11 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- PEDIR UM CONCELHO pedir um conselho -->
     <rule id="PEDIR_UM_CONCELHO" name="Pedir um conselho">
       <pattern>
-        <token>pedir</token>
+        <token inflected='yes'>pedir</token>
         <token>um</token>
         <token>concelho</token>
       </pattern>
-      <message>Substitua «pedir um concelho» por <suggestion>pedir um conselho</suggestion>.</message>
+      <message>Substitua «pedir um concelho» por <suggestion>\1 um conselho</suggestion>.</message>
       <example correction="pedir um conselho">Devemos <marker>pedir um concelho</marker> ao padre.</example>
     </rule>
 
@@ -3269,7 +3269,7 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
             <token>prazer</token>
          </marker>
          <token>em</token>
-         <token regexp="yes">convidá|convidar</token>
+         <token regexp='yes' inflected="yes">convidar|convidá</token>
          <token min='0'>-</token>
          <token regexp="yes" min='0'>los?|vos|te</token>
       </pattern>
@@ -3444,12 +3444,13 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- VESTIR calçar -->
 	<rule id="CONFUSÃO_VESTIR_CALÇAR" name="Confusão vestir/calçar">
 	  <pattern>
-        <token regexp="yes">vestir|vestiu|veste|vestiste</token>
+        <token inflected="yes">vestir</token>
         <token regexp="yes">os?|as?|um|uns|umas?</token>
         <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
       </pattern>
       <message>Utilize o verbo calçar</message>
-      <example correction=""><marker>Vestir os sapatos</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>calçar</match></suggestion>
+      <example correction="Calces|Calça"><marker>Veste os sapatos</marker>.</example>
 	  <example><marker>Calçar os sapatos</marker>.</example>
 	</rule>
 
@@ -3468,9 +3469,9 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <pattern>
         <token>visando</token>
         <token>a</token>
-        <token>conseguir</token>
+        <token inflected='yes'>conseguir</token>
       </pattern>
-      <message>Substitua «visando a conseguir» por <suggestion>visando conseguir</suggestion>.</message>
+      <message>Substitua «visando a conseguir» por <suggestion>visando \3</suggestion>.</message>
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
     </rule>
 
@@ -3550,10 +3551,10 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- VOTOS BRANCOS votos em branco -->
     <rule id="VOTOS_BRANCOS" name="Votos em branco">
       <pattern>
-        <token>votos</token>
+        <token regexp='yes'>votos?</token>
         <token>brancos</token>
       </pattern>
-      <message>Substitua «votos brancos» por <suggestion>votos em branco</suggestion>.</message>
+      <message>Substitua «votos brancos» por <suggestion>\1 em branco</suggestion>.</message>
       <example correction="votos em branco">Houve muitos <marker>votos brancos</marker> na eleição.</example>
     </rule>
 
@@ -3637,56 +3638,16 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <rule>
 		<pattern>
 			<marker>
-				<token>tiver</token>	  
+				<token regexp='yes'>tiver.*</token>	  
 			</marker>
 			<token>a</token>
 			<token postag="VMN0000"></token> 	
 		</pattern>	 	 
-		<message>Substitua «tiver» por <suggestion>estiver</suggestion>.</message>
+		<message>Substitua «tiver» por <suggestion><match no='1' regexp_match='(tiver)(.*)' regexp_replace='estiver$2'/></suggestion>.</message>
 		<example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>	 	 
-    </rule>
-    <rule>
-		<pattern>
-			<marker>
-				<token>tiveres</token>	  
-			</marker>
-			<token>a</token>
-			<token postag="VMN0000"></token> 	
-		</pattern>	 	 
-		<message>Substitua «tiveres» por <suggestion>estiveres</suggestion>.</message>
-		<example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>	 	 
-    </rule>
-    <rule>
-		<pattern>
-			<marker>
-				<token>tiverem</token>	  
-			</marker>
-			<token>a</token>
-			<token postag="VMN0000"></token> 	
-		</pattern>	 	 
-		<message>Substitua «tiverem» por <suggestion>estiverem</suggestion>.</message>
+		<example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
 		<example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>	 	 
-    </rule>
-    <rule>
-		<pattern>
-			<marker>
-				<token>tivermos</token>	  
-			</marker>
-			<token>a</token>
-			<token postag="VMN0000"></token> 	
-		</pattern>	 	 
-		<message>Substitua «tivermos» por <suggestion>estivermos</suggestion>.</message>
 		<example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>	 	 
-    </rule>
-    <rule>
-		<pattern>
-			<marker>
-				<token>tiveram</token>	  
-			</marker>
-			<token>a</token>
-			<token postag="VMN0000"></token> 	
-		</pattern>	 	 
-		<message>Substitua «tiveram» por <suggestion>estiveram</suggestion>.</message>
 		<example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>	 	 
     </rule>
   </rulegroup>
@@ -3696,8 +3657,8 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
     <!-- TRADUZIR EM > TRADUZIR PARA -->
     <rule id="TRADUZIR_EM" name="Traduzir para">
       <pattern>
-		<token>traduzir</token>
 		<marker>
+			<token inflected='yes'>traduzir</token>
 			<token>em</token>
 		</marker>       
         <or>		
@@ -3705,9 +3666,9 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 		<token>Latim</token>
 		</or>
      </pattern>
-     <message>Substitua «em» por <suggestion>para</suggestion>.</message>
+     <message>Substitua «em» por <suggestion>\1 para</suggestion>.</message>
      <suggestion>para</suggestion>
-     <example correction="para">Temos de traduzir <marker>em</marker> Inglês.</example>
+     <example correction="traduzir para">Temos de <marker>traduzir em</marker> Inglês.</example>
     </rule>
 
 </category>
@@ -6204,11 +6165,11 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
-<!-- TODO Move to PLEONASMOS category	+ consider inflected='yes'>exportar<		-->
+	<!-- TODO Move to PLEONASMOS category		-->
 	<!-- Verb EXPORTAR + PARA FORA > Verb exportar -->	
 	<rule id="EXPORTAR_PARA_FORA" name="Exportar">
 		<pattern>
-			<token regexp="yes">exportei|exportaste|exportou|exportar|exportaram|exportarem|exportámos|exportamos|exportam|exportarmos</token>
+			<token inflected="yes">exportar</token>
 			<token>para</token>
 			<token>fora</token>
 		</pattern>
