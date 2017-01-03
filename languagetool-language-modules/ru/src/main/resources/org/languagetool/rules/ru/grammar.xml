@@ -7287,7 +7287,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="не дождались решения комиссии|не дождались решенья комиссии">Мы <marker>не дождались решение комиссии</marker>.</example>
             <example>Мы не дождались решения комиссии.</example>
         </rule>
-        
+        <rulegroup id="ABR_GENDER" name="Род аббревиатур">
+           <rule>   
+                <pattern>
+                        <token postag="ABR:Masc"></token>                  
+                        <token postag="VB:Past:Fem|VB:Past:Neut" postag_regexp="yes"/>
+                </pattern>
+                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Masc" /></suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Мужской род</short>
+                <example correction="УЕФА объявил"><marker>УЕФА объявила</marker> о реформе.</example>
+                <example>УЕФА объявил о реформе.</example>
+            </rule>            
+        </rulegroup>   
         <rule id="Verb_and_NomDTV" name="Глагол предполагает падеж">
 	        <antipattern>
 		        <marker>
@@ -7922,18 +7934,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token regexp="yes" inflected="yes">командующий|заведующий</token>
                   <token regexp="yes">управляющий|управляющего|управляющему|управляющим|управляющем</token>
                 </or>
-                <token postag="NN:.*:.*:R" postag_regexp="yes">
-                    <exception postag="NN:.*:.*:T" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*:R" postag_regexp="yes">
+                    <exception postag="NN:.*:.*:.*:T" postag_regexp="yes"></exception>
                     <exception postag="NN:(Name|Fam|Patr):.*:.*:.*" postag_regexp="yes"></exception>
                     <exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception>
                 </token>
             </pattern>
-            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion></message>
+            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
             <example><marker>Управляющий предприятием</marker> общественного питания.</example>
             <example><marker>Управляющая организация</marker>.</example>
-             <example><marker>Управляющая Наталья</marker> взяла трубку.</example>
-            <example correction="Управляющий предприятием|Управляющий предприятиями|Управляющий предприятьем|Управляющий предприятьями"><marker>Управляющий предприятия</marker> общественного питания.</example>
+            <example><marker>Управляющая Наталья</marker> взяла трубку.</example>
+            <example correction="Управляющий предприятием|Управляющий предприятьем"><marker>Управляющий предприятия</marker> общественного питания.</example>
         </rule>
 	
 	<rule default="on" id="plit_lodkoj" name="Словосочетание «плыть лодкой» --> «плыть на лодке»">
@@ -9060,6 +9072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">\p{Lu}.*</exception>
                     <exception regexp="yes">е|мадам|леди|пани|ежи|шоу|обл</exception>
                     <exception negate_pos="yes" postag="NN:Name:.*" postag_regexp="yes"></exception>
+                    <exception postag="NN:Anim:.*" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
@@ -9076,6 +9089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">\p{Lu}.*</exception>
                     <exception>e</exception>
                     <exception negate_pos="yes" postag="NN:Patr:.*" postag_regexp="yes"></exception>
+                    <exception postag="NN:Anim:.*" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
@@ -9084,6 +9098,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Заглавные буквы.</short>
             <example>Он - <marker>Иванович</marker>.</example>
             <example correction="Иванович">Он - <marker>иванович</marker>.</example>
+        </rule>
+        <rule default="on" id="Cap_Letters_Fam" name="Фамилия">
+            <pattern case_sensitive="yes">
+                <token postag="NN:Fam:.*" postag_regexp="yes">
+                    <exception regexp="yes">\p{Lu}.*</exception>
+                    <exception>e</exception>
+                    <exception postag="NN:Anim:.*" postag_regexp="yes"></exception>
+                    <exception postag="NN:Inanim:.*" postag_regexp="yes"></exception>    
+                </token>
+            </pattern>
+            <message>Фамилия пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
+            </message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
+            <short>Заглавные буквы.</short>
+            <example>Он - <marker>Иванов</marker>.</example>
+            <example correction="Иванов">Он - <marker>иванов</marker>.</example>
         </rule>
         <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ">
             <rule>
@@ -9234,19 +9264,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Вчера ООН одобрила эту заявку.</example>
                 <example>Вчера Cовет Безопасности ООН одобрил эту заявку.</example>
             </rule>
-            
-            <rule>   
-                <pattern>
-                        <token>УЕФА</token>                  
-                        <token postag="VB:Past:Fem|VB:Past:Neut" postag_regexp="yes"/>
-                </pattern>
-                <message>Род иноязычных аббревиатур определяется по смыслу</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
-                <short>УЕФА – мужского рода</short>
-                <example correction=""><marker>УЕФА объявила</marker> о реформе.</example>
-                <example>УЕФА объявил о реформе.</example>
-            </rule>            
-            
             <rule>   
                 <pattern>
                         <token>ФБР</token>                  
