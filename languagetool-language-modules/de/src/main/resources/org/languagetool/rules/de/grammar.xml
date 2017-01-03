@@ -26920,7 +26920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="“,">„Die Fenster sind geschlossen<marker>,“</marker> sagt sie.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FRAGEZEICHEN_NACH_DIREkTE_REDE" name="Fehlendes Fragezeichen am Abschluss einer direkten Rede">
+        <rulegroup id="FRAGEZEICHEN_NACH_DIREKTER_REDE" name="Fehlendes Fragezeichen am Abschluss einer direkten Rede">
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
@@ -29444,6 +29444,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>auch</token>
                 </antipattern>
                 <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>als</token>
+                    <token>auch</token>
+                    <token regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                </antipattern>
+                <antipattern>
                     <token>noch</token>
                     <token>als</token>
                 </antipattern>
@@ -29489,6 +29495,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1">sowohl</token>
                     <token>als</token>
                     <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>als</token>
+                    <token>auch</token>
+                    <token regexp="yes">als|anstatt|außer|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
                     <token>noch</token>
