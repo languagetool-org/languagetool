@@ -32,11 +32,13 @@ import java.util.Properties;
  */
 public class HTTPServerConfig {
 
-  enum Mode { LanguageTool, AfterTheDeadline }
+  enum Mode {LanguageTool, AfterTheDeadline}
 
   public static final String DEFAULT_HOST = "localhost";
 
-  /** The default port on which the server is running (8081). */
+  /**
+   * The default port on which the server is running (8081).
+   */
   public static final int DEFAULT_PORT = 8081;
 
   protected boolean verbose = false;
@@ -72,7 +74,7 @@ public class HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
+   * @param verbose    when set to <tt>true</tt>, the input text will be logged in case there is an exception
    */
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
@@ -198,20 +200,23 @@ public class HTTPServerConfig {
 
   /**
    * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
-   *                      will stop with an exception. Use {@code -1} for no limit.
+   *                           will stop with an exception. Use {@code -1} for no limit.
    * @since 2.6
    */
   void setMaxCheckTimeMillis(int maxCheckTimeMillis) {
     this.maxCheckTimeMillis = maxCheckTimeMillis;
   }
 
-  /** @since 2.6 */
+  /**
+   * @since 2.6
+   */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
   }
 
   /**
    * Get language model directory (which contains '3grams' sub directory) or {@code null}.
+   *
    * @since 2.7
    */
   @Nullable
@@ -219,14 +224,16 @@ public class HTTPServerConfig {
     return languageModelDir;
   }
 
-  /** @since 2.7 */
+  /**
+   * @since 2.7
+   */
   Mode getMode() {
     return mode;
   }
 
   /**
    * @return the language used, or {@code null} if not in AtD mode
-   * @since 2.7 
+   * @since 2.7
    */
   @Nullable
   Language getAfterTheDeadlineLanguage() {
@@ -235,14 +242,16 @@ public class HTTPServerConfig {
 
   /**
    * @param maxCheckThreads The maximum number of threads serving requests running at the same time.
-   * If there are more requests, they will be queued until a thread can work on them.
+   *                        If there are more requests, they will be queued until a thread can work on them.
    * @since 2.7
    */
   void setMaxCheckThreads(int maxCheckThreads) {
     this.maxCheckThreads = maxCheckThreads;
   }
 
-  /** @since 2.7 */
+  /**
+   * @since 2.7
+   */
   int getMaxCheckThreads() {
     return maxCheckThreads;
   }
@@ -251,18 +260,23 @@ public class HTTPServerConfig {
    * Set to {@code true} if this is running behind a (reverse) proxy which
    * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
    * in that header will then be used for enforcing a request limitation.
+   *
    * @since 2.8
    */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
   }
 
-  /** @since 2.8 */
+  /**
+   * @since 2.8
+   */
   boolean getTrustXForwardForHeader() {
     return trustXForwardForHeader;
   }
 
-  /** @since 2.9 */
+  /**
+   * @since 2.9
+   */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
   }
@@ -277,10 +291,10 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @throws IllegalConfigurationException if property is not set 
+   * @throws IllegalConfigurationException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
-    String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String) props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
       throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
@@ -288,7 +302,7 @@ public class HTTPServerConfig {
   }
 
   protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String) props.get(propertyName);
     if (propertyValue == null) {
       return defaultValue;
     }
