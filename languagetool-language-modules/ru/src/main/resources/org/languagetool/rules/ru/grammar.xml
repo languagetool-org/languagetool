@@ -7288,13 +7288,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Мы не дождались решения комиссии.</example>
         </rule>
         <rulegroup id="ABR_GENDER" name="Род аббревиатур" default="off">
-            <!--  TODO -->
+            <!--  TODO: add exception -->
             <rule>   
                 <pattern>
                     <token postag="ABR:Masc"><exception scope="previous" postag="PREP"/></token>                  
                     <token postag="VB:Past:Fem|VB:Past:Neut" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Masc" /></suggestion></message>
+                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Masc" /></suggestion> — мужской род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Мужской род</short>
                 <example correction="УЕФА объявил"><marker>УЕФА объявила</marker> о реформе.</example>
@@ -7303,25 +7303,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>   
                 <pattern>
-                    <token postag="ABR:Fem"><exception scope="previous" postag="PREP"/></token>                  
+                    <token postag="ABR:Fem"><exception scope="previous" postag="PREP"/><exception scope="previous" regexp="yes">совет|безопасности</exception></token>                  
                     <token postag="VB:Past:Neut|VB:Past:Masc" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Fem" /></suggestion></message>
+                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Fem" /></suggestion> — женский род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Женский род</short>
-                <example correction="ВДНХ открылась">Сегодня <marker>ВДНХ открылся</marker> в 10-00.</example>
                 <example>Сегодня ВДНХ открылась в 10-00.</example>
+                <example>Вчера ООН одобрила эту заявку.</example>
+                <example>Вчера Cовет Безопасности ООН одобрил эту заявку.</example>
+                <example correction="ВДНХ открылась">Сегодня <marker>ВДНХ открылся</marker> в 10-00.</example>
+                <example correction="ООН одобрила">Вчера <marker>ООН одобрил</marker> эту заявку.</example>    
             </rule>                        
             <rule>   
                 <pattern>
                     <token postag="ABR:Neut"><exception scope="previous" postag="PREP"/></token>                  
                     <token postag="VB:Past:Fem|VB:Past:Masc" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Neut" /></suggestion></message>
+                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Neut" /></suggestion> — средний род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Средний род</short>
+                <example>СНГ образовалось в 1991 году.</example>   
+                <example>ФБР наградило агента Смита.</example>
+                <example>ЦРУ определило его местонахождение.</example>
                 <example correction="СНГ образовалось"><marker>СНГ образовался</marker> в 1991 году.</example>
-                <example>СНГ образовалось в 1991 году.</example>
+                <example correction="ЦРУ определило"><marker>ЦРУ определила</marker> его местонахождение.</example>
+                <example correction="ФБР наградило"><marker>ФБР наградил</marker> агента Смита.</example>
             </rule>                        
         </rulegroup>   
         <rule id="Verb_and_NomDTV" name="Глагол предполагает падеж">
@@ -9276,47 +9283,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Старый рантье любит деньги.</example>
             </rule>           
         </rulegroup>
-        
-        <rulegroup id="Rod_foregin_abbreviation" name="Род иноязычных аббревиатур">          
-            <rule>   
-                <pattern>
-                        <token>
-                            <exception scope="previous" regexp="yes">совет|безопасности</exception>ООН</token>             
-                        <token postag="VB:Past:Masc|VB:Past:Neut" postag_regexp="yes"/>
-                </pattern>
-                <message>Род иноязычных аббревиатур определяется по смыслу</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
-                <short>ООН – женского рода</short>
-                <example correction="">Вчера <marker>ООН одобрил</marker> эту заявку.</example>
-                <example>Вчера ООН одобрила эту заявку.</example>
-                <example>Вчера Cовет Безопасности ООН одобрил эту заявку.</example>
-            </rule>
-            <rule>   
-                <pattern>
-                        <token>ФБР</token>                  
-                        <token postag="VB:Past:Masc|VB:Past:Fem" postag_regexp="yes"/>
-                </pattern>
-                <message>Род иноязычных аббревиатур определяется по смыслу</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
-                <short>ФБР – среднего рода</short>
-                <example correction=""><marker>ФБР наградил</marker> агента Смита.</example>
-                <example>ФБР наградило агента Смита.</example>
-            </rule>
-            
-            <rule>   
-                <pattern>
-                        <token>ЦРУ</token>                    
-                        <token postag="VB:Past:Masc|VB:Past:Fem" postag_regexp="yes"/>
-                </pattern>
-                <message>Род иноязычных аббревиатур определяется по смыслу</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
-                <short>ЦРУ – среднего рода</short>
-                <example correction=""><marker>ЦРУ определила</marker> его местонахождение.</example>
-                <example>ЦРУ определило его местонахождение.</example>
-            </rule>
-            
-        </rulegroup>
-        
         <rulegroup id="Rod_suschestvitelnykh_odush_bird_animal" name="Род несклоняемых существительных, обозначающих одушевлённые предметы, птиц, животных">           
             <rule>   
                 <pattern>

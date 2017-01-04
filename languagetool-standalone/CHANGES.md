@@ -13,6 +13,9 @@
     in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
+#### Russian
+  * added and improved rules
+
 #### Java API
   * Some deprecated methods have been removed.
 
