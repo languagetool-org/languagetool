@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 
 <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2012-2017 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016 Matheus Poletto
  Copyright © 2016 Tiago F. Santos
  
@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -1263,6 +1263,19 @@ $Id: grammar.xml,v 1.196 2016-12-12 07:00:00 marcoagpinto Exp $
 </category>
 
 <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
+
+    <!-- CAIXA COM FÓSFOROS caixa de fósforos -->
+    <rule id="CAIXA_COM_FÓSFOROS" name="caixa de fósforos">
+      <pattern>
+		<token regexp="yes">caixas?</token>
+		<marker>
+			<token>com</token>
+		</marker>	
+		<token>fósforos</token>	
+      </pattern>
+      <message>Substitua «com» por <suggestion>de</suggestion>.</message>
+      <example correction="de">Vou comprar uma caixa <marker>com</marker> fósforos.</example>
+    </rule>
 
     <!-- CAPTURAR IMAGENS captar imagens -->
     <rule id="CAPTURAR_IMAGENS" name="Captar imagens">
