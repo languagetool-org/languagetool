@@ -2727,23 +2727,27 @@ $Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
   <rulegroup id="IR_CONTRACTION_NOUN" name="Ir + na/no + nome">
     <rule>
       <pattern>
-        <token inflected='yes'>ir</token>
+        <token inflected='yes'>ir
+          <exception regexp='yes'>foi|fora|indo</exception></token>
         <token>na</token>
         <token postag='N.F.+' postag_regexp='yes'/>
       </pattern>
       <message>Substitua «na» por <suggestion>\1 à \3</suggestion>.</message>
       <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
       <example>Tenho de <marker>ir à praia</marker>.</example>
+      <example>O menor número registrado foi na faixa etária entre 50 a 54 anos...</example>
     </rule>
     <rule>
       <pattern>
-        <token inflected='yes'>ir</token>
+        <token inflected='yes'>ir
+          <exception regexp='yes'>foi|fora|indo</exception></token>
         <token>no</token>
         <token postag='N.M.+' postag_regexp='yes'/>
       </pattern>
       <message>Substitua «no» por <suggestion>\1 ao \3</suggestion>.</message>
       <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
       <example>Tenho de <marker>ir ao ginásio</marker>.</example>
+      <example>Quero viajar para fora no ano que vem.</example>
     </rule>
   </rulegroup>
 
