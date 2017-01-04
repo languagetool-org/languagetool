@@ -5463,6 +5463,32 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+            <rule id="DEPEND_ON" name="confusion of bed/bad">
+            <antipattern>
+                <token regexp="yes">(up)?on</token>
+                <token regexp="yes" skip="-1">wh.*<exception scope="next">,</exception></token>
+                <token inflected="yes">depend</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">depend<exception scope="next">,</exception></token>
+                <token regexp="yes">(up)?on</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">depend</token>
+                <token regexp="yes">\.|,|\?|!</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">depend</token>
+            </pattern>
+            <message>The verb 'to depend' requires the preposition '(up)on':  <suggestion>\1 on</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/depend</url>
+            <short>Missing preposition</short>
+            <example correction="depends on">He <marker>depends</marker> you.</example>
+            <example correction="depends on">It all <marker>depends</marker> how you handle it.</example>
+            <example>Well, I'd say it <marker>depends</marker>.</example>
+            <example>It is <marker>on</marker> his father that he <marker>depends</marker>.</example>
+            <example>They are important as pheromones, chemical messenger materials, <marker>on</marker> which insects <marker>depend</marker> for communication.</example>
+        </rule>
         <rulegroup id="GRADUATE_FROM" name="graduate from">
             <rule>
                 <pattern>
@@ -12048,6 +12074,7 @@ USA
             <example>You will also buy some eggs.</example>
             <example correction="as well">You will buy some eggs <marker>also</marker>.</example>
         </rule>
+        <!-- this is an example rule: -->
         <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
             <rule> <!-- Passive infinitive (1/2) -->
                 <pattern>
