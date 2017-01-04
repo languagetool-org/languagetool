@@ -6783,70 +6783,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule id="Logical_bolee_menee" name="Устойчивое выражение «более или менее»">
-            <pattern>
-                <token>более-менее</token>
-            </pattern>
-            <message>Устойчивое выражение: <suggestion>более или менее</suggestion>.</message>
-            
-            <short>Устойчивое выражение.</short>
-            <example correction="Более или менее"><marker>Более-менее</marker>.</example>
-            <example>Более или менее.</example>
-        </rule> 
-        
-        <rulegroup id="NI_NA_GRAN" name="Цельное выражение «ни на гран»">
-         <rule>
-            <pattern>
-                <token>ни</token>
-                <token>на</token>
-                <token>грамм</token>
-            </pattern>
-            <message>Цельное выражение: <suggestion>ни на гран</suggestion>.</message>
-            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
-            <short>Цельное выражение.</short>
-            <example correction="ни на гран"><marker>ни на грамм</marker></example>
-            <example>ни на гран</example>
-         </rule>
-             <rule>
-            <pattern>
-                <token>ни</token>
-                <token>грамма</token>
-            </pattern>
-            <message>Цельное выражение: <suggestion>ни грана</suggestion>.</message>
-            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
-            <short>Цельное выражение.</short>
-            <example correction="ни грана"><marker>ни грамма</marker></example>
-            <example>ни грана</example>
-         </rule>  
-        </rulegroup>                    
-        
-         <rulegroup default="on" id="NE_PREDSTAVL_VOZM" name="Цельные выражения: «не представляется возможным»">
-            <rule>
-                <pattern>
-                    <token>не</token>
-                    <token>предоставляется</token>
-                    <token>возможным</token>
-                </pattern>
-                <message>Словосочетание<suggestion>\1 представляется \3</suggestion>.</message>
-                <short>Цельное выражение.</short>
-                <example>Количество лошадиных сил определить не представляется возможным.</example>
-                <example correction="не представляется возможным">Количество лошадиных сил определить <marker>не предоставляется возможным</marker>.</example>
-            </rule>
-        </rulegroup>
-	
-	<rulegroup default="on" id="Opublikovani_vospominanija" name="Цельные выражения: «опубликованы воспоминания»">
-            <rule>
-                <pattern>
-                    <token regexp="yes" >опубликовано|напечатано|обнародовано|издано</token>
-                    <token>воспоминание</token>
-                </pattern>
-                <message>Требуется множественное число: <suggestion><match no="1" postag="PT:(.*):.*" postag_regexp="yes" postag_replace="PT:$1:PL" /> воспоминания</suggestion>.</message>
-                <short>Требуется множественное число.</short>
-
-                <example correction="опубликованы воспоминания">В книге <marker>опубликовано воспоминание</marker> известного политика.</example>
-            </rule>
-        </rulegroup>
-        
         <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: «в», «к», «с», «без», «из» ...">
             <rule>
                 <pattern>
@@ -8645,6 +8581,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ни в коем случае">Но <marker>не в коем случае</marker> нельзя забывать об этом.</example>
             </rule>
         </rulegroup>
+        <rule id="Logical_bolee_menee" name="Устойчивое выражение «более или менее»">
+            <pattern>
+                <token>более-менее</token>
+            </pattern>
+            <message>Устойчивое выражение: <suggestion>более или менее</suggestion>.</message>
+            
+            <short>Устойчивое выражение.</short>
+            <example correction="Более или менее"><marker>Более-менее</marker>.</example>
+            <example>Более или менее.</example>
+        </rule>        
+        <rulegroup id="NI_NA_GRAN" name="Цельное выражение «ни на гран»">
+         <rule>
+            <pattern>
+                <token>ни</token>
+                <token>на</token>
+                <token>грамм</token>
+            </pattern>
+            <message>Цельное выражение: <suggestion>ни на гран</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
+            <short>Цельное выражение.</short>
+            <example correction="ни на гран"><marker>ни на грамм</marker></example>
+            <example>ни на гран</example>
+         </rule>
+         <rule>
+            <pattern>
+                <token>ни</token>
+                <token>грамма</token>
+            </pattern>
+            <message>Цельное выражение: <suggestion>ни грана</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
+            <short>Цельное выражение.</short>
+            <example correction="ни грана"><marker>ни грамма</marker></example>
+            <example>ни грана</example>
+         </rule>  
+        </rulegroup>                    
+        <rulegroup default="on" id="NE_PREDSTAVL_VOZM" name="Цельные выражения: «не представляется возможным»">
+            <rule>
+                <pattern>
+                    <token>не</token>
+                    <token>предоставляется</token>
+                    <token>возможным</token>
+                </pattern>
+                <message>Словосочетание<suggestion>\1 представляется \3</suggestion>.</message>
+                <short>Цельное выражение.</short>
+                <example>Количество лошадиных сил определить не представляется возможным.</example>
+                <example correction="не представляется возможным">Количество лошадиных сил определить <marker>не предоставляется возможным</marker>.</example>
+            </rule>
+        </rulegroup>
+	<rulegroup default="on" id="Opublikovani_vospominanija" name="Цельные выражения: «опубликованы воспоминания»">
+            <rule>
+                <pattern>
+                    <token regexp="yes" >опубликовано|напечатано|обнародовано|издано</token>
+                    <token>воспоминание</token>
+                </pattern>
+                <message>Требуется множественное число: <suggestion><match no="1" postag="PT:(.*):.*" postag_regexp="yes" postag_replace="PT:$1:PL" /> воспоминания</suggestion>.</message>
+                <short>Требуется множественное число.</short>
+
+                <example correction="опубликованы воспоминания">В книге <marker>опубликовано воспоминание</marker> известного политика.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Num_plus_Noun" name="Сочетание числительных с существительными">
             <rule>
                 <pattern>
@@ -8693,8 +8689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Глагол \1 с предлогом «о» не употребляется.</message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example>Выяснять про событие.</example>
-                <example correction="">
-                    <marker>Выяснять о</marker> событии.</example>
+                <example correction=""><marker>Выяснять о</marker> событии.</example>
                 <example correction="">Он <marker>выясняет о</marker> событии.</example>
             </rule>
             <rule>
@@ -8705,8 +8700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Глагол \1 не употребляется с предлогами.</message>
                 <short>Предлог не нужен.</short>
                 <example>Отмечать событие.</example>
-                <example correction="">
-                    <marker>Доказывать об</marker> этом событии.</example>
+                <example correction=""><marker>Доказывать об</marker> этом событии.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8716,8 +8710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена: <suggestion>\1 в</suggestion></message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example>Сомневаться в доказательстве.</example>
-                <example correction="Сомневаться в">
-                    <marker>Сомневаться об</marker> этом выводе.</example>
+                <example correction="Сомневаться в"><marker>Сомневаться об</marker> этом выводе.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8730,8 +8723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example>Указать на ошибку.</example>
-                <example correction="Указать на ошибку">
-                    <marker>Указать об ошибке</marker>.</example>
+                <example correction="Указать на ошибку"><marker>Указать об ошибке</marker>.</example>
             </rule>
         </rulegroup>
         
