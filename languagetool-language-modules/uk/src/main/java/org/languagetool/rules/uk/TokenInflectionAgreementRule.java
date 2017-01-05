@@ -184,7 +184,7 @@ public class TokenInflectionAgreementRule extends Rule {
       }
 
       if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking:\n\t{}\n\t{}", adjTokenReadings, slaveTokenReadings));
+        System.err.println(MessageFormat.format("=== Checking:\n\t{0}\n\t{0}", adjTokenReadings, slaveTokenReadings));
       }
 
       // perform the check
@@ -201,7 +201,7 @@ public class TokenInflectionAgreementRule extends Rule {
         }
 
         if( DEBUG ) {
-          System.err.println(MessageFormat.format("=== Found:\n\t{}\n\t",
+          System.err.println(MessageFormat.format("=== Found:\n\t{0}\n\t",
             adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadings,
             slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
         }
