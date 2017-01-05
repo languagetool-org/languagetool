@@ -5463,7 +5463,25 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-            <rule id="DEPEND_ON" name="depend on">
+        <rule id="RELY_ON" name="rely on">
+            <antipattern>
+                <token regexp="yes">(up)?on</token>
+                <token regexp="yes" skip="-1">wh.*<exception scope="next">,</exception></token>
+                <token inflected="yes">rely</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">rely<exception scope="next">,</exception></token>
+                <token regexp="yes">(up)?on</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">rely</token>
+            </pattern>
+            <message>The verb 'to rely' requires the preposition '(up)on':  <suggestion>\1 on</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/rely</url>
+            <short>Missing preposition</short>
+            <example correction="rely on">I <marker>rely</marker> my family to help me out.</example>
+        </rule>
+        <rule id="DEPEND_ON" name="depend on">
             <antipattern>
                 <token regexp="yes">(up)?on</token>
                 <token regexp="yes" skip="-1">wh.*<exception scope="next">,</exception></token>
