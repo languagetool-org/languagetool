@@ -32,7 +32,7 @@ public class CsvToXml {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose interface (To choose command line type 'cl', to choose UI type 'ui'): ");
-        System.out.flush();     //for some old computers
+        System.out.flush();
         String screen = scanner.nextLine();
 
         if ("cl".equals(screen)) {
@@ -44,7 +44,7 @@ public class CsvToXml {
             String splitBy = scanner.next();
             csvToBitext(filename, splitBy, "");
         } else if ("ui".equals(screen)) {
-            JFrame.setDefaultLookAndFeelDecorated(true); //JFrame , window
+            JFrame.setDefaultLookAndFeelDecorated(true);
             JDialog.setDefaultLookAndFeelDecorated(true);
             JFrame frame = new JFrame("User Interface");
             frame.setPreferredSize(new Dimension(400, 100));
@@ -54,7 +54,7 @@ public class CsvToXml {
             JTextField split = new JTextField(5);
             JButton btnFile = new JButton("Select Csv File");
             JButton btnOk = new JButton("Ok");
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); //get file from computer
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             btnFile.addActionListener((ActionEvent ae) -> {
                 jfc.setDialogTitle("Select csv file");
                 jfc.setAcceptAllFileFilterUsed(false);
@@ -67,7 +67,7 @@ public class CsvToXml {
 //                }
             });
             btnOk.addActionListener((ActionEvent ae) -> {
-                csvToBitext(jfc.getSelectedFile().getPath(), split.getText(), ""); //writing to the file
+                csvToBitext(jfc.getSelectedFile().getPath(), split.getText(), "");
             });
             frame.add(btnFile);
             frame.add(text);
@@ -81,17 +81,17 @@ public class CsvToXml {
     public static void csvToBitext(String csvFile, String cvsSplitBy, String line) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance(); //start to create xml file
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-            Document doc = docBuilder.newDocument();  //create attributes
+            Document doc = docBuilder.newDocument();
             Element rootElement = doc.createElement("example");
             doc.appendChild(rootElement);
 
-            Element example00 = doc.createElement("example00"); //code of the country
+            Element example00 = doc.createElement("example00");
             rootElement.appendChild(example00);
 
-            Element example01 = doc.createElement("example01"); //name of the countries
+            Element example01 = doc.createElement("example01");
             rootElement.appendChild(example01);
 
             example00.setAttribute("lang", "en");
