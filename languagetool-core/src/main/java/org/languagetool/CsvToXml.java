@@ -33,15 +33,12 @@ public class CsvToXml {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Choose interface (To choose command line type 'cl', to choose UI type 'ui'): ");
-    System.out.flush();
     String screen = scanner.nextLine();
 
     if ("cl".equals(screen)) {
       System.out.print("Enter a file name: ");
-      System.out.flush();
       String filename = scanner.nextLine();
       System.out.print("Enter character to seperate csv file: ");
-      System.out.flush();
       String splitBy = scanner.next();
       csvToBitext(filename, splitBy, "");
     } else if ("ui".equals(screen)) {
