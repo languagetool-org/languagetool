@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -32,14 +33,13 @@ import java.util.Properties;
  */
 public class HTTPServerConfig {
 
-  enum Mode {LanguageTool, AfterTheDeadline}
+  enum Mode { LanguageTool, AfterTheDeadline }
 
   public static final String DEFAULT_HOST = "localhost";
 
-  /**
-   * The default port on which the server is running (8081).
-   */
+  /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
+  protected static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -74,7 +74,7 @@ public class HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose    when set to <tt>true</tt>, the input text will be logged in case there is an exception
+   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
    */
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
@@ -88,7 +88,7 @@ public class HTTPServerConfig {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
           break;
         case "-p":
         case "--port":
@@ -107,11 +107,14 @@ public class HTTPServerConfig {
             throw new IllegalArgumentException("Missing argument for '--allow-origin'");
           }
           break;
+        case LANGUAGE_MODEL_OPTION:
+          loadLanguageModelDirectory(args[++i]);
+          break;
       }
     }
   }
 
-  private void parseConfigFile(File file) {
+  private void parseConfigFile(File file, boolean loadLangModel) {
     try {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
@@ -126,11 +129,8 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Max queue size must be >= 0: " + maxWorkQueueSize);
         }
         String langModel = getOptionalProperty(props, "languageModel", null);
-        if (langModel != null) {
-          languageModelDir = new File(langModel);
-          if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
-            throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
-          }
+        if (langModel != null && loadLangModel) {
+          loadLanguageModelDirectory(langModel);
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
@@ -153,6 +153,12 @@ public class HTTPServerConfig {
     }
   }
 
+  private void loadLanguageModelDirectory(String langModel) {
+    languageModelDir = new File(langModel);
+    if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
+      throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
+    }
+  }
   /*
    * @param verbose if true, the text to be checked will be displayed in case of exceptions
    */
@@ -200,23 +206,20 @@ public class HTTPServerConfig {
 
   /**
    * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
-   *                           will stop with an exception. Use {@code -1} for no limit.
+   *                      will stop with an exception. Use {@code -1} for no limit.
    * @since 2.6
    */
   void setMaxCheckTimeMillis(int maxCheckTimeMillis) {
     this.maxCheckTimeMillis = maxCheckTimeMillis;
   }
 
-  /**
-   * @since 2.6
-   */
+  /** @since 2.6 */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
   }
 
   /**
    * Get language model directory (which contains '3grams' sub directory) or {@code null}.
-   *
    * @since 2.7
    */
   @Nullable
@@ -224,9 +227,7 @@ public class HTTPServerConfig {
     return languageModelDir;
   }
 
-  /**
-   * @since 2.7
-   */
+  /** @since 2.7 */
   Mode getMode() {
     return mode;
   }
@@ -242,16 +243,14 @@ public class HTTPServerConfig {
 
   /**
    * @param maxCheckThreads The maximum number of threads serving requests running at the same time.
-   *                        If there are more requests, they will be queued until a thread can work on them.
+   * If there are more requests, they will be queued until a thread can work on them.
    * @since 2.7
    */
   void setMaxCheckThreads(int maxCheckThreads) {
     this.maxCheckThreads = maxCheckThreads;
   }
 
-  /**
-   * @since 2.7
-   */
+  /** @since 2.7 */
   int getMaxCheckThreads() {
     return maxCheckThreads;
   }
@@ -260,23 +259,18 @@ public class HTTPServerConfig {
    * Set to {@code true} if this is running behind a (reverse) proxy which
    * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
    * in that header will then be used for enforcing a request limitation.
-   *
    * @since 2.8
    */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
   }
 
-  /**
-   * @since 2.8
-   */
+  /** @since 2.8 */
   boolean getTrustXForwardForHeader() {
     return trustXForwardForHeader;
   }
 
-  /**
-   * @since 2.9
-   */
+  /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
   }
@@ -294,7 +288,7 @@ public class HTTPServerConfig {
    * @throws IllegalConfigurationException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
-    String propertyValue = (String) props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
       throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
@@ -302,7 +296,7 @@ public class HTTPServerConfig {
   }
 
   protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    String propertyValue = (String) props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null) {
       return defaultValue;
     }
