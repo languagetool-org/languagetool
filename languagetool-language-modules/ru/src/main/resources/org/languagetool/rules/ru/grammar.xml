@@ -7223,11 +7223,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="не дождались решения комиссии|не дождались решенья комиссии">Мы <marker>не дождались решение комиссии</marker>.</example>
             <example>Мы не дождались решения комиссии.</example>
         </rule>
-        <rulegroup id="ABR_GENDER" name="Род аббревиатур" default="off">
+        <rulegroup id="ABR_GENDER" name="Род аббревиатур">
             <!--  TODO: add exception -->
             <rule>   
                 <pattern>
-                    <token postag="ABR:Masc"><exception scope="previous" postag="PREP"/></token>                  
+                    <token postag="ABR:Masc"><exception scope="previous" postag="PREP"/><exception scope="previous" regexp="yes">[0-9,.]+</exception></token>                  
                     <token postag="VB:Past:Fem|VB:Past:Neut" postag_regexp="yes"/>
                 </pattern>
                 <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Masc" /></suggestion> — мужской род.</message>
@@ -7236,10 +7236,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="УЕФА объявил"><marker>УЕФА объявила</marker> о реформе.</example>
                 <example>УЕФА объявил о реформе.</example>
                 <example>Фактическая власть в СССР принадлежала руководству КПСС.</example>
+                <example>На фронте протяжённостью 500,5 км располагалась группа армий.</example>
             </rule>
             <rule>   
                 <pattern>
-                    <token postag="ABR:Fem"><exception scope="previous" postag="PREP"/><exception scope="previous" regexp="yes">совет|безопасности</exception></token>                  
+                    <token postag="ABR:Fem"><exception scope="previous" postag="PREP"/><exception scope="previous" regexp="yes">совет|безопасности</exception><exception scope="previous" regexp="yes">[0-9,.]+</exception></token>                  
                     <token postag="VB:Past:Neut|VB:Past:Masc" postag_regexp="yes"/>
                 </pattern>
                 <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Fem" /></suggestion> — женский род.</message>
@@ -7253,7 +7254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                        
             <rule>   
                 <pattern>
-                    <token postag="ABR:Neut"><exception scope="previous" postag="PREP"/></token>                  
+                    <token postag="ABR:Neut"><exception scope="previous" postag="PREP"/><exception scope="previous" regexp="yes">[0-9,.]+</exception></token>                  
                     <token postag="VB:Past:Fem|VB:Past:Masc" postag_regexp="yes"/>
                 </pattern>
                 <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:Neut" /></suggestion> — средний род.</message>
