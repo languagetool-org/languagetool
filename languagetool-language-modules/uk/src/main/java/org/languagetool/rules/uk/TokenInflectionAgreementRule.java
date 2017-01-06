@@ -184,7 +184,7 @@ public class TokenInflectionAgreementRule extends Rule {
       }
 
       if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking:\n\t{0}\n\t{0}", adjTokenReadings, slaveTokenReadings));
+        System.err.println(MessageFormat.format("=== Checking:\n\t{0}\n\t{1}", adjTokenReadings, slaveTokenReadings));
       }
 
       // perform the check
