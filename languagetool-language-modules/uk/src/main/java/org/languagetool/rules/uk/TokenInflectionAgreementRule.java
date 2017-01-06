@@ -213,7 +213,7 @@ public class TokenInflectionAgreementRule extends Rule {
         if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
             && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
-          msg += ". Можливо вжито неунормований родовий відмінок ч.р. з закінченням -у/ю замість -а/я?";
+          msg += ". Можливо вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());

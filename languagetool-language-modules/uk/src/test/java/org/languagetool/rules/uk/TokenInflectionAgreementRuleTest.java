@@ -37,6 +37,10 @@ public class TokenInflectionAgreementRuleTest {
   private JLanguageTool langTool;
   private TokenInflectionAgreementRule rule;
 
+//  static {
+//    System.setProperty("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug", "true");
+//  }
+  
   @Before
   public void setUp() throws IOException {
     rule = new TokenInflectionAgreementRule(TestTools.getMessages("uk"));
@@ -70,6 +74,8 @@ public class TokenInflectionAgreementRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволий депутата")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволого тюльпан")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
+    // не працює через іменник французька (мова)
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
     RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
     assertEquals(1, matches0.length);
