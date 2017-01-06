@@ -193,6 +193,8 @@ public class Portuguese extends Language implements AutoCloseable {
     switch (id) {
       case "T-V_DISTINCTION": return -10;
       case "T-V_DISTINCTION_ALL": return -11;
+      case "REPEATED_WORDS": return -90;
+      case "REPEATED_WORDS_3X": return -91;
       case "WIKIPEDIA_COMMON_ERRORS": return -100;
     }
     return 0;
