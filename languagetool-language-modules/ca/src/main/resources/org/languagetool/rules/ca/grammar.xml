@@ -18300,6 +18300,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics" type="grammar">
+        <rulegroup id="SE" name="se/sé">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se<exception regexp="yes">(?-i)SE</exception><exception postag="_possible_nompropi"/></token>
+                    </marker>
+                    <token postag="_PUNCT.*|P[RT].*|SPS00|C.|_GN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és del verb saber, s'accentua.</message>
+                <suggestion>sé</suggestion>
+                <example correction="Sé"><marker>Se</marker> que vindrà.</example>
+                <example correction="Sé"><marker>Se</marker> quan vindrà.</example>
+                <example correction="Sé"><marker>Se</marker> quins vindran.</example>
+                <example correction="sé">No <marker>se</marker> si vindran.</example>
+                <example correction="sé">No <marker>se</marker> la resposta.</example>
+                <example correction="sé">No <marker>se</marker> de què parla.</example>
+                <example>SE, abreviació del punt cardinal sud-est.</example>
+                <example>El símbol del seleni és Se.</example>
+                <example>Se la menjarà sencera</example>
+                <example>Se la menja.</example>
+                <example>No se l'espera avui.</example>
+            </rule>
+        </rulegroup>
         <rule id="SERE" name="serè/seré">
             <antipattern>
                 <marker>
