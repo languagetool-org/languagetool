@@ -20547,7 +20547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>es<exception postag="DA0MN0|.*LOC_ADV.*|(&lt;)?NP.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="V.[^NPG].3.*|_possible_nompropi|_GV_" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben|dona</exception></token>
+                    <token><exception postag="V.[^NPG].3.*|_possible_nompropi|_GV_" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben|dona|reflexa</exception></token>
                 </pattern>
                 <message>S'accentua quan és del verb "ser".</message>
                 <suggestion>és</suggestion>
@@ -34488,6 +34488,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible error</short>
                 <example correction="reflecteix|reflecteixes">la freqüència <marker>reflexa</marker> el fet</example>
                 <example>És una reacció reflexa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|és</token>
+                    <token>reflexa</token>
+                </pattern>
+                <message>Si és verb, cal dir "reflectir".</message>
+                <suggestion>es reflecteix</suggestion>
+                <example correction="Es reflecteix"><marker>Es reflexa</marker> a l'exterior.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COMPLEXES" name="complexes/complexos, reflexes/reflexos, fixes/fixos">
