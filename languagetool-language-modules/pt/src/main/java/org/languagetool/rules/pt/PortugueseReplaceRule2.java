@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  * <code>/ro/replace.txt</code>.
  *
  * @author Tiago F. Santos (localized from romanian)
- * since 3.6
+ * @since 3.6
  */
 public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
 
