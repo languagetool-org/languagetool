@@ -3508,7 +3508,6 @@ $Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
 <!-- ***************************** -->
   <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes obliquos (eu,mim;tu,ti)'>
     <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
-    <!-- A TU a ti -->
     <rule>
       <pattern>
         <token>a</token>
@@ -3519,8 +3518,11 @@ $Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
     </rule>
     <rule>
       <pattern>
-        <token>de</token>
+      <marker>
+        <token regexp='yes'>de|para|sem</token>
         <token>eu</token>
+      </marker>
+      <token postag='_PUNCT|CC|SPS00' postag_regexp='yes'/>
       </pattern>
       <message>Substitua por <suggestion>de mim</suggestion> ou <suggestion>de me</suggestion>.</message>
       <example correction="de mim|de me">Isto é <marker>de eu</marker> para o Rui.</example>
@@ -3579,19 +3581,16 @@ $Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
     </rule>
     <rule>
       <pattern>
-        <token>para</token>
+      <marker>
+        <token regexp='yes'>de|para|sem</token>
         <token>tu</token>
+      </marker>
+      <token postag='_PUNCT|CC|SPS00' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>para ti</suggestion> ou <suggestion>para te</suggestion>.</message>
+      <message>Substitua por <suggestion>\1 ti</suggestion> ou <suggestion>\1 te</suggestion>.</message>
       <example correction="para ti|para te">Isto é <marker>para tu</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>sem</token>
-        <token>tu</token>
-      </pattern>
-      <message>Substitua por <suggestion>sem ti</suggestion> ou <suggestion>sem te</suggestion>.</message>
       <example correction="sem ti|sem te">Isto não é o mesmo <marker>sem tu</marker>.</example>
+      <example> Para tu me dizeres isso, é porque é grave.</example>
     </rule>
   </rulegroup>
 <!-- *************************** -->
