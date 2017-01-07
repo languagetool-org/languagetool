@@ -7624,6 +7624,66 @@ though, and has since been slightly modified)-->
         <example correction="rennes">Ils chassent des <marker>rênes</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="PAUSE_POSE" name="Pause et pose">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2217</url>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">poses?-(?:café|carrière|crédit|déjeuné|détente|dîner|pipi|repas|thé)</token></marker>
+        </pattern>
+        <message>Confusion probable entre « pose » et « pause ».</message>
+        <suggestion><match no="1" regexp_match="o" regexp_replace="au"/></suggestion>
+        <example correction="pause-café">Faire un <marker>pose-café</marker>.</example>
+        <example correction="pauses-café">Faire des <marker>poses-café</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pose</token></marker>
+          <token regexp="yes">d[eu]</token>
+          <token regexp="yes">matin|midi|soir</token>
+        </pattern>
+        <message>Confusion probable entre « pose » et <suggestion>pause</suggestion>.</message>
+        <example correction="pause">La <marker>pose</marker> du midi.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pause</token></marker>
+          <token regexp="yes">d[eu]</token>
+          <token regexp="yes">cable|carrelage|lino|linol[eé]um|marbre|panneau|papier|parquet|prélart|revêtement|stérilet|tapis|tapisserie|vernis</token>
+        </pattern>
+        <message>Confusion probable entre « pause » et <suggestion>pose</suggestion>.</message>
+        <example correction="pose">La <marker>pause</marker> du carrelage.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pause</token></marker>
+          <token>des</token>
+          <token regexp="yes">ardoises|agrafes|bollards|briques|câbles|carreaux|carrelages|dalles|fenêtres|panneaux|parquets|pavés|plaques|plinthes|tapis|tapisseries|tuiles|vitres|vitrages</token>
+        </pattern>
+        <message>Confusion probable entre « pause » et <suggestion>pose</suggestion>.</message>
+        <example correction="pose">La <marker>pause</marker> des ardoises.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pause</token></marker>
+          <token>de</token>
+          <token>la</token>
+          <token regexp="yes">charpente|couronne|dalle|fenêtre|moquette|prothèse|tapisserie|toiture|vitre</token>
+        </pattern>
+        <message>Confusion probable entre « pause » et <suggestion>pose</suggestion>.</message>
+        <example correction="pose">La <marker>pause</marker> de la tapisserie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pause</token></marker>
+          <token>de</token>
+          <token>la</token>
+          <token regexp="yes">première|1e|1ère</token>
+          <token regexp="yes">brique|couche|pierre</token>
+        </pattern>
+        <message>Confusion probable entre « pause » et <suggestion>pose</suggestion>.</message>
+        <example correction="pose">La <marker>pause</marker> de la première pierre.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
