@@ -162,6 +162,7 @@ public class Catalan extends Language {
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "ACCENTUATION_CHECK": return 10;
+      case "CONCORDANCES_DET_NOM": return 5;
       case "REGIONAL_VERBS": return -10;
       case "FALTA_ELEMENT_ENTRE_VERB": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
