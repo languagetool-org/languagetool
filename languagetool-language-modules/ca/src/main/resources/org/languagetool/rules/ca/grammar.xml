@@ -8882,8 +8882,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>què</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>de</token>
+                        <token>què</token>
+                        <token inflected="yes" regexp="yes">gaudir|fruir|disfrutar</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">idea|malgrat|risc|fet|possibilitat|condició|fart|tip|por|temor|conscient|consciència|excepció|garantia|signe|senyal|sensació</token>
+                    <token regexp="yes" inflected="yes">esperança|seguretat|voluntat|idea|malgrat|risc|fet|possibilitat|condició|fart|tip|por|temor|conscient|consciència|excepció|garantia|signe|senyal|sensació</token>
                     <token min="0" postag="AQ..S." postag_regexp="yes"></token>
                     <marker>
                         <token>de</token>
@@ -8896,6 +8903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="que">Amb la condició addicional <marker>de què</marker> vingui.</example>
                 <example correction="que">Amb la possibilitat concreta <marker>de què</marker> vingui.</example>
                 <example>No tenia ni idea de què significava allò.</example>
+                <example>La seguretat de què gaudeixen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9095,8 +9103,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>donat</token>
+                    <token>a</token>
+                    <token regexp="yes">que|què</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>atès que</suggestion>
+                <suggestion>donat que</suggestion>
+                <suggestion>com que</suggestion>
+                <suggestion>degut al fet que</suggestion>
+                <example correction="Atès que|Donat que|Com que|Degut al fet que"><marker>Donat a què</marker> va venir tard.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">accedir|animar|apuntar|ajudar|col·laborar|contribuir|deure|esperar|convidar|invitar|disposar|forçar|aspirar|renunciar|respondre<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">accedir|afavorir|ajudar|animar|apuntar|aspirar|col·laborar|contribuir|convidar|deure|disposar|dur|esperar|forçar|invitar|obligar|portar|referir|renunciar|respondre|venir<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token regexp="yes">a|en</token>
                         <token regexp="yes">què|que</token>
                     </marker>
@@ -9113,7 +9134,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">gràcies|mercès|anteriors?|posteriors?</token>
+                    <marker>
+                        <token postag="V.[NGM].*" postag_regexp="yes" inflected="yes" regexp="yes">accedir|afavorir|ajudar|animar|apuntar|aspirar|col·laborar|contribuir|convidar|deure|disposar|dur|esperar|forçar|invitar|obligar|portar|referir|renunciar|respondre|venir<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                        <token>a</token>
+                        <token regexp="yes">què|que</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion><match no="1"/><match no="2"/> que</suggestion>
+                <suggestion><match no="1"/><match no="2"/> a fer que</suggestion>
+                <example correction="convidar-lo que|convidar-lo a fer que">Vaig <marker>convidar-lo a què</marker> vingués.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">gràcies|mercès|anteriors?|posteriors?|referència|cara</token>
                     <marker>
                         <token>a</token>
                         <token regexp="yes">què|que</token>
