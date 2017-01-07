@@ -21609,37 +21609,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <!-- <token postag="V.[MGN].*|P[P0].*" postag_regexp="yes" negate_pos="yes"></token> -->
+                    <marker>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">-.+</exception></token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">'[ltsnm]<exception postag="allow_saxon_genitive"/></token>
+                        <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">us|el|els|et|en|em</exception><exception regexp="yes" inflected="yes">&verbs_no_apostrofen;</exception><exception postag="_GN.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion><match no="1"/> <match no="2" regexp_match="'(.)" regexp_replace="$1'"></match><match no="3"/></suggestion>
+                <example correction="me n'oblido">Sempre <marker>me'n oblido</marker>.</example>
+                <example correction="me n'he">quan <marker>me'n he</marker> posat de curts</example>
+                <example>Se'l hala sencer</example>
+                <example>Se't ioditza</example>
+                <example>En portar-me'l obrí la caixa</example>
+                <example>McDonald’s és una empresa</example>
+                <example>En estable comunió amb els germans</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token><exception postag="V.[MGN].*" postag_regexp="yes"/><exception postag="P[P0].*" postag_regexp="yes" regexp="yes">-.+</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne|'[ltsnm]<exception postag="allow_saxon_genitive"/></token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne</token>
                         <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">us|el|els|et|en|em</exception><exception regexp="yes" inflected="yes">&verbs_no_apostrofen;</exception><exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion><match no="2" regexp_match="[Ee']?(.)[e]?" regexp_replace="$1'"></match><match no="3"/></suggestion>
-                <short>Cal apostrofar</short>
+                <suggestion><match no="2" regexp_match="(?iu)e?(.)e?" regexp_replace="$1'"></match><match no="3"/></suggestion>
                 <example correction="s'omple">La plaça <marker>se omple</marker> de gent.</example>
-                <example correction="n'he">quan me<marker>'n he</marker> posat de curts</example>
                 <example correction="T'ionitza"><marker>Et ionitza</marker>.</example>
-                <example>Se'l hala sencer</example>
-                <example>Se't ioditza</example>
                 <example>La plaça s'omple de gent.</example>
-                <example>quan me n'he posat de curts</example>
                 <example>En portar-me'l obrí la caixa</example>
                 <example>McDonald’s és una empresa</example>
                 <example>en estable comunió amb els germans</example>
             </rule>
-            <!--<rule>
-                <pattern mark_from="0" mark_to="-1">
-                <token postag="P.*" postag_regexp="yes" regexp="yes">la</token>
-                <token postag="V.*|P.*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">io[dt].*</exception><exception regexp="yes">hi|us|el|els|et|en|em</exception></token>
-                </pattern>
-                <message>Cal apostrofar: <suggestion>l'</suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example correction=""><marker>La</marker> omple de gent.</example>
-                <example><marker>L'</marker> omple de gent.</example>
-                </rule> -->
             <rule>
                 <pattern>
                     <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
