@@ -164,6 +164,15 @@ public class AccentuationCheckRule extends CatalanRule {
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }
+        else if (i > 2 && tokens[i - 2].hasPosTag("SPS00") 
+            && !tokens[i - 2].hasPosTag("RG")
+            && !matchPostagRegexp(tokens[i - 2], DETERMINANT)
+            && (matchPostagRegexp(tokens[i - 1], DETERMINANT) 
+                || mArticleELMS.matches() || mArticleELFS.matches() 
+                || mArticleELMP.matches() || mArticleELFP.matches() )
+            && !matchPostagRegexp(tokens[i], INFINITIU)) {
+          replacement = relevantWords.get(token).getToken();
+        }
         // aquestes renuncies
         else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token), NOM_MS) 
               && !token.equals("cantar"))

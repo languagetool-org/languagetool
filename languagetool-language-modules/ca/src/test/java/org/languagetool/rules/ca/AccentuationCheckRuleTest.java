@@ -98,6 +98,8 @@ public class AccentuationCheckRuleTest {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("El millor de la historia.");
+    assertIncorrect("El millor d'aquesta historia.");
     assertIncorrect("L'ultima consideració.");
     assertIncorrect("Com s'ha dit les primaries autonòmiques s'han ajornat");
     assertIncorrect("Com sabeu les primaries s'han ajornat");
