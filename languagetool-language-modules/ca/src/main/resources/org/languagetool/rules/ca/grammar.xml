@@ -18301,6 +18301,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics" type="grammar">
         <rulegroup id="SE" name="se/sé">
+            <antipattern>
+                <marker>
+                    <token>se</token>
+                    <token postag="_cometes_obertura"/>
+                    <token postag="V...3S.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18322,6 +18329,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se la menja.</example>
                 <example>No se l'espera avui.</example>
                 <example>En les institucions de govern per se.</example>
+                <example>Se la veu tranquil·la.</example>
+                <example>Se "sentia" sol.</example>
+                <example>Se li «sentia» tot.</example>
             </rule>
         </rulegroup>
         <rule id="SERE" name="serè/seré">
@@ -21653,7 +21663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception postag="V.[MGN].*" postag_regexp="yes"/><exception postag="P[P0].*" postag_regexp="yes" regexp="yes">-.+</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne<exception regexp="yes">(?-i)SE</exception></token>
                         <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">us|el|els|et|en|em</exception><exception regexp="yes" inflected="yes">&verbs_no_apostrofen;</exception><exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -21665,6 +21675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En portar-me'l obrí la caixa</example>
                 <example>McDonald’s és una empresa</example>
                 <example>en estable comunió amb els germans</example>
+                <example>El vèrtex SE és el del sud-est.</example>
             </rule>
             <rule>
                 <pattern>
