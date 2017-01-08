@@ -4,7 +4,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard and Myriam Lechelt.
-              2011-2016 Dominique Pellé
+              2011-2017 Dominique Pellé
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -6378,7 +6378,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">un|[dl]es</token>
           <marker><token regexp="yes">auspices?</token></marker>
         </pattern>
-        <message>Confusion probable entre les mots « 3 » et <suggestion><match no="3" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « \3 » et <suggestion><match no="3" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">Il a finit ses jours dans un <marker>auspice</marker>.</example>
       </rule>
       <rule>
@@ -6387,7 +6387,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">des?|pour</token>
           <token regexp="yes">vieillards?|vieux|s[eé]niors|personnes?|maternité|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres|Paris</token>
         </pattern>
-        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « \1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">L’<marker>auspice</marker> des vieillards.</example>
       </rule>
       <rule>
@@ -6397,7 +6397,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dl]es</token>
           <token regexp="yes">vieillards|vieux|s[eé]niors|personnes|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres</token>
         </pattern>
-        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « \1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">L’<marker>auspice</marker> pour les vieux.</example>
       </rule>
     </rulegroup>
@@ -7682,6 +7682,25 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre « pause » et <suggestion>pose</suggestion>.</message>
         <example correction="pose">La <marker>pause</marker> de la première pierre.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ACRE_ACRE" name="Âcre ou acre">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4675</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">goût|humeur|odeur|parole|remarque|reproche|saveur|sensation|vin</token>
+          <marker><token inflected="yes">acre</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="a" regexp_replace="â"/></suggestion>.</message>
+        <example correction="âcre">Une odeur <marker>acre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">\d+</token>
+          <marker><token>âcres</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="â" regexp_replace="a"/></suggestion>.</message>
+        <example correction="acres">Une superficie de 50 <marker>âcres</marker>.</example>
       </rule>
     </rulegroup>
   </category>
