@@ -1286,14 +1286,14 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
     <!-- ALUGAR CASA(S) arrendar casa(s) -->
     <rule id="ALUGAR_CASA" name="arrendar casa">
       <pattern>
-		<marker>
-			<token>alugar</token>
-		</marker>	
-		<token  min="0" regexp="yes">umas?</token>
-		<token regexp="yes">casas?</token>
+		<token inflected='yes'>alugar</token>
+		<token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
+		<token regexp="yes">casas?|apartamentos?|habitaç(ão|ões)|imóv(el|eis)</token>
       </pattern>
-      <message>Substitua «alugar» por <suggestion>arrendar</suggestion>.</message>
-      <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
+      <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+'>arrendar</match></suggestion>.</message>
+        <suggestion><match no='1' postag='V.+'>arrendar</match> \2 \3</suggestion>
+      <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
+      <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
     </rule>
 	
     <!-- CAIXA COM FÓSFOROS caixa de fósforos -->
