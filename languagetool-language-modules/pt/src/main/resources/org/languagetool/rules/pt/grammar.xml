@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -1264,6 +1264,19 @@ $Id: grammar.xml,v 1.197 2017-01-04 09:00:00 marcoagpinto Exp $
 
 <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
 
+    <!-- ALUGAR UMA(S) CASA(S) arrendar uma(s) casa(s) -->
+    <rule id="ALUGAR_CASA" name="arrendar casa">
+      <pattern>
+		<marker>
+			<token>alugar</token>
+		</marker>	
+		<token regexp="yes">umas?</token>
+		<token regexp="yes">casas?</token>
+      </pattern>
+      <message>Substitua «alugar» por <suggestion>arrendar</suggestion>.</message>
+      <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
+    </rule>
+	
     <!-- CAIXA COM FÓSFOROS caixa de fósforos -->
     <rule id="CAIXA_COM_FÓSFOROS" name="caixa de fósforos">
       <pattern>
