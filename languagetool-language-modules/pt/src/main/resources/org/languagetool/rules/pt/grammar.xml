@@ -2067,6 +2067,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 -->
 
     <!-- COMER tomar -->
+<!-- TODO Covered by COMER_A_REFEIÇAO. Consider removal 
     <rule id="COMER_O_OS_MEDICAMENTO_S" name="Tomar o(s) medicamento(s)">
       <pattern case_sensitive="no">
 		 <marker>
@@ -2078,6 +2079,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>tomar</suggestion>.</message>
       <example correction="tomar">Vai <marker>comer</marker> os medicamentos.</example>
     </rule>
+-->
 
     <!-- CONTRA CAPA contracapa -->
     <rule id="CONTRA_CAPA" name="Contracapa">
@@ -6199,9 +6201,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 
 <category id="REDUNDANCY" name="Redundância">
 
-	<!--          Tiago F. Santos Rules Start         ****START**** -->
-	<!-- ********************************************************** -->
-
     <!-- ANTES PREFIRO prefiro -->
     <rule id="ANTES_PREFIRO" name="Prefiro">
       <pattern>
@@ -6223,7 +6222,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
-	<!-- TODO Move to PLEONASMOS category		-->
 	<!-- Verb EXPORTAR + PARA FORA > Verb exportar -->	
 	<rule id="EXPORTAR_PARA_FORA" name="Exportar">
 		<pattern>
@@ -6235,7 +6233,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
  		<example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
  	</rule>
 
-<!-- TODO Move to PLEONASMOS category 				-->
     <!-- HEMORRAGIA DE SANGUE hemorragia -->
     <rule id="HEMORRAGIA_DE_SANGUE" name="Hemorragia">
       <pattern>
@@ -6247,7 +6244,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
     </rule>
 
-<!-- TODO Move to PLEONASMOS category 				-->
     <!-- IDA PARA LÁ ida -->
     <rule id="IDA_PARA_LÁ" name="Ida">
       <pattern>
@@ -6259,7 +6255,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="ida">A minha <marker>ida para lá</marker> correu bem.</example>
     </rule>
 
-<!-- TODO Move to PLEONASMOS category 				-->
     <!-- MAIS MELHOR melhor -->
     <rule id="MAIS_MELHOR" name="Melhor">
       <pattern>
@@ -6270,7 +6265,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
     </rule>
 
-<!-- TODO Move to PLEONASMOS category 				-->
     <!-- MAIS PIOR pior -->
     <rule id="MAIS_PIOR" name="Pior">
       <pattern>
@@ -6281,7 +6275,6 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
 
-<!-- TODO Move to PLEONASMOS category 				-->
     <!-- QUADRILHA DE LADRÕES quadrilha -->
     <rule id="QUADRILHA_DE_LADRÕES" name="Quadrilha">
       <pattern>
@@ -6292,6 +6285,68 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Redundância. Usar: <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
+
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
+
+  <rulegroup id="COMER_A_REFEICAO" name="Comer + Determinante + Refeição">
+	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-01-02 -->
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token>o</token>
+        <token>almoço</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>almoçar</match></suggestion>.</message>
+      <example correction="almoçar">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token>o</token>
+        <token>jantar</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>jantar</match></suggestion>.</message>
+      <example correction="jantar">Vou <marker>comer o jantar</marker> daqui a pouco.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token>o</token>
+        <token>lanche</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lanchar</match></suggestion>.</message>
+      <example correction="Lanchei"><marker>Comi o lanche</marker> a correr.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token>a</token>
+        <token>ceia</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>cear</match></suggestion>.</message>
+      <example correction="Ceei"><marker>Comi a ceia</marker> de Natal muito tarde.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token>a</token>
+        <token>refeição</token>
+      </pattern>
+      <message>Redundância.</message>
+        <suggestion>\1</suggestion>
+      <example correction="Comeu"><marker>Comeu a refeição</marker> sem vontade.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes'>comer</token>
+        <token regexp='yes'>os?</token>
+        <token regexp='yes'>(remédio|medicamento)s?</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tomar</match> \2 \3</suggestion>.</message>
+      <example correction="Tome os medicamentos"><marker>Coma os medicamentos</marker> de acordo com as indicações do médico.</example>
+    </rule>
+  </rulegroup>
 
 		<!--  Rule group made semi automatically with the Wikipedia list
 				tokenizer spreadsheet in the forum	     -->
@@ -13878,7 +13933,8 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
 	</rule>
 
-    <!-- COMER O ALMOÇO almoçar -->
+	<!-- TODO Covered by COMER_A_REFEIÇAO. Consider removal. -->
+    <!-- COMER O ALMOÇO almoçar 
     <rule id="COMER_O_ALMOÇO" name="Almoçar">
       <pattern>
         <token>comer</token>
@@ -13888,6 +13944,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>almoçar</suggestion>.</message>
       <example correction="almoçar">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
     </rule>
+    -->
 
 	<!-- TODO Verify		-->
     <!-- NA MEDIDA DO POSSÍVEL informal -->
