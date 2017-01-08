@@ -5844,21 +5844,22 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 
 <category id="PUNCTUATION" name="Pontuação">
 
-    <!-- OU SEJA ou seja, -->
-    <rule id="OU_SEJA" name="Ou seja">
+    <!-- COMMA BEFORE/AFTER WORDS #1 -->
+  <rulegroup id="COMMA_1" name="Vírgula antes conjunção">
+ 	     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+    <rule>
       <pattern>
 		<marker>
 			<token>ou</token>
+			<token min='0'>,</token>
 			<token>seja</token>
 		</marker>
 		<token negate="yes">,</token>
       </pattern>
-      <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
+      <message>Usar vírgula: <suggestion>\1 \3,</suggestion></message>
       <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
     </rule>
-
-    <!-- COMMA BEFORE/AFTER WORDS #1 -->
-    <rule id="COMMA_1" name="Vírgula antes #1">
+    <rule>
       <pattern>	  
 		<marker>
 			<token><exception regexp="yes">[,;:–—\(]</exception><exception>o</exception></token>	
@@ -5868,9 +5869,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
 	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> mas faz engordar.</example>
     </rule>
-
-    <!-- COMMA BEFORE/AFTER WORDS #2 -->
-    <rule id="COMMA_2" name="Vírgula antes #2">
+    <rule>
       <pattern>	  
 		<marker>
 			<token><exception regexp="yes">[,;:–—\(]</exception></token>
@@ -5881,10 +5880,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
 	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> no entanto faz engordar.</example>
     </rule>
-
-<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
-    <!-- COMMA BEFORE/AFTER WORDS #3a -->	
-    <rule id="COMMA_3a" name="Vírgula antes #3a">
+    <rule>
       <pattern> 
        <marker>
             <token>é</token>
@@ -5896,10 +5892,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1, \2,</suggestion></message>
       <example correction="é, pois,">Ela <marker>é pois</marker> do Norte.</example>
     </rule>
-
-<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
-    <!-- COMMA BEFORE/AFTER WORDS #3aa -->	
-    <rule id="COMMA_3aa" name="Vírgula antes #3aa">
+    <rule>
       <pattern> 
        <marker>
             <token>É</token>
@@ -5910,10 +5903,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
       <example correction="É,">Será verdade? <marker>É</marker> pois!</example>
     </rule>
-
-<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
-	<!-- COMMA BEFORE/AFTER WORDS #3b -->
-    <rule id="COMMA_3b" name="Vírgula antes #3b">
+    <rule>
       <pattern> 
        <marker>
             <token>é</token>
@@ -5926,10 +5916,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1, \3,</suggestion></message>
       <example correction="é, pois,">Ela <marker>é, pois</marker> do Norte.</example>
     </rule>
-
-<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
-	<!-- COMMA BEFORE/AFTER WORDS #3c -->
-	<rule id="COMMA_3c" name="Vírgula antes #3c">
+    <rule>
       <pattern> 
        <marker>
             <token>é</token>
@@ -5941,6 +5928,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1, \2</suggestion></message>
       <example correction="é, pois">Ela <marker>é pois</marker>, do Norte.</example>
     </rule>
+  </rulegroup>
 
  	     <!-- Common punctuation errors - Verb + Conjunction  -->
  	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
@@ -6290,7 +6278,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 	<!-- ********************************************************** -->
 
   <rulegroup id="COMER_A_REFEICAO" name="Comer + Determinante + Refeição">
-	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-01-02 -->
+	     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-02 -->
     <rule>
       <pattern>
         <token inflected='yes'>comer</token>
@@ -13461,7 +13449,7 @@ $Id: grammar.xml,v 1.198 2017-01-08 08:49:00 marcoagpinto Exp $
 		<!-- Localization of rules from the English grammar.xml - END  -->
 
   <rulegroup id='SPACE_AFTER_PUNCTUATION' name='Espaços após pontuação'>
-		<!--   Created by Tiago F. Santos, Portuguese rule, 2016-01-01 -->
+		<!--   Created by Tiago F. Santos, Portuguese rule, 2017-01-01 -->
        <rule>
         <antipattern>
           <token regexp='yes'>[.]</token>
