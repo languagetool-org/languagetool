@@ -5,10 +5,10 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 
 <!--
- Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
+ Portuguese (Portugal - postreform) - Grammar and Typo Rules for LanguageTool.
 
- Copyright © 2016 Tiago F. Santos (tiagofsantos81@sapo.pt)
- Copyright © 2016 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016-2017 Marco A.G.Pinto (www.marcoagpinto.com)
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -73,6 +73,24 @@ title="Easy editing stylesheet" ?>
 <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
 <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
+
+    <!-- AVÉ, MARIA ave, Maria -->
+	<!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-09 -->
+    <rule id="AVÉ_MARIA" name="ave Maria">
+      <pattern>
+		<marker>
+			<token>avé</token>
+		</marker>	
+		<token min="0">,</token>
+		<token>Maria</token>
+		<token>,</token>
+		<token>cheia</token>
+		<token>de</token>
+		<token>graça</token>
+		</pattern>
+      <message>Substitua por <suggestion>ave</suggestion>.</message>
+      <example correction="Ave"><marker>Avé</marker>, Maria, cheia de graça.</example>
+    </rule>
 
 	<!-- COMPOSTAS Colocações pronominais com três termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
