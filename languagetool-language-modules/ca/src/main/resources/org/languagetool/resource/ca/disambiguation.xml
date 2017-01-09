@@ -1484,7 +1484,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
-    <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">
+    <rulegroup id="nomcomu_multiword" name="noms comuns en multiwords">
         <rule id="nomcomu2paraules" name="nom comú 2 paraules">
             <pattern>
                 <marker>
@@ -12078,6 +12078,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="immunize"/>
         </rule>
+        <rule>
+            <pattern>
+                <token>rock</token>
+                <marker>
+                    <token regexp="yes">['’]</token>
+                    <token>n</token>
+                    <token regexp="yes">['’]</token>
+                </marker>
+                <token>roll</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>rock</token>
+                <marker>
+                    <token regexp="yes">['’]n</token>
+                    <token regexp="yes">['’]</token>
+                </marker>
+                <token>roll</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+
     </rulegroup>
     <rulegroup id="allowed_repetitions" name="repeticions permeses">
         <!-- girar el cap cap a l’altra persona -->
