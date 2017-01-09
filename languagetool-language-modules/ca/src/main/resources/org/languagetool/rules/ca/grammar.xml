@@ -21321,6 +21321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Jo no <marker>m'hi</marker> sentit mai espanyol.</example>
                 <example>Jo no m'he sentit mai espanyol.</example>
                 <example>Se li "escapa" tot.</example>
+                <example>Que se li suïcidi la nit abans.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21347,6 +21348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ICV-els Verds</example>
                 <example>Castella-la Manxa</example>
                 <example>Aquí no es "deterioren".</example>
+                <example>Un objecte n'"encén" un altre.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_TEMPS_VERBAL" name="Comprova temps verbal (infinitiu, gerundi, imperatiu): *diguéssim-li-ho">
@@ -21708,15 +21710,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token><exception postag="P0.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="P.*" postag_regexp="yes">se</token>
                         <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception><exception regexp="yes">s.*|c[ei].*</exception><exception>guard</exception></token>
                     </marker>
                 </pattern>
                 <message>Cal usar la forma reforçada.</message>
-                <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"/> <match no="3"/></suggestion>
+                <suggestion><match no="1" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"/> <match no="2"/></suggestion>
                 <example correction="es diu">Això <marker>se diu</marker>.</example>
+                <example correction="es girà">Per veure'm <marker>se girà</marker>.</example>
                 <example>Això se celebra.</example>
                 <example>Tant se valia una cosa com l'altra.</example>
             </rule>
@@ -21762,7 +21764,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <marker>
-                        <token>don</token>
+                        <token regexp="yes">don|ain</token>
                         <token>'t</token>
                     </marker>
                 </antipattern>
@@ -21779,6 +21781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>PC World's</example>
                 <example>Done'm el que em toca.</example>
                 <example>I don't like it.</example>
+                <example>Quan menys te'ls esperes.</example>
             </rule>
             <rule>
                 <pattern>
