@@ -88,7 +88,7 @@ public class HTTPServerConfig {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION)); //this method returns false if the passed array is null.
           break;
         case "-p":
         case "--port":
@@ -154,7 +154,7 @@ public class HTTPServerConfig {
   }
 
   private void loadLanguageModelDirectory(String langModel) {
-    languageModelDir = new File(langModel);
+    languageModelDir = new File(langModel);    //podpinamy lokalizacje, gdzie jestesmy
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
     }

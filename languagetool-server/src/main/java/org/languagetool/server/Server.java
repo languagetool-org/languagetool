@@ -124,7 +124,7 @@ abstract class Server {
     System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
     System.out.println("                         example: --allow-origin \"*\"");
     System.out.println("  --verbose, -v  in case of exceptions, log the input text (up to 500 characters)");
-    System.out.println("  --languageModel, a directory with '1grams', '2grams', '3grams' sub directories (per language) which contain a Lucene index (optional)");
+    System.out.println("  --languageModel--languageModel, a directory with '1grams', '2grams', '3grams' sub directories (per language) which contain a Lucene index (optional)");   //----------------
   }
 
   protected static void checkForNonRootUser() {

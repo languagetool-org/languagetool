@@ -54,12 +54,12 @@ public class HTTPServerConfigTest {
 
   @Test
   public void shouldLoadLanguageModelDirectoryFromCommandLineArguments() throws IOException {
-    //given
-    ClassLoader classLoader = this.getClass().getClassLoader();
+    //przygotowuje klasy do testu
+    ClassLoader classLoader = this.getClass().getClassLoader(); //The Java Classloader is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine
     String languageModelDirectory = "languageModelDirectory";
     String targetLanguageModelDirectory = classLoader.getResource("org/languagetool/server/" + languageModelDirectory).getFile();
 
-    //when
+    //when , wywołanie
     HTTPServerConfig config = new HTTPServerConfig(new String[]{HTTPServerConfig.LANGUAGE_MODEL_OPTION, targetLanguageModelDirectory});
 
     //then
