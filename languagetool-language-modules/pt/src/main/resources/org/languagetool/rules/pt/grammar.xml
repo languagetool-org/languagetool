@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.199 2017-01-09 10:57:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -1283,6 +1283,19 @@ $Id: grammar.xml,v 1.199 2017-01-09 10:57:00 marcoagpinto Exp $
 
 <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
 
+    <!-- AFEAR afiar -->
+    <rule id="AFEAR" name="afiar">
+      <pattern>
+		<marker>
+			<token inflected='yes'>afear</token>
+		</marker>
+		<token regexp="yes">as?|umas?</token>
+		<token regexp="yes">pontas?|facas?|lâminas?|tesouras?|espadas?</token>
+      </pattern>
+      <message>Substitua por <match no='1' postag='V.+'>afiar</match>.</message>
+      <example correction="afiar">É preciso <marker>afear</marker> as facas.</example>
+    </rule>
+
     <!-- ALUGAR CASA(S) arrendar casa(s) -->
     <rule id="ALUGAR_CASA" name="arrendar casa">
       <pattern>
@@ -1295,24 +1308,7 @@ $Id: grammar.xml,v 1.199 2017-01-09 10:57:00 marcoagpinto Exp $
       <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
       <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
     </rule>
-	
-    <!-- AVÉ, MARIA ave, Maria -->
-    <rule id="AVÉ_MARIA" name="ave, Maria">
-      <pattern>
-		<marker>
-			<token>avé</token>
-		</marker>	
-		<token min="0">,</token>
-		<token>Maria</token>
-		<token>,</token>
-		<token>cheia</token>
-		<token>de</token>
-		<token>graça</token>
-		</pattern>
-      <message>Substitua «avé» por <suggestion>ave</suggestion>.</message>
-      <example correction="Ave"><marker>Avé</marker>, Maria, cheia de graça.</example>
-    </rule>
-	
+		
     <!-- CAIXA COM FÓSFOROS caixa de fósforos -->
     <rule id="CAIXA_COM_FÓSFOROS" name="caixa de fósforos">
       <pattern>
