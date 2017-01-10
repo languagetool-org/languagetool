@@ -24936,6 +24936,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_DESTACAR" name="*a destacar/cal destacar">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" postag="_PUNCT"/>
+                <marker>
+                    <token>A</token>
+                    <token regexp="yes">destacar|remarcar|subratllar</token>
+                </marker>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion>cal \4</suggestion>
+            <suggestion>convé \4</suggestion>
+            <suggestion>és important \4</suggestion>
+            <example correction="Cal destacar|Convé destacar|És important destacar">- <marker>A destacar</marker> els seus monuments.</example>
+        </rule>
         <rulegroup id="ALLO_REFERENT_A" name="en allò referent a">
             <rule>
                 <pattern>
