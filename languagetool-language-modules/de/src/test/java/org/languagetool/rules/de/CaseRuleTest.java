@@ -108,6 +108,9 @@ public class CaseRuleTest {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
+
+    assertGood("Anders als physikalische Konstanten werden mathematische Konstanten unabhängig von jedem physikalischen Maß definiert.");
+    assertGood("Eine besonders einfache Klasse bilden die polylogarithmischen Konstanten.");
     
     assertGood("Sie werden im Allgemeinen gefasst.");
     assertGood("Sie werden im allgemeinen Fall gefasst.");

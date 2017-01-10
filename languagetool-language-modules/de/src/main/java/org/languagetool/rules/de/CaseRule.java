@@ -104,6 +104,10 @@ public class CaseRule extends GermanRule {
         regex("[\\.?!]")
     ),
     Arrays.asList(
+       posRegex(".*ADJ.*|UNKNOWN"),
+       regex("Konstanten?")
+    ),
+    Arrays.asList(
         //token("dass"),
         token("das"),
         posRegex("PA2:.*"),
