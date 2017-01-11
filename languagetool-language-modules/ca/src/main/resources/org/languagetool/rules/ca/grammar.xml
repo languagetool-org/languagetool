@@ -10348,6 +10348,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="HA_RESPOSTA" name="ha *resposta/respost">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">n'|l'|la|els|les|hi</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token inflected="yes">haver</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">n'|l'|la|els|les|hi</token>
+                    <token postag="V.[SI].*" postag_regexp="yes" max="2"/>
+                    <token regexp="yes">a|d'</token>
+                    <token>haver</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">haver<exception scope="previous" regexp="yes">n'|l'|la|els|les|hi</exception></token>
                 <token postag="V.P...F.|V.P..PM." postag_regexp="yes"></token>
@@ -10361,6 +10376,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Se les ha menjades totes.</example>
             <example>Hi havia dibuixades tres llunes.</example>
             <example>No hi ha resposta.</example>
+            <example>La deuen haver rescatada.</example>
+            <example>Els deuen haver educats prou bé.</example>
+            <example>Hi ha hagut fets calamitosos.</example>
+            <example>Te les hauria d'haver llevades.</example>
         </rule>
         <rule id="BADA_BANDA" name="*bada/banda">
             <pattern>
@@ -17057,7 +17076,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>per l'<match no="3"/><match no="4"/></suggestion>
-                <short>Error ortogràfic</short>
                 <example correction="per l'home"><marker>pel home</marker></example>
                 <example correction="per l'&#34;home"><marker>pel "home</marker>"</example>
                 <example>pel Hubble</example>

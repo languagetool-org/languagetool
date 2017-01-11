@@ -550,6 +550,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="any_en_xifres" name="El + any (en xifres)">
         <rule>
             <pattern>
+                <token regexp="yes">en|d?els?|anys?|dècada</token>
+                <token regexp="yes">[12][0-9]{3}</token>
+                <token>-</token>
+                <marker>
+                    <token regexp="yes">[0-9]{1,4}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+
+        <rule>
+            <pattern>
                 <token postag="SENT_START"/>
                 <token postag="_PUNCT.*" postag_regexp="yes"/>
                 <marker>
