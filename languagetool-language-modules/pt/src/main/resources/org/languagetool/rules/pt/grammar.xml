@@ -801,6 +801,19 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <url>https://pt.wikipedia.org/wiki/Crase</url>
         <example correction="10 a 30">Consiga descontos de <marker>10 à 30</marker> por cento nos saldos desta semana.</example>
     </rule>
+    <rule>
+    <pattern>
+     <marker>
+      <token regexp='yes'>em|com</token>
+      <token>relação</token>
+      <token regexp='yes'>as?</token>
+     </marker>
+      <token postag_regexp='yes' postag='N.F.+'/>
+    </pattern>
+    <message>Erro de crase.</message>
+      <suggestion>\1 \2 <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+    <example correction='Em relação à'><marker>Em relação a</marker> falecida, estamos a averiguar a situação.</example>
+  </rule>
   </rulegroup>
 
 <!-- FIXME While containing rule regressed. Comment out until I have time to fix
