@@ -710,12 +710,9 @@ public class Main extends WeakBase implements XJobExecutor,
       // do not set look and feel for on Mac OS X as it causes the following error:
       // soffice[2149:2703] Apple AWT Java VM was loaded on first thread -- can't start AWT.
       if (!System.getProperty("os.name").contains("OS X")) {
-        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-          if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
-          }
-        }
+         // Cross-Platform Look And Feel @since 3.7
+         UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
       }
     } catch (Exception ignored) {
       // Well, what can we do...
