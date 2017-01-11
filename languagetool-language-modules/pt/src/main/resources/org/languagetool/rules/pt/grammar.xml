@@ -34,6 +34,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+    
+    <!ENTITY negacoes "não|nunca|ninguém|nada|jamais">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -641,6 +643,21 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <example correction='Cão e gato são'><marker>Cão e gato é</marker> animais.</example>
 	 <example type="correct">Cão e gato são animais.</example>
 	</rule>
+
+  <rule id="NEGATIVE_PRONOUN_VERB" name='Negação + verbo + pronome oblíquo'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
+    <pattern>
+      <token regexp='yes'>&negacoes;</token>
+      <token postag_regexp='yes' postag='VM..+'/>
+      <token>-</token>
+      <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+    </pattern>
+    <message>As negações colocam o pronome antes do verbo.</message>
+    <suggestion>\1 \4 \2</suggestion>
+    <example correction='Não me diga'><marker>Não diga-me</marker> isso.</example>
+    <example correction='Nunca te farei'><marker>Nunca farei-te</marker> essa promessa.</example>
+    <example correction='Ninguém se propôs'><marker>Ninguém propôs-se</marker> a fazer o relatório de contas.</example>
+  </rule>
 
 		<!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
        <!-- DEQUEISMO_QUEISMO Dequeísmo e queísmo: utilização incorrecta de DE + QUE -->
