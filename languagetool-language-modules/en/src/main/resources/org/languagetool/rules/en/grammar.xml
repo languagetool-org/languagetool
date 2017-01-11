@@ -19326,6 +19326,22 @@ USA
         </rule>
 
         <!-- make an attempt, make an effort – try -->
+        <rule id="MAKE_AN_ATTEMPT" name="make an attempt/effort/try (try)">
+            <pattern>
+                <token inflected="yes">make</token>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">attempt|effort|try</token>
+            </pattern>
+            <message>Can you write <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">try</match></suggestion> and still be correct?</message>
+            <short>Possible wordiness</short>
+            <example correction="try">We should <marker>make an effort</marker> to win.</example>
+            <example>We should <marker>try</marker> to win.</example>
+            <example correction="trying">He's <marker>making an attempt</marker> to win the gold medal.</example>
+            <example>He's trying to win the gold medal.</example>
+            <example correction="tried">.. and others at least <marker>made a try</marker> to get into a good job.</example>
+            <example type="triggers_error">Evan Browne needed to <marker>make a try</marker> saving tackle just short of the try line.</example><!-- A few instances on COCA. The usual rugby term is 'score a try'. -->
+        </rule>
+
         <!-- make reference to – refer -->
         <!-- maximum – greatest, largest, most -->
         <!-- mental attitude – attitude -->
