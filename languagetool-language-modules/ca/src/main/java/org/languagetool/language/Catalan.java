@@ -164,7 +164,7 @@ public class Catalan extends Language {
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
       case "REGIONAL_VERBS": return -10;
-      case "FALTA_ELEMENT_ENTRE_VERB": return -10;
+      case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "UPPERCASE_SENTENCE_START": return -500;
