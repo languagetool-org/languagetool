@@ -11945,6 +11945,29 @@ USA
             <example type="triggers_error">Such <marker>an acceleration</marker> will cause lateral loads on the walls, resulting ...</example>
             <example type="triggers_error">In recent years there has been <marker>a backlash</marker> against the external environmental effects of...</example>
         </rule>
+        <rule id="ACCUSTOMED_TO" name="accustomed to">
+            <antipattern>
+                <token>to</token>
+                <token regexp="yes" skip="-1">wh.*<exception scope="next">,</exception></token>
+                <token>accustomed</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">accustomed<exception scope="next">,</exception></token>
+                <token>to</token>
+            </antipattern>
+            <pattern>
+                 <token>accustomed</token>
+                 <token negate="yes">to<exception postag="PRP|PRP\$|CD" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Did you mean: <suggestion>accustomed to</suggestion>?</message>
+            <short>Wrong preposition: accustomed to</short>
+            <example correction="accustomed to">He is <marker>accustomed of</marker> playing football now.</example>
+            <example>He is <marker>accustomed to</marker> playing football now.</example>
+            <example>The trials in the Sahara accustomed both the athletes and the manager to high temperatures.</example>
+            <example>Players should be accustomed by now to the difficulty of ...</example> 
+            <example>... to much of the legislation to which we have become accustomed in modern times.</example>
+            <example>He had been accustomed in the previous five years to dealing with players on ...</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
