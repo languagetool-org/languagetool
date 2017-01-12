@@ -36,7 +36,7 @@ import java.util.*;
  *
  * @author Marcin Miłkowski
  */
-public class MultiWordChunker implements Disambiguator {
+public class MultiWordChunker extends AbstractDisambiguator {
 
   private final String filename;
   private final boolean allowFirstCapitalized;

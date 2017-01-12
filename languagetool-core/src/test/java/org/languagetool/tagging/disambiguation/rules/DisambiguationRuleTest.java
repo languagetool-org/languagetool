@@ -19,20 +19,29 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.junit.Test;
-import org.languagetool.*;
-import org.languagetool.rules.patterns.PatternTestTools;
-import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.xml.sax.SAXException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
+import org.languagetool.XMLValidator;
+import org.languagetool.rules.patterns.PatternTestTools;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.xml.sax.SAXException;
 
 public class DisambiguationRuleTest {
 
@@ -109,9 +118,9 @@ public class DisambiguationRuleTest {
           goodSentence = cleanXML(goodSentence);
 
           assertTrue(goodSentence.trim().length() > 0);
-          AnalyzedSentence sent = disambiguateUntil(rules, id,
+          AnalyzedSentence sent = disambiguateUntil(lang, rules, id,
               languageTool.getRawAnalyzedSentence(goodSentence));
-          AnalyzedSentence sentToReplace = disambiguateUntil(rules, id,
+          AnalyzedSentence sentToReplace = disambiguateUntil(lang, rules, id,
               languageTool.getRawAnalyzedSentence(goodSentence));
           //note: we're testing only if string representations are equal
           //it's because getRawAnalyzedSentence does not set all properties
@@ -142,11 +151,11 @@ public class DisambiguationRuleTest {
               !outputForms.equals(inputForms));
           AnalyzedSentence cleanInput = languageTool
               .getRawAnalyzedSentence(cleanXML(example.getExample()));
-          AnalyzedSentence sent = disambiguateUntil(rules, id,
+          AnalyzedSentence sent = disambiguateUntil(lang, rules, id,
               languageTool
               .getRawAnalyzedSentence(cleanXML(example.getExample())));
           AnalyzedSentence disambiguatedSent = rule
-              .replace(disambiguateUntil(rules, id, languageTool
+              .replace(disambiguateUntil(lang, rules, id, languageTool
                   .getRawAnalyzedSentence(cleanXML(example.getExample()))));
           assertTrue(
               "Disambiguated sentence is equal to the non-disambiguated sentence for rule: "
@@ -199,10 +208,14 @@ public class DisambiguationRuleTest {
   }
 
   // useful for testing the rule cascade
-  protected AnalyzedSentence disambiguateUntil(
-      List<DisambiguationPatternRule> rules, String ruleID,
+  private AnalyzedSentence disambiguateUntil(
+      Language lang, List<DisambiguationPatternRule> rules, String ruleID,
       AnalyzedSentence sentence) throws IOException {
+
     AnalyzedSentence disambiguated = sentence;
+    
+    disambiguated = lang.getDisambiguator().preDisambiguate(disambiguated);
+
     for (DisambiguationPatternRule rule : rules) {
       if (ruleID.equals(rule.getId())) {
         break;

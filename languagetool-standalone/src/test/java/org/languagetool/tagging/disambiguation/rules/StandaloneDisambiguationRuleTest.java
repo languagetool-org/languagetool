@@ -18,13 +18,7 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 
 /**
  * Calls a test from core, because only here in stand-alone all languages 
@@ -32,25 +26,9 @@ import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
  */
 public class StandaloneDisambiguationRuleTest {
 
-  private static final List<String> RULES_REQUIRING_JAVA_LOGIC = 
-      Arrays.asList("SINGLE_CHAR_ABBR_NO_CAPS", "DIS_PREP_OR_NOUN_DO", "DIS_PREP_AND_INTJ_O", "RIK_VS_ROK_1", "RIK_VS_ROK_2");
-
   @Test
   public void testDisambiguationRuleTest() throws Exception {
-    DisambiguationRuleTest test = new DisambiguationRuleTest() {
-      @Override
-      protected AnalyzedSentence disambiguateUntil(List<DisambiguationPatternRule> rules, String ruleID,
-          AnalyzedSentence sentence) throws IOException {
-
-        // TODO: temporary (ugly) workaround for rules that require Java disambiguation logic to be run first
-        // remove this when we find the right solution 
-        if( RULES_REQUIRING_JAVA_LOGIC.contains(ruleID) ) {
-          new UkrainianHybridDisambiguator().firstPassDisambig(sentence);
-        }
-
-        return super.disambiguateUntil(rules, ruleID, sentence);
-      }
-    };
+    DisambiguationRuleTest test = new DisambiguationRuleTest();
     test.testDisambiguationRulesFromXML();
   }
   

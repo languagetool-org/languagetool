@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Catalan;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -32,7 +33,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  * 
  * @author Marcin Miłkowski
  */
-public class CatalanHybridDisambiguator implements Disambiguator {
+public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt", true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Catalan());

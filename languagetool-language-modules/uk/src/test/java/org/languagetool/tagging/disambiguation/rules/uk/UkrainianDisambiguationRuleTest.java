@@ -18,8 +18,9 @@
  */
 package org.languagetool.tagging.disambiguation.rules.uk;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,14 +32,11 @@ import org.languagetool.language.Ukrainian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
-
-import static org.junit.Assert.assertTrue;
 
 public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   
@@ -58,14 +56,6 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     demoDisambiguator = new DemoDisambiguator();
     chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   }
-
-  protected AnalyzedSentence disambiguateUntil(
-    List<DisambiguationPatternRule> rules, String ruleID,
-    AnalyzedSentence sentence) throws IOException {
-      disambiguator.firstPassDisambig(sentence);
-      return super.disambiguateUntil(rules, ruleID, sentence);
-  }
-
 
   @Test
   public void testDisambiguator() throws IOException {

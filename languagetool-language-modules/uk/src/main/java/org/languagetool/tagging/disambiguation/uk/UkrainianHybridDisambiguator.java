@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.LemmaHelper;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -40,7 +41,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * Hybrid chunker-disambiguator for Ukrainian.
  */
 
-public class UkrainianHybridDisambiguator implements Disambiguator {
+public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final String LAST_NAME_TAG = ":lname";
   private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]\\.");
   private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
@@ -56,15 +57,18 @@ public class UkrainianHybridDisambiguator implements Disambiguator {
    */
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
-    firstPassDisambig(input);
+    preDisambiguate(input);
     
     return disambiguator.disambiguate(chunker.disambiguate(input));
   }
 
-  public void firstPassDisambig(AnalyzedSentence input) {
+  @Override
+  public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
     retagInitials(input);
     removeIanimVKly(input);
     removePluralForNames(input);
+
+    return input;
   }
 
 

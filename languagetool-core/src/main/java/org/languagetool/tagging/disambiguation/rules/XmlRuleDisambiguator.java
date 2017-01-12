@@ -28,7 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.xml.sax.SAXException;
 
 /**
@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Marcin Miłkowski
  */
-public class XmlRuleDisambiguator implements Disambiguator {
+public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
 

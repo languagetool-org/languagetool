@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-class TestFrenchDisambiguator implements Disambiguator {
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
+
+class TestFrenchDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

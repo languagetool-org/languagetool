@@ -23,10 +23,11 @@ import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.GermanyGerman;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
-public class GermanRuleDisambiguator implements Disambiguator {
+public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new GermanyGerman());
 
