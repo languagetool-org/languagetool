@@ -748,7 +748,6 @@ title="Easy editing stylesheet" ?>
  <rulegroup id='T-V_DISTINCTION' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
   <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
-  <short>Tratamento informal</short>
 <!--    <rule>
       <antipattern>
         <token postag='SENT_START'/>
@@ -791,6 +790,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
+      <short>Tratamento informal</short>
       <example correction="Escolhia"><marker>Escolhias</marker> um projeto melhor.</example>
       <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
       <example>Ela está preocupada com a evolução, a física, a química, e...</example>
@@ -812,6 +812,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <short>Tratamento informal</short>
       <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
     </rule>
     <rule>
@@ -828,6 +829,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
         <suggestion>\3</suggestion>
+      <short>Tratamento inapropriado</short>
       <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
     </rule>
     <rule>
@@ -838,12 +840,13 @@ title="Easy editing stylesheet" ?>
 	<token postag="V.....+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
-	<token postag="V.....+" postag_regexp='yes'/>
-        <token min='0'>-</token>
+	<token postag="V.+" postag_regexp='yes'/>
+        <token>-</token>
         <token>te</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion>\1-lhe</suggestion>
+      <short>Possível tratamento informal</short>
       <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
       <example>—<marker>Garanto-te</marker> que foi mesmo assim.</example>
       <example>«<marker>Garanto-te</marker> que foi mesmo assim.»</example>
@@ -860,11 +863,12 @@ title="Easy editing stylesheet" ?>
         <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2.+" postag_regexp='yes'>
 	  <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
-        <token min='0'>-</token>
+        <token>-</token>
         <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
         <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
+      <short>Possível tratamento informal</short>
       <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
       <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
       <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
