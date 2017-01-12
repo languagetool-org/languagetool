@@ -33375,14 +33375,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="estances|cambres|habitacions|estades|sojorns">en aquelles <marker>estàncies</marker></example>
             <example>En aquella estada</example>
         </rule>
-        <rule id="ABRAC_ABRACADA" name="abraç/abraçada">
-            <pattern>
-                <token inflected="yes">abraç</token>
-            </pattern>
-            <message>Forma secundària no admesa per tots els diccionaris.</message>
-            <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="NCF$1000">abraçada</match></suggestion>
-            <example correction="abraçades">Van repartir <marker>abraços</marker> per a tothom.</example>
-        </rule>
         <rule id="COMO_COM" name="como/com">
             <pattern>
                 <token>como<exception postag="NPCSG00"/></token>
@@ -37152,7 +37144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">invadir</token>
             </pattern>
-            <message>Variant ecundària no admesa per tots els diccionaris.</message>
+            <message>Variant secundària no admesa per tots els diccionaris.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">envair</match></suggestion>
             <example correction="envaïren"><marker>invadiren</marker></example>
        </rule>
@@ -40370,6 +40362,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="WORDS_NOT_ACCEPTED_BY_ALL" name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="ABRAC_ABRACADA" name="abraç/abraçada">
+            <pattern>
+                <token inflected="yes">abraç</token>
+            </pattern>
+            <message>Forma secundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="NCF$1000">abraçada</match></suggestion>
+            <example correction="abraçades">Van repartir <marker>abraços</marker> per a tothom.</example>
+        </rule>
+        <rule id="ESTUDIANTAT" name="estudiantat/estudiants">
+            <pattern>
+                <token inflected="yes">estudiantat</token>
+            </pattern>
+            <message>Paraula no admesa per tots els diccionaris.</message>
+            <suggestion>estudiants</suggestion>
+            <suggestion>alumnes</suggestion>
+            <suggestion>alumnat</suggestion>
+            <url>http://www.ub.edu/cub/criteri.php?id=1149</url>
+            <example correction="estudiants|alumnes|alumnat">L'<marker>estudiantat</marker>.</example>
+        </rule>
         <rule id="ESPAIAL" name="espaial">
             <pattern>
                 <token postag="A.*" postag_regexp="yes" inflected="yes">espaial</token>
@@ -40615,7 +40626,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">grolleria</match></suggestion>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">barroeria</match></suggestion>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">matusseria</match></suggestion>
-            <short>Forma preferible</short>
             <example correction="grolleries|barroeries|matusseries">Són <marker>xavacanades</marker>.</example>
             <example>Són coses xarones.</example>
         </rule>
@@ -40638,7 +40648,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tenir</token>
                     <token>desperdici</token>
                 </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
+                <message>Expressió admesa només en alguns diccionaris.</message>
                 <suggestion><match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
                 <suggestion>n'hi <match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>
                 <short>Expressió preferible</short>
@@ -40652,10 +40662,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tenir</token>
                     <token>desperdici</token>
                 </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
+                <message>Expressió admesa només en alguns diccionaris.</message>
                 <suggestion><match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
                 <suggestion>n'hi <match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>
-                <short>Expressió preferible</short>
                 <example correction="Ha estat impagable|Ha sigut impagable|N'hi ha hagut per a sucar-hi pa"><marker>No ha tingut desperdici</marker>.</example>
                 <example correction="Va ser impagable|N'hi va haver per a sucar-hi pa"><marker>No va tindre desperdici</marker>.</example>
                 <example>Desperdicis</example>
