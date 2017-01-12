@@ -1007,36 +1007,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 <!--          Tiago F. Santos Rules Ending          ****END**** -->
 <!-- ********************************************************** -->
 
-    <!-- Concordance error plural - QUALQUER + PLURAL -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
-    <rule id="QUALQUER_PLURAL" name="Erro de concordância de número QUALQUER + PLURAL">
-      <pattern>
-		<marker>
-			<token>qualquer</token>	  
-		</marker>
-		<token postag_regexp="yes"  postag="NCFP000|NCMP000"></token> 	
-     </pattern>	 	 
-     <message>Erro de concordância de número.</message>
-     <suggestion>quaisquer</suggestion>
-     <example correction="quaisquer">Tratamos de <marker>qualquer</marker> assuntos.</example>	 	 
-    </rule>
--->
-
-    <!-- Concordance error plural - QUAISQUER + SINGULAR -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_O. Consider removal
-    <rule id="QUAISQUER_PLURAL" name="Erro de concordância de número QUAISQUER + SINGULAR">
-      <pattern>
-		<marker>
-			<token>quaisquer</token>	  
-		</marker>
-		<token postag_regexp="yes"  postag="NCFS000|NCMS000"></token> 	
-     </pattern>	 	 
-     <message>Erro de concordância de número.</message>
-     <suggestion>qualquer</suggestion>
-     <example correction="qualquer">Tratamos de <marker>quaisquer</marker> assunto.</example>	 	 
-    </rule>
--->
-
     <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
   <rulegroup id="FOREM-ADJECTIVE" name="Erro de concordância de número FOREM + ADJ">
       <short>Erro de concordância de número</short>
@@ -1104,7 +1074,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
   <rulegroup id="A_NOUN_VERB" name="Erro de concordância de número DETERMINANTE + NOME + VERBO NO">
     <short>Erro de concordância de número</short>
 	<!-- TODO Use pos_regexp to improve rule. Suggestion V....S.	-->
-	<!-- TODO Merge specific concordance rules in rulegroup to compact options -->
 	<!-- Concordance error plural - A + FEMALE PLURAL + SINGULAR VERB -->
     <rule>
       <pattern>
@@ -1151,36 +1120,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
      <example correction="bois">Os <marker>boi</marker> estão no pasto.</example>   
     </rule>
   </rulegroup>
-
-    <!-- Concordance error plural - OS + ADJ PLURAL -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Consider removal
-    <rule id="O_ADJ-PLURAL" name="Erro de concordância de número OS + ADJ PLURAL">
-      <pattern>
-		<marker>
-			<token>o</token>	  
-		</marker>
-		<token postag="AQ0CP0"></token> 	
-     </pattern>	 	 
-     <message>Erro de concordância de número.</message>
-     <suggestion>os</suggestion>
-     <example correction="os">Incluindo <marker>o</marker> seguintes temas.</example>	 	 
-    </rule>
--->
-
-    <!-- Concordance error plural - O + ADJ SINGULAR -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_OS_OC. Consider removal
-    <rule id="OS_ADJ-SINGULAR" name="Erro de concordância de número O + ADJ SINGULAR">
-      <pattern>
-		<marker>
-			<token>os</token>	  
-		</marker>
-		<token postag="AQ0CS0"></token> 	
-     </pattern>	 	 
-     <message>Erro de concordância de número.</message>
-     <suggestion>o</suggestion>
-     <example correction="o">Incluindo <marker>os</marker> seguinte tema.</example>	 	 
-    </rule>
--->
 		
 	<!-- TODO Use pos_regexp to improve rule. Suggestion V....P.	-->	
 	<!-- Concordance error plural - A GENTE + PLURAL VERB > A GENTE + SINGULAR VERB -->
@@ -1213,20 +1152,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
      <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
     </rule>
 
-<!-- TODO Remove. Covered by General rules
-     Concordance gender - ESSA > ESSE 
-    <rule id="ESSA_ESSE" name="Erro de concordância ESSA-ESSE">
-      <pattern>
-        <marker>
-			<token>essa</token>			
-        </marker>				
-		<token postag="NCMS000"><exception postag="NCFS000"></exception><exception>a</exception><exception>não</exception></token>
-     </pattern>
-	 <message>Erro de género. Usar: <suggestion>esse</suggestion>.</message>
-     <example correction="esse">Atenção a <marker>essa</marker> condutor.</example>
-    </rule>
-    -->
-
   <rulegroup id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO/A">
       <short>Erro de concordância de género</short>
     <!-- TODO Improve with inflections. Suggestion <token inflected='yes'>ser</token>	-->
@@ -1257,68 +1182,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
      <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
     </rule>
   </rulegroup>
-
-    <!-- Concordance gender - UM > UMA -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal 
-    <rule id="UM_UMA" name="Erro de concordância UM-UMA">
-      <pattern>
-        <marker>
-            <token>um</token>
-        </marker>
-		<token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></exception><exception>uma</exception></token>
-     </pattern>
-     <message>Erro de concordância um/uma.</message>
-     <suggestion>uma</suggestion>
-     <example correction="uma">Quero <marker>um</marker> foto dela.</example>
-    </rule>
--->
-
-    <!-- Concordance gender - UMA > UM -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal 
-    <rule id="UMA_UM" name="Erro de concordância UMA-UM">
-      <pattern>
-        <marker>
-            <token>uma</token>
-        </marker>
-		<token postag="NCMS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"></exception><exception>a</exception></token>
-     </pattern>
-     <message>Erro de concordância uma/um.</message>
-     <suggestion>um</suggestion>
-     <example correction="um">Quero <marker>uma</marker> carro novo.</example>
-    </rule>
--->
-
-    <!-- Concordance gender - UM > UMA + ADJ + NOUN -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal 
-    <rule id="UM_UMA_ADJ_NOUN" name="Erro de concordância UM-UMA + ADJ + NOUN">
-      <pattern>
-        <marker>
-            <token>um</token>
-        </marker>
-		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"><exception>uma</exception></token>
-		<token postag="NCFS000"><exception postag="NCMS000"></exception><exception>uma</exception></token>
-     </pattern>
-     <message>Erro de concordância um/uma.</message>
-     <suggestion>uma</suggestion>
-     <example correction="uma">Quero <marker>um</marker> bonita foto dela.</example>
-    </rule>
--->
-
-    <!-- Concordance gender - UMA > UM + ADJ + NOUN -->
-<!-- TODO Covered with exceptions by ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS. Review coverage and consider removal 
-    <rule id="UMA_UM_ADJ_NOUN" name="Erro de concordância UMA-UM + ADJ + NOUN">
-      <pattern>
-        <marker>
-            <token>uma</token>
-        </marker>
-		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"><exception>a</exception></token>
-		<token postag="NCMS000"><exception postag="NCFS000"></exception><exception>a</exception></token>
-     </pattern>
-     <message>Erro de concordância uma/um.</message>
-     <suggestion>um</suggestion>
-     <example correction="um">Quero <marker>uma</marker> bonito carro novo.</example>
-    </rule>
--->
 
 </category>
 
@@ -2120,39 +1983,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>ciclo fechado</suggestion>.</message>
       <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
 	</rule>	
-		
-
-	<!-- TODO Made redundant by POSSESSIVE_WITHOUT_ARTICLE. Only applies to pt-PT -->
-    <!-- COM VOSSA com a vossa -->
-<!--
-    <rule id="COM_VOSSA" name="Com a vossa">
-      <pattern>
-        <marker>
-            <token>com</token>
-            <token>vossa</token>
-        </marker>
-        <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
-      </pattern>
-      <message>Será que quis dizer <sugggestion>com a vossa</suggestion>?</message>
-      <example correction="com a vossa">Usei o texto <marker>com vossa</marker> permissão.</example>
-      <example>Queria falar <marker>com vossa</marker> majestade.</example>
-    </rule>
--->
-
-    <!-- COMER tomar -->
-<!-- TODO Covered by COMER_A_REFEIÇAO. Consider removal 
-    <rule id="COMER_O_OS_MEDICAMENTO_S" name="Tomar o(s) medicamento(s)">
-      <pattern case_sensitive="no">
-		 <marker>
-            <token>comer</token>
-         </marker>
-         <token regexp="yes">os?</token>
-         <token regexp="yes">medicamentos?</token>
-      </pattern>
-      <message>Substitua por <suggestion>tomar</suggestion>.</message>
-      <example correction="tomar">Vai <marker>comer</marker> os medicamentos.</example>
-    </rule>
--->
 
     <!-- CONTRA CAPA contracapa -->
     <rule id="CONTRA_CAPA" name="Contracapa">
@@ -3475,24 +3305,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>cesta</suggestion>.</message>
       <example correction="cesta">Ela tem uma <marker>sexta</marker> de vime.</example>
     </rule>
-
-    <!-- 		TODO De-activated due to redundancy.			-->
-    <!--	   Improved with credits in POSSESSIVE_WITHOUT_ARTICLE		-->
-    <!-- SUA a sua -->
-<!--
-    <rule id="A_SUA" name="A sua">
-      <pattern>
-        <marker>
-          <token>sua<exception scope="previous" regexp="yes">a|à|da|de|por|pela|na|em</exception></token>
-        </marker>
-        <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
-      </pattern>
-      <message>Será que quis dizer <sugggestion>a sua</suggestion>?</message>
-      <example correction="a sua">Tudo bem, mas <marker>sua</marker> mãe está zangada.</example>
-      <example>Tudo bem, mas a <marker>sua</marker> mãe está zangada.</example>
-      <example>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
-    </rule>
--->
 
     <!-- TAL VEZ talvez -->
     <rule id="TAL_VEZ" name="Talvez">
@@ -14007,19 +13819,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>fila</suggestion>.</message>
       <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
 	</rule>
-
-	<!-- TODO Covered by COMER_A_REFEIÇAO. Consider removal. -->
-    <!-- COMER O ALMOÇO almoçar 
-    <rule id="COMER_O_ALMOÇO" name="Almoçar">
-      <pattern>
-        <token>comer</token>
-        <token>o</token>
-        <token>almoço</token>
-      </pattern>
-      <message>Substitua por <suggestion>almoçar</suggestion>.</message>
-      <example correction="almoçar">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
-    </rule>
-    -->
 
 	<!-- TODO Verify		-->
     <!-- NA MEDIDA DO POSSÍVEL informal -->
