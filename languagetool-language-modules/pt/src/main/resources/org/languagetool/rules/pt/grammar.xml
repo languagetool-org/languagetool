@@ -2712,22 +2712,13 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
   </rulegroup>
 
     <!-- HÁ SUA à sua -->
-    <rule id="HÁ_SUA" name="à sua">
+    <rule id="HÁ_SUA" name="Confusão: há/à + DETERMINANTE POSSESSIVO">
       <pattern>
         <token>há</token>
-        <token>sua</token>
+        <token postag='DP.+' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>à sua</suggestion>.</message>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
       <example correction="à sua">Ele deu uma mãozinha <marker>há sua</marker> família.</example>
-    </rule>
-
-    <!-- HÁ TUA à tua -->
-    <rule id="HÁ_TUA" name="à tua">
-      <pattern>
-        <token>há</token>
-        <token>tua</token>
-      </pattern>
-      <message>Substitua por <suggestion>à tua</suggestion>.</message>
       <example correction="à tua">Dá uma mãozinha <marker>há tua</marker> família.</example>
     </rule>
 
