@@ -1237,7 +1237,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
 
     <!-- AFEAR afiar -->
-    <rule id="AFEAR" name="afiar">
+    <rule id="AFEAR" name="Confusão: afear - afiar">
       <pattern>
 		<marker>
 			<token inflected='yes'>afear</token>
@@ -1263,7 +1263,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 		
     <!-- CAIXA COM FÓSFOROS caixa de fósforos -->
-    <rule id="CAIXA_COM_FÓSFOROS" name="caixa de fósforos">
+    <rule id="CAIXA_COM_FÓSFOROS" name="Caixa de fósforos">
       <pattern>
 		<token regexp="yes">caixas?</token>
 		<marker>
@@ -1316,7 +1316,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
 	<!-- DA UM dá um -->
-    <rule id="DA_UM" name="Dá um">
+    <rule id="DA_UM" name="Confusão: da um - dá um">
       <pattern>
         <marker>
             <token>da</token>
@@ -1328,7 +1328,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	</rule>
 
     <!-- DE PRESSA - depressa -->
-    <rule id="DE_PRESSA" name="Depressa">
+    <rule id="DE_PRESSA" name="Confusão: de pressa - depressa">
       <pattern>
 		<token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
         <marker>
@@ -1341,7 +1341,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- DE VAGAR - devagar -->
-    <rule id="DE_VAGAR" name="Devagar">
+    <rule id="DE_VAGAR" name="Confusão: de vagar - devagar">
       <pattern>
 		<token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
         <marker>
@@ -1354,7 +1354,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- DE/DA MATRICULA de/da matrícula -->
-    <rule id="DE_DA_MATRICULA" name="De-da matrícula">
+    <rule id="DE_DA_MATRICULA" name="Confusão: matricula - matrícula">
       <pattern>
         <token regexp="yes">de|da</token>
 		<marker>
@@ -1378,7 +1378,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- DE/DA/A SOBRE MESA de/da/a sobremesa -->
-    <rule id="DE_DA_A_SOBRE_MESA" name="De-da-a sobremesa">
+    <rule id="DE_DA_A_SOBRE_MESA" name="Confusão: sobre mesa - sobremesa">
       <pattern>
         <token regexp="yes">de|da|a</token>
 		<marker>
@@ -1545,17 +1545,20 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- A PREÇO PELO apreço pelo -->
-    <rule id="A_PREÇO_PELO" name="Apreço pelo">
+    <rule id="A_PREÇO_PELO" name="Confusão: a preço - apreço">
       <pattern>
         <token>a</token>
         <token>preço</token>
-        <token>pelo</token>
+        <token regexp='yes'>por|pel[ao]s?</token>
       </pattern>
-      <message>Substitua por <suggestion>apreço pelo</suggestion>.</message>
+      <message>Substitua por <suggestion>apreço \3</suggestion>.</message>
       <example correction="apreço pelo">Tenho muito <marker>a preço pelo</marker> DVD.</example>
+      <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
     </rule>
 
+
     <!-- A PREÇO POR apreço por -->
+<!--
     <rule id="A_PREÇO_POR" name="Apreço por">
       <pattern>
         <token>a</token>
@@ -1565,9 +1568,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>apreço por</suggestion>.</message>
       <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
     </rule>
+-->
 
     <!-- A QUANDO aquando -->
-    <rule id="A_QUANDO" name="Aquando">
+    <rule id="A_QUANDO" name="Confusão: a quando - aquando">
       <pattern>
         <token>a</token>
         <token>quando</token>
@@ -1578,7 +1582,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 
 	<!-- TODO Merge à-há confusion in a rulegroup to compact options -->
     <!-- À QUE há que -->
-    <rule id="À_QUE" name="Há que">
+    <rule id="À_QUE" name="Confusão: à que - há que">
       <pattern>
         <token>à</token>
         <token>que</token>
@@ -1612,7 +1616,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- A TRÁS atrás -->
-    <rule id="A_TRÁS" name="Atrás">
+    <rule id="A_TRÁS" name="Confusão: a trás - atrás">
       <pattern>
         <token>a</token>
         <token>trás</token>
@@ -1643,7 +1647,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- A XXX DE VOCÊS a vossa XXX -->
-	<rule id="A_XXX_DE_VOCÊS" name="A XXX de vocês -> a vossa XXX">
+	<rule id="A_XXX_DE_VOCÊS" name="Confusão: A XXX de vocês -> a vossa XXX">
 	  <pattern>
 	    <token>a</token>
 	    <token><exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
@@ -1656,7 +1660,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	</rule>
 
     <!-- ÀS CUSTAS DA/DAS/DO/DOS à custa da/das/do/dos -->
-	<rule id="ÀS_CUSTAS_DA_DAS_DO_DOS" name="à custa da/das/do/dos">
+	<rule id="ÀS_CUSTAS_DA_DAS_DO_DOS" name="Confusão: às custas - à custa">
 	  <pattern>
         <marker>	              	  
 	        <token>às</token>
@@ -1741,7 +1745,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- ANALISE análise -->
-    <rule id="ANALISE" name="Análise">
+    <rule id="ANALISE" name="Confusão: analise - análise">
       <pattern case_sensitive="no">
 		 <marker>
             <token>analise</token>
@@ -1842,7 +1846,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
 
     <!-- ABRIR-MOS abrirmos -->
-    <rule id="ABRIR-MOS" name="Abrirmos">
+    <rule id="ABRIR-MOS" name="Confusão: abrir-mos - abrirmos">
       <pattern>
         <token>abrir</token>
         <token>-</token>
@@ -2386,7 +2390,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule> -->
 
     <!-- EM VÊS DE/DA/DAS/DO/DOS em vez de/da/das/do/dos -->
-    <rule id="EM_VÊS_DE_DA_DAS_DO_DOS" name="Em vez de-da-das-do-dos">
+    <rule id="EM_VÊS_DE_DA_DAS_DO_DOS" name="Confusão: vês - vez">
       <pattern>
         <token>em</token>
 		<marker>
