@@ -774,8 +774,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rulegroup>
 
 	<!--                  CRASE_CONFUSION, Erros de crase: Dia à dia       -->
-	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-23      -->
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-23      -->
     <rule>
         <pattern>
           <token><exception postag='SENT_START'/></token>
@@ -812,7 +812,25 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </pattern>
     <message>Erro de crase.</message>
       <suggestion>\1 \2 <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-crase-em-em-relacao-a-disciplina/31029</url>
     <example correction='Em relação à'><marker>Em relação a</marker> falecida, estamos a averiguar a situação.</example>
+  </rule>
+  <rule>
+    <pattern>
+     <marker>
+      <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir</token>
+      <token postag='RG' min='0'/>
+      <token regexp='yes'>as?</token>
+     </marker>
+      <token min='0' postag='D..F.+' postag_regexp='yes'/>
+      <token postag_regexp='yes' postag='N.F.+'/>
+    </pattern>
+    <message>Erro de crase.</message>
+      <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+    <example correction='Vamos às'><marker>Vamos as</marker> compras no super-mercado.</example>
+    <example correction='foi à'>Ele <marker>foi a</marker> herdade.</example>
+    <example correction='adere à'>A cola <marker>adere a</marker> folha.</example>
+    <example correction='Pertence provavelmente à'><marker>Pertence provavelmente a</marker> mesma equipa dos seus amigos.</example>
   </rule>
   </rulegroup>
 
