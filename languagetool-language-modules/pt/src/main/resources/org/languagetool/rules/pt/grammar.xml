@@ -863,6 +863,37 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
  </rule>
 -->
 
+  <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='off'>
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
+    <rule>
+      <pattern>
+        <token negate='yes'>-</token>
+        <marker>
+	  <token regexp='yes'>as?|os?|uma?s?|uns</token>
+	  <token regexp='yes'>as?|os?|uma?s?|uns</token>
+	</marker>
+      </pattern>
+	<message>Possível fragmento.</message>
+	  <suggestion>\2</suggestion>
+	  <suggestion>\3</suggestion>
+	<example correction='o|um'>Foi <marker>o um</marker> erro de digitação.</example>
+	<example>"(...) levando-o a investigar mais longe."</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token negate='yes'>-</token>
+        <marker>
+	  <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
+	  <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
+	</marker>
+      </pattern>
+	<message>Possível fragmento.</message>
+	  <suggestion>\2</suggestion>
+	  <suggestion>\3</suggestion>
+	<example correction='dele|dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="SENTENCE_FRAGMENT" name="Fragmentos de frases" default="off">
 	<!--    Localized by Tiago F. Santos, from english grammar.xml, 2016-11-29      -->
       <url>http://viva-read.com/article/tipos-de-fragmentos-de-frases</url>
