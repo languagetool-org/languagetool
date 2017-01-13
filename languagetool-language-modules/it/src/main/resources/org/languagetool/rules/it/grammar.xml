@@ -308,6 +308,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'apostrofo non è richiesto in quanto non si tratta di elisione: <suggestion>qual è</suggestion>.</message>
                 <example correction="qual è">Da professionista <marker>qual'è</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>Nessun</token>
+                    <token>'</token>
+                    <token>altro</token>
+                </pattern>
+                <message><suggestion>\1 \3</suggestion> non necessita di ' perché è maschile.</message>
+                <url>http://www.treccani.it/enciclopedia/apostrofo_(La-grammatica-italiana)/</url>
+                <example correction="nessun altro">Solo noi possiamo farlo, e <marker>nessun'altro</marker>, e dobbiamo agire in modo molto rapido.</example>
+                <example>Tuttavia, a mio avviso, l'unica soluzione è lasciar decidere al popolo e a nessun altro!</example>
+            </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
             <!-- togli togli di metti d' -->
