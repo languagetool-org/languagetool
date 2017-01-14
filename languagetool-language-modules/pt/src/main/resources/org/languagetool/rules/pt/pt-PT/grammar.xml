@@ -100,7 +100,7 @@ title="Easy editing stylesheet" ?>
   <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais três termos'>
     <pattern>
 		<token postag='V.*' postag_regexp='yes'>
-			<exception regexp='yes'>como|para|casa</exception></token>
+			<exception regexp='yes'>como|para|casa|nada</exception></token>
 		<token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
 		<token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
     </pattern>
@@ -125,7 +125,8 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.[PG].*' postag_regexp='yes'></token>
     </antipattern>
     <pattern>
-		<token postag='V.*' postag_regexp='yes'></token>
+		<token postag='V.*' postag_regexp='yes'>
+			<exception regexp='yes'>como|para|casa|nada</exception></token>
 		<token regexp='yes'>&PP_nao_ambiguos;</token>
 		<token postag='V.*' postag_regexp='yes'></token>
 	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
