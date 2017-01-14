@@ -310,10 +310,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- Un altro-->
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">['’]</token>
+                        <token min="0" regexp="yes">[«"“]|assai</token>
+                        <token postag=".*[:+-][Ff][:+-][Ss]" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">nessun|un|alcun|buon</token>
                     <token regexp="yes">['’]</token>
-                    <token><exception postag=".*[:+-][Ff][:+-][Ss]" postag_regexp="yes"/></token>
+                    <token postag=".*[:+-][Mm][:+-][Ss]" postag_regexp="yes"></token>
                 </pattern>
                 <message>Non si usa l'apostrofo se la parola che segue è maschile.</message>
                 <suggestion>\1 \3</suggestion>
@@ -322,6 +329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tuttavia, a mio avviso, l'unica soluzione è lasciar decidere al popolo e a nessun altro!</example>
                 <example>Un’isola, alcun’amica, buon’anima.</example>
                 <example>Un'interprete.</example> <!--maschile e femminile-->
+                <example>un'«unghia»</example>
             </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
