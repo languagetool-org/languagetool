@@ -35,7 +35,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY PP_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     
-    <!ENTITY negacoes "não|nunca|ninguém|nada|jamais">
+    <!ENTITY negacoes "não|nunca|ninguém|nada|jamais|tampouco">
 
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -116,6 +116,13 @@ title="Easy editing stylesheet" ?>
 	<!-- 		Brazilian Portuguese has inverted colocations  -->
    <rule>
     <antipattern>
+    		<token>de</token>
+    		<token regexp='yes'>forma|jeito|modo</token>
+    		<token regexp='yes'>(algum|nenhum)a?</token>
+    		<token regexp='yes'>&PP_nao_ambiguos;</token>
+		<token postag='V.*' postag_regexp='yes'></token>
+    </antipattern>
+    <antipattern>
     		<token regexp='yes'>&negacoes;</token>
     		<token regexp='yes'>&PP_nao_ambiguos;</token>
 		<token postag='V.*' postag_regexp='yes'></token>
@@ -141,6 +148,13 @@ title="Easy editing stylesheet" ?>
   </rule>
   <rule>
     <antipattern>
+    		<token>de</token>
+    		<token regexp='yes'>forma|jeito|modo</token>
+    		<token regexp='yes'>(algum|nenhum)a?</token>
+    		<token regexp='yes'>&PP_nao_ambiguos;</token>
+		<token postag='V.*' postag_regexp='yes'></token>
+    </antipattern>
+    <antipattern>
     		<token regexp='yes'>&negacoes;</token>
     		<token regexp='yes'>&PP_nao_ambiguos;</token>
 		<token postag='V.*' postag_regexp='yes'></token>
@@ -164,7 +178,8 @@ title="Easy editing stylesheet" ?>
   </rule>
   <rule>
     <pattern>
-		<token postag='V.*' postag_regexp='yes'></token>
+		<token postag='V.*' postag_regexp='yes'>
+			<exception regexp='yes'>como|para|casa|nada</exception></token>
 		<token regexp='yes'>&PP_nao_ambiguos;</token>
 	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
