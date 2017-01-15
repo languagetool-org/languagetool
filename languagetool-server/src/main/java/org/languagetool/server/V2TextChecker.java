@@ -79,7 +79,7 @@ class V2TextChecker extends TextChecker {
   protected void checkParams(Map<String, String> parameters) {
     super.checkParams(parameters);
     if (StringTools.isEmpty(parameters.get("language"))) {
-      throw new IllegalArgumentException("Missing 'language' parameter");
+      throw new IllegalArgumentException("Missing 'language' parameter, e.g. 'language=en-US' for American English or 'language=fr' for French");
     }
     if (parameters.get("enabled") != null) {
       throw new IllegalArgumentException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
