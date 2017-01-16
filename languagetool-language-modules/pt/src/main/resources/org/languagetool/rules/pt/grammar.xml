@@ -2818,32 +2818,18 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="mas é sim">Muitos desconfiavam, <marker>mas e sim</marker> possível.</example>
     </rule>
 
-    <!-- MEIA BARALHADA meio baralhada -->
-    <!-- FIXME This rule is incorrect for all pt variants. See:
+  <rulegroup default='off' id="MEIA_MEIO_CONFUSION" name="Confusão: meio - meia">
+    <!-- FIXME Review. This rule may be incorrect for all pt variants. See:
     	http://escreverbem.com.br/meio-ou-meia/	-->
-    <rule default='off' id="MEIA_BARALHADA" name="Meio baralhada">
+    <rule>
       <pattern>
         <token>meia</token>
-        <token>baralhada</token>
+        <token regexp='yes'>baralhada|cheia|louca</token>
       </pattern>
-      <message>Substitua por <suggestion>meio baralhada</suggestion>.</message>
+      <message>Substitua por <suggestion>meio \2</suggestion>.</message>
       <example correction="meio baralhada">Ela está <marker>meia baralhada</marker>.</example>
     </rule>
-
-    <!-- FIXME This rule is incorrect for all pt variants. See:
-    	http://escreverbem.com.br/meio-ou-meia/	-->
-    <!-- MEIA CHEIA meio cheia -->
-    <rule default='off' id="MEIA_CHEIA" name="Meio cheia">
-      <pattern>
-        <token>meia</token>
-        <token>cheia</token>
-      </pattern>
-      <message>Substitua por <suggestion>meio cheia</suggestion>.</message>
-      <example correction="meio cheia">A tigela está <marker>meia cheia</marker>.</example>
-    </rule>
-
-    <!-- MEIO-IRMÃ meia-irmã -->
-    <rule id="MEIO-IRMÃ" name="Meia-irmã">
+    <rule>
       <pattern>
         <token>meio</token>
         <token>-</token>
@@ -2852,18 +2838,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>meia-irmã</suggestion>.</message>
       <example correction="meia-irmã">A Ana é <marker>meio-irmã</marker> dele.</example>
     </rule>
-
-    <!-- FIXME This rule is incorrect for all pt variants. See:
-    	http://escreverbem.com.br/meio-ou-meia/	-->
-    <!-- MEIA LOUCA meio louca -->
-    <rule default='off'  id="MEIA_LOUCA" name="Meio louca">
-      <pattern>
-        <token>meia</token>
-        <token>louca</token>
-      </pattern>
-      <message>Substitua por <suggestion>meio louca</suggestion>.</message>
-      <example correction="meio louca">A Ana é <marker>meia louca</marker>.</example>
-    </rule>
+  </rulegroup>
 
 <!-- TODO Review coverage by General Concordance Rules -->
     <!-- MUITA > muito -->
