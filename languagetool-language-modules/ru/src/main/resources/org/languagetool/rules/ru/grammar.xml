@@ -218,7 +218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="один за другим"><marker>один за одним</marker></example>
         </rule>
-        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «Интересная/интересую»">
+        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «интересная/интересую»">
             <pattern>
 		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
@@ -6377,7 +6377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Запятая не нужна</short>
             <example correction="так же как">Мы, <marker>так же, как</marker> и наши товарищи, любим заниматься спортом.</example>
         </rule>
-        <rulegroup id="TAKOJ_KAK" name="Сложный союз «такой(такая, такое, такие) как»" >
+        <rulegroup id="TAKOJ_KAK" name="Сложный союз «такой (такая, такое, такие) как»" >
           <rule>
             <pattern>
                 <token postag_regexp="yes" postag="ADJ:.*"></token>
@@ -7187,9 +7187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Нужно, чтобы мы готовились к худшему.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
-        
-        
-        
+   
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
@@ -8400,7 +8398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оно не для этого.</example>
             <example>Ты ужасный человек, - сказала она.</example>
         </rule>
-        <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
+        <rulegroup default="off" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
@@ -8784,10 +8782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>С предлогом «о» не употребляется.</short>
                 <example>Он принял меры для безопасности.</example>
                 <example correction="принял меры для безопасностей|принял меры для безопасности">Он <marker>принял меры о безопасности</marker>.</example>
-            </rule>
-            
-            
-            
+            </rule>       
         </rulegroup>
         
         <rule id="PT_BI" name="Причастие с частицей «бы» не употребляется">
@@ -9155,11 +9150,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Не выделяйте текст заглавными буквами.</example>
                 <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
             </rule>
-     <!--   <rule>
+<!--    TODO: need right case conversion  alllower+startupper   
+            <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*</token>
+                       <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
