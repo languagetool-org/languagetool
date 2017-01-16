@@ -650,7 +650,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule>
       <pattern>
         <token regexp='yes'>&negacoes;</token>
-        <token postag_regexp='yes' postag='VM..+'/>
+        <token postag_regexp='yes' postag='V.+'/>
         <token>-</token>
         <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
@@ -665,7 +665,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <token>de</token>
         <token regexp='yes'>forma|jeito|modo</token>
         <token regexp='yes'>(algum|nenhum)a?</token>
-        <token postag_regexp='yes' postag='VM..+'/>
+        <token postag_regexp='yes' postag='V.+'/>
         <token>-</token>
         <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
@@ -790,6 +790,17 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	<!--                  CRASE_CONFUSION, Erros de crase: Dia à dia       -->
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
 	<!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
+    <rule>
+      <pattern>
+        <token regexp='yes'>às?</token>
+        <token postag_regexp='yes' postag='V.+'>
+          <exception postag_regexp='yes' postag='(N.|A..)[FC].+'/></token>
+      </pattern>
+        <message>Não se aplica a crase antes de um verbo.</message>
+          <suggestion><match no='1' regexp_match='(à)(s?)' regexp_replace='a$2'/> \2</suggestion>
+      <example correction='a carregar'>Assim que começamos <marker>à carregar</marker> as compras para o carro, começou a chover.</example>
+      <example> Fomos às compras, e viemos com o carro cheio</example>
+    </rule>
     <rule>
         <pattern>
           <token><exception postag='SENT_START'/></token>
