@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
+<!ENTITY double_num "два|три|четыре|2|3|4">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -5050,7 +5051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="number"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
-                                    <exception scope="previous"  regexp="yes">,|и|-|—</exception>
+                                    <exception scope="previous"  regexp="yes">,|и|-|—|&double_num;</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
                                 </token>
@@ -5071,6 +5072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
+                    <example>Сегодня откроются 3 дополнительных офиса.</example>
                     <example>Быть умным Николаю мешала лень.</example>
                     <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
                     <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
@@ -5103,7 +5105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="gender"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
-                                    <exception scope="previous" regexp="yes">,|-|—</exception>
+                                    <exception scope="previous" regexp="yes">,|-|—|&double_num;</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
                                     <exception case_sensitive="yes">Божию</exception>
@@ -5125,6 +5127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
+                    <example>Сегодня откроются 3 дополнительных офиса.</example>
                     <example>Быть умным Николаю мешала лень.</example>
                     <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
                     <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
