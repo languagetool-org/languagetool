@@ -31,8 +31,6 @@ import java.util.Properties;
 /**
  * @since 2.0
  */
-
-
 public class HTTPServerConfig {
 
   enum Mode { LanguageTool, AfterTheDeadline }
@@ -307,4 +305,3 @@ public class HTTPServerConfig {
   }
 
 }
-

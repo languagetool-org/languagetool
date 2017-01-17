@@ -21,7 +21,6 @@ package org.languagetool.server;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
@@ -32,24 +31,24 @@ public class HTTPServerConfigTest {
   @Test
   public void testArgumentParsing() {
     HTTPServerConfig config1 = new HTTPServerConfig(new String[]{});
-    assertThat(config1.getPort(), Is.is(HTTPServerConfig.DEFAULT_PORT));
-    assertThat(config1.isPublicAccess(), Is.is(false));
-    assertThat(config1.isVerbose(), Is.is(false));
+    assertThat(config1.getPort(), is(HTTPServerConfig.DEFAULT_PORT));
+    assertThat(config1.isPublicAccess(), is(false));
+    assertThat(config1.isVerbose(), is(false));
 
     HTTPServerConfig config2 = new HTTPServerConfig("--public".split(" "));
-    assertThat(config2.getPort(), Is.is(HTTPServerConfig.DEFAULT_PORT));
-    assertThat(config2.isPublicAccess(), Is.is(true));
-    assertThat(config2.isVerbose(), Is.is(false));
+    assertThat(config2.getPort(), is(HTTPServerConfig.DEFAULT_PORT));
+    assertThat(config2.isPublicAccess(), is(true));
+    assertThat(config2.isVerbose(), is(false));
 
     HTTPServerConfig config3 = new HTTPServerConfig("--port 80".split(" "));
-    assertThat(config3.getPort(), Is.is(80));
+    assertThat(config3.getPort(), is(80));
     assertThat(config3.isPublicAccess(), Is.is(false));
-    assertThat(config3.isVerbose(), Is.is(false));
+    assertThat(config3.isVerbose(), is(false));
 
     HTTPServerConfig config4 = new HTTPServerConfig("--port 80 --public".split(" "));
-    assertThat(config4.getPort(), Is.is(80));
-    assertThat(config4.isPublicAccess(), Is.is(true));
-    assertThat(config4.isVerbose(), Is.is(false));
+    assertThat(config4.getPort(), is(80));
+    assertThat(config4.isPublicAccess(), is(true));
+    assertThat(config4.isVerbose(), is(false));
   }
 
   @Test
@@ -69,4 +68,3 @@ public class HTTPServerConfigTest {
   }
 
 }
-
