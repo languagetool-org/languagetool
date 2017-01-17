@@ -901,6 +901,18 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <url>http://www.nilc.icmc.usp.br/nilc/minigramatica/mini/acraseeospronomesdetratamento.htm</url>
       <example correction='a você'>Se digo <marker>à você</marker> deixa de ser segredo.</example>
     </rule>
+    <rule>
+      <pattern>
+        <token postag_regexp='yes' postag='V..[PF].+'/>
+        <token regexp='yes'>as?</token>
+        <token postag_regexp='yes' postag='Z.|C.' max='3'/>
+        <token regexp='yes'>horas?</token>
+      </pattern>
+      <message>Erro de crase.</message>
+      <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Crase</url>
+      <example correction='Chego às vinte e uma horas'><marker>Chego as vinte e uma horas</marker>.</example>
+    </rule>
   </rulegroup>
 
 <!-- FIXME While containing rule regressed. Comment out until I have time to fix
