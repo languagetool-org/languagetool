@@ -7,6 +7,10 @@
 
 #### German
   * added and improved rules
+  * updated Hunspell dictionary to version 2017.01.12:
+    * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-ch-frami-dictionaries
 
 #### Lithuanian and Malayalam
   * Lithuanian and Malayalam are not part of this release anymore. They still exist
