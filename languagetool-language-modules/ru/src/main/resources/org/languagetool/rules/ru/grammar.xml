@@ -8401,12 +8401,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оно не для этого.</example>
             <example>Ты ужасный человек, - сказала она.</example>
         </rule>
-        <rulegroup default="off" id="missing_noun_at_end" name="Опущено существительное">
+        <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
-                    <token postag="ADJ:.*|ADJ:Comp:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ:Comp:.*" /></token> 
+                    <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
                   </marker>
                 </pattern>
