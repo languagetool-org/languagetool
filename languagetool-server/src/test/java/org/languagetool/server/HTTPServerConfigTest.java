@@ -18,7 +18,10 @@
  */
 package org.languagetool.server;
 
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 import org.junit.Test;
+import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -39,13 +42,29 @@ public class HTTPServerConfigTest {
 
     HTTPServerConfig config3 = new HTTPServerConfig("--port 80".split(" "));
     assertThat(config3.getPort(), is(80));
-    assertThat(config3.isPublicAccess(), is(false));
+    assertThat(config3.isPublicAccess(), Is.is(false));
     assertThat(config3.isVerbose(), is(false));
 
     HTTPServerConfig config4 = new HTTPServerConfig("--port 80 --public".split(" "));
     assertThat(config4.getPort(), is(80));
     assertThat(config4.isPublicAccess(), is(true));
     assertThat(config4.isVerbose(), is(false));
+  }
+
+  @Test
+  public void shouldLoadLanguageModelDirectoryFromCommandLineArguments() throws IOException {
+    //given
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    String languageModelDirectory = "languageModelDirectory";
+    String targetLanguageModelDirectory = classLoader.getResource("org/languagetool/server/" + languageModelDirectory).getFile();
+
+    //when
+    HTTPServerConfig config = new HTTPServerConfig(new String[]{HTTPServerConfig.LANGUAGE_MODEL_OPTION, targetLanguageModelDirectory});
+
+    //then
+    Assert.assertNotNull(config.languageModelDir);
+    Assert.assertTrue(config.languageModelDir.exists());
+    Assert.assertTrue(config.languageModelDir.getAbsolutePath().endsWith(languageModelDirectory));
   }
 
 }
