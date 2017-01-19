@@ -24963,6 +24963,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PROU_OPTIM" name="*prou òptim">
+            <pattern>
+                <token regexp="yes">prou|bastant</token>
+                <token inflected="yes">òptim</token>
+            </pattern>
+            <message>Construcció inconherent.</message>
+            <suggestion>\1 <match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="$1">bo</match></suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="prou bona|òptima">És una situació <marker>prou òptima</marker>.</example>
+        </rule>
         <rule id="A_DESTACAR" name="*a destacar/cal destacar">
             <pattern>
                 <token postag="SENT_START"/>
