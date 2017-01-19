@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -38,6 +39,7 @@ public class HTTPServerConfig {
 
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
+  protected static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -86,7 +88,7 @@ public class HTTPServerConfig {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION)); //this method returns false if the passed array is null.
           break;
         case "-p":
         case "--port":
@@ -105,11 +107,14 @@ public class HTTPServerConfig {
             throw new IllegalArgumentException("Missing argument for '--allow-origin'");
           }
           break;
+        case LANGUAGE_MODEL_OPTION:
+          loadLanguageModelDirectory(args[++i]);
+          break;
       }
     }
   }
 
-  private void parseConfigFile(File file) {
+  private void parseConfigFile(File file, boolean loadLangModel) {
     try {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
@@ -124,11 +129,8 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Max queue size must be >= 0: " + maxWorkQueueSize);
         }
         String langModel = getOptionalProperty(props, "languageModel", null);
-        if (langModel != null) {
-          languageModelDir = new File(langModel);
-          if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
-            throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
-          }
+        if (langModel != null && loadLangModel) {
+          loadLanguageModelDirectory(langModel);
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
@@ -151,6 +153,12 @@ public class HTTPServerConfig {
     }
   }
 
+  private void loadLanguageModelDirectory(String langModel) {
+    languageModelDir = new File(langModel);    //podpinamy lokalizacje, gdzie jestesmy
+    if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
+      throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
+    }
+  }
   /*
    * @param verbose if true, the text to be checked will be displayed in case of exceptions
    */
@@ -226,7 +234,7 @@ public class HTTPServerConfig {
 
   /**
    * @return the language used, or {@code null} if not in AtD mode
-   * @since 2.7 
+   * @since 2.7
    */
   @Nullable
   Language getAfterTheDeadlineLanguage() {
@@ -277,7 +285,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @throws IllegalConfigurationException if property is not set 
+   * @throws IllegalConfigurationException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
     String propertyValue = (String)props.get(propertyName);

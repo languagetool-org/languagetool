@@ -41,10 +41,10 @@ abstract class Server {
   protected abstract String getProtocol();
 
   protected static final Set<String> DEFAULT_ALLOWED_IPS = new HashSet<>(Arrays.asList(
-            "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
-            "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
-            "127.0.0.1"
-    ));
+          "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
+          "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
+          "127.0.0.1"
+  ));
 
   protected int port;
   protected String host;
@@ -115,7 +115,7 @@ abstract class Server {
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
   }
-  
+
   protected static void printCommonOptions() {
     System.out.println("  --port, -p PRT port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
     System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
@@ -124,6 +124,7 @@ abstract class Server {
     System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
     System.out.println("                         example: --allow-origin \"*\"");
     System.out.println("  --verbose, -v  in case of exceptions, log the input text (up to 500 characters)");
+    System.out.println("  --languageModel--languageModel, a directory with '1grams', '2grams', '3grams' sub directories (per language) which contain a Lucene index (optional)");   //----------------
   }
 
   protected static void checkForNonRootUser() {
@@ -133,7 +134,7 @@ abstract class Server {
       System.out.println("****************************************************************************************************");
     }
   }
-  
+
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
@@ -141,7 +142,7 @@ abstract class Server {
   }
 
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
-    
+
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
       super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
     }
@@ -157,5 +158,5 @@ abstract class Server {
       }
     }
   }
-  
+
 }
