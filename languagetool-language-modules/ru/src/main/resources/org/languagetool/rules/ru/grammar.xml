@@ -200,6 +200,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rule id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
+            <pattern>
+                <marker>
+                    <token>что</token>
+                    <token>этого</token>
+                </marker>
+                <token postag="VB:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 это</suggestion>?</message>
+            <short>Опечатка?</short>
+            <example correction="что это">Важно, <marker>что этого</marker> удалось показать для случая изотропных материалов.</example>
+            <example>Важно, что это удалось показать для случая изотропных материалов.</example>
+        </rule>
         <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
             <pattern>
 		<token inflected="yes">совестный</token>
