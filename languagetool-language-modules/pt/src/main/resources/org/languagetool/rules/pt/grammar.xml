@@ -947,20 +947,37 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
     <rule>
+      <antipattern>
+        <token regexp='yes'>uma?</token>
+        <token>a</token>
+        <token regexp='yes'>uma?</token>
+      </antipattern>
       <pattern>
         <token negate='yes'>-</token>
         <marker>
-	  <token regexp='yes'>as?|os?|uma?s?|uns</token>
-	  <token regexp='yes'>as?|os?|uma?s?|uns</token>
+	  <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?</token>
+	  <token regexp='yes'>as?|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?</token>
 	</marker>
       </pattern>
 	<message>Possível fragmento.</message>
 	  <suggestion>\2</suggestion>
 	  <suggestion>\3</suggestion>
-	<example correction='o|um'>Foi <marker>o um</marker> erro de digitação.</example>
+	  <suggestion>\2, \3</suggestion>
+	<example correction='o|um|o, um'>Foi <marker>o um</marker> erro de digitação.</example>
 	<example>"(...) levando-o a investigar mais longe."</example>
+	<example>As casas antigas foram demolidas para dar espaço a um supermercado.</example>
+	<example>Um a um.</example>
+	<example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
     </rule>
     <rule>
+      <antipattern>
+        <token regexp='yes'>[nd][oa]s?</token>
+        <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?</token>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>algu[mn]a?s?</token>
+        <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?|[nd][oa]s?</token>
+      </antipattern>
       <pattern>
         <token negate='yes'>-</token>
         <marker>
@@ -971,7 +988,13 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	<message>Possível fragmento.</message>
 	  <suggestion>\2</suggestion>
 	  <suggestion>\3</suggestion>
-	<example correction='dele|dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
+	  <suggestion>\2, \3</suggestion>
+	<example correction='dele|dela|dele, dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
+	<example>Alguns destes animais são efetivamente mortos, e outros são pos...</example>
+	<example>Eu não quero perder as minhas ideias, mesmo que algumas delas sejam um pouco extremas.</example>
+	<example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu...</example>
+	<example>Não há novidade alguma nos meus olhos espantados.</example>
+	<example>Alguns deles defendem uma abordagem e rejeitam a outra; outros...</example>
     </rule>
   </rulegroup>
 
