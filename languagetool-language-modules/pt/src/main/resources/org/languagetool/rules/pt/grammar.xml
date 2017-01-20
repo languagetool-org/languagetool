@@ -952,6 +952,17 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='Chego às vinte e uma horas'><marker>Chego as vinte e uma horas</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+        <token>a</token>
+        <token regexp='yes'>direita|esquerda</token>
+        <token regexp='yes'>[dn][eao]s?</token>
+      </pattern>
+      <message>Erro de crase.</message>
+      <suggestion>à \2 \3</suggestion>
+      <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
+      <example>Os ônibus estacionaram à direita do pátio.</example>
+    </rule>
   </rulegroup>
 
 <!-- FIXME While containing rule regressed. Comment out until I have time to fix
