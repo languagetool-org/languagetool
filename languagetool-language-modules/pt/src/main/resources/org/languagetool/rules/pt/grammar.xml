@@ -479,6 +479,33 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	</rule>
   </rulegroup>
 
+  <rulegroup id="LINKING_VERB_PREDICATE_AGREEMENT" name='Concordância dos complementos com o verbo copulativo'>
+	     <!-- Created by Tiago F. Santos, 2017-01-17 -->
+      <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+    <rule>
+      <pattern>
+       <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+       <token postag_regexp='yes' postag='(N.|A..).P.+'></token>
+<!--         <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..).P.+'/></token>-->
+      </pattern>
+      <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
+        <suggestion>\1 <match no="2" postag="(N.|A..)(.)P(.+)" postag_replace='$1$2S$3' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="1" postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
+      <example correction='é rosa|são rosas'>Isto <marker>é rosas</marker>, Senhor. São rosas.</example>
+    </rule>
+    <rule>
+      <pattern>
+       <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+       <token postag_regexp='yes' postag='(N.|A..).S.+'></token>
+<!--         <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..).S.+'/></token>-->
+      </pattern>
+      <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
+        <suggestion>\1 <match no="2" postag="(N.|A..)(.)S(.+)" postag_replace='$1$2P$3' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="1" postag="(V....)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+      <example correction='são rosas|é rosa'>Isto <marker>são rosa</marker>, Senhor. São rosas.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
      <!--              General verbal concordance errors           -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
