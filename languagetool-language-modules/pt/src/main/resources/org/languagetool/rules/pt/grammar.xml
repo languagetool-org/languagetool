@@ -13278,6 +13278,93 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 
 </category>
 
+  <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+	     <!-- Created by Tiago F. Santos, 2017-01-18 -->
+    <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
+    <example correction='O₂'><marker>O2</marker></example>
+    <example correction='H₂O'><marker>H2O</marker></example>
+  </rule>
+    <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
+    <example correction='S₃'><marker>S3</marker></example>
+  </rule>
+    <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+4((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
+    <example correction='CH₄'><marker>CH4</marker></example>
+    <example correction='H₄Si'><marker>H4Si</marker></example>
+  </rule>
+    <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
+    <example correction='H₂O₂'><marker>H2O2</marker></example>
+    <example correction='H₂NO₂Al'><marker>H2NO2Al</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
+    <example correction='K₂HPO₃'><marker>K2HPO3</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
+    <example correction='CH₃CH₂OH'><marker>CH3CH2OH</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
+    <example correction='CH₃CH₃'><marker>CH3CH3</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?4((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
+    <example correction='H₂SO₄'><marker>H2SO4</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?5((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
+    <example correction='C₂H₅OH'><marker>C2H5OH</marker></example>
+  </rule>
+   <rule>
+    <pattern case_sensitive='yes'>
+      <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?6((&tabela_periodica;)+)?</token>
+    </pattern>
+    <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
+    <example correction='C₂H₆'><marker>C2H6</marker></example>
+  </rule>
+  </rulegroup>
+
 		<!--     Typography rules from English grammar.xml      - START-->
 		<!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
   <category id="TYPOGRAPHY" name="Tipografia" type="typographical">
