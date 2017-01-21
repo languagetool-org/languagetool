@@ -110,10 +110,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MS.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|são|termo|nome</exception></token>
-	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
-	     <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
+	     <exception postag='(N.|A..|Z.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 	    </token>
 	  </marker>
@@ -149,10 +149,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MP.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CF]P.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception postag='(N.|A..|Z.)[CF]P.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>termos|nomes</exception></token>
-	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
+		<exception postag='(N.|A..|Z.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 		</token>
 	  </marker>
@@ -187,10 +187,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
 	     <token postag='(D[ADIP].|P[ID]0|NC|A..)FS.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
-	  <token postag='(N.|A..)M.+' postag_regexp='yes'>
-	  	<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	  <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
+	  	<exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
@@ -222,10 +222,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
 	    <token postag='(D[ADIP].|P[ID]0|NC|A..)FP.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+		<exception postag='(N.|A..|Z.)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|mas|palavras|letras</exception></token>
-	    <token postag='(N.|A..)M.+' postag_regexp='yes'>
-		<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
+		<exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
@@ -346,15 +346,15 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	  <marker>
 	  <token postag='(D[ADIP].|NC|A..)[MC]P.+' postag_regexp='yes'>
 		<exception postag='(D[ADIP].|NC|A..)[MC]S.+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
-	  <token postag='(N.|A..)[MC]S.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
+	  <token postag='(N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
+	    <exception postag='(N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
 	    <exception regexp="yes">há|são|ser|haver|devido</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..|Z.)[MC]P$2' postag_regexp="yes"/></suggestion>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
 	<rule>
@@ -369,7 +369,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..)[MC]P$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..|Z.)[MC]P$2' postag_regexp="yes"/></suggestion>
 	 <example correction='dos pais'>É o orgulho <marker>dos pai</marker>.</example>
 	</rule>
 	<rule>
@@ -383,13 +383,13 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	  <token postag='(D[ADIP].|NC|A..)[MC]S.+' postag_regexp='yes'>
 	    <exception postag='(D[ADIP].|N.|A..)[MC]P.+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
 	    <exception regexp="yes">há|são|ser|haver|serão</exception></token>
-	  <token postag='(N.|A..)[MC]P.+' postag_regexp='yes'>
-	    <exception postag='(N.|A..)[MC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	  <token postag='(N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
+	    <exception postag='(N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	  </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..|Z.)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
 	 <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
 	 <example type='correct'>Sou todo ouvidos</example>
@@ -409,7 +409,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..)[MC]S$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[MC]P(.+)" postag_replace='(N.|A..|Z.)[MC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion>\2s \3</suggestion>
 	 <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
 	</rule>
@@ -419,13 +419,13 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	  <marker>
 	  <token postag='(D[ADIP].|NC|A..)[FC]S.+' postag_regexp='yes'>
 	    <exception postag='(D[ADIP].|N.|A..)[FC]P.+|C.|R.' postag_regexp='yes'></exception></token>
-	  <token postag='(N.|A..)[FC]P.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[FC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	  <token postag='(N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
+	  <exception postag='(N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	  </marker>
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..|Z.)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]P$2' postag_regexp="yes"/> \3</suggestion>
 	  <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
 	</rule>
@@ -444,7 +444,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	  <token negate='yes' regexp='yes'>-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..)[FC]S$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='(N.|A..|Z.)[FC]S$2' postag_regexp="yes"/></suggestion>
 	  <suggestion>\2s \3</suggestion>
 	 <example correction='numa espécie|numas espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
 	</rule>
@@ -454,14 +454,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <marker>
 	 <token postag='(D[ADIP].|NC|A..)[FC]P.+' postag_regexp='yes'>
 	  <exception postag='(D[ADIP].|N.|A..)[FC]S.+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
-	 <token postag='(N.|A..)[FC]S.+' postag_regexp='yes'>
-	  <exception postag='(N.|A..)[FC]P.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
+	 <token postag='(N.|A..|Z.)[FC]S.+' postag_regexp='yes'>
+	  <exception postag='(N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
 	 </marker>
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
 	  <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[FC]S$2' postag_regexp="yes"/> \3</suggestion>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..|Z.)[FC]P$2' postag_regexp="yes"/></suggestion>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
 	<rule>
@@ -476,7 +476,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|-</token>
 	 </pattern>
 	 <message>Erro de concordância de número.</message>
-	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..)[FC]P$2' postag_regexp="yes"/></suggestion>
+	  <suggestion>\2 <match no="3" postag="(N.|A..)[FC]S(.+)" postag_replace='(N.|A..|Z.)[FC]P$2' postag_regexp="yes"/></suggestion>
 	 <example correction='numas espécies'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
 	</rule>
   </rulegroup>
@@ -835,7 +835,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
         <token regexp='yes'>às?</token>
         <token postag_regexp='yes' postag='V.+'>
-          <exception postag_regexp='yes' postag='(N.|A..)[FC].+'/></token>
+          <exception postag_regexp='yes' postag='(N.|A..|Z.)[FC].+'/></token>
       </pattern>
         <message>Não se aplica a crase antes de um verbo.</message>
           <suggestion><match no='1' regexp_match='(à)(s?)' regexp_replace='a$2'/> \2</suggestion>
@@ -858,9 +858,9 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <pattern>
           <token>de</token>
           <marker>
-           <token postag='Z.' postag_regexp='yes'/>
+           <token postag='Z.+' postag_regexp='yes'/>
            <token>à</token>
-           <token postag='Z.' postag_regexp='yes'/>
+           <token postag='Z.+' postag_regexp='yes'/>
           </marker>
         </pattern>
         <message>Erro de crase.</message>
@@ -944,7 +944,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
         <token postag_regexp='yes' postag='V..[PF].+'/>
         <token regexp='yes'>as?</token>
-        <token postag_regexp='yes' postag='Z.|C.' max='3'/>
+        <token postag_regexp='yes' postag='Z.+|C.' max='3'/>
         <token regexp='yes'>horas?</token>
       </pattern>
       <message>Erro de crase.</message>

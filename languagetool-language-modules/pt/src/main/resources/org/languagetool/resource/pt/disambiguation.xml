@@ -17,7 +17,10 @@
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
-    <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões">
+    <!ENTITY numero_por_extenso_MS "um|milhão|bilião|trilião">
+    <!ENTITY numero_por_extenso_FS "uma|dezena">
+    <!ENTITY numero_por_extenso_MP "dois|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhões|biliões|triliões">
+    <!ENTITY numero_por_extenso_FP "duas|dezenas">
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -613,27 +616,77 @@
      <pattern>
        <token regexp="yes">[1234567890]+</token>
      </pattern>
-     <disambig postag="Z0"/>
+     <disambig postag="Z000"/>
    </rule>
    <rule>
      <pattern>
        <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
      </pattern>
-     <disambig postag="Z0"/>
+     <disambig postag="Z000"/>
    </rule>
    <rule>
      <pattern>
-         <token regexp="yes">&numero_por_extenso;</token>
+         <token regexp="yes">&numero_por_extenso_MS;|&numero_por_extenso_MP;</token>
          <token min='0' regexp='yes'>e|-</token>
-         <token regexp="yes">&numero_por_extenso;</token>
+         <token regexp="yes">&numero_por_extenso_MS;|&numero_por_extenso_MP;</token>
      </pattern>
-     <disambig action="add"><wd pos="Z0"/><wd pos="Z0"/><wd pos="Z0"/></disambig>
+     <disambig action="add"><wd pos="Z0MP"/><wd pos="Z0MP"/><wd pos="Z0MP"/></disambig>
     </rule>
    <rule>
      <pattern>
-         <token regexp="yes">&numero_por_extenso;<exception regexp='yes'>uma?</exception></token>
+         <token regexp="yes">&numero_por_extenso_FS;|&numero_por_extenso_FP;</token>
+         <token min='0' regexp='yes'>e|-</token>
+         <token regexp="yes">&numero_por_extenso_MS;|&numero_por_extenso_MP;|&numero_por_extenso_FS;|&numero_por_extenso_FP;</token>
      </pattern>
-     <disambig action="add"><wd pos="Z0"/></disambig>
+     <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_MP;</token>
+         <token min='0' regexp='yes'>e|-</token>
+         <token regexp="yes">&numero_por_extenso_FS;|&numero_por_extenso_FP;</token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_MP;</token>
+         <token min='0' regexp='yes'>e|-</token>
+         <token postag='Z0FP'/>
+     </pattern>
+     <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token postag='Z0FP'/>
+         <token min='0' regexp='yes'>e|-</token>
+         <token regexp="yes">&numero_por_extenso_MP;</token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_MP;<exception regexp='yes'>uma?</exception></token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0MP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_FP;<exception regexp='yes'>uma?</exception></token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0FP"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_MS;<exception regexp='yes'>uma?</exception></token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0MS"/></disambig>
+    </rule>
+   <rule>
+     <pattern>
+         <token regexp="yes">&numero_por_extenso_FS;<exception regexp='yes'>uma?</exception></token>
+     </pattern>
+     <disambig action="add"><wd pos="Z0FS"/></disambig>
     </rule>
   </rulegroup>
 
@@ -643,7 +696,7 @@
     <pattern>
       <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
     </pattern>
-    <disambig postag="ZR"/>
+    <disambig postag="ZRCN"/>
   </rule>
   <rule>
       <pattern case_sensitive="yes">
