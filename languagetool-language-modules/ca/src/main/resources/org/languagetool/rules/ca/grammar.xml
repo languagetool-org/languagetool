@@ -2584,6 +2584,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En va ser el responsable directe.</example>
                 <example>Ofical nazi, responsable directe.</example>
             </rule>
+            <rule id="SEGON_MA" name="*segon/segona mà">
+                <pattern>
+                    <marker>
+                        <token>segon</token>
+                    </marker>
+                    <token>mà</token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>segona</suggestion>
+                <example correction="segona">Són de <marker>segon</marker> mà.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
@@ -3223,7 +3234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Gàmbia no és gaire bonic</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="CONCORDANCES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
+        <rule id="CONCORDANCES_PRONOM_VERB" name="Concordances pronom verb: nosaltres *penseu/pensem">
             <antipattern>
                 <token>hi</token>
                 <token inflected="yes">haver</token>
