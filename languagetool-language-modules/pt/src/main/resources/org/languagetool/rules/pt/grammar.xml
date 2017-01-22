@@ -519,6 +519,26 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+  <rule id='FUTURE_CONJUGATION_ERROR' name='Conjugações irregulares do futuro do conjuntivo/subjuntivo'>
+	     <!-- Created by Tiago F. Santos, 2017-01-21 -->
+    <pattern>
+    <token regexp='yes'>enquanto|quando|se</token>
+      <token  min='0' postag_regexp='yes' postag='D.+'/>
+      <token postag_regexp='yes' postag='(N|A).+|PP1CSN00|PP3[MF]S000'>
+        <exception negate_pos='yes' postag_regexp='yes' postag='(N|A).+|PP1CSN00|PP3[MF]S000'/></token>
+      <token postag='VMN0000'>
+        <exception postag_regexp='yes' postag='VMSF[13]S0'/></token>
+    </pattern>
+    <message>O futuro do conjuntivo deste verbo é irregular.</message>
+      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='VMSF1S0'/></suggestion>
+    <example correction='Quando ele disser'><marker>Quando ele dizer</marker> a verdade, eu faço uma festa.</example>
+    <example>Quando eu comer, fico saciado.</example>
+    <example correction='Enquanto a Maria mantiver'><marker>Enquanto a Maria manter</marker> a casa, nós não temos que nos preocupar.</example>
+    <example correction='Se eu fizer'><marker>Se eu fazer</marker> essa proposta, estarei a correr um risco calculado.</example>
+    <example>Quando ele mantiver a palavra, ficaremos surpresos.</example>
+    <example correction='Quando eu vir'><marker>Quando eu ver</marker> algo errado, aviso.</example>
+  </rule>
+
   <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
      <!--              General verbal concordance errors           -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
