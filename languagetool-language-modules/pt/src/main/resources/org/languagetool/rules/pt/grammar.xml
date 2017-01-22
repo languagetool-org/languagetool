@@ -34,15 +34,15 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
-    
-    <!ENTITY negacoes "não|nunca|ninguém|nada|jamais|tampouco">
+
+    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+
+    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|tampouco">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
-
-    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
 
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões"> 
     <!ENTITY unidades_de_medida "([µnmcdhk]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
@@ -110,11 +110,11 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MS.+' postag_regexp='yes'>
+	    <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MS.+' postag_regexp='yes'>
 		<exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|são|termo|nome</exception></token>
-	    <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
-	     <exception postag='(N.|A..|Z.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
+	     <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 	    </token>
 	  </marker>
@@ -149,11 +149,11 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	    <token postag='(D[ADIP].|P[ID]0|NC|A..)MP.+' postag_regexp='yes'>
+	    <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MP.+' postag_regexp='yes'>
 		<exception postag='(N.|A..|Z.)[CF]P.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>termos|nomes</exception></token>
-	    <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
-		<exception postag='(N.|A..|Z.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..)F.+' postag_regexp='yes'>
+		<exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>uma|mas</exception>
 		</token>
 	  </marker>
@@ -187,11 +187,11 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	     <token postag='(D[ADIP].|P[ID]0|NC|A..)FS.+' postag_regexp='yes'>
+	     <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FS.+' postag_regexp='yes'>
 		<exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
-	  <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
-	  	<exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	  <token postag='(N.|A..)M.+' postag_regexp='yes'>
+	  	<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
@@ -222,11 +222,11 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <pattern>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
 	  <marker>
-	    <token postag='(D[ADIP].|P[ID]0|NC|A..)FP.+' postag_regexp='yes'>
+	    <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FP.+' postag_regexp='yes'>
 		<exception postag='(N.|A..|Z.)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|mas|palavras|letras</exception></token>
-	    <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
-		<exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+	    <token postag='(N.|A..)M.+' postag_regexp='yes'>
+		<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de|-</token>
