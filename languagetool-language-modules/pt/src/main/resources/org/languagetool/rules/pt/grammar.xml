@@ -13775,17 +13775,21 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
   <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
     <pattern>
-      <token postag_regexp='yes' postag='V.+'/>
+      <token postag_regexp='yes' postag='V.+'>
+        <exception postag_regexp='yes' postag='(C|R).+'/></token>
       <token min='0'>a</token>
-      <token postag_regexp='yes' postag='V.+'/>
+      <token postag_regexp='yes' postag='V.+'>
+        <exception postag_regexp='yes' postag='(C|R).+'/></token>
       <token min='0'>a</token>
-      <token postag_regexp='yes' postag='V.+' min='0'/>
+      <token postag_regexp='yes' postag='V.+'>
+        <exception postag_regexp='yes' postag='(C|R).+'/></token>
       <token min='0'>a</token>
-      <token postag_regexp='yes' postag='V.+'/>
+      <token postag_regexp='yes' postag='V.+'>
+        <exception postag_regexp='yes' postag='(C|R).+'/></token>
     </pattern>
-    <message>Verbosidade excessiva. Confirme se a sequência de verbos pode ser reduzida.</message>
-    <short>Verbosidade excessiva.</short>
-    <example type='Incorrect'>A reunião <marker>irá poder ser marcada<marker> para as 15h00.</example>
+    <message>Possível verbosidade excessiva. Confirme se a sequência de verbos pode ser reduzida.</message>
+    <short>Possível verbosidade excessiva.</short>
+    <example type='incorrect'>A reunião <marker>irá poder ser marcada</marker> às 15h00.</example>
     <example>A reunião poderá ser às 15h00.</example>
   </rule>
 
