@@ -37169,7 +37169,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ens fa molta por</example>
         </rule>
     </category>
-    <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">`
+    <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
+        <rule id="AGUARDAR" name="aguardar">
+            <pattern>
+                <token inflected="yes">aguardar</token>
+            </pattern>
+            <message>Paraula no recollida per la majoria de diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
+            <example correction="espera">Vés-hi i  <marker>aguarda</marker>'m.</example>
+        </rule>
        <rule id="INVADIR" name="invadir/envair">
             <pattern>
                 <token inflected="yes">invadir</token>
