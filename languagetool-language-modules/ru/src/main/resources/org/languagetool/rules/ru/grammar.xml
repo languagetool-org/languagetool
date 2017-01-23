@@ -643,7 +643,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка.</short>
                 <example correction="подвели итоги">Они <marker>подвели результаты</marker> работы организации.</example>
             </rule>
-          </rulegroup>      
+          </rulegroup>
+          <rulegroup id="kavalkada_mashin" name="Логические ошибки «кавалькада машин»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">кавалькада</token>
+                    <token regexp="yes">машин|ездоков|велосипедов|мотоциклов|людей|всадников|наездников</token>
+                </pattern>              
+                <message>Слово «кавалькада» обозначает «группу всадников» и не требует после себя пояснительного слова: <suggestion>\1</suggestion> или <suggestion><match no="1" regexp_match="кавалькад(.*)" regexp_replace="групп$1"/> <match no="2"/></suggestion> ?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="кавалькада|группа всадников">Нам встретилась <marker>кавалькада всадников</marker>.</example>
+            </rule>
+          </rulegroup>            
           <rulegroup id="skrepja_serdce" name="Логические ошибки «скрепя сердце»">
             <rule> 
                 <pattern>
