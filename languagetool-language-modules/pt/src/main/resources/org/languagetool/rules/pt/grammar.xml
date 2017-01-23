@@ -13772,9 +13772,25 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 
     <category id="STYLE" name="Estilo" type="style">
 
-	<!-- EVITAR A FORMA PASSIVA Evitar formas passivas de discurso	-->
-	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+  <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
+    <pattern>
+      <token postag_regexp='yes' postag='V.+'/>
+      <token min='0'>a</token>
+      <token postag_regexp='yes' postag='V.+'/>
+      <token min='0'>a</token>
+      <token postag_regexp='yes' postag='V.+' min='0'/>
+      <token min='0'>a</token>
+      <token postag_regexp='yes' postag='V.+'/>
+    </pattern>
+    <message>Verbosidade excessiva. Confirme se a sequência de verbos pode ser reduzida.</message>
+    <short>Verbosidade excessiva.</short>
+    <example type='Incorrect'>A reunião <marker>irá poder ser marcada<marker> para as 15h00.</example>
+    <example>A reunião poderá ser às 15h00.</example>
+  </rule>
+
     <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
        <pattern>
        <!--  Do not include 'estar' in order to limit positives
                 TODO Make this a percentage based rule [java?]          -->
@@ -13840,7 +13856,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
             <example>Doze meses no ano.</example>
         </rule>
 
-        <rule id="E_NO_COMECO" name="Frase começa com 'E' ou 'Mas'">
+        <rule id="E_NO_COMECO" name="Frase começa com 'E', 'Mas' ou 'Ou'">
             <pattern>
                 <token postag='SENT_START'/>
                 <token regexp="yes">E|Mas|Ou</token>
@@ -13892,7 +13908,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
         <example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>
       </rule>
-	<!-- Cataloguing differences require [DS]>[DP] and exceptions postag="P.+" > "N.+" -->
       <rule>
         <pattern>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
@@ -13907,10 +13922,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
      </rulegroup>
 		<!--	      Style rules from Spanish grammar.xml    - END  -->
 
-<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
-<!-- **************************************************************** -->
   <rulegroup id='DORAVANTE'  name="Utilização de 'Doravante'" default='off'>
-    <!-- DAQUI EM DIANTE doravante -->
+	<!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
     <rule>
       <pattern>
         <token>daqui</token>
@@ -13920,7 +13933,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>doravante</suggestion>.</message>
       <example correction="doravante">Isto deve ser feito <marker>daqui em diante</marker>.</example>
     </rule>
-    <!-- DE HOJE PARA O FUTURO doravante -->
     <rule>
       <pattern>
         <token>de</token>
@@ -13933,8 +13945,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="doravante">Isto deve ser feito <marker>de hoje para o futuro</marker>.</example>
     </rule>
   </rulegroup>
-<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
-<!-- ************************************************************** -->
 
 	<!-- À ÚLTIMA DA HORA à última hora -->
 	<!-- 		TODO See link for explanation
