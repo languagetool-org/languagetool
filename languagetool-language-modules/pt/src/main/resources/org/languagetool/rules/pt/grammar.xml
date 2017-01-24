@@ -984,6 +984,17 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
       <example>Os autocarros estacionaram à esquerda do pátio.</example>
     </rule>
+    <rule>
+        <!-- Freely based on CoGrOO rule -->
+      <pattern>
+      <token regexp='yes'>às?</token>
+        <token regexp='yes'>mim|ti|si|ele|ela|eles|elas|nós|vós|vos</token>
+      </pattern>
+      <message>Erro de crase.</message>
+      <suggestion><!-- TODO Insert match=''--></suggestion>
+      <example correction='a ela'>Eu levo <example>à ela</example> para o trabalho.</example>
+      <example correction='A mim'><example>À mim</example> não faz diferença.</example>
+    </rule>
   </rulegroup>
 
 <!-- FIXME While containing rule regressed. Comment out until I have time to fix
@@ -13772,7 +13783,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 
     <category id="STYLE" name="Estilo" type="style">
 
-  <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos'>
+  <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos' default='off'> <!-- TODO re-enable when pseudo-chunker is implemented -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
     <pattern>
       <token postag_regexp='yes' postag='V.+'>
