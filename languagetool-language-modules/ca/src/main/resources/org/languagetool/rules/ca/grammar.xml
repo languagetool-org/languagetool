@@ -5469,6 +5469,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="ADVERBS" name="Z) Adverbis" type="grammar">
+        <rule id="MOLTS_MOLT" name="*molts/molt contents">
+            <antipattern>
+                <marker>
+                    <token>molts</token>
+                    <token postag="AQ.[MC][PN]." postag_regexp="yes"/>
+                    <token postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>molts</token>
+                </marker>
+                <token postag="AQ.[MC][PN]." postag_regexp="yes"><exception postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>molt</suggestion>?</message>
+            <example correction="molt">Estem <marker>molts</marker> contents.</example>
+            <example>Molts grans cantants.</example>
+            <example>Entre molts altres, s'esmenten els següents.</example>
+        </rule>
         <rule id="MOLTS_POCS" name="*molts pocs / molt pocs">
             <pattern>
                 <token regexp='yes'>molts|moltes</token>
