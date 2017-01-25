@@ -993,7 +993,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       </pattern>
       <message>Erro de crase.</message>
       <suggestion>a \2</suggestion>
-      <example correction='a ela'>Eu levo <marker>à ela</marker> para o trabalho.</example>
+      <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
       <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
     </rule>
   </rulegroup>
@@ -1241,6 +1241,37 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <short>Linguagem informal</short>
       <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
     </rule>
+
+  <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
+        <!-- Created by Tiago F. Santos, 2017-01-18 -->
+        <!-- Freely based on CoGrOO rule -->
+    <rule>
+      <pattern>
+              <token negate='yes'>em</token>
+              <marker>
+                <token>anexo</token>
+        	<token postag_regexp='yes' postag='D.+' min='0'>
+	          <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
+	        <token postag_regexp='yes' postag='N.+'>
+	          <exception postag_regexp='yes' postag='N.MS.+'/></token>
+	      </marker>
+      </pattern>
+      <message>Erro de concordância.</message>
+      <suggestion><match no="4" postag='(N.)(..)(.+)' postag_replace='A..$2.+' postag_regexp='yes'>anexo</match> <match no="4" postag='(N.)(..)(.+)' postag_replace='D..$2.+' postag_regexp='yes'>o</match> \4</suggestion>
+  	 <example correction='anexas as imagens'>Seguem <marker>anexo as imagens</marker>.</example>
+  	 <example> Segue anexo o documento.</example>
+    </rule>
+    <rule>
+       <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+      <pattern>
+        <token>em</token>
+        <token regexp='yes'>anex(as?|os)</token>
+      </pattern>
+      <message>A expressão idiomática <suggestion>em anexo</suggestion> é invariável.</message>
+      <example correction='em anexo'>Seguem <marker>em anexos</marker> os seguintes documentos:</example>
+      <example correction="em anexo">As imagens seguem <marker>em anexas</marker>.</example>
+    </rule>
+  </rulegroup>
 
 <!--          Tiago F. Santos Rules Ending          ****END**** -->
 <!-- ********************************************************** -->
@@ -2543,7 +2574,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="eles têm">Há palavras que <marker>eles tem</marker> medo de ouvir.</example>
     </rule>
 
-    <!-- EM ANEXAS/ANEXOS em anexo -->
+    <!-- EM ANEXAS/ANEXOS em anexo 
+	TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
 	<rule id="CONFUSÃO_EM_ANEXAS_ANEXOS" name="Confusão anexas/anexos">
 	  <pattern>
         <token>em</token>	  
@@ -2555,28 +2587,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="em anexo">Os documentos seguem <marker>em anexos</marker>.</example>
       <example>Os documentos seguem <marker>em anexo</marker>.</example>
 	</rule>
-
-<!-- TODO Review coverage by CONTRACTIONS rulegroup and consider move to new category -->
-    <!-- EM UM num -->
-<!--    <rule id="EM_UM" name="Num">
-      <pattern>
-        <token>em</token>
-        <token>um</token>
-      </pattern>
-      <message>Substitua por <suggestion>num</suggestion>.</message>
-      <example correction="num">Está <marker>em um</marker> armário.</example>
-    </rule> -->
-
-<!-- TODO Review coverage by CONTRACTIONS rulegroup and consider move to new category -->
-    <!-- EM UMA numa -->
-<!--    <rule id="EM_UMA" name="Numa">
-      <pattern>
-        <token>em</token>
-        <token>uma</token>
-      </pattern>
-      <message>Substitua por <suggestion>numa</suggestion>.</message>
-      <example correction="numa">Está <marker>em uma</marker> gaveta.</example>
-    </rule> -->
+-->
 
     <!-- EM VÊS DE/DA/DAS/DO/DOS em vez de/da/das/do/dos -->
     <rule id="EM_VÊS_DE_DA_DAS_DO_DOS" name="Confusão: vês - vez">
