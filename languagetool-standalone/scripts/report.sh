@@ -45,7 +45,10 @@ printf "Google Docs       : %'d\n" $GOOGLEAPP >>$OUTFILE
 SUBLIME=`grep -c ":sublime" $TMPFILE`
 printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
 
-echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT" >>/home/languagetool/api/api-log.csv
+MSWORD=`grep -c ":msword" $TMPFILE`
+printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
+
+echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD" >>/home/languagetool/api/api-log.csv
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
