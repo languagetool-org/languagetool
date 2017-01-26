@@ -835,4 +835,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		<!-- FIM SUBIR PARA CIMA -->
 		
 	</category>
+
+  <category id='CASING' name='Capitalização' type='grammar'>
+
+    <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'><!-- TODO Converter mensagens para pt-BR -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-25 -->
+      <antipattern>
+      	<token>Rio</token>
+      	<token>de</token>
+      	<token>Janeiro</token>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov</token>
+      	<token postag_regexp='yes' postag='NP.+|'/>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+        <token negate_pos='yes' postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+        </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <short>Erro de capitalização.</short>
+      <example correction='janeiro'>O ano novo chinês é a 28 de <marker>Janeiro</marker>.</example>
+      <example correction='inverno'>Este <marker>Inverno</marker> está a ser muito seco.</example>
+      <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
+      <example>Junho é um mês de muitas chuvas.</example>
+      <example>Jan Rogoziński, A brief history of the Caribbean : fr...</example>
+    </rule>
+
+
 </rules>

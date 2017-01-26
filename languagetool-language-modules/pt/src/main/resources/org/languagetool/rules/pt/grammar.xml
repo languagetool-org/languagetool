@@ -2264,7 +2264,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="CONTRA_CAPA" name="Contracapa">
       <pattern>
         <token>contra</token>
-		<token>capa</token>
+	<token>capa</token>
       </pattern>
       <message>Substitua por <suggestion>contracapa</suggestion>.</message>
       <example correction="contracapa">O livro é composto por: capa, <marker>contra capa</marker> e lombada.</example>
@@ -2426,19 +2426,17 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="de vez em quando">Ela aparece <marker>de vês em quando</marker>.</example>
     </rule>
 
-    <!-- DECRETO DE LEI decreto-lei -->
-    <rule id="DECRETO_DE_LEI" name="Decreto-lei">
+  <rulegroup id="DECRETO_DE_LEI" name="Decreto-lei">
+    <rule>
       <pattern>
-        <token>decreto</token>
+        <token regexp='yes'>decretos?</token>
         <token>de</token>
         <token>lei</token>
       </pattern>
       <message>Substitua por <suggestion>decreto-lei</suggestion>.</message>
       <example correction="decreto-lei">Saiu um novo <marker>decreto de lei</marker>.</example>
     </rule>
-
-    <!-- DECRETOS-LEI decretos-leis -->
-    <rule id="DECRETOS-LEI" name="Decretos-leis">
+    <rule>
       <pattern>
         <token>decretos</token>
         <token>-</token>
@@ -2447,24 +2445,16 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>decretos-leis</suggestion>.</message>
       <example correction="decretos-leis">Vamos analisar os <marker>decretos-lei</marker>.</example>
     </rule>
+  </rulegroup>
 
     <!-- DÊS DO desde o -->
     <rule id="DÊS_DO" name="Desde o">
       <pattern>
         <token>dês</token>
-        <token>do</token>        
+        <token regexp='yes'>dos?</token>        
       </pattern>
-      <message>Substitua por <suggestion>desde o</suggestion>.</message>
+      <message>Substitua por <suggestion>desde o<match no='2' regexp_match='(do)(s?)' regexp_replace='$2'/></suggestion>.</message>
       <example correction="desde o">Isto acontece <marker>dês do</marker> mês passado.</example>
-    </rule>
-
-    <!-- DÊS DOS desde os -->
-    <rule id="DÊS_DOS" name="Desde os">
-      <pattern>
-        <token>dês</token>
-        <token>dos</token>        
-      </pattern>
-      <message>Substitua por <suggestion>desde os</suggestion>.</message>
       <example correction="desde os">Isto acontece <marker>dês dos</marker> tempos da minha avó.</example>
     </rule>
 
@@ -2484,21 +2474,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- DEVE DE deve -->
     <rule id="DEVE_DE" name="Deve">
       <pattern>
-        <token>deve</token>
+        <token inflected='yes'>dever
+          <exception>dever</exception></token>
         <token>de</token>
       </pattern>
-      <message>Substitua por <suggestion>deve</suggestion>.</message>
+      <message>Substitua por <suggestion>\1</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/dever-de/4260</url>
       <example correction="deve">Ele <marker>deve de</marker> vir mais tarde.</example>
-    </rule>
-
-    <!-- DEVEM DE devem -->
-    <rule id="DEVEM_DE" name="Devem">
-      <pattern>
-        <token>devem</token>
-        <token>de</token>
-      </pattern>
-      <message>Substitua por <suggestion>devem</suggestion>.</message>
-      <example correction="devem">Eles <marker>devem de</marker> vir mais tarde.</example>
+      <example correction="devem">Eles <marker>devem de</marker> vir mais tarde.</example>      
     </rule>
 
     <!-- DIAGNÓSTICO RESERVADO prognóstico reservado -->
@@ -2512,26 +2495,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>prognóstico</suggestion>.</message>
       <example correction="prognóstico">A Ana mantém-se com <marker>diagnóstico</marker> reservado.</example>
     </rule>
-
-<!-- TODO Review rule adequacy or move to CONTRACTIONS rulegroup -->
-    <!-- DUM de um -->
-<!--    <rule id="DUM" name="De um">
-      <pattern>
-        <token>dum</token>
-      </pattern>
-      <message>Substitua por <suggestion>de um</suggestion>.</message>
-      <example correction="de um">A venda <marker>dum</marker> apartamento.</example>
-    </rule> -->
-
-<!-- TODO Review rule adequacy or move to CONTRACTIONS rulegroup -->
-    <!-- DUMA de uma -->
-<!--    <rule id="DUMA" name="De uma">
-      <pattern>
-        <token>duma</token>
-      </pattern>
-      <message>Substitua por <suggestion>de uma</suggestion>.</message>
-      <example correction="de uma">A venda <marker>duma</marker> casa.</example>
-    </rule> -->
 
     <!-- É SUPOSTO QUE supõe-se que -->
     <rule id="É_SUPOSTO_QUE" name="Supõe-se que">
@@ -2553,28 +2516,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       </pattern>
       <message>Substitua por <suggestion>e mais tarde</suggestion>.</message>
       <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
-    </rule>
-
-<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
-    <!-- ELAS TEM elas têm -->
-    <rule id="ELAS_TEM" name="Elas têm">
-      <pattern>
-        <token>elas</token>
-        <token>tem</token>
-      </pattern>
-      <message>Substitua por <suggestion>elas têm</suggestion>.</message>
-      <example correction="elas têm">Há palavras que <marker>elas tem</marker> medo de ouvir.</example>
-    </rule>
-
-<!-- TODO Coverage by CONCORDANCE rulegroup and consider removal -->
-    <!-- ELES TEM eles têm -->
-    <rule id="ELES_TEM" name="Eles têm">
-      <pattern>
-        <token>eles</token>
-        <token>tem</token>
-      </pattern>
-      <message>Substitua por <suggestion>eles têm</suggestion>.</message>
-      <example correction="eles têm">Há palavras que <marker>eles tem</marker> medo de ouvir.</example>
     </rule>
 
     <!-- EM ANEXAS/ANEXOS em anexo 
@@ -2619,15 +2560,13 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- ESQUECEU-SE/ESQUECERAM-SE/ESQUECI-ME/ESQUECER-SE QUE esqueceu-se de que -->
     <rule id="ESQUECEU-SE_QUE" name="Esqueceu-se de que">
       <pattern>
-        <token regexp="yes">esqueceu|esqueceram|esqueci|esquecere</token>
+        <token inflected="yes">esquecer</token>
         <token>-</token>
         <token>se</token>
-        <marker>
-        	<token>que</token>
-        </marker>
+       	<token>que</token>
       </pattern>
-      <message>Substitua por <suggestion>de que</suggestion>.</message>
-      <example correction="de que">O Rui esqueceu-se <marker>que</marker> tinha um exame.</example>
+      <message>Substitua por <suggestion>\1\2\3 de que</suggestion>.</message>
+      <example correction="esqueceu-se de que">O Rui <marker>esqueceu-se que</marker> tinha um exame.</example>
     </rule>
 
   <rulegroup id="ESTA_CONFUSION" name="Confusão: Esta - Está">
@@ -2660,7 +2599,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
-    <!-- Use infinitive - ESTAR/ESTÃO + A + INFINITIVE-->
+    <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
     <rule id="ESTAR-ESTÃO_A_PLURAL" name="Usar infinitivo ESTAR/ESTÃO + A + INFINITIVO">
       <pattern>
 		<token regexp="yes">estar|estão</token>
@@ -2736,19 +2675,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="FOI_ACEITADA" name="Foi aceite">
       <pattern>
         <token>foi</token>
-        <token>aceitada</token>
+        <token regexp='yes'>aceitad[ao]s?</token>
       </pattern>
       <message>Substitua por <suggestion>foi aceite</suggestion>.</message>
       <example correction="foi aceite">A proposta <marker>foi aceitada</marker> hoje.</example>
-    </rule>
-
-    <!-- FOI ACEITADO foi aceite -->
-    <rule id="FOI_ACEITADO" name="Foi aceite">
-      <pattern>
-        <token>foi</token>
-        <token>aceitado</token>
-      </pattern>
-      <message>Substitua por <suggestion>foi aceite</suggestion>.</message>
       <example correction="foi aceite">O acordo <marker>foi aceitado</marker> hoje.</example>
     </rule>
 
@@ -2768,10 +2698,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- FORMAS INOVADORES formas inovadoras -->
     <rule id="FORMAS_INOVADORES" name="Formas inovadoras">
       <pattern>        
-        <token>formas</token>
-        <token>inovadores</token>
+        <token regexp='yes'>formas?</token>
+        <token regexp='yes'>inovadores?</token>
       </pattern>
-      <message>Substitua por <suggestion>formas inovadoras</suggestion>.</message>
+      <message>Substitua por <suggestion>\1 inovadora<match no='1' regexp_match='(forma)(s?)' regexp_replace='$2'/></suggestion>.</message>
       <example correction="formas inovadoras">Tudo são <marker>formas inovadores</marker>.</example>
     </rule>
 
@@ -2780,31 +2710,18 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
         <token>furto</token>
         <token>de</token>
-        <token>identidade</token>
+        <token regexp='yes'>identidades?</token>
       </pattern>
-      <message>Substitua por <suggestion>usurpação de identidade</suggestion>.</message>
+      <message>Substitua por <suggestion>usurpação de \3</suggestion>.</message>
       <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
     </rule>
-
-	<!-- Covered by VERBO_DE_QUE  TODO Remove -->
-    <!-- GOSTO DE QUE gosto que 
-    <rule id="GOSTO_DE_QUE" name="Gosto que">
-      <pattern>
-        <token>gosto</token>
-        <token>de</token>
-        <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>gosto que</suggestion>.</message>
-      <example correction="gosto que">Nem sempre <marker>gosto de que</marker> me ensinem.</example>
-    </rule>
-    -->
 
     <!-- GUARDAS-CHUVAS guarda-chuvas -->
     <rule id="GUARDAS-CHUVAS" name="Guarda-chuvas">
       <pattern>
         <token>guardas</token>
         <token>-</token>
-        <token>chuvas</token>
+        <token regexp='yes'>chuvas?</token>
       </pattern>
       <message>Substitua por <suggestion>guarda-chuvas</suggestion>.</message>
       <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
@@ -2928,7 +2845,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- MAIOR maiores -->
     <rule id="MAIOR" name="Maiores">
       <pattern>
-		 <marker>
+         <marker>
             <token>maior</token>
          </marker>
          <token regexp="yes">as|os|são</token>
@@ -3001,8 +2918,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
-<!-- TODO Review coverage by General Concordance Rules -->
-    <!-- MUITA > muito -->
+<!-- TODO Coverage by General Concordance Rules. Consider removal -->
+    <!-- MUITA > muito 
     <rule id="MUITA" name="Muito">
       <pattern>
 		<marker>
@@ -3013,17 +2930,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
      <message>Substitua por <suggestion>muito</suggestion>.</message>
      <example correction="muito">Eu sou <marker>muita</marker> bom.</example>
     </rule>
-
-    <!-- MUITO PELO É muito pêlo é -->
-    <rule id="MUITO_PELO_É" name="Confusão: pelo - pêlo">
-      <pattern>
-        <token>muito</token>
-        <token>pelo</token>
-        <token>é</token>
-      </pattern>
-      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
-      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
-    </rule>
+-->
 
     <!-- MULHER CARTEIRO carteira -->
     <rule id="MULHER_CARTEIRO" name="Carteira">
@@ -3339,9 +3246,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="pedir um conselho">Devemos <marker>pedir um concelho</marker> ao padre.</example>
     </rule>
 
-    
-<!-- TODO Review coverage by VERBO_DE_QUE -->
-    <!-- PENSO DE QUE penso que -->
+<!-- TODO Coverage by VERBO_DE_QUE. Consider removal -->
+    <!-- PENSO DE QUE penso que 
     <rule id="PENSO_DE_QUE" name="Penso que">
       <pattern>
         <token>penso</token>
@@ -3351,7 +3257,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>Substitua por <suggestion>penso que</suggestion>.</message>
       <example correction="penso que">Eu <marker>penso de que</marker> é verdade.</example>
     </rule>
-
+-->
     <!-- PIOR EDUCADO mais mal-educado -->
     <rule id="PIOR_EDUCADO" name="Mais mal-educado">
       <pattern>
@@ -3595,11 +3501,11 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- VISANDO A CONSEGUIR visando conseguir -->
     <rule id="VISANDO_A_CONSEGUIR" name="Visando conseguir">
       <pattern>
-        <token>visando</token>
+        <token inflected='yes'>visar</token>
         <token>a</token>
         <token inflected='yes'>conseguir</token>
       </pattern>
-      <message>Substitua por <suggestion>visando \3</suggestion>.</message>
+      <message>Substitua por <suggestion>\1 \3</suggestion>.</message>
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
     </rule>
 
@@ -13976,10 +13882,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
-	<!-- À ÚLTIMA DA HORA à última hora -->
-	<!-- 		TODO See link for explanation
-	https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ultima-hora/3082 -->
     <rule id="À_ÚLTIMA_DA_HORA" name="Expressão: À última hora">
+	<!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
         <token>à</token>
         <token>última</token>
@@ -13990,9 +13894,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="à última hora">Eles decidiram tudo <marker>à última da hora</marker>.</example>
     </rule>
 
-    <!-- DEPOIS DE após -->
-    <!-- 	This is a infrequent personal style rule.	 	-->
     <rule type='style' default='off' id="DEPOIS_DE" name="Expressão: Após">
+	<!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
   	    <marker>
   	    <token>depois</token>
@@ -14004,8 +13907,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
     </rule>
 
-    <!-- ENQUANTO QUE enquanto -->
     <rule id="ENQUANTO_QUE" name="Expressão: Enquanto">
+	<!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
         <token>enquanto</token>
         <token>que</token>

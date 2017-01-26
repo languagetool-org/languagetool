@@ -970,17 +970,63 @@ title="Easy editing stylesheet" ?>
 
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-25 -->
+      <antipattern>
+      	<token>Rio</token>
+      	<token>de</token>
+      	<token>Janeiro</token>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov</token>
+      	<token postag_regexp='yes' postag='NP.+|'/>
+      </antipattern>
       <pattern case_sensitive='yes'>
-        <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+        <token negate_pos='yes' postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+        </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
-      <suggestion><match no='1' case_conversion='alllower'/></suggestion>
+      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <short>Erro de capitalização.</short>
       <example correction='janeiro'>O ano novo chinês é a 28 de <marker>Janeiro</marker>.</example>
       <example correction='inverno'>Este <marker>Inverno</marker> está a ser muito seco.</example>
       <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
+      <example>Junho é um mês de muitas chuvas.</example>
+      <example>Jan Rogoziński, A brief history of the Caribbean : fr...</example>
     </rule>
+
+      <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token negate_pos='yes' postag='SENT_START'/>
+       <marker>
+        <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
+       </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='domingo'>O torneio é no próximo <marker>Domingo</marker>.</example>
+      <example correction='sáb'>A nova temporada estreia em <marker>Sáb</marker>. 24 dez 2016.</example>
+      <example correction='ter'>A última temporada estreiou na <marker>Ter</marker>. 27 dez 2016.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token negate_pos='yes' postag='SENT_START'/>
+       <marker>
+        <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+        <token>-</token>
+        <token regexp='yes'>[Ff]eiras?</token>
+       </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion='alllower'/>-<match no='4' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
+    </rule>
+  </rulegroup>
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
   </category>
