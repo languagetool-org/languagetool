@@ -34,8 +34,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
     <!ENTITY PP_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
-    
-    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|tampouco">
+
+    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     
     <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
@@ -963,9 +963,26 @@ title="Easy editing stylesheet" ?>
       <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
     </rule>
   </rulegroup>
-	<!--          Tiago F. Santos Rules Ending          ****END**** -->
-	<!-- ********************************************************** -->
 
 </category>
+
+  <category id='CASING' name='Capitalização' type='grammar'>
+
+    <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-25 -->
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
+      <suggestion><match no='1' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <short>Erro de capitalização.</short>
+      <example correction='janeiro'>O ano novo chinês é a 28 de <marker>Janeiro</marker>.</example>
+      <example correction='inverno'>Este <marker>Inverno</marker> está a ser muito seco.</example>
+      <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
+    </rule>
+	<!--          Tiago F. Santos Rules Ending          ****END**** -->
+	<!-- ********************************************************** -->
+  </category>
 
 </rules>
