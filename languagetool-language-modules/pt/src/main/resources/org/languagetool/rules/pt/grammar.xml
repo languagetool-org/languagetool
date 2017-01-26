@@ -37,7 +37,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
 
-    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|tampouco">
+    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -1265,11 +1265,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
        <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
         <token>em</token>
-        <token regexp='yes'>anex(as?|os)</token>
+        <token regexp='yes'>anex[ao]s?</token>
       </pattern>
-      <message>A expressão idiomática <suggestion>em anexo</suggestion> é invariável.</message>
-      <example correction='em anexo'>Seguem <marker>em anexos</marker> os seguintes documentos:</example>
-      <example correction="em anexo">As imagens seguem <marker>em anexas</marker>.</example>
+      <message>A locução adverbial «<suggestion>em anexo</suggestion>» é invariável, mas deve considerar utilizar apenas o adjectivo.</message>
+        <suggestion>\2</suggestion>
+      <short>«Em anexo» é invariável.</short>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/em-anexo/2876</url>
+      <example correction='em anexo|anexos'>Seguem <marker>em anexos</marker> os seguintes documentos:</example>
+      <example correction="em anexo|anexas">As imagens seguem <marker>em anexas</marker>.</example>
     </rule>
   </rulegroup>
 
