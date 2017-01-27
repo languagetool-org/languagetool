@@ -5505,19 +5505,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MOLTS_MOLT" name="*molts/molt contents">
             <antipattern>
                 <marker>
-                    <token>molts</token>
+                    <token regexp="yes">molts|pocs</token>
                     <token max="3" postag="A..[MC][PN]." postag_regexp="yes"/>
                     <token postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
             <pattern>
                 <marker>
-                    <token>molts<exception postag="DA0MP0" scope="previous"/></token>
+                    <token regexp="yes">molts|pocs<exception postag="DA0MP0" scope="previous"/></token>
                 </marker>
                 <token postag="AQ.[MC][PN]." postag_regexp="yes"><exception postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>molt</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(molt|poc)s" regexp_replace="$1"/></suggestion>?</message>
             <example correction="molt">Estem <marker>molts</marker> contents.</example>
+            <example correction="poc">Són <marker>pocs</marker> usuals.</example>
             <example>Molts grans cantants.</example>
             <example>Entre molts altres, s'esmenten els següents.</example>
             <example>Amb molts altres curiosos animals.</example>
