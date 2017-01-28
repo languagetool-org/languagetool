@@ -707,14 +707,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	 <example type="correct">Cão e gato são animais.</example>
 	</rule>
 
-  <rulegroup id="NEGATIVE_PRONOUN_VERB" name='Negação + verbo + pronome oblíquo'>
+  <rulegroup id="NEGATIVE_PRONOUN_VERB" name='Colocação pronominal: Negações + verbo'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
 	 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <rule>
       <pattern>
         <token regexp='yes'>&negacoes;</token>
         <token postag_regexp='yes' postag='V.+'/>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>As negações colocam o pronome antes do verbo.</message>
@@ -729,7 +729,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <token regexp='yes'>forma|jeito|modo</token>
         <token regexp='yes'>(algum|nenhum)a?</token>
         <token postag_regexp='yes' postag='V.+'/>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>As negações colocam o pronome antes do verbo.</message>
@@ -746,7 +746,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <rule id="INF_PP_QUE" name="Infinitivo do tipo convencer + pron.pers + que">
         <pattern>
           <token regexp="yes">(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
-          <token>-</token>
+          <token regexp='yes'>-|–|—</token>
           <token regexp="yes">(me|te|lh[ea][s]?|se|nos|os)</token>
           <token>que</token>
         </pattern>
@@ -823,7 +823,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <rule id="V3_DE_QUE" name="Verbo na 3a pessoa + de que">
         <pattern>
           <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
-          <token>-</token>
+          <token regexp='yes'>-|–|—</token>
           <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
           <token>de</token>
           <token>que</token>
@@ -1414,7 +1414,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
 		<marker>
 			<token>procura</token>
-			<token>-</token>
+			<token regexp='yes'>-|–|—</token>
 			<token>se</token>
 		</marker>
 		<token postag_regexp="yes"  postag="NCFP000|NCMP000|AQ0FP0|AQ0MP0"></token> 	
@@ -1706,7 +1706,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
         <token>a</token>
         <token>guarda</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>nocturno</token>
       </pattern>
       <message>Substitua por <suggestion>a guarda-nocturna</suggestion>.</message>
@@ -1983,7 +1983,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="ANDARES-MODELOS" name="Andares-modelo">
       <pattern>
         <token>andares</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>modelos</token>
       </pattern>
       <message>Substitua por <suggestion>andares-modelo</suggestion>.</message>
@@ -2072,7 +2072,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="ABRIR-MOS" name="Confusão: abrir-mos - abrirmos">
       <pattern>
         <token>abrir</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>mos</token>
       </pattern>
       <message>Substitua por <suggestion>abrirmos</suggestion>.</message>
@@ -2185,7 +2185,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="AUTO-FALANTE" name="Altifalante">
       <pattern>
         <token>auto</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>falante</token>
       </pattern>
       <message>Substitua por <suggestion>altifalante</suggestion>.</message>
@@ -2196,7 +2196,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="AUTO-FALANTES" name="Altifalantes">
       <pattern>
         <token>auto</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>falantes</token>
       </pattern>
       <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
@@ -2207,7 +2207,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="BOLOS-REI" name="Bolos-reis">
       <pattern>
         <token>bolos</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>rei</token>
       </pattern>
       <message>Substitua por <suggestion>bolos-reis</suggestion>.</message>
@@ -2439,7 +2439,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule>
       <pattern>
         <token>decretos</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>lei</token>
       </pattern>
       <message>Substitua por <suggestion>decretos-leis</suggestion>.</message>
@@ -2475,13 +2475,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="DEVE_DE" name="Deve">
       <pattern>
         <token inflected='yes'>dever
-          <exception>dever</exception></token>
+          <exception regexp='yes'>dever|deveres</exception></token>
         <token>de</token>
       </pattern>
       <message>Substitua por <suggestion>\1</suggestion>.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/dever-de/4260</url>
       <example correction="deve">Ele <marker>deve de</marker> vir mais tarde.</example>
-      <example correction="devem">Eles <marker>devem de</marker> vir mais tarde.</example>      
+      <example correction="devem">Eles <marker>devem de</marker> vir mais tarde.</example>
+      <example>Consagrava-se dia e noite aos deveres de seu ministério.</example>
     </rule>
 
     <!-- DIAGNÓSTICO RESERVADO prognóstico reservado -->
@@ -2561,7 +2562,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="ESQUECEU-SE_QUE" name="Esqueceu-se de que">
       <pattern>
         <token inflected="yes">esquecer</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>se</token>
        	<token>que</token>
       </pattern>
@@ -2649,7 +2650,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="FALARAM-SE_DE" name="Falou-se de">
       <pattern>
         <token>falaram</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>se</token>
         <token>de</token>
       </pattern>
@@ -2720,7 +2721,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="GUARDAS-CHUVAS" name="Guarda-chuvas">
       <pattern>
         <token>guardas</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token regexp='yes'>chuvas?</token>
       </pattern>
       <message>Substitua por <suggestion>guarda-chuvas</suggestion>.</message>
@@ -2910,7 +2911,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule>
       <pattern>
         <token>meio</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>irmã</token>
       </pattern>
       <message>Substitua por <suggestion>meia-irmã</suggestion>.</message>
@@ -3153,7 +3154,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="PALAVRAS-CHAVES" name="Palavras-chave">
       <pattern>
         <token>palavras</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>chaves</token>
       </pattern>
       <message>Substitua por <suggestion>palavras-chave</suggestion>.</message>
@@ -3272,7 +3273,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="PODERIAM-SE" name="Poder-se-iam">
       <pattern>
         <token>poderiam</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>se</token>
       </pattern>
       <message>Substitua por <suggestion>poder-se-iam</suggestion>.</message>
@@ -3402,7 +3403,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="RIU-ME" name="Confusão: rio-me">
       <pattern>
         <token>riu</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>me</token>
       </pattern>
       <message>Substitua por <suggestion>rio-me</suggestion>.</message>
@@ -3457,7 +3458,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <pattern>
         <token>um</token>
         <token>baixo</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>assinado</token>
       </pattern>
       <message>Substitua por <suggestion>um abaixo-assinado</suggestion>.</message>
@@ -6093,7 +6094,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
            <token><match no="1"/>
              <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT' postag_regexp='yes'/>
              <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-             <exception regexp='yes'>\d+|['"/\|]|&unidades_de_medida;</exception>
+             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;)*</exception>
              </token>
          </marker>
          <token negate='yes'>-</token>
@@ -6115,6 +6116,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
        <example>99,6% com iluminação pública, 99,3% com coleta de resíduos e 89,7% dos lares tem</example>
        <example>Andou de estação em estação à procura dela.</example>
        <example correction="">Andou de estação sim em <marker>estação</marker> não à procura dela.</example>
+       <example>Cerca de 42% de todos os judeus residem em Israel e cerca de 42% nos Estados Unidos e Canadá, com a maioria restante na Europa.</example>
     </rule>
 
     <rule id="REPEATED_WORDS_3X" name="Palavras repetidas (3x)" default='on' type='style'>
@@ -6134,7 +6136,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
            <token><match no="1"/>
              <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT' postag_regexp='yes'/>
              <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-             <exception regexp='yes'>\d+|['"/\|]|&unidades_de_medida;</exception>
+             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;)*</exception>
              </token>
          </marker>
          <token negate='yes'>-</token>
@@ -6922,9 +6924,9 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule>
                 <antipattern>
                         <token>trás</token>
-                        <token>-</token>
+                        <token regexp='yes'>-|–|—</token>
                         <token>os</token>
-                        <token>-</token>
+                        <token regexp='yes'>-|–|—</token>
                         <token>montes</token>
                 </antipattern>
 		<pattern>
@@ -13948,11 +13950,12 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <token>de</token>
       </pattern>
       <message>Pretende dizer "a fim de"? Esta expressão pode ser interpretada de forma informal. Considere alternativas.</message>
+       <suggestion>semelhante a</suggestion>
        <suggestion>de modo a</suggestion>
        <suggestion>para</suggestion>
        <suggestion>a fim de</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/afima-fim-de/2680</url>
-      <example correction="de modo a|para|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>      
+      <example correction="semelhante a|de modo a|para|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>
     </rule>
 
     <!-- A POUCO E POUCO aos poucos informal -->
@@ -13992,24 +13995,24 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	</rule>
 
     <!-- GAJA/S informal -->
-	<rule id="GAJA_GAJAS" name="Gaja/gajas">
+  <rulegroup id="GAJA_GAJAS" name="Gaja/gajas">
+    <rule>
 	  <pattern>
 		<token regexp="yes">gaja|gajas</token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Onde está a <marker>gaja</marker>?</example>
       <example>Onde está a <marker>senhora</marker>?</example>
-	</rule>
-
-    <!-- GAJO/S informal -->
-	<rule id="GAJO_GAJOS" name="Gajo/gajos">
+    </rule>
+    <rule>
 	  <pattern>
 		<token regexp="yes">gajo|gajos</token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Onde está o <marker>gajo</marker>?</example>
       <example>Onde está o <marker>senhor</marker>?</example>
-	</rule>
+    </rule>
+  </rulegroup>
 
     <!-- BEM DITO DEUS/SATANÁS bem dito Deus/Satanás -->
     <rule id="BEM_DITO_DEUS-SATANÁS" name="Bem dito Deus-Satanás">
