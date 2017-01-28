@@ -101,7 +101,7 @@ title="Easy editing stylesheet" ?>
 	<!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
         <pattern>
 	  <token regexp='yes'>efeitos?</token>
-      	  <token>-</token>
+      	  <token regexp='yes'>-|–|—</token>
 	  <token regexp='yes'>estufas?</token>
         </pattern>
         <message>Esta expressão não é hifenizada.</message>
@@ -111,7 +111,7 @@ title="Easy editing stylesheet" ?>
         <example correction="efeito de estufa|efeito estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example><!-- TODO Confirm if this is a case of AO changes. VOP (AO90) has 'efeito de estufa'. Verify per-AO. -->
   </rule>
 
-  <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais três termos'>
+  <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
     <pattern>
 		<token postag='V.*' postag_regexp='yes'>
@@ -173,7 +173,7 @@ title="Easy editing stylesheet" ?>
 		<token postag='V.*' postag_regexp='yes'></token>
     </antipattern>
     <antipattern>
-    		<token>-</token>
+    		<token regexp='yes'>-|–</token>
     		<token regexp='yes'>&PP_nao_ambiguos;</token>
     		<token postag='V.*' postag_regexp='yes'></token>
     </antipattern>
@@ -245,14 +245,14 @@ title="Easy editing stylesheet" ?>
    <rule>
     <pattern>
     		<token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
-    		<token>-</token>
+    		<token regexp='yes'>-|–|—</token>
     		<token postag='PP.*' postag_regexp='yes'/>
 		<token postag='V.G0+' postag_regexp='yes'>
 			<exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
     </pattern>
 	<message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1\2\3 <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
-	<example correction='iam-se acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
+        <suggestion>\1\2\3 a <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
+	<example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
    </rule>
    <rule>
     <pattern>
@@ -551,7 +551,7 @@ title="Easy editing stylesheet" ?>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-07 -->
     <pattern>
 		<token regexp='yes'>hei|hás|há|hão</token>
-		<token>-</token>
+		<token regexp='yes'>-|–|—</token>
 		<token>de</token>
     </pattern>
 	<message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message><suggestion>\1 \3</suggestion>
@@ -620,7 +620,7 @@ title="Easy editing stylesheet" ?>
     <rule>
     <pattern>
 		<token regexp='yes'>não|quase</token>
-		<token>-</token>
+		<token regexp='yes'>-|–|—</token>
 		<token/>
     </pattern>
 	<message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1 \3</suggestion>
@@ -868,7 +868,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
 	<token postag="V.+" postag_regexp='yes'/>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token>te</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -890,7 +890,7 @@ title="Easy editing stylesheet" ?>
         <token min='0' regexp='yes'>tu|vós</token>
 	<token postag="V...2.+" postag_regexp='yes'>
 	  <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -977,7 +977,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
         <token regexp='yes'>Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov</token>
-      	<token postag_regexp='yes' postag='NP.+|'/>
+      	<token postag_regexp='yes' postag='NP.+|UNKNOWN'/>
       </antipattern>
       <pattern case_sensitive='yes'>
         <token negate_pos='yes' postag='SENT_START'/>
@@ -993,17 +993,18 @@ title="Easy editing stylesheet" ?>
       <example correction='inverno'>Este <marker>Inverno</marker> está a ser muito seco.</example>
       <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
       <example>Junho é um mês de muitas chuvas.</example>
-      <example>Jan Rogoziński, A brief history of the Caribbean : fr...</example>
+      <example>1) Jan Rogoziński, A brief history of the Caribbean : fr...</example>
     </rule>
 
       <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
       <pattern case_sensitive='yes'>
-        <token negate_pos='yes' postag='SENT_START'/>
+        <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
        <marker>
         <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
        </marker>
+        <token><exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
       <suggestion><match no='2' case_conversion='alllower'/></suggestion>
@@ -1011,13 +1012,15 @@ title="Easy editing stylesheet" ?>
       <example correction='domingo'>O torneio é no próximo <marker>Domingo</marker>.</example>
       <example correction='sáb'>A nova temporada estreia em <marker>Sáb</marker>. 24 dez 2016.</example>
       <example correction='ter'>A última temporada estreiou na <marker>Ter</marker>. 27 dez 2016.</example>
+      <example>A data coincide com o aniversário do imperador Dom Pedro II.</example>
+      <example>Nas eleições de 1946, o general Juan Domingo Perón se apresentou como candidato do Partido Lab...</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
         <token negate_pos='yes' postag='SENT_START'/>
        <marker>
         <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
-        <token>-</token>
+        <token regexp='yes'>-|–|—</token>
         <token regexp='yes'>[Ff]eiras?</token>
        </marker>
       </pattern>
@@ -1025,8 +1028,24 @@ title="Easy editing stylesheet" ?>
       <suggestion><match no='2' case_conversion='alllower'/>-<match no='4' case_conversion='alllower'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
+      <example>Segundas-feiras são sempre difíceis.</example>
     </rule>
   </rulegroup>
+
+    <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <pattern case_sensitive='yes'>
+        <token negate='yes' regexp='yes'>[Zz]onas?|[Rr]egi(ão|ões)</token>
+       <marker>
+        <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
+       </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os pontos cardeais deixam de ser capitalizados, excepto se se referem a uma região específica.</message>
+      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='sul'>Trás-os-Montes é a <marker>Sul</marker> do rio Douro.</example>
+    </rule>
+
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
   </category>

@@ -837,7 +837,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	</category>
 
   <category id='CASING' name='Capitalização' type='grammar'>
-
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'><!-- TODO Converter mensagens para pt-BR -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-25 -->
       <antipattern>
@@ -847,7 +846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <antipattern>
         <token regexp='yes'>Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov</token>
-      	<token postag_regexp='yes' postag='NP.+|'/>
+      	<token postag_regexp='yes' postag='NP.+|UNKNOWN'/>
       </antipattern>
       <pattern case_sensitive='yes'>
         <token negate_pos='yes' postag='SENT_START'/>
@@ -863,8 +862,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction='inverno'>Este <marker>Inverno</marker> está a ser muito seco.</example>
       <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
       <example>Junho é um mês de muitas chuvas.</example>
-      <example>Jan Rogoziński, A brief history of the Caribbean : fr...</example>
+      <example>1) Jan Rogoziński, A brief history of the Caribbean : fr...</example>
     </rule>
-	</category>
+
+      <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'><!-- TODO Converter mensagens para pt-BR -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
+       <marker>
+        <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
+       </marker>
+        <token><exception postag_regexp='yes' postag='NP.+'/></token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='domingo'>O torneio é no próximo <marker>Domingo</marker>.</example>
+      <example correction='sáb'>A nova temporada estreia em <marker>Sáb</marker>. 24 dez 2016.</example>
+      <example correction='ter'>A última temporada estreiou na <marker>Ter</marker>. 27 dez 2016.</example>
+      <example>A data coincide com o aniversário do imperador Dom Pedro II.</example>
+      <example>Nas eleições de 1946, o general Juan Domingo Perón se apresentou como candidato do Partido Lab...</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token negate_pos='yes' postag='SENT_START'/>
+       <marker>
+        <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+        <token regexp='yes'>-|–|—</token>
+        <token regexp='yes'>[Ff]eiras?</token>
+       </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion='alllower'/>-<match no='4' case_conversion='alllower'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
+      <example>Segundas-feiras são sempre difíceis.</example>
+    </rule>
+  </rulegroup>
+
+  </category>
 
 </rules>
