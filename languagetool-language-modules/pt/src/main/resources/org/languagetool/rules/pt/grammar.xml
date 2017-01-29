@@ -6439,7 +6439,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="PL_ENTRAR" name="Entrar para dentro">
       <pattern>
         <token inflected='yes'>entrar</token>
-	<token>para</token>
+	<token min='0'>para</token>
 	<token>dentro</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
@@ -6449,7 +6449,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="PL_SAIR" name="Sair para fora">
       <pattern>
         <token inflected='yes'>sair</token>
-	<token>para</token>
+	<token min='0'>para</token>
 	<token>fora</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
@@ -6889,6 +6889,45 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<example correction='pássaros'><marker>pássaros alados</marker></example>
+    </rule>
+
+    <rule id="PL_MONÓPOLIO" name="Monópolio exclusivo">
+      <pattern>
+        <token inflected='yes'>monópolio</token>
+	<token inflected='yes'>exclusivo</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<example correction='monopólio'><marker>monopólio exclusivo</marker></example>
+    </rule>
+
+    <rule id="PL_NAO_HAVER_MAIS" name="Já não há mais">
+      <pattern>
+        <token>já</token>
+	<token>não</token>
+	<token inflected='yes'>haver</token>
+	<token>mais</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1 \2 \3</suggestion>.</message>
+	<example correction='já não há'><marker>já não há mais</marker></example>
+    </rule>
+
+    <rule id="PL_GANHAR" name="Ganhar grátis">
+      <pattern>
+	<token inflected='yes'>ganhar</token>
+	<token>grátis</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<example correction='ganhar'><marker>ganhar grátis</marker></example>
+    </rule>
+
+    <rule id="PL_VIUVA" name="Viúva do falecido">
+      <pattern>
+        <token regexp='yes'>viúv[ao]s?</token>
+	<token regexp='yes'>d[ao]s?</token>
+	<token regexp='yes'>falecid[ao]s?</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<example correction='viúva'><marker>viúva do falecido</marker></example>
     </rule>
   </rulegroup>
 
