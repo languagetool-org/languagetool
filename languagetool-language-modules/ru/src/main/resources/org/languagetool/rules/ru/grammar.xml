@@ -200,19 +200,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
-        <rule id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
+        <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
+          <rule>
             <pattern>
                 <marker>
                     <token>что</token>
                     <token>этого</token>
                 </marker>
                 <token postag="VB:.*" postag_regexp="yes"></token>
+                <token inflected="yes" regexp="yes">показать|показывать</token>
             </pattern>
             <message>Опечатка: <suggestion>\1 это</suggestion>?</message>
             <short>Опечатка?</short>
             <example correction="что это">Важно, <marker>что этого</marker> удалось показать для случая изотропных материалов.</example>
             <example>Важно, что это удалось показать для случая изотропных материалов.</example>
-        </rule>
+          </rule>
+          <rule>
+            <pattern>
+                <marker>
+                    <token>что</token>
+                    <token>это</token>
+                </marker>
+                <token postag="VB:.*" postag_regexp="yes"></token>
+                <token inflected="yes" regexp="yes">добиться|добиваться</token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 этого</suggestion>?</message>
+            <short>Опечатка?</short>
+            <example correction="что этого">Важно, <marker>что это</marker> удалось добиться для случая изотропных материалов.</example>
+            <example>Важно, что этого удалось добиться для случая изотропных материалов.</example>
+          </rule>
+        </rulegroup>
         <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
             <pattern>
 		<token inflected="yes">совестный</token>
