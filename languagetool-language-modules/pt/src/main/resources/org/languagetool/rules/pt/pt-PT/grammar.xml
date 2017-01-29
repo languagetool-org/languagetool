@@ -28,6 +28,12 @@ title="Easy editing stylesheet" ?>
 
 <!DOCTYPE rules [
 
+    <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
+    <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
+    <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
+    <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
+    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
@@ -994,6 +1000,7 @@ title="Easy editing stylesheet" ?>
       <example correction='set'>22 <marker>Set</marker> – início do outono.</example>
       <example>Junho é um mês de muitas chuvas.</example>
       <example>1) Jan Rogoziński, A brief history of the Caribbean : fr...</example>
+      <example correction='jan'>1 <marker>Jan</marker> 2002 - As moedas e notas físicas de euro entraram em circulação, tornando-se a moeda de uso corrente entre os membros originais.</example>
     </rule>
 
       <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'>
@@ -1035,19 +1042,44 @@ title="Easy editing stylesheet" ?>
     <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <pattern case_sensitive='yes'>
-        <token negate='yes' regexp='yes'>[Zz]onas?|[Rr]egi(ão|ões)</token>
+        <token>
+          <exception regexp='yes'>Pólo|[Zz]onas?|[Rr]egi(ão|ões)|o|do|no|-</exception>
+          <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
        <marker>
-        <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
+        <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
+          <exception postag_regexp='yes' postag='NP.+'/></token>
        </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os pontos cardeais deixam de ser capitalizados, excepto se se referem a uma região específica.</message>
       <suggestion><match no='2' case_conversion='alllower'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='sul'>Trás-os-Montes é a <marker>Sul</marker> do rio Douro.</example>
+      <example>Estas vão se reduzindo em direção ao Pólo Sul.</example>
+      <example>Este elevador é capaz de carregar 10 pessoas por vez.</example>
     </rule>
 
 	<!--          Tiago F. Santos Rules Ending          ****END**** -->
 	<!-- ********************************************************** -->
+  </category>
+
+  <category id='CASING_AO45' name='Capitalização' type='grammar'>
+    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
+
+    <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|outonos?
+          <exception regexp='yes'>mar|dez</exception></token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Janeiro'>O ano novo chinês é a 28 de <marker>janeiro</marker>.</example>
+      <example correction='Inverno'>Este <marker>inverno</marker> está a ser muito seco.</example>
+      <example correction='Set'>22 <marker>set</marker> - início do Outono.</example>
+      <example>Só faltam dez dias para as férias.</example>
+    </rule>
+
   </category>
 
 </rules>
