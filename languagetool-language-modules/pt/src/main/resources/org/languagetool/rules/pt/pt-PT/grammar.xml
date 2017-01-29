@@ -1062,8 +1062,7 @@ title="Easy editing stylesheet" ?>
 	<!-- ********************************************************** -->
   </category>
 
-  <category id='CASING_AO45' name='Capitalização' type='grammar'>
-    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
+  <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)" default='off'>
 
     <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
@@ -1079,6 +1078,21 @@ title="Easy editing stylesheet" ?>
       <example correction='Set'>22 <marker>set</marker> - início do Outono.</example>
       <example>Só faltam dez dias para as férias.</example>
     </rule>
+
+    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+       <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token>é</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
+</category>
+
+  <category id='CASING_AO45' name='Capitalização' type='grammar'>
+    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
 
   <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
