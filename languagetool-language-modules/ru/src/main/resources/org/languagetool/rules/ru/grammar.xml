@@ -644,6 +644,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="подвели итоги">Они <marker>подвели результаты</marker> работы организации.</example>
             </rule>
           </rulegroup>
+          <rulegroup id="podvesti_rezume" name="Логические ошибки «подвести резюме»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">подвести</token>
+                    <token>резюме</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion><match no="1" regexp_match="подве(.*)" regexp_replace="выве$1"/> <match no="2"/></suggestion>?</message>
+                <url>http://pishu-pravilno.livejournal.com/1821678.html</url>
+                <short>Логическая ошибка.</short>
+                <example correction="вывели резюме">Они <marker>подвели резюме</marker>.</example>
+            </rule>
+          </rulegroup>
           <rulegroup id="kavalkada_mashin" name="Логические ошибки «кавалькада машин»">
             <rule> 
                 <pattern>
