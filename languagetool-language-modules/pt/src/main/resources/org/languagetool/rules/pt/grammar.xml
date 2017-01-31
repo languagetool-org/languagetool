@@ -849,6 +849,20 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       </rule>
     </rulegroup>
 
+  <rulegroup id='MAU_MAL_CONFUSION' name='Confusão: mau - mal'>
+      <!--       Created by Tiago F. Santos, 25-01-2017          -->
+    <rule>
+      <pattern>
+        <token>mau</token>
+        <token postag_regexp='yes' postag='V.P.+'/>
+      </pattern>
+      <message>Confusão do adjetivo com o advérbio. Mau é adjetivo (tal como bom) e mal é advérbio (tal como bem).</message>
+        <suggestion>mal \2</suggestion>
+      <short>Confusão do adjetivo com o advérbio.</short>
+      <example correction='mal servido'>Eu fui <marker>mau servido</marker>.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
 	<!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
     <rule>
@@ -13718,7 +13732,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
             </rule>
         </rulegroup>
 
-  <rule id='DATE_RANGES' nome='Intervalos de Data Inválidos'>
+  <rule id='DATE_RANGES' name='Intervalos de Data Inválidos'>
     <pattern>
       <token regexp="yes">\d\d?</token>
       <token regexp="yes">[a–\-]</token>
