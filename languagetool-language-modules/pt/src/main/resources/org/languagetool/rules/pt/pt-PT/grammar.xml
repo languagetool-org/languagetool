@@ -34,6 +34,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
+    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
@@ -91,7 +93,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
 		<marker>
 			<token>avé</token>
-		</marker>	
+		</marker>
 		<token min="0">,</token>
 		<token>Maria</token>
 		<token>,</token>
@@ -1079,21 +1081,6 @@ title="Easy editing stylesheet" ?>
       <example>Só faltam dez dias para as férias.</example>
     </rule>
 
-    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
-       <!-- Created by Marco A.G. Pinto   -->
-      <pattern>
-        <token>muito</token>
-        <token>pelo</token>
-        <token>é</token>
-      </pattern>
-      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
-      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
-    </rule>
-</category>
-
-  <category id='CASING_AO45' name='Capitalização' type='grammar'>
-    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
-
   <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
@@ -1119,6 +1106,31 @@ title="Easy editing stylesheet" ?>
       <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
     </rule>
   </rulegroup>
+
+    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+       <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token>é</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
+</category>
+
+  <category id='CASING_AO45' name='Capitalização' type='grammar'>
+    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
+
+    <rule id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='AO45: Capitalização de Pontos Cardeais'>
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>&pontos_cardeais;</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+    </rule>
 
   </category>
 

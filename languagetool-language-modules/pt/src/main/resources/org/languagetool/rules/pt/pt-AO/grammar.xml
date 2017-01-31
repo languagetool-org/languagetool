@@ -162,6 +162,32 @@ title="Easy editing stylesheet" ?>
       <example>Só faltam dez dias para as férias.</example>
     </rule>
 
+  <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>sábados?|domingo|s[aá]b|dom</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Domingo'>O torneio é no próximo <marker>domingo</marker>.</example>
+      <example correction='Sáb'>A nova temporada estreia em <marker>sáb</marker> 24 dez 2016.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
+        <token regexp='yes'>-|–|—</token>
+        <token regexp='yes'>[Ff]eiras?</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
+      <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
+    </rule>
+  </rulegroup>
+
     <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
        <!-- Created by Marco A.G. Pinto   -->
       <pattern>
