@@ -1107,6 +1107,34 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='AO45: Capitalização de Pontos Cardeais'>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <marker>
+          <token regexp='yes'>&pontos_cardeais;
+            <exception>este</exception></token>
+        </marker>
+          <token negate='yes'>-</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+      <example>Devolva este livro assim que puder.</example>
+    </rule>
+<!-- TODO resolve Este e este confusion through wrong word in context
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token>este</token>
+        <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+    </rule>-->
+    </rulegroup>
+
     <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
        <!-- Created by Marco A.G. Pinto   -->
       <pattern>
@@ -1119,19 +1147,10 @@ title="Easy editing stylesheet" ?>
     </rule>
 </category>
 
+    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving.
   <category id='CASING_AO45' name='Capitalização' type='grammar'>
-    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving. -->
 
-    <rule id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='AO45: Capitalização de Pontos Cardeais'>
-      <pattern case_sensitive='yes'>
-        <token regexp='yes'>&pontos_cardeais;</token>
-      </pattern>
-      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
-      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
-      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
-    </rule>
 
   </category>
-
+ -->
 </rules>
