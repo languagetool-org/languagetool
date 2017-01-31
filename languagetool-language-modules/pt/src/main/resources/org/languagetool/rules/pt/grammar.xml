@@ -97,7 +97,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- ********************************************************** -->
 
   <rulegroup id="GENERAL_GENDER_AGREEMENT_ERRORS" name="Erros de concordância de género (geral)">
- 	     <!--            General gender concordance errors            -->
+    <!--            General gender concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
 
@@ -186,7 +186,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
             <exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
           <token postag='(N.|A..)M.+' postag_regexp='yes'>
-  	<exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+            <exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|de|-</token>
@@ -204,7 +204,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
           <token postag='(N.|A..|DP.)M.+' postag_regexp='yes'>
-  	<exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+            <exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|de|-</token>
@@ -257,14 +257,14 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <marker>
           <token>a</token>
           <token postag='(A..|N.)MS.+' postag_regexp='yes'>
-  	<exception postag='(A..|N.)MS.+' postag_regexp='yes' negate_pos='yes'></exception>
+            <exception postag='(A..|N.)MS.+' postag_regexp='yes' negate_pos='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
- 	<suggestion>o \2</suggestion>
- 	<suggestion>a <match no='2' postag='(A..|N.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+        <suggestion>o \2</suggestion>
+        <suggestion>a <match no='2' postag='(A..|N.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction='O boi|A vaca'><marker>A boi</marker> está no pasto.</example>
       <example type='correct'>A vaca está no pasto.</example>
@@ -275,8 +275,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule default='off' id="A_WORD_A" name="A + palavra terminada em A">
       <pattern>
           <token regexp='yes'>a</token>
-        	<token postag='(A..|N.)M.+' postag_regexp='yes' regexp='yes'>.+a$
-        		<exception regexp='yes'>palavra|letra</exception></token>
+          <token postag='(A..|N.)M.+' postag_regexp='yes' regexp='yes'>.+a$
+            <exception regexp='yes'>palavra|letra</exception></token>
       </pattern>
       <message>Possível erro de concordância de género.</message>
       <suggestion>o \2</suggestion>
@@ -289,7 +289,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule id="A_NIVEL" name="A nível">
       <pattern>
           <token regexp='yes'>a|em</token>
-        	<token>nível</token>
+          <token>nível</token>
       </pattern>
       <message>Substitua por <suggestion>ao \2</suggestion>.</message>
       <url>https://duvidas.dicio.com.br/em-nivel-de-a-nivel-de-ou-ao-nivel-de/</url>
@@ -302,7 +302,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <rule default='off' id="A_PONTO" name="Ao ponto de">
       <pattern>
           <token regexp='yes'>a|ao</token>
-        	<token>ponto</token>
+          <token>ponto</token>
           <token min='0'>de</token>
       </pattern>
       <message>Expressão usualmente confundida.</message>
@@ -318,21 +318,21 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <marker>
           <token>o</token>
           <token postag='(A..|N.)F.+' postag_regexp='yes'>
-  	<exception postag='(A..|N.)F.+' postag_regexp='yes' negate_pos='yes'></exception>
+            <exception postag='(A..|N.)F.+' postag_regexp='yes' negate_pos='yes'></exception>
             <exception regexp='yes'>uma|umas|e|ser|nome|termo</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
- 	<suggestion>a \2</suggestion>
- 	<suggestion>o <match no='2' postag='(A..|N.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
+        <suggestion>a \2</suggestion>
+        <suggestion>o <match no='2' postag='(A..|N.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction='A cadela|O cão'><marker>O cadela</marker> está no pasto.</example>
       <example type='correct'>A cadela está no pasto.</example>
     </rule>
 
   <rulegroup id="GENERAL_NUMBER_AGREEMENT_ERRORS" name="Erros de concordância de número (geral)">
- 	     <!--            General number concordance errors            -->
+    <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
     <rule>
@@ -369,8 +369,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
     <rule>
       <antipattern>
- 	<token regexp='yes'>tod[oa]</token>
- 	<token>ouvidos</token>
+        <token regexp='yes'>tod[oa]</token>
+        <token>ouvidos</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|de|-</token>
@@ -391,8 +391,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
     <rule>
       <antipattern>
- 	<token regexp='yes'>tod[oa]</token>
- 	<token>ouvidos</token>
+          <token regexp='yes'>tod[oa]</token>
+          <token>ouvidos</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|de|-</token>
@@ -605,8 +605,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       </pattern>
       <message>Erro de concordância verbal.</message>
       <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(VM[CIS].)([23]P0|[123]S0)' postag_replace='$11P0' postag_regexp='yes'/></suggestion>
- 	 <example correction='Nós não passeamo|Nós não passeamos'><marker>Nós não passeia</marker> na praia.</example>
- 	 <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions -->
+      <example correction='Nós não passeamo|Nós não passeamos'><marker>Nós não passeia</marker> na praia.</example>
+    <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions -->
       <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
     </rule>
     <rule>
@@ -1256,7 +1256,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token negate='yes'>em</token>
         <marker>
           <token>anexo</token>
-        	<token postag_regexp='yes' postag='D.+' min='0'>
+          <token postag_regexp='yes' postag='D.+' min='0'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='N.MS.+'/></token>
@@ -1264,8 +1264,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       </pattern>
       <message>Erro de concordância.</message>
       <suggestion><match no="4" postag='(N.)(..)(.+)' postag_replace='A..$2.+' postag_regexp='yes'>anexo</match> <match no="4" postag='(N.)(..)(.+)' postag_replace='D..$2.+' postag_regexp='yes'>o</match> \4</suggestion>
-  	 <example correction='anexas as imagens'>Seguem <marker>anexo as imagens</marker>.</example>
-  	 <example> Segue anexo o documento.</example>
+      <example correction='anexas as imagens'>Seguem <marker>anexo as imagens</marker>.</example>
+      <example> Segue anexo o documento.</example>
     </rule>
     <rule>
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
@@ -1678,7 +1678,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token>a</token>
           <token>como</token>
         <marker>
-    	<token>é</token>
+          <token>é</token>
         </marker>
           <token regexp="yes">os|as</token>
       </pattern>
@@ -1827,7 +1827,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token>a</token>
         </marker>
           <token>que</token>
-   	<token>serve</token>
+          <token>serve</token>
           <token regexp="yes">isto|isso</token>
       </pattern>
       <message>Substitua por <suggestion>para</suggestion>.</message>
@@ -1928,7 +1928,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- AINDA NUNCA ainda não -->
     <rule id="AINDA_NUNCA" name="Ainda não">
       <pattern>
-  	<token>ainda</token>
+          <token>ainda</token>
           <token>nunca</token>
       </pattern>
       <message>Substitua por <suggestion>ainda não</suggestion>.</message>
@@ -1938,7 +1938,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- AJUDAR QUE SE FAÇA ajudar a que se faça -->
     <rule id="AJUDAR_QUE_SE_FAÇA" name="Ajudar a que se faça">
       <pattern>
-  	<token>ajudar</token>
+          <token>ajudar</token>
         <marker>
           <token>que</token>
         </marker>
@@ -1963,7 +1963,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!-- AMOR PELA LÍNGUA amor à língua -->
     <rule id="AMOR_PELA_LÍNGUA" name="Amor à língua">
       <pattern>
-  	<token>amor</token>
+          <token>amor</token>
         <marker>
           <token>pela</token>
         </marker>
@@ -2239,7 +2239,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token>chegaram</token>
           <token>a</token>
         <marker>
-    	<token>saberem</token>
+          <token>saberem</token>
         </marker>
       </pattern>
       <message>Substitua por <suggestion>saber</suggestion>.</message>
@@ -2570,7 +2570,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
           <token inflected="yes">esquecer</token>
           <token regexp='yes'>-|–|—</token>
           <token>se</token>
-       	<token>que</token>
+          <token>que</token>
       </pattern>
       <message>Substitua por <suggestion>\1\2\3 de que</suggestion>.</message>
       <example correction="esqueceu-se de que">O Rui <marker>esqueceu-se que</marker> tinha um exame.</example>
@@ -2749,9 +2749,9 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
     <rule id="À-HÁ_N_TEMPO" name="Há n tempo">
       <antipattern>
-      	<token>à</token>
-      	<token>última</token>
-      	<token>hora</token>
+          <token>à</token>
+          <token>última</token>
+          <token>hora</token>
       </antipattern>
       <pattern>
         <marker>
@@ -2905,7 +2905,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
 
   <rulegroup default='off' id="MEIA_MEIO_CONFUSION" name="Confusão: meio - meia">
     <!-- FIXME Review. This rule may be incorrect for all pt variants. See:
-    	http://escreverbem.com.br/meio-ou-meia/	-->
+          http://escreverbem.com.br/meio-ou-meia/	-->
     <rule>
       <pattern>
           <token>meia</token>
@@ -3420,10 +3420,10 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <rule id="SEXTA_DE_VIME" name="Confusão: sexta - cesta">
       <pattern>
         <marker>
-        	<token>sexta</token>
+          <token>sexta</token>
         </marker>
           <token>de</token>
-      	<token>vime</token>
+          <token>vime</token>
       </pattern>
       <message>Substitua por <suggestion>cesta</suggestion>.</message>
       <example correction="cesta">Ela tem uma <marker>sexta</marker> de vime.</example>
@@ -3661,7 +3661,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
         </marker>
           <token>sem</token>
           <token>cobertura</token>
- 	  </pattern>
+      </pattern>
       <message>Substitua por <suggestion>cheque</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> sem cobertura.</example>
     </rule>
@@ -3680,7 +3680,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <pattern case_sensitive="no">
         <marker>
           <token>xeque</token>
-  	    </marker>
+        </marker>
           <token>em</token>
           <token>branco</token>
       </pattern>
@@ -3689,9 +3689,9 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     </rule>
     <rule>
       <pattern case_sensitive="no">
-  	    <marker>
+        <marker>
           <token>xeques</token>
-  	    </marker>
+        </marker>
           <token>em</token>
           <token>branco</token>
       </pattern>
@@ -5848,7 +5848,7 @@ and tokenizer spreadsheet from the forum        -->
 
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
   <rulegroup id="COMMA_1" name="Vírgula antes conjunção">
- 	     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
     <rule>
       <pattern>
         <marker>
@@ -5932,14 +5932,14 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
- 	     <!-- Common punctuation errors - Verb + Conjunction  -->
- 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <!-- Common punctuation errors - Verb + Conjunction  -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
   <rulegroup id="VERB_COMMA_CONJUNCTION" name="Verbo, Conjugação, ...">
     <rule>
       <pattern>
         <marker>
-        	<token postag='V.+' postag_regexp='yes'></token>
-        	<token regexp="yes">pois|porém|portanto|contudo</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+          <token regexp="yes">pois|porém|portanto|contudo</token>
           <token min='0'>,</token>
         </marker>
           <token></token>
@@ -5951,9 +5951,9 @@ and tokenizer spreadsheet from the forum        -->
     <rule>
       <pattern>
         <marker>
-        	<token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
           <token>,</token>
-        	<token regexp="yes">pois|porém|portanto|contudo</token>
+          <token regexp="yes">pois|porém|portanto|contudo</token>
         </marker>
           <token negate='yes'>,</token>
       </pattern>
@@ -5964,9 +5964,9 @@ and tokenizer spreadsheet from the forum        -->
     <rule>
       <pattern>
         <marker>
-        	<token postag='V.+' postag_regexp='yes'></token>
-        	<token>não</token>
-        	<token>obstante</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+          <token>não</token>
+          <token>obstante</token>
           <token min='0'>,</token>
         </marker>
           <token></token>
@@ -5978,10 +5978,10 @@ and tokenizer spreadsheet from the forum        -->
     <rule>
       <pattern>
         <marker>
-        	<token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
           <token>,</token>
-        	<token>não</token>
-        	<token>obstante</token>
+          <token>não</token>
+          <token>obstante</token>
         </marker>
           <token negate='yes'>,</token>
       </pattern>
@@ -6238,8 +6238,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>fora</token>
       </pattern>
       <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
- 		<example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
- 	</rule>
+      <example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
+    </rule>
 
     <!-- HEMORRAGIA DE SANGUE hemorragia -->
     <rule id="HEMORRAGIA_DE_SANGUE" name="Hemorragia">
@@ -13459,25 +13459,25 @@ TODO Write better examples
       <example correction="£100.00">Deve <marker>100.00 £</marker>.</example>
     </rule>
     <rule>
-            	<pattern>
+      <pattern>
           <token regexp="yes">[€\u8371]</token>
           <token regexp="yes">\d+</token>
           <token regexp="yes">,|\.</token>
           <token regexp="yes">\d+</token>
-            	</pattern>
-            	<message>O símbolos de euro é colocado depois do valor: <suggestion>\2\3\4 \1</suggestion>.</message>
+      </pattern>
+      <message>O símbolos de euro é colocado depois do valor: <suggestion>\2\3\4 \1</suggestion>.</message>
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-            	<short>Coloque a divisa no fim</short>
+      <short>Coloque a divisa no fim</short>
       <example correction="100,00 €">Deve <marker>€ 100,00</marker>.</example>
     </rule>
     <rule>
-            	<pattern>
+      <pattern>
           <token regexp="yes">[€\u8371]</token>
           <token regexp="yes">\d+</token>
-            	</pattern>
-            	<message>O símbolos de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
+      </pattern>
+      <message>O símbolos de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-            	<short>Coloque a divisa no fim</short>
+      <short>Coloque a divisa no fim</short>
       <example correction="100 €">Deve <marker>€ 100</marker>.</example>
     </rule>
     <rule>
@@ -13700,7 +13700,7 @@ TODO Write better examples
 
     <!--      Semantics rules l18n from Catalan grammar.xml -  END -->
 <rulegroup id="INVALID_DATE" name="Data inválida, tal como '31 Fevereiro, 2016'">
-       		<!--      Semantics rulegroup l18n from English grammar.xml	-->
+    <!--      Semantics rulegroup l18n from English grammar.xml	-->
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-21	-->
     <rule>
       <pattern>
@@ -13783,11 +13783,11 @@ TODO Write better examples
 
   <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva (todas a formas)' type='style' default='off'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
-    	<!-- 			Synthetic Passive Voice			-->
+    <!-- 			Synthetic Passive Voice			-->
     <rule>
       <pattern>
           <token postag='V...3.+' postag_regexp='yes'>
-  	<exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
+            <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
           <token spacebefore='no'>-</token>
           <token spacebefore='no'>se</token>
       </pattern>
@@ -13938,11 +13938,11 @@ TODO Write better examples
     <rule type='style' default='off' id="DEPOIS_DE" name="Expressão: Após">
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
-  	    <marker>
-  	    <token>depois</token>
-  	    <token>de</token>
-  	    </marker>
-  	    <token><exception>amanhã</exception></token>
+        <marker>
+          <token>depois</token>
+          <token>de</token>
+        </marker>
+          <token><exception>amanhã</exception></token>
       </pattern>
       <message>Substitua por <suggestion>após</suggestion>.</message>
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
@@ -14073,7 +14073,7 @@ TODO Write better examples
           <token>bicha</token>
         </marker>
           <token>de</token>
-   	<token>espera</token>
+          <token>espera</token>
       </pattern>
       <message>Substitua por <suggestion>fila</suggestion>.</message>
       <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
