@@ -856,6 +856,10 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction='mal servido'>Eu fui <marker>mau servido</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>mal</token>
+          <token>necessário</token>
+      </antipattern>
       <pattern>
           <token>mal</token>
           <token postag_regexp='yes' postag='(N.|A..)...+'>
@@ -867,7 +871,28 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction='mau princípio'>Isso é <marker>mal princípio</marker>.</example>
       <example correction='maus conselhos'>Ignora os <marker>mal conselhos</marker>.</example>
     </rule>
-
+    <rule>
+      <pattern>
+          <token>mau</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>(acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|estar|executad|habituad|humorad|informad|intencionad|limp)[ao]s?</token>
+      </pattern>
+      <message>Esta palavra hifenizada utiliza «mal».</message>
+        <suggestion>mal-\3</suggestion>
+      <example correction='mal-acondicionado'>Estragou-se por estava <marker>mau-acondicionado</marker>.</example>
+      <example correction='mal-aconselhados'>Foram <marker>mau aconselhados</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>mal</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>(caratism|grad|olhad|sens|vizinh|tom|ton|carác?ter|humor)[aoe]?s?</token>
+      </pattern>
+      <message>Esta palavra hifenizada utiliza «mau».</message>
+        <suggestion>mau<match no='3' regexp_match='(caratism|grad|olhad|sens|vizinh|tom|ton|caráter|humor)[aoe]?(s?)' regexp_replace='$2'/>-\3</suggestion>
+      <example correction='mau-grado'>Não faças isso de <marker>mal grado</marker>.</example>
+      <example correction='maus-olhados'>Ignora os <marker>mal olhados</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
@@ -6085,7 +6110,7 @@ and tokenizer spreadsheet from the forum        -->
 
     <rule id="REPEATED_WORDS" name="Palavras repetidas (2x)" default='on' type='style'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
-    <!-- XXX If the user finds this rule too intrusive, they will disable it an
+    <!-- XXX If the user finds this rule too intrusive, they will disable it and
 use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
           <token regexp='yes'>dia|passo|tempos?</token>
