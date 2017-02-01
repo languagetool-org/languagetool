@@ -26,6 +26,7 @@
     - Portuguese to English (121 pairs)
     - French to Portuguese pair (30 pairs)
     - Spanish to Portuguese pairs (10 pairs)
+  * spellchecking suggestions activated
 
 #### Russian
   * added and improved rules
