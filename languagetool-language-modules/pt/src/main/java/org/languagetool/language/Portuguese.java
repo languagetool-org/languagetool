@@ -24,7 +24,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.pt.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
@@ -81,7 +81,7 @@ public class Portuguese extends Language implements AutoCloseable {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
             new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
-            new Contributor("Tiago F. Santos (3.6)", "tiagofsantos81@sapo.pt")
+            new Contributor("Tiago F. Santos (3.6+)", "tiagofsantos81@sapo.pt")
     };
   }
 
@@ -138,7 +138,7 @@ public class Portuguese extends Language implements AutoCloseable {
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
             new GenericUnpairedBracketsRule(messages),
-            new HunspellNoSuggestionRule(messages, this),
+            new HunspellRule(messages, this),
             new LongSentenceRule(messages),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
@@ -192,6 +192,7 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "CRASE_CONFUSION":           return -5;
       case "T-V_DISTINCTION":           return -20;
       case "T-V_DISTINCTION_ALL":       return -21;
       case "REPEATED_WORDS":            return -90;

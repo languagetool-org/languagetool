@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
+<!ENTITY double_num "два|три|четыре|2|3|4">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -199,6 +200,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
+          <rule>
+            <pattern>
+                <marker>
+                    <token>что</token>
+                    <token>этого</token>
+                </marker>
+                <token postag="VB:.*" postag_regexp="yes"></token>
+                <token inflected="yes" regexp="yes">показать|показывать</token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 это</suggestion>?</message>
+            <short>Опечатка?</short>
+            <example correction="что это">Важно, <marker>что этого</marker> удалось показать для случая изотропных материалов.</example>
+            <example>Важно, что это удалось показать для случая изотропных материалов.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <marker>
+                    <token>что</token>
+                    <token>это</token>
+                </marker>
+                <token postag="VB:.*" postag_regexp="yes"></token>
+                <token inflected="yes" regexp="yes">добиться|добиваться</token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 этого</suggestion>?</message>
+            <short>Опечатка?</short>
+            <example correction="что этого">Важно, <marker>что это</marker> удалось добиться для случая изотропных материалов.</example>
+            <example>Важно, что этого удалось добиться для случая изотропных материалов.</example>
+          </rule>
+        </rulegroup>
         <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
             <pattern>
 		<token inflected="yes">совестный</token>
@@ -218,7 +249,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="один за другим"><marker>один за одним</marker></example>
         </rule>
-        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «Интересная/интересую»">
+        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «интересная/интересую»">
             <pattern>
 		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
@@ -619,7 +650,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="солирующий инструмент"><marker>сольный инструмент</marker></example>
             </rule>
           </rulegroup>
-
+          <rulegroup id="podvesti_rezultaty" name="Логические ошибки «подвести результаты»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">подвести</token>
+                    <token>результаты</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>\1 итоги</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="подвели итоги">Они <marker>подвели результаты</marker> работы организации.</example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="podvesti_rezume" name="Логические ошибки «подвести резюме»">
+            <rule> 
+                <pattern>
+                    <token regexp="yes" inflected="yes">подводить|подвести</token>
+                    <token>резюме</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion><match no="1" regexp_match="подве(.*)" regexp_replace="выве$1"/> <match no="2"/></suggestion>?</message>
+                <url>http://pishu-pravilno.livejournal.com/1821678.html</url>
+                <short>Логическая ошибка.</short>
+                <example correction="вывели резюме">Они <marker>подвели резюме</marker>.</example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="kavalkada_mashin" name="Логические ошибки «кавалькада машин»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">кавалькада</token>
+                    <token regexp="yes">машин|ездоков|велосипедов|мотоциклов|людей|всадников|наездников</token>
+                </pattern>              
+                <message>Слово «кавалькада» обозначает «группу всадников» и не требует после себя пояснительного слова: <suggestion>\1</suggestion> или <suggestion><match no="1" regexp_match="кавалькад(.*)" regexp_replace="групп$1"/> <match no="2"/></suggestion> ?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="кавалькада|группа всадников">Нам встретилась <marker>кавалькада всадников</marker>.</example>
+            </rule>
+          </rulegroup>            
           <rulegroup id="skrepja_serdce" name="Логические ошибки «скрепя сердце»">
             <rule> 
                 <pattern>
@@ -5050,7 +5114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="number"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
-                                    <exception scope="previous"  regexp="yes">,|и|-|—</exception>
+                                    <exception scope="previous"  regexp="yes">,|и|-|—|&double_num;</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
                                 </token>
@@ -5071,6 +5135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
+                    <example>Сегодня откроются 3 дополнительных офиса.</example>
                     <example>Быть умным Николаю мешала лень.</example>
                     <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
                     <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
@@ -5103,7 +5168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="gender"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
-                                    <exception scope="previous" regexp="yes">,|-|—</exception>
+                                    <exception scope="previous" regexp="yes">,|-|—|&double_num;</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
                                     <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
                                     <exception case_sensitive="yes">Божию</exception>
@@ -5125,6 +5190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
+                    <example>Сегодня откроются 3 дополнительных офиса.</example>
                     <example>Быть умным Николаю мешала лень.</example>
                     <example>Делала политически невозможной отмену единожды данных им законом прав.</example>
                     <example>Этот экспорт, полностью подконтрольный правительствам стран мира, стремительно рос.</example>
@@ -6377,7 +6443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Запятая не нужна</short>
             <example correction="так же как">Мы, <marker>так же, как</marker> и наши товарищи, любим заниматься спортом.</example>
         </rule>
-        <rulegroup id="TAKOJ_KAK" name="Сложный союз «такой(такая, такое, такие) как»" >
+        <rulegroup id="TAKOJ_KAK" name="Сложный союз «такой (такая, такое, такие) как»" >
           <rule>
             <pattern>
                 <token postag_regexp="yes" postag="ADJ:.*"></token>
@@ -7187,9 +7253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Нужно, чтобы мы готовились к худшему.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
-        
-        
-        
+   
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
@@ -8405,7 +8469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
-                    <token postag="ADJ:.*|ADJ:Comp:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:.*|ADJ:Comp:.*" /></token> 
+                    <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
                     <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
                   </marker>
                 </pattern>
@@ -8784,10 +8848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>С предлогом «о» не употребляется.</short>
                 <example>Он принял меры для безопасности.</example>
                 <example correction="принял меры для безопасностей|принял меры для безопасности">Он <marker>принял меры о безопасности</marker>.</example>
-            </rule>
-            
-            
-            
+            </rule>       
         </rulegroup>
         
         <rule id="PT_BI" name="Причастие с частицей «бы» не употребляется">
@@ -9155,11 +9216,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Не выделяйте текст заглавными буквами.</example>
                 <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
             </rule>
-     <!--   <rule>
+<!--    TODO: need right case conversion  alllower+startupper   
+            <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*</token>
+                       <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>

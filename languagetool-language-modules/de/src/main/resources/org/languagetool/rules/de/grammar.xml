@@ -570,6 +570,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="reizt">Mich <marker>reiz</marker> Folgendes an der Arbeit eines Wirtschaftsinformatikers.</example>
             </rule>
         </rulegroup>
+        <rule id="ZUR_KENNTNIS" name="zu (zur) Kenntnis">
+            <pattern>
+                <marker><token>zu</token></marker>
+                <token>Kenntnis</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>zur</suggestion> ('zur Kenntnis nehmen' im Sinne von 'beachten')?</message>
+            <example correction="zur">Sie nahm ihn <marker>zu</marker> Kenntnis.</example>
+        </rule>
         <rule id="ZUR_DER" name="'zur (zu) der Veranstaltung'">
             <pattern>
                 <marker>
@@ -24525,6 +24533,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
             </rule>
         </rulegroup>
+        <rule id="IN_WEISS" name="in + 'Farbe' ('in Weiß')">
+            <pattern>
+                <token regexp="yes">in|Farbe</token>
+                <marker><token case_sensitive="yes" regexp="yes">weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token></marker>
+            </pattern>
+            <message>In dieser Wendung scheint der Farbname als Substantiv gebraucht zu werden und ist deshalb großzuschreiben ('ein Traum in Weiß', 'die Farbe Lila').</message>
+            <suggestion><match case_conversion="startupper" no="2"/></suggestion>
+            <url>http://germanblogs.de/in-weiss-oder-in-weiss-gross-und-kleinschreibung-bei-farben/</url>
+            <short>&prgk;.</short>
+            <example correction="Weiß">Sie heiratet in <marker>weiß</marker>.</example>
+            <example correction="Rot">Die Farbe <marker>rot</marker> steht für die Liebe.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->

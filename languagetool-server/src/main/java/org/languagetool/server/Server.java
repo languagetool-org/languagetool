@@ -115,15 +115,18 @@ abstract class Server {
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
   }
-  
+
   protected static void printCommonOptions() {
-    System.out.println("  --port, -p PRT port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
-    System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
-    System.out.println("                 it can only be connected from the computer it was started on");
-    System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
+    System.out.println("  --port, -p PRT   port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
+    System.out.println("  --public         allow this server process to be connected from anywhere; if not set,");
+    System.out.println("                   it can only be connected from the computer it was started on");
+    System.out.println("  --allow-origin   ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
     System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
     System.out.println("                         example: --allow-origin \"*\"");
-    System.out.println("  --verbose, -v  in case of exceptions, log the input text (up to 500 characters)");
+    System.out.println("  --verbose, -v    in case of exceptions, log the input text (up to 500 characters)");
+    System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
+    System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
+    System.out.println("                         parameter in properties files)");
   }
 
   protected static void checkForNonRootUser() {
@@ -141,7 +144,7 @@ abstract class Server {
   }
 
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
-    
+  
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
       super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
     }
@@ -157,5 +160,5 @@ abstract class Server {
       }
     }
   }
-  
+
 }

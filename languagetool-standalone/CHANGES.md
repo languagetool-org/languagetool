@@ -7,14 +7,29 @@
 
 #### German
   * added and improved rules
+  * updated Hunspell dictionary to version 2017.01.12:
+    * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-ch-frami-dictionaries
 
 #### Lithuanian and Malayalam
   * Lithuanian and Malayalam are not part of this release anymore. They still exist
     in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
+#### Portuguese
+  * added and improved grammar and style rules
+  * false friends support added
+    - Portuguese to English (121 pairs)
+    - French to Portuguese pair (30 pairs)
+    - Spanish to Portuguese pairs (10 pairs)
+
 #### Russian
   * added and improved rules
+
+#### Command-line
+  * Added a `--languageModel` option to the embedded server, thanks to 
+    Michał Janik (issue #404)
 
 #### Java API
   * Some deprecated methods have been removed.
@@ -22,6 +37,8 @@
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.0 (only used for English)
 
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
 
 ## 3.6 (2016-12-28)
 

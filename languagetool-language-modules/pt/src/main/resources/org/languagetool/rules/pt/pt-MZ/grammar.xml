@@ -24,6 +24,17 @@ title="Easy editing stylesheet" ?>
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 -->
+<!DOCTYPE rules [
+
+    <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
+    <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
+    <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
+    <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
+    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+
+    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+
+]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -135,6 +146,89 @@ title="Easy editing stylesheet" ?>
 	<example correction='dar‑me'><marker>dar me</marker>.</example>
   </rule>
 
+</category>
+
+  <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)">
+
+    <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|outonos?
+          <exception regexp='yes'>mar|dez</exception></token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Janeiro'>O ano novo chinês é a 28 de <marker>janeiro</marker>.</example>
+      <example correction='Inverno'>Este <marker>inverno</marker> está a ser muito seco.</example>
+      <example correction='Set'>22 <marker>set</marker> - início do Outono.</example>
+      <example>Só faltam dez dias para as férias.</example>
+    </rule>
+
+  <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>sábados?|domingo|s[aá]b|dom</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Domingo'>O torneio é no próximo <marker>domingo</marker>.</example>
+      <example correction='Sáb'>A nova temporada estreia em <marker>sáb</marker> 24 dez 2016.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
+        <token regexp='yes'>-|–|—</token>
+        <token regexp='yes'>[Ff]eiras?</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
+      <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
+    </rule>
+  </rulegroup>
+
+    <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='AO45: Capitalização de Pontos Cardeais'>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <marker>
+          <token regexp='yes'>&pontos_cardeais;
+            <exception>este</exception></token>
+        </marker>
+          <token negate='yes'>-</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+      <example>Devolva este livro assim que puder.</example>
+    </rule>
+<!-- TODO resolve Este e este confusion through wrong word in context
+    <rule>
+      <pattern case_sensitive='yes'>
+        <token>este</token>
+        <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+      <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+    </rule>-->
+    </rulegroup>
+
+    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+       <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token>é</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
 </category>
 
 </rules>

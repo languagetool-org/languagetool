@@ -4058,6 +4058,124 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>силіконовому долина</example>
     </rule>
 
+    <rulegroup id="TOLK" name="Толк">
+      <rule>
+        <pattern>
+          <marker>
+            <token>з</token>
+            <token>толком</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>з розумом</suggestion></message>
+        <suggestion>розумно</suggestion>
+        <suggestion>розсудливо</suggestion>
+        <suggestion>до пуття</suggestion>
+        <suggestion>до діла</suggestion>
+        <suggestion>до ладу</suggestion>
+        <example correction="з розумом|розумно|розсудливо|до пуття|до діла|до ладу">він все робить <marker>з толком</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>без</token>
+            <token>толку</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>без пуття</suggestion></message>
+        <suggestion>без ладу</suggestion>
+        <suggestion>безглуздо</suggestion>
+        <suggestion>по-дурному</suggestion>
+        <example correction="без пуття|без ладу|безглуздо|по-дурному">багато і <marker>без толку</marker> говорять</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>що</token>
+            <token>толку</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>який сенс</suggestion></message>
+        <suggestion>що пуття</suggestion>
+        <suggestion>що користі</suggestion>
+        <example correction="який сенс|що пуття|що користі">але <marker>що толку</marker> його тут шукати?</example>
+        <example correction="який сенс|що пуття|що користі">зрозуміли, <marker>що толку</marker> не буде</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">.*говорити</token>
+          <!-- TODO: говорити про це толком -->
+          <token postag_regexp="yes" postag="adv*" min="0"/>
+          <marker>
+            <token>толком</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>до ладу</suggestion></message>
+        <suggestion>ладом</suggestion>
+        <suggestion>до діла</suggestion>
+        <suggestion>до пуття</suggestion>
+        <suggestion>докладно</suggestion>
+        <suggestion>детально</suggestion>
+        <example correction="до ладу|ладом|до діла|до пуття|докладно|детально">і поговорити сьогодні <marker>толком</marker> не дадуть</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">взяти</token>
+            <token postag_regexp="yes" postag="noun.*pron:pers.*" min="0"/>
+            <token regexp="yes">[ву]</token>
+            <token>толк</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>добрати розуму</suggestion></message>
+        <suggestion>зрозуміти</suggestion>
+        <suggestion>збагнути</suggestion>
+        <suggestion>уторопати</suggestion>
+        <example correction="добрати розуму|зрозуміти|збагнути|уторопати">не можу я <marker>взяти в толк</marker>, про що говорять</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">знати</token>
+            <token postag_regexp="yes" postag="prep.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*pron.*" min="0"/>
+            <token>толк</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>розумітися (на чому)</suggestion></message>
+        <example correction="розумітися (на чому)">селяни <marker>знали в цьому толк</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="verb:(im)?perf:(futr:s:3|past:m).*" regexp="yes">вийти|бути</token>
+            <token postag_regexp="yes" postag="prep.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*pron.*" min="0"/>
+            <token>толк</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>будуть люди</suggestion></message>
+        <suggestion>буде пуття</suggestion>
+        <example correction="будуть люди|буде пуття">не факт, що <marker>вийде толк</marker></example>
+        <example correction="будуть люди|буде пуття">не факт, що <marker>буде з нього толк</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">(по)?збивати(ся)?|збити(ся)?</token>
+            <token postag_regexp="yes" postag="noun.*pron.*" min="0"/>
+            <token>з</token>
+            <token>толку</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>спантеличувати</suggestion></message>
+        <suggestion>збивати з пантелику</suggestion>
+        <suggestion>збивати з плиту (з пливу)</suggestion>
+        <suggestion>забивати баки</suggestion>
+        <suggestion>затуркувати</suggestion>
+        <example correction="спантеличувати|збивати з пантелику|збивати з плиту (з пливу)|забивати баки|затуркувати">і <marker>збив усіх з толку</marker></example>
+      </rule>
+    </rulegroup>
+
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
         <antipattern>
