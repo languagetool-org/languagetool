@@ -855,6 +855,19 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <short>Confusão do adjetivo com o advérbio.</short>
       <example correction='mal servido'>Eu fui <marker>mau servido</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>mal</token>
+          <token postag_regexp='yes' postag='(N.|A..)...+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)...+'/></token>
+      </pattern>
+      <message>Confusão do advérbio com o adjetivo. Mau é adjetivo (tal como bom), mal é advérbio (tal como bem).</message>
+        <suggestion><match no='2' postag_regexp='yes' postag='(N.|A..)(..).+' postag_replace='AQ0$20'>mau</match> \2</suggestion>
+      <short>Confusão do adjetivo com o advérbio.</short>
+      <example correction='mau princípio'>Isso é <marker>mal princípio</marker>.</example>
+      <example correction='maus conselhos'>Ignora os <marker>mal conselhos</marker>.</example>
+    </rule>
+
   </rulegroup>
 
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
