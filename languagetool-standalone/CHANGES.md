@@ -5,6 +5,9 @@
 #### English
   * added and improved rules
 
+#### French
+  * upgraded dictionaries to Dicollecte-6.0.2
+
 #### German
   * added and improved rules
   * updated Hunspell dictionary to version 2017.01.12:
