@@ -700,7 +700,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example type="correct">Cão e gato são animais.</example>
     </rule>
 
-  <rulegroup id="NEGATIVE_PRONOUN_VERB" name='Colocação pronominal: Negações + verbo'>
+  <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocação pronominal: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <rule>
@@ -730,11 +730,27 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction='De forma alguma me diga'><marker>De forma alguma diga-me</marker> isso.</example>
     </rule>
   </rulegroup>
-    <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
-    <!-- DEQUEISMO_QUEISMO Dequeísmo e queísmo: utilização incorrecta de DE + QUE -->
-  <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
 
-    <!--INF_PP_QUE Queísmo: convenceram-nos que -> convenceram-nos de que -->
+  <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
+      <!--       Created by Tiago F. Santos, 2017-01-27 -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal.</short>
+    <rule>
+      <pattern>
+          <token regexp='yes'>algu[mn]a?s?|nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token>
+          <token postag_regexp='yes' postag='V.[^N].+'>
+          <token min='0' regexp='yes'>-|–|—</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+      </pattern>
+      <message>Com alguns pronomes indefinidos deve utilizar a próclise.</message>
+        <suggestion>\1 \4 \2</suggestion>
+      <example type='Todos se admiram'><marker>Todos admiram-se</marker> da sua perseverança.</example>
+      <example type='algo me persuadiu'>Foi então que <marker>algo persuadiu-me</marker> a continuar.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
+    <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
     <rule id="INF_PP_QUE" name="Infinitivo do tipo convencer + pron.pers + que">
       <pattern>
@@ -750,8 +766,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="Informar-se de que"><marker>Informar-se que</marker> ocorreu alterações ao código.</example>
       <example>Não pareces <marker>alegrar-te de que</marker> tudo está resolvido.</example>
     </rule>
-
-    <!-- ESTAR_SEGURO_QUE Queísmo: Estou seguro que -> Estou seguro de que -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
       <pattern>
@@ -765,8 +779,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="Estamos certos de que"><marker>Estamos certos que</marker> falta pouco para acabar.</example>
       <example><marker>Está segura de que</marker> o que dizes é certo.</example>
     </rule>
-
-    <!--       PP_V_QUE Queísmo: alegro-me que -> alegro-me de que         -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id="PP_V_QUE" name="PP + verbo do tipo alegrar + que">
       <pattern>
@@ -780,8 +792,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="Me preocupo de que"><marker>Me preocupo que</marker> haja comida para todos.</example>
       <example>Foi quando <marker>informaste-os de que</marker> acabou-se a temporada.</example>
     </rule>
-
-    <!--          VERBO_DE_QUE Queísmo: Penso de que -> Penso que         -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id="VERBO_DE_QUE" name="Verbo tipo pensar + de que">
       <pattern>
@@ -795,8 +805,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="Penso que"><marker>Penso de que</marker> estamos a melhor muito.</example>
       <example>Acreditamos <marker>que</marker> podemos melhorar mais.</example>
     </rule>
-
-    <!--  ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que  -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id="ESTAR_CLARO_DE_QUE" name="Verbo do tipo estar + Adj. + de que">
       <pattern>
@@ -810,8 +818,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <short>Possível 'dequeísmo'.</short>
       <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrar-mo-nos</example>
     </rule>
-
-    <!--       V3_DE_QUE Dequeísmo: alegra-me de que -> Alegra-me que      -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id="V3_DE_QUE" name="Verbo na 3a pessoa + de que">
       <pattern>
@@ -827,8 +833,6 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction="Alegra-me que"><marker>Alegra-me de que</marker> voltemos a encontrar-nos</example>
       <example><marker>Entristece-me que</marker> tenham mudado de marca.</example>
     </rule>
-
-    <!--   INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que     -->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id="INSISTIR_DE_QUE" name="Verbo do tipo insistir + de que">
       <pattern>

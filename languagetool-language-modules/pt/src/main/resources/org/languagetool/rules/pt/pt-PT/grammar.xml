@@ -34,7 +34,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
-    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+    <!ENTITY pontos_cardeais "norte|sul|l?este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -150,6 +150,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.[PG].*' postag_regexp='yes'></token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>algu[mn]a?s?|nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token>
+          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token postag='V.*' postag_regexp='yes'></token>
+      </antipattern>
       <pattern>
           <token postag='V.*' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
@@ -180,6 +185,11 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>-|–</token>
+          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token postag='V.*' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>algu[mn]a?s?|nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
@@ -1120,17 +1130,28 @@ title="Easy editing stylesheet" ?>
       <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
       <example>Devolva este livro assim que puder.</example>
     </rule>
-<!-- TODO resolve Este e este confusion through wrong word in context
     <rule>
       <pattern case_sensitive='yes'>
-          <token>este</token>
-          <token>de</token>
+          <token regexp='yes'>[Pp]ólo|[Zz]onas?|[Rr]egi(ão|ões)|[Vv]entos?|[Oo]ndas?|[Oo]ndulação|[Ss]well|[Direc?ção]|[Oo]|[Dd]o|[Nn]o|-</token>
+          <token min='0'>a</token>
+          <token regexp='yes'>l?este</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
-        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' case_conversion='startupper'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
-      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
-    </rule>-->
+      <example correction='zona Este'>Os biomas são mais diversos na <marker>zona este</marker> da Europa.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>[Aa]</token>
+          <token regexp='yes'>l?este</token>
+          <token regexp='yes'>[dn][eao]s?</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+        <suggestion>\1 <match no='2' case_conversion='startupper'/> \3</suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='A Este da'><marker>A este da</marker> Europa, os biomas são mais diversos.</example>
+    </rule>
     </rulegroup>
 
     <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
