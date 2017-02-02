@@ -9781,7 +9781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">unè|dosè|tresè|quatrè</token>
                 </marker>
             </pattern>
-            <message>Numeral incomplet</message>
+            <message>Numeral incomplet.</message>
             <suggestion>cent \2</suggestion>
             <suggestion>mil \2</suggestion>
             <example correction="cent unè|mil unè"><marker>unè</marker> president</example>
@@ -9792,6 +9792,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="VOLGUES_VOLDRIA" name="*Volgués/Voldria dir">
+            <antipattern>
+                <marker>
+                    <token postag="P[RT].*" postag_regexp="yes" skip="10"/>
+                    <token>volgués</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="P[RT].*" postag_regexp="yes" skip="10"/>
+                    <token skip="10">volgués</token>
+                    <token>volgués</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>volgués</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>voldria</suggestion>
+            <example correction="Voldria"><marker>Volgués</marker> intervenir a favor de l'acusat.</example>
+            <example>Qualsevol heroi que volgués combatre.</example>
+            <example>Qualsevol heroi que volgués combatre i després volgués córrer.</example>
+        </rule>
+        <rule id="GENS_EN_COMU" name="*gens en comú">
+            <pattern>
+                <token>gens</token>
+                <token>en</token>
+                <token>comú</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>res en comú</suggestion>
+            <example correction="res en comú">No tenen <marker>gens en comú</marker>.</example>
+        </rule>
+        <rule id="DEL_COM" name="del com/del qual">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>l</token>
+                <token>com</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>del qual</suggestion>
+            <suggestion>de la qual</suggestion>
+            <suggestion>de com</suggestion>
+            <example correction="del qual|de la qual|de com">El camí per mitjà <marker>del com</marker> hi arribarem.</example>
+            <example>Volia explicacions del com.</example>
+            <example>Volia explicacions del com i del perquè.</example>
+        </rule>
         <rule id="ALGUNA_COSA_QUE" name="*alguna cosa que/cosa que" default="off">
             <antipattern>
                 <marker>
