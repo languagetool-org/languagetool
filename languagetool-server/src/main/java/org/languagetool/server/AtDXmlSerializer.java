@@ -31,12 +31,13 @@ import static org.languagetool.tools.StringTools.escapeForXmlContent;
  * See the <a href="http://www.afterthedeadline.com/api.slp">AtD API documentation</a>.
  * @since 2.7
  */
-@Experimental
+@Deprecated
 public class AtDXmlSerializer {
   
   public String ruleMatchesToXml(List<RuleMatch> matches, String text) {
     StringBuilder sb = new StringBuilder();
     sb.append("<results>\n");
+    sb.append("<!-- THIS MODE HAS BEEN DEPRECATED - PLEASE USE THE STANDARD JSON MODE -->\n");
     sb.append("<!-- Server: LanguageTool " + JLanguageTool.VERSION + " (").append(JLanguageTool.BUILD_DATE).append(") -->\n");
     for (RuleMatch match : matches) {
       addRuleMatch(sb, match, text);

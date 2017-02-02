@@ -35,6 +35,10 @@
   * Added a `--languageModel` option to the embedded server, thanks to 
     Michał Janik (issue #404)
 
+#### HTTP API
+  * The 'AfterTheDeadline' mode has been deprecated and will be removed in
+    the next version, unless users complain and present a valid use case.
+  
 #### Java API
   * Some deprecated methods have been removed.
 
@@ -43,6 +47,7 @@
 
 #### LibreOffice / Apache OpenOffice Integration
   * Options dialog now uses system theme instead of Nimbus.
+
 
 ## 3.6 (2016-12-28)
 

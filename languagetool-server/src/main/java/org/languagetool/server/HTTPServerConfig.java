@@ -139,6 +139,7 @@ public class HTTPServerConfig {
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
+          System.out.println("WARNING: The AfterTheDeadline mode has been deprecated and will be removed in the next version of LanguageTool");
           atdLanguage = Languages.getLanguageForShortCode(getProperty(props, "afterTheDeadlineLanguage", file));
         }
         String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
