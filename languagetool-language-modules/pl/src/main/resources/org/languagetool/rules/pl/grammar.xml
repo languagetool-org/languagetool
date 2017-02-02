@@ -19811,6 +19811,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="strona_internatowa" name="„strona internatowa” (strona internetowa)">
+          <pattern>
+          <unify>
+                  <feature id="number"></feature>
+										<feature id="gender"><type id="f"/></feature>
+										<feature id="case"></feature>										
+										<token inflected="yes">strona</token>
+										<marker>
+										<token inflected="yes">internatowy</token>
+										</marker>
+          </unify>
+          </pattern>        
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2" regexp_match="internat" regexp_replace="internet"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example correction="internetowej">Więcej informacji na naszej stronie <marker>internatowej</marker>.</example>
+        </rule>
         <rule id="MAS_MEDIA_MASS_MEDIA" name="„mas media” (mass media)">
          <pattern>
           <token>mas</token>
