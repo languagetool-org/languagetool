@@ -38,6 +38,8 @@
 #### HTTP API
   * The 'AfterTheDeadline' mode has been deprecated and will be removed in
     the next version, unless users complain and present a valid use case.
+  * The old XML-based API has been removed. The migration to the new JSON-based
+    API is documented at https://languagetool.org/http-api/migration.php
   
 #### Java API
   * Some deprecated methods have been removed.

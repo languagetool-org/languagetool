@@ -83,13 +83,13 @@ public class HTTPServerTest {
     // test http POST
     assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
     // test supported language listing
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/Languages");
-    String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
-    if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
-      fail("Error getting supported languages: " + languagesXML);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/languages");
+    String languagesJson = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
+    if (!languagesJson.contains("Romanian") || !languagesJson.contains("English")) {
+      fail("Error getting supported languages: " + languagesJson);
     }
-    if (!languagesXML.contains("abbr=\"de\"") || !languagesXML.contains("abbrWithVariant=\"de-DE\"")) {
-      fail("Error getting supported languages: " + languagesXML);
+    if (!languagesJson.contains("\"de\"") || !languagesJson.contains("\"de-DE\"")) {
+      fail("Error getting supported languages: " + languagesJson);
     }
     // tests for "&" character
     English english = new English();
@@ -324,7 +324,7 @@ public class HTTPServerTest {
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortCode() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
     } catch (IOException e) {

@@ -19,16 +19,10 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.RuleMatchAsXmlSerializer;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
+import java.util.List;
 
 import static org.languagetool.server.ServerTools.setCommonHeaders;
 
@@ -36,6 +30,7 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
  * Pseudo checker for v1 of the API, which returns a static XML with a message
  * that this version of the API isn't supported anymore (unless in AtD mode).
  * @since 3.5
+ * @deprecated use {@link V2TextChecker}
  */
 class V1EOLTextChecker extends V1TextChecker {
 
@@ -56,49 +51,8 @@ class V1EOLTextChecker extends V1TextChecker {
       AtDXmlSerializer serializer = new AtDXmlSerializer();
       return serializer.ruleMatchesToXml(matches, text);
     } else {
-      RuleMatch ruleMatch = new RuleMatch(new FakeRule(), 0, 1,
-              "Internal error: The software you're using is making use of an old LanguageTool API. " +
-              "Please ask the software developer to use the recent JSON API. Follow the link below for more information.");
-      List<RuleMatch> ruleMatches;
-      if (text.length() > 0) {
-        ruleMatches = Collections.singletonList(ruleMatch);
-      } else {
-        ruleMatches = Collections.emptyList();
-      }
-      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      String xml = serializer.ruleMatchesToXml(ruleMatches, text, CONTEXT_SIZE, lang, motherTongue);
-      return xml.replaceFirst("\\?>", "?>\n");
+      throw new RuntimeException("This API version is not supported anymore.");
     }
-  }
-  
-  static class FakeRule extends Rule {
-
-    @Override
-    public String getId() {
-      return "API_EOL_PSEUDO_ID";
-    }
-
-    @Override
-    public URL getUrl() {
-      try {
-        return new URL("https://languagetool.org/http-api/migration.php");
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    @Override
-    public String getDescription() {
-      return "A pseudo rule indicating the API is end-of-life";
-    }
-
-    @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-      return new RuleMatch[0];
-    }
-
-    @Override
-    public void reset() {}
   }
   
 }

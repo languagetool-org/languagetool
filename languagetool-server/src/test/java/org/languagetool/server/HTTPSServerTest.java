@@ -111,8 +111,8 @@ public class HTTPSServerTest {
   }
 
   private String check(Language lang, String text) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortCode();
-    urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    String urlOptions = "/v2/check?language=" + lang.getShortCode();
+    urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }

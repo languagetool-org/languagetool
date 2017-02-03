@@ -32,16 +32,11 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
 /**
  * Checker for v1 of the API, which returns XML.
  * @since 3.4
+ * @deprecated use {@link V2TextChecker}
  */
 class V1TextChecker extends TextChecker {
 
   private static final String XML_CONTENT_TYPE = "text/xml; charset=UTF-8";
-  
-  static String getDeprecationWarning() {
-    return "<!-- ***** -->\n" +
-           "<!-- WARNING: this API is deprecated and will be turned off - see https://languagetool.org/http-api/migration.php for details -->\n" +
-           "<!-- ***** -->";
-  }
 
   V1TextChecker(HTTPServerConfig config, boolean internalServer) {
     super(config, internalServer);
@@ -58,9 +53,7 @@ class V1TextChecker extends TextChecker {
       AtDXmlSerializer serializer = new AtDXmlSerializer();
       return serializer.ruleMatchesToXml(matches, text);
     } else {
-      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      String xml = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
-      return xml.replaceFirst("\\?>", "?>\n" + getDeprecationWarning());
+      throw new RuntimeException("This API version is not supported anymore.");
     }
   }
 
