@@ -737,9 +737,9 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <short>Erro de colocação pronominal.</short>
     <rule>
       <pattern>
-          <token regexp='yes'>algu[mn]a?s?|nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token>
+          <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token min='0' regexp='yes'>-|–|—</token>
+          <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Com alguns pronomes indefinidos devem utilizar a próclise.</message>
@@ -13315,6 +13315,59 @@ TODO Write better examples
 </category>
 
  <category id="TYPOGRAPHY" name="Tipografia" type="typographical">
+
+  <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
+    <!-- Created by Tiago F. Santos, 2017-01-23 -->
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token min='0' regexp='yes'>["«»“”]</token>
+        <marker>
+          <token regexp='yes'>-|–</token>
+        </marker>
+      </pattern>
+      <message>Em diálogos e enumerações deve utilizar o travessão.</message>
+        <suggestion>—</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Travessão</url>
+      <short>Nesta situação deve utilizar o travessão.</short>
+      <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
+      <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
+      <example>— É o seu presente de aniversário, minha filha.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>\d+;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token spacebefore="yes" regexp='yes'>-|–</token>
+        </marker>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Se não pretende unir duas palavras, deve utilizar o travessão.</message>
+        <suggestion>—</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Travessão</url>
+      <short>Nesta situação deve utilizar o travessão.</short>
+      <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
+      <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
+      <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>\d+|;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|—</token>
+          <token regexp='yes'>\d+|;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </pattern>
+      <message>Se pretende indicar um período de tempo, deve utilizar meio-travessão.</message>
+        <suggestion>\1 – \3</suggestion>
+        <suggestion>\1–\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Travessão</url>
+      <short>Nesta situação deve utilizar o travessão.</short>
+      <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
