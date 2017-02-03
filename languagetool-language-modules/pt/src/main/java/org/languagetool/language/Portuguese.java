@@ -139,7 +139,7 @@ public class Portuguese extends Language implements AutoCloseable {
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
             new GenericUnpairedBracketsRule(messages),
             new HunspellRule(messages, this),
-            new LongSentenceRule(messages),
+            new LongSentenceRule(messages, 45, true),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
@@ -198,6 +198,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "REPEATED_WORDS":            return -90;
       case "REPEATED_WORDS_3X":         return -91;
       case "WIKIPEDIA_COMMON_ERRORS":   return -100;
+      case "TOO_LONG_SENTENCE":         return -1000;
     }
     return 0;
   }

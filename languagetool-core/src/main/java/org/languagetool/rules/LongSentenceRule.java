@@ -35,29 +35,40 @@ public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
+  private static final boolean DEFAULT_INACTIVE = false;
 
   private final int maxWords;
+
+  /**
+   * @param defaultActive allows default granularity
+   * @since 3.7
+   */
+  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
+    super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    if (maxSentenceLength <= 0) {
+      throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
+    }
+    maxWords = maxSentenceLength;
+    if (!defaultActive) {
+      setDefaultOff();
+    }
+    setLocQualityIssueType(ITSIssueType.Style);
+  }
 
   /**
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
    * @since 2.4
    */
   public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
-    super(messages);
-    super.setCategory(Categories.MISC.getCategory(messages));
-    if (maxSentenceLength <= 0) {
-      throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
-    }
-    maxWords = maxSentenceLength;
-    setDefaultOff();
-    setLocQualityIssueType(ITSIssueType.Style);
+    this(messages, maxSentenceLength, DEFAULT_INACTIVE);
   }
 
   /**
    * Creates a rule with the default maximum sentence length (40 words).
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_MAX_WORDS);
+    this(messages, DEFAULT_MAX_WORDS, DEFAULT_INACTIVE);
   }
 
   @Override
