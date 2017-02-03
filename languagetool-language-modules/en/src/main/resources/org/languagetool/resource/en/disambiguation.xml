@@ -3510,7 +3510,7 @@
           <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
         </rule>
         
-        <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing =>noun">
+        <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing/modal => noun">
           <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -3519,11 +3519,15 @@
               <token postag="VBG" postag_regexp="yes"/>
             </and>
             </marker>
-            <token postag="VBZ"/>
+            <token postag_regexp="yes" postag="VBZ|MD"/>
           </pattern>
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">I do what I want to.</example>
+          <example type="untouched">Make sure that your <marker>watering can</marker> does not have a hole.</example>
           <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Your <marker>singing</marker> puts professional singers to shame.</example>
+          <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Her <marker>singing</marker> can shatter glasses!</example>
+          <example type="ambiguous" inputform="dreaming[dream/VBG,dreaming/NN:UN]" outputform="dreaming[dreaming/NN:UN]">Your <marker>dreaming</marker> will not change the world. Do something!</example>
+          <example type="ambiguous" inputform="fighting[fight/VBG,fighting/NN:U]" outputform="fighting[fighting/NN:U]">... and their <marker>fighting</marker> won't change the situation.</example>
         </rule>
         
         <rule id="PRPPOSS_VBG_JJ_NN" name="Possesive pronoun + verb/adjective + noun sing => adjective">
