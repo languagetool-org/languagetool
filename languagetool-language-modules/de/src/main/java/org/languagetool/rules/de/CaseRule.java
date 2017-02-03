@@ -212,6 +212,9 @@ public class CaseRule extends GermanRule {
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
       "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon" ));
 
+  private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
+      "einer", "eines", "der", "des", "dieser", "dieses" ));
+
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -886,10 +889,13 @@ public class CaseRule extends GermanRule {
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
     boolean isPossiblyFollowedByInfinitive = nextReadings != null && nextReadings.getToken().equals("zu");
     boolean isFollowedByInfinitive = nextReadings != null && !isPossiblyFollowedByInfinitive && nextReadings.hasPartialPosTag("EIZ");
+    boolean isFollowedByPossessiveIndicator = nextReadings != null && POSSESSIVE_INDICATORS.contains(nextReadings.getToken());
 
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
-    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)) {
+    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
+        && !isFollowedByPossessiveIndicator // "Wacht auf, Verdammte dieser Welt!" 
+        && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {

@@ -129,6 +129,11 @@ public class CaseRuleTest {
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
+
+    assertGood("Wacht auf, Verdammte dieser Welt!");
+    assertGood("Er sagt, dass Geistliche davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche Würdenträger davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
     
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");
