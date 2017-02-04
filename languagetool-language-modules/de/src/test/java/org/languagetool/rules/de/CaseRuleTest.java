@@ -134,7 +134,9 @@ public class CaseRuleTest {
     assertGood("Er sagt, dass Geistliche davon betroffen sind.");
     assertBad("Er sagt, dass Geistliche Würdenträger davon betroffen sind.");
     assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
-    
+    assertBad("Er ist begeistert Von der Fülle.");
+    assertBad("Er wohnt Über einer Garage.");
+
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");
     assertGood("Der Lesestoff bestimmt die Leseweise.");
