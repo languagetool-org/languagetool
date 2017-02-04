@@ -104,6 +104,24 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("kein").build(),
       new PatternTokenBuilder().token("schöner").build(),
       new PatternTokenBuilder().token("Land").build()  // https://de.wikipedia.org/wiki/Kein_sch%C3%B6ner_Land
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().tokenRegex("Ist|Sind").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build(),
+        new PatternTokenBuilder().posRegex("PKT").build()// "Ist das Kunst?"
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("des").build(),
+        new PatternTokenBuilder().token("Lied").build(),
+        new PatternTokenBuilder().token("ich").build()// Wes Brot ich ess, des Lied ich sing
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().token("Das").build(),
+        new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build()// "Das erfordert Können und..."
     )
   );
 
@@ -287,7 +305,6 @@ public class AgreementRule extends GermanRule {
           }
         }
       }
-           
     } // for each token
     return toRuleMatchArray(ruleMatches);
   }

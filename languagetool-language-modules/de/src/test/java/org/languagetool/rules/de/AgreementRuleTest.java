@@ -132,6 +132,9 @@ public class AgreementRuleTest {
     assertGood("Etwas, das einem Angst macht.");
     assertGood("Einem geschenkten Gaul schaut man nicht ins Maul.");
 
+    assertGood("Das erfordert Können.");
+    assertGood("Ist das Kunst?");
+
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
