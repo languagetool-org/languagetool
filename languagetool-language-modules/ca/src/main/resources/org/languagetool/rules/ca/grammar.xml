@@ -9794,13 +9794,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
         <rule id="PROJECTO" name="projecto/projecte">
             <pattern>
-                 <token>projecto<exception scope="previous" postag="P[RT].*|C.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">la|hi|em</exception></token>
+                 <marker>
+                     <token>projecto<exception scope="previous" postag="P[RT].*|C.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">la|hi|em</exception></token>
+                 </marker>
+                 <token><exception postag="D.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Si és un nom, cal dir <suggestion>Projecte</suggestion></message>
             <example correction="Projecte">És el <marker>Projecto</marker> Castor.</example>
             <example>Em projecto cap al futur.</example>
             <example>La projecto cap a fora.</example>
             <example>El castell que projecto.</example>
+            <example>Projecto certa simpatia.</example>
         </rule>
         <rule id="QUINS_QUINES" name="*quins/quines són les">
             <pattern>
@@ -9816,6 +9820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AQUESTS_AQUESTES" name="*aquests/aquestes són les">
             <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token postag="DD0MP0"/>
                 </marker>
@@ -9824,9 +9829,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>les</token>
             </pattern>
             <message>Possible error de traducció automàtica.</message>
-            <suggestion><match no="1" postag="DD.*" postag_regexp="yes" postag_replace="DD0FP0"/></suggestion>
+            <suggestion><match no="2" postag="DD.*" postag_regexp="yes" postag_replace="DD0FP0"/></suggestion>
             <example correction="Aquestes"><marker>Aquests</marker> poden haver estat les causes?</example>
             <example correction="Estes"><marker>Estos</marker> poden haver estat les causes?</example>
+            <example>D'aquests són les zones més riques.</example>
         </rule>
         <rule id="VOLGUES_VOLDRIA" name="*Volgués/Voldria dir">
             <antipattern>
