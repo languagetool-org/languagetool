@@ -747,6 +747,20 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example correction='Todos se admiram'><marker>Todos admiram-se</marker> da sua perseverança.</example>
       <example correction='algo me persuadiu'>Foi então que <marker>algo persuadiu-me</marker> a continuar.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+        </marker>
+          <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+      </pattern>
+      <message>Certos pronomes relativos, conjunções subordinativas e advérbios  devem ser seguidos de próclise.</message>
+        <suggestion>\1 \4 \2</suggestion>
+      <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker>  essa notícia?</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
@@ -1032,6 +1046,19 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <suggestion>à \2 \3</suggestion>
       <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
       <example>Os autocarros estacionaram à esquerda do pátio.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token case_sensitive='no' regexp='yes'>(&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
+          <token min='0'>-</token>
+          <token min='0'>feira</token>
+          <token>à</token>
+          <token case_sensitive='no' regexp='yes'>(&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
+      </pattern>
+      <message>Erro de crase.</message>
+        <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> a \5</suggestion>
+      <example correction='segunda-feira a sexta'>A semana de trabalho é de <marker>segunda-feira à sexta</marker>-feira.</example>
+      <example correction='Junho a Setembro'>Os melhores meses para ir de férias é de <marker>Junho à Setembro</marker>.</example>
     </rule>
     <rule>
     <!-- Loosely based on CoGrOO rule -->
@@ -13318,6 +13345,7 @@ TODO Write better examples
 
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
+      <url>https://pt.wikipedia.org/wiki/Travessão</url>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
@@ -13328,7 +13356,6 @@ TODO Write better examples
       </pattern>
       <message>Em diálogos e enumerações deve utilizar o travessão.</message>
         <suggestion>—</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Travessão</url>
       <short>Nesta situação deve utilizar o travessão.</short>
       <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
       <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
@@ -13348,7 +13375,6 @@ TODO Write better examples
       </pattern>
       <message>Se não pretende unir duas palavras, deve utilizar o travessão.</message>
         <suggestion>—</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Travessão</url>
       <short>Nesta situação deve utilizar o travessão.</short>
       <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
       <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
@@ -13363,8 +13389,7 @@ TODO Write better examples
       <message>Se pretende indicar um período de tempo, deve utilizar meio-travessão.</message>
         <suggestion>\1 – \3</suggestion>
         <suggestion>\1–\3</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Travessão</url>
-      <short>Nesta situação deve utilizar o travessão.</short>
+      <short>Nesta situação deve utilizar o meio-travessão.</short>
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
     </rule>
   </rulegroup>
