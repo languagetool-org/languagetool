@@ -463,4 +463,19 @@ public abstract class Language {
     return 0;
   }
 
+  /**
+   * Considers languages as equal if their language code, including the country and variant codes are equal.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Language other = (Language) o;
+    return Objects.equals(getShortCodeWithCountryAndVariant(), other.getShortCodeWithCountryAndVariant());
+  }
+
+  @Override
+  public int hashCode() {
+    return getShortCodeWithCountryAndVariant().hashCode();
+  }
 }

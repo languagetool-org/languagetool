@@ -20,9 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.CategoryId;
@@ -58,16 +56,19 @@ abstract class TextChecker {
   protected final HTTPServerConfig config;
 
   private static final String ENCODING = "UTF-8";
+  private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests 
   
   private final boolean internalServer;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
+  private final ResultCache cache;
 
   TextChecker(HTTPServerConfig config, boolean internalServer) {
     this.config = config;
     this.internalServer = internalServer;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
+    this.cache = new ResultCache(1000);
   }
 
   void shutdownNow() {
@@ -171,6 +172,12 @@ abstract class TextChecker {
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
                                          Language motherTongue, QueryParams params) throws Exception {
     String sourceText = parameters.get("srctext");
+    long cacheRequests = cache.stats().requestCount();
+    if (cacheRequests > 0 && cacheRequests % CACHE_STATS_PRINT == 0) {
+      double hitRate = cache.stats().hitRate();
+      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
+      print("Cache stats: " + hitPercentage + "% hit rate, " + cache.stats());
+    }
     if (sourceText == null) {
       JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
       return lt.check(text);
@@ -242,7 +249,7 @@ abstract class TextChecker {
    * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, motherTongue);
+    JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache);
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

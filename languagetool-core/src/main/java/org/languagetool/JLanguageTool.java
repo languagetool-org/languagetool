@@ -81,6 +81,8 @@ public class JLanguageTool {
   /** Name of the message bundle for translations. */
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
+  private final ResultCache cache;
+
   /**
    * Returns the build date or {@code null} if not run from JAR.
    */
@@ -140,7 +142,19 @@ public class JLanguageTool {
   }
   
   private static final List<File> temporaryFiles = new ArrayList<>();
-  
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param lang the language of the text to be checked
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   */
+  public JLanguageTool(Language lang, Language motherTongue) {
+    this(lang, motherTongue, null);
+  }
+
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
    * given language.
@@ -148,7 +162,7 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    */
   public JLanguageTool(Language language) {
-    this(language, null);
+    this(language, null, null);
   }
 
   /**
@@ -158,8 +172,12 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 3.7
    */
-  public JLanguageTool(Language language, Language motherTongue) {
+  @Experimental
+  public JLanguageTool(Language language, Language motherTongue, ResultCache cache) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
@@ -171,6 +189,7 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
     }
+    this.cache = cache;
   }
   
   /**
@@ -935,10 +954,21 @@ public class JLanguageTool {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
         try {
-          List<RuleMatch> sentenceMatches =
-                  checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                          columnCount, sentence, analyzedSentence, annotatedText);
-
+          List<RuleMatch> sentenceMatches = null;
+          InputSentence cacheKey = null;
+          if (cache != null) {
+            cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
+                             disabledRules, disabledRuleCategories,
+                             enabledRules, enabledRuleCategories);
+            sentenceMatches = cache.getIfPresent(cacheKey);
+          }
+          if (sentenceMatches == null) {
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
+                                 columnCount, sentence, analyzedSentence, annotatedText);
+          }
+          if (cache != null) {
+            cache.put(cacheKey, sentenceMatches);
+          }
           ruleMatches.addAll(sentenceMatches);
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);

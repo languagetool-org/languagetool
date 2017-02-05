@@ -19,10 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Demo;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
+import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
@@ -194,6 +191,23 @@ public class JLanguageToolTest {
     JLanguageTool languageTool = new JLanguageTool(english);
     List<RuleMatch> matches = languageTool.check("­");  // used to be a bug (it's not a normal dash)
     assertThat(matches.size(), is(0));
+  }
+
+  @Test
+  public void testCache() throws IOException {
+    ResultCache cache = new ResultCache(1000);
+    JLanguageTool ltEnglish = new JLanguageTool(english, null, cache);
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.stats().hitCount(), is(0L));
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.stats().hitCount(), is(1L));
+
+    JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
+    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    assertThat(cache.stats().hitCount(), is(1L));
+
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.stats().hitCount(), is(2L));
   }
 
 }

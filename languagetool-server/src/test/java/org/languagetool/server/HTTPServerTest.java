@@ -323,7 +323,7 @@ public class HTTPServerTest {
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
-    String postData = "language=" + lang.getShortCode() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
+    String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
@@ -333,7 +333,8 @@ public class HTTPServerTest {
         System.err.println("Got expected error on long text (" + text.length() + " chars): " + e.getMessage());
         return "";
       } else {
-        System.err.println("Got error from server (" + lang.getShortCodeWithCountryAndVariant() + ", " + text.length() + " chars): " + e.getMessage());
+        System.err.println("Got error from " + url + " (" + lang.getShortCodeWithCountryAndVariant() + ", " +
+                           text.length() + " chars): " + e.getMessage() + ", text was: '" + text + "'");
         return "";
       }
     }

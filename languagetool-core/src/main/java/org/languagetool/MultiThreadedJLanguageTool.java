@@ -73,7 +73,26 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @since 2.9
    */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize) {
-    super(language, motherTongue);
+    this(language, motherTongue, threadPoolSize, null);
+  }
+
+  /**
+   * @see #shutdown()
+   * @since 3.7
+   */
+  @Experimental
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, ResultCache cache) {
+    this(language, motherTongue, getDefaultThreadCount(), cache);
+  }
+
+  /**
+   * @see #shutdown()
+   * @param threadPoolSize the number of concurrent threads
+   * @since 3.7
+   */
+  @Experimental
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize, ResultCache cache) {
+    super(language, motherTongue, cache);
     if (threadPoolSize < 1) {
       throw new IllegalArgumentException("threadPoolSize must be >= 1: " + threadPoolSize);
     }

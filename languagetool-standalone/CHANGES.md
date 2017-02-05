@@ -40,9 +40,13 @@
     the next version, unless users complain and present a valid use case.
   * The old XML-based API has been removed. The migration to the new JSON-based
     API is documented at https://languagetool.org/http-api/migration.php
+  * Speed up with a cache for cases where the same sentences get checked
+    again (e.g. due to a correction in a text that doesn't affect all sentences
+    but causes the whole text to be re-checked)
   
 #### Java API
   * Some deprecated methods have been removed.
+  * A new class `ResultCache` has been added to speed up the LT server
 
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.1 (only used for English)
