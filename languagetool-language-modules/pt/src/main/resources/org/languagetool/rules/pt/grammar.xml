@@ -752,14 +752,25 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
         <marker>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
         </marker>
           <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
       </pattern>
       <message>Certos pronomes relativos, conjunções subordinativas e advérbios  devem ser seguidos de próclise.</message>
         <suggestion>\1 \4 \2</suggestion>
-      <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker>  essa notícia?</example>
+      <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker> essa notícia?</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>só|ou|ora|quer</token>
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+      </pattern>
+      <message>"só", "ou", "ora" e "quer" devem ser seguidos de próclise.</message>
+        <suggestion>\1 \4 \2</suggestion>
+      <example correction='Só te tirei'><marker>Só tirei-te</marker> o brinquedo, porque te portaste mal</example>
     </rule>
   </rulegroup>
 
