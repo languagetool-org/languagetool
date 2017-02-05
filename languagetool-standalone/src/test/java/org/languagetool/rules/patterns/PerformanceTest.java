@@ -24,7 +24,6 @@ import org.languagetool.tools.StringTools;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Check performance per sentence. Not a unit test, for interactive use only.

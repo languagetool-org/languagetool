@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.RuleMatchAsXmlSerializer;
 
 import java.util.*;
 

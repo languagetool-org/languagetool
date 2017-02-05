@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Before;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;

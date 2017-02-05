@@ -20,7 +20,6 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
-import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;

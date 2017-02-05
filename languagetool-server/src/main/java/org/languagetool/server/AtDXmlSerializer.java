@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
 

@@ -28,10 +28,6 @@ import org.languagetool.AnalyzedTokenReadings;
 
 import org.languagetool.tagging.BaseTagger;
 
-import org.languagetool.tools.StringTools;
-
-
-
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  * See readme.txt for details, the POS tagset is described in tagset.txt
