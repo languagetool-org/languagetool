@@ -167,6 +167,7 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("von");
     PREPOSITIONS.add("mit");
     PREPOSITIONS.add("durch");
+    PREPOSITIONS.add("während");
     // TODO: add more
   }
   
