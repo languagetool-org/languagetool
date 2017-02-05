@@ -65,6 +65,9 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
         System.err.println("Using " + content.length() + " bytes of data for " + language);
       }
     }
+    if (langCodeToText.size() == 0) {
+      throw new RuntimeException("No input data found in " + dir);
+    }
     System.out.println("Testing " + langCodeToText.keySet().size() + " languages and variants");
     //super.testHTTPServer();  // start server in this JVM
     super.doTest();  // assume server has been started manually in its own JVM
