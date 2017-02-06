@@ -210,4 +210,16 @@ public class JLanguageToolTest {
     assertThat(cache.stats().hitCount(), is(2L));
   }
 
+  @Test
+  public void testCacheWithTextLevelRules() throws IOException {
+    ResultCache cache = new ResultCache(1000);
+    JLanguageTool ltNoCache = new JLanguageTool(new GermanyGerman(), null);
+    assertThat(ltNoCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
+    assertThat(ltNoCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
+
+    JLanguageTool ltWithCache = new JLanguageTool(new GermanyGerman(), null, cache);
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
+    //assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));  // TODO
+  }
+
 }
