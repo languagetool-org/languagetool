@@ -49,7 +49,7 @@
   * A new class `ResultCache` has been added to speed up the LT server
 
 #### Internal
-  * OpenNLP has been updated from 1.6.0 to 1.7.1 (only used for English)
+  * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
 
 #### LibreOffice / Apache OpenOffice Integration
   * Options dialog now uses system theme instead of Nimbus.
