@@ -156,12 +156,19 @@ title="Easy editing stylesheet" ?>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>só|ou|ora|quer</token>
+          <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
@@ -183,6 +190,7 @@ title="Easy editing stylesheet" ?>
       <example>Foi então que algo me persuadiu a continuar.</example>
       <example>Quem lhe contou essa notícia?</example>
       <example>Só te tirei o brinquedo, porque te portaste mal</example>
+      <example>Nenhum lugar te recorda daquelas férias?</example>
     </rule>
     <rule>
       <antipattern>
@@ -208,12 +216,18 @@ title="Easy editing stylesheet" ?>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/>
+          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>só|ou|ora|quer</token>
+          <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
           <token postag='V.*' postag_regexp='yes'></token>
       </antipattern>
@@ -232,6 +246,7 @@ title="Easy editing stylesheet" ?>
       <example>Foi então que algo me persuadiu a continuar.</example>
       <example>Quem lhe contou essa notícia?</example>
       <example>Só te tirei o brinquedo, porque te portaste mal</example>
+      <example>Nenhum lugar te recorda daquelas férias?</example>
     </rule>
     <rule>
       <pattern>

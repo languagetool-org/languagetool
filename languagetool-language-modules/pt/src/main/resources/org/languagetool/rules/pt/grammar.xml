@@ -763,7 +763,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>só|ou|ora|quer</token>
+          <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
@@ -771,6 +771,18 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <message>"só", "ou", "ora" e "quer" devem ser seguidos de próclise.</message>
         <suggestion>\1 \4 \2</suggestion>
       <example correction='Só te tirei'><marker>Só tirei-te</marker> o brinquedo, porque te portaste mal</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+      </pattern>
+      <message>As palavras de sentido negativo devem ser seguidas de próclise.</message>
+        <suggestion>\1 \2 \5 \3</suggestion>
+      <example correction='Nenhum lugar te recorda'><marker>Nenhum lugar recorda-te</marker> daquelas férias?</example>
     </rule>
   </rulegroup>
 
