@@ -700,6 +700,36 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <example type="correct">Cão e gato são animais.</example>
     </rule>
 
+  <rulegroup id='IMPERSONAL_FAZER_TIME_EXPRESSION' name='Verbos impessoais: Fazer + Expressão de tempo'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <url>https://pt.wikipedia.org/wiki/Verbo_impessoal</url>
+    <rule>
+      <pattern>
+          <token inflected='yes' regexp='yes' postag_regexp='yes' postag='V....P.+'>fazer|ir|poder</token>
+          <token min='0' max='3' postag_regexp='yes' postag='(D|R|C|Z).+'/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </pattern>
+      <message>O verbo fazer permanece no singular, quando indica tempo.</message>
+        <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> \5</suggestion>
+      <example correction='Faz muitos anos|Fá muitos anos'><marker>Fazem muitos anos</marker> que não a vejo.</example><!-- TODO Re-tag mesoclisis particles in synthesis dictionary (e.g. fá, fê) -->
+      <example correction='Fez vinte e um anos|Fizera vinte e um anos|Fê vinte e um anos'><marker>Fizeram vinte e um anos</marker> que não a vejo.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' postag_regexp='yes' postag='V....P.+' inflected='yes'>dever|ir|poder</token>
+          <token>fazer</token>
+          <token min='0' max='3' postag_regexp='yes' postag='Z.+'/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </pattern>
+      <message>O verbo fazer, quando indica tempo, é impessoal e deve permanecer sempre no singular.</message>
+        <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> \2 <match no='3' include_skipped='all'/> \6</suggestion>
+      <short>O auxiliar do verbo fazer permanecem no singular, quando indica tempo.</short>
+      <example correction='vai fazer três semanas|vá fazer três semanas'>Já <marker>vão fazer três semanas</marker> que não o vejo.</example>
+      <example correction='ia fazer seis semanas'>Já <marker>iam fazer seis semanas</marker> que não o vejo.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
@@ -768,7 +798,7 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
-      <message>"só", "ou", "ora" e "quer" devem ser seguidos de próclise.</message>
+      <message>"só", "ora" e "quer" devem ser seguidos de próclise.</message><!-- TODO Review "ou",  -->
         <suggestion>\1 \4 \2</suggestion>
       <example correction='Só te tirei'><marker>Só tirei-te</marker> o brinquedo, porque te portaste mal</example>
     </rule>
