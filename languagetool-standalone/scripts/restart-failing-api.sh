@@ -16,7 +16,7 @@ if [ "$SERVER" -eq 2 ]; then
 fi
 
 function isOkay {
-    local RESULT=`curl -s --dump-head - "http://localhost:$PORT/?language=en-US&text=Test" | grep -c " 200 OK"`
+    local RESULT=`curl -s --dump-head - "http://localhost:$PORT/v2/check?language=en-US&text=Test" | grep -c " 200 OK"`
     if [ "$RESULT" -eq "1" ]; then
         echo "OK"
     else
