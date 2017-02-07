@@ -21,9 +21,11 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * Checks that there's whitespace between sentences.
@@ -31,11 +33,10 @@ import java.util.ResourceBundle;
  * @author Daniel Naber
  * @since 2.5
  */
-public class SentenceWhitespaceRule extends Rule {
+public class SentenceWhitespaceRule extends TextLevelRule {
 
-  private boolean isFirstSentence = true;
-  private boolean prevSentenceEndsWithWhitespace = false;
-  
+  private static final Pattern NUMBER_REGEX = Pattern.compile("\\d+");
+
   public SentenceWhitespaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
@@ -52,40 +53,42 @@ public class SentenceWhitespaceRule extends Rule {
     return messages.getString("missing_space_between_sentences");
   }
 
-  public String getMessage() {
+  public String getMessage(boolean prevSentenceEndsWithNumber) {
     return messages.getString("addSpaceBetweenSentences");
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    boolean isFirstSentence = true;
+    boolean prevSentenceEndsWithWhitespace = false;
+    boolean prevSentenceEndsWithNumber = false;
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
-
-    if (isFirstSentence) {
-      isFirstSentence = false;
-    } else {
-      if (!prevSentenceEndsWithWhitespace && tokens.length > 1) {
-        int startPos = 0;
-        String firstToken = tokens[1].getToken();
-        int endPos = firstToken.length();
-        RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, getMessage());
-        ruleMatch.setSuggestedReplacement(" " + firstToken);
-        ruleMatches.add(ruleMatch);
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokens();
+      if (isFirstSentence) {
+        isFirstSentence = false;
+      } else {
+        if (!prevSentenceEndsWithWhitespace && tokens.length > 1) {
+          int startPos = 0;
+          String firstToken = tokens[1].getToken();
+          int endPos = firstToken.length();
+          RuleMatch ruleMatch = new RuleMatch(this, pos+startPos, pos+endPos, getMessage(prevSentenceEndsWithNumber));
+          ruleMatch.setSuggestedReplacement(" " + firstToken);
+          ruleMatches.add(ruleMatch);
+        }
       }
+      if (tokens.length > 0) {
+        String lastToken = tokens[tokens.length-1].getToken();
+        prevSentenceEndsWithWhitespace = lastToken.trim().isEmpty() && lastToken.length() == 1;
+      }
+      if (tokens.length > 1) {
+        String prevLastToken = tokens[tokens.length-2].getToken();
+        prevSentenceEndsWithNumber = NUMBER_REGEX.matcher(prevLastToken).matches();
+      }
+      pos += sentence.getText().length();
     }
-    
-    if (tokens.length > 0) {
-      String lastToken = tokens[tokens.length-1].getToken();
-      prevSentenceEndsWithWhitespace = lastToken.trim().isEmpty() && lastToken.length() == 1;
-    }
-
     return toRuleMatchArray(ruleMatches);
   }
-
-  @Override
-  public void reset() {
-    isFirstSentence = true;
-    prevSentenceEndsWithWhitespace = false;
-  }
-
+  
 }
