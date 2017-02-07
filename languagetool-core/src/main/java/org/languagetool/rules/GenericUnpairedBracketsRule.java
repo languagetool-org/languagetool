@@ -41,10 +41,9 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
-  private final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();   // the stack for pairing symbols
   private final String[] startSymbols;
   private final String[] endSymbols;
-  private final Map<String,Boolean> uniqueMap = new HashMap<>();
+  private final Map<String,Boolean> uniqueMap;
   private final String ruleId;
   private final Pattern numerals;
 
@@ -65,7 +64,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
     this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
     this.numerals = Objects.requireNonNull(numerals);
-    uniqueMapInit();
+    this.uniqueMap = uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
 
@@ -102,18 +101,6 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return messages.getString("desc_unpaired_brackets");
   }
 
-  protected void uniqueMapInit() {
-    for (String endSymbol : endSymbols) {
-      int found = 0;
-      for (String endSymbol1 : endSymbols) {
-        if (endSymbol1.equals(endSymbol)) {
-          found++;
-        }
-      }
-      uniqueMap.put(endSymbol, found == 1);
-    }
-  }
-
   /**
    * Generic method to specify an exception. For unspecified
    * language, it simply returns true (which means no exception) unless
@@ -138,6 +125,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
 
   @Override
   public final RuleMatch[] match(List<AnalyzedSentence> sentences) {
+    UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();   // the stack for pairing symbols
     UnsyncStack<SymbolLocator> ruleMatchStack = new UnsyncStack<>();
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int startPosBase = 0;
@@ -145,7 +133,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int i = 1; i < tokens.length; i++) {
         for (int j = 0; j < startSymbols.length; j++) {
-          if (fillSymbolStack(startPosBase, tokens, i, j)) {
+          if (fillSymbolStack(startPosBase, tokens, i, j, symbolStack)) {
             break;
           }
         }
@@ -160,11 +148,24 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         ruleMatches.add(rMatch);
       }
     }
-    symbolStack.clear();
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean fillSymbolStack(int startPosBase, AnalyzedTokenReadings[] tokens, int i, int j) {
+  private Map<String, Boolean> uniqueMapInit() {
+    Map<String,Boolean> uniqueMap = new HashMap<>();
+    for (String endSymbol : endSymbols) {
+      int found = 0;
+      for (String endSymbol1 : endSymbols) {
+        if (endSymbol1.equals(endSymbol)) {
+          found++;
+        }
+      }
+      uniqueMap.put(endSymbol, found == 1);
+    }
+    return Collections.unmodifiableMap(uniqueMap);
+  }
+
+  private boolean fillSymbolStack(int startPosBase, AnalyzedTokenReadings[] tokens, int i, int j, UnsyncStack<SymbolLocator> symbolStack) {
     String token = tokens[i].getToken();
     int startPos = startPosBase + tokens[i].getStartPos();
     if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
