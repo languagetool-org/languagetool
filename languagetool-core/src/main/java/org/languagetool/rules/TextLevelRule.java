@@ -36,6 +36,13 @@ public abstract class TextLevelRule extends Rule {
   public abstract RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException;
 
   /**
+   * @since 3.7
+   */
+  public TextLevelRule() {
+    super();
+  }
+
+  /**
    * Called by rules that require a translation of their messages.
    */
   public TextLevelRule(ResourceBundle messages) {
@@ -43,7 +50,7 @@ public abstract class TextLevelRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+  public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("Not implemented for a text-level rule");
   }
 

@@ -18,39 +18,27 @@
  */
 package org.languagetool.rules.fa;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Persian;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
+import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class WordCoherencyRuleTest extends PatternRuleTest {
 
-  private JLanguageTool langTool;
-  private Rule rule;
-
-  @Before
-  public void setUp() throws Exception {
-    langTool = new JLanguageTool(new Persian());
-    rule = new WordCoherencyRule(TestTools.getMessages("fa"));
-  }
-
   @Test
   public void testRules() throws IOException {
-    RuleMatch[] matches;
-
-    matches = rule.match(langTool.getAnalyzedSentence("این یک اتاق است."));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(langTool.getAnalyzedSentence("این یک اطاق است."));
-    assertEquals(1, matches.length);
+    JLanguageTool langTool = new JLanguageTool(new Persian());
+    TextLevelRule rule = new WordCoherencyRule(TestTools.getMessages("fa"));
+    assertThat(rule.match(Collections.singletonList(langTool.getAnalyzedSentence("این یک اتاق است."))).length, is(0));
+    assertThat(rule.match(Collections.singletonList(langTool.getAnalyzedSentence("این یک اتاق است. این یک اطاق است."))).length, is(1));
   }
 
 }

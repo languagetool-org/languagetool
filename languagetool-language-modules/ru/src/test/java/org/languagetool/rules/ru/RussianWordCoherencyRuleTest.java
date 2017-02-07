@@ -19,55 +19,50 @@
 package org.languagetool.rules.ru;
 
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
 public class RussianWordCoherencyRuleTest {
 
+  private final JLanguageTool lt = new JLanguageTool(new Russian());
+
   @Test
   public void testRule() throws IOException {
-    RussianWordCoherencyRule rule = new RussianWordCoherencyRule(TestTools.getEnglishMessages());
-    JLanguageTool langTool = new JLanguageTool(new Russian());
-    // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C.")).length);
-    // as WordCoherencyRule keeps its state to check more than one sentence 
-    // we need to create a new object each time:
-    rule.reset();
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C.")).length);
-    // errors:
-    assertError("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или ноль по шкале Кельвина.", langTool);
+    assertGood("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C.");
+    assertGood("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C.");
+    assertError("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или ноль по шкале Кельвина.");
   }
 
   @Test
   public void testCallIndependence() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new Russian());
-    assertGood("Абсолютный нуль.", langTool);
-    assertGood("Ноль по шкале Кельвина.", langTool);  // this won't be noticed, the calls are independent of each other
+    assertGood("Абсолютный нуль.");
+    assertGood("Ноль по шкале Кельвина.");  // this won't be noticed, the calls are independent of each other
   }
 
-  private void assertError(String s, JLanguageTool langTool) throws IOException {
+  private void assertError(String s) throws IOException {
     RussianWordCoherencyRule rule = new RussianWordCoherencyRule(TestTools.getEnglishMessages());
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(s);
+    assertEquals(1, rule.match(Collections.singletonList(analyzedSentence)).length);
   }
 
-  private void assertGood(String s, JLanguageTool langTool) throws IOException {
+  private void assertGood(String s) throws IOException {
     RussianWordCoherencyRule rule = new RussianWordCoherencyRule(TestTools.getEnglishMessages());
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(s);
+    assertEquals(0, rule.match(Collections.singletonList(analyzedSentence)).length);
   }
 
   @Test
   public void testRuleCompleteTexts() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new Russian());
-
     assertEquals(0, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или нуль по шкале Кельвина.").size());
     assertEquals(1, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или ноль по шкале Кельвина.").size());
-
-    // cross-paragraph checks
+    // cross-paragraph checks:
     assertEquals(1, lt.check("Абсолютный нуль.\n\nСовсем недостижим. И ноль по шкале Кельвина.").size());
   }
 
