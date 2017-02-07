@@ -19,7 +19,6 @@
 package org.languagetool.rules;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.Experimental;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +29,6 @@ import java.util.ResourceBundle;
  * the other. Useful for rules that check coherency over sentence boundaries etc.
  * @since 2.7
  */
-@Experimental
 public abstract class TextLevelRule extends Rule {
 
   public abstract RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException;
