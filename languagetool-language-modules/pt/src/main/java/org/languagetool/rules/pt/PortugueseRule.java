@@ -24,7 +24,9 @@ import org.languagetool.rules.Rule;
  * Abstract base class for rules for the Portuguese language.
  * 
  * @author Tiago F. Santos
+ * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
  */
+@Deprecated
 public abstract class PortugueseRule extends Rule {
 
 }

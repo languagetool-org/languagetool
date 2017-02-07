@@ -50,6 +50,10 @@
 #### Java API
   * Some deprecated methods have been removed.
   * A new class `ResultCache` has been added to speed up the LT server
+  * `EnglishRule`, `GermanRule`, `PortugueseRule`, `CatalanRule`, and `FrenchRule`
+    are now deprecated. These are empty abstract classes that never had any
+    real use. Rules that extend these classes will directly extend `Rule` or
+    `TextLevelRule` in a future release.
 
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)

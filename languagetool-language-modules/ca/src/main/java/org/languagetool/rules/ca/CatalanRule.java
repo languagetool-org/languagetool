@@ -23,8 +23,9 @@ import org.languagetool.rules.Rule;
 /**
  * Abstract base class for rules for the Catalan language.
  * 
- * @author Jaume Ortolà
+ * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
  */
+@Deprecated
 public abstract class CatalanRule extends Rule {
 
 }
