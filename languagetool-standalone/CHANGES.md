@@ -15,6 +15,9 @@
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-ch-frami-dictionaries
 
+#### Greek
+  * added and improved rules
+
 #### Lithuanian and Malayalam
   * Lithuanian and Malayalam are not part of this release anymore. They still exist
     in the git repository and can be re-activated as soon as a new maintainer takes
