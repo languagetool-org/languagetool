@@ -29,9 +29,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -44,7 +42,7 @@ import org.languagetool.tools.StringTools;
  * TODO Verify all exceptions that apply to Portuguese
  * FIXME Cnverte all chunking tags to the ones used in Portuguese
  */
-public class PortugueseAccentuationCheckRule extends PortugueseRule {
+public class PortugueseAccentuationCheckRule extends Rule {
 
   /**
    * Patterns
