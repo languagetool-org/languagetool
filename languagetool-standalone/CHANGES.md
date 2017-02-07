@@ -54,7 +54,9 @@
     are now deprecated. These are empty abstract classes that never had any
     real use. Rules that extend these classes will directly extend `Rule` or
     `TextLevelRule` in a future release.
-
+  * All rules that work on the text level instead of the sentence level
+    (e.g. word coherency) now extend `TextLevelRule` instead of `Rule`
+  
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
 
