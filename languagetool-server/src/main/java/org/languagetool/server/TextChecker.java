@@ -68,7 +68,7 @@ abstract class TextChecker {
     this.internalServer = internalServer;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
-    this.cache = new ResultCache(5000);  // TODO: make configurable
+    this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
   }
 
   void shutdownNow() {

@@ -108,6 +108,7 @@ abstract class Server {
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
+    System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
     System.out.println("                 'requestLimit' - maximum number of requests (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");

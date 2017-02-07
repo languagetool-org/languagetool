@@ -57,6 +57,7 @@ public class HTTPServerConfig {
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
+  protected int cacheSize = 0;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -148,6 +149,10 @@ public class HTTPServerConfig {
           if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
             throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
           }
+        }
+        cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
+        if (cacheSize < 0) {
+          throw new IllegalArgumentException("Invalid cacheSize " + cacheSize + ", use 0 to deactivate cache");
         }
       }
     } catch (IOException e) {
@@ -276,6 +281,11 @@ public class HTTPServerConfig {
   /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
+  }
+
+  /** @since 3.7 */
+  int getCacheSize() {
+    return cacheSize;
   }
 
   /**
