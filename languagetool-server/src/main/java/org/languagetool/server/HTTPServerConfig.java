@@ -128,7 +128,7 @@ public class HTTPServerConfig {
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         if (maxWorkQueueSize < 0) {
-          throw new IllegalArgumentException("Max queue size must be >= 0: " + maxWorkQueueSize);
+          throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
@@ -136,7 +136,7 @@ public class HTTPServerConfig {
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
-          throw new IllegalArgumentException("Invalid value for maxCheckThreads: " + maxCheckThreads);
+          throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
@@ -152,7 +152,7 @@ public class HTTPServerConfig {
         }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
         if (cacheSize < 0) {
-          throw new IllegalArgumentException("Invalid cacheSize " + cacheSize + ", use 0 to deactivate cache");
+          throw new IllegalArgumentException("Invalid value for cacheSize " + cacheSize + ", use 0 to deactivate cache");
         }
       }
     } catch (IOException e) {
