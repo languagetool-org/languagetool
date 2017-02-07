@@ -41,9 +41,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
-  // The stack for pairing symbols:
-  protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();
-
+  private final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();   // the stack for pairing symbols
   private final String[] startSymbols;
   private final String[] endSymbols;
   private final Map<String,Boolean> uniqueMap = new HashMap<>();
@@ -129,7 +127,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   protected boolean isNoException(String token,
                                   AnalyzedTokenReadings[] tokens, int i, int j,
                                   boolean precSpace,
-                                  boolean follSpace) {
+                                  boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
     // Smiley ":-)"
     if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
       return false;
@@ -173,7 +171,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       boolean precededByWhitespace = getPrecededByWhitespace(tokens, i, j);
       boolean followedByWhitespace = getFollowedByWhitespace(tokens, i, j);
       boolean noException = isNoException(token, tokens, i, j,
-              precededByWhitespace, followedByWhitespace);
+              precededByWhitespace, followedByWhitespace, symbolStack);
 
       if (noException && precededByWhitespace && token.equals(startSymbols[j])) {
         symbolStack.push(new SymbolLocator(startSymbols[j], i, startPos));

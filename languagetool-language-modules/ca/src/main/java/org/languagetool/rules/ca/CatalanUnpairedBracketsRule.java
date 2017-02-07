@@ -28,6 +28,8 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.SymbolLocator;
+import org.languagetool.rules.UnsyncStack;
 
 public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
@@ -52,13 +54,13 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   @Override
   protected boolean isNoException(final String tokenStr,
       final AnalyzedTokenReadings[] tokens, final int i, final int j,
-      final boolean precSpace, final boolean follSpace) {
+      final boolean precSpace, final boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
 
     if (i < 1) {
       return true;
     }
 
-    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
+    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);
     if (superException) {
       return false;
     }
