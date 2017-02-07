@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,7 +36,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class UppercaseSentenceStartRule extends Rule {
+public class UppercaseSentenceStartRule extends TextLevelRule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
@@ -47,8 +48,6 @@ public class UppercaseSentenceStartRule extends Rule {
 
   private final Language language;
 
-  private String lastParagraphString = "";
-  
   /** @since 3.3 */
   public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages);
@@ -78,73 +77,78 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    String lastParagraphString = "";
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    if (tokens.length < 2) {
-      return toRuleMatchArray(ruleMatches);
-    }
-    int matchTokenPos = 1; // 0 = SENT_START
-    AnalyzedTokenReadings firstTokenObj = tokens[matchTokenPos];
-    String firstToken = firstTokenObj.getToken();
-    String secondToken = null;
-    String thirdToken = null;
-    // ignore quote characters:
-    if (tokens.length >= 3 && QUOTE_START.matcher(firstToken).matches()) {
-      matchTokenPos = 2;
-      secondToken = tokens[matchTokenPos].getToken();
-    }
-    String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
-    if (firstDutchToken != null) {
-      thirdToken = firstDutchToken;
-      matchTokenPos = 3;
-    }
-
-    String checkToken = firstToken;
-    if (thirdToken != null) {
-      checkToken = thirdToken;
-    } else if (secondToken != null) {
-      checkToken = secondToken;
-    }
-
-    String lastToken = tokens[tokens.length - 1].getToken();
-    if (WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
-      // ignore trailing whitespace or quote
-      lastToken = tokens[tokens.length - 2].getToken();
-    }
-    
-    boolean preventError = false;
-    if (lastParagraphString.equals(",") || lastParagraphString.equals(";")) {
-      preventError = true;
-    }
-    if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !SENTENCE_END2.matcher(lastToken).matches()) {
-      preventError = true;
-    }
-    
-    lastParagraphString = lastToken;
-    
-    //allows enumeration with lowercase letters: a), iv., etc.
-    if (matchTokenPos+1 < tokens.length
-        && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
-        && (tokens[matchTokenPos+1].getToken().equals(".")
-         || tokens[matchTokenPos+1].getToken().equals(")"))) {
-      preventError = true;
-    }
-
-    if (isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
-      preventError = true;
-    }
-
-    if (checkToken.length() > 0) {
-      char firstChar = checkToken.charAt(0);
-      if (!preventError && Character.isLowerCase(firstChar)) {
-        RuleMatch ruleMatch = new RuleMatch(this,
-                tokens[matchTokenPos].getStartPos(),
-                tokens[matchTokenPos].getEndPos(),
-                messages.getString("incorrect_case"));
-        ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
-        ruleMatches.add(ruleMatch);
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+      if (tokens.length < 2) {
+        return toRuleMatchArray(ruleMatches);
       }
+      int matchTokenPos = 1; // 0 = SENT_START
+      AnalyzedTokenReadings firstTokenObj = tokens[matchTokenPos];
+      String firstToken = firstTokenObj.getToken();
+      String secondToken = null;
+      String thirdToken = null;
+      // ignore quote characters:
+      if (tokens.length >= 3 && QUOTE_START.matcher(firstToken).matches()) {
+        matchTokenPos = 2;
+        secondToken = tokens[matchTokenPos].getToken();
+      }
+      String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
+      if (firstDutchToken != null) {
+        thirdToken = firstDutchToken;
+        matchTokenPos = 3;
+      }
+
+      String checkToken = firstToken;
+      if (thirdToken != null) {
+        checkToken = thirdToken;
+      } else if (secondToken != null) {
+        checkToken = secondToken;
+      }
+
+      String lastToken = tokens[tokens.length - 1].getToken();
+      if (WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
+        // ignore trailing whitespace or quote
+        lastToken = tokens[tokens.length - 2].getToken();
+      }
+
+      boolean preventError = false;
+      if (lastParagraphString.equals(",") || lastParagraphString.equals(";")) {
+        preventError = true;
+      }
+      if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !SENTENCE_END2.matcher(lastToken).matches()) {
+        preventError = true;
+      }
+
+      lastParagraphString = lastToken;
+
+      //allows enumeration with lowercase letters: a), iv., etc.
+      if (matchTokenPos+1 < tokens.length
+              && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
+              && (tokens[matchTokenPos+1].getToken().equals(".")
+              || tokens[matchTokenPos+1].getToken().equals(")"))) {
+        preventError = true;
+      }
+
+      if (isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
+        preventError = true;
+      }
+
+      if (checkToken.length() > 0) {
+        char firstChar = checkToken.charAt(0);
+        if (!preventError && Character.isLowerCase(firstChar)) {
+          RuleMatch ruleMatch = new RuleMatch(this,
+                  pos+tokens[matchTokenPos].getStartPos(),
+                  pos+tokens[matchTokenPos].getEndPos(),
+                  messages.getString("incorrect_case"));
+          ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
+          ruleMatches.add(ruleMatch);
+        }
+      }
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -162,11 +166,6 @@ public class UppercaseSentenceStartRule extends Rule {
     return null;
   }
 
-  @Override
-  public void reset() {
-    lastParagraphString = "";
-  }
-  
   protected boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }

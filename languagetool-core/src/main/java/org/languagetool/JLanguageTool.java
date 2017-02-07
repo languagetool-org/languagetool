@@ -950,14 +950,28 @@ public class JLanguageTool {
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
             match.setColumn(range.from.column);
             match.setEndColumn(range.to.column);
             match.setLine(range.from.line);
             match.setEndLine(range.to.line);
+            if (annotatedText != null) {
+              int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
+              int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
+              RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+              newMatch.setLine(match.getLine());
+              newMatch.setEndLine(match.getEndLine());
+              newMatch.setColumn(match.getColumn());
+              newMatch.setEndColumn(match.getEndColumn());
+              newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+              adaptedMatches.add(newMatch);
+            } else {
+              adaptedMatches.add(match);
+            }
           }
-          ruleMatches.addAll(Arrays.asList(matches));
+          ruleMatches.addAll(adaptedMatches);
         }
       }
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {

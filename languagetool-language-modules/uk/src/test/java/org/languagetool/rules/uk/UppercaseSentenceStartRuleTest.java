@@ -34,13 +34,13 @@ public class UppercaseSentenceStartRuleTest {
 
   @Test
   public void testUkrainian() throws IOException {
-    final Ukrainian ukrainian = new Ukrainian();
-    final UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), ukrainian);
-    final JLanguageTool lt = new JLanguageTool(ukrainian);
+    Ukrainian ukrainian = new Ukrainian();
+    UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), ukrainian);
+    JLanguageTool lt = new JLanguageTool(ukrainian);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Автор написав це речення з великої літери.")).length);
+    assertEquals(0, rule.match(lt.analyzeText("Автор написав це речення з великої літери.")).length);
 
-    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("автор написав це речення з маленької літери."));
+    RuleMatch[] matches = rule.match(lt.analyzeText("автор написав це речення з маленької літери."));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
