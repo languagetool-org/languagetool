@@ -6083,6 +6083,72 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
+  <rulegroup id="COMMA_ETC" name="Regras de utilização de etc.">
+    <!--  Created by Tiago F. Santos, 30-01-2017 -->
+      <url>http://pt.wikihow.com/Usar-%22Etc.%22-Corretamente</url>
+    <rule>
+      <pattern>
+          <token>e</token>
+          <token>etc</token>
+          <token>.</token>
+      </pattern>
+      <message>'etc.' não deve ser precedido por 'e'.</message>
+        <suggestion>, etc.</suggestion>
+      <example correction=", etc.">Pode comer francezinhas, feijoada, quiche  <marker>e etc.</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token negate="yes" regexp='yes'>,|e</token>
+        <marker>
+          <token>etc</token>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <message>Deve-se utilizar a vírgula antes de 'etc.'.</message>
+        <suggestion>, etc.</suggestion>
+      <example correction=", etc.">Pode comer francezinhas, feijoada, quiche <marker>etc.</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>etc</token>
+          <token min='0'>.</token>
+          <token>…</token>
+      </pattern>
+      <message>'etc.' deixa em aberto a enumeração.</message>
+        <suggestion>etc.</suggestion>
+        <suggestion>…</suggestion>
+      <example correction="etc.|…">Pode comer francezinhas, feijoada, quiche, <marker>etc…</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>etc</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+      </pattern>
+      <message>'etc.' deixa em aberto a enumeração.</message>
+        <suggestion>etc.</suggestion>
+        <suggestion>…</suggestion>
+      <example correction="etc.|…">Pode comer francezinhas, feijoada, quiche, <marker>etc...</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>etc</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+      </antipattern>
+      <pattern>
+          <token>etc</token>
+          <token>.</token>
+          <token>.</token>
+      </pattern>
+      <message>'etc.' finaliza a frase sem o ponto final.</message>
+        <suggestion>etc.</suggestion>
+      <example correction="etc.">Pode comer francezinhas, feijoada, quiche, <marker>etc..</marker></example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
     <rule>
