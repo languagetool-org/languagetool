@@ -200,14 +200,14 @@ public class JLanguageToolTest {
     assertThat(ltEnglish.check("This is an test").size(), is(1));
     assertThat(cache.hitCount(), is(0L));
     assertThat(ltEnglish.check("This is an test").size(), is(1));
-    assertThat(cache.hitCount(), is(1L));
+    assertThat(cache.hitCount(), is(2L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
     assertTrue(ltGerman.check("This is an test").size() >= 3);
-    assertThat(cache.hitCount(), is(1L));
+    assertThat(cache.hitCount(), is(2L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
-    assertThat(cache.hitCount(), is(2L));
+    assertThat(cache.hitCount(), is(4L));
   }
 
   @Test
@@ -219,7 +219,15 @@ public class JLanguageToolTest {
 
     JLanguageTool ltWithCache = new JLanguageTool(new GermanyGerman(), null, cache);
     assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
-    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));  // rule that works on text level
+    assertThat(cache.hitCount(), is(0L));
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
+    assertThat(cache.hitCount(), is(2L));
+    assertThat(ltWithCache.check("Ein Delphin. Noch ein Delfin.").size(), is(1));
+    assertThat(cache.hitCount(), is(4L));
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));   // try again - no state is kept
+    assertThat(cache.hitCount(), is(8L));
+    assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
+    assertThat(cache.hitCount(), is(12L));
   }
 
 }

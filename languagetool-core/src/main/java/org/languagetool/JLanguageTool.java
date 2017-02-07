@@ -977,11 +977,21 @@ public class JLanguageTool {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
         try {
-          // Note: a cache could be used here, but it wouldn't work for rules that
-          // span sentence boundaries:
-          List<RuleMatch> sentenceMatches =
-                  checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                          columnCount, sentence, analyzedSentence, annotatedText);
+          List<RuleMatch> sentenceMatches = null;
+          InputSentence cacheKey = null;
+          if (cache != null) {
+            cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
+                    disabledRules, disabledRuleCategories,
+                    enabledRules, enabledRuleCategories);
+            sentenceMatches = cache.getIfPresent(cacheKey);
+          }
+          if (sentenceMatches == null) {
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, charCount, lineCount, columnCount,
+                    sentence, analyzedSentence, annotatedText);
+          }
+          if (cache != null) {
+            cache.put(cacheKey, sentenceMatches);
+          }
           ruleMatches.addAll(sentenceMatches);
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
