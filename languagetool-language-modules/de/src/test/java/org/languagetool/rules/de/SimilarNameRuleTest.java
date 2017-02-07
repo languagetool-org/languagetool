@@ -44,7 +44,6 @@ public class SimilarNameRuleTest {
   private void assertErrors(String input, int expectedMatches, SimilarNameRule rule, JLanguageTool lt) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     assertThat(rule.match(Collections.singletonList(sentence)).length, is(expectedMatches));
-    rule.reset();
   }
 
 }

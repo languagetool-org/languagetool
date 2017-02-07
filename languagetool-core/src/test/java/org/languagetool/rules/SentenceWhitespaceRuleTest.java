@@ -48,11 +48,9 @@ public class SentenceWhitespaceRuleTest {
 
   private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
     assertThat(languageTool.check(text).size(), is(0));
-    rule.reset();
   }
 
   private void assertBad(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
     assertThat(languageTool.check(text).size(), is(1));
-    rule.reset();
   }
 }
