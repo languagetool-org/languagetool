@@ -41,17 +41,23 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
-  private final String[] startSymbols;
-  private final String[] endSymbols;
   // The stack for pairing symbols:
   protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();
 
+  private final String[] startSymbols;
+  private final String[] endSymbols;
   private final Map<String,Boolean> uniqueMap = new HashMap<>();
   private final String ruleId;
-
-  protected Pattern numerals;
+  private final Pattern numerals;
 
   public GenericUnpairedBracketsRule(String ruleId, ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
+    this(ruleId, messages, startSymbols, endSymbols, NUMERALS_EN);
+  }
+
+  /**
+   * @since 3.7
+   */
+  public GenericUnpairedBracketsRule(String ruleId, ResourceBundle messages, List<String> startSymbols, List<String> endSymbols, Pattern numerals) {
     super(messages);
     this.ruleId = ruleId != null ? ruleId : "UNPAIRED_BRACKETS";
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
@@ -60,7 +66,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     }
     this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
     this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
-    numerals = NUMERALS_EN;
+    this.numerals = Objects.requireNonNull(numerals);
     uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
@@ -72,6 +78,13 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
    */
   public GenericUnpairedBracketsRule(ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
     this(null, messages, startSymbols, endSymbols);
+  }
+
+  /**
+   * @since 3.7
+   */
+  public GenericUnpairedBracketsRule(ResourceBundle messages, List<String> startSymbols, List<String> endSymbols, Pattern numerals) {
+    this(null, messages, startSymbols, endSymbols, numerals);
   }
 
   /**

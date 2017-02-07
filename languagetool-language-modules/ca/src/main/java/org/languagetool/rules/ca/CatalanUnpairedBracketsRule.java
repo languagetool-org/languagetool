@@ -40,8 +40,7 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       .compile("\\d+|[a-zA-Z]", Pattern.UNICODE_CASE);
   private static final Pattern NUMBER = Pattern.compile("\\d[\\d., ]+\\d|\\d{1,2}", Pattern.UNICODE_CASE);
 
-  public CatalanUnpairedBracketsRule(final ResourceBundle messages,
-      final Language language) {
+  public CatalanUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
   }
 
