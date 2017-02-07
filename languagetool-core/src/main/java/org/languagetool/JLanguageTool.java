@@ -731,11 +731,20 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
-    AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
-    if (language.getPostDisambiguationChunker() != null) {
-      language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+    SimpleInputSentence cacheKey = new SimpleInputSentence(sentence, language);
+    AnalyzedSentence cachedSentence = cache != null ? cache.getIfPresent(cacheKey) : null;
+    if (cachedSentence != null) {
+      return cachedSentence;
+    } else {
+      AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+      if (language.getPostDisambiguationChunker() != null) {
+        language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+      }
+      if (cache != null) {
+        cache.put(cacheKey, analyzedSentence);
+      }
+      return analyzedSentence;
     }
-    return analyzedSentence;
   }
 
   /**
@@ -954,21 +963,11 @@ public class JLanguageTool {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
         try {
-          List<RuleMatch> sentenceMatches = null;
-          InputSentence cacheKey = null;
-          if (cache != null) {
-            cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
-                             disabledRules, disabledRuleCategories,
-                             enabledRules, enabledRuleCategories);
-            sentenceMatches = cache.getIfPresent(cacheKey);
-          }
-          if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                                 columnCount, sentence, analyzedSentence, annotatedText);
-          }
-          if (cache != null) {
-            cache.put(cacheKey, sentenceMatches);
-          }
+          // Note: a cache could be used here, but it wouldn't work for rules that
+          // span sentence boundaries:
+          List<RuleMatch> sentenceMatches =
+                  checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
+                          columnCount, sentence, analyzedSentence, annotatedText);
           ruleMatches.addAll(sentenceMatches);
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);

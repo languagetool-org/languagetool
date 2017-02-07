@@ -20,7 +20,6 @@ package org.languagetool;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheStats;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
@@ -39,14 +38,15 @@ import java.util.concurrent.TimeUnit;
 @Experimental
 public class ResultCache {
 
-  private final Cache<InputSentence, List<RuleMatch>> cache;
+  private final Cache<InputSentence, List<RuleMatch>> matchesCache;
+  private final Cache<SimpleInputSentence, AnalyzedSentence> sentenceCache;
 
   /**
    * Create a cache that expires items 5 minutes after the latest read access.
    * @param maxSize maximum cache size in number of sentences
    */
   public ResultCache(long maxSize) {
-    cache = CacheBuilder.newBuilder().maximumSize(maxSize).recordStats().expireAfterAccess(5, TimeUnit.MINUTES).build();
+    this(maxSize, 5, TimeUnit.MINUTES);
   }
 
   /**
@@ -54,18 +54,35 @@ public class ResultCache {
    * @param expireAfter time to expire sentences from the cache after last read access 
    */
   public ResultCache(long maxSize, int expireAfter, TimeUnit timeUnit) {
-    cache = CacheBuilder.newBuilder().maximumSize(maxSize).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
+    matchesCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
+    sentenceCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
   }
   
-  public CacheStats stats() {
-    return cache.stats();
+  public double hitRate() {
+    return (matchesCache.stats().hitRate() + sentenceCache.stats().hitRate()) / 2.0;
+  }
+
+  public double requestCount() {
+    return matchesCache.stats().requestCount() + sentenceCache.stats().requestCount();
+  }
+
+  public long hitCount() {
+    return matchesCache.stats().hitCount() + sentenceCache.stats().hitCount();
   }
 
   public List<RuleMatch> getIfPresent(InputSentence key) {
-    return cache.getIfPresent(key);
+    return matchesCache.getIfPresent(key);
+  }
+
+  public AnalyzedSentence getIfPresent(SimpleInputSentence key) {
+    return sentenceCache.getIfPresent(key);
   }
 
   public void put(InputSentence key, List<RuleMatch> sentenceMatches) {
-    cache.put(key, sentenceMatches);
+    matchesCache.put(key, sentenceMatches);
+  }
+
+  public void put(SimpleInputSentence key, AnalyzedSentence aSentence) {
+    sentenceCache.put(key, aSentence);
   }
 }

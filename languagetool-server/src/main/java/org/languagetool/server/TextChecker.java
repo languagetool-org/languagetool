@@ -68,8 +68,7 @@ abstract class TextChecker {
     this.internalServer = internalServer;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
-    //this.cache = new ResultCache(1000);  // TODO: use as soon as special cases about TextLevelRules are handled properly
-    this.cache = null;
+    this.cache = new ResultCache(5000);  // TODO: make configurable
   }
 
   void shutdownNow() {
@@ -172,15 +171,11 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
                                          Language motherTongue, QueryParams params) throws Exception {
-    String sourceText = parameters.get("srctext");
-    if (cache != null) {
-      long cacheRequests = cache.stats().requestCount();
-      if (cacheRequests > 0 && cacheRequests % CACHE_STATS_PRINT == 0) {
-        double hitRate = cache.stats().hitRate();
-        String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
-        print("Cache stats: " + hitPercentage + "% hit rate, " + cache.stats());
-      }
+    if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
+      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
+      print("Cache stats: " + hitPercentage + "% hit rate");
     }
+    String sourceText = parameters.get("srctext");
     if (sourceText == null) {
       JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
       return lt.check(text);

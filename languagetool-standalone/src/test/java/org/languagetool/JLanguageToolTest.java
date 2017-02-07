@@ -198,16 +198,16 @@ public class JLanguageToolTest {
     ResultCache cache = new ResultCache(1000);
     JLanguageTool ltEnglish = new JLanguageTool(english, null, cache);
     assertThat(ltEnglish.check("This is an test").size(), is(1));
-    assertThat(cache.stats().hitCount(), is(0L));
+    assertThat(cache.hitCount(), is(0L));
     assertThat(ltEnglish.check("This is an test").size(), is(1));
-    assertThat(cache.stats().hitCount(), is(1L));
+    assertThat(cache.hitCount(), is(1L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
     assertTrue(ltGerman.check("This is an test").size() >= 3);
-    assertThat(cache.stats().hitCount(), is(1L));
+    assertThat(cache.hitCount(), is(1L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
-    assertThat(cache.stats().hitCount(), is(2L));
+    assertThat(cache.hitCount(), is(2L));
   }
 
   @Test
@@ -219,7 +219,7 @@ public class JLanguageToolTest {
 
     JLanguageTool ltWithCache = new JLanguageTool(new GermanyGerman(), null, cache);
     assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
-    //assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));  // TODO
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));  // rule that works on text level
   }
 
 }

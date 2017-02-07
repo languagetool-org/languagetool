@@ -334,7 +334,7 @@ public class HTTPServerTest {
         return "";
       } else {
         System.err.println("Got error from " + url + " (" + lang.getShortCodeWithCountryAndVariant() + ", " +
-                           text.length() + " chars): " + e.getMessage() + ", text was: '" + text + "'");
+                           text.length() + " chars): " + e.getMessage() + ", text was (" + text.length() +  " chars): '" + StringUtils.abbreviate(text, 100) + "'");
         return "";
       }
     }

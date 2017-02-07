@@ -41,7 +41,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
 
   private static final String DATA_PATH = "/media/Data/tatoeba/";
   private static final int MIN_TEXT_LENGTH = 1;
-  private static final int MAX_TEXT_LENGTH = 60_000;
+  private static final int MAX_TEXT_LENGTH = 5_000;
   private static final int MAX_SLEEP_MILLIS = 10;
 
   protected final Map<Language, String> langCodeToText = new HashMap<>();
@@ -88,7 +88,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     Language language = getRandomLanguage();
     String text = langCodeToText.get(language);
     int fromPos = random.nextInt(text.length());
-    int toPos = fromPos + random.nextInt(MAX_TEXT_LENGTH) + MIN_TEXT_LENGTH;
+    int toPos = fromPos + random.nextInt(MAX_TEXT_LENGTH-MIN_TEXT_LENGTH) + MIN_TEXT_LENGTH;
     String textSubstring = text.substring(fromPos, Math.min(toPos, text.length()));
     long sleepTime = random.nextInt(MAX_SLEEP_MILLIS);
     try {
