@@ -19,10 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,7 +75,7 @@ public abstract class WrongWordInContextRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    for (ContextWords contextWords: contextWordsSet) {
+    for (ContextWords contextWords : contextWordsSet) {
       boolean[] matchedWord = {false, false};
       Matcher[] matchers = {null, null};
       matchers[0] = contextWords.words[0].matcher("");
@@ -201,7 +198,7 @@ public abstract class WrongWordInContextRule extends Rule {
         } // if (column.length >= 6)
       }
     }
-    return set;
+    return Collections.unmodifiableList(set);
   }
   
   static class ContextWords {
