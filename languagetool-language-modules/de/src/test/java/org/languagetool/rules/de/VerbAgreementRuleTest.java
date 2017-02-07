@@ -37,13 +37,13 @@ import static org.junit.Assert.*;
  */
 public class VerbAgreementRuleTest {
 
+  private JLanguageTool lt;
   private VerbAgreementRule rule;
-  private JLanguageTool langTool;
   
   @Before
   public void setUp() throws IOException {
+    lt = new JLanguageTool(new German());
     rule = new VerbAgreementRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
   }
 
   @Test
@@ -200,11 +200,11 @@ public class VerbAgreementRuleTest {
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals(0, rule.match(lt.analyzeText(s)).length);
   }
 
   private void assertBad(String s, int n) throws IOException {
-    assertEquals(n, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals(n, rule.match(lt.analyzeText(s)).length);
   }
 
   private void assertBad(String s) throws IOException {
@@ -212,14 +212,14 @@ public class VerbAgreementRuleTest {
   }
 
   private void assertBad(String s, String expectedErrorSubstring) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
-    final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    assertEquals(1, rule.match(lt.analyzeText(s)).length);
+    final String errorMessage = rule.match(lt.analyzeText(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
   }
 
   private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.analyzeText(s));
     assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
