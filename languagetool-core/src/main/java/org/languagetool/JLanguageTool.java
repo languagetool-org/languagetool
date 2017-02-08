@@ -599,8 +599,7 @@ public class JLanguageTool {
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
       List<Rule> rules, int charCount, int lineCount,
-      int columnCount, String sentence, AnalyzedSentence analyzedSentence, AnnotatedText annotatedText)
-        throws IOException {
+      int columnCount, String sentence, AnalyzedSentence analyzedSentence, AnnotatedText annotatedText) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
@@ -617,10 +616,8 @@ public class JLanguageTool {
         continue;
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
-      for (RuleMatch element1 : thisMatches) {
-        RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            charCount, columnCount, lineCount, sentence, annotatedText);
-        sentenceMatches.add(thisMatch);
+      for (RuleMatch elem : thisMatches) {
+        sentenceMatches.add(elem);
       }
     }
     return new SameRuleGroupFilter().filter(sentenceMatches);
@@ -1000,7 +997,13 @@ public class JLanguageTool {
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
           }
-          ruleMatches.addAll(sentenceMatches);
+          List<RuleMatch> adaptedMatches = new ArrayList<>();
+          for (RuleMatch elem : sentenceMatches) {
+            RuleMatch thisMatch = adjustRuleMatchPos(elem,
+                    charCount, columnCount, lineCount, sentence, annotatedText);
+            adaptedMatches.add(thisMatch);
+          }
+          ruleMatches.addAll(adaptedMatches);
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
 
