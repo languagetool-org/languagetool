@@ -73,6 +73,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   public void handle(HttpExchange httpExchange) throws IOException {
     String text = null;
     String remoteAddress = null;
+    Map<String, String> parameters = new HashMap<>();
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
@@ -81,7 +82,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
-      Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
+      parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
@@ -141,27 +142,28 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = "Internal Error. Please contact the site administrator.";
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
-      logError(text, remoteAddress, e, errorCode, httpExchange);
+      logError(remoteAddress, e, errorCode, httpExchange, parameters);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
     }
   }
 
-  private void logError(String text, String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange) {
+  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params) {
     String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
-    if (text != null && remoteAddress != null) {
-      message += "Access from " + remoteAddress + ", text length " + text.length() + ". ";
-    }
+    message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
+    message += "language: " + params.get("language") + ", ";
+    message += "text length: " + params.get("text").length() + ", ";
     message += "Stacktrace follows:";
     print(message, System.err);
+    //noinspection CallToPrintStackTrace
+    e.printStackTrace();
+    String text = params.get("text");
     if (config.isVerbose() && text != null) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
     }
-    //noinspection CallToPrintStackTrace
-    e.printStackTrace();
   }
 
   private String getHttpUserAgent(HttpExchange httpExchange) {
