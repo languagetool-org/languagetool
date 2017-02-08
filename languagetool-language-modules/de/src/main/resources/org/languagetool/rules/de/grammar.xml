@@ -23285,7 +23285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">etwas|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">(et)?was|nichts|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -23311,7 +23311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">etwas|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes">(et)?was|nichts|alles|viel|wenig|genug</token>
                     <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht|echt</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
@@ -23342,9 +23342,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">(et)?was|viel</token>
-                    <token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
+                    <token postag="(PA[12]|ADJ):.*" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
                     <token regexp="yes">und|oder</token>
-                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
+                    <marker><token postag="(PA[12]|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
                     <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Das Wort '\4' scheint hier als Substantiv verwendet zu werden und ist deshalb großzuschreiben.</message>
