@@ -946,7 +946,13 @@ public class JLanguageTool {
     @Override
     public List<RuleMatch> call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      int i = 0;
+      ruleMatches.addAll(getTextLevelRuleMatches());
+      ruleMatches.addAll(getOtherRuleMatches());
+      return ruleMatches;
+    }
+
+    private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
+      List<RuleMatch> ruleMatches = new ArrayList<>();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
@@ -970,6 +976,12 @@ public class JLanguageTool {
           ruleMatches.addAll(adaptedMatches);
         }
       }
+      return ruleMatches;
+    }
+
+    private List<RuleMatch> getOtherRuleMatches() {
+      List<RuleMatch> ruleMatches = new ArrayList<>();
+      int i = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
         try {
