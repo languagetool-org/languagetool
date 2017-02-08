@@ -10519,6 +10519,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="A_COM_A" name="a com a">
+            <pattern>
+                <marker>
+                    <token>a<exception scope="previous" regexp="yes" inflected="yes">fins|remuntar|arribar</exception></token>
+                    <token>com</token>
+                    <token>a</token>
+                </marker>
+                <token><exception regexp="yes">mínim|màxim</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
+            <example correction="com a">És conegut <marker>a com a</marker> actor.</example>
+            <example>Es remunta a com a mínim el segle passat.</example>
+        </rule>
         <rule id="GIR_DE_360" name="gir de 360/180">
             <pattern>
                 <token>gir</token>
