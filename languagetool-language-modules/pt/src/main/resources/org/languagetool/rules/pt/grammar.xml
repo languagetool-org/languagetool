@@ -53,6 +53,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar|viver">
     <!ENTITY verbos_transitivos_diretos "abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar" >
 
+    <!ENTITY adj_nomes_paronimos_a "(ábsona|ábsono|acárida|acárido|ácaro|ácera|ácero|ácida|ácido|adágio|ádito|áfia|áfio|áfrica|áfrico|ágrafa|ágrafo|água|algália|álvidro|amálgama|amásia|amásio|análise|aniversário|apanágio|ápoda|ápode|ápodo|árbitra|árbitro|ária|árica|árico|árvore|áscua|ásia|ática|ático|átropa|átropo|ávila|áxila|azáfama|bálsamo|báscula|básculo|bátega|cábula|cádmio|cálamo|cálculo|cantárida|cantáride|cápsula|cárcere|cárdia|cárie|catálise|catálogo|comissária|comissário|contágio|contrária|contrário|dádiva|diálise|dicionário|eficácia|empresária|empresário|enxárcia|epigramática|epigramático|estádio|estágio|fábrica|fábula|falácia|gábia|gálica|gálico|gárrulo|gástrula|gázua|ginástica|ginástico|gládio|gramática|gramático|grávida|grávido|hábito|hálito|hemodiálise|hilária|hilário|inventário|jáculo|lácera|lácero|lágrima|lápida|lápide|larápia|larápio|lástima|látego|lázara|lázaro|mácula|máfia|mágica|mágico|mágoa|máscara|mático|mátria|pábulo|página|pálio|parágrafo|parálise|pária|páscoa|pátina|pátio|perdulária|perdulário|plácida|plácido|plácito|plágio|posfácio|prática|prático|prefácio|presságio|prontuário|psicanálise|rábano|rábia|rábida|rábido|rábula|rádio|ráfia|ressábio|sábia|sáculo|salário|sátura|secretária|secretário|selvática|selvático|subsecretária|subsecretário|sumária|sumário|tábula|tráfega|tráfego|tráfico|válida|válido|vária|viático|voluntária|voluntário)s?" >
+
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -7173,6 +7175,34 @@ tokenizer spreadsheet in the forum	     -->
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
+
+  <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (á)'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='PP.+'>
+            <exception regexp='yes'>nos|se</exception></token>
+          <token regexp='yes'>&adj_nomes_paronimos_a;</token>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion>\1 <match no="2" regexp_match="á" regexp_replace="a"/></suggestion>
+      <short>Nesta situação não se acentua o parónimo.</short>
+      <example correction='Ela ginastica'><marker>Ela ginástica</marker> com a bola de Pilates.</example>
+      <example correction='Eu calculo'><marker>Eu cálculo</marker> que não falte muito tempo.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&adj_nomes_paronimos_a;</token>
+          <token min='0' regexp='yes'>-|–|—</token>
+          <token postag_regexp='yes' postag='PP.+'/>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion><match no="1" regexp_match="á" regexp_replace="a"/>-\3</suggestion>
+      <short>Nesta situação não se acentua o parónimo.</short>
+      <example correction='Pratica-se'><marker>Prática-se</marker> em condições difíceis.</example>
+    </rule>
+  </rulegroup>
+
     <!-- 	  Rulegroup based on forum contribution by Enno		-->
     <!--  http://forum.languagetool.org/t/pt-suggest-substantive-instead-of-accent-less-verb-form/1165/6							-->
     <!--		TODO Write better examples		-->
