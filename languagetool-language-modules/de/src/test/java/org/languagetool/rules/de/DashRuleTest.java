@@ -52,12 +52,12 @@ public class DashRuleTest {
     assertBad("Die große Diäten- Erhöhungs-Manie kam dann doch.", lt);
   }
 
-  private void assertGood(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertGood(String text, JLanguageTool lt) throws IOException {
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
-  private void assertBad(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertBad(String text, JLanguageTool lt) throws IOException {
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

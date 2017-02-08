@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 
@@ -31,11 +32,8 @@ public class UppercaseSentenceStartRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    final JLanguageTool lt = new JLanguageTool(new German());
-    for (Rule rule : lt.getAllActiveRules()) {
-      lt.disableRule(rule.getId());
-    }
-    lt.enableRule("UPPERCASE_SENTENCE_START");
+    JLanguageTool lt = new JLanguageTool(new German());
+    TestTools.disableAllRulesExcept(lt, "UPPERCASE_SENTENCE_START");
     
     assertEquals(2, lt.check("etwas beginnen. und der auch nicht").size());
     

@@ -44,15 +44,15 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     MorfologikGermanyGermanSpellerRule rule =
           new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), new German());
-    JLanguageTool langTool = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new German());
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Hir nicht so ganz.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Hir nicht so ganz.")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Überall äußerst böse Umlaute!")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Überall äußerst böse Umlaute!")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
     
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("daß"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("daß"));
     assertEquals(1, matches.length);
     assertEquals("dass", matches[0].getSuggestedReplacements().get(0));
   }

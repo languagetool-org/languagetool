@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -36,6 +37,11 @@ public class WordCoherencyRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(new German());
 
+  @Before
+  public void before() throws IOException {
+    TestTools.disableAllRulesExcept(lt, "DE_WORD_COHERENCY");
+  }
+  
   @Test
   public void testRule() throws IOException {
     // correct sentences:
