@@ -963,7 +963,11 @@ public class JLanguageTool {
               RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
               newMatch.setLine(match.getLine());
               newMatch.setEndLine(match.getEndLine());
-              newMatch.setColumn(match.getColumn());
+              if (match.getLine() == 0) {
+                newMatch.setColumn(match.getColumn() + 1);
+              } else {
+                newMatch.setColumn(match.getColumn());
+              }
               newMatch.setEndColumn(match.getEndColumn());
               newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
               adaptedMatches.add(newMatch);
