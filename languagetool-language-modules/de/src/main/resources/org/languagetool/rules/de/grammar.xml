@@ -23287,7 +23287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes" case_sensitive="no">etwas|nichts|alles|viel|wenig|genug</token>
                     <marker>
-                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
                     <token><exception postag="SUB:NOM:SIN:NEU"/><exception postag="SUB:NOM:SIN:NEU:INF"/><exception postag="ADJ:.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -23304,6 +23304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Passendes">Ich brauche noch etwas <marker>passendes</marker> zum Anziehen.</example>
                 <example correction="Kluges">Bei dem Meeting wurde viel <marker>kluges</marker> gesagt.</example>
                 <example correction="Kluges">Bei dem Meeting wurde nur wenig <marker>kluges</marker> gesagt.</example>
+                <example correction="Bestimmtes">Suchst du etwas <marker>bestimmtes</marker>?</example>
                 <example>Die Kirche weist eine Sakristei aus der Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
                 <example>Es hat für viel positives öffentliches Aufsehen gesorgt.</example>
             </rule>
@@ -23337,6 +23338,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Schöne">Manches <marker>schöne</marker> war dabei.</example>
                 <example>Manches <marker>schöne</marker> Haus war dabei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(et)?was|viel</token>
+                    <token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
+                    <token regexp="yes">und|oder</token>
+                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
+                    <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Das Wort '\4' scheint hier als Substantiv verwendet zu werden und ist deshalb großzuschreiben.</message>
+                <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="'alles gute (Gute)' [Glückwunschformel]">
@@ -23404,33 +23418,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Erfundene">Alles <marker>erfundene</marker> ist wahr.</example>
                 <example correction="Gescheite">Alles <marker>gescheite</marker> ist schon gedacht worden.</example>
                 <example>Alles <marker>neu</marker> macht der Mai.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ETWAS_BESTIMMTES" name="etwas bestimmtes (Bestimmtes)">
-            <rule>
-                <pattern>
-                    <token regexp="yes">(et)?was</token>
-                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
-                    <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Das Wort '\2' scheint hier als Substantiv verwendet zu werden und ist deshalb großzuschreiben.</message>
-                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
-                <short>&prgk;.</short>
-                <example correction="Schönes">Ich kaufte etwas <marker>schönes</marker>.</example>
-                <example>Suchst du etwas <marker>Bestimmtes</marker>?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">(et)?was</token>
-                    <token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token>
-                    <token regexp="yes">und|oder</token>
-                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
-                    <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Das Wort '\4' scheint hier als Substantiv verwendet zu werden und ist deshalb großzuschreiben.</message>
-                <suggestion><match no="4" case_conversion="startupper"/></suggestion>
-                <short>&prgk;.</short>
-                <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZU_BUCHE" name="'zu buche (Buche) schlagen'">
