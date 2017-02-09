@@ -24,11 +24,16 @@
     care of them.
 
 #### Portuguese
-  * added and improved grammar and style rules
-  * false friends support added
-    - Portuguese to English (121 pairs)
-    - French to Portuguese pair (30 pairs)
-    - Spanish to Portuguese pairs (10 pairs)
+  * added and improved grammar and style rules, including:
+    - grammar: 'crase', pronomial colocations, and fragment detections
+    - style: repetitions and barbarism detection
+    - typography: chemical formulas, dash signs, and punctuation
+  * false friends support added:
+    - Portuguese to English (154 new pairs)
+    - Spanish to Portuguese (82 new pairs)
+    - French to Portuguese (49 new pairs)
+    - German to Portuguese (14 new pairs)
+    - Galician to Portuguese (8 new pairs)
   * spellchecking suggestions activated
 
 #### Russian
@@ -50,9 +55,9 @@
 #### Java API
   * Some deprecated methods have been removed.
   * A new class `ResultCache` has been added to speed up the LT server
-  * `EnglishRule`, `GermanRule`, `PortugueseRule`, `CatalanRule`, and `FrenchRule`
-    are now deprecated. These are empty abstract classes that never had any
-    real use. Rules that extend these classes will directly extend `Rule` or
+  * `EnglishRule`, `GermanRule`, `CatalanRule`, and `FrenchRule`are now 
+    deprecated. These are empty abstract classes that never had any real 
+    use. Rules that extend these classes will directly extend `Rule` or
     `TextLevelRule` in a future release.
   * All rules that work on the text level instead of the sentence level
     (e.g. word coherency) now extend `TextLevelRule` instead of `Rule`
