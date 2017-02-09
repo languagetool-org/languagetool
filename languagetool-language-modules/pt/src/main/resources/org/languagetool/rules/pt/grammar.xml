@@ -54,6 +54,8 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
     <!ENTITY verbos_transitivos_diretos "abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar" >
 
     <!ENTITY adj_nomes_paronimos_a "(ábsona|ábsono|acárida|acárido|ácaro|ácera|ácero|ácida|ácido|adágio|ádito|áfia|áfio|áfrica|áfrico|ágrafa|ágrafo|água|algália|álvidro|amálgama|amásia|amásio|análise|aniversário|apanágio|ápoda|ápode|ápodo|árbitra|árbitro|ária|árica|árico|árvore|áscua|ásia|ática|ático|átropa|átropo|ávila|áxila|azáfama|bálsamo|báscula|básculo|bátega|cábula|cádmio|cálamo|cálculo|cantárida|cantáride|cápsula|cárcere|cárdia|cárie|catálise|catálogo|comissária|comissário|contágio|contrária|contrário|dádiva|diálise|dicionário|eficácia|empresária|empresário|enxárcia|epigramática|epigramático|estádio|estágio|fábrica|fábula|falácia|gábia|gálica|gálico|gárrulo|gástrula|gázua|ginástica|ginástico|gládio|gramática|gramático|grávida|grávido|hábito|hálito|hemodiálise|hilária|hilário|inventário|jáculo|lácera|lácero|lágrima|lápida|lápide|larápia|larápio|lástima|látego|lázara|lázaro|mácula|máfia|mágica|mágico|mágoa|máscara|mático|mátria|pábulo|página|pálio|parágrafo|parálise|pária|páscoa|pátina|pátio|perdulária|perdulário|plácida|plácido|plácito|plágio|posfácio|prática|prático|prefácio|presságio|prontuário|psicanálise|rábano|rábia|rábida|rábido|rábula|rádio|ráfia|ressábio|sábia|sáculo|salário|sátura|secretária|secretário|selvática|selvático|subsecretária|subsecretário|sumária|sumário|tábula|tráfega|tráfego|tráfico|válida|válido|vária|viático|voluntária|voluntário)s?" >
+    <!ENTITY adj_nomes_paronimos_e "(acédia|acéquia|advérbio|almécega|amnésia|apréstamo|assédio|célebre|comédia|comércio|crédito|débito|décima|décimo|decrépita|decrépito|décupla|décuplo|descrédito|doméstica|doméstico|édito|émula|émulo|espécie|espéculo|estratégia|estrépito|exército|facécia|féria|galdéria|galdério|gaudério|gémula|hérnia|inércia|léria|média|médio|médica|médico|névoa|pérola|perpétua|perpétuo|pérvia|pilhéria|prédica|prélio|prévia|privilégio|récita|récova|régia|régulo|remémora|remémoro|rémora|réplica|revérbero|sécia|sécio|século|séria|série|sério|sérvia|telégrafo|tércia|tércio|térebra|término|tragédia|trépano|trépida|trépido|tréplica|végeta|végeto|venéfica|venéfico|vénera|vénero|vérmina|véstia)s?" >
+    <!ENTITY adj_nomes_paronimos_eh "(agência|cadência|clemência|compêndio|conferência|confidência|contingência|credência|diligência|eminência|estipêndio|evidência|experiência|gerência|impertinência|indulgência|influência|inteligência|irreverência|minudência|negligência|pendência|penitência|pestilência|potência|preferência|providência|prudência|querência|quintessência|referência|reminiscência|residência|reticência|reverência|silêncio|tangência|tendência|vilipêndio|vivência)s?" >
 
 ]>
 
@@ -7175,9 +7177,9 @@ tokenizer spreadsheet in the forum	     -->
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
-
   <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (á)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+      <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
       <pattern>
           <token postag_regexp='yes' postag='PP.+'>
@@ -7186,7 +7188,6 @@ tokenizer spreadsheet in the forum	     -->
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="á" regexp_replace="a"/></suggestion>
-      <short>Nesta situação não se acentua o parónimo.</short>
       <example correction='Ela ginastica'><marker>Ela ginástica</marker> com a bola de Pilates.</example>
       <example correction='Eu calculo'><marker>Eu cálculo</marker> que não falte muito tempo.</example>
     </rule>
@@ -7198,8 +7199,31 @@ tokenizer spreadsheet in the forum	     -->
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion><match no="1" regexp_match="á" regexp_replace="a"/>-\3</suggestion>
-      <short>Nesta situação não se acentua o parónimo.</short>
       <example correction='Pratica-se'><marker>Prática-se</marker> em condições difíceis.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (é)'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+      <short>Nesta situação não se acentua o parónimo.</short>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='PP.+'/>
+          <token regexp='yes'>&adj_nomes_paronimos_e;</token>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion>\1 <match no="2" regexp_match="é" regexp_replace="e"/></suggestion>
+      <example correction='Ele domestica'><marker>Ele doméstica</marker> cães bravos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&adj_nomes_paronimos_e;</token>
+          <token min='0' regexp='yes'>-|–|—</token>
+          <token postag_regexp='yes' postag='PP.+'/>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion><match no="1" regexp_match="é" regexp_replace="e"/>-\3</suggestion>
+      <example correction='Privilegio-te'><marker>Privilégio-te</marker> com os melhores serviços.</example>
     </rule>
   </rulegroup>
 
