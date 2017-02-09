@@ -50,7 +50,7 @@ public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
 
   public PortugueseReplaceRule2(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
-    super.setCategory(Categories.MISC.getCategory(messages));
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
                    Example.fixed("<marker>currículo</marker>"));
