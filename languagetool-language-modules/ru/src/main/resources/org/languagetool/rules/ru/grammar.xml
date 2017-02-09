@@ -200,6 +200,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rule id="zakonchit_школу" name="Опечатка «закончить/окончить»">
+            <pattern>
+		<token inflected="yes">закончить</token>
+                <token regexp="yes">школу|институт|университет|вуз|курсы|техникум|пту|училище|академию</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="закон(.*)"  regexp_replace="окон$1" /> <match no="2" /></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="окончил университет">В этом году он <marker>закончил университет</marker>.</example>
+        </rule>
+        
         <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
           <rule>
             <pattern>
@@ -9993,7 +10003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>При одушевленных существительных – пишем «контроль над». Вы имели в виду <suggestion>\1 над \3</suggestion>?</message>
                 <url>http://new.gramota.ru/spravka/trudnosti?layout=item&amp;id=36_161</url>
-                <short>Правильно «контроль над специалистами»</short>
+                <short>Правильно «контроль над кем-либо»</short>
                 <example correction="контроль над специалистами">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
                 <example>Осуществлять контроль над специалистами на предприятии.</example>
             </rule>   
