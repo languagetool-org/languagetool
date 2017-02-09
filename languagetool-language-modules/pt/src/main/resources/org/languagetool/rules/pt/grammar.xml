@@ -712,12 +712,15 @@ $Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
       <url>https://pt.wikipedia.org/wiki/Verbo_impessoal</url>
     <rule>
       <pattern>
+          <token postag='SENT_START'/>
+        <marker>
           <token inflected='yes' regexp='yes' postag_regexp='yes' postag='V....P.+'>fazer|ir|poder</token>
           <token min='0' max='3' postag_regexp='yes' postag='(D|R|C|Z).+'/>
           <token regexp='yes'>&expressoes_de_tempo;</token>
+        </marker>
       </pattern>
       <message>O verbo fazer permanece no singular, quando indica tempo.</message>
-        <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='2' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> <match no='3' include_skipped='all'/> \5</suggestion>
       <example correction='Faz muitos anos|Fá muitos anos'><marker>Fazem muitos anos</marker> que não a vejo.</example><!-- TODO Re-tag mesoclisis particles in synthesis dictionary (e.g. fá, fê) -->
       <example correction='Fez vinte e um anos|Fizera vinte e um anos|Fê vinte e um anos'><marker>Fizeram vinte e um anos</marker> que não a vejo.</example>
     </rule>
@@ -7184,8 +7187,7 @@ tokenizer spreadsheet in the forum	     -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='PP.+'>
-            <exception regexp='yes'>nos|se</exception></token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós</token>
           <token regexp='yes'>&adj_nomes_paronimos_a;</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -7196,7 +7198,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_a;</token>
-          <token min='0' regexp='yes'>-|–|—</token>
+          <token regexp='yes'>-|–|—</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
