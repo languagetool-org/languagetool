@@ -185,7 +185,7 @@ abstract class TextChecker {
       }
       print("Checking bilingual text, with source length " + sourceText.length() +
               " and target length " + text.length() + " (characters), source language " +
-              motherTongue + " and target language " + lang.getShortCodeWithCountryAndVariant());
+              motherTongue.getShortCodeWithCountryAndVariant() + " and target language " + lang.getShortCodeWithCountryAndVariant());
       JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
       JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
       List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
