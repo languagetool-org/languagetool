@@ -586,20 +586,13 @@ public class JLanguageTool {
     }
   }
 
-  List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
-      List<Rule> allRules, int charCount, int lineCount, int columnCount,
-      String sentence, AnalyzedSentence analyzedSentence) throws IOException {
-    return checkAnalyzedSentence(paraMode, allRules, charCount, lineCount, columnCount, sentence, analyzedSentence, null);
-  }
-  
   /**
    * This is an internal method that's public only for technical reasons, please use one
    * of the {@link #check(String)} methods instead. 
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
-      List<Rule> rules, int charCount, int lineCount,
-      int columnCount, String sentence, AnalyzedSentence analyzedSentence, AnnotatedText annotatedText) throws IOException {
+        List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
@@ -991,8 +984,8 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules, charCount, lineCount, columnCount,
-                    sentence, analyzedSentence, annotatedText);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules,
+                    analyzedSentence);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
