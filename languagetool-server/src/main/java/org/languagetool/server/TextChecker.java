@@ -175,23 +175,8 @@ abstract class TextChecker {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
     }
-    String sourceText = parameters.get("srctext");
-    if (sourceText == null) {
-      JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
-      return lt.check(text);
-    } else {
-      if (parameters.get("motherTongue") == null) {
-        throw new IllegalArgumentException("Missing 'motherTongue' parameter for bilingual checks");
-      }
-      print("Checking bilingual text, with source length " + sourceText.length() +
-              " and target length " + text.length() + " (characters), source language " +
-              motherTongue.getShortCodeWithCountryAndVariant() + " and target language " + lang.getShortCodeWithCountryAndVariant());
-      JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
-      JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
-              params.disabledRules, params.enabledRules, params.useEnabledOnly);
-      return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
-    }
+    JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
+    return lt.check(text);
   }
 
   @NotNull
