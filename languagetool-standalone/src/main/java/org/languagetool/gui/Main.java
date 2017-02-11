@@ -972,10 +972,8 @@ public final class Main {
 
   private static void printUsage() {
     System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-    System.out.println("    or java org.languagetool.gui.Main [file]");
     System.out.println("Parameters:");
     System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
-    System.out.println("    file:       a plain text file to load on startup");
   }
 
   private class ControlReturnTextCheckingListener extends KeyAdapter {
