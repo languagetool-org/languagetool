@@ -18,9 +18,6 @@
  */
 package org.languagetool.gui;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
@@ -67,7 +64,6 @@ public final class Main {
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
-  private static final int MAX_RECENT_FILES = 8;
 
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
@@ -87,18 +83,13 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
-  private SaveAsAction saveAsAction;
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
-  private File currentFile;
-  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
-  private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
-  private JMenu recentFilesMenu;
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JSplitPane splitPane;
@@ -162,25 +153,10 @@ public final class Main {
     return frame;
   }
 
-  private void updateTitle() {
-    StringBuilder sb = new StringBuilder();
-    if(currentFile != null) {
-      sb.append(currentFile.getName());
-      if(bom != null) {
-        sb.append(" (").append(bom.getCharsetName()).append(')');
-      }
-      sb.append(" - ");
-    }
-    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
-    frame.setTitle(sb.toString());
-  }
-
   private void createGUI() {
-    loadRecentFiles();
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
-    saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
     showResultAction = new ShowResultAction(true);
@@ -244,11 +220,6 @@ public final class Main {
     JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
-
-    JButton saveAsButton = new JButton(saveAsAction);
-    saveAsButton.setHideActionText(true);
-    saveAsButton.setFocusable(false);
-    toolbar.add(saveAsButton);
 
     JButton spellButton = new JButton(this.checkAction);
     spellButton.setHideActionText(true);
@@ -420,12 +391,6 @@ public final class Main {
     JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
-    fileMenu.add(saveAsAction);
-    recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
-    recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
-    fileMenu.add(recentFilesMenu);
-    updateRecentFilesMenu();
-    fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
     fileMenu.add(new QuitAction());
@@ -498,27 +463,6 @@ public final class Main {
     menuBar.add(grammarMenu);
     menuBar.add(helpMenu);
     return menuBar;
-  }
-
-  private void updateRecentFilesMenu() {
-    recentFilesMenu.removeAll();
-    String[] files = recentFiles.toArray(new String[recentFiles.size()]);
-    ArrayUtils.reverse(files);
-    for(String filename : files) {
-      recentFilesMenu.add(new RecentFileAction(new File(filename)));
-    }
-  }
-
-  private void loadRecentFiles() {
-    CircularFifoQueue<String> l = localStorage.loadProperty("recentFiles", CircularFifoQueue.class);
-    if(l != null) {
-      for(String name : l) {
-        File f = new File(name);
-        if(f.exists() && f.isFile()) {
-          recentFiles.add(name);
-        }
-      }
-    }
   }
 
   private void addLookAndFeelMenuItem(JMenu lafMenu,
@@ -1135,23 +1079,6 @@ public final class Main {
 
   }
 
-  class SaveAsAction extends AbstractAction {
-
-    SaveAsAction() {
-      super(getLabel("guiMenuSaveAs"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveAsShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveAsLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_saveas.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_saveas.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      //saveFile(true);
-    }
-  }
-
   class CheckClipboardAction extends AbstractAction {
 
     CheckClipboardAction() {
@@ -1354,29 +1281,6 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       JTextComponent component = getFocusedComponent();
       component.selectAll();
-    }
-  }
-
-  class RecentFileAction extends AbstractAction {
-
-    private final File file;
-
-    RecentFileAction(File file) {
-      super(file.getName());
-      this.file = file;
-      putValue(Action.SHORT_DESCRIPTION, file.getAbsolutePath());
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      if(file.exists()) {
-        //loadFile(file);
-      } else {
-        JOptionPane.showMessageDialog(frame, messages.getString("guiFileNotFound"),
-                messages.getString("dialogTitleError"), JOptionPane.ERROR_MESSAGE);
-        recentFiles.remove(file.getAbsolutePath());
-        updateRecentFilesMenu();
-      }
     }
   }
 
