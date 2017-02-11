@@ -18101,6 +18101,22 @@ USA
             <example correction="">The <marker>security protection software</marker> we offer is the state-of-the art achievement.</example>
             <example>The security software we offer is the state-of-the art achievement.</example>
         </rule>
+        <rule id="POSSIBILTY_POSSIBLE" name="Style: 'possible' after 'possibility'"><!-- https://github.com/languagetool-org/languagetool/issues/540 -->
+            <pattern>
+                <marker>
+                    <token skip="-1" inflected="yes">possibility</token>
+                </marker>
+                <token>possible</token>
+            </pattern>
+            <message>Bad style. Before '\2', use a word such as <suggestion><match no="1" postag="NN.*">chance</match></suggestion> or <suggestion><match no="1" postag="NN.*">opportunity</match></suggestion>. Alternatively, keep '\1' and remove '\2'.</message>
+            <short>Bad style: possibility… possible</short>
+            <example correction="chance|opportunity">I did not have a <marker>possibility</marker> to check for possible errors.</example>
+            <example correction="chance|opportunity">A <marker>possibility</marker> for possible errors exist.</example>
+            <example correction="chances|opportunities">You should remove all <marker>possibilities</marker> for these possible errors.</example>
+            <example>I did not have a <marker>chance to check for possible</marker> errors.</example>
+            <example>I did not have a <marker>possibility to check for</marker> errors.</example>
+            <example>There is a <marker>possible possibility</marker> that errors exist.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
