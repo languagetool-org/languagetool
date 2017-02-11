@@ -20,7 +20,6 @@ package org.languagetool.gui;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
@@ -45,7 +44,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.List;
 
@@ -89,7 +87,6 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
-  private SaveAction saveAction;
   private SaveAsAction saveAsAction;
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
@@ -110,32 +107,6 @@ public final class Main {
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
-  }
-
-  private void saveFile(boolean newFile) {
-    if (currentFile == null || newFile) {
-      JFileChooser jfc = new JFileChooser();
-      jfc.setFileFilter(new PlainTextFileFilter());
-      jfc.showSaveDialog(frame);
-
-      File file = jfc.getSelectedFile();
-      if (file == null) {  // user clicked cancel
-        return;
-      }
-      currentFile = file;
-      bom = null;
-      updateTitle();
-    }
-    try {
-      if(bom != null) {
-        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
-        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
-      } else {
-        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
-      }
-    } catch (IOException ex) {
-      Tools.showError(ex);
-    }
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
@@ -209,7 +180,6 @@ public final class Main {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
-    saveAction = new SaveAction();
     saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
@@ -274,11 +244,6 @@ public final class Main {
     JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
-
-    JButton saveButton = new JButton(saveAction);
-    saveButton.setHideActionText(true);
-    saveButton.setFocusable(false);
-    toolbar.add(saveButton);
 
     JButton saveAsButton = new JButton(saveAsAction);
     saveAsButton.setHideActionText(true);
@@ -455,7 +420,6 @@ public final class Main {
     JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
-    fileMenu.add(saveAction);
     fileMenu.add(saveAsAction);
     recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
     recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
@@ -1171,24 +1135,6 @@ public final class Main {
 
   }
 
-  class SaveAction extends AbstractAction {
-
-    SaveAction() {
-      super(getLabel("guiMenuSave"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
-      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_save.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_save.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      saveFile(false);
-    }
-  }
-
   class SaveAsAction extends AbstractAction {
 
     SaveAsAction() {
@@ -1202,7 +1148,7 @@ public final class Main {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      saveFile(true);
+      //saveFile(true);
     }
   }
 
