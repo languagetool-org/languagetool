@@ -7258,6 +7258,30 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
+  <rulegroup id='PARONYM_EH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (ê)'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+      <short>Nesta situação não se acentua o parónimo.</short>
+    <rule>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>&adj_nomes_paronimos_eh;</token>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion>\1 <match no="2" regexp_match="[Êê]" regexp_replace="e"/></suggestion>
+      <example correction='Ele influencia'><marker>Ele influência</marker> quem o rodeio.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&adj_nomes_paronimos_eh;</token>
+          <token regexp='yes'>-|–|—</token>
+          <token postag_regexp='yes' postag='PP.+'/>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion><match no="1" regexp_match="[Êê]" regexp_replace="e"/>-\3</suggestion>
+      <example correction='providencia-se'>Sendo quem é, <marker>providência-se</marker> essa atenção.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (í)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
