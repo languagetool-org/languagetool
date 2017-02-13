@@ -25,11 +25,13 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -130,10 +132,12 @@ abstract class TextChecker {
         }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
+        Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString(): "(unknown)";
         throw new RuntimeException("Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
                 " milliseconds (cancelled: " + cancelled +
                 ", language: " + lang.getShortCodeWithCountryAndVariant() +
-                ", " + text.length() + " characters of text)", e);
+                ", " + text.length() + " characters of text, system load: " + loadInfo + ")", e);
       }
     }
 
