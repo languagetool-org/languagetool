@@ -28,6 +28,8 @@ public final class Categories {
   /** Words that are easily confused, like 'there' and 'their' in English. */
   public static final Categories CONFUSED_WORDS = make("CONFUSED_WORDS", "category_confused_words");
 
+  public static final Categories REPETITIONS = make("REPETITIONS", "category_repetitions");
+
   public static final Categories REDUNDANCY = make("REDUNDANCY", "category_redundancy");
 
   /** General style issues not covered by other categories, like overly verbose wording. */

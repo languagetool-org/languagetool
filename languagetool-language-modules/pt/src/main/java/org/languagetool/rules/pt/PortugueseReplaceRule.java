@@ -20,6 +20,7 @@ package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public PortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>device</marker>"),
                    Example.fixed("<marker>dispositivo</marker>"));
