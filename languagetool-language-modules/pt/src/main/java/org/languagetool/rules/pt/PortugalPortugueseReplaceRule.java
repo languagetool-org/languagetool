@@ -19,7 +19,6 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
