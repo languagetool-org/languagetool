@@ -6252,7 +6252,7 @@ and tokenizer spreadsheet from the forum        -->
 
 </category>
 
- <category id='DUPLICATION' name='Repetições' type='duplication'>
+ <category id='REPETITIONS' name='Repetições' type='duplication'>
 
     <rule id="CONJUNCTION_REPETITION" name="Repetição de conjunções" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
@@ -7207,6 +7207,30 @@ tokenizer spreadsheet in the forum	     -->
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion><match no="1" regexp_match="[Áá]" regexp_replace="a"/>-\3</suggestion>
       <example correction='Pratica-se'><marker>Prática-se</marker> em condições difíceis.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='PARONYM_AH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (â)'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+      <short>Nesta situação não se acentua o parónimo.</short>
+    <rule>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jactância|manigância|pânria|substância</token>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion>\1 <match no="2" regexp_match="[Ââ]" regexp_replace="a"/></suggestion>
+      <example correction='Ele distancia'><marker>Ele distância</marker> quem o pode ajudar.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jactância|manigância|pânria|substância</token>
+          <token regexp='yes'>-|–|—</token>
+          <token postag_regexp='yes' postag='PP.+'/>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion><match no="1" regexp_match="[Ââ]" regexp_replace="a"/>-\3</suggestion>
+      <example correction='Substancia-se'>Isto <marker>substância-se</marker> em algo muito significativo.</example>
     </rule>
   </rulegroup>
 
