@@ -7197,7 +7197,7 @@ tokenizer spreadsheet in the forum	     -->
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
-  <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (á)'>
+  <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7222,7 +7222,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_AH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (â)'>
+  <rulegroup id='PARONYM_AH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (â)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7246,7 +7246,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (é)'>
+  <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (é)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7270,7 +7270,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_EH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (ê)'>
+  <rulegroup id='PARONYM_EH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ê)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7294,7 +7294,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (í)'>
+  <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (í)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7318,7 +7318,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_O_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (ó)'>
+  <rulegroup id='PARONYM_O_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ó)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -7342,7 +7342,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-  <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado lugar do verbo (ú)'>
+  <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ú)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua o parónimo.</short>
     <rule>
@@ -14064,6 +14064,136 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+ </category>
+
+ <category id="REGISTERED_BRANDS" name="Regras de Marcas e Termos Registados">
+    <!-- Localized from French grammar.xml byt Tiago F. Santos, 30-01-2017 -->
+    <rule id="UBUNTU" name="Ubuntu-16.10 → Ubuntu-16.10">
+      <pattern>
+          <token regexp="yes">([klx]|ed)?ubuntu</token>
+          <token>-</token>
+          <token regexp="yes">\d\d</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">\d</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>\1\2\3.0\5</suggestion>?</message>
+      <example correction="xubuntu-12.04">Instalei o <marker>xubuntu-12.4</marker>.</example>
+    </rule>
+    <rule id="X86" name="X86 → x86">
+      <pattern>
+          <token case_sensitive="yes" regexp="yes">X86(?:[-_]64)?</token>
+      </pattern>
+      <message>Pretende dizer <suggestion><match no="1" case_conversion="startlower"/></suggestion>?</message>
+      <example correction="x86">Necessita do conjunto de instruções <marker>X86</marker>.</example>
+      <example correction="x86_64">Processador <marker>X86_64</marker>.</example>
+    </rule>
+    <rule id="SQLITE" name="SQLite">
+      <pattern>
+          <token>sql</token>
+          <token>-</token>
+          <token regexp="yes">l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
+      </pattern>
+      <message>Pretende dizer <suggestion>SQLite</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/SQLite</url>
+      <example correction="SQLite">O Android utiliza <marker>SQL-lite</marker>.</example>
+    </rule>
+  <rulegroup id="OPENGL" name="OpenGL">
+      <url>https://pt.wikipedia.org/wiki/OpenGL</url>
+    <rule>
+      <pattern>
+          <token regexp="yes">Open|Web</token>
+          <token>GL</token>
+      </pattern>
+      <message>Escreva <suggestion><match no="1" case_conversion="startupper"/>GL</suggestion>.</message>
+      <example correction="OpenGL">A biblioteca <marker>Open GL</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">(?:Open|Web)Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
+      </pattern>
+      <message>Escreva <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>GL</suggestion>.</message>
+      <example correction="OpenGL">A biblioteca <marker>OpenGl</marker>.</example>
+      <example correction="OpenGL">A biblioteca <marker>opengl</marker>.</example>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OPENCL" name="OpenGL">
+      <url>https://pt.wikipedia.org/wiki/OpenCL</url>
+    <rule>
+      <pattern>
+          <token regexp="yes">Open|Web</token>
+          <token>CL</token>
+      </pattern>
+      <message>Escreva <suggestion><match no="1" case_conversion="startupper"/>CL</suggestion>.</message>
+      <example correction="OpenCL"><marker>Open CL</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">(?:Open|Web)Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
+      </pattern>
+      <message>Escreva <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>CL</suggestion>.</message>
+      <example correction="OpenCL"><marker>OpenCl</marker>.</example>
+    </rule>
+  </rulegroup>
+    <rule id="WINDOWS" name="Window → Windows">
+      <pattern>
+        <marker><token>Window</token></marker>
+          <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>Windows</suggestion> (sistema operativo)?</message>
+      <url>https://pt.wikipedia.org/wiki/Windows</url>
+      <example correction="Windows"><marker>Window</marker> Vista bloqueia o tempo todo.</example>
+    </rule>
+    <rule id="X_WINDOW" name="X Window">
+      <pattern>
+          <token case_sensitive="yes">X</token>
+          <token>Windows</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>X Window</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/X_Toolkit</url>
+      <example correction="X Window">Foi o MIT que publicou a primeira versão do <marker>X Windows</marker> em junho de 1984.</example>
+    </rule>
+  <rulegroup id="POST-IT" name="Post-it">
+    <rule>
+      <pattern>
+          <token regexp="yes">posts?</token>
+          <token min='0' regexp='yes'>[-‑‐]</token>
+          <token regexp='yes'>its?</token>
+      </pattern>
+      <message>Post-it é uma marca específica. Utilize:</message>
+        <suggestion>papel adesivo</suggestion>
+      <example correction="papel adesivo"><marker>post-it</marker></example>
+      <example><marker>papel adesivo</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">posts?</token>
+          <token regexp="yes">its?</token>
+      </pattern>
+      <message>Post-it é uma marca específica. Utilize:</message>
+        <suggestion>papel adesivo</suggestion>
+      <example correction="papel adesivo"><marker>post it</marker></example>
+    </rule>
+  </rulegroup>
+    <rule id="KLEENEX" name="Kleenex">
+      <pattern>
+          <token>kleenex</token>
+      </pattern>
+      <message>Kleenex é uma marca específica.</message>
+        <suggestion>lenço</suggestion>
+        <suggestion>lenço de papel</suggestion>
+      <example correction="lenço|lenço de papel"><marker>kleenex</marker></example>
+    </rule>
+    <rule id="X_ACTO" name="X-Acto">
+      <pattern>
+          <token>x</token>
+          <token min='0' regexp='yes'>[-‑‐]</token>
+          <token regexp='yes'>ac?tos?</token>
+      </pattern>
+      <message>X-Acto é uma marca específica.</message>
+        <suggestion>decapador</suggestion>
+      <example correction="decapador"><marker>x-acto</marker></example>
+    </rule>
+    <!--  End of French grammar.xml adaptation  -->
  </category>
 
  <category id="SEMANTICS" name="Semântica" type="inconsistency">
