@@ -29761,6 +29761,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="KOMMA_VOR_UND_ODER" name="Fehlerhaftes Komma vor 'und' oder 'oder'">
                 <antipattern>
+                    <token regexp="yes">„|»|«|"</token>
+                    <token/>
+                    <token>,</token>
+                    <token>und</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token>,</token>
+                    <token>und</token>
+                </antipattern>
+                <antipattern>
                     <token>,</token>
                     <token>oder</token>
                     <token regexp="yes">\.|\?|!|\)|“|»|«|"</token>
@@ -29973,7 +29985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
-                    <token postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token postag="VER:(MOD|INF):.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="VER:MOD:.*" postag_regexp="yes">
@@ -30197,6 +30209,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>wenn</token>
                 </antipattern>
                 <antipattern>
+                    <token>sobald</token>
+                    <token regexp="yes">als|wie</token>
+                    <token>möglich</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">aber|gerade|sondern|auch</token>
                     <token>weil</token>
                 </antipattern>
@@ -30390,6 +30407,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3]:.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
+                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                        <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="VER:AUX:.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+                </antipattern>
+                <antipattern>
                     <token postag="(VER:(AUX|MOD):[1-3]:.*)" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -30488,7 +30512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dem|den
-                        <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
+                        <exception scope="next" postag="EIG:.*|NEG:.*|ABK:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="PA1.*|PA2.*|ADJ:.*" postag_regexp="yes"/>
