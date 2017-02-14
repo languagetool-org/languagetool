@@ -34,7 +34,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    langTool = new JLanguageTool(new Romanian());
+    lt = new JLanguageTool(new Romanian());
     rule = new CompoundRule(TestTools.getMessages("ro"));
   }
 

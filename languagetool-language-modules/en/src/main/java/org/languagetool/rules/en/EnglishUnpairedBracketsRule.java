@@ -28,6 +28,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.SymbolLocator;
+import org.languagetool.rules.UnsyncStack;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
@@ -52,7 +54,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   @Override
   protected boolean isNoException(String tokenStr,
       AnalyzedTokenReadings[] tokens, int i, int j, boolean precSpace,
-      boolean follSpace) {
+      boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
 
     //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
     //and mark up as contractions somehow
@@ -71,7 +73,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       }
     }
 
-    boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
+    boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);
     if (superException) {
       return false;
     }
@@ -79,8 +81,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (!precSpace && follSpace || tokens[i].isSentenceEnd()) {
       // exception for English inches, e.g., 20"
       AnalyzedTokenReadings prevToken = tokens[i - 1];
-      if ("\"".equals(tokenStr))
-           {
+      if ("\"".equals(tokenStr)) {
         if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {
           return true;
         } else if (NUMBER.matcher(prevToken.getToken()).matches()) {

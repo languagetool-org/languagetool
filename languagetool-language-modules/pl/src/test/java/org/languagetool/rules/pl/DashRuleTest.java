@@ -21,18 +21,12 @@ package org.languagetool.rules.pl;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
-import org.languagetool.rules.AbstractCompoundRule;
-import org.languagetool.rules.AbstractCompoundRuleTest;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.pl.DashRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

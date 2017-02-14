@@ -36,7 +36,7 @@ import java.util.*;
  * @author Daniel Naber
  * @since 2.7
  */
-public abstract class AbstractWordCoherencyRule extends Rule {
+public abstract class AbstractWordCoherencyRule extends TextLevelRule {
 
   /**
    * Maps words in both directions, e.g. "aufwendig -&gt; aufwändig" and "aufwändig -&gt; aufwendig".
@@ -49,45 +49,43 @@ public abstract class AbstractWordCoherencyRule extends Rule {
    */
   protected abstract String getMessage(String word1, String word2);
   
-  private final Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
-
   public AbstractWordCoherencyRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
   
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    for (AnalyzedTokenReadings tmpToken : tokens) {
-      String token = tmpToken.getToken();
-      List<AnalyzedToken> readings = tmpToken.getReadings();
-      // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
-      if (readings.size() > 0) {
-        String baseform = readings.get(0).getLemma();
-        if (baseform != null) {
-          token = baseform;
+    Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      for (AnalyzedTokenReadings tmpToken : tokens) {
+        String token = tmpToken.getToken();
+        List<AnalyzedToken> readings = tmpToken.getReadings();
+        // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
+        if (readings.size() > 0) {
+          String baseform = readings.get(0).getLemma();
+          if (baseform != null) {
+            token = baseform;
+          }
+        }
+        if (shouldNotAppearWord.containsKey(token)) {
+          RuleMatch otherMatch = shouldNotAppearWord.get(token);
+          String otherSpelling = otherMatch.getMessage();
+          String msg = getMessage(token, otherSpelling);
+          RuleMatch ruleMatch = new RuleMatch(this, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
+          ruleMatch.setSuggestedReplacement(otherSpelling);
+          ruleMatches.add(ruleMatch);
+        } else if (getWordMap().containsKey(token)) {
+          String shouldNotAppear = getWordMap().get(token);
+          RuleMatch potentialRuleMatch = new RuleMatch(this, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
+          shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
         }
       }
-      if (shouldNotAppearWord.containsKey(token)) {
-        RuleMatch otherMatch = shouldNotAppearWord.get(token);
-        String otherSpelling = otherMatch.getMessage();
-        String msg = getMessage(token, otherSpelling);
-        RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), msg);
-        ruleMatch.setSuggestedReplacement(otherSpelling);
-        ruleMatches.add(ruleMatch);
-      } else if (getWordMap().containsKey(token)) {
-        String shouldNotAppear = getWordMap().get(token);
-        RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), token);
-        shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
-      }
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
-    shouldNotAppearWord.clear();
   }
 
 }

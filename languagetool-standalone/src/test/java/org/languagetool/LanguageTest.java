@@ -51,6 +51,13 @@ public class LanguageTest {
   }
 
   @Test
+  public void testEquals() {
+    assertEquals(new GermanyGerman(), new GermanyGerman());
+    assertNotEquals(new AustrianGerman(), new GermanyGerman());
+    assertNotEquals(new AustrianGerman(), new German());
+  }
+
+  @Test
   public void testEqualsConsiderVariantIfSpecified() {
     // every language equals itself:
     assertTrue(new German().equalsConsiderVariantsIfSpecified(new German()));

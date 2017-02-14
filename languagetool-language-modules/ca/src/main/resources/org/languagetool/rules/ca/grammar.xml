@@ -9781,7 +9781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">unè|dosè|tresè|quatrè</token>
                 </marker>
             </pattern>
-            <message>Numeral incomplet</message>
+            <message>Numeral incomplet.</message>
             <suggestion>cent \2</suggestion>
             <suggestion>mil \2</suggestion>
             <example correction="cent unè|mil unè"><marker>unè</marker> president</example>
@@ -9792,6 +9792,104 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="PROJECTO" name="projecto/projecte">
+            <pattern>
+                 <marker>
+                     <token>projecto<exception scope="previous" postag="P[RT].*|C.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">la|hi|em</exception></token>
+                 </marker>
+                 <token><exception postag="D.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Si és un nom, cal dir <suggestion>Projecte</suggestion></message>
+            <example correction="Projecte">És el <marker>Projecto</marker> Castor.</example>
+            <example>Em projecto cap al futur.</example>
+            <example>La projecto cap a fora.</example>
+            <example>El castell que projecto.</example>
+            <example>Projecto certa simpatia.</example>
+        </rule>
+        <rule id="QUINS_QUINES" name="*quins/quines són les">
+            <pattern>
+                <marker>
+                    <token>quins</token>
+                </marker>
+                <token max="3" postag="V.*" postag_regexp="yes"></token>
+                <token>les</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>quines</suggestion>
+            <example correction="Quines"><marker>Quins</marker> poden haver estat les causes?</example>
+        </rule>
+        <rule id="AQUESTS_AQUESTES" name="*aquests/aquestes són les">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="DD0MP0"/>
+                </marker>
+                <token max="2" postag="V.*" postag_regexp="yes"></token>
+                <token inflected="yes">ser</token>
+                <token>les</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion><match no="2" postag="DD.*" postag_regexp="yes" postag_replace="DD0FP0"/></suggestion>
+            <example correction="Aquestes"><marker>Aquests</marker> poden haver estat les causes?</example>
+            <example correction="Estes"><marker>Estos</marker> poden haver estat les causes?</example>
+            <example>D'aquests són les zones més riques.</example>
+        </rule>
+        <rule id="VOLGUES_VOLDRIA" name="*Volgués/Voldria dir">
+            <antipattern>
+                <marker>
+                    <token postag="P[RT].*|CS" postag_regexp="yes" skip="10"/>
+                    <token>volgués</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="P[RT].*|CS" postag_regexp="yes" skip="10"/>
+                    <token skip="10">volgués</token>
+                    <token>volgués</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>volgués</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>voldria</suggestion>
+            <example correction="Voldria"><marker>Volgués</marker> intervenir a favor de l'acusat.</example>
+            <example>Qualsevol heroi que volgués combatre.</example>
+            <example>Qualsevol heroi que volgués combatre i després volgués córrer.</example>
+        </rule>
+        <rule id="GENS_EN_COMU" name="*gens en comú">
+            <pattern>
+                <token>gens</token>
+                <token>en</token>
+                <token>comú</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>res en comú</suggestion>
+            <example correction="res en comú">No tenen <marker>gens en comú</marker>.</example>
+        </rule>
+        <rule id="DEL_COM" name="del com/del qual">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>l</token>
+                <token>com</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>del qual</suggestion>
+            <suggestion>de la qual</suggestion>
+            <suggestion>de com</suggestion>
+            <example correction="del qual|de la qual|de com">El camí per mitjà <marker>del com</marker> hi arribarem.</example>
+            <example>Volia explicacions del com.</example>
+            <example>Volia explicacions del com i del perquè.</example>
+        </rule>
         <rule id="ALGUNA_COSA_QUE" name="*alguna cosa que/cosa que" default="off">
             <antipattern>
                 <marker>
@@ -9919,7 +10017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 \3</suggestion>
             <example correction="qualsevol altre">De <marker>qualsevol un altre</marker>.</example>
         </rule>
-        <rulegroup id="ELECTE_ELEGIT" name="confusion of bed/bad">
+        <rulegroup id="ELECTE_ELEGIT" name="electe/elegit">
             <rule>
                 <pattern>
                     <token inflected="yes">ser</token>
@@ -10421,6 +10519,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="A_COM_A" name="a com a">
+            <pattern>
+                <marker>
+                    <token>a<exception scope="previous" regexp="yes" inflected="yes">fins|remuntar|arribar</exception></token>
+                    <token>com</token>
+                    <token>a</token>
+                </marker>
+                <token><exception regexp="yes">mínim|màxim</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
+            <example correction="com a">És conegut <marker>a com a</marker> actor.</example>
+            <example>Es remunta a com a mínim el segle passat.</example>
+        </rule>
         <rule id="GIR_DE_360" name="gir de 360/180">
             <pattern>
                 <token>gir</token>
@@ -32729,7 +32840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Van apujar les taxes.</example>
             </rule>
         </rulegroup>
-        <rule id="DESAFORAT" name="confusion of bed/bad">
+        <rule id="DESAFORAT" name="*desaforat/desmesurat">
             <pattern>
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">desaforar<exception postag="_GV_" /></token>
             </pattern>
@@ -33649,6 +33760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token postag="_reflexiu"/>
                         </and>
                     </marker>
+                    <token min="0">en</token>
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
@@ -33664,6 +33776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" postag="V.[NP].*" postag_regexp="yes">tornar</token>
                     </marker>
+                    <token min="0">en</token>
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>

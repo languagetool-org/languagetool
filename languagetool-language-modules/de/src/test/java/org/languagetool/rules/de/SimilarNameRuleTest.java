@@ -19,11 +19,13 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -40,8 +42,8 @@ public class SimilarNameRuleTest {
   }
 
   private void assertErrors(String input, int expectedMatches, SimilarNameRule rule, JLanguageTool lt) throws IOException {
-    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(expectedMatches));
-    rule.reset();
+    AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
+    assertThat(rule.match(Collections.singletonList(sentence)).length, is(expectedMatches));
   }
 
 }

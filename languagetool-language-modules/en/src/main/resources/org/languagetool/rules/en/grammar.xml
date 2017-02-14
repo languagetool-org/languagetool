@@ -11155,6 +11155,12 @@ USA
             <example correction="many ways">... which is right in <marker>many way</marker>.</example>
             <example>The state legislature gerrymandered the few Birmingham legislative seats.</example>
             <example>A few work as technical writers, others don't.</example>
+<!-- False negative --><example><marker>Many cares</marker> for her.</example><!-- Refer to http://forum.languagetool.org/t/en-false-positive-aggreement-error/1210 -->
+<!-- False negative --><example>Not that <marker>many cares</marker>, but it started as a dare.</example>
+            <example type="triggers_error"><marker>Many care</marker> for her.</example>
+            <example type="triggers_error">Not that <marker>many care</marker>, but it started as a dare.</example>
+            <example>She never seemed to have <marker>many cares</marker> in the world.</example>
+            <example>Although she seemed to have a life of luxury with very <marker>few cares</marker>, the reality was different.</example>
         </rule>
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
@@ -13999,11 +14005,17 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>you're</suggestion> or <suggestion>you are</suggestion>?</message>
                 <short>Possible typo</short>
-                <example>It wasn't your painting.</example>
                 <example correction="you're|you are">Let's see if <marker>your</marker> using multiple search servers.</example>
+                <example>Let's see if <marker>you're</marker> using multiple search servers.</example>
+                <example>It wasn't <marker>your</marker> painting.</example>
                 <example>Your singing puts professional singers to shame.</example>
-                <example>Your loving friend</example>
+                <example>Your loving friend.</example>
                 <example>Your timing really sucks.</example>
+                <example><marker>Your</marker> dreaming will not change the world. Do something!</example>
+                <example>I am told that <marker>your</marker> singing can shatter glasses.</example>
+                <example correction="you're|you are">If <marker>your</marker> thinking of going to Paris...</example>
+                <example correction="you're|you are">If <marker>your</marker> thinking of the time that we were in Paris...</example>
+                <example type="triggers_error">If <marker>your</marker> testing of the rules is complete...</example>
             </rule>
             <rule>
                 <pattern>
@@ -18088,6 +18100,23 @@ USA
             <short>Possibly bad style</short>
             <example correction="">The <marker>security protection software</marker> we offer is the state-of-the art achievement.</example>
             <example>The security software we offer is the state-of-the art achievement.</example>
+        </rule>
+        <rule id="POSSIBILTY_POSSIBLE" name="Style: 'possible' after 'possibility'"><!-- https://github.com/languagetool-org/languagetool/issues/540 -->
+            <pattern>
+                <marker>
+                    <token skip="-1" inflected="yes">possibility<exception scope="next">,</exception></token>
+                </marker>
+                <token>possible</token>
+            </pattern>
+            <message>Bad style. Before '\2', use a word such as <suggestion><match no="1" postag="NN.*">chance</match></suggestion> or <suggestion><match no="1" postag="NN.*">opportunity</match></suggestion>. Alternatively, keep '\1' and remove '\2'.</message>
+            <short>Bad style: possibility… possible</short>
+            <example correction="chance|opportunity">I did not have a <marker>possibility</marker> to check for possible errors.</example>
+            <example correction="chance|opportunity">A <marker>possibility</marker> for possible errors exist.</example>
+            <example correction="chances|opportunities">You should remove all <marker>possibilities</marker> for these possible errors.</example>
+            <example>I did not have a <marker>chance to check for possible</marker> errors.</example>
+            <example>I did not have a <marker>possibility to check for</marker> errors.</example>
+            <example>Einstein published an article in 'Physikalische Zeitschrift' that proposed the <marker>possibility</marker> of stimulated emission, the physical process that makes possible the maser and the laser.</example>
+            <example>There is a <marker>possible possibility</marker> that errors exist.</example>
         </rule>
     </category>
 

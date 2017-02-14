@@ -43,7 +43,7 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
 
   public PortugueseWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    super.setCategory(Categories.MISC.getCategory(messages));
+    super.setCategory(Categories.REPETITIONS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Duplication);
     addExamplePair(Example.wrong("Este <marker>é é</marker> apenas uma frase de exemplo."),
                    Example.fixed("Este <marker>é</marker> apenas uma frase de exemplo."));

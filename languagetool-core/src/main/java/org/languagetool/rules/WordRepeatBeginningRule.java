@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,10 +33,7 @@ import org.languagetool.Language;
  * 
  * @author Markus Brenneis
  */
-public class WordRepeatBeginningRule extends Rule {
-  
-  private String lastToken = "";
-  private String beforeLastToken = "";
+public class WordRepeatBeginningRule extends TextLevelRule {
   
   public WordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages);
@@ -63,52 +61,50 @@ public class WordRepeatBeginningRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    String lastToken = "";
+    String beforeLastToken = "";
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    
-    if (tokens.length > 3) {
-      AnalyzedTokenReadings analyzedToken = tokens[1];
-      String token = analyzedToken.getToken();
-      // avoid "..." etc. to be matched:
-      boolean isWord = true;
-      if (token.length() == 1) {
-        char c = token.charAt(0);
-        if (!Character.isLetter(c)) {
-          isWord = false;
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      if (tokens.length > 3) {
+        AnalyzedTokenReadings analyzedToken = tokens[1];
+        String token = analyzedToken.getToken();
+        // avoid "..." etc. to be matched:
+        boolean isWord = true;
+        if (token.length() == 1) {
+          char c = token.charAt(0);
+          if (!Character.isLetter(c)) {
+            isWord = false;
+          }
         }
-      }
-      
-      if (isWord && lastToken.equals(token)
-          && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
-        String shortMsg;
-        if (isAdverb(analyzedToken)) {
-          shortMsg = messages.getString("desc_repetition_beginning_adv");
-        } else if (beforeLastToken.equals(token)) {
-          shortMsg = messages.getString("desc_repetition_beginning_word");
-        } else {
-          shortMsg = "";
-        }
-          
-        if (!shortMsg.isEmpty()) {
-          String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
-          int startPos = analyzedToken.getStartPos();
-          int endPos = startPos + token.length();
-          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, shortMsg);
-          ruleMatches.add(ruleMatch);
-        }
-      }
-      beforeLastToken = lastToken;
-      lastToken = token;
-    }
-    
-    return toRuleMatchArray(ruleMatches);
-  }
 
-  @Override
-  public void reset() {
-    lastToken = "";
-    beforeLastToken = "";
+        if (isWord && lastToken.equals(token)
+                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
+          String shortMsg;
+          if (isAdverb(analyzedToken)) {
+            shortMsg = messages.getString("desc_repetition_beginning_adv");
+          } else if (beforeLastToken.equals(token)) {
+            shortMsg = messages.getString("desc_repetition_beginning_word");
+          } else {
+            shortMsg = "";
+          }
+
+          if (!shortMsg.isEmpty()) {
+            String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
+            int startPos = analyzedToken.getStartPos();
+            int endPos = startPos + token.length();
+            RuleMatch ruleMatch = new RuleMatch(this, pos+startPos, pos+endPos, msg, shortMsg);
+            ruleMatches.add(ruleMatch);
+          }
+        }
+        beforeLastToken = lastToken;
+        lastToken = token;
+      }
+      pos += sentence.getText().length();
+    }
+    return toRuleMatchArray(ruleMatches);
   }
 
 }

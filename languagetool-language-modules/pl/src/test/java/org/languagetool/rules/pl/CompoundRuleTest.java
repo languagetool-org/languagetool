@@ -36,7 +36,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    langTool = new JLanguageTool(new Polish());
+    lt = new JLanguageTool(new Polish());
     rule = new CompoundRule(TestTools.getEnglishMessages());
   }
 
@@ -64,20 +64,20 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
           line = removeLastCharacter(line);
           line = line.replace('-', ' ');
           final RuleMatch[] ruleMatches =
-              spellRule.match(langTool.getAnalyzedSentence(line));
+              spellRule.match(lt.getAnalyzedSentence(line));
           assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
               0, ruleMatches.length);
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
           final RuleMatch[] ruleMatches =
-              spellRule.match(langTool.getAnalyzedSentence(line));
+              spellRule.match(lt.getAnalyzedSentence(line));
           assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
               0, ruleMatches.length);
         } else {
           assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-              0, spellRule.match(langTool.getAnalyzedSentence(line)).length);
+              0, spellRule.match(lt.getAnalyzedSentence(line)).length);
           assertEquals("The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!",
-              0, spellRule.match(langTool.getAnalyzedSentence(line.replace("-", ""))).length);
+              0, spellRule.match(lt.getAnalyzedSentence(line.replace("-", ""))).length);
         }
       }
     }

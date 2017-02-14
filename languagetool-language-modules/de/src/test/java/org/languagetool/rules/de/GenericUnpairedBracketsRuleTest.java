@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 public class GenericUnpairedBracketsRuleTest {
 
   private GenericUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testGermanRule() throws IOException {
-    langTool = new JLanguageTool(new German());
-    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
+    lt = new JLanguageTool(new German());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("(Das sind die Sätze, die sie testen sollen).", 0);
     assertMatches("(Das sind die «Sätze», die sie testen sollen).", 0);
@@ -52,7 +52,7 @@ public class GenericUnpairedBracketsRuleTest {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

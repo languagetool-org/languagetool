@@ -454,8 +454,8 @@ public class PatternRuleTest {
       /*matches = getMatches(rule, badSentence, languageTool);
       List<RuleMatch> matchesAllRules = allRulesLanguageTool.check(badSentence);
       for (RuleMatch match : matchesAllRules) {
-        if (!match.getRule().getId().equals(rule.getId()) && matches.length != 0
-            && rangeIsOverlapping(matches[0].getFromPos(), matches[0].getToPos(), match.getFromPos(), match.getToPos()))
+        if (!match.getRule().getId().equals(rule.getId()) && !matches.isEmpty()
+            && rangeIsOverlapping(matches.get(0).getFromPos(), matches.get(0).getToPos(), match.getFromPos(), match.getToPos()))
           System.err.println("WARN: " + lang.getShortCode() + ": '" + badSentence + "' in "
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/

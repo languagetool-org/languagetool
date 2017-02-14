@@ -19,10 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Demo;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
+import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
@@ -194,6 +191,57 @@ public class JLanguageToolTest {
     JLanguageTool languageTool = new JLanguageTool(english);
     List<RuleMatch> matches = languageTool.check("­");  // used to be a bug (it's not a normal dash)
     assertThat(matches.size(), is(0));
+  }
+
+  @Test
+  public void testCache() throws IOException {
+    ResultCache cache = new ResultCache(1000);
+    JLanguageTool ltEnglish = new JLanguageTool(english, null, cache);
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.hitCount(), is(0L));
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.hitCount(), is(2L));
+
+    JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
+    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    assertThat(cache.hitCount(), is(2L));
+
+    assertThat(ltEnglish.check("This is an test").size(), is(1));
+    assertThat(cache.hitCount(), is(4L));
+  }
+
+  @Test
+  public void testMatchPositionsWithCache() throws IOException {
+    ResultCache cache = new ResultCache(1000);
+    JLanguageTool ltEnglish = new JLanguageTool(english, null, cache);
+    List<RuleMatch> matches1 = ltEnglish.check("A test. This is an test.");
+    assertThat(matches1.size(), is(1));
+    assertThat(matches1.get(0).getFromPos(), is(16));
+    assertThat(matches1.get(0).getToPos(), is(18));
+    List<RuleMatch> matches2 = ltEnglish.check("Another test. This is an test.");
+    assertThat(matches2.size(), is(1));
+    assertThat(matches2.get(0).getFromPos(), is(16+6));  // position up-to-date despite result from cache
+    assertThat(matches2.get(0).getToPos(), is(18+6));
+  }
+
+  @Test
+  public void testCacheWithTextLevelRules() throws IOException {
+    ResultCache cache = new ResultCache(1000);
+    JLanguageTool ltNoCache = new JLanguageTool(new GermanyGerman(), null);
+    assertThat(ltNoCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
+    assertThat(ltNoCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
+
+    JLanguageTool ltWithCache = new JLanguageTool(new GermanyGerman(), null, cache);
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
+    assertThat(cache.hitCount(), is(0L));
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
+    assertThat(cache.hitCount(), is(2L));
+    assertThat(ltWithCache.check("Ein Delphin. Noch ein Delfin.").size(), is(1));
+    assertThat(cache.hitCount(), is(4L));
+    assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));   // try again - no state is kept
+    assertThat(cache.hitCount(), is(8L));
+    assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
+    assertThat(cache.hitCount(), is(12L));
   }
 
 }

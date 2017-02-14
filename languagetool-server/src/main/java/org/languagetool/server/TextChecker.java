@@ -20,18 +20,18 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -58,16 +58,19 @@ abstract class TextChecker {
   protected final HTTPServerConfig config;
 
   private static final String ENCODING = "UTF-8";
+  private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests 
   
   private final boolean internalServer;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
+  private final ResultCache cache;
 
   TextChecker(HTTPServerConfig config, boolean internalServer) {
     this.config = config;
     this.internalServer = internalServer;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
+    this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
   }
 
   void shutdownNow() {
@@ -129,10 +132,12 @@ abstract class TextChecker {
         }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
+        Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString(): "(unknown)";
         throw new RuntimeException("Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
                 " milliseconds (cancelled: " + cancelled +
                 ", language: " + lang.getShortCodeWithCountryAndVariant() +
-                ", " + text.length() + " characters of text)", e);
+                ", " + text.length() + " characters of text, system load: " + loadInfo + ")", e);
       }
     }
 
@@ -170,23 +175,12 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
                                          Language motherTongue, QueryParams params) throws Exception {
-    String sourceText = parameters.get("srctext");
-    if (sourceText == null) {
-      JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
-      return lt.check(text);
-    } else {
-      if (parameters.get("motherTongue") == null) {
-        throw new IllegalArgumentException("Missing 'motherTongue' parameter for bilingual checks");
-      }
-      print("Checking bilingual text, with source length " + sourceText.length() +
-              " and target length " + text.length() + " (characters), source language " +
-              motherTongue + " and target language " + lang.getShortCodeWithCountryAndVariant());
-      JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
-      JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
-              params.disabledRules, params.enabledRules, params.useEnabledOnly);
-      return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
+    if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
+      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
+      print("Cache stats: " + hitPercentage + "% hit rate");
     }
+    JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
+    return lt.check(text);
   }
 
   @NotNull
@@ -242,7 +236,7 @@ abstract class TextChecker {
    * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, motherTongue);
+    JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache);
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

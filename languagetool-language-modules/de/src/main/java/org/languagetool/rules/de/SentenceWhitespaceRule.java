@@ -18,14 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * Checks that there's whitespace between sentences etc.
@@ -34,10 +29,6 @@ import java.util.regex.Pattern;
  * @since 2.8
  */
 public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhitespaceRule {
-
-  private static final Pattern NUMBER_REGEX = Pattern.compile("\\d+");
-  
-  private boolean prevSentenceEndsWithNumber = false;
 
   public SentenceWhitespaceRule(ResourceBundle messages) {
     super(messages);
@@ -58,29 +49,12 @@ public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhite
   }
 
   @Override
-  public String getMessage() {
+  public String getMessage(boolean prevSentenceEndsWithNumber) {
     if (prevSentenceEndsWithNumber) {
       return "Fügen Sie nach Ordnungszahlen (1., 2. usw.) ein Leerzeichen ein";
     } else {
       return "Fügen Sie zwischen Sätzen ein Leerzeichen ein";
     }
-  }
-
-  @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    List<RuleMatch> matches = Arrays.asList(super.match(sentence));
-    if (tokens.length > 1) {
-      String prevLastToken = tokens[tokens.length-2].getToken();
-      prevSentenceEndsWithNumber = NUMBER_REGEX.matcher(prevLastToken).matches();
-    }
-    return toRuleMatchArray(matches);
-  }
-
-  @Override
-  public void reset() {
-    super.reset();
-    prevSentenceEndsWithNumber = false;
   }
 
 }

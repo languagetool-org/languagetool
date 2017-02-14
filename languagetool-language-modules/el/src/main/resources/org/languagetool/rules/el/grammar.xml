@@ -49,6 +49,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="αυτές">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι <marker>αυτοί</marker> είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
             <example>Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι αυτές είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
         </rule>
+        <rule id="GREEK_AGREEMENT_2" name="τρέχων έτος → τρέχον έτος">
+            <pattern>
+                <marker>
+                    <token>τρέχων</token>
+                </marker>
+                <token>έτος</token>
+            </pattern>
+            <message>Το ουσιαστικό «\2» είναι ουδέτερο, χρησιμοποιήστε τον ουδέτερο τύπο «<suggestion>τρέχον</suggestion>»</message>
+            <short>Πρόβλημα συμφωνίας</short>
+            <example correction="τρέχον">Προσθέτουμε στο <marker>τρέχων</marker> έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
+            <example>Προσθέτουμε στο τρέχον έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
+        </rule>        
     </category>
     <category id="ORTHOGRAPHY" name="Orthography">
         <rule id="GREEK_WHERE-" name="πού;">
@@ -293,8 +305,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ανεξαρτήτως">Γίνονται όλοι δεκτοί <marker>ανεξαρτήτου</marker> ηλικίας.</example>
             <example>Γίνονται όλοι δεκτοί ανεξαρτήτως ηλικίας.</example>
         </rule>
+        <rule id="GREEK_SYNTAX_3" name="καλός όρισες → καλώς όρισες">
+            <pattern>
+                <marker>
+                    <token>καλός</token>
+                </marker>
+                <token regexp="yes">ήρθες|ήρθατε|ήλθες|ήλθατε|όρισες|ορίσατε</token>
+            </pattern>
+            <message>Το «\1» είναι επίθετο, χρησιμοποιήστε το επίρρημα «<suggestion>καλώς</suggestion>»</message>
+            <short>Συντακτικό λάθος</short>
+            <example correction="Καλώς"><marker>Καλός</marker> ορίσατε στην ιστοσελίδα μας!</example>
+            <example>Καλώς ορίσατε στην ιστοσελίδα μας!</example>
+        </rule>
     </category>
-    <category id="PUNCTUATION" name="Punctuation" type="typographical">
+    <category id="PUNCTUATION" name="Στίξη" type="typographical">
         <rule id="GREEK_PUNC_1" name="κόμμα μετά από μόριο στην αρχή της πρότασης">
             <pattern>
                 <token postag="SENT_START" />
@@ -397,7 +421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς…</example>
         </rule>
     </category>
-    <category id="STYLE" name="Style">
+    <category id="STYLE" name="Υφολογικά λάθη" type="style">
         <rule id="GREEK_STYLE_AND" name="χρήση «κι» σε επίσημο λόγο">
             <pattern>
                 <marker>

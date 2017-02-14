@@ -21,7 +21,6 @@ package org.languagetool.rules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A text, typically a sentence, that contains an error.

@@ -35,8 +35,7 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
           Pattern.compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]|(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
   public RussianUnpairedBracketsRule(ResourceBundle messages, Language language) {
-    super(messages, RU_START_SYMBOLS, RU_END_SYMBOLS);
-    numerals = NUMERALS_RU;
+    super(messages, RU_START_SYMBOLS, RU_END_SYMBOLS, NUMERALS_RU);
     addExamplePair(Example.wrong("Самоотверженный поступок Оленина <marker>(</marker>подарок Лукашке коня вызывает лишь удивление и усиливает недоверие к нему станичников."),
                    Example.fixed("Самоотверженный поступок Оленина <marker>(</marker>подарок Лукашке коня) вызывает лишь удивление и усиливает недоверие к нему станичников."));
   }

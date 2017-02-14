@@ -38,12 +38,12 @@ import static org.junit.Assert.*;
 public class AgreementRuleTest {
 
   private AgreementRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   
   @Before
   public void setUp() throws IOException {
     rule = new AgreementRule(TestTools.getMessages("de"), new GermanyGerman());
-    langTool = new JLanguageTool(new GermanyGerman());
+    lt = new JLanguageTool(new GermanyGerman());
   }
 
   @Test
@@ -131,6 +131,10 @@ public class AgreementRuleTest {
     assertGood("Das weckte bei vielen ungute Erinnerungen.");
     assertGood("Etwas, das einem Angst macht.");
     assertGood("Einem geschenkten Gaul schaut man nicht ins Maul.");
+
+    assertGood("Das erfordert Können.");
+    assertGood("Ist das Kunst?");
+    assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -307,12 +311,12 @@ public class AgreementRuleTest {
   }
 
   private void assertGood(String s) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
   }
 
   private void assertBad(String s, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
@@ -322,8 +326,8 @@ public class AgreementRuleTest {
   }
 
   private void assertBadWithMessage(String s, String expectedErrorSubstring) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
-    String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
+    String errorMessage = rule.match(lt.getAnalyzedSentence(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
   }

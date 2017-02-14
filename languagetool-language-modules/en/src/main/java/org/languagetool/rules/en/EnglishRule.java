@@ -22,7 +22,9 @@ import org.languagetool.rules.Rule;
 
 /**
  * Abstract base class for rules for the English language.
+ * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
  */
+@Deprecated
 public abstract class EnglishRule extends Rule {
 
 }

@@ -200,6 +200,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rule id="zakonchit_школу" name="Опечатка «закончить/окончить»">
+            <pattern>
+		<token inflected="yes">закончить</token>
+                <token regexp="yes">школу|институт|университет|вуз|курсы|техникум|пту|училище|академию</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="закон(.*)"  regexp_replace="окон$1" /> <match no="2" /></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="окончил университет">В этом году он <marker>закончил университет</marker>.</example>
+        </rule>
+        
         <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
           <rule>
             <pattern>
@@ -9955,6 +9965,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>деятельностью</token>
                 </pattern>
                 <message>В официальной и профессионально-технической речи – «контроль чего-либо». Вы имели в виду <suggestion>контроль деятельности</suggestion>?</message>
+                <url>http://new.gramota.ru/spravka/trudnosti?layout=item&amp;id=36_161</url>
                 <short>Лучше «контроль деятельности»</short>
                 <example correction="Контроль деятельности"><marker>Контроль за деятельностью</marker> нижестоящих органов.</example>
                 <example>Контроль деятельности нижестоящих органов.</example>
@@ -9966,6 +9977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>предприятием</token>
                 </pattern>
                 <message>При отвлеченных существительных – «контроль над чем-либо». Вы имели в виду <suggestion>контроль над предприятием</suggestion>?</message>
+                <url>http://new.gramota.ru/spravka/trudnosti?layout=item&amp;id=36_161</url>
                 <short>Правильно «контроль над предприятием»</short>
                 <example correction="контроль над предприятием">Приобрести <marker>контроль за предприятием</marker>.</example>
                 <example>Приобрести контроль над предприятием.</example>
@@ -9978,6 +9990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">работы|работ</token>
                 </pattern>
                 <message>При существительных, обозначающих действие или признак – пишем «контроль за» (за качеством работы, за работой станка): <suggestion>\1 за \3 \4</suggestion></message>
+                <url>http://new.gramota.ru/spravka/trudnosti?layout=item&amp;id=36_161</url>
                 <short>Правильно «контроль за качеством работы»</short>
                 <example correction="контроль за качеством работы">Осуществлять <marker>контроль над качеством работы</marker>. </example>
                 <example>Осуществлять контроль за качеством работы. </example>
@@ -9986,10 +9999,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                         <token>контроль</token>
                         <token>за</token>
-                        <token regexp="yes">специалистами|специалистом</token>
+                        <token postag_regexp="yes" postag="NN:(Anim|Fam|Name|Patr):.*"></token>
                 </pattern>
                 <message>При одушевленных существительных – пишем «контроль над». Вы имели в виду <suggestion>\1 над \3</suggestion>?</message>
-                <short>Правильно «контроль над специалистами»</short>
+                <url>http://new.gramota.ru/spravka/trudnosti?layout=item&amp;id=36_161</url>
+                <short>Правильно «контроль над кем-либо»</short>
                 <example correction="контроль над специалистами">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
                 <example>Осуществлять контроль над специалистами на предприятии.</example>
             </rule>   

@@ -33,32 +33,29 @@ public class SentenceWhitespaceRuleTest {
 
   @Test
   public void testMatch() throws Exception {
-    SentenceWhitespaceRule rule = new SentenceWhitespaceRule(TestTools.getEnglishMessages());
-    JLanguageTool languageTool = new JLanguageTool(new German());
-    languageTool.addRule(rule);
+    JLanguageTool lt = new JLanguageTool(new German());
+    TestTools.disableAllRulesExcept(lt, "DE_SENTENCE_WHITESPACE");
 
-    assertGood("Das ist ein Satz. Und hier der nächste.", rule, languageTool);
-    assertGood("Das ist ein Satz! Und hier der nächste.", rule, languageTool);
-    assertGood("Ist das ein Satz? Hier der nächste.", rule, languageTool);
+    assertGood("Das ist ein Satz. Und hier der nächste.", lt);
+    assertGood("Das ist ein Satz! Und hier der nächste.", lt);
+    assertGood("Ist das ein Satz? Hier der nächste.", lt);
 
-    assertBad("Das ist ein Satz.Und hier der nächste.", rule, languageTool);
-    assertBad("Das ist ein Satz!Und hier der nächste.", rule, languageTool);
-    assertBad("Ist das ein Satz?Hier der nächste.", rule, languageTool);
+    assertBad("Das ist ein Satz.Und hier der nächste.", lt);
+    assertBad("Das ist ein Satz!Und hier der nächste.", lt);
+    assertBad("Ist das ein Satz?Hier der nächste.", lt);
 
-    assertGood("Am 28. September.", rule, languageTool);
-    assertBad("Am 28.September.", rule, languageTool);
+    assertGood("Am 28. September.", lt);
+    assertBad("Am 28.September.", lt);
 
-    assertTrue(languageTool.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
-    assertTrue(languageTool.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
+    assertTrue(lt.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
+    assertTrue(lt.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
   }
 
-  private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
-    assertThat(languageTool.check(text).size(), is(0));
-    rule.reset();
+  private void assertGood(String text, JLanguageTool lt) throws IOException {
+    assertThat(lt.check(text).size(), is(0));
   }
 
-  private void assertBad(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
-    assertThat(languageTool.check(text).size(), is(1));
-    rule.reset();
+  private void assertBad(String text, JLanguageTool lt) throws IOException {
+    assertThat(lt.check(text).size(), is(1));
   }
 }

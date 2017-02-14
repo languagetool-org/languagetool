@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Before;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ import static org.junit.Assert.assertNotNull;
 public abstract class AbstractCompoundRuleTest {
 
   // the object used for checking text against different rules
-  protected JLanguageTool langTool;
+  protected JLanguageTool lt;
   // the rule that checks that compounds (if in the list) are not written as separate words. Language specific.
   protected AbstractCompoundRule rule;
 
@@ -51,9 +50,9 @@ public abstract class AbstractCompoundRuleTest {
    * @param expSuggestions the expected suggestions
    */
   public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", langTool);
+    assertNotNull("Please initialize langTool!", lt);
     assertNotNull("Please initialize 'rule'!", rule);
-    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
+    RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
     assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
             expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {

@@ -212,6 +212,9 @@ public class CaseRule extends GermanRule {
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
       "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon" ));
 
+  private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
+      "einer", "eines", "der", "des", "dieser", "dieses" ));
+
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -675,7 +678,7 @@ public class CaseRule extends GermanRule {
           && (lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.getToken().endsWith("innen"))) {
         continue;  // unknown word, probably a name etc.
       }
-      potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
+      potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token, lowercaseReadings);
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -767,7 +770,7 @@ public class CaseRule extends GermanRule {
     }
   }
 
-  private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token) {
+  private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token, AnalyzedTokenReadings lowercaseReadings) {
     if (Character.isUpperCase(token.charAt(0)) &&
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
@@ -784,7 +787,7 @@ public class CaseRule extends GermanRule {
         !isNominalization(i, tokens) &&
         !isAdverbAndNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
-        !isAdjectiveAsNoun(i, tokens) &&
+        !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &&
         !isExceptionPhrase(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       addRuleMatch(ruleMatches, UPPERCASE_MESSAGE, tokens[i], fixedWord);
@@ -879,17 +882,20 @@ public class CaseRule extends GermanRule {
     return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
   }
 
-  private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
+  private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
 
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
     boolean isPossiblyFollowedByInfinitive = nextReadings != null && nextReadings.getToken().equals("zu");
     boolean isFollowedByInfinitive = nextReadings != null && !isPossiblyFollowedByInfinitive && nextReadings.hasPartialPosTag("EIZ");
+    boolean isFollowedByPossessiveIndicator = nextReadings != null && POSSESSIVE_INDICATORS.contains(nextReadings.getToken());
 
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
-    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)) {
+    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
+        && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
+        && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {

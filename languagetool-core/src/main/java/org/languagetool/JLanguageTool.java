@@ -81,6 +81,8 @@ public class JLanguageTool {
   /** Name of the message bundle for translations. */
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
+  private final ResultCache cache;
+
   /**
    * Returns the build date or {@code null} if not run from JAR.
    */
@@ -140,7 +142,19 @@ public class JLanguageTool {
   }
   
   private static final List<File> temporaryFiles = new ArrayList<>();
-  
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param lang the language of the text to be checked
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   */
+  public JLanguageTool(Language lang, Language motherTongue) {
+    this(lang, motherTongue, null);
+  }
+
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
    * given language.
@@ -148,7 +162,7 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    */
   public JLanguageTool(Language language) {
-    this(language, null);
+    this(language, null, null);
   }
 
   /**
@@ -158,8 +172,12 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 3.7
    */
-  public JLanguageTool(Language language, Language motherTongue) {
+  @Experimental
+  public JLanguageTool(Language language, Language motherTongue, ResultCache cache) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
@@ -171,6 +189,7 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
     }
+    this.cache = cache;
   }
   
   /**
@@ -567,21 +586,13 @@ public class JLanguageTool {
     }
   }
 
-  List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
-      List<Rule> allRules, int charCount, int lineCount, int columnCount,
-      String sentence, AnalyzedSentence analyzedSentence) throws IOException {
-    return checkAnalyzedSentence(paraMode, allRules, charCount, lineCount, columnCount, sentence, analyzedSentence, null);
-  }
-  
   /**
    * This is an internal method that's public only for technical reasons, please use one
    * of the {@link #check(String)} methods instead. 
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
-      List<Rule> rules, int charCount, int lineCount,
-      int columnCount, String sentence, AnalyzedSentence analyzedSentence, AnnotatedText annotatedText)
-        throws IOException {
+        List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
@@ -598,10 +609,8 @@ public class JLanguageTool {
         continue;
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
-      for (RuleMatch element1 : thisMatches) {
-        RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            charCount, columnCount, lineCount, sentence, annotatedText);
-        sentenceMatches.add(thisMatch);
+      for (RuleMatch elem : thisMatches) {
+        sentenceMatches.add(elem);
       }
     }
     return new SameRuleGroupFilter().filter(sentenceMatches);
@@ -712,11 +721,20 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
-    AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
-    if (language.getPostDisambiguationChunker() != null) {
-      language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+    SimpleInputSentence cacheKey = new SimpleInputSentence(sentence, language);
+    AnalyzedSentence cachedSentence = cache != null ? cache.getIfPresent(cacheKey) : null;
+    if (cachedSentence != null) {
+      return cachedSentence;
+    } else {
+      AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+      if (language.getPostDisambiguationChunker() != null) {
+        language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+      }
+      if (cache != null) {
+        cache.put(cacheKey, analyzedSentence);
+      }
+      return analyzedSentence;
     }
-    return analyzedSentence;
   }
 
   /**
@@ -906,10 +924,10 @@ public class JLanguageTool {
       if (sentences.size() != analyzedSentences.size()) {
         throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
       }
-      this.sentences = sentences;
-      this.analyzedSentences = analyzedSentences;
-      this.paraMode = paraMode;
-      this.annotatedText = annotatedText;
+      this.sentences = Objects.requireNonNull(sentences);
+      this.analyzedSentences = Objects.requireNonNull(analyzedSentences);
+      this.paraMode = Objects.requireNonNull(paraMode);
+      this.annotatedText = Objects.requireNonNull(annotatedText);
       this.charCount = charCount;
       this.lineCount = lineCount;
       this.columnCount = columnCount;
@@ -918,28 +936,67 @@ public class JLanguageTool {
     @Override
     public List<RuleMatch> call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      int i = 0;
+      ruleMatches.addAll(getTextLevelRuleMatches());
+      ruleMatches.addAll(getOtherRuleMatches());
+      return ruleMatches;
+    }
+
+    private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
+      List<RuleMatch> ruleMatches = new ArrayList<>();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
-            match.setColumn(range.from.column);
-            match.setEndColumn(range.to.column);
-            match.setLine(range.from.line);
-            match.setEndLine(range.to.line);
+            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
+            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
+            RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            newMatch.setLine(range.from.line);
+            newMatch.setEndLine(range.to.line);
+            if (match.getLine() == 0) {
+              newMatch.setColumn(range.from.column + 1);
+            } else {
+              newMatch.setColumn(range.from.column);
+            }
+            newMatch.setEndColumn(range.to.column);
+            newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+            adaptedMatches.add(newMatch);
           }
-          ruleMatches.addAll(Arrays.asList(matches));
+          ruleMatches.addAll(adaptedMatches);
         }
       }
+      return ruleMatches;
+    }
+
+    private List<RuleMatch> getOtherRuleMatches() {
+      List<RuleMatch> ruleMatches = new ArrayList<>();
+      int i = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
         try {
-          List<RuleMatch> sentenceMatches =
-                  checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                          columnCount, sentence, analyzedSentence, annotatedText);
-
-          ruleMatches.addAll(sentenceMatches);
+          List<RuleMatch> sentenceMatches = null;
+          InputSentence cacheKey = null;
+          if (cache != null) {
+            cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
+                    disabledRules, disabledRuleCategories,
+                    enabledRules, enabledRuleCategories);
+            sentenceMatches = cache.getIfPresent(cacheKey);
+          }
+          if (sentenceMatches == null) {
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules,
+                    analyzedSentence);
+          }
+          if (cache != null) {
+            cache.put(cacheKey, sentenceMatches);
+          }
+          List<RuleMatch> adaptedMatches = new ArrayList<>();
+          for (RuleMatch elem : sentenceMatches) {
+            RuleMatch thisMatch = adjustRuleMatchPos(elem,
+                    charCount, columnCount, lineCount, sentence, annotatedText);
+            adaptedMatches.add(thisMatch);
+          }
+          ruleMatches.addAll(adaptedMatches);
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
 

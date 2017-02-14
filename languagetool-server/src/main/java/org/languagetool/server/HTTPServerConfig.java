@@ -57,6 +57,7 @@ public class HTTPServerConfig {
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
+  protected int cacheSize = 0;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -127,7 +128,7 @@ public class HTTPServerConfig {
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         if (maxWorkQueueSize < 0) {
-          throw new IllegalArgumentException("Max queue size must be >= 0: " + maxWorkQueueSize);
+          throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
@@ -135,10 +136,11 @@ public class HTTPServerConfig {
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
-          throw new IllegalArgumentException("Invalid value for maxCheckThreads: " + maxCheckThreads);
+          throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
+          System.out.println("WARNING: The AfterTheDeadline mode has been deprecated and will be removed in the next version of LanguageTool");
           atdLanguage = Languages.getLanguageForShortCode(getProperty(props, "afterTheDeadlineLanguage", file));
         }
         String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
@@ -147,6 +149,10 @@ public class HTTPServerConfig {
           if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
             throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
           }
+        }
+        cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
+        if (cacheSize < 0) {
+          throw new IllegalArgumentException("Invalid value for cacheSize " + cacheSize + ", use 0 to deactivate cache");
         }
       }
     } catch (IOException e) {
@@ -275,6 +281,11 @@ public class HTTPServerConfig {
   /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
+  }
+
+  /** @since 3.7 */
+  int getCacheSize() {
+    return cacheSize;
   }
 
   /**

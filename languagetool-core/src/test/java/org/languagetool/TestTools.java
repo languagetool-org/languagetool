@@ -33,6 +33,7 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 
 import org.languagetool.language.Demo;
+import org.languagetool.rules.Rule;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -201,6 +202,13 @@ public final class TestTools {
       }
     }
     return noWhitespaceTokens;
+  }
+
+  public static void disableAllRulesExcept(JLanguageTool lt, String ruleIdToActivate) {
+    for (Rule rule : lt.getAllRules()) {
+      lt.disableRule(rule.getId());
+    }
+    lt.enableRule(ruleIdToActivate);
   }
 
 }

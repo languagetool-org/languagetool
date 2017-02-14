@@ -32,12 +32,12 @@ import static org.junit.Assert.*;
 public class CaseRuleTest {
 
   private CaseRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
-    langTool = new JLanguageTool(new GermanyGerman());
+    lt = new JLanguageTool(new GermanyGerman());
   }
 
   @Test
@@ -129,7 +129,14 @@ public class CaseRuleTest {
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
-    
+
+    assertGood("Wacht auf, Verdammte dieser Welt!");
+    assertGood("Er sagt, dass Geistliche davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche Würdenträger davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
+    assertBad("Er ist begeistert Von der Fülle.");
+    assertBad("Er wohnt Über einer Garage.");
+
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");
     assertGood("Der Lesestoff bestimmt die Leseweise.");
@@ -165,11 +172,11 @@ public class CaseRuleTest {
     assertBad("Ein Einfacher Satz zum Testen.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");
-    assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
-    //assertEquals(2, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
+    assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
+    //assertEquals(2, lt.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
 
-    assertEquals(0, langTool.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
-    //assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
+    assertEquals(0, lt.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
+    //assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
     //TODO: error not found:
     //assertBad("So schwer, dass selbst Er ihn nicht hochheben kann.");
 
@@ -208,11 +215,11 @@ public class CaseRuleTest {
   }
 
   private void assertGood(String input) throws IOException {
-    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(langTool.getAnalyzedSentence(input)).length);
+    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(lt.getAnalyzedSentence(input)).length);
   }
 
   private void assertBad(String input) throws IOException {
-    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(langTool.getAnalyzedSentence(input)).length);
+    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(lt.getAnalyzedSentence(input)).length);
   }
 
   @Test
@@ -281,13 +288,13 @@ public class CaseRuleTest {
 
   @Test
   public void testCompareLists() throws IOException {
-    AnalyzedSentence sentence1 = langTool.getAnalyzedSentence("Hier ein Test");
+    AnalyzedSentence sentence1 = lt.getAnalyzedSentence("Hier ein Test");
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new String[]{"Hier", "ein"}));
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new String[]{"", "Hier", "ein", "Test"}));
     assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "Hier", "ein", "Test"}));
 
-    AnalyzedSentence sentence2 = langTool.getAnalyzedSentence("das Heilige Römische Reich");
+    AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
     assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
     assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
   }

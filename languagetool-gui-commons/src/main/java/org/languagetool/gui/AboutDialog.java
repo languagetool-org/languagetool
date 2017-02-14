@@ -87,11 +87,10 @@ public class AboutDialog {
 
     maintainersPane.setText(getMaintainers());
 
+    int prefWidth = Math.max(520, maintainersPane.getPreferredSize().width);
     int maxHeight = Toolkit.getDefaultToolkit().getScreenSize().height / 2;
-    if (maintainersPane.getPreferredSize().height > maxHeight) {
-      maintainersPane.setPreferredSize(
-                new Dimension(maintainersPane.getPreferredSize().width, maxHeight));
-    }
+    maxHeight = Math.min(maintainersPane.getPreferredSize().height, maxHeight);
+    maintainersPane.setPreferredSize(new Dimension(prefWidth, maxHeight));
 
     JScrollPane scrollPane = new JScrollPane(maintainersPane);
     scrollPane.setBorder(BorderFactory.createEmptyBorder());
