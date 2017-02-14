@@ -26,7 +26,7 @@ import java.util.List;
 import morfologik.stemming.IStemmer;
 
 /**
- *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. 
+ *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}.
  *  Note: It resides in "test" package because for now it is only used on unit testing.
  */
 public class ManualSynthesizerAdapter extends BaseSynthesizer {
@@ -42,7 +42,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer {
   protected IStemmer createStemmer() {
     return word -> Collections.emptyList();
   }
-  
+
   @Override
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {

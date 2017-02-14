@@ -64,7 +64,7 @@ public final class PatternTestTools {
       }
     }
   }
-  
+
   // TODO: probably this would be more useful for exceptions
   // instead of adding next methods to PatternRule
   // we can probably validate using XSD and specify regexes straight there

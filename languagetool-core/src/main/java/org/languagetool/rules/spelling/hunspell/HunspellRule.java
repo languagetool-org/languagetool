@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -44,10 +44,10 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 
 /**
  * A hunspell-based spellchecking-rule.
- * 
+ *
  * The default dictionary is set to the first country variant on the list - so the order
    in the Language class declaration is important!
- * 
+ *
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {

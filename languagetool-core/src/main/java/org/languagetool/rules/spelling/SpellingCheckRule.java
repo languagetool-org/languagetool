@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Milkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -61,7 +61,7 @@ public abstract class SpellingCheckRule extends Rule {
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
   private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
-  
+
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
@@ -193,7 +193,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean isEMail(String token) {
     return WordTokenizer.isEMail(token);
   }
-  
+
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord, wordsToBeIgnored);
@@ -330,7 +330,7 @@ public abstract class SpellingCheckRule extends Rule {
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
   }
-  
+
   /**
    * Checks whether a <code>word</code> starts with an ignored word
    * @param word - entire word
@@ -342,7 +342,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
     Optional<String> match;
     if(caseSensitive) {
-      match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).max(Comparator.naturalOrder()); 
+      match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).max(Comparator.naturalOrder());
     } else {
       String lowerCaseWord = word.toLowerCase();
       match = wordsToBeIgnored.stream().filter(s -> lowerCaseWord.startsWith(s.toLowerCase())).max(Comparator.naturalOrder());

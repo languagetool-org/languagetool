@@ -36,7 +36,7 @@ public abstract class AbstractLanguageConcurrencyTest {
   protected abstract String createSampleText();
 
   volatile int failedTests;
-  
+
   @Ignore("too slow to run every time")
   @Test
   public void testSpellCheckerFailure() throws Exception {
@@ -48,23 +48,23 @@ public abstract class AbstractLanguageConcurrencyTest {
     ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
     Lock testWriteLock = testWaitLock.writeLock();
     testWriteLock.lock();
-    
+
     failedTests = 0;
-    
+
     List<Thread> threads = new ArrayList<>();
     for (int i = 0; i < threadCount; i++) {
       Thread t = new Thread(new TestRunner(testWaitLock, language, testRuns, sampleText));
       t.start();
       threads.add(t);
     }
-    
+
     // Release the lock and allow all TestRunner threads to do their work.
     testWriteLock.unlock();
-    
+
     for (Thread t : threads) {
       t.join();
     }
-    
+
     Assert.assertEquals(0, failedTests);
   }
 
@@ -79,7 +79,7 @@ public abstract class AbstractLanguageConcurrencyTest {
       this.testRuns = testRuns;
       this.sampleText = sampleText;
     }
-    
+
     @Override
     public void run() {
       /* Request a read-lock to force this thread waiting until the main-thread releases the write-lock.
@@ -94,9 +94,9 @@ public abstract class AbstractLanguageConcurrencyTest {
         try {
           JLanguageTool tool = new JLanguageTool(this.language);
           Assert.assertNotNull(tool.check(this.sampleText));
-        } catch (Exception e) {          
+        } catch (Exception e) {
           failedTests += 1;
-          
+
           // Force a log message and the debugger to pause.
           throw new RuntimeException(e);
         }
