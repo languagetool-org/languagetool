@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.200 2017-01-09 14:51:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -3539,6 +3539,18 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <example correction="quem não está">Excelente para <marker>quem não esta</marker> doente.</example>
     </rule>
 
+    <!-- BEBÉ(S) RECÉM-NASCIDO(S)  recém-nascido(s) -->
+    <rule id="BEBÉ-S_RECÉM-NASCIDO-S" name="recém-nascido(s)">
+      <pattern>
+		<token regexp='yes'>bebés?</token>
+        <token>recém</token>
+		<token>-</token>
+		<token regexp='yes'>nascidos?</token>
+      </pattern>
+      <message>Substitua por <suggestion>\2\3\4</suggestion>.</message>
+      <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
+    </rule>
+	
     <!-- RIU-ME rio-me -->
     <rule id="RIU-ME" name="Confusão: rio-me">
       <pattern>
