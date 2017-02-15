@@ -13707,27 +13707,36 @@ TODO Write better examples
   </rulegroup>
 
   <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+    <!-- Created by Tiago F. Santos, 2017-02-12 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(\d+)(&tabela_periodica;)+([₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os multiplicadores nas fórmulas químicas devem ser separados.</message>
+        <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
+      <example correction='4 H₂O'><marker>4H₂O</marker></example>
+    </rule>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
       <example correction='O₂'><marker>O2</marker></example>
-      <example correction='H₂O'><marker>H2O</marker></example>
+      <example correction='4H₂O'><marker>4H2O</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+3((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
-      <example correction='S₃'><marker>S3</marker></example>
+      <example correction='2S₃'><marker>2S3</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+4((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+4((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
@@ -13736,7 +13745,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
@@ -13745,7 +13754,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
@@ -13753,7 +13762,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+3((&tabela_periodica;)+)?2((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
@@ -13761,7 +13770,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+3((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+3((&tabela_periodica;)+)?3((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
@@ -13769,7 +13778,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?4((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?4((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
@@ -13777,7 +13786,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?5((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?5((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
@@ -13785,7 +13794,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&tabela_periodica;)+2((&tabela_periodica;)+)?6((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+2((&tabela_periodica;)+)?6((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
