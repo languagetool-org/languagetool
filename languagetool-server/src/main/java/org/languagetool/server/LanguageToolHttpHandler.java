@@ -71,7 +71,6 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    String text = null;
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     try {
@@ -107,7 +106,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else {
           if (afterTheDeadlineMode) {
-            text = parameters.get("data");
+            String text = parameters.get("data");
             if (text == null) {
               throw new IllegalArgumentException("Missing 'data' parameter");
             }
