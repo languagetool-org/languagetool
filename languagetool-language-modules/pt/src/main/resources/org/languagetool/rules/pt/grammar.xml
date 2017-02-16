@@ -7199,7 +7199,7 @@ tokenizer spreadsheet in the forum	     -->
     <!-- ********************************************************** -->
   <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7224,7 +7224,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_AH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (â)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7248,7 +7248,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (é)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7272,7 +7272,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_EH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ê)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7296,7 +7296,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (í)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7320,7 +7320,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_O_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ó)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -7344,7 +7344,7 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ú)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua o parónimo.</short>
+      <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -14207,6 +14207,48 @@ TODO Write better examples
 
  <category id="SEMANTICS" name="Semântica" type="inconsistency">
 
+  <rulegroup id="URL_VALIDATION" name="Validação de URLs">
+    <!-- Localized from french grammar.xml by Tiago F. Santos, 30-01-2017 -->
+      <url>https://fr.wikipedia.org/wiki/Uniform_Resource_Locator</url>
+    <rule>
+        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|(?&lt;=\s))(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
+      <message>Provavelmente tem de colocar www antes do URL.</message>
+      <example correction="">Carregue em <marker>wwww.google.com</marker>.</example>
+      <example>Carregue em <marker>www.google.com</marker>.</example>
+      <example correction="">Carregue em <marker>http://wwww.google.com</marker>.</example>
+      <example>Carregue em <marker>http://www.google.com</marker>.</example>
+    </rule>
+    <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
+      <message>Deve colocar barras oblíquas antes do URL.</message>
+      <example correction="">Carregue em <marker>http:/www.google.com</marker>.</example>
+      <example correction="">Carregue em <marker>http:www.google.com</marker>.</example>
+      <example>Carregue em <marker>http://www.google.com</marker>.</example>
+    </rule>
+    <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet)///?[a-z]\S+\b</regexp>
+      <message>Deve colocar dois pontos depois do tipo de protocolo.</message>
+      <example correction="">Carregue em <marker>http//www.google.com</marker>.</example>
+      <example>Carregue em <marker>http://www.google.com</marker>.</example>
+    </rule>
+    <rule>
+        <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
+      <message>Os protocolos mailto: e news: não devem ser seguidos das barras oblíquas //.</message>
+      <example correction=""><marker>mailto://john.doe.com</marker>.</example>
+      <example><marker>mailto:john.doe.com</marker>.</example>
+    </rule>
+    <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
+      <message>O URL contém um caratére inválido \1 segundo RFC 1738. Os caratéres especiais podem ser codificados com % seguido de dois números hexadecimais.</message>
+      <url>http://www.ietf.org/rfc/rfc1738.txt</url>
+      <example correction="">Carregue em <marker>http://foobar.com/%foo.html</marker></example>
+      <example>Carregue em <marker>http://foobar.com/%20foo.html</marker></example>
+      <example correction="">Carregue em <marker>http://foobar.com/^foo.html</marker></example>
+      <example correction="">Carregue em <marker>http://foobar.com/{foo.html</marker></example>
+      <example correction="">Carregue em <marker>http://foobar.com/|foo.html</marker></example>
+    </rule>
+  </rulegroup>
+
     <!--      Semantics rules l18n from Catalan grammar.xml - START-->
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-13 -->
     <rule id="ANY20016_2016" name="*20016/2016">
@@ -14267,6 +14309,7 @@ TODO Write better examples
       <example correction=""><marker>Segunda-feira 7 out 2014</marker></example>
       <example><marker>Terça-feira, 7 out 2014</marker></example>
     </rule>
+    <!--  End of French grammar.xml adaptation  -->
   </rulegroup>
 
     <!--      Semantics rules l18n from Catalan grammar.xml -  END -->
