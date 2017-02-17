@@ -3538,18 +3538,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>quem não está</suggestion>.</message>
       <example correction="quem não está">Excelente para <marker>quem não esta</marker> doente.</example>
     </rule>
-
-    <!-- BEBÉ(S) RECÉM-NASCIDO(S)  recém-nascido(s) -->
-    <rule id="BEBÉ-S_RECÉM-NASCIDO-S" name="recém-nascido(s)">
-      <pattern>
-		<token regexp='yes'>bebés?</token>
-        <token>recém</token>
-		<token>-</token>
-		<token regexp='yes'>nascidos?|nascidas?</token>
-      </pattern>
-      <message>Substitua por <suggestion>\2\3\4</suggestion>.</message>
-      <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
-    </rule>
 	
     <!-- RIU-ME rio-me -->
     <rule id="RIU-ME" name="Confusão: rio-me">
@@ -6427,7 +6415,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>antes</token>
           <token>prefiro</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>prefiro</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>prefiro</suggestion>.</message>
       <example correction="prefiro">Eu <marker>antes prefiro</marker> a outra solução.</example>
     </rule>
 
@@ -6438,7 +6426,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>de</token>
           <token>cerejeiras</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>cerejal</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>cerejal</suggestion>.</message>
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
@@ -6449,7 +6437,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>para</token>
           <token>fora</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
     </rule>
 
@@ -6460,7 +6448,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>de</token>
           <token>sangue</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>hemorragia</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>hemorragia</suggestion>.</message>
       <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
     </rule>
 
@@ -6471,7 +6459,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>para</token>
           <token>lá</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>ida</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>ida</suggestion>.</message>
       <example correction="ida">A minha <marker>ida para lá</marker> correu bem.</example>
     </rule>
 
@@ -6481,7 +6469,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>mais</token>
           <token>melhor</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>melhor</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>melhor</suggestion>.</message>
       <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
     </rule>
 
@@ -6491,7 +6479,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>mais</token>
           <token>pior</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>pior</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>pior</suggestion>.</message>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
 
@@ -6502,8 +6490,20 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>de</token>
           <token>ladrões</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>quadrilha</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
+    </rule>
+
+    <!-- BEBÉ(S) RECÉM-NASCIDO(S)  recém-nascido(s) -->
+    <rule id="BEBÉ-S_RECÉM-NASCIDO-S" name="recém-nascido(s)">
+      <pattern>
+	    <token regexp='yes'>bebés?</token>
+            <token>recém</token>
+	    <token>-</token>
+	    <token regexp='yes'>nascidos?|nascidas?</token>
+      </pattern>
+      <message>Substitua por <suggestion>\2\3\4</suggestion>.</message>
+      <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
     </rule>
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
@@ -6511,6 +6511,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 
   <rulegroup id="COMER_A_REFEICAO" name="Comer + Determinante + Refeição">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-02 -->
+      <url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
     <rule>
       <pattern>
           <token inflected='yes'>comer</token>
@@ -6582,7 +6583,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>dos</token>
           <token>olhos</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='cego'><marker>cego dos olhos</marker></example>
     </rule>
     <!-- BATER PALMAS COM AS MÃOS bater palmas                   -->
@@ -6594,7 +6595,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>as</token>
           <token>mãos</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
     </rule>
     <!-- CLIMATOLOGIA climatologia                               -->
@@ -6603,7 +6604,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>climatologia</token>
           <token>geográfica</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='climatologia'><marker>climatologia geográfica</marker></example>
     </rule>
     <!-- DE CHAPÉU NA CABEÇA de chapéu                           -->
@@ -6614,7 +6615,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>na</token>
           <token inflected='yes'>cabeça</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
     </rule>
     <!-- MALUCO DA CABEÇA maluco                                 -->
@@ -6624,7 +6625,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>das?</token>
           <token regexp='yes'>cabeças?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='maluco'><marker>maluco da cabeça</marker></example>
     </rule>
     <!-- SUBIR PARA CIMA subir                                   -->
@@ -6634,7 +6635,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>para</token>
           <token>cima</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='subir'><marker>subir para cima</marker></example>
     </rule>
     <!-- DESCER PARA BAIXO  descer                               -->
@@ -6644,7 +6645,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>para</token>
           <token>baixo</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='descer'><marker>descer para baixo</marker></example>
     </rule>
     <!-- ENTRAR PARA DENTRO  entrar                              -->
@@ -6654,7 +6655,7 @@ tokenizer spreadsheet in the forum	     -->
           <token min='0'>para</token>
           <token>dentro</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='entrar'><marker>entrar para dentro</marker></example>
     </rule>
     <!-- SAIR PARA FORA  sair                                    -->
@@ -6664,20 +6665,9 @@ tokenizer spreadsheet in the forum	     -->
           <token min='0'>para</token>
           <token>fora</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='sair'><marker>sair para fora</marker></example>
     </rule>
-    <!-- HEMORRAGIA DE SANGUE  hemorragia                        -->
-    <!--    <rule id="PL_HEMORRAGIA" name="Hemorragia de sangue">
-      <pattern>
-          <token inflected='yes'>hemorragia</token>
-          <token>de</token>
-          <token>sangue</token>
-      </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
- -->
-    <!--	<example correction='hemorragia'><marker>hemorragia de sangue</marker></example>
-    </rule>-->
     <!-- UNANIMIDADE DE TODOS  unanimidade                       -->
     <rule id="PL_UNANIMIDADE" name="Unanimidade de todos">
       <pattern>
@@ -6685,7 +6675,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token>todos</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='unanimidade'><marker>unanimidade de todos</marker></example>
     </rule>
     <!-- ACABAMENTO FINAL  acabamento                            -->
@@ -6694,7 +6684,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>acabamento</token>
           <token regexp='yes'>final|finais</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='acabamento'><marker>acabamento final</marker></example>
     </rule>
     <!-- AMANHECER O DIA  amanhecer                              -->
@@ -6704,7 +6694,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>o</token>
           <token>dia</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='amanhecer'><marker>amanhecer o dia</marker></example>
     </rule>
     <!-- SURPRESA INESPERADA  surpresa                           -->
@@ -6713,7 +6703,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>surpresa</token>
           <token regexp='yes'>inesperadas?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='surpresa'><marker>surpresa inesperada</marker></example>
     </rule>
     <!-- CONVIVER JUNTOS  conviver                               -->
@@ -6722,7 +6712,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>conviver</token>
           <token regexp='yes'>juntos?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='conviver'><marker>conviver juntos</marker></example>
     </rule>
     <!-- DECAPITAR A CABEÇA  decapitar                           -->
@@ -6732,7 +6722,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>as?</token>
           <token regexp='yes'>cabeças?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='decapitar'><marker>decapitar a cabeça</marker></example>
     </rule>
     <!-- ENCARAR DE FRENTE  encarar                              -->
@@ -6742,7 +6732,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token>frente</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='encarar'><marker>encarar de frente</marker></example>
     </rule>
     <!-- GRITAR ALTO  gritar                                     -->
@@ -6751,7 +6741,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>gritar</token>
           <token>alto</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='gritar'><marker>gritar alto</marker></example>
     </rule>
     <!-- SUSSURAR BAIXO  sussurar                                -->
@@ -6760,7 +6750,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>sussurar</token>
           <token>baixo</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='sussurar'><marker>sussurar baixo</marker></example>
     </rule>
     <!-- CERTEZA ABSOLUTA  certeza                               -->
@@ -6769,7 +6759,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>certeza</token>
           <token>absoluta</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='certeza'><marker>certeza absoluta</marker></example>
     </rule>
     <!-- CHEIRAR COM O NARIZ  cheirar                            -->
@@ -6780,7 +6770,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>o</token>
           <token>nariz</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='cheirar'><marker>cheirar com o nariz</marker></example>
     </rule>
     <!-- ELO DE LIGAÇÃO  elo                                     -->
@@ -6790,7 +6780,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token>ligação</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='elo'><marker>elo de ligação</marker></example>
     </rule>
     <!-- DUPLA DE DOIS  dupla                                    -->
@@ -6800,7 +6790,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token>dois</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='dupla'><marker>dupla de dois</marker></example>
     </rule>
     <!-- VERDADE VERDADEIRA  verdade                             -->
@@ -6809,7 +6799,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>verdade</token>
           <token regexp='yes'>verdadeiras?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='verdade'><marker>verdade verdadeira</marker></example>
     </rule>
     <!-- OLHAR COM OS OLHOS  olhar                               -->
@@ -6820,7 +6810,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>os</token>
           <token>olhos</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='olhar'><marker>olhar com os olhos</marker></example>
     </rule>
     <!-- LAMBER COM A LÍNGUA  lamber                             -->
@@ -6831,7 +6821,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>a</token>
           <token>língua</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='lamber'><marker>lamber com a língua</marker></example>
     </rule>
     <!-- ISTO É UM FATO REAL  isto                               -->
@@ -6843,7 +6833,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>fatos?|factos?</token>
           <token inflected='yes'>real</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1 \2 \3 \4</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1 \2 \3 \4</suggestion>.</message>
       <example correction='isto é um facto'><marker>isto é um facto real</marker></example>
     </rule>
     <!-- MULTIDÃO DE PESSOAS (GENTE)  multidão                   -->
@@ -6853,7 +6843,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token regexp='yes'>pessoas|gente</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='multidão'><marker>multidão de pessoas</marker></example>
     </rule>
     <!-- MORDER COM OS DENTES  morder                            -->
@@ -6864,7 +6854,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>os</token>
           <token>dentes</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='morder'><marker>morder com os dentes</marker></example>
     </rule>
     <!-- ESTREIA PELA PRIMEIRA VEZ  estreia                      -->
@@ -6875,7 +6865,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>primeira</token>
           <token>vez</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='estreia'><marker>estreia pela primeira vez</marker></example>
     </rule>
     <!-- PANORAMA GERAL  panorama                                -->
@@ -6884,7 +6874,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>panorama</token>
           <token>geral</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='panorama'><marker>panorama geral</marker></example>
     </rule>
     <!-- PREFIRO MAIS  prefiro                                   -->
@@ -6893,7 +6883,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>preferir</token>
           <token>mais</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='prefiro'><marker>prefiro mais</marker></example>
     </rule>
     <!-- MAIS MELHOR  mais                                       -->
@@ -6902,7 +6892,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>mais</token>
           <token>melhor</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='mais'><marker>mais melhor</marker></example>
     </rule>
     <!-- GANHAR DE GRAÇA  ganhar                                 -->
@@ -6912,7 +6902,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
           <token>graça</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='ganhar'><marker>ganhar de graça</marker></example>
     </rule>
     <!-- CRIAR NOVAS  criar                                      -->
@@ -6921,7 +6911,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>criar</token>
           <token>novas</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='criar'><marker>criar novas</marker></example>
     </rule>
     <!-- PRÓPRIA AUTOBIOGRAFIA  própria                          -->
@@ -6930,7 +6920,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>próprias?</token>
           <token regexp='yes'>autobiografias?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\2</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\2</suggestion>.</message>
       <example correction='autobiografia'><marker>própria autobiografia</marker></example>
     </rule>
     <!-- PAÍSES DO MUNDO  países                                 -->
@@ -6940,7 +6930,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>do</token>
           <token>mundo</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='países'><marker>países do mundo</marker></example>
     </rule>
     <!-- VIÚVO DA FALECIDA  viúvo                                -->
@@ -6950,7 +6940,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>da</token>
           <token>falecida</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='viúva'><marker>viúva da falecida</marker></example>
     </rule>
     <!-- FACTO VERÍDICO  facto                                   -->
@@ -6959,7 +6949,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes' regexp='yes'>fato|facto</token>
           <token regexp='yes'>verídicos?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='fato'><marker>fato verídico</marker></example>
     </rule>
     <!-- ALMIRANTE DA MARINHA  almirante                         -->
@@ -6969,7 +6959,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>da</token>
           <token>marinha</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='almirante'><marker>almirante da marinha</marker></example>
     </rule>
     <!-- DEMENTE MENTAL  demente                                 -->
@@ -6978,7 +6968,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>demente</token>
           <token>mental</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='demente'><marker>demente mental</marker></example>
     </rule>
     <!-- SUBIR PARA SUICIDOU(-SE) A SI MESMO  suicidou(-se)      -->
@@ -6991,7 +6981,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>si</token>
           <token>mesmo</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
       <example correction='suicidou-se'><marker>suicidou-se a si mesmo</marker></example>
     </rule>
     <!-- COMER COM A BOCA  comer                                 -->
@@ -7002,7 +6992,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>a</token>
           <token>boca</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='comer'><marker>comer com a boca</marker></example>
     </rule>
     <!-- ANDAR OS PÉS  andar                                     -->
@@ -7013,7 +7003,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>os</token>
           <token>pés</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='andar'><marker>andar os pés</marker></example>
     </rule>
     <!-- ADIAR PARA DEPOIS  adiar                                -->
@@ -7023,7 +7013,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>para</token>
           <token>depois</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='adiar'><marker>adiar para depois</marker></example>
     </rule>
     <!-- 24 HORAS POR DIA  24                                    -->
@@ -7034,7 +7024,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>por</token>
           <token>dia</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='24 horas'><marker>24 horas por dia</marker></example>
     </rule>
     <!-- COMPARECER PESSOALMENTE  comparecer                     -->
@@ -7043,7 +7033,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>comparecer</token>
           <token>pessoalmente</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='comparecer'><marker>comparecer pessoalmente</marker></example>
     </rule>
     <!-- CONCLUSÃO FINAL  conclusão                              -->
@@ -7052,7 +7042,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>conclusão</token>
           <token>final</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='conclusão'><marker>conclusão final</marker></example>
     </rule>
     <!-- MAR SALGADO  mar                                        -->
@@ -7061,7 +7051,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>mar</token>
           <token>salgado</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='mar'><marker>mar salgado</marker></example>
     </rule>
     <!-- SURDO DO OUVIDO  surdo                                  -->
@@ -7071,7 +7061,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>do</token>
           <token>ouvido</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='surdo'><marker>surdo do ouvido</marker></example>
     </rule>
     <!-- ARDER EM CHAMAS  arder                                  -->
@@ -7081,7 +7071,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>em</token>
           <token>chamas</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='arder'><marker>arder em chamas</marker></example>
     </rule>
     <!-- ÁGUA MOLHADA  água                                      -->
@@ -7090,7 +7080,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>águas?</token>
           <token regexp='yes'>molhadas?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='água'><marker>água molhada</marker></example>
     </rule>
     <!-- PÁSSAROS ALADOS  pássaros                               -->
@@ -7099,7 +7089,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>pássaro</token>
           <token inflected='yes'>alado</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='pássaros'><marker>pássaros alados</marker></example>
     </rule>
 
@@ -7108,7 +7098,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>monopólio</token>
           <token inflected='yes'>exclusivo</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='monopólio'><marker>monopólio exclusivo</marker></example>
     </rule>
 
@@ -7119,7 +7109,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>haver</token>
           <token>mais</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1 \2 \3</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1 \2 \3</suggestion>.</message>
       <example correction='já não há'><marker>já não há mais</marker></example>
     </rule>
 
@@ -7128,7 +7118,7 @@ tokenizer spreadsheet in the forum	     -->
           <token inflected='yes'>ganhar</token>
           <token>grátis</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='ganhar'><marker>ganhar grátis</marker></example>
     </rule>
 
@@ -7138,7 +7128,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>d[ao]s?</token>
           <token regexp='yes'>falecid[ao]s?</token>
       </pattern>
-      <message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='viúva'><marker>viúva do falecido</marker></example>
     </rule>
   </rulegroup>
@@ -14233,13 +14223,13 @@ TODO Write better examples
     </rule>
     <rule>
         <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
-      <message>Os protocolos mailto: e news: não devem ser seguidos das barras oblíquas //.</message>
+      <message>Os protocolos mailto: e news: não devem ser seguidos por barras oblíquas //.</message>
       <example correction=""><marker>mailto://john.doe.com</marker>.</example>
       <example><marker>mailto:john.doe.com</marker>.</example>
     </rule>
     <rule>
         <regexp type="exact">\b(?:https?|ftps?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
-      <message>O URL contém um caratére inválido \1 segundo RFC 1738. Os caratéres especiais podem ser codificados com % seguido de dois números hexadecimais.</message>
+      <message>O URL contém o caratére inválido \1 segundo RFC 1738. Os caratéres especiais podem ser codificados com % seguido de dois números hexadecimais.</message>
       <url>http://www.ietf.org/rfc/rfc1738.txt</url>
       <example correction="">Carregue em <marker>http://foobar.com/%foo.html</marker></example>
       <example>Carregue em <marker>http://foobar.com/%20foo.html</marker></example>
@@ -14329,7 +14319,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-    <!-- "30 Fevereiro, 2016" -->
+    <!-- "30 de Fevereiro, 2016" -->
           <token regexp="yes">3[01]</token>
           <token min='0'>de</token>
           <token regexp="yes">Fevereiro|Fev</token>
