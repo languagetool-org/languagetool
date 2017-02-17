@@ -6,6 +6,7 @@
   * added and improved rules
 
 #### French
+  * improved rules
   * upgraded dictionaries to Dicollecte-6.0.2
 
 #### German
