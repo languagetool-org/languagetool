@@ -742,6 +742,38 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+  <rulegroup id='IMPERSONAL_HAVER_PLURAL_NOUN' name='Verbos impessoais: Haver como Existir'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!-- Loosely based on CoGrOO rule -->
+      <url>https://pt.wikipedia.org/wiki/Verbo_impessoal</url>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='V....P.+' inflected='yes'>dever</token>
+          <token>haver</token>
+        </marker>
+          <token min='0' postag_regexp='yes' postag='(C|R|Z).+'/>
+          <token postag_regexp='yes' postag='N..P.+'/>
+      </pattern>
+      <message>Auxiliares do verbo haver no sentido de existir são impessoais.</message>
+        <suggestion><match no='1' postag='(V....)P(.+)' postag_replace='$1S$2' postag_regexp='yes'>dever</match> \2</suggestion>
+      <example correction='Deve haver'><marker>Devem haver</marker> baratas naquele restaurante.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='V....P.' inflected='yes'>poder</token>
+          <token>haver</token>
+        </marker>
+          <token min='0' postag_regexp='yes' postag='(C|R|Z).+'/>
+          <token postag_regexp='yes' postag='N..P.+'/>
+      </pattern>
+      <message>Auxiliares do verbo haver no sentido de existir são impessoais.</message>
+        <suggestion><match no='1' postag='(V....)P(.)' postag_replace='$1S$2' postag_regexp='yes'>poder</match> \2</suggestion>
+      <example correction='Poderá haver'><marker>Poderão haver</marker> baratas naquele restaurante.</example><!-- TODO Fix 'Pode' and 'Podem' tags in recompiled synthetizer -->
+    </rule>
+  </rulegroup>
+
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
