@@ -18,6 +18,9 @@
 #### Greek
   * added and improved rules
 
+#### Italian
+  * added one rule
+
 #### Lithuanian and Malayalam
   * Lithuanian and Malayalam are not part of this release anymore. They still exist
     in the git repository and can be re-activated as soon as a new maintainer takes
