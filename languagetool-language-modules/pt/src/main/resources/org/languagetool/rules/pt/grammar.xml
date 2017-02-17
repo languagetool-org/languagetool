@@ -14328,6 +14328,67 @@ TODO Write better examples
       <example correction="">Isso aconteceu a <marker>30 Fev</marker>, 2014.</example>
       <example>Isso aconteceu a <marker>29 de Fev</marker>, 2014.</example>
     </rule>
+    <rule>
+    <!-- Localized from French grammar.xml            -->
+      <pattern>
+          <token>29</token>
+          <token min="0" max="1">/</token>
+          <token regexp="yes">fevereiro|fev|0?2</token>
+          <token min="0" max="1">/</token>
+          <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+          </token>
+      </pattern>
+      <message>O ano \5 não é bissexto, portanto o mês de fevereiro não tem 29 dias.</message>
+      <url>https://pt.wikipedia.org/wiki/Ano_bissexto</url>
+    <!-- 1900 is not a leap year (divisible by 100) -->
+      <example correction=""><marker>29 fevereiro 1900</marker>.</example>
+      <example correction=""><marker>29/fevereiro/1900</marker>.</example>
+      <example correction=""><marker>29/02/1900</marker>.</example>
+      <example correction=""><marker>29/2/1900</marker>.</example>
+    <!-- 2000 is a leap year (divisible by 400) -->
+      <example><marker>29 fevereiro 2000</marker>.</example>
+      <example><marker>29/fevereiro/2000</marker>.</example>
+      <example><marker>29/02/2000</marker>.</example>
+      <example><marker>29/2/2000</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2001</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2002</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2003</marker>.</example>
+    <!-- 2004 is a leap year (divisible by 4) -->
+      <example><marker>29 fevereiro 2004</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2005</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2006</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2007</marker>.</example>
+    <!-- 2008 is a leap year (divisible by 4) -->
+      <example><marker>29 fevereiro 2008</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2009</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2010</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2011</marker>.</example>
+    <!-- 2012 is a leap year (divisible by 4) -->
+      <example><marker>29 fevereiro 2012</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2014</marker>.</example>
+      <example><marker>29 fevereiro 2016</marker>.</example>
+      <example correction=""><marker>29 fevereiro 2018</marker>.</example>
+      <example><marker>29 fevereiro 2020</marker>.</example>
+    <!-- 2100 is not a leap year (divisible by 100) -->
+      <example correction=""><marker>29 fevereiro 2100</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>29</token>
+          <token regexp="yes">[-‑‐]</token>
+          <token regexp="yes">fevereiro|fev|0?2</token>
+          <token regexp="yes">[-‑‐]</token>
+          <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+          </token>
+      </pattern>
+      <message>O ano \5 não é bissexto, portanto o mês de fevereiro não tem 29 dias.</message>
+      <url>https://pt.wikipedia.org/wiki/Ano_bissexto</url>
+      <example correction=""><marker>29-02-1900</marker></example>
+      <example correction=""><marker>29-fevereiro-2005</marker></example>
+      <example>29-fevereiro-2004</example>
+    </rule>
   </rulegroup>
 
     <rule id='DATE_RANGES' name='Intervalos de Data Inválidos'>
