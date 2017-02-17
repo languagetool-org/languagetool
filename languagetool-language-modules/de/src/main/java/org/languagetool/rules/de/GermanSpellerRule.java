@@ -302,7 +302,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
         if (suggestionLists.size() <= 3) {  // avoid OOM on words like "free-and-open-source-and-cross-platform"
           List<String> additionalSuggestions = suggestionLists.get(0);
-          for (int idx = 1; idx < suggestionLists.size() && idx <= 3; idx++) {
+          for (int idx = 1; idx < suggestionLists.size(); idx++) {
             List<String> suggestionList = suggestionLists.get(idx);
             List<String> newList = new ArrayList<>(additionalSuggestions.size() * suggestionList.size());
             for (String additionalSuggestion : additionalSuggestions) {
