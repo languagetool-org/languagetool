@@ -17643,7 +17643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]us</token>
-                    <token>dem</token>
+                    <token regexp="yes">de[mn]</token>
                     <marker>
                         <token>vollen</token>
                     </marker>
@@ -17657,7 +17657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token inflected="yes" skip="2">schöpfen</token>
                     <token>aus</token>
-                    <token>dem</token>
+                    <token regexp="yes">de[mn]</token>
                     <marker>
                         <token>vollen</token>
                     </marker>
@@ -17665,6 +17665,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&inwend;'aus dem Vollen schöpfen' wird <suggestion>Vollen</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Vollen">Gestern schöpften wir aus dem <marker>vollen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token>Vollen</token>
+                    <token inflected="yes">schöpfen</token>
+                </pattern>
+                <message>Meinen Sie die Wendung 'aus dem Vollen schöpfen'? Dann verwenden Sie <suggestion>dem</suggestion>!</message>
+                <example correction="dem">Weil wir aus <marker>den</marker> Vollen schöpfen, können wir uns das erlauben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">schöpfen</token>
+                    <token>aus</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token>Vollen</token>
+                </pattern>
+                <message>Meinen Sie die Wendung 'aus dem Vollen schöpfen'? Dann verwenden Sie <suggestion>dem</suggestion>!</message>
+                <example correction="dem">Gestern schöpften wir aus <marker>den</marker> Vollen.</example>
             </rule>
         </rulegroup>
         <rule id="AUF_VERLANGEN" name="'auf verlangen (Verlangen)'">
