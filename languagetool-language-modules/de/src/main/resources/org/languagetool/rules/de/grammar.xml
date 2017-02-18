@@ -11782,6 +11782,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="DAS_KLEINES_SUBST_ADJEKTIV" name="kleingeschriebenes substantiviertes Adjektiv am Satzanfang">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>das</token>
+                <marker>
+                    <token postag="ADJ:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+</token>
+                </marker>
+                <token regexp="yes">dar[ai]n|a[nm]|vo[nm]|beim?|i[mn]</token>
+            </pattern>
+            <message>Das Adjektiv scheint hier als Substantiv benutzt zu werden und muss, falls es sich nicht auf ein vorheriges/nachstehendes Substantiv bezieht, großgeschrieben werden.</message>
+            <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+            <short>&prgk;.</short>
+            <example correction="Schöne">Das <marker>schöne</marker> daran ist, dass es funktioniert.</example>
+            <example correction="Schöne">Das <marker>schöne</marker> am Wochenende ist der Samstag.</example>
+            <example correction="Schönste">Das <marker>schönste</marker> im Park sind die Bäume.</example>
+            <example>Das <marker>schöne</marker> Wochenende.</example>
+            <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
+        </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
             <pattern>
                 <token postag="ART:DEF:.*|PRO:POS:NOM:.*|PRO:PER:GEN:.*" postag_regexp="yes"/>
@@ -17582,19 +17600,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Schwelle">Auf der <marker>schwelle</marker> zum 21. Jahrhundert erscheint die Sache in neuem Licht.</example>
         </rule>
-        <rule id="AUS_DEM_VOLLEN" name="'aus dem vollen (Vollen) schöpfen'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]us</token>
-                <token>dem</token>
+        <rulegroup id="AUFS_GANZE_GEHEN" name="aus dem vollen">
+            <rule>
+                <pattern>
+                    <token>aufs</token>
+                    <marker>
+                        <token case_sensitive="yes">ganze</token>
+                    </marker>
+                    <token inflected="yes">gehen</token>
+                </pattern>
+                <message>&inwend;'aufs Ganze gehen' wird <suggestion>Ganze</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Ganze">Lass uns heute aufs <marker>ganze</marker> gehen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">gehen</token>
+                    <token>aufs</token>
+                    <marker>
+                        <token case_sensitive="yes">ganze</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'aufs Ganze gehen' wird <suggestion>Ganze</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Ganze">Wir gingen heute aufs <marker>ganze</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MIT_SICH_IM_REINEN_SEIN" name="mit sich im reinen (Reinen) sein">
+            <pattern>
+                <token>mit</token>
+                <token postag="PRO:REF:.*" postag_regexp="yes"/>
+                <token>im</token>
                 <marker>
-                    <token>vollen</token>
+                    <token case_sensitive="yes">reinen</token>
                 </marker>
-                <token inflected="yes">schöpfen</token>
             </pattern>
-            <message>&inwend;'aus dem Vollen schöpfen' wird <suggestion>Vollen</suggestion> großgeschrieben.</message>
+            <message>&inwend;'im Reinen sein' wird <suggestion>Reinen</suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
-            <example correction="Vollen">Weil wir aus dem <marker>vollen</marker> schöpfen, können wir uns das erlauben.</example>
+            <example correction="Reinen">Ich bin mit mir im <marker>reinen</marker>.</example>
         </rule>
+        <rulegroup id="AUS_DEM_VOLLEN" name="'aus dem vollen (Vollen) schöpfen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]us</token>
+                    <token>dem</token>
+                    <marker>
+                        <token>vollen</token>
+                    </marker>
+                    <token inflected="yes">schöpfen</token>
+                </pattern>
+                <message>&inwend;'aus dem Vollen schöpfen' wird <suggestion>Vollen</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Vollen">Weil wir aus dem <marker>vollen</marker> schöpfen, können wir uns das erlauben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="2">schöpfen</token>
+                    <token>aus</token>
+                    <token>dem</token>
+                    <marker>
+                        <token>vollen</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'aus dem Vollen schöpfen' wird <suggestion>Vollen</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Vollen">Gestern schöpften wir aus dem <marker>vollen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUF_VERLANGEN" name="'auf verlangen (Verlangen)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf</token>
