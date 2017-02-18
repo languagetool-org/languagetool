@@ -907,7 +907,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     <rule id="VERBO_DE_QUE" name="Verbo tipo pensar + de que">
       <pattern>
           <token inflected="yes" regexp="yes">pensar|opinar|acreditar|comentar|expresar|dizer|deduzir|inferir|razoar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconselhar|ver|observar|gostar|antes<exception>razões</exception></token>
-          <token>de</token>
+          <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
       <message>Possível queísmo: <suggestion>\1 \3</suggestion>.</message>
@@ -921,7 +921,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
           <token postag="RG|A.+" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto</exception></token>
-          <token>de</token>
+          <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
       <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
@@ -935,7 +935,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
           <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
           <token regexp='yes'>-|–|—</token>
           <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
-          <token>de</token>
+          <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
       <message>Possível dequeísmo: <suggestion>\1\2\3 \5</suggestion>.</message>
@@ -948,7 +948,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     <rule id="INSISTIR_DE_QUE" name="Verbo do tipo insistir + de que">
       <pattern>
           <token inflected="yes">insistir</token>
-          <token>de</token>
+          <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
       <message>Possível dequeísmo: <suggestion>\1 em \3</suggestion>.</message>
