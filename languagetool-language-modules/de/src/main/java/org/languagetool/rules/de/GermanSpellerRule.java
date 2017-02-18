@@ -382,7 +382,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean ignoreByHangingHyphen(List<String> words, int idx) {
     String word = words.get(idx);
-    String nextWord = getWordAfterEnumerationOrNull(words, idx+1).replaceFirst("\\.$", "");
+    String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
+    if(nextWord != null) {
+      nextWord = nextWord.replaceFirst("\\.$", "");
+    }
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
     if (isCompound) {
       return !hunspellDict.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
