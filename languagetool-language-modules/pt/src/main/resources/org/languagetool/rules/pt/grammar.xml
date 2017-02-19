@@ -805,6 +805,28 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+  <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
+      <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
+      <short>Erro de regência verbal.</short>
+    <rule id='PHRASAL_VERB_PREFERIR' name='Regência verbal: Preferir X a Y'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!-- Loosely based on CoGrOO rule -->
+      <pattern>
+          <token inflected='yes'>preferir</token>
+         <marker>
+          <token postag_regexp='yes' postag='N.+'/>
+          <token regexp='yes'>d[eo]</token>
+          <token>que</token>
+          <token postag_regexp='yes' postag='N.+'/>
+         </marker>
+      </pattern>
+      <message>Comparação de preferências utiliza a preposição "a".</message>
+        <suggestion>\2 a \5</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-de-preferir-e-a-coordenacao-de-oracoes-de-infinitivo/26152</url>
+      <example correction='peixe a carne'>Eu prefiro <marker>peixe do que carne</marker>.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
       <!--       Created by Tiago F. Santos, 2017-01-27 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
