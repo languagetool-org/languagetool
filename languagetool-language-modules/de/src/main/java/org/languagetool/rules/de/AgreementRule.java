@@ -159,6 +159,7 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("auf");
     PREPOSITIONS.add("an");
     PREPOSITIONS.add("ab");
+    PREPOSITIONS.add("aus");
     PREPOSITIONS.add("für");
     PREPOSITIONS.add("zu");
     PREPOSITIONS.add("bei");
@@ -202,8 +203,8 @@ public class AgreementRule extends GermanRule {
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
-    "jemand",
-    "niemand"
+    "jemand", "jemandes",
+    "niemand", "niemandes"
   ));
   
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
