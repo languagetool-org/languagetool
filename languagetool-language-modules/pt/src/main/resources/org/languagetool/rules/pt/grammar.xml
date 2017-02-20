@@ -770,7 +770,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       </pattern>
       <message>Auxiliares do verbo haver no sentido de existir são impessoais.</message>
         <suggestion><match no='1' postag='(V....)P(.)' postag_replace='$1S$2' postag_regexp='yes'>poder</match> \2</suggestion>
-      <example correction='Poderá haver'><marker>Poderão haver</marker> baratas naquele restaurante.</example><!-- TODO Fix 'Pode' and 'Podem' tags in recompiled synthetizer -->
+      <example correction='Poderá haver'><marker>Poderão haver</marker> baratas naquele restaurante.</example><!-- TODO Fix 'Pode' and 'Podem' tags,  recompiling the synthetizer -->
     </rule>
   </rulegroup>
 
@@ -824,6 +824,17 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\2 a \5</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-de-preferir-e-a-coordenacao-de-oracoes-de-infinitivo/26152</url>
       <example correction='peixe a carne'>Eu prefiro <marker>peixe do que carne</marker>.</example>
+    </rule>
+    <rule id='PHRASAL_VERB_COM' name='Regência verbal: VERBO + com'>
+    <!-- Loosely based on CoGrOO rule -->
+      <pattern>
+          <token inflected='yes' regexp='yes'>namorar|arrasar</token>
+          <token>com</token>
+      </pattern>
+      <message>Este verbo não utiliza a preposição "com".</message>
+        <suggestion>\1</suggestion>
+      <example correction='Namorei'><marker>Namorei com</marker> a ideia de comprar um carro novo.</example>
+      <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
     </rule>
   </rulegroup>
 
