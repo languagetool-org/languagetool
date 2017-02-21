@@ -155,7 +155,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public List<String> getSuggestions(String word) throws IOException {
     List<String> suggestions = super.getSuggestions(word);
-    if(word.endsWith(".")) {
+    if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
     }
@@ -218,7 +218,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
-      if(words.get(idx).contains("-")) {
+      if (words.get(idx).contains("-")) {
         ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
@@ -383,7 +383,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean ignoreByHangingHyphen(List<String> words, int idx) {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
-    if(nextWord != null) {
+    if (nextWord != null) {
       nextWord = nextWord.replaceFirst("\\.$", "");
     }
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
@@ -410,17 +410,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String[] words = word.split("-");
     if (words.length < 2) {
       int end = super.startsWithIgnoredWord(word, true);
-      if(end < 3) {
+      if (end < 3) {
         return false;
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
       boolean needFugenS = ENDINGS_NEEDING_FUGEN_S.stream().anyMatch(ending -> ignoredWord.endsWith(ending));
-      if(!needFugenS && partialWord.length() > 1) {
-          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
-      } else if(needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
-          partialWord = partialWord.substring(1);
-          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
+      if (!needFugenS && partialWord.length() > 1) {
+        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
+      } else if (needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
+        partialWord = partialWord.substring(1);
+        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       }
       return false;
     }
