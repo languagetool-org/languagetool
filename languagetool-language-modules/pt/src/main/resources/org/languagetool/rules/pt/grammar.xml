@@ -840,6 +840,38 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+  <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
+          <token regexp='yes'>os?</token>
+        </marker>
+          <token min='0' postag_regexp='yes' postag='D..M.+'/>
+          <token postag_regexp='yes' postag='N.M.+'/>
+      </pattern>
+      <message>Este verbo não utiliza a preposição "a".</message>
+        <suggestion>\1 a<match no='2' include_skipped='all'/></suggestion>
+      <example correction='obedecerei aos'>Acima de tudo, <marker>obedecerei os</marker> meus princípios!</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
+          <token regexp='yes'>as?</token>
+        </marker>
+          <token min='0' postag_regexp='yes' postag='D..F.+'/>
+          <token postag_regexp='yes' postag='N.F.+'/>
+      </pattern>
+      <message>Este verbo não utiliza a preposição "a".</message>
+        <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+      <example correction='obedece à'>O rapaz não <marker>obedece a</marker> mãe.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
       <!--       Created by Tiago F. Santos, 2017-01-27 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
@@ -6261,6 +6293,7 @@ and tokenizer spreadsheet from the forum        -->
 
     <rule id="ET_AL" name="Regras de utilização de et al.">
     <!--       Created by Tiago F. Santos,  2017-02-21      -->
+      <url>https://pt.wikipedia.org/wiki/Et_al.</url>
       <pattern>
         <marker>
           <token>et</token>
