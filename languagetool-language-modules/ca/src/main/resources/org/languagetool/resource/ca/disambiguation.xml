@@ -2412,6 +2412,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="P.*"/>
     </rule>
+    <rule id="el_doble" name="el doble (no verb)">
+        <pattern>
+            <token postag="RG"/>
+            <token>el</token>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">doble</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="noNom" name="no nom">
         <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
         <pattern>
@@ -6382,6 +6392,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception postag="D[^R].*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter"  postag="[^V].*"/>
+    </rule>
+    <rule id="va_noadj" name="va (no adjectiu)">
+        <pattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"></token>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">va</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*|_GV_"/>
     </rule>
     <rule id="nova" name="nova, bona (adjectiu)">
         <pattern>
