@@ -872,6 +872,18 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token inflected='yes'>acarretar</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1</suggestion>
+      <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
+    </rule>
+
   <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
       <!--       Created by Tiago F. Santos, 2017-01-27 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
