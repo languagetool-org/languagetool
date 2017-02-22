@@ -119,9 +119,9 @@ public class AgreementRule extends GermanRule {
     ),
     Arrays.asList(
         new PatternTokenBuilder().pos("SENT_START").build(),
-        new PatternTokenBuilder().token("Das").build(),
+        new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
-        new PatternTokenBuilder().posRegex("SUB:.*").build()// "Das erfordert Können und..."
+        new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
     )
   );
 

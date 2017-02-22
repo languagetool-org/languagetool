@@ -25259,7 +25259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
                 <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
                 <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
             </rule>
@@ -31624,6 +31624,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1">,</token>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="ZAL"/>
+                    <token>,</token>
+                    <token postag="ZAL"/>
+                    <token/>
+                    <token postag="ZAL"/>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -31640,6 +31647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" aß"  type="incorrect">Nach dem großen Stück Torte<marker>, aß</marker> ich noch von dem Kuchen</example>
                 <example>Staaten wie Südkorea, Singapur und Brasilien signalisierten ihre Zustimmung.</example>
                 <example>Der Süßwassermangel, mit dem wir weltweit konfrontiert sein werden, rührt von großer Verschwendung her.</example>
+                <example>Was immer das in drei, fünf oder zehn Jahren bedeuten mag.</example>
             </rule>
         </rulegroup>
     </category>

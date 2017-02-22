@@ -426,7 +426,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       return false;
     }
-    // hyphenated compound (e.g., "Fenyman-Diagramm"):
+    // hyphenated compound (e.g., "Feynman-Diagramm"):
     boolean hasIgnoredWord = false;
     List<String> toSpellCheck = new ArrayList<>(3);
     String stripFirst = word.substring(words[0].length()+1); // everything after the first "-"
