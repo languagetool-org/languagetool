@@ -82,10 +82,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
   private final Tagger tagger;
-
   // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
-  private static final Set<String> ENDINGS_NEEDING_FUGEN_S = new HashSet<>(Arrays.asList(
-      "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", "en" ));
+  public static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
@@ -406,16 +404,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return null;
   }
 
+  // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
+  // that contains an ignored word from spelling.txt (e.g., "Feynman")
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
     String[] words = word.split("-");
     if (words.length < 2) {
+      // non-hyphenated compound (e.g., "Feynmandiagramm"):
+      // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
         return false;
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
-      boolean needFugenS = ENDINGS_NEEDING_FUGEN_S.stream().anyMatch(ending -> ignoredWord.endsWith(ending));
+      boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
       if (!needFugenS && partialWord.length() > 1) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       } else if (needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
@@ -424,11 +426,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       return false;
     }
-
+    // hyphenated compound (e.g., "Fenyman-Diagramm"):
     boolean hasIgnoredWord = false;
     List<String> toSpellCheck = new ArrayList<>(3);
-    String stripFirst = word.substring(words[0].length()+1);
-    String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1);
+    String stripFirst = word.substring(words[0].length()+1); // everything after the first "-"
+    String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1); // everything up to the last "-"
 
     if (super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
       hasIgnoredWord = true;
