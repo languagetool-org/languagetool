@@ -1089,6 +1089,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
   </rulegroup>
 
   <rulegroup id="CRASE_CONFUSION" name="Erros de crase">
+      <short>Erro de crase.</short>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
     <rule>
       <pattern>
@@ -1100,7 +1101,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion><match no='1' regexp_match='(à)(s?)' regexp_replace='a$2'/> \2</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='a carregar'>Assim que começamos <marker>à carregar</marker> as compras para o carro, começou a chover.</example>
-      <example> Fomos às compras, e viemos com o carro cheio</example>
+      <example>Fomos às compras, e viemos com o carro cheio</example>
     </rule>
     <rule>
       <pattern>
@@ -1236,7 +1237,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='Junho a Setembro'>Os melhores meses para ir de férias é de <marker>Junho à Setembro</marker>.</example>
     </rule>
     <rule>
-    <!-- Loosely based on CoGrOO rule -->
+    <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token regexp='yes'>às?</token>
           <token regexp='yes'>mim|ti|si|ele|ela|eles|elas|nós|vós|vos</token>
@@ -1245,6 +1246,17 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>a \2</suggestion>
       <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
       <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
+    </rule>
+    <rule>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token inflected='yes'>assistir</token>
+          <token>a</token>
+          <token regexp='yes'>apresentaç(ão|ões)|peças?</token>
+      </pattern>
+      <message>O verbo "assistir" com o sentido de presenciar rege preposição "a".</message>
+        <suggestion>\1 à \3</suggestion>
+      <example correction='assistir à apresentação'>Poderá <marker>assistir a apresentação</marker> da gala.</example>
     </rule>
   </rulegroup>
 
