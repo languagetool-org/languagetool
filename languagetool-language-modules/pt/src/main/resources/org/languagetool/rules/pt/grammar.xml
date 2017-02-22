@@ -838,6 +838,17 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='Namorei'><marker>Namorei com</marker> a ideia de comprar um carro novo.</example>
       <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
     </rule>
+    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token inflected='yes'>acarretar</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1</suggestion>
+      <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
@@ -871,18 +882,6 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='obedece à'>O rapaz não <marker>obedece a</marker> mãe.</example>
     </rule>
   </rulegroup>
-
-    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
-    <!--                     Loosely based on CoGrOO rules                 -->
-      <pattern>
-          <token inflected='yes'>acarretar</token>
-          <token regexp='yes'>em|n[ao]s?</token>
-      </pattern>
-      <message>Erro de regêngia verbal.</message>
-        <suggestion>\1</suggestion>
-      <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
-    </rule>
 
   <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
       <!--       Created by Tiago F. Santos, 2017-01-27 -->
@@ -1248,6 +1247,20 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
     </rule>
   </rulegroup>
+
+    <rule id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+      <pattern>
+          <token regexp='yes'>mim|ti|si|comigo|contigo|con?nosco|convosco</token>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
+        <suggestion>mim, \2</suggestion>
+        <suggestion>eu \2</suggestion>
+      <example correction='mim, estudar|eu estudar'>Para <marker>mim estudar</marker> é um sacrifício.</example>
+      <example>Para mim, estudar é um sacrifício.</example>
+    </rule>
 
     <!-- FIXME While containing rule regressed. Comment out until I have time to fix
     <rule id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>-->
