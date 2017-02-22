@@ -37367,6 +37367,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
+       <rule id="ATRONAR" name="atronar">
+            <pattern>
+                <token inflected="yes">atronar</token>
+            </pattern>
+            <message>Variant secundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">retronar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">retrunyir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixordar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">atordir</match></suggestion>
+            <example correction="retronaren|retrunyiren|eixordaren|atordiren"><marker>atronaren</marker></example>
+       </rule>
+       <rule id="ATRONADOR" name="atronador">
+            <pattern>
+                <token inflected="yes">atronador</token>
+            </pattern>
+            <message>Variant secundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">eixordador</match></suggestion>
+            <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">clamorós</match></suggestion>
+            <suggestion><match no="1" postag="A...(.*)" postag_regexp="yes" postag_replace="AQ.C$1">retronant</match></suggestion>
+            <example correction="eixordadores|clamoroses|retronants"><marker>atronadores</marker></example>
+       </rule>
         <rule id="AGUARDAR" name="aguardar">
             <pattern>
                 <token inflected="yes">aguardar</token>
