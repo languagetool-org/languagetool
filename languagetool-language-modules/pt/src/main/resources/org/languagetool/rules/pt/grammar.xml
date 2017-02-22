@@ -6362,6 +6362,20 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
+    <rule id="PUNCTUATION_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
+    <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+        <marker>
+          <token regexp="yes">&unidades_de_medida;</token>
+          <token>.</token>
+        </marker>
+          <token regexp="yes">\p{Ll}.*|[,;]</token>
+      </pattern>
+      <message>As abreviaturas de unidades de medida não são pontuadas.</message>
+        <suggestion>\1</suggestion>
+      <example correction="kg">São 2 <marker>kg.</marker> de maças.</example>
+    </rule>
+
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
     <rule>
