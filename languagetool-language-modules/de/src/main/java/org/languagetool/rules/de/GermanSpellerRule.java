@@ -420,8 +420,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
       if (!needFugenS && partialWord.length() > 1) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
-      } else if (needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
-        partialWord = partialWord.substring(1);
+      } else if (needFugenS && partialWord.length() > 2) {
+        partialWord = partialWord.startsWith("s") ? partialWord.substring(1) : partialWord;
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       }
       return false;
