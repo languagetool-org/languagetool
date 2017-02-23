@@ -1258,6 +1258,22 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1 à \3</suggestion>
       <example correction='assistir à apresentação'>Poderá <marker>assistir a apresentação</marker> da gala.</example>
     </rule>
+    <rule>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>candidatar</token>
+          <token>-</token>
+          <token regexp='yes'>[mts]e|[nv]os</token>
+          <token regexp='yes'>as?</token>
+        </marker>
+          <token postag_regexp='yes' postag='(N.|A..)F.+'/>
+      </pattern>
+      <message>Erro de crase.</message>
+        <suggestion>\1-se <match no='4' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+      <example correction='candidatou-se à'>Ele <marker>candidatou-se a</marker> posição de gestor.</example>
+    </rule>
   </rulegroup>
 
     <rule id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO'>
