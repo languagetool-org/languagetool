@@ -1274,6 +1274,20 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1-se <match no='4' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <example correction='candidatou-se à'>Ele <marker>candidatou-se a</marker> posição de gestor.</example>
     </rule>
+    <rule>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>acomodadad[ao]s?|acostumad[ao]s?|destinad[ao]s?|expost[ao]s?|face|fiel|fiéis|homenage(m|ns)|igua(l|is)|inferior(es)?|obediência|obedientes?|sentad[ao]s?|superior(es)?|visitas?|acesso|acessíve(l|is)</token>
+          <token regexp='yes'>as?</token>
+        </marker>
+          <token postag_regexp='yes' postag='(N.|A..)F.+'/>
+      </pattern>
+      <message>Erro de crase.</message>
+        <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
+      <example correction='superiores à'>Nestas regiões é possível obter ordenados <marker>superiores a</marker> média.</example>
+    </rule>
   </rulegroup>
 
     <rule id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO'>
