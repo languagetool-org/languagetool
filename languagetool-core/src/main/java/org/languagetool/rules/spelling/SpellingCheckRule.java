@@ -349,7 +349,9 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   /**
-   * Checks whether a <code>word</code> starts with an ignored word
+   * Checks whether a <code>word</code> starts with an ignored word.
+   * Note that a minimum <code>word</code>-length of 4 characters is expected.
+   * (This is for better performance. Moreover, such short words are most likely contained in the dictionary.)
    * @param word - entire word
    * @param caseSensitive - determines whether the check is case-sensitive
    * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
@@ -357,7 +359,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 3.5
    */
   protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
-    if (word.length() < 3) {
+    if (word.length() < 4) {
       return 0;
     }
     Optional<String> match = null;
