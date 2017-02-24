@@ -60,6 +60,7 @@ abstract class TextChecker {
   private static final String ENCODING = "UTF-8";
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests 
   
+  private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
   private final boolean internalServer;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
@@ -161,7 +162,14 @@ abstract class TextChecker {
     }
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     String clazz = this.getClass().getSimpleName();
-    print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
+    Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
+    if (count == null) {
+      count = 1;
+    } else {
+      count++;
+    }
+    languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
+    print("Check done: " + text.length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
             + ", " + messageSent);
