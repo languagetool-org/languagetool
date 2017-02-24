@@ -6270,6 +6270,30 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
+    <rule id="FINAL_STOPS" name="Pontuação final em falta">
+    <!--       Based on the Catalan version, Tiago F. Santos,  2017-02-22      -->
+      <antipattern>
+        <marker>
+          <token regexp="yes">[.!?]</token>
+          <token min="0" regexp="yes">['"’”»]</token>
+          <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
+        </marker>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\p{Lu}.*</token>
+          <token min="18" skip="-1"/>
+        <marker>
+          <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
+        </marker>
+      </pattern>
+      <message>Se não é um título, falta um ponto no final da frase.</message>
+      <example correction="">Esta é uma frase comprida que não tem um ponto no final, portanto é quase garantido que existe algum <marker>erro</marker></example>
+      <example correction="">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
+      <example>Esta é uma frase curta, que poderia ser um título</example>
+      <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
+      <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
+    </rule>
 
   <rulegroup id="COMMA_ETC" name="Regras de utilização de etc.">
     <!--  Created by Tiago F. Santos, 30-01-2017 -->
