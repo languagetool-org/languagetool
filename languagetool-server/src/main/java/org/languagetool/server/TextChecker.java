@@ -143,13 +143,13 @@ abstract class TextChecker {
     }
 
     setHeaders(httpExchange);
-    String xmlResponse = getResponse(text, lang, motherTongue, matches);
+    String response = getResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     } catch (IOException exception) {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
