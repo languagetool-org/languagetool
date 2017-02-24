@@ -6349,7 +6349,7 @@ and tokenizer spreadsheet from the forum        -->
           <token regexp="yes">&abreviaturas;
             <exception postag="NP.*" postag_regexp="yes"/>
             <exception regexp="yes">(?-i)[ad]C|DJ</exception>
-            <exception regexp="yes">(?-i)[A-Z]+</exception></token>
+            <exception regexp="yes">(?-i)\p{L}+</exception></token>
         </marker>
           <token><exception regexp='yes'>\.|-</exception></token>
       </pattern>
@@ -6382,7 +6382,8 @@ and tokenizer spreadsheet from the forum        -->
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
         <marker>
-          <token regexp="yes">&unidades_de_medida;</token>
+          <token regexp="yes">&unidades_de_medida;
+            <exception regexp='yes'>(?-i)[A-Z]</exception></token>
           <token>.</token>
         </marker>
           <token regexp="yes">\p{Ll}.*|[,;]</token>
@@ -6390,6 +6391,8 @@ and tokenizer spreadsheet from the forum        -->
       <message>As abreviaturas de unidades de medida não são pontuadas.</message>
         <suggestion>\1</suggestion>
       <example correction="kg">São 2 <marker>kg.</marker> de maças.</example>
+      <example>C., a região foi tomada pelos Romanos que edificaram.</example>
+      <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith D...</example>
     </rule>
 
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
