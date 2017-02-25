@@ -6271,7 +6271,6 @@ and tokenizer spreadsheet from the forum        -->
   </rulegroup>
 
     <rule id="FINAL_STOPS" name="Pontuação final em falta">
-    <!--       Based on the Catalan version, Tiago F. Santos,  2017-02-22      -->
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
@@ -6419,18 +6418,19 @@ and tokenizer spreadsheet from the forum        -->
     <rule id="PUNCTUATION_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
+          <token regexp="yes">\d+</token>
         <marker>
-          <token regexp="yes">&unidades_de_medida;
-            <exception regexp='yes'>(?-i)[A-Z]</exception></token>
+          <token regexp="yes">&unidades_de_medida;</token>
           <token>.</token>
         </marker>
           <token regexp="yes">\p{Ll}.*|[,;]</token>
       </pattern>
       <message>As abreviaturas de unidades de medida não são pontuadas.</message>
-        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
       <example correction="kg">São 2 <marker>kg.</marker> de maças.</example>
       <example>C., a região foi tomada pelos Romanos que edificaram.</example>
       <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith D...</example>
+      <example>"A lei e os profetas duraram até João"(cf. ; ).</example>
     </rule>
 
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
