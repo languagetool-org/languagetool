@@ -118,7 +118,7 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(text, parameters, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(text, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
       }
     });
     boolean incompleteResult = false;
@@ -191,7 +191,7 @@ abstract class TextChecker {
     }
   }
 
-  private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
+  private List<RuleMatch> getRuleMatches(String text, Language lang,
                                          Language motherTongue, QueryParams params, RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
