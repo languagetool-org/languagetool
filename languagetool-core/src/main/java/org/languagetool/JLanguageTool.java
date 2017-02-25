@@ -480,8 +480,29 @@ public class JLanguageTool {
     return check(text, true, ParagraphHandling.NORMAL);
   }
 
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   * 
+   * @param text the text to be checked
+   * @return a List of {@link RuleMatch} objects
+   * @since 3.7
+   */
+  @Experimental
+  public List<RuleMatch> check(String text, RuleMatchListener listener) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL, listener);
+  }
+
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     return check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode);
+  }
+
+  /**
+   * @since 3.7
+   */
+  @Experimental
+  public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+    return check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode, listener);
   }
 
   /**
@@ -508,6 +529,16 @@ public class JLanguageTool {
    * @since 2.3
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
+    return check(annotatedText, tokenizeText, paraMode, null);
+  }
+  
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   * @since 3.7
+   */
+  @Experimental
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
     List<String> sentences;
     if (tokenizeText) { 
       sentences = sentenceTokenize(annotatedText.getPlainText());
@@ -530,7 +561,7 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
-    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, listener);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
@@ -576,7 +607,16 @@ public class JLanguageTool {
   
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1);
+    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null);
+  }
+
+  /**
+   * @since 3.7
+   */
+  @Experimental
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -913,13 +953,14 @@ public class JLanguageTool {
     private final AnnotatedText annotatedText;
     private final List<String> sentences;
     private final List<AnalyzedSentence> analyzedSentences;
+    private final RuleMatchListener listener;
     
     private int charCount;
     private int lineCount;
     private int columnCount;
 
     TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
-                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount) {
+                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount, RuleMatchListener listener) {
       this.rules = rules;
       if (sentences.size() != analyzedSentences.size()) {
         throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
@@ -931,6 +972,7 @@ public class JLanguageTool {
       this.charCount = charCount;
       this.lineCount = lineCount;
       this.columnCount = columnCount;
+      this.listener = listener;
     }
 
     @Override
@@ -964,6 +1006,11 @@ public class JLanguageTool {
             adaptedMatches.add(newMatch);
           }
           ruleMatches.addAll(adaptedMatches);
+          if (listener != null) {
+            for (RuleMatch adaptedMatch : adaptedMatches) {
+              listener.matchFound(adaptedMatch);
+            }
+          }
         }
       }
       return ruleMatches;
@@ -984,8 +1031,7 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules,
-                    analyzedSentence);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, analyzedSentence);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
@@ -995,6 +1041,9 @@ public class JLanguageTool {
             RuleMatch thisMatch = adjustRuleMatchPos(elem,
                     charCount, columnCount, lineCount, sentence, annotatedText);
             adaptedMatches.add(thisMatch);
+            if (listener != null) {
+              listener.matchFound(thisMatch);
+            }
           }
           ruleMatches.addAll(adaptedMatches);
           charCount += sentence.length();
