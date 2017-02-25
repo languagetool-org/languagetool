@@ -27,7 +27,7 @@ import org.languagetool.rules.RuleMatch;
 public interface RuleMatchListener {
 
   /**
-   * Called for every {@link RuleMatch} found (does not work for {@link MultiThreadedJLanguageTool}) yet.
+   * Called for every {@link RuleMatch} found.
    */
   @Experimental
   void matchFound(RuleMatch ruleMatch);

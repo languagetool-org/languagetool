@@ -176,7 +176,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   @Override
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
        List<Rule> allRules, ParagraphHandling paraMode, 
-       AnnotatedText annotatedText) throws IOException {
+       AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
