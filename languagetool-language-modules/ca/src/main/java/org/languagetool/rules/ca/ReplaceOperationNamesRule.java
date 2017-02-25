@@ -78,14 +78,17 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
     return "Noms d'operació tècnica: buidat/buidatge";
   }
 
+  @Override
   public String getShort() {
     return "Forma preferible";
   }
   
-  public String getMessage(String tokenStr,List<String> replacements) {
+  @Override
+  public String getMessage(String tokenStr, List<String> replacements) {
     return "Si és el nom d'una operació tècnica, val més usar una altra forma.";
   }
 
+  @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }

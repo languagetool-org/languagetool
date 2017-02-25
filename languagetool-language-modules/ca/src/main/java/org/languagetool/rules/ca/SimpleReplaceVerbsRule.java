@@ -54,7 +54,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  private final static String endings = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|"
+  private static final String endings = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|"
       + "aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|"
       + "assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|"
       + "essin|essis|éssiu|eu|i|í|in|is|o|ïs";
@@ -80,14 +80,17 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
     return "Detecta verbs incorrectes i proposa suggeriments de canvi";
   }
 
+  @Override
   public String getShort() {
     return "Verb incorrecte";
   }
 
+  @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return "Verb incorrecte.";
   }
 
+  @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }
