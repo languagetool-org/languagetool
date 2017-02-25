@@ -84,7 +84,7 @@ public class MorfologikMultiSpeller {
   @Nullable
   private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader, String dictPath, int maxEditDistance) throws IOException {
     List<byte[]> lines = getLines(plainTextReader);
-    if (lines.size() == 0) {
+    if (lines.isEmpty()) {
       return null;
     }
     Dictionary dictionary = getDictionary(lines, dictPath);

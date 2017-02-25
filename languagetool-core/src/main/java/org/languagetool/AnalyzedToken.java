@@ -89,12 +89,12 @@ public final class AnalyzedToken {
       return true;
     }
     //empty tokens never match anything
-    if ("".equals(an.getToken()) && an.getLemma() == null 
+    if (an.getToken().isEmpty() && an.getLemma() == null
         && an.getPOSTag() == null) {
       return false;
     }
     boolean found = true;
-    if (!"".equals(an.getToken())) { //token cannot be null
+    if (!an.getToken().isEmpty()) { //token cannot be null
       found = an.getToken().equals(this.token);
     }
     if (an.getLemma() != null) {

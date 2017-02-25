@@ -2012,6 +2012,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="zweier">Das Addieren <marker>zweiter</marker> Zahlen ist einfach.</example>
         </rule>
         <rule id="WENIGSTEN_VS_WENIGSTENS" name="'wenigsten (wenigstens)'">
+            <antipattern>
+                <token>die</token>
+                <token>bisher</token>
+                <token>wenigsten</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" negate="yes">am|den|die|des|der</token>
                 <marker>
@@ -2023,6 +2028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="wenigstens|zumindest">Wir sollten <marker>wenigsten</marker> einen Versuch machen.</example>
             <example>Wir sollten <marker>wenigstens</marker> zwei Versuche machen.</example>
             <example>...so dass Portugal als Dritter trotz der <marker>wenigsten</marker> Gegentore die Teilnahme verpasste.</example>
+            <example>Die bisher wenigsten Unfälle gab es dort.</example>
         </rule>
         <rulegroup id="CHAMPAGNE_VS_CHAMPAGNER" name="'Champagne (Champagner)'">
             <rule>
@@ -25042,10 +25048,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">Liga|Stock(werk)?</token>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START"/>
                 <token/>
                 <token/>
                 <token postag="PKT"/>
@@ -25074,8 +25076,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Entweder reden wir Chinesisch oder gar nicht.</example>
             <example>Französisch sprechen fällt mir leicht.</example>
             <example>Freitag gehen wir essen.</example>
-            <example>Sie wollen in die 2. Liga aufsteigen.</example>
-            <example>Sie wollen im 2. Stock wohnen.</example>
             <example>Softwareverteilung steuern</example><!-- Headline style -->
             <example>Satz streichen!</example>
         </rule>
@@ -30559,6 +30559,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token postag="VER:1:PLU:PRT:NON"/>
+                    <token postag="VER:MOD:[123]:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
                     <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen</token>
                     <token skip="-1" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes">
@@ -30587,10 +30591,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Hier ein Komma einfügen?</message>
-                <example  type="incorrect">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
+                <example type="incorrect">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
                 <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
                 <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
                 <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
+                <example>Wer zu ihm gelangen will, muss sich verpflichten, nichts über ihn zu verraten.</example>
             </rule>
         </rulegroup>
 <!--   Komma vor Relativsatz   -->
