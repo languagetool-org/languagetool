@@ -144,7 +144,7 @@ abstract class TextChecker {
                          ", " + text.length() + " characters of text, system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-          matches = ruleMatchesSoFar;
+          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running it seems, so make a copy
           incompleteResult = true;
         } else {
           throw new RuntimeException(message, e);
