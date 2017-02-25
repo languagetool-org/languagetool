@@ -159,7 +159,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
                   replacementLemma, "NCMS000", replacementLemma), "NC.P.*");
             } catch (IOException e) {
               throw new RuntimeException("Could not synthesize: "
-                  + replacementLemma + " with tag NC.P.*.");
+                  + replacementLemma + " with tag NC.P.*.", e);
             }
             possibleReplacements.addAll(Arrays.asList(synthesized));
           }

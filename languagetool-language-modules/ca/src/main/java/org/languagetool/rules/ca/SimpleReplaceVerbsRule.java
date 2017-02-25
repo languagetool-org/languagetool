@@ -142,7 +142,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
             try {
               analyzedTokenReadingsList = tagger.tag(wordAsArray);
             } catch (IOException e) {
-              throw new RuntimeException("Could not tag sentence: " + wordAsArray );
+              throw new RuntimeException("Could not tag sentence: " + wordAsArray, e);
             }
             if (analyzedTokenReadingsList != null) {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
@@ -171,8 +171,8 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                     analyzedToken.getPOSTag());
               } catch (IOException e) {
                 throw new RuntimeException("Could not synthesize: "
-                    + infinitiveAsAnTkn.toString() + " with tag "
-                    + analyzedToken.getPOSTag());
+                    + infinitiveAsAnTkn + " with tag "
+                    + analyzedToken.getPOSTag(), e);
               }
               for (String s : synthesized) {
                 for (int j = 1; j < parts.length; j++) {
