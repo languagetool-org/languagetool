@@ -1682,7 +1682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rulegroup id="CONCORDANCES_ADJ_ADJ" name="Concordances adjectiu + adjectiu">
             TO BE INCLUDED IN ComplexAdjectiveConcordanceRule.java
         -->
-        <rulegroup id="CONCORDANCES_PARTICIPI_ABSOLUT" name="concordança article determinat + grup nominal">
+        <rulegroup id="CONCORDANCES_PARTICIPI_ABSOLUT" name="concordances participi absolut">
             <rule>
                 <antipattern>
                     <marker>
@@ -2181,6 +2181,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="autodidàctica">en català de manera <marker>autodidàctic</marker>.</example>
                 <example>Ho va fer de manera natural.</example>
                 <!-- <example>canvis de forma bruscos</example> -->
+            </rule>
+            <rule id="CONCORDANCES_UN_ALTRE" name='concordances "un altre"'>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"></feature>
+                        <feature id="genere"></feature>
+                        <token postag="D[^R].*" postag_regexp="yes"></token>
+                        <token postag="P.*" postag_regexp="yes" inflected="yes">altre<exception postag="A.*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="D..[MC][SN].*" postag_regexp="yes" /> <match no="2" postag="PI.M[SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="D..[MC][PN].*" postag_regexp="yes" /> <match no="2" postag="PI.C[PN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="D..[FC][SN].*" postag_regexp="yes" /> <match no="2" postag="PI.F[SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="D..[FC][PN].*" postag_regexp="yes" /> <match no="2" postag="PI.C[PN].*" postag_regexp="yes" /></suggestion>
+                <example correction="un altre|uns altres|una altra|unes altres">Jo i <marker>un altres</marker> volíem anar-hi.</example>
+                <!--<example correction="qualsevol altre|qualssevols altres|qualsevol altra">Jo i <marker>qualsevol altres</marker> volíem anar-hi.</example>-->
+                <example>Cosa de la qual altres saben més.</example>
+                <example>qualssevol altres</example>
             </rule>
             <rule id="ALTRE_CASA" name="altre casa">
                 <pattern>
