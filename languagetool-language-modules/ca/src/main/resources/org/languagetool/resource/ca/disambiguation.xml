@@ -5545,7 +5545,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- pels projectes, malgrat una llista -->
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="RG"/></token>
-            <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'</exception></token>
+            <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'|altres?|altra</exception></token>
             <!-- ¿Exigir unificació o no? (Ex. amb un tesi, d'un mitjana)-->
             <marker>
                 <and>
@@ -6468,6 +6468,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^V].*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="ALTRE" name="l'altre determinant/adjectiu/pronom">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">el|un</token>
+                <marker>
+                    <token postag="[AP].*" postag_regexp="yes" inflected="yes">altre</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[AP].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="P.*" postag_regexp="yes" inflected="yes">altre<exception scope="previous" regexp="yes">ningú|algú|cadascú</exception></token>
+                </marker>
+                <token><exception postag="[NA].*|PX.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="P.*"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
@@ -6700,7 +6720,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
-                    <token postag="DE.*" postag_regexp="yes"/>
+                    <token postag="D[ET].*|PT.*" postag_regexp="yes"/>
                     <token postag="DI.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
                 </marker>
