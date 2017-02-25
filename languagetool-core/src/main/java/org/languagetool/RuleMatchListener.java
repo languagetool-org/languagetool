@@ -27,7 +27,8 @@ import org.languagetool.rules.RuleMatch;
 public interface RuleMatchListener {
 
   /**
-   * Called for every {@link RuleMatch} found.
+   * Called for every {@link RuleMatch} found. Useful to show (some) results
+   * even when checking stops with a timeout.
    */
   @Experimental
   void matchFound(RuleMatch ruleMatch);
