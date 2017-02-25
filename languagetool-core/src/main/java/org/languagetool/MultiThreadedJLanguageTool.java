@@ -186,7 +186,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     ExecutorService executorService = getExecutorService();
     try {
       List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount);
+              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener);
       List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
@@ -200,7 +200,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
        AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
-       List<Rule> allRules, int charCount, int lineCount, int columnCount) {
+       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener) {
     int threads = getThreadPoolSize();
     int totalRules = allRules.size();
     int chunkSize = totalRules / threads;
@@ -218,8 +218,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       } else {
         subRules = allRules.subList(firstItem, firstItem + chunkSize);
       }
-      // TODO: set listener here:
-      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount, null));
+      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount, listener));
       firstItem = firstItem + chunkSize;
     }
     return callables;
