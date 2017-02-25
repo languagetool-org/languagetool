@@ -41,7 +41,7 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class AbstractSimpleReplaceRule extends Rule {
 
-  private boolean ignoreTaggedWords = false;
+  protected boolean ignoreTaggedWords = false;
   private boolean checkLemmas = true;
 
   protected abstract Map<String, List<String>> getWrongWords();

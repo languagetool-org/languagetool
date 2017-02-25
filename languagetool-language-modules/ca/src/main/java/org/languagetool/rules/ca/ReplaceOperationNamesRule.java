@@ -19,22 +19,18 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -46,16 +42,17 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Jaume Ortolà
  */
-public class ReplaceOperationNamesRule extends Rule {
+public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/ca/replace_operationnames.txt";
-  // locale used on case-conversion
+  private static final Map<String, List<String>> wrongWords = load("/ca/replace_operationnames.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
+
+  @Override
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
+  }
   
-  private static final String FILE_ENCODING = "utf-8";
-  protected final Map<String, List<String>> possibleWrongWords;
-  
-  private final CatalanSynthesizer synth;
+  private static final CatalanSynthesizer synth = new CatalanSynthesizer();
   
   private static final Pattern PrevToken_POS = Pattern.compile("D[^R].*|PX.*|SPS00|SENT_START");
   private static final Pattern PrevToken_POS_Excep = Pattern.compile("RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN");
@@ -63,21 +60,12 @@ public class ReplaceOperationNamesRule extends Rule {
   
   private static final Pattern PUNTUACIO = Pattern.compile("PUNCT.*|SENT_START");
   private static final Pattern DETERMINANT = Pattern.compile("D[^R].M.*");
+  
 
-  public final String getFileName() {
-    return FILE_NAME;
-  }
-  
-  public String getEncoding() {
-    return FILE_ENCODING;
-  }
-  
   public ReplaceOperationNamesRule(final ResourceBundle messages) throws IOException {
+    super(messages);
     super.setLocQualityIssueType(ITSIssueType.Style);
-    super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries"));
-    possibleWrongWords = loadWords(JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream(getFileName()));
-    synth = new CatalanSynthesizer();
+    super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries"));    
   }  
 
   @Override
@@ -103,7 +91,7 @@ public class ReplaceOperationNamesRule extends Rule {
   }
   
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
+  public final RuleMatch[] match(final AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
@@ -116,8 +104,8 @@ public class ReplaceOperationNamesRule extends Rule {
       if (token.length()>3 && token.endsWith("s")) {
         token = token.substring(0, token.length() - 1);
       }
-      if (possibleWrongWords.containsKey(token)) {
-        replacementLemmas = possibleWrongWords.get(token);
+      if (wrongWords.containsKey(token)) {
+        replacementLemmas = wrongWords.get(token);
       } else {
         continue loop;
       }
@@ -131,8 +119,7 @@ public class ReplaceOperationNamesRule extends Rule {
           matchPostagRegexp(tokens[i - 1], PUNTUACIO) &&
           matchPostagRegexp(tokens[i + 1], DETERMINANT)) {
         continue loop;
-      }
-      
+      }  
       
       // relevant token
       if (tokens[i].hasPosTag("_GV_")) {
@@ -165,7 +152,12 @@ public class ReplaceOperationNamesRule extends Rule {
         } else { 
           //synthesize plural
           for (String replacementLemma : replacementLemmas) {
-            synthesized = synth.synthesize(new AnalyzedToken (replacementLemma,"NCMS000", replacementLemma), "NC.P.*");
+            try {
+              synthesized = synth.synthesize(new AnalyzedToken (replacementLemma,"NCMS000", replacementLemma), "NC.P.*");
+            } catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
             possibleReplacements.addAll(Arrays.asList(synthesized));
           }
         }
@@ -198,40 +190,6 @@ public class ReplaceOperationNamesRule extends Rule {
 
     return potentialRuleMatch;
   }
-
-
-  private Map<String, List<String>> loadWords(final InputStream stream)
-      throws IOException {
-    Map<String, List<String>> map = new HashMap<>();
-
-    try (Scanner scanner = new Scanner(stream, getEncoding())) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.isEmpty() || line.charAt(0) == '#') { // # = comment
-          continue;
-        }
-        String[] parts = line.split("=");
-        if (parts.length != 2) {
-          throw new IOException("Format error in file "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
-                  getFileName()) + ", line: " + line);
-        }
-
-        String[] replacements = parts[1].split("\\|");
-
-        // multiple incorrect forms
-        final String[] wrongForms = parts[0].split("\\|");
-        for (String wrongForm : wrongForms) {
-          map.put(wrongForm, Arrays.asList(replacements));
-        }
-      }
-    }
-    return map;
-  }
-
-  @Override
-  public void reset() {
-  }
   
   /**
    * Match POS tag with regular expression
@@ -251,5 +209,7 @@ public class ReplaceOperationNamesRule extends Rule {
     }
     return matches;
   }
+
+
 
 }
