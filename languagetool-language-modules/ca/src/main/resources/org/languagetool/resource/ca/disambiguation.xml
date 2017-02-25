@@ -6487,6 +6487,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="P.*"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">el</token>
+                <token inflected="yes">un</token>
+                <token>a</token>
+                <token inflected="yes">el</token>
+                <marker>
+                    <token postag="P.*" postag_regexp="yes" inflected="yes">altre</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="P.*"></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
@@ -6809,7 +6821,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <marker>
                         <token postag="D[^R].[MF].." postag_regexp="yes"/> <!--afegit: altres, bastants, qualssevol, qualssevulla-->
                         <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">surt|ara|fou|perquè|trenca|era|diu|si|però|escull|creix|dura|parla|mira|queda|estima|passa|escolta|troba</exception><exception postag="DN.*" postag_regexp="yes" /></token>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">sabeu|surt|ara|fou|perquè|trenca|era|diu|si|però|escull|creix|dura|parla|mira|queda|estima|passa|escolta|troba</exception><exception postag="DN.*" postag_regexp="yes" /></token>
                     </marker>
                 </unify>
             </pattern>
@@ -6823,7 +6835,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <marker>
                         <token postag="D[^R].C.." postag_regexp="yes"/>
                         <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">fan|ara|fou|perquè|diu|si|però|era</exception><exception postag="DN.*|V[MA]IP3S0.?" postag_regexp="yes" /></token>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">sabeu|fan|ara|fou|perquè|diu|si|però|era</exception><exception postag="DN.*|V[MA]IP3S0.?" postag_regexp="yes" /></token>
                     </marker>
                 </unify>
             </pattern>
@@ -6834,7 +6846,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"/>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">fan|surt|perquè|diu|si|però|escull|creix|escolta|troba</exception></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">sabeu|fan|surt|perquè|diu|si|però|escull|creix|escolta|troba</exception></token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GN_MS"/><wd pos="_GN_MS"/><wd pos="_GN_MS"/></disambig>
@@ -8650,7 +8662,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">surts?|sobre|caus?|resulta|manca<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">surts?|sobre|caus?|resulta|manca|sabeu<exception postag="_GN.*" postag_regexp="yes" /></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
                 </and>
             </marker>
