@@ -178,7 +178,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return tokenReadings.isTagged();
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
+  protected RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
       List<String> replacements) {
     String tokenString = tokenReadings.getToken();
     int pos = tokenReadings.getStartPos();

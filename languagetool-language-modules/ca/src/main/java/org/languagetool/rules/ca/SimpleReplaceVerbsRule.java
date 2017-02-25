@@ -34,7 +34,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
-import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches incorrect verbs (including all inflected forms) and
@@ -143,8 +142,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
             try {
               analyzedTokenReadingsList = tagger.tag(wordAsArray);
             } catch (IOException e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
+              throw new RuntimeException("Could not tag sentence: " + wordAsArray );
             }
             if (analyzedTokenReadingsList != null) {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
@@ -172,8 +170,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                 synthesized = synth.synthesize(infinitiveAsAnTkn,
                     analyzedToken.getPOSTag());
               } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException("Could not synthesize: "
+                    + infinitiveAsAnTkn.toString() + " with tag "
+                    + analyzedToken.getPOSTag());
               }
               for (String s : synthesized) {
                 for (int j = 1; j < parts.length; j++) {
@@ -194,27 +193,6 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
-      List<String> replacements) {
-    String tokenString = tokenReadings.getToken();
-    int pos = tokenReadings.getStartPos();
-
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-        + tokenString.length(), getMessage(tokenString, replacements),
-        getShort());
-
-    if (StringTools.startsWithUppercase(tokenString)) {
-      for (int i = 0; i < replacements.size(); i++) {
-        replacements
-            .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
-      }
-    }
-
-    potentialRuleMatch.setSuggestedReplacements(replacements);
-
-    return potentialRuleMatch;
   }
 
 }

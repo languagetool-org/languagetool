@@ -33,7 +33,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
-import org.languagetool.tools.StringTools;
 
 /**
  * A rule that suggests better names for technical operation names
@@ -156,10 +155,11 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
           //synthesize plural
           for (String replacementLemma : replacementLemmas) {
             try {
-              synthesized = synth.synthesize(new AnalyzedToken (replacementLemma,"NCMS000", replacementLemma), "NC.P.*");
+              synthesized = synth.synthesize(new AnalyzedToken(
+                  replacementLemma, "NCMS000", replacementLemma), "NC.P.*");
             } catch (IOException e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
+              throw new RuntimeException("Could not synthesize: "
+                  + replacementLemma + " with tag NC.P.*.");
             }
             possibleReplacements.addAll(Arrays.asList(synthesized));
           }
@@ -171,27 +171,6 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
-      List<String> replacements) {
-    String tokenString = tokenReadings.getToken();
-    int pos = tokenReadings.getStartPos();
-
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-        + tokenString.length(), getMessage(tokenString, replacements), getShort());
-
-    if (StringTools.startsWithUppercase(tokenString)) {
-      for (int i = 0; i < replacements.size(); i++) {
-        replacements
-            .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
-      }
-    }
-
-    potentialRuleMatch.setSuggestedReplacements(replacements);
-
-    return potentialRuleMatch;
   }
   
   /**
