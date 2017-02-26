@@ -10686,7 +10686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>wie</token>
                     </marker>
-                    <token postag="EIG:.*" postag_regexp="yes"/>
+                    <token postag="EIG:.*|UNKNOWN" postag_regexp="yes"/>
                 </pattern>
                 <message>'wie' ist hier umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
                 <example correction="als">Tom Cruise war auch viel kleiner <marker>wie</marker> Nicole Kidman.</example>
@@ -25068,6 +25068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">sind|spielen</exception>
                     <exception postag="SENT_END"/>
                 </token>
+                <token><exception regexp="yes">die(se)?</exception></token>
             </pattern>
             <message>Bitte prüfen, ob hier der Plural benutzt werden muss.</message>
             <example correction=''><marker>Regelsystem</marker> nutzen Verfahren wie diese.</example>
@@ -25079,6 +25080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Freitag gehen wir essen.</example>
             <example>Softwareverteilung steuern</example><!-- Headline style -->
             <example>Satz streichen!</example>
+            <example>Unterstützung bekommen die Kläger aus ungeahnter Richtung.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
