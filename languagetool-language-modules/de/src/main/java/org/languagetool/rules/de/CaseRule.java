@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -918,8 +919,8 @@ public class CaseRule extends GermanRule {
   private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens) {
     String token = tokens[i].getToken();
     boolean maybeLanguage = languages.contains(token) ||
-                            languages.contains(token.replaceFirst("e$", "")) ||  // z.B. "ins Japanische übersetzt"
-                            languages.contains(token.replaceFirst("en$", ""));   // z.B. "im Japanischen"
+                            languages.contains(StringUtils.removeEnd(token, "e")) ||  // z.B. "ins Japanische übersetzt"
+                            languages.contains(StringUtils.removeEnd(token, "en"));   // z.B. "im Japanischen"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     return maybeLanguage && ((nextReadings != null && !hasNounReading(nextReadings)) ||

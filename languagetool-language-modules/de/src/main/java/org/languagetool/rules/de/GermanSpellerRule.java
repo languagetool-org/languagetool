@@ -226,7 +226,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
-    String w = word.replaceFirst("\\.$", "");
+    String w = StringUtils.removeEnd(word, ".");
     if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
     } else if ("desweiteren".equals(w)) {
@@ -237,8 +237,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("wie viele");
     } else if ("wievielen".equals(w)) {
       return Collections.singletonList("wie vielen");
-    } else if ("vorteilen".equals(w)) {
-      return Collections.singletonList("Vorteilen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
@@ -322,7 +320,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getPastTenseVerbSuggestion(String word) {
     if (word.endsWith("e")) {
-      String wordStem = word.replaceFirst("e$", "");
+      // strip trailing "e"
+      String wordStem = word.substring(0, word.length()-1);
       try {
         String lemma = baseForThirdPersonSingularVerb(wordStem);
         if (lemma != null) {
@@ -355,7 +354,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getParticipleSuggestion(String word) {
     if (word.startsWith("ge") && word.endsWith("t")) {
-      String baseform = word.replaceFirst("^ge", "").replaceFirst("t$", "en");
+      // strip leading "ge" and trailing "t":
+      String baseform = word.substring(2, word.length()-1) + "en";
       try {
         String participle = getParticipleForBaseform(baseform);
         if (participle != null) {
@@ -382,11 +382,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
     if (nextWord != null) {
-      nextWord = nextWord.replaceFirst("\\.$", "");
+      nextWord = StringUtils.removeEnd(nextWord, ".");
     }
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
     if (isCompound) {
-      return !hunspellDict.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+      return !hunspellDict.misspelled(StringUtils.removeEnd(word, "-"));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
     }
     return false;
   }
