@@ -354,7 +354,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getParticipleSuggestion(String word) {
     if (word.startsWith("ge") && word.endsWith("t")) {
-      // strip leading "ge" and trailing "t":
+      // strip leading "ge" and replace trailing "t" with "en":
       String baseform = word.substring(2, word.length()-1) + "en";
       try {
         String participle = getParticipleForBaseform(baseform);
