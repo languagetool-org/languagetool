@@ -838,8 +838,21 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='Namorei'><marker>Namorei com</marker> a ideia de comprar um carro novo.</example>
       <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
     </rule>
+    <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token min='0' regexp='yes'>me|te|se|vos</token>
+          <token inflected='yes'>habituar</token>
+          <token min='0'>-</token>
+          <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+          <token>com</token>
+      </pattern>
+      <message>Neste contexto o verbo "habituar" rege-se com a preposição "a".</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/><match no='3' include_skipped='all'/><match no='4' include_skipped='all'/> a</suggestion>
+      <short>Erro de regência verbal.</short>
+      <example correction='habituar-te a'>Conseguiste <marker>habituar-te com</marker> o clima?</example>
+    </rule>
     <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token inflected='yes'>acarretar</token>
