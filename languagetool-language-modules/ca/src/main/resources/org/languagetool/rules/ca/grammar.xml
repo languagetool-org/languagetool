@@ -32873,12 +32873,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes" skip="1">ficar</token>
                 </marker>
-                <token>en</token>
-                <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena</token>
+                <token regexp="yes">en|a</token>
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena|servei</token>
             </pattern>
             <message>Verb inadequat.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">posar</match></suggestion>
             <example correction="Posaren"><marker>Ficaren</marker> en dubte allò.</example>
+            <example correction="posar">Es van <marker>ficar</marker> al servei del president.</example>
         </rule>
         <rule id="RETEN" name="*retén/equip o brigada de guàrdia">
             <pattern>
