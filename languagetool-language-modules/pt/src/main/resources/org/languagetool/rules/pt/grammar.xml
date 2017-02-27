@@ -14649,7 +14649,8 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='DATE_RANGES' name='Intervalos de Data Inválidos'>
+  <rulegroup id='DATE_RANGES' name='Intervalos de Data Inválidos'>
+    <rule>
       <pattern>
           <token regexp="yes">\d\d?</token>
           <token regexp="yes">[a–\-]</token>
@@ -14657,14 +14658,35 @@ TODO Write better examples
           <token min='0'>de</token>
           <token regexp="yes">&meses_ano;</token>
       </pattern>
-    <filter class="org.languagetool.rules.DateRangeChecker" args="x:\1 y:\3"/>
+      <filter class="org.languagetool.rules.DateRangeChecker" args="x:\1 y:\3"/>
       <message>O primeiro dia (\1) tem de ser antes do último (\3).</message>
       <short>Data errada.</short>
       <example correction=""><marker>10 – 1 de Janeiro</marker>, 2016.</example>
       <example>10 a 17 Janeiro, 2016</example>
     </rule>
+    <rule>
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
+      <pattern>
+          <token regexp="yes" inflected="yes" skip='1'>em|entre|ano|período</token>
+        <marker>
+          <token regexp="yes">\d{4}</token>
+          <token regexp="yes">[–\-\/]</token>
+          <token regexp="yes">\d{2}</token>
+        </marker>
+          <token negate='yes' regexp='yes'>[ad]C</token>
+      </pattern>
+      <filter class="org.languagetool.rules.ShortenedYearRangeChecker"
+                            args="x:\2 y:\4"/>
+      <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
+      <short>Gama temporal inválida.</short>
+      <example correction="">Isto foi em <marker>1855–40</marker>.</example>
+      <example correction="">Isto foi em <marker>1815–12</marker>.</example>
+      <example correction="">Isto foi em <marker>1815-15</marker>.</example>
+      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+    </rule>
+  </rulegroup>
 
-  </category>
+ </category>
 
  <category id="STYLE" name="Estilo" type="style">
 
