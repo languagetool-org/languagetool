@@ -564,6 +564,8 @@ public class PatternRuleTest {
   }
 
   private boolean match(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
+	  if(rule.getId()=="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" )
+		  System.out.println("");
     AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
     RuleMatch[] matches = rule.match(analyzedSentence);
     return matches.length > 0;
