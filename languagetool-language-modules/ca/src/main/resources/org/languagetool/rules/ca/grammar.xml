@@ -20298,7 +20298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">cada|un|altre|algun|cert|aquest|per</exception><exception postag="AO0MS0"/></token>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert|aquest|este|eixe|per</exception><exception postag="AO0MS0"/></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -20322,6 +20322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En la tercera setmana del mes aproximadament</example>
                 <example>A principis de mes aproximadament</example>
                 <example>Voltaré tot el mes com el porc de sant Antoni.</example>
+                <example>El 14 d'eixe mes tant l'entrada com la sortida.</example>
             </rule>
             <rule>
                 <pattern>
@@ -25236,6 +25237,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="BUC_INSIGNIA" name="*buc/vaixell/nau">
+            <pattern>
+                <token inflected="yes">buc</token>
+                <token>insígnia</token>
+            </pattern>
+            <message>Cal dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">vaixell</match> \2</suggestion>.</message>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">nau</match> \2</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/buc</url>
+            <example correction="vaixells insígnia|naus insígnia">És un dels <marker>bucs insígnia</marker>.</example>
+        </rule>
         <rule id="PROU_OPTIM" name="*prou òptim">
             <pattern>
                 <token regexp="yes">prou|bastant</token>
