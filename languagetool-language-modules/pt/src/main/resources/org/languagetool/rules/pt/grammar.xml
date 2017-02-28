@@ -14667,7 +14667,7 @@ TODO Write better examples
     <rule>
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
       <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>em|entre|ano|período</token>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
@@ -14684,19 +14684,49 @@ TODO Write better examples
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
     </rule>
     <rule>
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
       <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|período</token>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
           <token regexp="yes">\d</token>
         </marker>
+          <token>
+            <exception regexp='yes'>de|&meses_ano;</exception></token>
       </pattern>
       <message>Não deve abreviar as datas desta forma.</message>
         <suggestion><match no="2"/><match no="3"/><match no="2" regexp_match="(\d{3})\d" regexp_replace="$1"/><match no="4"/></suggestion>
       <example correction="1815–1818">Isto foi nos anos de <marker>1815–8</marker>.</example>
       <example correction="1815–1818">Isto foi em <marker>1815–8</marker>.</example>
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
+    <rule>
+      <pattern>
+          <token regexp="yes">[1-3]?\d</token>
+          <token regexp="yes">&abbrevMonths;|&months;</token>
+          <token regexp="yes">[–\-]</token>
+          <token regexp="yes">[1-3]?\d</token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1–\4 de \2</suggestion>
+      <example correction="1–10 de janeiro">Data da competição:  <marker>01 de janeiro – 10 kwietnia</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" skip="1">[1-3]?\d</token>
+          <token regexp="yes">&abbrevMonths;|&months;</token>
+          <token>a</token>
+          <token regexp="yes" skip="1">[1-3]?\d</token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1 a \4 de \2</suggestion>
+      <example correction="1 do 10 kwietnia">A competição será realizada de <marker>1 de janeiro a 10 a janeiro</marker>.</example>
     </rule>
   </rulegroup>
 
