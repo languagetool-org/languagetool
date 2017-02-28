@@ -6315,10 +6315,19 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">dates?</token></marker>
-          <token regexp="yes">fra[îi]ches?|séchées?|cultivées?|produites?|muscades?|medjool|Hamraya</token>
+          <token regexp="yes">fra[îi]ches?|dénoyautées?|fourrées?|sèches?|séchées?|cultivées?|produites?|muscades?|medjool|Hamraya</token>
         </pattern>
         <message>Confusion probable entre les mots « \1 » (moment dans le temps) et <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
         <example correction="dattes">Des <marker>dates</marker> séchées.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">confiture|crème|gâteau|mélasse|noyau|pâte|recette|sirop</token>
+          <token>de</token>
+          <marker><token regexp="yes">dates?</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « \3 » (moment dans le temps) et <suggestion><match no="3" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
+        <example correction="datte">Du sirop de <marker>date</marker>.</example>
       </rule>
       <rule>
         <pattern>
