@@ -15,8 +15,14 @@ OUTFILE=/tmp/statusmail.txt
 echo "Daily LanguageTool API Report $DATE2" >$OUTFILE
 echo "" >>$OUTFILE
 
-grep -h "$DATE2 " log-[0-9]-$DATE1*.txt log-1.txt log-2.txt >$TMPFILE
+grep --text -h "^$DATE2 " log-[0-9]-$DATE1*.txt log-1.txt log-2.txt | sort >$TMPFILE
 cat log-[0-9]-$DATE1*.txt log-1.txt log-2.txt >$TMPFILE_ALL
+
+echo "From" >>$OUTFILE
+head -n 1 $TMPFILE >>$OUTFILE
+echo "To" >>$OUTFILE
+tail -n 1 $TMPFILE >>$OUTFILE
+echo "" >>$OUTFILE
 
 TOTAL=`grep -c "Check done:" $TMPFILE`
 printf "Total text checks : %'d\n" $TOTAL >>$OUTFILE
