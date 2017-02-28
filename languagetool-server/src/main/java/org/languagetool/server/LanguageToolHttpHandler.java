@@ -83,7 +83,10 @@ class LanguageToolHttpHandler implements HttpHandler {
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
+        String text = parameters.get("text");
+        String textSizeMessage = text != null ? " Text size: " + parameters.get("text").length() + "." :  "";
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
+                textSizeMessage +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
@@ -153,12 +156,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
-    message += "text length: " + params.get("text").length() + ", ";
+    String text = params.get("text");
+    if (text != null) {
+      message += "text length: " + text.length() + ", ";
+    }
     message += "Stacktrace follows:";
     print(message, System.err);
     //noinspection CallToPrintStackTrace
     e.printStackTrace();
-    String text = params.get("text");
     if (config.isVerbose() && text != null) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
