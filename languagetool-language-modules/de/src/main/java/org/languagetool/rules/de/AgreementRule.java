@@ -350,7 +350,7 @@ public class AgreementRule extends GermanRule {
     if (pos >= 1) {
       // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
       comma = tokens[pos-1].getToken().equals(",");
-      String term = tokens[pos].getToken().toLowerCase();
+      String term = tokens[pos].getToken();
       relPronoun = comma && REL_PRONOUN.contains(term);
       if (relPronoun && pos+3 < tokens.length) {
         return true;
@@ -360,8 +360,8 @@ public class AgreementRule extends GermanRule {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
       comma = tokens[pos-2].getToken().equals(",");
       if(comma) {
-        String term1 = tokens[pos-1].getToken().toLowerCase();
-        String term2 = tokens[pos].getToken().toLowerCase();
+        String term1 = tokens[pos-1].getToken();
+        String term2 = tokens[pos].getToken();
         boolean prep = PREPOSITIONS.contains(term1);
         relPronoun = REL_PRONOUN.contains(term2);
         return prep && relPronoun;

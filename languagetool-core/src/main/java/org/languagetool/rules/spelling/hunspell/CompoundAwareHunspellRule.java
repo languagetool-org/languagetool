@@ -64,7 +64,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
       List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
-      int pos = noSplitSuggestions.size() == 0 ? 0 : 1;  // first item comes from getSuggestion() above, if any
+      int pos = noSplitSuggestions.isEmpty() ? 0 : 1;  // first item comes from getSuggestion() above, if any
       for (String suggestion : noSplitLowercaseSuggestions) {
         noSplitSuggestions.add(pos, StringTools.uppercaseFirstChar(suggestion));
         // we don't know about the quality of the results here, so mix both lists together,

@@ -19,96 +19,83 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
-import org.languagetool.tools.StringTools;
 
 /**
- * A rule that matches incorrect verbs (including all inflected forms) and suggests
- * correct ones instead. 
+ * A rule that matches incorrect verbs (including all inflected forms) and
+ * suggests correct ones instead.
  * 
  * Loads the relevant words from <code>rules/ca/replace_verbs.txt</code>.
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceVerbsRule extends Rule {
-
-  private static final String FILE_NAME = "/ca/replace_verbs.txt";
-  // locale used on case-conversion
+public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
+  
+  private static final Map<String, List<String>> wrongWords = load("/ca/replace_verbs.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
-  
-  private static final String FILE_ENCODING = "utf-8";
-  protected final Map<String, List<String>> wrongWords;
-  
-  protected boolean ignoreTaggedWords = true;
-  
-  private static final Pattern[] desinencies_1conj= new Pattern[2];
-  private final CatalanTagger tagger;
-  private final CatalanSynthesizer synth;
 
-  public final String getFileName() {
-    return FILE_NAME;
+  @Override
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
-  
-  public String getEncoding() {
-    return FILE_ENCODING;
-  }
+
+  private static final String endings = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|"
+      + "aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|"
+      + "assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|"
+      + "essin|essis|éssiu|eu|i|í|in|is|o|ïs";
+  private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
+  private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)("  + endings + ")");
+  private static final CatalanTagger tagger = new CatalanTagger();
+  private static final CatalanSynthesizer synth = new CatalanSynthesizer();
   
   public SimpleReplaceVerbsRule(final ResourceBundle messages) throws IOException {
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    wrongWords = loadWords(JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream(getFileName()));
-    tagger = new CatalanTagger();
-    synth = new CatalanSynthesizer();
-    String s = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|" +
-               "às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|" +
-               "esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs";
-    desinencies_1conj[0] = Pattern.compile("(.+?)(" + s + ")");
-    desinencies_1conj[1] = Pattern.compile("(.+)(" + s + ")");
-  }  
+    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setIgnoreTaggedWords();
+  }
 
   @Override
   public final String getId() {
     return "CA_SIMPLE_REPLACE_VERBS";
   }
 
- @Override
+  @Override
   public String getDescription() {
     return "Detecta verbs incorrectes i proposa suggeriments de canvi";
   }
 
+  @Override
   public String getShort() {
     return "Verb incorrecte";
   }
-  
-  public String getMessage(String tokenStr,List<String> replacements) {
+
+  @Override
+  public String getMessage(String tokenStr, List<String> replacements) {
     return "Verb incorrecte.";
   }
 
+  @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }
-  
+
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
+  public final RuleMatch[] match(final AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
@@ -118,11 +105,16 @@ public class SimpleReplaceVerbsRule extends Rule {
         continue;
       }
       String tokenString = originalTokenStr.toLowerCase(getLocale());
-      AnalyzedTokenReadings analyzedTokenReadings=null;
-      String infinitive=null;
-      int i=0;
-      while (i<2 && analyzedTokenReadings == null) {
-        Matcher m = desinencies_1conj[i].matcher(tokenString);
+      AnalyzedTokenReadings analyzedTokenReadings = null;
+      String infinitive = null;
+      int i = 0;
+      while (i < 2 && analyzedTokenReadings == null) {
+        Matcher m;
+        if (i == 0) {
+          m = desinencies_1conj_0.matcher(tokenString);
+        } else {
+          m = desinencies_1conj_1.matcher(tokenString);
+        }
         if (m.matches()) {
           String lexeme = m.group(1);
           String desinence = m.group(2);
@@ -146,8 +138,12 @@ public class SimpleReplaceVerbsRule extends Rule {
           infinitive = lexeme.concat("ar");
           if (wrongWords.containsKey(infinitive)) {
             List<String> wordAsArray = Arrays.asList("cant".concat(desinence));
-            List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger
-                .tag(wordAsArray);
+            List<AnalyzedTokenReadings> analyzedTokenReadingsList = null;
+            try {
+              analyzedTokenReadingsList = tagger.tag(wordAsArray);
+            } catch (IOException e) {
+              throw new RuntimeException("Could not tag sentence: " + wordAsArray, e);
+            }
             if (analyzedTokenReadingsList != null) {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
             }
@@ -156,7 +152,7 @@ public class SimpleReplaceVerbsRule extends Rule {
         i++;
       }
 
-      //synthesize replacements
+      // synthesize replacements
       if (analyzedTokenReadings != null) {
         List<String> possibleReplacements = new ArrayList<>();
         String[] synthesized = null;
@@ -170,9 +166,14 @@ public class SimpleReplaceVerbsRule extends Rule {
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0],
                 "V.*", parts[0]);
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
-
-              synthesized = synth.synthesize(infinitiveAsAnTkn,
-                  analyzedToken.getPOSTag());
+              try {
+                synthesized = synth.synthesize(infinitiveAsAnTkn,
+                    analyzedToken.getPOSTag());
+              } catch (IOException e) {
+                throw new RuntimeException("Could not synthesize: "
+                    + infinitiveAsAnTkn + " with tag "
+                    + analyzedToken.getPOSTag(), e);
+              }
               for (String s : synthesized) {
                 for (int j = 1; j < parts.length; j++) {
                   s = s.concat(" ").concat(parts[j]);
@@ -185,67 +186,13 @@ public class SimpleReplaceVerbsRule extends Rule {
           }
         }
         if (possibleReplacements.size() > 0) {
-            RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,possibleReplacements);
-            ruleMatches.add(potentialRuleMatch);
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,
+              possibleReplacements);
+          ruleMatches.add(potentialRuleMatch);
         }
       }
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
-      List<String> replacements) {
-    String tokenString = tokenReadings.getToken();
-    int pos = tokenReadings.getStartPos();
-
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-        + tokenString.length(), getMessage(tokenString, replacements), getShort());
-
-    if (StringTools.startsWithUppercase(tokenString)) {
-      for (int i = 0; i < replacements.size(); i++) {
-        replacements
-            .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
-      }
-    }
-
-    potentialRuleMatch.setSuggestedReplacements(replacements);
-
-    return potentialRuleMatch;
-  }
-
-
-  private Map<String, List<String>> loadWords(final InputStream stream)
-      throws IOException {
-    Map<String, List<String>> map = new HashMap<>();
-
-    try (Scanner scanner = new Scanner(stream, getEncoding())) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.isEmpty() || line.charAt(0) == '#') { // # = comment
-          continue;
-        }
-        String[] parts = line.split("=");
-        if (parts.length != 2) {
-          throw new IOException("Format error in file "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
-                  getFileName()) + ", line: " + line);
-        }
-
-        String[] replacements = parts[1].split("\\|");
-
-        // multiple incorrect forms
-        final String[] wrongForms = parts[0].split("\\|");
-        for (String wrongForm : wrongForms) {
-          map.put(wrongForm, Arrays.asList(replacements));
-        }
-      }
-    }
-    return map;
-  }
-
-  @Override
-  public void reset() {
   }
 
 }

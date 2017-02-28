@@ -58,6 +58,7 @@ public class HTTPServerConfig {
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
+  protected boolean warmUp = false;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -152,7 +153,15 @@ public class HTTPServerConfig {
         }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
         if (cacheSize < 0) {
-          throw new IllegalArgumentException("Invalid value for cacheSize " + cacheSize + ", use 0 to deactivate cache");
+          throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
+        }
+        String warmUpStr = getOptionalProperty(props, "warmUp", "false");
+        if (warmUpStr.equals("true")) {
+          warmUp = true;
+        } else if (warmUpStr.equals("false")) {
+          warmUp = false;
+        } else {
+          throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
         }
       }
     } catch (IOException e) {
@@ -286,6 +295,11 @@ public class HTTPServerConfig {
   /** @since 3.7 */
   int getCacheSize() {
     return cacheSize;
+  }
+
+  /** @since 3.7 */
+  boolean getWarmUp() {
+    return warmUp;
   }
 
   /**
