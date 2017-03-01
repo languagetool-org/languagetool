@@ -1171,7 +1171,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     <rule>
       <pattern>
         <marker>
-          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir
+          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
             <exception inflected='yes'>ser</exception></token>
           <token postag='RG' min='0'/>
           <token regexp='yes'>as?</token>
@@ -1179,14 +1179,16 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
           <token postag_regexp='yes' postag='N.F.+'>
             <exception postag='D..F.+' postag_regexp='yes'/></token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Esta palavra rege-se com a preposição "a".</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
+      <short>Erro de crase.</short>
       <example correction='Vamos às'><marker>Vamos as</marker> compras no supermercado.</example>
       <example correction='Iremos à'><marker>Iremos a</marker> escola, falar com os professores.</example>
     <!--<example correction='foi à'>Ele <marker>foi a</marker> herdade.</example>--><!-- TODO Replace exception by 'ir' and 'ser' verbs disambiguation -->
       <example correction='adere à'>A cola <marker>adere a</marker> folha.</example>
       <example correction='Pertence provavelmente à'><marker>Pertence provavelmente a</marker> equipa dos seus amigos.</example>
+      <example correction='equivalente às'>É <marker>equivalente as</marker> alternativas existentes.</example>
       <example>A causa de sua morte foi a pneumonia.</example>
       <example>Os 6% restantes pertencem a outras nacionalidades.</example>
     </rule>
