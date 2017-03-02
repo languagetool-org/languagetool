@@ -171,7 +171,6 @@ abstract class TextChecker {
       languageMessage += "[auto]";
     }
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
-    String clazz = this.getClass().getSimpleName();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;
@@ -181,7 +180,7 @@ abstract class TextChecker {
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     print("Check done: " + text.length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
-            + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
+            + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
   }
 

@@ -1171,7 +1171,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     <rule>
       <pattern>
         <marker>
-          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir
+          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
             <exception inflected='yes'>ser</exception></token>
           <token postag='RG' min='0'/>
           <token regexp='yes'>as?</token>
@@ -1179,14 +1179,16 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
           <token postag_regexp='yes' postag='N.F.+'>
             <exception postag='D..F.+' postag_regexp='yes'/></token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Esta palavra rege-se com a preposição "a".</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
+      <short>Erro de crase.</short>
       <example correction='Vamos às'><marker>Vamos as</marker> compras no supermercado.</example>
       <example correction='Iremos à'><marker>Iremos a</marker> escola, falar com os professores.</example>
     <!--<example correction='foi à'>Ele <marker>foi a</marker> herdade.</example>--><!-- TODO Replace exception by 'ir' and 'ser' verbs disambiguation -->
       <example correction='adere à'>A cola <marker>adere a</marker> folha.</example>
       <example correction='Pertence provavelmente à'><marker>Pertence provavelmente a</marker> equipa dos seus amigos.</example>
+      <example correction='equivalente às'>É <marker>equivalente as</marker> alternativas existentes.</example>
       <example>A causa de sua morte foi a pneumonia.</example>
       <example>Os 6% restantes pertencem a outras nacionalidades.</example>
     </rule>
@@ -14050,6 +14052,17 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+            <regexp>\s*º\s*([CFNSEW])\b</regexp>
+      <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
+      <example correction="&#8239;°C">Estão  25<marker>º C</marker> à sombra.</example>
+      <example correction="&#8239;°C">Estão  25<marker>ºC</marker> à sombra.</example>
+      <example correction="&#8239;°C">Estão  25<marker> º C</marker> à sombra.</example>
+      <example correction="&#8239;°C">Estão  25<marker> ºC</marker> à sombra.</example>
+      <example>Fa 25°.</example>
+    </rule>
+
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="TRADEMARK" name="(TM) em vez de ™">
@@ -14198,6 +14211,17 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
       <short>Dar um espaço</short>
       <example correction="100 €">Deve-se <marker>100€</marker>.</example>
+    </rule>
+
+    <rule id="LOWER_QUOTES" name="Símbolo não utilizado em português: „">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token>„</token>
+      </pattern>
+      <message>O símbolo de aspas baixas não é utilizado em português.</message>
+        <suggestion>“</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Aspas</url>
+      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
 
   <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
@@ -14667,13 +14691,14 @@ TODO Write better examples
     <rule>
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
       <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>em|entre|ano|período</token>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
           <token regexp="yes">\d{2}</token>
         </marker>
-          <token negate='yes' regexp='yes'>[ad]C</token>
+          <token>
+            <exception regexp='yes'>de|&meses_ano;</exception></token>
       </pattern>
       <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
       <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
@@ -14684,19 +14709,77 @@ TODO Write better examples
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
     </rule>
     <rule>
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
       <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|período</token>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
           <token regexp="yes">\d</token>
         </marker>
+          <token>
+            <exception regexp='yes'>de|&meses_ano;</exception></token>
       </pattern>
       <message>Não deve abreviar as datas desta forma.</message>
         <suggestion><match no="2"/><match no="3"/><match no="2" regexp_match="(\d{3})\d" regexp_replace="$1"/><match no="4"/></suggestion>
       <example correction="1815–1818">Isto foi nos anos de <marker>1815–8</marker>.</example>
       <example correction="1815–1818">Isto foi em <marker>1815–8</marker>.</example>
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
+    <rule>
+      <pattern>
+          <token regexp="yes">[0123]?\d</token>
+          <token>de</token>
+          <token regexp="yes">&meses_ano_abrev;|&meses_ano;</token>
+          <token regexp="yes">[–\-]</token>
+          <token regexp="yes">[0123]?\d</token>
+          <token>de</token>
+          <token><match no="2"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1–\5 de \3</suggestion>
+      <example correction="01–10 de janeiro">Data da competição:  <marker>01 de janeiro – 10 de janeiro</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[0123]?\d</token>
+          <token regexp="yes">&meses_ano_abrev;|&meses_ano;</token>
+          <token regexp="yes">[–\-]</token>
+          <token regexp="yes">[0123]?\d</token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1–\4 de \2</suggestion>
+      <example correction="01–10 de janeiro">Data da competição:  <marker>01 janeiro – 10 janeiro</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[0123]?\d</token>
+          <token>de</token>
+          <token regexp="yes">&meses_ano_abrev;|&meses_ano;</token>
+          <token>a</token>
+          <token regexp="yes">[0123]?\d</token>
+          <token>de</token>
+          <token><match no="2"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1 a \5 de \3</suggestion>
+      <example correction="1 a 10 de janeiro">A competição será realizada de <marker>1 de janeiro a 10 de janeiro</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[0123]?\d</token>
+          <token regexp="yes">&meses_ano_abrev;|&meses_ano;</token>
+          <token>a</token>
+          <token regexp="yes">[0123]?\d</token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Nesta situação o mês é redundante.</message>
+        <suggestion>\1 a \4 de \2</suggestion>
+      <example correction="1 a 10 de janeiro">A competição será realizada de <marker>1 janeiro a 10 janeiro</marker>.</example>
     </rule>
   </rulegroup>
 
