@@ -29,19 +29,23 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, fragment, and paronyms detection improvements
+    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
-    - typography: chemical formulas, dash signs, and punctuation
+    - typography: chemical formulas, degrees signs, dash signs, and punctuation
     - semantics: url validator and date checker improvements
     - registered brands category added
   * false friends support added:
-    - Portuguese to English (155 new pairs)
-    - Portuguese to Spanish (104 new pairs)
-    - Portuguese to French (57 new pairs)
-    - Portuguese to German (14 new pairs)
-    - Portuguese to Galician (8 new pairs)
+    - Portuguese to Spanish (186 new pairs)
+    - Portuguese to English (156 new pairs)
+    - Portuguese to French (78 new pairs)
+    - Portuguese to German (16 new pairs)
+    - Portuguese to Galician (9 new pairs)
   * spellchecking suggestions activated
+  * updated Hunspell dictionary to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-MZ pre-AO] Dicionários Natura 18.02.2017
 
 #### Russian
   * added and improved rules
