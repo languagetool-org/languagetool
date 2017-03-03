@@ -19,11 +19,17 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -58,4 +64,15 @@ public class CompoundRule extends AbstractCompoundRule {
     return compoundData;
   }
 
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, new AmericanEnglish());
+  }
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+        new PatternTokenBuilder().tokenRegex("['´]").build(),
+        new PatternTokenBuilder().token("re").build()
+      )
+    );
 }

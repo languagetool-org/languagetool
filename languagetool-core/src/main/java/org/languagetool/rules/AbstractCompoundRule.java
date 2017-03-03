@@ -86,7 +86,7 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
