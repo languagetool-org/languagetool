@@ -862,6 +862,16 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
+    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token regexp='yes'>valorizaç(ão|ões)</token>
+          <token regexp='yes'>a|às?|aos?</token>
+      </pattern>
+      <message>\1 rege-se com a preposição "de".</message>
+        <suggestion>\1 de</suggestion><!-- TODO Add suggestions for the contracted forms -->
+      <example correction='valorização de'>Cada vez se dá mais importância à <marker>valorização a</marker> recursos humanos altamente qualificados.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
