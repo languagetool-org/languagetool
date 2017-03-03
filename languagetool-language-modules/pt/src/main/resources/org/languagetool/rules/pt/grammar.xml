@@ -14054,13 +14054,16 @@ TODO Write better examples
 
     <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-            <regexp>\s*º\s*([CFNSEW])\b</regexp>
+      <regexp>(?-i)\s*º\s*([CFNSEW])\b</regexp>
       <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
       <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker> º C</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker> ºC</marker> à sombra.</example>
       <example>Faz 25°.</example>
+      <example>...o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E...</example>
+      <example>...que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a...</example>
+      <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
     </rule>
 
     <rule id="KELVIN" name="kelvin (no graus)">
