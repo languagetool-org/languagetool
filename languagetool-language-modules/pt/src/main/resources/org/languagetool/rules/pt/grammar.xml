@@ -14054,14 +14054,62 @@ TODO Write better examples
 
     <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-            <regexp>\s*º\s*([CFNSEW])\b</regexp>
+      <regexp>(?-i)\s*º\s*([CFNSEW])\b</regexp>
       <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
-      <example correction="&#8239;°C">Estão  25<marker>º C</marker> à sombra.</example>
-      <example correction="&#8239;°C">Estão  25<marker>ºC</marker> à sombra.</example>
-      <example correction="&#8239;°C">Estão  25<marker> º C</marker> à sombra.</example>
-      <example correction="&#8239;°C">Estão  25<marker> ºC</marker> à sombra.</example>
-      <example>Fa 25°.</example>
+      <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
+      <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
+      <example correction="&#8239;°C">Faz 25<marker> º C</marker> à sombra.</example>
+      <example correction="&#8239;°C">Faz 25<marker> ºC</marker> à sombra.</example>
+      <example>Faz 25°.</example>
+      <example>...o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E...</example>
+      <example>...que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a...</example>
+      <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
     </rule>
+
+    <rule id="KELVIN" name="kelvin (no graus)">
+    <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+      <regexp>\s*[º°]\s*K\b</regexp>
+      <message>Kelvin não utiliza o sinal de grau.</message>
+        <suggestion>&#8239;K</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Kelvin</url>
+      <example correction="&#8239;K">A 30<marker> ºK</marker>.</example>
+      <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
+      <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
+    </rule>
+
+        <rulegroup id="DEGREE_MINUTES_SECONDS" name="Tipografia de graus, minutos e segundos: 50°45′ 20″">
+    <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*["'′`]\s*([\d., ]*\d)\s*["'′`]\s*</regexp>
+      <message>Utilize os símbolos de graus, minutos e segundos.</message>
+        <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
+      <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
+      <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
+      <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
+      <example correction="25°&#8239;29′&#8239;49″"><marker>25 º 29' 49'</marker>.</example>
+      <example>25° 29′ 34″</example>
+    </rule>
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*["'`]</regexp>
+      <message>Utilize os símbolos de graus e minutos.</message>
+        <suggestion>\1°&#8239;\2′</suggestion>
+      <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
+      <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
+      <example correction="25°&#8239;29,1′"><marker>25 º 29,1'</marker>.</example>
+      <example correction="25°&#8239;29′"><marker>25 º29'</marker>.</example>
+      <example>25° 29′</example>
+    </rule>
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*["'′`]\s*([\d., ]*\d)\s*["'′`]</regexp>
+      <message>Símbols de minuts i segons.</message>
+        <suggestion>\1′&#8239;\2″</suggestion>
+      <example correction="29,1′&#8239;49″"><marker>29,1' 49"</marker>.</example>
+      <example correction="29′&#8239;49″"><marker>29' 49 '</marker>.</example>
+      <example correction="29,1′&#8239;49″"><marker>29,1' 49 "</marker>.</example>
+      <example correction="29′&#8239;49″"><marker>29 ' 49'</marker>.</example>
+      <example>29′ 34″</example>
+    </rule>
+  </rulegroup>
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
