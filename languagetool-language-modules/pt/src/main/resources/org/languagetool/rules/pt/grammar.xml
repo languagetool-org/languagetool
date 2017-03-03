@@ -14080,7 +14080,7 @@ TODO Write better examples
 
     <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-      <regexp>(?-i)\s*º\s*([CFNSEW])\b</regexp>
+      <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
       <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
       <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
@@ -14093,7 +14093,7 @@ TODO Write better examples
     </rule>
 
     <rule id="KELVIN" name="kelvin (no graus)">
-    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
       <message>Kelvin não utiliza o sinal de grau.</message>
         <suggestion>&#8239;K</suggestion>
@@ -14802,7 +14802,8 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
+  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante" default='off'>
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
     <rule>
       <pattern>
           <token regexp="yes">[0123]?\d</token>
