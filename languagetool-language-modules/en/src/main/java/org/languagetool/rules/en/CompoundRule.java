@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
@@ -38,6 +39,14 @@ public class CompoundRule extends AbstractCompoundRule {
 
   // static to make sure this gets loaded only once:
   private static final CompoundRuleData compoundData = new CompoundRuleData("/en/compounds.txt");
+  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
+  private static List<DisambiguationPatternRule> antiDisambiguationPatterns = null;
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+      Arrays.asList(
+          new PatternTokenBuilder().tokenRegex("['´]").build(),
+          new PatternTokenBuilder().token("re").build()
+        )
+      );
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
@@ -66,13 +75,9 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, new AmericanEnglish());
+    if (antiDisambiguationPatterns == null) {
+      antiDisambiguationPatterns = makeAntiPatterns(ANTI_PATTERNS, AMERICAN_ENGLISH);
+    }
+    return antiDisambiguationPatterns;
   }
-
-  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
-    Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("['´]").build(),
-        new PatternTokenBuilder().token("re").build()
-      )
-    );
 }
