@@ -1789,7 +1789,21 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
-</category>
+ </category>
+
+ <category id='CASING' name='Capitalização' type='grammar' default='off'>
+    <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios'>
+      <pattern case_sensitive='yes'>
+          <token postag_regexp='yes' postag='NP.+' regexp='yes'>\p{Ll}+
+            <exception negate_pos='yes' postag_regexp='yes' postag='NP.+'/></token>
+      </pattern>
+      <message>Os nomes próprios devem ser capitalizado.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
+      <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
+    </rule>
+ </category>
+
 
  <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
 
