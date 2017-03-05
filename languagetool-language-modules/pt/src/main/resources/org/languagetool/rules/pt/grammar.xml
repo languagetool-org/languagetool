@@ -14176,6 +14176,13 @@ TODO Write better examples
 
     <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}</token>
+          <token>,</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
           <token spacebefore="no" regexp="yes">['`’‘]</token>
@@ -14185,10 +14192,10 @@ TODO Write better examples
         <suggestion>\1,\3</suggestion>
       <example correction="9,5"><marker>9'5</marker></example>
       <example correction="9,5%"><marker>9'5%</marker></example>
-      <example correction="9.349,5"><marker>9.349'5</marker></example>
-      <example correction="1.999.349,5"><marker>1.999.349'5</marker></example>
-      <example correction="1 999 349,5"><marker>1 999 349'5</marker></example>
-      <example>1.23'2</example>
+      <example correction="349,5">9.<marker>349'5</marker></example>
+      <example correction="349,5">1.999.<marker>349'5</marker></example>
+      <example correction="349,5">1 999 <marker>349'5</marker></example>
+      <example>1,23'2</example>
       <example>41° 22'44.</example>
     </rule>
 
