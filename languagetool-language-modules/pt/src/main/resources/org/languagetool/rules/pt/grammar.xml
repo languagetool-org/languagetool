@@ -862,7 +862,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
-    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token regexp='yes'>valorizaç(ão|ões)</token>
@@ -872,7 +872,19 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1 de</suggestion><!-- TODO Add suggestions for the contracted forms -->
       <example correction='valorização de'>Cada vez se dá mais importância à <marker>valorização a</marker> recursos humanos altamente qualificados.</example>
     </rule>
-  </rulegroup>
+    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token inflected='yes' regexp='yes'>evitar|usufruir</token>
+          <token regexp='yes'>d[eao]s?</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1</suggestion>
+    <!-- <Example>
+      <Incorrect>Nós evitaremos de falar em dinheiro.</example>
+      <example>Nós evitaremos falar em dinheiro.</example> -->
+      <example correction='evito'>Eu <marker>evito de</marker> comer fritos.</example>
+    </rule>
 
   <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-11      -->
