@@ -14793,26 +14793,6 @@ TODO Write better examples
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
-          <token regexp="yes">\d{2}</token>
-        </marker>
-          <token>
-            <exception regexp='yes'>de|&meses_ano;</exception></token>
-      </pattern>
-      <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
-      <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
-      <short>Gama temporal inválida.</short>
-      <example correction="">Isto foi em <marker>1855–40</marker>.</example>
-      <example correction="">Isto foi em <marker>1815–12</marker>.</example>
-      <example correction="">Isto foi em <marker>1815-15</marker>.</example>
-      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
-    </rule>
-    <rule>
-    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
-      <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
-        <marker>
-          <token regexp="yes">\d{4}</token>
-          <token regexp="yes">[–\-\/]</token>
           <token regexp="yes">\d</token>
         </marker>
           <token>
@@ -14826,7 +14806,29 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante" default='off'>
+    <rule id='DATE_RANGES_2' name='Intervalos de Data Invertido' default='off'>
+    <!--     Inactive by default due to performance cost    -->
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
+      <pattern>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
+        <marker>
+          <token regexp="yes">\d{4}</token>
+          <token regexp="yes">[–\-\/]</token>
+          <token regexp="yes">\d{2}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>de|&meses_ano;</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
+      <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
+      <short>Gama temporal inválida.</short>
+      <example correction="">Isto foi em <marker>1855–40</marker>.</example>
+      <example correction="">Isto foi em <marker>1815–12</marker>.</example>
+      <example correction="">Isto foi em <marker>1815-15</marker>.</example>
+      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+    </rule>
+
+  <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
     <rule>
       <pattern>
