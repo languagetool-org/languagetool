@@ -13995,6 +13995,51 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="YEAR_NUMBER_FORMAT" name="Formatação de números: anos">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+    <rule>
+      <pattern>
+          <token regexp="yes" skip='1'>anos?</token>
+        <marker>
+          <token regexp="yes">\d</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\2\4</suggestion>
+      <example correction="1989">É o ano de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&meses_ano;</token>
+          <token skip="1">de</token>
+        <marker>
+          <token regexp="yes">\d{1,2}</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\3\5</suggestion>
+      <example correction="1989">É dezembro de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+          <token regexp="yes">aC|dC</token>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
