@@ -13981,6 +13981,18 @@ TODO Write better examples
       <example correction='1 034'><marker>1034</marker> 133 corresponde a um décimo dos habitantes portugueses</example>
       <example>É o ano de <marker>1989</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+</token>
+          <token>,</token>
+        <marker>
+          <token regexp="yes">\d{3}\d+</token>
+        </marker>
+      </pattern>
+      <message>Os algarismos devem ser agrupados de 3 em 3.</message>
+        <suggestion><match no="3" regexp_match="(\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+      <example correction='103 41'>A média exate é de 17,<marker>10341</marker> valores.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
