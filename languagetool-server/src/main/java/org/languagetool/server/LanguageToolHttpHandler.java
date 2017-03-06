@@ -84,7 +84,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
         String text = parameters.get("text");
-        String textSizeMessage = text != null ? " Text size: " + parameters.get("text").length() + "." :  "";
+        String textSizeMessage = text != null ? " Text size: " + text.length() + "." :  "";
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
                 textSizeMessage +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +

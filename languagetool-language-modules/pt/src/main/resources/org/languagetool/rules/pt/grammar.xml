@@ -862,6 +862,29 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
+    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token regexp='yes'>valorizaç(ão|ões)</token>
+          <token regexp='yes'>a|às?|aos?</token>
+      </pattern>
+      <message>\1 rege-se com a preposição "de".</message>
+        <suggestion>\1 de</suggestion><!-- TODO Add suggestions for the contracted forms -->
+      <example correction='valorização de'>Cada vez se dá mais importância à <marker>valorização a</marker> recursos humanos altamente qualificados.</example>
+    </rule>
+    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+          <token inflected='yes' regexp='yes'>evitar|usufruir</token>
+          <token regexp='yes'>d[eao]s?</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1</suggestion>
+    <!-- <Example>
+      <Incorrect>Nós evitaremos de falar em dinheiro.</example>
+      <example>Nós evitaremos falar em dinheiro.</example> -->
+      <example correction='evito'>Eu <marker>evito de</marker> comer fritos.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
@@ -1779,7 +1802,21 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
-</category>
+ </category>
+
+ <category id='CASING' name='Capitalização' type='grammar' default='off'>
+    <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios'>
+      <pattern case_sensitive='yes'>
+          <token postag_regexp='yes' postag='NP.+' regexp='yes'>\p{Ll}+
+            <exception negate_pos='yes' postag_regexp='yes' postag='NP.+'/></token>
+      </pattern>
+      <message>Os nomes próprios devem ser capitalizado.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
+      <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
+    </rule>
+ </category>
+
 
  <category id="MISC" name="Sem Categoria Definida" type="uncategorized">
 
@@ -13956,6 +13993,22 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="ENUMERATION_AND_DASHES" name="Enumerações com travessões: 1.2.-">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+      <pattern>
+          <token regexp="yes">\d[\d.]*</token>
+          <token>.</token>
+          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+      </pattern>
+      <message>Os travessões são desnecessários em enumerações.</message>
+        <suggestion>\1.</suggestion>
+      <example correction="1."><marker>1.-</marker> Introducció</example>
+      <example correction="1."><marker>1.--</marker> Introducció</example>
+    <!-- <example correction="1.3."><marker>1.3—</marker> Introducció</example>-->
+      <example>50-30</example>
+      <example>...com uma pedra...—, acho que...</example>
+    </rule>
+
   <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
     <!-- Created by Tiago F. Santos, 2017-02-12 -->
     <rule>
@@ -14054,7 +14107,7 @@ TODO Write better examples
 
     <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-      <regexp>(?-i)\s*º\s*([CFNSEW])\b</regexp>
+      <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
       <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
       <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
@@ -14067,7 +14120,7 @@ TODO Write better examples
     </rule>
 
     <rule id="KELVIN" name="kelvin (no graus)">
-    <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
       <message>Kelvin não utiliza o sinal de grau.</message>
         <suggestion>&#8239;K</suggestion>
@@ -14078,7 +14131,7 @@ TODO Write better examples
     </rule>
 
         <rulegroup id="DEGREE_MINUTES_SECONDS" name="Tipografia de graus, minutos e segundos: 50°45′ 20″">
-    <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule>
       <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*["'′`]\s*([\d., ]*\d)\s*["'′`]\s*</regexp>
       <message>Utilize os símbolos de graus, minutos e segundos.</message>
@@ -14111,8 +14164,43 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="LOOSE_ACCENTS" name="Acentos soltos">
+    <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
+      <regexp>[`´]</regexp>
+      <message>Caratere incorreto. Utilize antes o apóstrofe ou reveja a acentuação.</message>
+        <suggestion>’</suggestion>
+        <suggestion></suggestion>
+      <short>Caractere incorreto.</short>
+      <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
+    </rule>
+
+    <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}</token>
+          <token>,</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </pattern>
+      <message>Utilize antes uma vírgula para separar os decimais.</message>
+        <suggestion>\1,\3</suggestion>
+      <example correction="9,5"><marker>9'5</marker></example>
+      <example correction="9,5%"><marker>9'5%</marker></example>
+      <example correction="349,5">9.<marker>349'5</marker></example>
+      <example correction="349,5">1.999.<marker>349'5</marker></example>
+      <example correction="349,5">1 999 <marker>349'5</marker></example>
+      <example>1,23'2</example>
+      <example>41° 22'44.</example>
+    </rule>
+
     <!--     Typography rules from English grammar.xml      - START-->
-    <!-- Localized and improve by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="TRADEMARK" name="(TM) em vez de ™">
       <pattern case_sensitive='yes'>
           <token regexp='yes'>\p{Lu}.*</token>
@@ -14743,26 +14831,6 @@ TODO Write better examples
         <marker>
           <token regexp="yes">\d{4}</token>
           <token regexp="yes">[–\-\/]</token>
-          <token regexp="yes">\d{2}</token>
-        </marker>
-          <token>
-            <exception regexp='yes'>de|&meses_ano;</exception></token>
-      </pattern>
-      <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
-      <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
-      <short>Gama temporal inválida.</short>
-      <example correction="">Isto foi em <marker>1855–40</marker>.</example>
-      <example correction="">Isto foi em <marker>1815–12</marker>.</example>
-      <example correction="">Isto foi em <marker>1815-15</marker>.</example>
-      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
-    </rule>
-    <rule>
-    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
-      <pattern>
-          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
-        <marker>
-          <token regexp="yes">\d{4}</token>
-          <token regexp="yes">[–\-\/]</token>
           <token regexp="yes">\d</token>
         </marker>
           <token>
@@ -14776,7 +14844,30 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id='DATE_RANGES_2' name='Intervalos de Data Invertido' default='off'>
+    <!--     Inactive by default due to performance cost    -->
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
+      <pattern>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
+        <marker>
+          <token regexp="yes">\d{4}</token>
+          <token regexp="yes">[–\-\/]</token>
+          <token regexp="yes">\d{2}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>de|&meses_ano;</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
+      <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
+      <short>Gama temporal inválida.</short>
+      <example correction="">Isto foi em <marker>1855–40</marker>.</example>
+      <example correction="">Isto foi em <marker>1815–12</marker>.</example>
+      <example correction="">Isto foi em <marker>1815-15</marker>.</example>
+      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+    </rule>
+
   <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
+    <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
     <rule>
       <pattern>
           <token regexp="yes">[0123]?\d</token>

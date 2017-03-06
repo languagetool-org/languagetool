@@ -9204,6 +9204,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="noVerbBalear0" name="es estiu (no balear)">
+        <pattern>
+            <token>es</token>
+            <marker>
+                <and>
+                    <token postag="VMIP1S0B"/>
+                    <token postag="[NAI].*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="VMIP1S0B"></wd></disambig>
+    </rule>
     <rulegroup id="PP_VERB" name="pronom personal seguit de verb">
         <!-- pronom personal + verb. Mogut per "en obres properes" -->
         <!-- estudiar concordances de persona i nombre!!!!!! <exception postag="D.*" postag_regexp="yes"/> -->

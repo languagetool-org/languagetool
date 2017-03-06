@@ -70,6 +70,10 @@ public class CaseRule extends GermanRule {
       token("Haag")
     ),
     Arrays.asList(
+      token("Neues"),
+      token("\\?")
+    ),
+    Arrays.asList(
       token("Hin"),
       token("und"),
       token("Her")
@@ -648,7 +652,8 @@ public class CaseRule extends GermanRule {
             continue;
           }
           if (prevTokenIsDas && (nextToken.getToken().equals("nur") || nextToken.getToken().equals("sogar") ||
-                nextToken.getToken().equals("auch") || nextToken.getToken().equals("die") ||  nextToken.getToken().equals("zu"))) {
+                nextToken.getToken().equals("auch") || nextToken.getToken().equals("die") || nextToken.getToken().equals("alle") ||
+                nextToken.getToken().equals("viele") ||nextToken.getToken().equals("zu"))) {
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             continue;
           }
@@ -833,8 +838,7 @@ public class CaseRule extends GermanRule {
         }
       }
       return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
-         hasPartialTag(prevToken, "ART") ||  // "die Verurteilten wurden"
-         hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
+         hasPartialTag(prevToken, "ART", "PRO") ||  // "die Verurteilten wurden", "etwas Verrücktes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
