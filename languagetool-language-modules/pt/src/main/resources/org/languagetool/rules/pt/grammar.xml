@@ -6339,7 +6339,7 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
-    <rule id="FINAL_STOPS" name="Pontuação final em falta">
+    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='off'>
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
@@ -6350,13 +6350,13 @@ and tokenizer spreadsheet from the forum        -->
       <pattern>
           <token postag="SENT_START"/>
           <token regexp="yes">\p{Lu}.*</token>
-          <token min="18" skip="-1"/>
+          <token min="20" skip="-1"/>
         <marker>
           <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
         </marker>
       </pattern>
       <message>Se não é um título, falta um ponto no final da frase.</message>
-      <example correction="">Esta é uma frase comprida que não tem um ponto no final, portanto é quase garantido que existe algum <marker>erro</marker></example>
+      <example correction="">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
       <example correction="">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
       <example>Esta é uma frase curta, que poderia ser um título</example>
       <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
@@ -13962,24 +13962,35 @@ TODO Write better examples
       <short>Error ortotipográfico</short>
     <rule>
       <antipattern>
-          <token regexp="yes">\d{3}</token>
           <token spacebefore='no'>,</token>
-          <token><exception regexp="yes" spacebefore='no'>\d+</exception></token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
       </antipattern>
       <antipattern>
           <token regexp="yes">\d{4}</token>
           <token><exception regexp="yes">\d+</exception></token>
+      </antipattern>
+      <antipattern>
+          <token><exception regexp="yes">\d+</exception></token>
+          <token postag='SENT_END' regexp="yes">\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token>-</token>
+          <token regexp="yes">\d+</token>
+          <token>-</token>
       </antipattern>
       <pattern>
         <marker>
           <token regexp="yes">\d+\d{3}</token>
         </marker>
       </pattern>
-      <message>Os algarismos devem ser agrupados de 3 em 3.</message>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no="2" regexp_match="(\d+)(\d{3})" regexp_replace="$1 $2"/></suggestion>
       <example correction='10 341'>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
       <example correction='1 034'><marker>1034</marker> 133 corresponde a um décimo dos habitantes portugueses</example>
+      <example>O ano tem exatamente 365,24219858156 dias.</example>
       <example>É o ano de <marker>1989</marker>.</example>
+      <example>É o ano de <marker>1989</marker></example>
+      <example>ISBN 0-522-85317-X.</example>
     </rule>
     <rule>
       <pattern>
@@ -13989,9 +14000,10 @@ TODO Write better examples
           <token regexp="yes">\d{3}\d+</token>
         </marker>
       </pattern>
-      <message>Os algarismos devem ser agrupados de 3 em 3.</message>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no="3" regexp_match="(\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
       <example correction='103 41'>A média exate é de 17,<marker>10341</marker> valores.</example>
+      <example correction='242 19858156'>O ano tem exatamente 365,<marker>24219858156</marker> dias.</example>
     </rule>
   </rulegroup>
 
@@ -14942,9 +14954,10 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='DATE_RANGES_2' name='Intervalos de Data Invertido' default='off'>
-    <!--     Inactive by default due to performance cost    -->
+  <rulegroup id='DATE_RANGES_2' name='Intervalos de Data Invertido'>
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
+      <short>Intervalo de data inválido.</short>
+    <rule>
       <pattern>
           <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
@@ -14957,12 +14970,58 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
       <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
-      <short>Gama temporal inválida.</short>
       <example correction="">Isto foi em <marker>1855–40</marker>.</example>
       <example correction="">Isto foi em <marker>1815–12</marker>.</example>
       <example correction="">Isto foi em <marker>1815-15</marker>.</example>
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
     </rule>
+    <rule>
+      <antipattern>
+        <marker>
+          <token regexp="yes">\d+</token>
+        </marker>
+          <token>a</token>
+          <token>.</token>
+          <token>c</token>
+          <token>.</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
+        <marker>
+          <token regexp="yes">\d{3,4}</token>
+          <token regexp="yes">[–\-/]</token>
+          <token regexp="yes">\d{3,4}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>AC|\d+</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.DateRangeChecker" args="x:\2 y:\4"/>
+      <message>O ano inicial (\2) é posterior ao ano final (\4).</message>
+      <example correction="">Isto foi em <marker>1915–1840</marker>.</example>
+      <example correction="">Isto foi em <marker>1915–1915</marker>.</example>
+      <example correction="">Isto foi em <marker>1915-1915</marker>.</example>
+      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+      <example>Reino de  1814-1781 a.c.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{3,4}</token>
+          <token regexp="yes">[–\-/]</token>
+          <token regexp="yes">\d{3,4}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>AC|\d+</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.DateRangeChecker" args="x:\3 y:\1"/>
+      <message>O ano inicial (\1 a.C.) é posterior ao ano final (\3 a.C.).</message>
+      <example correction="">Isto foi em <marker>715–1840</marker> a.c.</example>
+      <example correction="">Isto foi em <marker>900–900</marker> a.c.</example>
+      <example correction="">Isto foi em <marker>1000-2000</marker> a.c.</example>
+      <example>Mortos em 1962 – 272 000.</example>
+      <example>Reinou em 1814-1781 a.c.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
