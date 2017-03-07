@@ -20314,6 +20314,36 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">he|she|it</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">s|ll|d</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="She'll|She’ll"><marker>She´ll</marker> make a decision tomorrow.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">m|ll|d|ve</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="I'll|I’ll"><marker>I´ll</marker> be here.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">you|we|they</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">re|ve|ll|d</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="You'll|You’ll"><marker>You´ll</marker> have to decide.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">[;:"]</token>
                     <token>t</token>
