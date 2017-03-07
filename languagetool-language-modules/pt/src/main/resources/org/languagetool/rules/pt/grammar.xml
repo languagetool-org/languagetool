@@ -776,6 +776,32 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+  <rulegroup id="NON_IMPERSONAL_VERBS" name="Verbos não-impessoais: existir, bastar, faltar, etc.">
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-02-27 -->
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'/></token>
+      </pattern>
+      <message>Este não é um verbo impessoal.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/> \2</suggestion>
+        <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)P(.+)' postag_replace='$1S$2'/></suggestion>
+      <example correction="existem muitas|existe muita|existe muitíssima">Na vida <marker>existe muitas</marker> coisas boas.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='(D...|P...|N..|A...)S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)S.+'/></token>
+      </pattern>
+      <message>Este não é um verbo impessoal.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='(V...)3P(.+)' postag_replace='$13S$2'/> \2</suggestion>
+        <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)S(.+)' postag_replace='$1P$2'/></suggestion>
+      <example correction="existe muita|existem muitas|existem muitíssimas">Na vida <marker>existem muita</marker> coisas boas.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
@@ -2977,7 +3003,8 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
     </rule>
 
-    <!-- EXISTE MUITAS existem muitas -->
+    <!-- EXISTE MUITAS existem muitas
+    TODO Made redundant by NON_IMPERSONAL_VERBS. Remove.
     <rule id="EXISTE_MUITAS" name="Existem muitas">
       <pattern>
           <token>existe</token>
@@ -2985,7 +3012,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       </pattern>
       <message>Substitua por <suggestion>existem muitas</suggestion>.</message>
       <example correction="existem muitas">Na vida <marker>existe muitas</marker> coisas boas.</example>
-    </rule>
+    </rule> -->
 
     <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ -->
     <rule id="FAZEM" name="Faz">
