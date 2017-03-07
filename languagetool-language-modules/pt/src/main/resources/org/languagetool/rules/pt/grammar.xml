@@ -14107,6 +14107,19 @@ TODO Write better examples
       <example>Paga 25%.</example>
     </rule>
 
+    <rule id="PERCENT_WITH_SPACE" name="Acrescentar espaço em percentagens (3 %)" default="off">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token regexp="yes">[\d.,]+[%‰‱]</token>
+      </pattern>
+      <message>Escolheu a opção de inserção de espaço.</message>
+        <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
+      <example correction="5 %">A taxa é de 23,<marker>5%</marker>.</example>
+      <example correction="5 ‰">Paga 23,<marker>5‰</marker>.</example>
+      <example>Paga 25 %.</example>
+    </rule>
+
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
