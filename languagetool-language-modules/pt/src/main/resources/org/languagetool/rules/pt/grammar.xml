@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -773,6 +773,32 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <message>Auxiliares do verbo haver no sentido de existir são impessoais.</message>
         <suggestion><match no='1' postag='(V....)P(.)' postag_replace='$1S$2' postag_regexp='yes'>poder</match> \2</suggestion>
       <example correction='Poderá haver'><marker>Poderão haver</marker> baratas naquele restaurante.</example><!-- TODO Fix 'Pode' and 'Podem' tags,  recompiling the synthetizer -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="NON_IMPERSONAL_VERBS" name="Verbos não-impessoais: existir, bastar, faltar, etc.">
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-02-27 -->
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'/></token>
+      </pattern>
+      <message>Este não é um verbo impessoal.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/> \2</suggestion>
+        <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)P(.+)' postag_replace='$1S$2'/></suggestion>
+      <example correction="existem muitas|existe muita|existe muitíssima">Na vida <marker>existe muitas</marker> coisas boas.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='(D...|P...|N..|A...)S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)S.+'/></token>
+      </pattern>
+      <message>Este não é um verbo impessoal.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='(V...)3P(.+)' postag_replace='$13S$2'/> \2</suggestion>
+        <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)S(.+)' postag_replace='$1P$2'/></suggestion>
+      <example correction="existe muita|existem muitas|existem muitíssimas">Na vida <marker>existem muita</marker> coisas boas.</example>
     </rule>
   </rulegroup>
 
@@ -1805,6 +1831,7 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
  </category>
 
  <category id='CASING' name='Capitalização' type='grammar' default='off'>
+
     <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios'>
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='NP.+' regexp='yes'>\p{Ll}+
@@ -1815,6 +1842,19 @@ $Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
       <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
       <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
     </rule>
+    
+    <rule id="KILO_LOWERCASE" name="*Km/km">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <pattern case_sensitive="yes">
+          <token regexp="yes">K[gmlsJNWCVSFTH][23²³]?</token>
+      </pattern>
+      <message>O prefixo "kilo" é escrito com minúsculas.</message>
+        <suggestion><match no="1" case_conversion="startlower" /></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Quilo</url>
+      <example correction="km">A 30 <marker>Km</marker> de distància.</example>
+      <example correction="kW">120 <marker>KW</marker> de potència</example>
+    </rule>
+
  </category>
 
 
@@ -2938,6 +2978,19 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>estás melhor</suggestion>.</message>
       <example correction="estás melhor">Assim <marker>estas melhor</marker>.</example>
     </rule>
+    <!-- NAME/NOUN+ESTA+PREPOSITION name/noun+está+preposition -->
+    <rule>
+      <pattern>
+		<token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
+        <marker>
+          <token>esta</token>
+        </marker>
+		<token postag="SPS00"></token>
+      </pattern>
+      <message>Substitua por <suggestion>está</suggestion>.</message>
+      <example correction="está">O Rui <marker>esta</marker> de saída.</example>
+    </rule>
+	
   </rulegroup>
 
     <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
@@ -2963,7 +3016,8 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
     </rule>
 
-    <!-- EXISTE MUITAS existem muitas -->
+    <!-- EXISTE MUITAS existem muitas
+    TODO Made redundant by NON_IMPERSONAL_VERBS. Remove.
     <rule id="EXISTE_MUITAS" name="Existem muitas">
       <pattern>
           <token>existe</token>
@@ -2971,7 +3025,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       </pattern>
       <message>Substitua por <suggestion>existem muitas</suggestion>.</message>
       <example correction="existem muitas">Na vida <marker>existe muitas</marker> coisas boas.</example>
-    </rule>
+    </rule> -->
 
     <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ -->
     <rule id="FAZEM" name="Faz">
@@ -6325,7 +6379,7 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
-    <rule id="FINAL_STOPS" name="Pontuação final em falta">
+    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='off'>
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
@@ -6336,13 +6390,13 @@ and tokenizer spreadsheet from the forum        -->
       <pattern>
           <token postag="SENT_START"/>
           <token regexp="yes">\p{Lu}.*</token>
-          <token min="18" skip="-1"/>
+          <token min="20" skip="-1"/>
         <marker>
           <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
         </marker>
       </pattern>
       <message>Se não é um título, falta um ponto no final da frase.</message>
-      <example correction="">Esta é uma frase comprida que não tem um ponto no final, portanto é quase garantido que existe algum <marker>erro</marker></example>
+      <example correction="">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
       <example correction="">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
       <example>Esta é uma frase curta, que poderia ser um título</example>
       <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
@@ -13942,6 +13996,102 @@ TODO Write better examples
 
  <category id="TYPOGRAPHY" name="Tipografia" type="typographical">
 
+  <rulegroup id="GENERAL_NUMBER_FORMAT" name="Formatação de números e anos: 10 341 330">
+    <!-- Created by Tiago F. Santos, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+      <short>Error ortotipográfico</short>
+    <rule>
+      <antipattern>
+          <token spacebefore='no'>,</token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{4}</token>
+          <token><exception regexp="yes">\d+</exception></token>
+      </antipattern>
+      <antipattern>
+          <token><exception regexp="yes">\d+</exception></token>
+          <token postag='SENT_END' regexp="yes">\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token>-</token>
+          <token regexp="yes">\d+</token>
+          <token>-</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d+\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+        <suggestion><match no="2" regexp_match="(\d+)(\d{3})" regexp_replace="$1 $2"/></suggestion>
+      <example correction='10 341'>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
+      <example correction='1 034'><marker>1034</marker> 133 corresponde a um décimo dos habitantes portugueses</example>
+      <example>O ano tem exatamente 365,24219858156 dias.</example>
+      <example>É o ano de <marker>1989</marker>.</example>
+      <example>É o ano de <marker>1989</marker></example>
+      <example>ISBN 0-522-85317-X.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+</token>
+          <token>,</token>
+        <marker>
+          <token regexp="yes">\d{3}\d+</token>
+        </marker>
+      </pattern>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+        <suggestion><match no="3" regexp_match="(\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+      <example correction='103 41'>A média exate é de 17,<marker>10341</marker> valores.</example>
+      <example correction='242 19858156'>O ano tem exatamente 365,<marker>24219858156</marker> dias.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="YEAR_NUMBER_FORMAT" name="Formatação de números: anos">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+    <rule>
+      <pattern>
+          <token regexp="yes" skip='1'>anos?</token>
+        <marker>
+          <token regexp="yes">\d</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\2\4</suggestion>
+      <example correction="1989">É o ano de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&meses_ano;</token>
+          <token skip="1">de</token>
+        <marker>
+          <token regexp="yes">\d{1,2}</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\3\5</suggestion>
+      <example correction="1989">É dezembro de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}</token>
+          <token>.</token>
+          <token regexp='yes'>\d{3}</token>
+        </marker>
+          <token regexp="yes">aC|dC</token>
+      </pattern>
+      <message>Nos anos os números não devem ser separados.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
@@ -14844,9 +14994,10 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='DATE_RANGES_2' name='Intervalos de Data Invertido' default='off'>
-    <!--     Inactive by default due to performance cost    -->
+  <rulegroup id='DATE_RANGES_2' name='Intervalos de Data Invertido'>
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
+      <short>Intervalo de data inválido.</short>
+    <rule>
       <pattern>
           <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
         <marker>
@@ -14859,12 +15010,58 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
       <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
-      <short>Gama temporal inválida.</short>
       <example correction="">Isto foi em <marker>1855–40</marker>.</example>
       <example correction="">Isto foi em <marker>1815–12</marker>.</example>
       <example correction="">Isto foi em <marker>1815-15</marker>.</example>
       <example>A maioria dos eventos foi em 1962 – 272 000.</example>
     </rule>
+    <rule>
+      <antipattern>
+        <marker>
+          <token regexp="yes">\d+</token>
+        </marker>
+          <token>a</token>
+          <token>.</token>
+          <token>c</token>
+          <token>.</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
+        <marker>
+          <token regexp="yes">\d{3,4}</token>
+          <token regexp="yes">[–\-/]</token>
+          <token regexp="yes">\d{3,4}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>AC|\d+</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.DateRangeChecker" args="x:\2 y:\4"/>
+      <message>O ano inicial (\2) é posterior ao ano final (\4).</message>
+      <example correction="">Isto foi em <marker>1915–1840</marker>.</example>
+      <example correction="">Isto foi em <marker>1915–1915</marker>.</example>
+      <example correction="">Isto foi em <marker>1915-1915</marker>.</example>
+      <example>A maioria dos eventos foi em 1962 – 272 000.</example>
+      <example>Reino de  1814-1781 a.c.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{3,4}</token>
+          <token regexp="yes">[–\-/]</token>
+          <token regexp="yes">\d{3,4}</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>AC|\d+</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.DateRangeChecker" args="x:\3 y:\1"/>
+      <message>O ano inicial (\1 a.C.) é posterior ao ano final (\3 a.C.).</message>
+      <example correction="">Isto foi em <marker>715–1840</marker> a.c.</example>
+      <example correction="">Isto foi em <marker>900–900</marker> a.c.</example>
+      <example correction="">Isto foi em <marker>1000-2000</marker> a.c.</example>
+      <example>Mortos em 1962 – 272 000.</example>
+      <example>Reinou em 1814-1781 a.c.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="MONTH_REDUNDANCY" name="Intervalos de tempo:Mês redundante">
     <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->

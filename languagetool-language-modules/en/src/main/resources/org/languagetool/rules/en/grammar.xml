@@ -13881,11 +13881,12 @@ USA
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <rule>
                 <pattern>
-                    <token regexp="yes">comes|came|much|is|was|were|are|been|s|re</token>
+                    <token regexp="yes">comes|came|much|is|was|were|are|been|s|re|['´]</token>
+                    <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token regexp="yes">to|two</token>
                     </marker>
-                    <token regexp="yes">soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
+                    <token regexp="yes">far|long|distant|soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
                     <token><exception postag="VB|NN.*" postag_regexp="yes"/></token>
                     <!-- token postag="VBP"; negate_pos="yes"/ -->
                 </pattern>
@@ -13896,6 +13897,10 @@ USA
                 <example>The weather was <marker>too</marker> cold to go swimming.</example>
                 <example correction="too">His idea came much <marker>to</marker> soon to be successful.</example>
                 <example correction="too">It is <marker>to</marker> soon to move the entire industry.</example>
+                <example correction="too">This is <marker>to</marker> long ago.</example>
+                <example correction="too">It was <marker>to</marker> distant in the past.</example>
+                <example correction="too">The box is not <marker>to</marker> far from it.</example>
+                <example correction="too">The box wasn't <marker>to</marker> far from it.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13909,7 +13914,7 @@ USA
                     <token>to</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" negate="yes">access|lead|led</token>
+                    <token regexp="yes" negate="yes">access|lead|led|amount|rise</token>
                     <marker>
                         <token regexp="yes">to|two</token>
                     </marker>
@@ -13923,8 +13928,9 @@ USA
                 <example>This led <marker>to</marker> much speculation.</example>
                 <example>It is restricted to few objects.</example>
                 <example>It is limited to few objects.</example>
+                <example>He will never amount to much.</example>
                 <example>It is applicable to few objects.</example>
-                <example correction="too">Because <marker>to</marker> much snow was on it.</example>
+                <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13939,17 +13945,19 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">is|was|be|were|are|been|s|re</token>
+                    <token regexp="yes">is|was|be|were|are|been|s|re|['´]</token>
+                    <token min="0" regexp="yes">(no)?t</token>
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ?" postag_regexp="yes"><exception postag="NNPS?" postag_regexp="yes"/></token>
+                    <token postag="JJ?" postag_regexp="yes"><exception postag="NNPS?|VB" postag_regexp="yes"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="too">It's <marker>to</marker> early.</example>
-                <example>I've never been to Paris.</example>
+                <example>I've never been <marker>to</marker> Paris.</example>
+                <example>Perhaps we are <marker>to</marker> blame for this.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20303,6 +20311,36 @@ USA
                 <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
                 <short>Accent character misused as apostrophe</short>
                 <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">he|she|it</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">s|ll|d</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="She'll|She’ll"><marker>She´ll</marker> make a decision tomorrow.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">m|ll|d|ve</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="I'll|I’ll"><marker>I´ll</marker> be here.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">you|we|they</token>
+                    <token regexp="yes">[´`]</token>
+                    <token regexp="yes">re|ve|ll|d</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="You'll|You’ll"><marker>You´ll</marker> have to decide.</example>
             </rule>
             <rule>
                 <pattern>

@@ -57,25 +57,22 @@ printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD" >>/home/languagetool/api/api-log.csv
 
 echo "" >>$OUTFILE
-echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
 echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
 echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
-echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
-echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
-#echo "TextTooLongException : `grep -c 'TextTooLongException' $TMPFILE`" >>$OUTFILE
-#echo "TimeoutException     : `grep -c 'java.util.concurrent.TimeoutException' $TMPFILE`" >>$OUTFILE
 echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
 
+echo "" >>$OUTFILE
+echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
+echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
+echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
+
+echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "Top 10 Errors:" >>$OUTFILE
 grep 'Could not check sentence' $TMPFILE_ALL | grep -v "Caused by:" | uniq -c | sort -n -r | head -n 10 >>$OUTFILE
-
-echo "" >>$OUTFILE
-echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
-echo "v2 API                     : `grep -c 'V2TextChecker' $TMPFILE`" >>$OUTFILE
 
 #echo "" >>$OUTFILE
 #echo "Up to 50 client errors sent to the server:" >>$OUTFILE
