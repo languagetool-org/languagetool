@@ -3530,16 +3530,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Hinweis: Gewehr = Schusswaffe, <suggestion>Gewähr</suggestion> = Garantie/Gewährleistung/Sicherheit</message>
             <example correction="Gewähr">Alle Angaben ohne <marker>Gewehr</marker>.</example>
         </rule>
-        <rule id="LASEN_LASSEN" name="'zu lasen (lassen)'">
-            <pattern case_sensitive="yes">
-                <token>zu</token>
-                <marker>
-                    <token>lasen</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie 'zu <suggestion>lassen</suggestion>' oder 'zu <suggestion>Lasten</suggestion>'?</message>
-            <example correction="lassen|Lasten">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lasen</marker>.</example>
-        </rule>
+        <rulegroup id="LASEN_LASSEN" name="lasen/lassen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zu</token>
+                    <marker>
+                        <token>lasen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie 'zu <suggestion>lassen</suggestion>' oder 'zu <suggestion>Lasten</suggestion>'?</message>
+                <example correction="lassen|Lasten">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lasen</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">Lasen</token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Lasen</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Lassen</suggestion> statt 'Lasen' (= Vergangenheitsform von 'lesen')?</message>
+                <example correction="Lassen"><marker>Lasen</marker> Sie die alte Domain weiterlaufen.</example>
+                <example><marker>Lasen</marker> sie dir etwas vor oder du ihnen?</example>
+            </rule>
+        </rulegroup>
         <rule id="DENN_DEN" name="'aber denn (dann)'">
             <pattern>
                 <token regexp="yes">aber|doch|und</token>
