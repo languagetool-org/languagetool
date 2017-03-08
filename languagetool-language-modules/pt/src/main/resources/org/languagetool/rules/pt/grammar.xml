@@ -780,7 +780,8 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-02-27 -->
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar
+            <exception>sobre</exception></token>
           <token postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'/></token>
       </pattern>
@@ -6379,7 +6380,7 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
-    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='off'>
+    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='on'>
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
@@ -15078,8 +15079,10 @@ TODO Write better examples
           <token regexp="yes">[–\-/]</token>
           <token regexp="yes">\d{3,4}</token>
         </marker>
-          <token>
-            <exception regexp='yes'>AC|\d+</exception></token>
+          <token regexp='yes'>a</token>
+          <token>.</token>
+          <token regexp='yes'>c</token>
+          <token>.</token>
       </pattern>
       <filter class="org.languagetool.rules.DateRangeChecker" args="x:\3 y:\1"/>
       <message>O ano inicial (\1 a.C.) é posterior ao ano final (\3 a.C.).</message>
