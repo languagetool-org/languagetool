@@ -3449,11 +3449,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
-                <example correction="seit">Da ich <marker>seid</marker> letzte Woche nicht mehr kommen kann, ist alles doof.</example>
+                <example correction="seit">Da ich <marker>seid</marker> letzter Woche nicht mehr kommen kann, ist alles doof.</example>
             </rule>
         </rulegroup>
         <rule id="IN_DIE_ANALEN" name="'in die Analen (Annalen)'">
-            <pattern case_sensitive="yes">
+            <pattern>
                 <token>in</token>
                 <token regexp="yes">die|den</token>
                 <marker>
@@ -3553,6 +3553,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>Lassen</suggestion> statt 'Lasen' (= Vergangenheitsform von 'lesen')?</message>
                 <example correction="Lassen"><marker>Lasen</marker> Sie die alte Domain weiterlaufen.</example>
                 <example><marker>Lasen</marker> sie dir etwas vor oder du ihnen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zu</token>
+                    <marker>
+                        <token>verlasen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie 'zu <suggestion>verlassen</suggestion>' oder 'zu <suggestion>verlesen</suggestion>'?</message>
+                <example correction="verlassen|verlesen">Er plante, das Urteil zu <marker>verlasen</marker>.</example>
+                <example correction="verlassen|verlesen">Er plante, seine Frau zu <marker>verlasen</marker>.</example>
+                <example>Sie <marker>verlasen</marker> das Urteil.</example>
             </rule>
         </rulegroup>
         <rule id="DENN_DEN" name="'aber denn (dann)'">
