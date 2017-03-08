@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.201 2017-02-14 23:41:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.202 2017-03-08 08:51:00 marcoagpinto Exp $
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -2978,6 +2978,19 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>estás melhor</suggestion>.</message>
       <example correction="estás melhor">Assim <marker>estas melhor</marker>.</example>
     </rule>
+    <!-- NAME/NOUN+ESTA+PREPOSITION NAME/NOUN+ESTÁ+PREPOSITION -->
+    <rule>
+      <pattern>
+		<token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
+        <marker>
+          <token>esta</token>
+        </marker>
+		<token postag="SPS00"></token>
+      </pattern>
+      <message>Substitua por <suggestion>está</suggestion>.</message>
+      <example correction="está">O Rui <marker>esta</marker> de saída.</example>
+    </rule>
+	
   </rulegroup>
 
     <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
