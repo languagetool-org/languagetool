@@ -28,14 +28,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>будь</token>
           <token>ласка</token>
-          <token negate="yes" regexp="yes">[,\.!?:»]|[.!?]{3}</token>
+          <token negate="yes" regexp="yes">[,\.!?:»”“]|[.!?]{3}</token>
         </pattern>
         <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
         <example correction="будь ласка, у">Запитайте, <marker>будь ласка у</marker> водія.</example>
       </rule>
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">[\p{Punct}–—\(«]|[!?.]{3}
+          <token negate="yes" regexp="yes">[\p{Punct}–—\(«“„]|[!?.]{3}
             <exception postag="SENT_START"/>
           </token>
           <token>будь</token>
@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
           <token>
-            <exception regexp="yes">[!?:;,"»\(\)\[\]/–—-]|[!?.]{3}</exception>
+            <exception regexp="yes">[!?:;,"»“”\(\)\[\]/–—-]|[!?.]{3}</exception>
             <exception postag="SENT_END">.</exception>
           </token>
         </pattern>
@@ -63,7 +63,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«АаІіЙй–—-]|[!?.]{3}
+          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІіЙй–—-]|[!?.]{3}
             <exception postag="SENT_START"/>
           </token>
           <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
@@ -78,7 +78,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«АаІі–—-]|[!?.]{3}|[Цц]е
+          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІі–—-]|[!?.]{3}|[Цц]е
             <exception postag="SENT_START"/>
             <exception>Ну</exception>
           </token>
@@ -100,12 +100,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern case_sensitive="yes">
           <marker>
-            <token regexp="yes" negate="yes">[!?:;,…"«\(\)\[\]/"«„–—-]|[!?.]{3}|[?!]\.\.|[нН]у|[АаІіЙй]|але
+            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{3}|[?!]\.\.|[нН]у|[АаІіЙй]|але
               <exception postag="SENT_START"></exception>
             </token>
             <token regexp="yes">а|але|однак|проте|зате</token>
           </marker>
-          <token regexp="yes" negate="yes">[\p{Punct}"«\(\)–—]|ля</token>
+          <token regexp="yes" negate="yes">[\p{Punct}"«“„\(\)–—]|ля</token>
         </pattern>
         <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
         <example>Вгадав всі літери — але не зміг прочитати слово.</example>
@@ -119,7 +119,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
       </rule>
     </rulegroup>
-
+<!--
+    <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun:inanim.*v_kly.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim.*v_kly.*"/>
+            <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+          </token>
+          <token postag_regexp="yes" postag="adj.*v_kly.*" min="0"/>
+          <token negate="yes" regexp="yes">[,\.!?:»”“«„—-]|[.!?]{3}
+            <exception postag_regexp="yes" postag="adj.*v_kly.*"/>
+          </token>
+        </pattern>
+        <message>Кличний відмінок виділяється комою: <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
+        <example correction="душе , швидко">Однак <marker>душе швидко</marker> на трасі її з'їла норвежка.</example>
+        <example>прийди, відрадо, прийди!</example>
+        <example>Не лізь, бо задушу, іродова душе!</example>
+        <example>прийди, душе моя, прийди!</example>
+        <example>Вельмишановна українська газето «Україно молода»!</example>
+        <example>Сергій Свитко здіймав</example>
+         
+        <example>Панове укропи, хунто та інші фашисти</example>
+        <example>ти будеш жити, Україно,    країно щастя і добра!</example>
+        <example>Важка ти, шапко Мономаха</example>
+        
+      </rule>
+    </rulegroup>
+-->
     <rulegroup name="Зайва кома" id="NO_COMMA_NEEDED">
       <rule>
         <pattern>
