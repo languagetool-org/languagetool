@@ -58,21 +58,27 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       init();
     }
     List<String> candidates = getCandidates(word);
-    List<String> suggestions = getCorrectWords(candidates);
+    List<String> simpleSuggestions = getCorrectWords(candidates);
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
       List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
-      int pos = noSplitSuggestions.isEmpty() ? 0 : 1;  // first item comes from getSuggestion() above, if any
       for (String suggestion : noSplitLowercaseSuggestions) {
-        noSplitSuggestions.add(pos, StringTools.uppercaseFirstChar(suggestion));
-        // we don't know about the quality of the results here, so mix both lists together,
-        // taking elements from both lists on a rotating basis:
-        pos = Math.min(pos + 2, noSplitSuggestions.size());
+        noSplitSuggestions.add(StringTools.uppercaseFirstChar(suggestion));
       }
     }
-    suggestions.addAll(0, noSplitSuggestions);
+    // We don't know about the quality of the results here, so mix both lists together,
+    // taking elements from both lists on a rotating basis:
+    List<String> suggestions = new ArrayList<>();
+    for (int i = 0; i < Math.max(simpleSuggestions.size(), noSplitSuggestions.size()); i++) {
+      if (i < simpleSuggestions.size()) {
+        suggestions.add(simpleSuggestions.get(i));
+      }
+      if (i < noSplitSuggestions.size()) {
+        suggestions.add(noSplitSuggestions.get(i));
+      }
+    }
 
     filterDupes(suggestions);
     filterForLanguage(suggestions);
@@ -110,8 +116,9 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           }
         }
       }
-      // TODO: what if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??
+      // What if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??
       // -> morfologik must be extended to return similar words even for known words
+      // But GermanSpellerRule.getCandidates() has a solution for the cases with infix "s".
       partCount++;
     }
     return candidates;

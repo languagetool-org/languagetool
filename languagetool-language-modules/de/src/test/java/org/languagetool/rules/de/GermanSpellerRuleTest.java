@@ -147,7 +147,7 @@ public class GermanSpellerRuleTest {
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereite, konfliktbereitem, konfliktbereiten, konfliktbereiter, konfliktbereites, konfliktbereit]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
   }
 
   @Test
@@ -249,6 +249,8 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "bw.", "bzw.");
     assertCorrection(rule, "kan", "kann", "an");
     assertCorrection(rule, "kan.", "kann.", "an.");
+    assertCorrection(rule, "Einzahlungschein", "Einzahlungsschein");
+    assertCorrection(rule, "Arbeitamt", "Arbeitet", "Arbeitsamt");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");

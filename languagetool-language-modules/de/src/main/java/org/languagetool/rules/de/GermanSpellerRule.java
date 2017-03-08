@@ -119,6 +119,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       candidates.addAll(super.getCandidates(parts));
+      if (parts.size() == 2 && !parts.get(0).endsWith("s")) {
+        // so we get e.g. Einzahlungschein -> Einzahlungsschein
+        candidates.add(parts.get(0) + "s" + parts.get(1));
+      }
     }
     suggestions.addAll(candidates);
     return suggestions;
