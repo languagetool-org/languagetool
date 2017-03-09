@@ -4077,6 +4077,31 @@ USA
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> its</suggestion>?</message>
             <example correction="He's its"><marker>He's it's</marker> primary caretaker.</example>
         </rule>
+        <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Your</token></marker>
+                    <token regexp="yes">not|an?|the</token>
+                </pattern>
+                <message>Did you mean <suggestion>You're</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> not a nice man.</example>
+                <example correction="You're"><marker>Your</marker> a great guy!</example>
+                <example correction="You're"><marker>Your</marker> the nicest girl on earth!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>your</token></marker>
+                    <token postag="JJ"><exception>own</exception><exception postag="VBG"/></token>
+                    <token postag="SENT_END" regexp="yes">[\.\?!]</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="r" regexp_replace=""/>'re</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> beautiful.</example>
+                <example correction="you're">Did you know that <marker>your</marker> beautiful?</example>
+                <example>Did you do this on <marker>your</marker> own?</example>
+                <example>I'm tired of <marker>your</marker> nagging.</example>
+            </rule>
+        </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
             <pattern>
