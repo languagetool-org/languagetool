@@ -10686,6 +10686,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er wird im gleichen Maße besser <marker>wie</marker> sie.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>weiter</token>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token regexp="yes">(bis|vor)her</token>
+                </antipattern>
                 <pattern>
                     <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
                     <marker>
@@ -10696,6 +10703,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'\1 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
                 <example correction="als">Heute geht es mir besser <marker>wie</marker> gestern.</example>
                 <example correction="als">Ich bin besser <marker>wie</marker> vor drei Jahren.</example>
+                <example>Ich mache weiter <marker>wie</marker> bisher.</example>
+                <example>Auch nach dem Schlaganfall rauchte er weiter <marker>wie</marker> vorher.</example>
             </rule>
             <rule>
                 <pattern>
