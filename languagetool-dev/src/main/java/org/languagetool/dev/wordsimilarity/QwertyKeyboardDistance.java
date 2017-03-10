@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,19 +19,20 @@
 package org.languagetool.dev.wordsimilarity;
 
 /**
- * German keyboard distances.
+ * English keyboard distances.
  */
-class GermanQwertzKeyboardDistance extends BaseKeyboardDistance {
-
+class QwertyKeyboardDistance extends BaseKeyboardDistance {
+    
     private static final char[][] KEYS = {
-            { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'ß' },
-            { 'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ü' },
-            { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä' },
-            { 'y', 'x', 'c', 'v', 'b', 'n', 'm' }
+            { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0' },
+            { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'ü' },
+            { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä' },     
+            { 'z', 'x', 'c', 'v', 'b', 'n', 'm' }
     };
 
     @Override
     char[][] getKeys() {
         return KEYS;
     }
+
 }

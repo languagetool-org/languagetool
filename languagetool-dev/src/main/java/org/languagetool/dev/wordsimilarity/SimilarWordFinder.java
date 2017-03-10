@@ -71,17 +71,22 @@ class SimilarWordFinder {
         FuzzyQuery query = new FuzzyQuery(new Term("word", word), 2);  // a missing char counts as a distance of 2
         TopDocs topDocs = searcher.search(query, 10);
         //System.out.println(topDocs.totalHits + " hits for " + word);
-        List<String> simWords = findSimilarWordsFor(reader, word, topDocs);
+        List<SimWord> simWords = findSimilarWordsFor(reader, word, topDocs);
         //System.out.println(word + " -> " + String.join(", ", simWords));
-        for (String simWord : simWords) {
-            float dist;
-            if (word.length() == simWord.length()) {
-                int firstDiffPos = getDiffPos(simWord.toLowerCase(), word.toLowerCase());
-                dist = keyDistance.getDistance(word.charAt(firstDiffPos), simWord.charAt(firstDiffPos));
+        for (SimWord simWord : simWords) {
+            if (word.length() == simWord.word.length()) {
+                int firstDiffPos = getDiffPos(simWord.word.toLowerCase(), word.toLowerCase());
+                try {
+                    float dist = keyDistance.getDistance(word.charAt(firstDiffPos), simWord.word.charAt(firstDiffPos));
+                    System.out.println(dist + "; " + word + "; " + simWord);
+                } catch (Exception e) {
+                    System.err.println("Could not get distance between '" + word + "' and '" + simWord + "':");
+                    e.printStackTrace();
+                }
             } else {
-                dist = 0;
+                // TODO: these need to be handled, too
+                //System.out.println("-; " + word + "; " + simWord.word);
             }
-            System.out.println(dist + "; " + word + "; " + simWord);
         }
     }
 
@@ -98,8 +103,8 @@ class SimilarWordFinder {
         }
     }
 
-    private List<String> findSimilarWordsFor(DirectoryReader reader, String word, TopDocs topDocs) throws IOException {
-        List<String> result = new ArrayList<>();
+    private List<SimWord> findSimilarWordsFor(DirectoryReader reader, String word, TopDocs topDocs) throws IOException {
+        List<SimWord> result = new ArrayList<>();
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             String simWord = reader.document(scoreDoc.doc).get("word");
             //System.out.println(" sim: " + simWord);
@@ -112,7 +117,7 @@ class SimilarWordFinder {
                     int dist = StringUtils.getLevenshteinDistance(word, simWord);
                     if (dist <= MAX_DIST) {
                         //System.out.println(word + " -> " + simWord + " [" + firstDiffPos + "]");
-                        result.add(simWord);
+                        result.add(new SimWord(simWord, dist));
                     }
                 }
             }
@@ -133,9 +138,23 @@ class SimilarWordFinder {
         }
         return i;
     }
+
+    class SimWord {
+        private String word;
+        private int levenshteinDistance;
+        SimWord(String word, int levenshteinDistance) {
+            this.word = word;
+            this.levenshteinDistance = levenshteinDistance;
+        }
+        @Override
+        public String toString() {
+            return word;
+        }
+    }
     
     public static void main(String[] args) throws IOException {
         SimilarWordFinder simWordFinder = new SimilarWordFinder();
+        System.out.println("Using key distance: " + keyDistance.getClass());
         if (args.length == 1) {
             File indexDir = new File(args[0]);
             simWordFinder.findSimilarWords(indexDir);
