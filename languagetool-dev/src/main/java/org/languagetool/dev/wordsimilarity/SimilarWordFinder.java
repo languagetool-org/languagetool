@@ -41,6 +41,8 @@ class SimilarWordFinder {
   private static final int MAX_DIST = 1;
   private static final KeyboardDistance keyDistance = new GermanQwertzKeyboardDistance();
 
+  private KnownPairs knownPairs = new KnownPairs();
+
   private void createIndex(List<String> words, File indexDir) throws IOException {
     FSDirectory dir = FSDirectory.open(indexDir.toPath());
     IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());
@@ -108,7 +110,7 @@ class SimilarWordFinder {
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String simWord = reader.document(scoreDoc.doc).get("word");
       //System.out.println(" sim: " + simWord);
-      if (!simWord.equalsIgnoreCase(word)) {
+      if (!simWord.equalsIgnoreCase(word) && !knownPairs.contains(simWord, word)) {
         int firstDiffPos = getDiffPos(simWord.toLowerCase(), word.toLowerCase());
         int limit = Math.min(word.length(), simWord.length()) - 1;
         if (firstDiffPos > limit) {
@@ -120,9 +122,9 @@ class SimilarWordFinder {
             result.add(new SimWord(simWord, dist));
           }
         }
+        knownPairs.add(simWord, word);
       }
     }
-    // TODO: sort by keyboard distance
     return result;
   }
 
@@ -151,6 +153,26 @@ class SimilarWordFinder {
     @Override
     public String toString() {
       return word;
+    }
+  }
+
+  class KnownPairs {
+    private Set<String> set = new HashSet<>();
+
+    boolean contains(String word1, String word2) {
+      return set.contains(getKey(word1, word2));
+    }
+
+    void add(String word1, String word2) {
+      set.add(getKey(word1, word2));
+    }
+
+    String getKey(String word1, String word2) {
+      if (word1.compareTo(word2) < 0) {
+        return word1 + ";" + word2;
+      } else {
+        return word2 + ";" + word1;
+      }
     }
   }
 
