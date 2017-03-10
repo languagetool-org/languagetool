@@ -122,6 +122,11 @@ public class AgreementRule extends GermanRule {
         new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().posRegex("ART:.*").build(), // "Das wenige Kilometer breite Tal"
+        new PatternTokenBuilder().posRegex("ADJ:.*").build(),
+        new PatternTokenBuilder().tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden").build()
     )
   );
 
@@ -169,6 +174,8 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("mit");
     PREPOSITIONS.add("durch");
     PREPOSITIONS.add("während");
+    PREPOSITIONS.add("unter");
+    PREPOSITIONS.add("ohne");
     // TODO: add more
   }
   
