@@ -4077,6 +4077,31 @@ USA
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> its</suggestion>?</message>
             <example correction="He's its"><marker>He's it's</marker> primary caretaker.</example>
         </rule>
+        <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Your</token></marker>
+                    <token regexp="yes">not|an?|the</token>
+                </pattern>
+                <message>Did you mean <suggestion>You're</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> not a nice man.</example>
+                <example correction="You're"><marker>Your</marker> a great guy!</example>
+                <example correction="You're"><marker>Your</marker> the nicest girl on earth!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>your</token></marker>
+                    <token postag="JJ"><exception>own</exception><exception postag="VBG"/></token>
+                    <token postag="SENT_END" regexp="yes">[\.\?!]</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="r" regexp_replace=""/>'re</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> beautiful.</example>
+                <example correction="you're">Did you know that <marker>your</marker> beautiful?</example>
+                <example>Did you do this on <marker>your</marker> own?</example>
+                <example>I'm tired of <marker>your</marker> nagging.</example>
+            </rule>
+        </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
             <pattern>
@@ -13525,6 +13550,41 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>their <match no="4"/></suggestion>?</message>
                 <example correction="their own">They completed the huge project on <marker>they're own</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="THERE_THEIR" name="there (their)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|at|on|to|of|with|without</token>
+                    <marker><token>there</token></marker>
+                    <token postag="JJ" min="0"/>
+                    <token postag="NNS?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>their</suggestion>?</message>
+                <example correction="their">The parents yelled at <marker>there</marker> son.</example>
+                <example correction="their">They talked to <marker>there</marker> old parents.</example>
+                <example correction="their">It was a heavy weight on <marker>there</marker> shoulders.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="RP|TO" postag_regexp="yes"/>
+                    <marker><token>there</token></marker>
+                    <token>place</token>
+                </pattern>
+                <message>Did you mean <suggestion>their</suggestion>?</message>
+                <example correction="their">What would you do in <marker>there</marker> place?</example>
+                <example correction="their">We drove to <marker>there</marker> place and had dinner.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>there</token></marker>
+                    <token postag="NNS?" postag_regexp="yes"><exception postag="JJ.?|RB" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"><exception>?</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>their</suggestion>?</message>
+                <example correction="their">The parents loved <marker>there</marker> son.</example>
+                <example correction="their">They were <marker>there</marker> angels.</example>
+                <example>Since when are there fireworks?</example>
             </rule>
         </rulegroup>
         <rule id="ZERO-SUM_GAIN" name="zero-sum gain (game)">

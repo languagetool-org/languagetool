@@ -25,8 +25,7 @@ title="Easy editing stylesheet" ?>
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
-
-$Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
+ 
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -780,7 +779,8 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-02-27 -->
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar
+            <exception>sobre</exception></token>
           <token postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(D...|P...|N..|A...)P.+'/></token>
       </pattern>
@@ -801,6 +801,17 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction="existe muita|existem muitas|existem muitíssimas">Na vida <marker>existem muita</marker> coisas boas.</example>
     </rule>
   </rulegroup>
+
+    <rule id="TER_CHEGO" name="TER + Chego">
+    <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>chego</token>
+      </pattern>
+      <message>Possível confusão de palavras</message>
+        <suggestion>\1 chegado</suggestion>
+      <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
+    </rule>
 
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
@@ -999,6 +1010,19 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction='Nenhum lugar te recorda'><marker>Nenhum lugar recorda-te</marker> daquelas férias?</example>
     </rule>
   </rulegroup>
+
+    <rule id="POR_QUE_PORQUE" name="Confusão: 'Por que' com 'Porque' ">
+    <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+        <marker>
+          <token>porque</token>
+        </marker>
+          <token regexp='yes'>raz(ão|ões)|motivos?|causas?</token>
+      </pattern>
+      <message>Sempre que possa substituir por expressões equivalentes a "pelo qual", deve utilizar <suggestion>por que</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/pelourinho/falta-apurar-e-nao-faltam-apurar--por-que-vs-porque/309</url>
+      <example correction="Por que"><marker>Porque</marker> motivo tem uma atitude tão indiferente?</example>
+    </rule>
 
   <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
     <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
@@ -2204,17 +2228,6 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction="aquando">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
     </rule>
 
-    <!-- TODO Merge à-há confusion in a rulegroup to compact options -->
-    <!-- À QUE há que -->
-    <rule id="À_QUE" name="Confusão: à que - há que">
-      <pattern>
-          <token>à</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>há que</suggestion>.</message>
-      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
-    </rule>
-
     <!-- A QUE SERVE ISTO/ISSO para que serve isto/isso -->
     <rule id="A_QUE_SERVE_ISTO_ISSO" name="Para que serve isto/isso">
       <pattern>
@@ -2981,6 +2994,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- NAME/NOUN+ESTA+PREPOSITION name/noun+está+preposition -->
     <rule>
       <pattern>
+		<token regexp="yes">o|a|um|uma</token>
 		<token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
         <marker>
           <token>esta</token>
@@ -3146,12 +3160,36 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
           <token>à</token>
         </marker>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-          <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
+          <token skip="4">
+            <exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception>
+            <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
           <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
       </pattern>
       <message>Substitua por <suggestion>há</suggestion>.</message>
       <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
+      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
     </rule>
+
+    <rule id="HÁ-DIRECTION" name="Confusão: Há + Direção">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>há</token>
+          <token regexp='yes'>frente|trás|esquerda|direita</token>
+      </pattern>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
+      <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
+    </rule>
+
+    <!-- À QUE há que -->
+    <rule id="À_QUE" name="Confusão: à que - há que">
+      <pattern>
+          <token>à</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>há que</suggestion>.</message>
+      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
+    </rule>
+
 
     <!-- AI aí -->
     <rule id="AI" name="Confusão: ai - aí">
@@ -6379,7 +6417,7 @@ and tokenizer spreadsheet from the forum        -->
     </rule>
   </rulegroup>
 
-    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='off'>
+    <rule id="FINAL_STOPS" name="Pontuação final em falta" default='on'>
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
@@ -14092,6 +14130,34 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="PERCENT_WITHOUT_SPACE" name="Remover espaço em percentagens (3%)" default="on">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token regexp="yes">[\d.,]+<exception regexp="yes">[.,]</exception></token>
+          <token spacebefore="yes" regexp="yes">[%‰‱]</token>
+      </pattern>
+      <message>Escriva a percentagem sem espaços (estilo padrão).</message>
+        <suggestion>\1\2</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
+      <example correction="5%">A taxa é de 23,<marker>5 %</marker>.</example>
+      <example correction="5‰">Paga 23,<marker>5 ‰</marker>.</example>
+      <example>Neste caso a % é de 1 a 2.</example>
+      <example>Paga 25%.</example>
+    </rule>
+
+    <rule id="PERCENT_WITH_SPACE" name="Acrescentar espaço em percentagens (3 %)" default="off">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token regexp="yes">[\d.,]+[%‰‱]</token>
+      </pattern>
+      <message>Escolheu a opção de inserção de espaço.</message>
+        <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
+      <example correction="5 %">A taxa é de 23,<marker>5%</marker>.</example>
+      <example correction="5 ‰">Paga 23,<marker>5‰</marker>.</example>
+      <example>Paga 25 %.</example>
+    </rule>
+
   <rulegroup id="DASH_RULE" name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
@@ -14497,17 +14563,6 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
       <short>Dar um espaço</short>
       <example correction="100 €">Deve-se <marker>100€</marker>.</example>
-    </rule>
-
-    <rule id="LOWER_QUOTES" name="Símbolo não utilizado em português: „">
-    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
-      <pattern>
-          <token>„</token>
-      </pattern>
-      <message>O símbolo de aspas baixas não é utilizado em português.</message>
-        <suggestion>“</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Aspas</url>
-      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
 
   <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
@@ -15050,8 +15105,10 @@ TODO Write better examples
           <token regexp="yes">[–\-/]</token>
           <token regexp="yes">\d{3,4}</token>
         </marker>
-          <token>
-            <exception regexp='yes'>AC|\d+</exception></token>
+          <token regexp='yes'>a</token>
+          <token>.</token>
+          <token regexp='yes'>c</token>
+          <token>.</token>
       </pattern>
       <filter class="org.languagetool.rules.DateRangeChecker" args="x:\3 y:\1"/>
       <message>O ano inicial (\1 a.C.) é posterior ao ano final (\3 a.C.).</message>
@@ -15504,6 +15561,47 @@ TODO Write better examples
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
+    </rule>
+
+  </category>
+
+  <category id="TRANSLATION_ERRORS" name="Erros de tradução" type="mistranslation">
+
+    <rule id="OPENING_INTERROGATION" name="Sinal de interrogação inicial" default="on">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token>¿</token>
+          <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de interrogação inicial.</message>
+        <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Ponto_de_interroga%C3%A7%C3%A3o</url>
+      <example correction="Como"><marker>¿Como</marker> estás?</example>
+      <example>Estás bem?</example>
+    </rule>
+
+    <rule id="OPENING_EXCLAMATION" name="Sinal de exclamação inicial" default="on">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token>¡</token>
+          <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de exclamação inicial.</message>
+        <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Pontos_de_interroga%C3%A7%C3%A3o_e_de_exclama%C3%A7%C3%A3o_invertidos</url>
+      <example correction="Muito"><marker>¡Muito</marker> bem!</example>
+      <example>Mesmo bom!</example>
+    </rule>
+
+    <rule id="LOWER_QUOTES" name="Símbolo não utilizado em português: „">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token>„</token>
+      </pattern>
+      <message>O símbolo de aspas baixas não é utilizado em português.</message>
+        <suggestion>“</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Aspas</url>
+      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
 
   </category>

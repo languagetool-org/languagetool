@@ -22,9 +22,9 @@
 #### Italian
   * added one rule
 
-#### Lithuanian and Malayalam
-  * Lithuanian and Malayalam are not part of this release anymore. They still exist
-    in the git repository and can be re-activated as soon as a new maintainer takes
+#### Lithuanian, Malayalam, and Icelandic
+  * Lithuanian, Malayalam, and Icelandic are not part of this release anymore. They still
+    exist in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
 #### Portuguese
