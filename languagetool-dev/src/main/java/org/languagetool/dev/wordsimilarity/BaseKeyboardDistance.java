@@ -23,54 +23,54 @@ package org.languagetool.dev.wordsimilarity;
  */
 public abstract class BaseKeyboardDistance implements KeyboardDistance {
 
-    abstract char[][] getKeys();
-    
-    static class Position {
-        int row;
-        int column;
-        
-        Position(int row, int column) {
-            this.row = row;
-            this.column = column;
-        }
+  abstract char[][] getKeys();
 
-        float distanceTo(Position other) {
-            return Math.abs(column - other.column) + Math.abs(row - other.row);
-        }
+  static class Position {
+    int row;
+    int column;
 
-        @Override
-        public String toString() {
-            return "Position{row=" + row + ", column=" + column + '}';
-        }
+    Position(int row, int column) {
+      this.row = row;
+      this.column = column;
     }
-    
+
+    float distanceTo(Position other) {
+      return Math.abs(column - other.column) + Math.abs(row - other.row);
+    }
+
     @Override
-    public float getDistance(char c1, char c2) {
-        Position p1 = getPosition(c1);
-        Position p2 = getPosition(c2);
-        return p1.distanceTo(p2);
+    public String toString() {
+      return "Position{row=" + row + ", column=" + column + '}';
     }
+  }
 
-    private Position getPosition(char searchKey) {
-        char searchKeyLowerCase = Character.toLowerCase(searchKey);
-        int row = -1;
-        int column = -1;
-        int rowCount = 0;
-        int columnCount;
-        for (char[] rowKeys : getKeys()) {
-            columnCount = 0;
-            for (char c : rowKeys) {
-                if (c == searchKeyLowerCase) {
-                    row = rowCount;
-                    column = columnCount;
-                }
-                columnCount++;
-            }
-            rowCount++;
+  @Override
+  public float getDistance(char c1, char c2) {
+    Position p1 = getPosition(c1);
+    Position p2 = getPosition(c2);
+    return p1.distanceTo(p2);
+  }
+
+  private Position getPosition(char searchKey) {
+    char searchKeyLowerCase = Character.toLowerCase(searchKey);
+    int row = -1;
+    int column = -1;
+    int rowCount = 0;
+    int columnCount;
+    for (char[] rowKeys : getKeys()) {
+      columnCount = 0;
+      for (char c : rowKeys) {
+        if (c == searchKeyLowerCase) {
+          row = rowCount;
+          column = columnCount;
         }
-        if (row == -1 || column == -1) {
-            throw new RuntimeException("Could not find '" + searchKey + "' on keyboard - only letters are supported");
-        }
-        return new Position(row, column);
+        columnCount++;
+      }
+      rowCount++;
     }
+    if (row == -1 || column == -1) {
+      throw new RuntimeException("Could not find '" + searchKey + "' on keyboard - only letters are supported");
+    }
+    return new Position(row, column);
+  }
 }

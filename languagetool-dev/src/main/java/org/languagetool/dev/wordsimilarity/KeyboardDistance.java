@@ -22,7 +22,7 @@ package org.languagetool.dev.wordsimilarity;
  * Get the (estimated) distance between two keys on a keyboard.
  */
 interface KeyboardDistance {
-    
-    float getDistance(char c1, char c2);
-    
+
+  float getDistance(char c1, char c2);
+
 }

@@ -22,17 +22,17 @@ package org.languagetool.dev.wordsimilarity;
  * English keyboard distances.
  */
 class QwertyKeyboardDistance extends BaseKeyboardDistance {
-    
-    private static final char[][] KEYS = {
-            { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0' },
-            { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'ü' },
-            { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä' },     
-            { 'z', 'x', 'c', 'v', 'b', 'n', 'm' }
-    };
 
-    @Override
-    char[][] getKeys() {
-        return KEYS;
-    }
+  private static final char[][] KEYS = {
+          {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'},
+          {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'ü'},
+          {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'},
+          {'z', 'x', 'c', 'v', 'b', 'n', 'm'}
+  };
+
+  @Override
+  char[][] getKeys() {
+    return KEYS;
+  }
 
 }
