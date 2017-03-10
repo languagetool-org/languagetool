@@ -24781,6 +24781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="VER:(MOD|AUX):[123]:.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">haben|sein</exception></token>
                 <token postag="ADV:MOD|NEG" postag_regexp="yes" min="0" max="2"/>
+                <!-- Statt postag="SUB:.*" könnte man auch postag="VER:INF:.*" verwenden. Vorteil: weniger falsch Positive; Nachteil: weniger echte Treffer -->
                 <marker><token postag="SUB:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ][a-zäöüß]+n</token></marker>
                 <token>,</token>
                 <token regexp="yes" skip="-1">dass|warum|weshalb|wozu|wodurch|womit<exception scope="next">,</exception></token>

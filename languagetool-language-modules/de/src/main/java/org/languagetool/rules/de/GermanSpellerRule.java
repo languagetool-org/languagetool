@@ -417,7 +417,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
-        return false;
+    	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+    	// to accept sentences such as
+    	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
+    	if (word.startsWith("ost")) {
+          end = 3;
+    	} else if (word.startsWith("west")) {
+    	  end = 4;
+    	} else if (word.startsWith("nord")) {
+    	  end = 4;
+    	} else if (word.startsWith("süd")) {
+    	  end = 3;
+    	} else {
+    	  return false;
+    	}
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
