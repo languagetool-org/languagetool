@@ -2228,17 +2228,6 @@ title="Easy editing stylesheet" ?>
       <example correction="aquando">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
     </rule>
 
-    <!-- TODO Merge à-há confusion in a rulegroup to compact options -->
-    <!-- À QUE há que -->
-    <rule id="À_QUE" name="Confusão: à que - há que">
-      <pattern>
-          <token>à</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>há que</suggestion>.</message>
-      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
-    </rule>
-
     <!-- A QUE SERVE ISTO/ISSO para que serve isto/isso -->
     <rule id="A_QUE_SERVE_ISTO_ISSO" name="Para que serve isto/isso">
       <pattern>
@@ -3171,12 +3160,36 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
           <token>à</token>
         </marker>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-          <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
+          <token skip="4">
+            <exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception>
+            <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
           <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
       </pattern>
       <message>Substitua por <suggestion>há</suggestion>.</message>
       <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
+      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
     </rule>
+
+    <rule id="HÁ-DIRECTION" name="Confusão: Há + Direção">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>há</token>
+          <token regexp='yes'>frente|trás|esquerda|direita</token>
+      </pattern>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
+      <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
+    </rule>
+
+    <!-- À QUE há que -->
+    <rule id="À_QUE" name="Confusão: à que - há que">
+      <pattern>
+          <token>à</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>há que</suggestion>.</message>
+      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
+    </rule>
+
 
     <!-- AI aí -->
     <rule id="AI" name="Confusão: ai - aí">
