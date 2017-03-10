@@ -1675,6 +1675,33 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id="CERCA_DE_NR" name="Aproximação excessivamente precisa">
+    <!-- Created by Tiago F. Santos, 2017-02-28 -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>cerca|perto|volta</token>
+          <token>de</token>
+          <token regexp='yes'>\d+[1-9]</token>
+      </pattern>
+      <message>Se está a fazer uma aproximação, utilize números redondos</message>
+        <suggestion>\1 \2 <match no='3' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
+      <example correction="cerca de 10|11">Faltam <marker>cerca de 11</marker> dias para as férias.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>aproximadamente|quase</token>
+          <token regexp='yes'>\d+[1-9]</token>
+      </pattern>
+      <message>Se está a fazer uma aproximação, utilize números redondos</message>
+        <suggestion>\1 <match no='2' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
+      <example correction="aproximadamente 10|11">Faltam <marker>aproximadamente 11</marker> dias para as férias.</example>
+    </rule>
+  </rulegroup>
+
     <!--          Tiago F. Santos Rules Ending          ****END**** -->
     <!-- ********************************************************** -->
 
