@@ -420,14 +420,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
     	// to accept sentences such as
     	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
-    	if (word.startsWith("ost")) {
+    	if (word.startsWith("ost") || word.startsWith("süd")) {
           end = 3;
-    	} else if (word.startsWith("west")) {
+    	} else if (word.startsWith("west") || word.startsWith("nord")) {
     	  end = 4;
-    	} else if (word.startsWith("nord")) {
-    	  end = 4;
-    	} else if (word.startsWith("süd")) {
-    	  end = 3;
     	} else {
     	  return false;
     	}
