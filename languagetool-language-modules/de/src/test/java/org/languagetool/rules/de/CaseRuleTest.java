@@ -93,7 +93,6 @@ public class CaseRuleTest {
     assertGood("Du musst das wissen, damit du die Prüfung bestehst");
     assertGood("Er kann ihr das bieten, was sie verdient.");
     assertGood("Er fragte, ob das gelingen wird.");
-    assertGood("Das wenige Minunten alte Baby schrie laut.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
