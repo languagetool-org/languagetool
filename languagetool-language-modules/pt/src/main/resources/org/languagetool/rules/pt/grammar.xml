@@ -353,7 +353,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(D[ADIP].|NC|A..)[MC]S.+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
           <token postag='(N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-            <exception regexp="yes">há|são|ser|haver|devido</exception></token>
+            <exception regexp="yes">há|são|ser|haver|devido|vão</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
@@ -361,6 +361,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
         <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..|Z.)[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
+      <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
     </rule>
     <rule>
       <pattern>
@@ -387,7 +388,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(D[ADIP].|NC|A..)[MC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..)[MC]P.+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-            <exception regexp="yes">há|são|ser|haver|serão</exception></token>
+            <exception regexp="yes">há|são|ser|haver|serão|vão|uso</exception></token>
           <token postag='(N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
         </marker>
@@ -398,6 +399,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
       <example type='correct'>Sou todo ouvidos</example>
+      <example type='correct'>Uso óculos desde os 6 anos,</example>
     </rule>
     <rule>
       <antipattern>
