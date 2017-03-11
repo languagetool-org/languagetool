@@ -14173,6 +14173,31 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}</token>
+          <token>,</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </pattern>
+      <message>Utilize antes uma vírgula para separar os decimais.</message>
+        <suggestion>\1,\3</suggestion>
+      <example correction="9,5"><marker>9'5</marker></example>
+      <example correction="9,5%"><marker>9'5%</marker></example>
+      <example correction="349,5">9.<marker>349'5</marker></example>
+      <example correction="349,5">1.999.<marker>349'5</marker></example>
+      <example correction="349,5">1 999 <marker>349'5</marker></example>
+      <example>1,23'2</example>
+      <example>41° 22'44.</example>
+    </rule>
+
     <rule id="PERCENT_WITHOUT_SPACE" name="Remover espaço em percentagens (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
@@ -14433,30 +14458,43 @@ TODO Write better examples
       <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
     </rule>
 
-    <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
+  <rulegroup id="PRIORITIZE_QUOTES" name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-      <antipattern>
-          <token regexp="yes">\d{1,2}</token>
-          <token>,</token>
-          <token regexp='yes'>\d+</token>
-          <token spacebefore="no" regexp="yes">['`’‘]</token>
-          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
-      </antipattern>
+    <rule>
       <pattern>
-          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
-          <token spacebefore="no" regexp="yes">['`’‘]</token>
-          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+          <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+        <marker>
+          <token>“</token>
+        </marker>
       </pattern>
-      <message>Utilize antes uma vírgula para separar os decimais.</message>
-        <suggestion>\1,\3</suggestion>
-      <example correction="9,5"><marker>9'5</marker></example>
-      <example correction="9,5%"><marker>9'5%</marker></example>
-      <example correction="349,5">9.<marker>349'5</marker></example>
-      <example correction="349,5">1.999.<marker>349'5</marker></example>
-      <example correction="349,5">1 999 <marker>349'5</marker></example>
-      <example>1,23'2</example>
-      <example>41° 22'44.</example>
+      <message>Utilize primeiro aspas baixas.</message>
+        <suggestion>«</suggestion>
+      <example correction="«">Disse que <marker>“</marker>sim”.</example>
+      <example>«Disse que “sim”».</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+        <marker>
+          <token>”</token>
+        </marker>
+      </pattern>
+      <message>Utilize primeiro aspas baixas.</message>
+        <suggestion>»</suggestion>
+      <example correction="»">Disse que “sim<marker>”</marker>.</example>
+      <example>«Disse que “sim”».</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip="-1">‘<exception scope="next">’</exception></token>
+          <token regexp="yes">[«“]</token>
+      </pattern>
+      <message>Prioritize as aspas.</message>
+        <suggestion><match no="2"/><match no="1" include_skipped="following"/> <match no="1"/></suggestion>
+      <example correction="«Disse que ‘"><marker>‘Disse que «</marker>sim».’</example>
+      <example>«Disse que "sim"».</example>
+    </rule>
+  </rulegroup>
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
