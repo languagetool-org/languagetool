@@ -874,11 +874,26 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
+    <!--      Created by Tiago F. Santos, 2017-03-05      -->
+      <antipattern>
+          <token regexp='yes' skip='-1'>&negacoes;</token>
+          <token>sequer</token>
+      </antipattern>
+      <pattern>
+          <token>sequer</token>
+      </pattern>
+      <message>'Sequer' deve ser precedido de uma negação.</message>
+        <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
+      <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
+      <example>Nem sequer vi o que estava a fazer.</example>
+    </rule>
+
   <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
       <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
       <short>Erro de regência verbal.</short>
     <rule id='PHRASAL_VERB_PREFERIR' name='Regência verbal: Preferir X a Y'>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!--      Created by Tiago F. Santos, 2017-01-24      -->
     <!-- Loosely based on CoGrOO rule -->
       <pattern>
           <token inflected='yes'>preferir</token>
