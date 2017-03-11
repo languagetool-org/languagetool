@@ -829,6 +829,20 @@ title="Easy editing stylesheet" ?>
       <example>Eu tinha-o como um bom amigo.</example>
     </rule>
 
+    <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_LOS" name='Colocações pronomiais: ênclise com o infinitivo (lo, la, los, las)'>
+    <!-- Created by Tiago F. Santos, 2017-03-10 -->
+      <pattern>
+          <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(r|s|z)$</token>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>[oa]s?</token>
+      </pattern>
+      <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
+        <suggestion><match no='1' regexp_match='(.*)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
+        <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
+      <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
+      <example>Ele teve-a como perdida.</example>
+    </rule>
+
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
