@@ -252,6 +252,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "kan.", "kann.", "an.");
     assertCorrection(rule, "Einzahlungschein", "Einzahlungsschein");
     assertCorrection(rule, "Arbeitamt", "Arbeitet", "Arbeitsamt");
+    assertCorrection(rule, "Ordnungshütter", "Ordnungshüter");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");

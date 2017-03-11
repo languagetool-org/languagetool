@@ -123,6 +123,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         // so we get e.g. Einzahlungschein -> Einzahlungsschein
         candidates.add(parts.get(0) + "s" + parts.get(1));
       }
+      if (parts.size() == 2 && parts.get(1).startsWith("s")) {
+        // so we get e.g. Ordnungshütter -> Ordnungshüter (Ordnungshütter is split as Ordnung + shütter)
+        String firstPart = parts.get(0);
+        String secondPart = parts.get(1);
+        candidates.addAll(super.getCandidates(Arrays.asList(firstPart + "s", secondPart.substring(1))));
+      }
     }
     suggestions.addAll(candidates);
     return suggestions;
