@@ -1997,7 +1997,7 @@ USA
                     </marker>
                     <token postag="NN(S|(:UN?))?" postag_regexp="yes">
                         <exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"/>
-                        <exception>his</exception>
+                        <exception regexp="yes">his|time|nothing</exception>
                     </token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
@@ -2011,6 +2011,8 @@ USA
                 <example>I think it's PMS time.</example>
                 <example>I can't believe it's birthday time again already!</example>
                 <example correction="its">What are <marker>it's</marker> benefits?</example>
+                <example>I hope it's nothing serious.</example>
+                <example>I reckon it's time to wake up.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2150,12 +2152,32 @@ USA
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token>had</token>
+                    <token regexp="yes">had|been|got</token>
                 </pattern>
-                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it has</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <message>Did you mean <suggestion><match no="1" regexp_match="s" regexp_replace=""/>'s</suggestion> (=<suggestion><match no="1" regexp_match="s" regexp_replace=""/> has</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
                 <example>It's had a huge impact on me.</example>
-                <example correction="it's|it has">And <marker>its</marker> had a mention at the Labour Party Conference this morning..</example>
+                <example correction="it's|it has">And <marker>its</marker> had a mention at the Labour Party Conference this morning.</example>
+                <example correction="It's|It has"><marker>Its</marker> been raining for a week, and now its starting to snow.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>its</token>
+                    <token>too</token>
+                    <token postag="JJ"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>too</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="s" regexp_replace=""/>'s</suggestion> (=<suggestion><match no="1" regexp_match="s" regexp_replace=""/> is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example>From its too short shirt, to his eyes that moved around in its eye sockets: this was by far the creepiest mascot I have ever seen.</example>
+                <example correction="it's|it is">Sorry, but <marker>its</marker> too late.</example>
+                <example correction="It's|It is"><marker>Its</marker> too good to be true.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2175,7 +2197,8 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows|claims|swears|feels|assumes|seems|decides|talks|expires|finds</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">.+days|cases|notices|thinks|says|means|knows|claims|swears|feels|assumes|seems|decides|talks|expires|finds</exception></token>
+                    <token postag="IN" min="0"><exception postag="VB.*" postag_regexp="yes"/><exception>like</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2185,6 +2208,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
+                <example correction="its">Constant company wears out <marker>it's</marker> welcome.</example>
                 <example>For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
                 <example>Who says it's going to be published?</example>
                 <example>He thinks it's funny too.</example>
@@ -2196,6 +2220,71 @@ USA
                 <example>It depends whose hands it's in.</example>
                 <example>And the funny thing is it's okay.</example>
                 <example>And when you're with a big group of friends it's even more fun.</example>
+                <example>It looks like it's just the two of us.</example>
+                <example>In such cases it's often a good idea to think twice.</example>
+                <example>The admission costs six euros but on Sundays it's free.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VBN"/>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag="JJ|VBG" postag_regexp="yes" min="0"/>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="JJ"/></token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
+                <example correction="its">No one has ever seen <marker>it's</marker> eyes.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VB"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">['´]</token>
+                    <token>s</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token regexp="yes">to|who|which|that|['´]</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">can|couldn|didn?|doesn|don|mustn?|needn?|oughtn?|shan|shouldn?|won|wouldn?|to</token>
+                    <token regexp="yes" min="0">['´]</token>
+                    <token min="0" regexp="yes">(no)?t</token>
+                    <token postag="VB"><exception regexp="yes">believe|think|say|admit</exception></token>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['´]</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag="JJ|VBG" postag_regexp="yes" min="0"/>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="JJ"/><exception regexp="yes">(any|some|no)(thing|body)</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
+                <example correction="its">I can see <marker>it's</marker> eyes.</example>
+                <example correction="its">She didn't feel <marker>it's</marker> presence.</example>
+                <example correction="its">You have to see <marker>it's</marker> data.</example>
+                <example>It helps to know <marker>it's</marker> true.</example>
+                <example>I don't think <marker>it's</marker> anything to laugh about.</example>
+                <example>I don't think <marker>it's</marker> Tom who has a problem.</example>
+                <example>I don't think <marker>it's</marker> Tom's problem.</example>
+                <example>I don't think <marker>it's</marker> anything we need to worry about.</example>
+                <example>I don't think <marker>it's</marker> Tom.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0"/>
+                    <token postag="JJ"><exception postag="NN.*" postag_regexp="yes"/></token>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="s" regexp_replace=""/>'s</suggestion> (=<suggestion><match no="1" regexp_match="s" regexp_replace=""/> is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example>It's had a huge impact on me.</example>
+                <example correction="it's|it is">And <marker>its</marker> so hard to beat him.</example>
+                <example correction="It's|It is"><marker>Its</marker> difficult to study physics.</example>
             </rule>
             <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
             <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
@@ -5639,6 +5728,25 @@ USA
             <example>I feel safe <marker>with him</marker>.</example>
             <example>Look <marker>at her</marker>!</example>
             <example>I have no time to put my books in order before I go.</example>
+        </rule>
+        <rule id="POSSESSIVE_CASE" name="possessivee case after with(out)/at/in/to/...">
+            <pattern>
+                <token><exception postag="SENT_START"/></token>
+                <marker>
+                    <token regexp="yes">at|with(out)?|in|under|about</token>
+                    <token regexp="yes">I|s?he|they|[wm]e|him|them</token>
+                </marker>
+                <token postag="NN.*|VBZ" postag_regexp="yes">
+                    <exception postag_regexp="yes" postag="RB|JJ.?|VB[DGNP]?|PRP.?|IN|TO"/>
+                    <exception regexp="yes">isn?|hasn?|doesn?|goes|.+day|tomorrow</exception>
+                </token>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Did you mean <suggestion>\2 my</suggestion>, <suggestion>\2 her</suggestion>, <suggestion>\2 his</suggestion>, <suggestion>\2 our</suggestion>, or <suggestion>\2 their</suggestion>?</message>
+            <example correction="at my|at her|at his|at our|at their">Look <marker>at I</marker> eyes!</example>
+            <example correction="at my|at her|at his|at our|at their">Look <marker>at she</marker> legs!</example>
+            <example>Each of us has to be careful when driving.</example>
+            <example>Living with him isn't easy.</example>
         </rule>
         <rule id="TOO_ADJECTIVE_TO" name="too ADJECTIVE to">
             <pattern>
