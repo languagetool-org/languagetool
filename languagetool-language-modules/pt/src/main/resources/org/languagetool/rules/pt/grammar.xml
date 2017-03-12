@@ -909,7 +909,7 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-de-preferir-e-a-coordenacao-de-oracoes-de-infinitivo/26152</url>
       <example correction='peixe a carne'>Eu prefiro <marker>peixe do que carne</marker>.</example>
     </rule>
-    <rule id='PHRASAL_VERB_COM' name='Regência verbal: VERBO + com'>
+    <rule id='PHRASAL_VERB_COM' name='Regência verbal: VERBO + com ()'>
     <!-- Loosely based on CoGrOO rule -->
       <pattern>
           <token inflected='yes' regexp='yes'>namorar|arrasar</token>
@@ -920,7 +920,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Namorei'><marker>Namorei com</marker> a ideia de comprar um carro novo.</example>
       <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
     </rule>
-    <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com'>
+    <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com (a)'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token min='0' regexp='yes'>me|te|se|vos</token>
@@ -934,7 +934,7 @@ title="Easy editing stylesheet" ?>
       <short>Erro de regência verbal.</short>
       <example correction='habituar-te a'>Conseguiste <marker>habituar-te com</marker> o clima?</example>
     </rule>
-    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
+    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em ()'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token inflected='yes'>acarretar</token>
@@ -944,7 +944,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
-    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a'>
+    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a (de)'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token regexp='yes'>valorizaç(ão|ões)</token>
@@ -954,7 +954,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 de</suggestion><!-- TODO Add suggestions for the contracted forms -->
       <example correction='valorização de'>Cada vez se dá mais importância à <marker>valorização a</marker> recursos humanos altamente qualificados.</example>
     </rule>
-    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de ()'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token inflected='yes' regexp='yes'>evitar|usufruir</token>
@@ -966,6 +966,19 @@ title="Easy editing stylesheet" ?>
       <Incorrect>Nós evitaremos de falar em dinheiro.</example>
       <example>Nós evitaremos falar em dinheiro.</example> -->
       <example correction='evito'>Eu <marker>evito de</marker> comer fritos.</example>
+    </rule>
+    <rule id='PHRASAL_VERB_EM_POR' name='Regência verbal: VERBO + em (por)'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>empatar</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+        </marker>
+          <token regexp='yes'>\d+</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1 por</suggestion>
+      <example correction='empatou por'>A equipa <marker>empatou em</marker> 1 a 1.</example>
     </rule>
   </rulegroup>
 
