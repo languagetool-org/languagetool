@@ -1722,15 +1722,20 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-02-28 -->
     <rule>
       <pattern>
+        <marker>
           <token regexp='yes'>cerca|perto|volta</token>
           <token>de</token>
-          <token regexp='yes'>\d+[1-9]</token>
+          <token regexp='yes'>\d+[1-9]
+            <exception regexp='yes'>\d5</exception></token>
+        </marker>
+          <token><exception regexp='yes'>[.,]</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
-        <suggestion>\1 \2 <match no='3' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\1 \2 <match no='3' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
         <suggestion>\3</suggestion>
       <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
       <example correction="cerca de 10|11">Faltam <marker>cerca de 11</marker> dias para as férias.</example>
+      <example>Corresponde a população residente na cidade, porém cerca de 41,2% corresponde a residentes da Província de Bueno</example>
     </rule>
     <rule>
       <pattern>
