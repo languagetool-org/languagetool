@@ -819,8 +819,8 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
           <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(m|ão|õe)$</token>
-          <token regexp='yes'>-|–|—</token>
-          <token regexp='yes'>[oa]s?</token>
+          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
       <message>As ênclises terminadas em m, ão ou õe exigem alteração do pronome.</message>
         <suggestion>\1-n\3</suggestion>
@@ -833,8 +833,8 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
           <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(r|s|z)$</token>
-          <token regexp='yes'>-|–|—</token>
-          <token regexp='yes'>[oa]s?</token>
+          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
       <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
         <suggestion><match no='1' regexp_match='(.*)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
