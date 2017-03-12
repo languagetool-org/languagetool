@@ -32,9 +32,10 @@
     - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
-    - typography: chemical formulas, degrees signs, dash signs, and punctuation
+    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
     - semantics: url validator and date checker improvements
     - registered brands category added
+    - translation errors category added
   * false friends support added:
     - Portuguese to Spanish (186 new pairs)
     - Portuguese to English (156 new pairs)
