@@ -5716,11 +5716,11 @@ USA
         </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
-            <marker>
-                <token postag_regexp="yes" postag="TO|RP"/>
-                <token regexp="yes">I|he|she|we|they</token>
-            </marker>
-            <token postag="SENT_END"/>
+                <marker>
+                    <token postag_regexp="yes" postag="TO|RP"/>
+                    <token regexp="yes">I|he|she|we|they</token>
+                </marker>
+                <token postag="SENT_END"/>
             </pattern>
             <message>Did you mean <suggestion>\1 me</suggestion>, <suggestion>\1 her</suggestion>, <suggestion>\1 him</suggestion>, <suggestion>\1 us</suggestion>, or <suggestion>\1 them</suggestion>?</message>
             <example correction="to me|to her|to him|to us|to them">Give it <marker>to I</marker>.</example>
@@ -5747,6 +5747,18 @@ USA
             <example correction="at my|at her|at his|at our|at their">Look <marker>at she</marker> legs!</example>
             <example>Each of us has to be careful when driving.</example>
             <example>Living with him isn't easy.</example>
+        </rule>
+        <rule id="WRONG_PRP_AT_SENT_START" name="incorrect pronoun as subject ('Her loves me.')">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">Me|Him|Her|Them</token>
+                </marker>
+                <token postag="VBZ"/>
+                <token><exception postag="VB.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>I</suggestion>, <suggestion>He</suggestion>, <suggestion>She</suggestion>, or <suggestion>They</suggestion>?</message>
+            <example correction="I|He|She|They"><marker>Her</marker> has many animals.</example>
         </rule>
         <rule id="TOO_ADJECTIVE_TO" name="too ADJECTIVE to">
             <pattern>
