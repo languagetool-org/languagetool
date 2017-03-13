@@ -16040,6 +16040,7 @@ USA
             <example correction="economical">This is a very <marker>economic</marker> car.</example>
         </rule>
         <rulegroup id="IN_PRINCIPAL" name="principal (principle)">
+            <url>http://blog.oxforddictionaries.com/2011/08/principle-or-principal/</url>
             <rule>
                 <pattern>
                     <marker>
@@ -16056,26 +16057,27 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token>basic</token>
+                    <token regexp="yes">basic|fundamental|guiding|general</token>
                     <token inflected="yes">principal</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 <match no="2" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=rule)?</message>
                 <short>Commonly confused word</short>
                 <example>In principle, I don't think it will be too difficult.</example>
                 <example correction="basic principles">In this discussion we have endeavored to do this: to point out <marker>basic principals</marker> of liberty in which all people can believe.</example>
+                <example correction="general principles">Ptolemy sets out the <marker>general principals</marker> of astrology.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>principle</token>
                     </marker>
-                    <token regexp="yes">activity|use|engineer|investigator|action|source|town|effect|actor|advantage|agent|aim|area|artist|assistant|attraction|author|branch|caste?|cause|character|church|city|component|composer|goal|group|method|officer?|owner|advocate|photography|student</token>
+                    <token regexp="yes">(act(ion)?|activity|actor|advantage|advisor|advocate|agent|aim|amount|area|artist|assistant|attraction|author|branch|caste?|cause|character|church|city|component|composer|concern|consultant|culprit|director|effect|engineer|goal|group|investigator|method|objective|officer?|owner|partner|photography|purpose|researcher|reason|secretary|shareholder|source|staff|student|suspect|town|use)s?</token>
                 </pattern>
                 <message>Did you mean <suggestion>principal</suggestion> (=main)?</message>
                 <short>Commonly confused word</short>
                 <example correction="principal">The <marker>principle</marker> activity of the Foundation is centred on humanitarian aid and charity, especially with regards to children.</example>
                 <example>The principal activity of the Foundation is focused on humanitarian aid and charity.</example>
-                <example correction="principal">Dr. Baumrind was listed as the grant's <marker>principle</marker> investigator.</example>
+                <example correction="principal">Dr. Doe was listed as the grant's <marker>principle</marker> investigator.</example>
                 <example correction="principal">Laundering money was the mob's <marker>principle</marker> activity.</example>
             </rule>
             <rule>
@@ -16086,6 +16088,28 @@ USA
                 <message>Did you mean <suggestion>school principal</suggestion> (=head of school)?</message>
                 <short>Commonly confused word</short>
                 <example correction="school principal">Mr Brown is our new <marker>school principle</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">against|(violate|compromise)[ds]?|moral</token>
+                    <token min="0"/>
+                    <marker><token regexp="yes">principals?</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=rule)?</message>
+                <short>Commonly confused word</short>
+                <example correction="principles">He told me it's against his <marker>principals</marker> to drink alcohol.</example>
+                <example correction="principles">This violates all <marker>principals</marker> of the Constitution.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">stick</token>
+                    <token>to</token>
+                    <token min="0"/>
+                    <marker><token regexp="yes">principals?</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=rule)?</message>
+                <short>Commonly confused word</short>
+                <example correction="principles">Always stick to your <marker>principals</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SAY_TELL" name="say (tell)">
