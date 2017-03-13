@@ -4228,6 +4228,16 @@ USA
                 <example>Did you do this on <marker>your</marker> own?</example>
                 <example>I'm tired of <marker>your</marker> nagging.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Your</token></marker>
+                    <token>welcome</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion>You're</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> welcome.</example>
+            </rule>
         </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
@@ -15613,6 +15623,7 @@ USA
             <example>Joan of Arc refused to renounce her belief that the voice she heard was from God.</example>
         </rule>
         <rulegroup id="COARSE_COURSE" name="coarse (course)">
+            <url>http://grammarist.com/spelling/coarse-course/</url>
             <rule>
                 <pattern>
                     <marker><token>coarse</token></marker>
@@ -15621,6 +15632,14 @@ USA
                 <message>Did you mean <suggestion>course</suggestion>?</message>
                 <example correction="course">A <marker>coarse</marker> after action</example>
                 <example correction="course">To <marker>coarse</marker> after harse</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">southerly|golf|science|training|race|collision|crash|obstacle|math(ematic)?s|(econom|phys)ics|management|diploma|college|university|engineering|orientation|(post|under)?graduate|language|safety|(writ|ski)ing|home|bike|development|aid|summer|mountain</token>
+                    <marker><token>coarse</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>course</suggestion>?</message>
+                <example correction="course">In the syllabus for an Applied Mathematics <marker>coarse</marker>, students are told to write their problem sets individually.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PROVE_PROOF" name="prove (proof)">
