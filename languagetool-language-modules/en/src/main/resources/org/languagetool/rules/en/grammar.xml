@@ -15378,14 +15378,27 @@ USA
         <rule id="DIFFUSE_TENSIONS" name="diffuse (defuse) tensions">
             <pattern>
                 <marker>
-                    <token>diffuse</token>
+                    <token inflected="yes">diffuse</token>
                 </marker>
+                <token min="0">all</token>
                 <token min="0">the</token>
-                <token inflected="yes" regexp="yes">tension|situation</token>
+                <token inflected="yes" regexp="yes">tension|situation|arguing</token>
             </pattern>
-            <message>Did you mean <suggestion>defuse</suggestion>, as in removing the fuse from a bomb? "Diffuse" as a verb means to spread out.</message>
+            <message>Did you mean <suggestion><match no="1" postag="VB.*">defuse</match></suggestion>, as in removing the fuse from a bomb? "Diffuse" as a verb means to spread out.</message>
             <url>http://afterdeadline.blogs.nytimes.com/2013/10/08/close-but-not-quite-4/</url>
             <example correction="defuse">They gathered at her police precinct to thank officers for their work and to <marker>diffuse</marker> tensions.</example>
+        </rule>
+        <rule id="DEFUSE_BOMB" name="diffuse (defuse) bomb">
+            <pattern>
+                <marker>
+                    <token skip="1" inflected="yes">diffuse</token>
+                </marker>
+                <token regexp="yes">bombs?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" postag="VB.*">defuse</match></suggestion> (=removing the fuse from a bomb)? "Diffuse" as a verb means to spread out.</message>
+            <url>http://afterdeadline.blogs.nytimes.com/2013/10/08/close-but-not-quite-4/</url>
+            <example correction="defuse">How long did it take you to <marker>diffuse</marker> the bomb?</example>
+            <example correction="defused">He <marker>diffused</marker> several bombs today.</example>
         </rule>
         <rule id="COUNSEL_GENERAL" name="counsel (consul) general">
             <pattern case_sensitive="yes">
@@ -15599,6 +15612,17 @@ USA
             <example correction="believes">He <marker>beliefs</marker> that this is wrong.</example>
             <example>Joan of Arc refused to renounce her belief that the voice she heard was from God.</example>
         </rule>
+        <rulegroup id="COARSE_COURSE" name="coarse (course)">
+            <rule>
+                <pattern>
+                    <marker><token>coarse</token></marker>
+                    <token regexp="yes">of|after</token>
+                </pattern>
+                <message>Did you mean <suggestion>course</suggestion>?</message>
+                <example correction="course">A <marker>coarse</marker> after action</example>
+                <example correction="course">To <marker>coarse</marker> after harse</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PROVE_PROOF" name="prove (proof)">
             <rule>
                 <pattern>
