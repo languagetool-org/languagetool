@@ -1082,6 +1082,18 @@ title="Easy editing stylesheet" ?>
       <example correction="Por que"><marker>Porque</marker> motivo tem uma atitude tão indiferente?</example>
     </rule>
 
+    <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
+    <!--    Created by Tiago F. Santos, 2017-03-12     -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token regexp='yes'>nada|tudo</token>
+          <token>haver</token>
+      </pattern>
+      <message>Confusão de palavras.</message>
+        <suggestion>\1 \2 a ver</suggestion>
+      <example correction='tem nada a ver'>Não <marker>tem nada haver</marker> com isso.</example>
+    </rule>
+
   <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
     <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
