@@ -15699,22 +15699,29 @@ TODO Write better examples
     <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
     <!-- TODO Tokenizer improvements to fully activate rule -->
       <antipattern>
-        <marker>
-          <token><exception regexp='yes'>\d+</exception></token>
-          <token regexp="yes">\d</token>
+          <token regexp="yes">\d{1,2}</token>
           <token>.</token>
           <token regexp="yes">\d{3}</token>
-        </marker>
+      </antipattern>
+      <antipattern>
+          <token><exception regexp='yes'>\d+</exception></token>
+          <token regexp="yes">\d{3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+          <token><exception regexp='yes'>\d+</exception></token>
       </antipattern>
       <antipattern>
         <marker>
-          <token><exception regexp='yes'>\d+</exception></token>
-          <token regexp="yes">\d</token>
+          <token regexp="yes">\d{1,3}</token>
           <token>.</token>
           <token regexp="yes">\d{3}</token>
           <token>.</token>
           <token regexp="yes">\d{3}</token>
-          <token><exception regexp='yes'>\d+</exception></token>
         </marker>
       </antipattern>
       <antipattern>
@@ -15830,6 +15837,7 @@ TODO Write better examples
       <example correction="9,5">És de <marker>9.5</marker>.</example>
       <example correction="9349,5"><marker>9349.5</marker></example>
       <example correction="349,56">1 999 <marker>349.56</marker></example>
+      <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²...</example>
       <example>1.231</example>
       <example>1.231.437</example>
       <example>As tabelas 5.7 e 5.8.</example>
@@ -15844,6 +15852,9 @@ TODO Write better examples
       <example>O Apache 2.4 é assim.</example>
       <example>Na web 2.0 é assim.</example>
       <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
+      <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
+      <example>Esse número diminuiu para 300.000 em 1939.</example>
+      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena...</example>
     </rule>
     <rule>
       <pattern>
