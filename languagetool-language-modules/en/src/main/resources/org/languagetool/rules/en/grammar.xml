@@ -1402,6 +1402,48 @@ USA
             <short>Possible typo</short>
             <example correction="or">Type in one <marker>ore</marker> more words.</example>
         </rule>
+        <rule id="GOING_ONE" name="going one (on)">
+            <pattern>
+                <token>what</token>
+                <token inflected="yes">be</token>
+                <token>going</token>
+                <marker><token>one</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>on</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="on">She knew what was going <marker>one</marker>.</example>
+            <example>He is going one step further.</example>
+        </rule>
+        <rule id="NAIL_ON_THE_HEAD" name="nail on the hat (head)">
+            <pattern>
+                <token>nail</token>
+                <token>on</token>
+                <token>the</token>
+                <marker><token regexp="yes">h[ia][td]</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>head</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="head">She hit the nail on the <marker>hat</marker>.</example>
+        </rule>
+        <rule id="COME_THROUGH" name="come threw (through)">
+            <pattern>
+                <token inflected="yes">come</token>
+                <marker><token regexp="yes">thr[eo]w</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>through</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="through">They came <marker>throw</marker> the door.</example>
+        </rule>
+        <rule id="VARY_VERY" name="vary (very)">
+            <pattern>
+                <token inflected="yes">be</token>
+                <marker><token>vary</token></marker>
+                <token postag="JJ"/>
+            </pattern>
+            <message>Did you mean <suggestion>very</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="very">They were <marker>vary</marker> happy.</example>
+        </rule>
         <rule id="THE_ONLY_ON" name="the only on (one)">
             <pattern>
                 <token>the</token>
@@ -4238,7 +4280,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker><token>Your</token></marker>
-                    <token>welcome</token>
+                    <token regexp="yes">welcome|pretty</token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>You're</suggestion>?</message>
