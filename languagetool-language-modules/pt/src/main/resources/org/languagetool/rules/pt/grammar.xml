@@ -1709,6 +1709,20 @@ title="Easy editing stylesheet" ?>
       <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
     </rule>
 
+    <rule id='DAR_À_LUZ' name="Expressão invariável: 'dar à luz'">
+    <!-- Created by Tiago F. Santos, 2017-03-12 -->
+      <pattern>
+          <token inflected='yes'>dar</token>
+          <token regexp='yes'>às?|aos?</token>
+          <token regexp='yes'>luz(es)?</token>
+          <token regexp='yes'>as?</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>\1 à luz</suggestion>
+        <suggestion>\1 à luz, \4</suggestion>
+      <example correction='deu à luz|deu à luz, a'>Quando <marker>deu à luz a</marker> bebé, ele ficou radiante.</example>
+    </rule>
+
   <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <!-- Loosely based on CoGrOO rule -->
