@@ -43234,8 +43234,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
                 </and>
             </pattern>
-            <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+)os" regexp_replace="$1s"/></suggestion>.</message>
-            <short>Existeix plural en -s</short>
+            <message>Useu plural en -scs.</message>
+            <suggestion><match no="1" regexp_match="(.+)os" regexp_replace="$1s"/></suggestion>
             <example correction="boscs">Els <marker>boscos</marker></example>
             <example correction="pretexts">Els seus <marker>pretextos</marker></example>
             <example>boscs</example>
@@ -43243,15 +43243,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EXIGEIX_PLURALS_SCOS" name="Exigeix plurals en -scos: textos, boscos..." default="off">
             <pattern>
                 <and>
-                    <token regexp="yes">.+(sc|sp|st|xt)s</token>
+                    <token regexp="yes">.+(sc|sp|st|xt)s<exception regexp="yes">.*(tist|cist|blast|plast)s</exception></token>
                     <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
                 </and>
             </pattern>
-            <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1os"/></suggestion>.</message>
-            <short>Existeix plural en -os</short>
+            <message>Useu plural en -os</message>
+	    <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1os"/></suggestion>.
             <example correction="boscos">Els <marker>boscs</marker></example>
             <example correction="pretextos">Els seus <marker>pretexts</marker></example>
-            <example>boscos</example>
+            <example>Els caliptoblasts</example>
         </rule>
         <rulegroup id="EXIGEIX_PLURALS_IGS" name="Exigeix plurals en -igs: desigs, assaigs..." default="off">
             <rule>
@@ -43275,8 +43275,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" inflected="yes">.+ig</token>
                     </and>
                 </pattern>
-                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+[^i])i?jos" regexp_replace="$1igs"/></suggestion>.</message>
-                <short>Existeix plural en -s</short>
+                <message>Useu plural en -igs.</message>
+                <suggestion><match no="1" regexp_match="(.+[^i])i?jos" regexp_replace="$1igs"/></suggestion>
                 <example correction="faigs">Els <marker>fajos</marker></example>
                 <example correction="fastigs">Els <marker>fastijos</marker></example>
                 <example>faigs</example>
@@ -43284,10 +43284,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_PLURALS_JOS" name="Exigeix plurals en -jos: desitjos, assajos..." default="off">
-            <rule>
+            <rule> <!--exception: raigs -->
                 <pattern>
                     <and>
-                        <token regexp="yes">.+igs<exception regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs</exception></token>
+                        <token regexp="yes">.+igs<exception regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs|raigs</exception></token>
                         <token regexp="yes" inflected="yes">.+ig</token>
                     </and>
                 </pattern>
@@ -43302,8 +43302,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs</token>
                 </pattern>
-                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1tjos"/></suggestion>.</message>
-                <short>Existeix plural en -os</short>
+                <message>Useu plural en -jos.</message>
+                <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1tjos"/></suggestion>
                 <example correction="desitjos">Els <marker>desigs</marker></example>
                 <example correction="lletjos">Els <marker>lleigs</marker></example>
                 <example>faigs</example>
