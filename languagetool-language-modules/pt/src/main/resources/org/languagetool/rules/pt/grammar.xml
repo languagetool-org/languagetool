@@ -14500,6 +14500,19 @@ TODO Write better examples
       <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
     </rule>
 
+    <rule id="PLURAL_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
+    <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token regexp="yes">\d+</token>
+        <marker>
+          <token regexp="yes">(&unidades_de_medida;|h|hr)s</token>
+        </marker>
+      </pattern>
+      <message>As abreviaturas de unidades de medida padrão não tem plural.</message>
+        <suggestion><match no='2' regexp_match='(&unidades_de_medida;|h|hr)s' regexp_replace='$1'/></suggestion>
+      <example correction="kg">São 2 <marker>kgs</marker> de maças.</example>
+    </rule>
+
     <rule id="KELVIN" name="kelvin (no graus)">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
