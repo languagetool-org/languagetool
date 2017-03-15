@@ -41768,20 +41768,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Variant informal.</message>
             <suggestion><match no="1" regexp_match="(.+[tv])indre(s?)" regexp_replace="$1enir$2" /></suggestion>
-            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
             <example correction="esdevenir">No heu d'<marker>esdevindre</marker> mandrosos.</example>
             <example>Heu d'esdevenir lliures.</example>
         </rule>
         <rule id="EVITA_INFINITIUS_VALDRE" name="Evita infinitius en -valdre" default="off">
             <pattern>
-                <token regexp="yes">.*valdre</token>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">(preva|va|ca|do)ldre</token>
             </pattern>
             <message>Variant informal.</message>
-            <suggestion><match no="1" regexp_match="(.*)valdre" regexp_replace="$1valer" /></suggestion>
-            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
+            <suggestion><match no="1" regexp_match="(.*)dre" regexp_replace="$1er" /></suggestion>
             <example correction="valer">Deu <marker>valdre</marker> molt</example>
             <example correction="prevaler">Ha de <marker>prevaldre</marker> el seny.</example>
             <example>Deu valer molt.</example>
+        </rule>
+        <rule id="EXIGEIX_INFINITIUS_INDRE" name="Usa infinitius i noms en -vindre, -tindre" default="off">
+            <pattern>
+                <token regexp="yes">.*[tv]enirs?</token>
+            </pattern>
+            <message>Useu la terminació en -indre.</message>
+            <suggestion><match no="1" regexp_match="(.*[tv])enir(s?)" regexp_replace="$1indre$2" /></suggestion>
+            <example correction="esdevindre">No heu d'<marker>esdevenir</marker> mandrosos.</example>
+            <example correction="vindre">No heu de <marker>venir</marker> de seguida.</example>
+        </rule>
+        <rule id="EXIGEIX_INFINITIUS_ALDRE" name="Usa infintius caldre, valdre, doldre" default="off">
+            <pattern>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">(preva|va|ca|do)ler</token>
+            </pattern>
+            <message>Useu la terminació -ldre.</message>
+            <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1dre" /></suggestion>
+            <example correction="valdre">Deu <marker>valer</marker> molt</example>
+            <example correction="prevaldre">Ha de <marker>prevaler</marker> el seny.</example>
         </rule>
     </category>
     <category id="SYNTAX" name="Sintaxi" type="grammar">
