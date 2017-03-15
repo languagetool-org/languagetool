@@ -127,6 +127,11 @@ public class AgreementRule extends GermanRule {
         new PatternTokenBuilder().posRegex("ART:.*").build(), // "Das wenige Kilometer breite Tal"
         new PatternTokenBuilder().posRegex("ADJ:.*").build(),
         new PatternTokenBuilder().tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Van").build(), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
+        new PatternTokenBuilder().token("der").build(),
+        new PatternTokenBuilder().token("Bellen").build()
     )
   );
 
