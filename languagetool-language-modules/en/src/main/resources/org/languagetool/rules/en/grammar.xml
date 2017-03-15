@@ -725,17 +725,22 @@ USA
             <example correction="exists">There <marker>exits</marker> an α-evaluating homomorphism π.</example>
             <example>Then there exists an α-evaluating homomorphism π.</example>
         </rule>
-        <rule id="HE_THE" name="he (the)">
-            <pattern>
-                <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after|since</exception></token>
-                <token>he</token>
-                <token postag="NN.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Did you mean <suggestion>\1 the \3</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="At the beginning"><marker>At he beginning</marker>, I was afraid.</example>
-            <example>But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
-        </rule>
+        <rulegroup id="HE_THE" name="he (the)">
+            <rule>
+                <pattern>
+                    <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after|since|like</exception></token>
+                    <marker><token>he</token></marker>
+                    <token min="0" postag="JJ"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>the</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="the">At <marker>he</marker> beginning, I was afraid.</example>
+                <example correction="the">The restaurant closed tonight for <marker>he</marker> first time in years</example>
+                <example>But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
+                <example>Tom looked like he needed help.</example>
+            </rule>
+        </rulegroup>
         <rule id="THE_HOW" name="the how/why (how/why)">
             <pattern case_sensitive='yes'>
                 <marker>
@@ -1985,6 +1990,22 @@ USA
                 <example>The Service has not said what its next step will be.</example>
                 <example>But mostly, I feel it because I see its poison working its way out of me and on to those around me as repercussions of my actions.</example>
                 <example>London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">And|But</token>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token min="0">not</token>
+                    <token postag="JJ.?" postag_regexp="yes"/>
+                    <token regexp="yes">to|for</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="s" regexp_replace=""/>'s</suggestion> (=<suggestion><match no="3" regexp_match="s" regexp_replace=""/> is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> hard to explain.</example>
+                <example correction="It's|It is"><marker>Its</marker> better for him to go out.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4280,11 +4301,12 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker><token>Your</token></marker>
-                    <token regexp="yes">welcome|pretty</token>
-                    <token postag="SENT_END"/>
+                    <token regexp="yes">welcome|pretty|right|wrong</token>
+                    <token regexp="yes">[\.,:;!]</token>
                 </pattern>
                 <message>Did you mean <suggestion>You're</suggestion>?</message>
                 <example correction="You're"><marker>Your</marker> welcome.</example>
+                <example correction="You're"><marker>Your</marker> right, but for the wrong reason.</example>
             </rule>
         </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
@@ -5805,10 +5827,12 @@ USA
                 <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
-                <token regexp="yes">what|who|where|how|which|whose</token>
+                <token min="0" regexp="yes">even|really</token>
+                <token regexp="yes">what|who|where|how|which|whose|whether</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
+            <example correction="">I <marker>don't even what</marker> this means.</example>
         </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
