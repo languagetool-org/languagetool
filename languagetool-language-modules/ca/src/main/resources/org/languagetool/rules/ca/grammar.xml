@@ -10602,6 +10602,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="ROSSEGAR" name="rossegar/rosegar/arrossegar">
+            <pattern>
+                <token inflected="yes">rossegar</token>
+            </pattern>
+            <message>Forma secundària de 'arrossegar'. ¿O volíeu dir 'rosegar' (esmicolar amb les dents)?</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">arrossegar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">rosegar</match></suggestion>
+            <example correction="arrossegaren|rosegaren"><marker>rossegaren</marker></example>
+        </rule>
         <rule id="CASO_CASOS" name="caso/casos">
             <pattern>
                 <token postag="D..MP.|PI0CP000|PX.MP..." postag_regexp="yes"></token>
