@@ -1449,6 +1449,26 @@ USA
             <short>Possible typo</short>
             <example correction="very">They were <marker>vary</marker> happy.</example>
         </rule>
+        <rule id="WEATHER_WHETHER" name="weather (whether)">
+            <pattern>
+                <token inflected="yes" regexp="yes">wonder|ask|know</token>
+                <marker><token>weather</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>whether</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="whether">She asked <marker>weather</marker> he knew her.</example>
+        </rule>
+        <rule id="I_IF" name="I (if)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker><token>I</token></marker>
+                <token postag="DT"/>
+            </pattern>
+            <message>Did you mean <suggestion>If</suggestion> or is a comma missing (<suggestion>I,</suggestion>)?</message>
+            <short>Possible typo</short>
+            <example correction="If|I,"><marker>I</marker> the data confirm theory, I will be famous.</example>
+            <example correction="If|I,"><marker>I</marker> the president, will make America great.</example>
+        </rule>
         <rule id="THE_ONLY_ON" name="the only on (one)">
             <pattern>
                 <token>the</token>
@@ -4222,6 +4242,58 @@ USA
             <message>Did you mean <suggestion><match no="1"/> whom to</suggestion>?</message>
             <example correction="about whom to">What do you think <marker>about who to</marker> promote?</example>
         </rule>
+        <rulegroup id="WHOM_WHO" name="whom (who)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="IN"><exception>For</exception></token>
+                    <marker>
+                        <token>who</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\3m</suggestion> instead of 'who'.</message>
+                <example correction="whom">With <marker>who</marker> did you go?</example>
+                <example>For who is so tolerant of an unjust city, so ironclad, that they can hold back?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="IN"/>
+                    <marker>
+                        <token>who</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion>\2m</suggestion> instead of 'who'.</message>
+                <example correction="whom">Sarah gave the tickets to <marker>who</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">one|both|many</token>
+                    <token>of</token>
+                    <marker>
+                        <token>who</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\3m</suggestion> instead of 'who'.</message>
+                <example correction="whom">The hall was filled with students, many of <marker>who</marker> were girls.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WHO_WHOM" name="who (whom)">
+            <rule>
+                <pattern>
+                    <token><exception postag="IN"/></token>
+                    <marker>
+                        <token>whom</token>
+                    </marker>
+                    <token postag="VBZ|VBD" postag_regexp="yes"><exception inflected="yes" regexp="yes">be|do</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="m" regexp_replace=""/></suggestion> instead of 'whom'.</message>
+                <example correction="Who"><marker>Whom</marker> paid for the meal?</example>
+                <example>With whom did you talk?</example>
+                <example>Whom did you meet?</example>
+                <example>The hall was filled with students, many of whom were girls.</example>
+            </rule>
+        </rulegroup>
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
         <rule id="VBG_YOURE" name="VBG you're (your)">
             <pattern>
