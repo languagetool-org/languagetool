@@ -215,7 +215,7 @@ public class CaseRule extends GermanRule {
       "viel", "nichts", "wenig", "zuviel" ));
 
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
-      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon" ));
+      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie" ));
 
   private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
       "einer", "eines", "der", "des", "dieser", "dieses" ));
@@ -674,7 +674,16 @@ public class CaseRule extends GermanRule {
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
       if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
-        continue;
+        // "Man müsse Überlegen, wie man das Problem löst."
+        boolean isPotentialError = i > 1 && i < tokens.length - 3
+                                   && tokens[i+1].getToken().equals(",")
+                                   && INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken())
+                                   && tokens[i-1].hasPartialPosTag("VER:MOD:")
+                                   && !tokens[i-1].hasLemma("mögen")
+                                   && !tokens[i+3].getToken().equals("zum");
+        if (!isPotentialError) {
+          continue;
+        }
       }
       AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
