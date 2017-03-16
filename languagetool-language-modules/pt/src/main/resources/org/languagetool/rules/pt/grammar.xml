@@ -1735,6 +1735,18 @@ title="Easy editing stylesheet" ?>
       <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
     </rule>
 
+    <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
+    <!-- Created by Tiago F. Santos, 2017-03-15 -->
+      <pattern>
+          <token regexp='yes'>[nd]?[ao]s?</token>
+          <token>de</token>
+          <token>mais</token>
+      </pattern>
+      <message>Confusão de termos.</message>
+        <suggestion>\1 \2\3</suggestion>
+      <example correction='Os demais'><marker>Os de mais</marker> intervenientes na conversa, tiveram que ficar calados.</example>
+    </rule>
+
   <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <!-- Loosely based on CoGrOO rule -->
