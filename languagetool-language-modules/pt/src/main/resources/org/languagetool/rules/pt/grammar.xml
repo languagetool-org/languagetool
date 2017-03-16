@@ -1723,6 +1723,18 @@ title="Easy editing stylesheet" ?>
       <example correction='deu à luz|deu à luz, a'>Quando <marker>deu à luz a</marker> bebé, ele ficou radiante.</example>
     </rule>
 
+    <rule id='TODOS_PLURAL_NOUNS' name="Expressão: Todos + 'nome no plural'">
+    <!-- Created by Tiago F. Santos, 2017-03-12 -->
+      <pattern>
+          <token regexp='yes'>tod(as|os)</token>
+          <token postag_regexp='yes' postag='(N|A).+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N|A).+'/></token>
+      </pattern>
+      <message>Esta expressão no plural exige um segundo artigo.</message>
+        <suggestion>\1 <match no='1' regexp_match='.+(..)$' regexp_replace='$1'/> \2</suggestion>
+      <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
+    </rule>
+
   <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <!-- Loosely based on CoGrOO rule -->
