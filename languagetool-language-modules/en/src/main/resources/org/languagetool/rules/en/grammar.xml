@@ -1470,6 +1470,54 @@ USA
             <example correction="If|I,"><marker>I</marker> the president, will make America great.</example>
             <example>I neither drink nor smoke.</example>
         </rule>
+        <rulegroup id="STATIONARY_STATIONERY" name="stationary (stationery)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>stationary</token>
+                    </marker>
+                    <token regexp="yes">(store|shop|supplie|supply|material|supplier|cupboard)s?</token>
+                </pattern>
+                <message>Did you mean <suggestion>stationery</suggestion> (= materials for writing) instead of 'stationary' (= immobile/unchanged)?</message>
+                <short>Possible typo</short>
+                <example correction="stationery">The office junior is in charge of filling the <marker>stationary</marker> cupboard.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">warehouse|office|school|paper|art|letterpress</token>
+                    <marker>
+                        <token>stationary</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>stationery</suggestion> (= materials for writing) instead of 'stationary' (= immobile/unchanged)?</message>
+                <short>Possible typo</short>
+                <example correction="stationery">Save 50% on all office <marker>stationary</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">order</token>
+                    <token min="0"/>
+                    <marker>
+                        <token>stationary</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>stationery</suggestion> (= materials for writing) instead of 'stationary' (= immobile/unchanged)?</message>
+                <short>Possible typo</short>
+                <example correction="stationery">The office junior is in charge of ordering our <marker>stationary</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">be|remain|stay</token>
+                    <marker>
+                        <token>stationery</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>stationary</suggestion> (=immobile/unchanged) instead of 'stationery' (= materials for writing)?</message>
+                <short>Possible typo</short>
+                <example correction="stationary">The exact word which my doctor used was <marker>stationery</marker>.</example>
+                <example correction="stationary">The duckling waddled slowly across the road while the traffic remained <marker>stationery</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="THE_ONLY_ON" name="the only on (one)">
             <pattern>
                 <token>the</token>
