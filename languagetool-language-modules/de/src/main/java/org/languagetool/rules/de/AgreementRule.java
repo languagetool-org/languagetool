@@ -132,6 +132,10 @@ public class AgreementRule extends GermanRule {
         new PatternTokenBuilder().token("Van").build(), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
         new PatternTokenBuilder().token("der").build(),
         new PatternTokenBuilder().token("Bellen").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("mehrere").build(), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
+        new PatternTokenBuilder().pos("SUB:NOM:SIN:FEM:ADJ").build()
     )
   );
 
