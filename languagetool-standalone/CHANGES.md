@@ -33,7 +33,7 @@
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
     - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
-    - semantics: url validator and date checker improvements
+    - semantics: wrong words in the context, url validator and date checker improvements
     - registered brands category added
     - translation errors category added
   * false friends support added:
