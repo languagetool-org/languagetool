@@ -35,8 +35,8 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
     super(messages);
     super.setCategory(Categories.SEMANTICS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
-    addExamplePair(Example.wrong("A fruta vem da <marker>arvore</marker>."),
-                   Example.fixed("A fruta vem da <marker>árvore</marker>."));
+    addExamplePair(Example.wrong("O acidente <marker>infringiu</marker> grandes danos."),
+                   Example.fixed("O acidente <marker>infligiu</marker> grandes danos."));
   }
   
   @Override
