@@ -204,6 +204,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Той, хто захворів маленьким.</example>
     </rule>
 
+    <rulegroup id="V_KINCI_KINCIV" name="В кінці кінців">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>кінці-кінців</token>
+        </pattern>
+        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>урешті</suggestion></message>
+        <example correction="кінець кінцем|зрештою|урешті"><marker>в кінці-кінців</marker> я здався</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>кінці</token>
+          <token>кінців</token>
+        </pattern>
+        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>урешті</suggestion></message>
+        <example correction="кінець кінцем|зрештою|урешті"><marker>в кінці кінців</marker> я здався</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="DIAKUYUCHI_INANIM" name="Дякуючи - завдяки">
+      <rule>
+        <pattern>
+          <marker>
+            <token>дякуючи</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+            <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*"/>
+            <exception regexp="yes" inflected="yes">доля|родина|сім'я|ЗМІ|міністерство|рада|адміністрація|уряд|газета|комбінат|рука|завод</exception>
+            <exception postag_regexp="yes" postag="noun:.*:prop.*"/>
+            <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+          </token>
+        </pattern>
+        <message>Перед неперсонифікованими об'єктами правильно: <suggestion>завдяки</suggestion></message>
+        <example correction="Завдяки"><marker>Дякуючи</marker> погоді</example>
+        <example>Дякуючи авторитету</example> <!-- авторитет: anim/inanim -->
+        <example>дякуючи долі і добрим людям</example>
+        <example>дякуючи Чорногорі за те, що немає дощу</example>
+        <example>Дякуючи Писарчукові, дякуючи адміністрації</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="NA_TAKIY_MOVI" name="На (такій) мові - (такою) мовою">
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">базуватися|базований|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
+          <token postag_regexp="yes" postag="noun.*:v_dav.*" min="0"/>
+          <token>на</token>
+        </antipattern>
+        <antipattern>
+          <token>мові</token>
+          <token regexp="yes" inflected="yes">базуватися|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
+        </antipattern>
+        <pattern>
+          <token>на</token>
+          <token postag_regexp="yes" postag="adj:f:v_mis.*"/>
+          <token>мові</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="adj:f:v_mis(.*)" postag_replace="adj:f:v_oru$1"/> мовою</suggestion></message>
+        <example correction="Китайською мовою"><marker>На китайській мові</marker>.</example>
+        <example>в українській мові</example>
+        <example>давати заробляти росіянам на українській мові</example>
+        <example>котрий розуміється на їхній мові</example>
+        <example>У прийнятті рішення, на якій мові зупинитися</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token>мові</token>
+          <token postag_regexp="yes" postag="(adj|noun).*v_rod.*"/>
+        </pattern>
+        <message>Правильно: <suggestion>мовою <match no="3"/></suggestion></message>
+        <example correction="мовою майя">Говорили <marker>на мові майя</marker>.</example>
+        <example correction="мовою зулуських">Говорили <marker>на мові зулуських</marker> племен.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token postag_regexp="yes" postag="numr:.:v_mis.*"/>
+          <token>мовах</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(numr:.:)v_mis(.*)" postag_replace="$1v_oru$2"/> мовами</suggestion></message>
+        <example correction="двома мовами">Говорили <marker>на двох мовах</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="RAHUVATYSIA_SCHO" name="Рахуватися, що">
       <rule>
         <pattern>
@@ -1026,6 +1113,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Правильно: <suggestion>підносити</suggestion>, <suggestion>піднести</suggestion></message>
         <example correction="підносити|піднести">Перший тост <marker>піднімаємо</marker> за нові успіхи.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="SKLADATY_STANOVYTY" name="Складати і становити">
+      <rule>
+        <pattern>
+          <marker>
+            <token>виняток</token>
+            <token inflected="yes">складати</token>
+          </marker>
+          <token/>
+        </pattern>
+        <message>Правильно: <suggestion>виняток <match no="2" postag=".*">становити</match></suggestion></message>
+        <suggestion>винятком є</suggestion>
+        <example correction="виняток становлять|винятком є">Певний <marker>виняток складають</marker> ліві.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">складати</token>
+          <token inflected="yes">виняток</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag=".*">становити</match> <match no="2"/></suggestion></message>
+        <suggestion>є винятком</suggestion>
+        <example correction="становить виняток|є винятком">Це <marker>складає виняток</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -4067,6 +4178,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>силіконовому долина</example>
     </rule>
 
+    <rule id="LYCE_OSOBA" name="Лице і особа">
+      <pattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token inflected="yes">юридичний</token>
+          <token inflected="yes">лице</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>юридична особа</suggestion></message>
+      <example correction="юридична особа">Він має статус <marker>юридичного лиця</marker>.</example>
+    </rule>
+
     <rule id="NE_PO_SOBI" name="Не по собі">
       <pattern>
         <token>не</token>
@@ -4080,6 +4204,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>зле</suggestion>
       <suggestion>ні в сих, ні в тих</suggestion>
       <example correction="ніяково|незручно|моторошно|недобре|зле|ні в сих, ні в тих">мені стало <marker>не по собі</marker>.</example>
+    </rule>
+
+    <rule id="RIDKE_VYKLYUCHENNIA" name="Рідке виключення">
+      <pattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <marker>
+            <token inflected="yes">рідкий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">виключення|виняток</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>рідкісний</suggestion></message>
+      <example correction="рідкісний">за <marker>рідкими</marker> винятками</example>
     </rule>
 
     <rulegroup id="TOLK" name="Толк">
@@ -4197,6 +4336,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>забивати баки</suggestion>
         <suggestion>затуркувати</suggestion>
         <example correction="спантеличувати|збивати з пантелику|збивати з плиту (з пливу)|забивати баки|затуркувати">і <marker>збив усіх з толку</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="MASLO" name="Масло">
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes" regexp="yes">оливковий|рослинний|соняшниковий|пальмовий|бавовняний|етеровий|ефірний|кедровий|кіпарисовий|обліпиховий|ріпаковий|рапсовий|соєвий</token>
+            <token inflected="yes">масло</token>
+          </unify>
+        </pattern>
+<!--
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):n:(.*)" postag_replace="$1:f:$2"/> <match no="2" postag="(noun:inanim):n:(.*)" postag_replace="$1:f:$2">олія</match></suggestion></message>
+-->
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олія</suggestion></message>
+        <example correction="рослинна олія">полити <marker>рослинним маслом</marker>.</example>
+        <example correction="оливкова олія">полити <marker>оливковим маслом</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes" regexp="yes">машинний|моторний|(не)?висихний|графітовий|електротехнічний|емульсійний|ізоляційний|мастильний|мінеральний|охолоджувальний|паливний|парафіновий|силіконовий|(напів)?синтетичний|технологічний|технічний|трансмісійний|трансформаторний</token>
+            <token inflected="yes" regexp="yes">масло|олія</token>
+          </unify>
+        </pattern>
+<!--
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):[fn]:(.*)" postag_replace="$1:f:$2"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:f:$2">олива</match></suggestion></message>
+-->
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олива</suggestion></message>
+        <example correction="машинна олива">залити <marker>машинним маслом</marker>.</example>
+        <!-- TODO: fix correction inflections
+        <example correction="машинну оливу">додати <marker>машинне масло</marker>.</example>
+        -->
+        <example correction="машинна олива">немає <marker>машинної олії</marker>.</example>
       </rule>
     </rulegroup>
 

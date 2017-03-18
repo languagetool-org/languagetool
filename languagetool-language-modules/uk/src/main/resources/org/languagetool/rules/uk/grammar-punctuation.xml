@@ -119,6 +119,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup name="Відсутня кома після вставного слова" id="COMMA_AFTER_INSERT">
+      <rule>
+        <pattern>
+          <marker>
+            <token case_sensitive="yes" regexp="yes">Наприклад|Приміром</token>
+          </marker>
+          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]</token>
+        </pattern>
+        <message>Відсутня кома після наприклад: <suggestion>\1,</suggestion></message>
+        <example correction="Наприклад,"><marker>Наприклад</marker> редакторством чи викладанням.</example>
+        <example>Наприклад «Ржевський проти Наполеона».</example>
+        <example>Наприклад?</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup name="Відсутня кома після «отже», ..." id="COMMA_AFTER_OTZHE">
+      <rule>
+        <pattern case_sensitive="yes">
+          <marker>
+            <token>Отже</token>
+          </marker>
+          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|ж</token>
+        </pattern>
+        <message>Відсутня кома після «отже»: <suggestion>\1,</suggestion></message>
+        <example correction="Отже,"><marker>Отже</marker> виникає природня реакція.</example>
+        <example>Отже – усе законно.</example>
+        <example>Отже ж, прикрість яка!</example>
+      </rule>
+    </rulegroup>
+
+
 <!--
     <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми">
       <rule>

@@ -553,6 +553,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="віч-на-віч">Зустрілися <marker>віч на віч</marker>.</example>
     </rule>
 
+    <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
+      <antipattern>
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'].*</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*subst.*"/>
+        </token>
+      </pattern>
+      <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
+      <url>http://pravopys.net/#search=80-85</url>
+      <example correction="підемо">Сьогодні <marker>підем</marker> в кіно.</example>
+      <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
+      <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
+      <example>В.Кукольником, П.Подієм, І.Орлом</example>
+    </rule>
+
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
     без пробіла: ДСТУ 3582-13 (2013) http://lib.npu.edu.ua/full_txt/DSTU_3582_2013.pdf

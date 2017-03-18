@@ -1138,6 +1138,191 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 <!--
+    Складно відрізнити правильні випадки, напр.:
+     * де шукати ресурси для їх забезпечення
+     * Пізніше до їх захисту приєдналися Джордж
+     * не можна буде забезпечити їх виконання
+    <rulegroup id="YIH_YIHNIY" name="Їх і їхній" default="off">
+      <rule>
+        <antipattern>
+          <token regexp="yes">що|то</token>
+          <token>їх</token>
+          <token postag_regexp="yes" postag="noun.*"/>
+          <token postag_regexp="yes" postag="adv.*" min="0"/>
+          <token postag_regexp="yes" postag="verb.*"/>
+        </antipattern>
+        <antipattern>
+          <token>їх</token>
+          <token postag_regexp="yes" postag="noun.*:v_oru.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token>їх</token>
+          </marker>
+          <token postag_regexp="yes" postag="noun.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+            <exception postag_regexp="yes" postag="noun.*pron.*"/>
+          </token>
+        </pattern>
+        <message>Можливо мало бути <suggestion>їхній</suggestion>?</message>
+        <example correction="їхній">спочатку <marker>їх</marker> пенсії обкладають...</example>
+        <example>Чому їх не навчили державної мови?</example>
+        <example>Чому їх ми не навчили державної мови?</example>
+        <example>що їх поліція назбирала</example>
+        <example>ми почастували їх обідом</example>
+      </rule>
+    </rulegroup>
+-->
+
+    <rulegroup id="BIL_MASC" name="Біль - ч.р.">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="adj:f:.*">
+            <exception postag_regexp="yes" postag="adj:m:.*"/>
+            <exception postag_regexp="yes" postag="(part|conj).*"/>
+            <exception regexp="yes" inflected="yes">мережаний|невинний|тонкий|сам</exception>
+          </token>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:.*">біль
+            <exception>білі</exception>
+            <exception case_sensitive="yes">Біль</exception>
+          </token>
+        </pattern>
+        <message>Іменник біль - чоловічого роду</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):f:(.*)" postag_replace="$1:m:$2"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/></suggestion>
+        <example correction="сильний біль"><marker>сильна біль</marker></example>
+        <example>Стояла біла, як біль, так перелякалася.</example>
+        <example>Лице біллю білували.</example>
+        <example>увесь їхній біль</example>
+        <example>пошибає душу мою болем</example>
+        <example>Помітивши гіркоту на стиснутих вустах Арсена та біль у його почервонілих очах</example>
+        <example>можу сама біль втамувати</example>
+        <example>Христина Біль</example>
+      </rule>
+     <!-- забагато фальшивих:
+      * як могла, терпіла біль
+      *  заробила головний біль і витратила
+      * якщо біль спровокувала банальна    перевтома
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="verb.*:f(:.*|$)"/>
+          <token>біль</token>
+        </pattern>
+        <message>Іменник біль - чоловічого роду</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):f(.*)" postag_replace="$1:m$2"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/></suggestion>
+        <example correction="почавсь біль|почався біль"><marker>почалася біль</marker></example>
+        <example>собі завдала болю</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>біль</token>
+          <token postag_regexp="yes" postag="(part|adv).*" min="0"/>
+          <token postag_regexp="yes" postag="verb.*:f(:.*|$)"/>
+        </pattern>
+        <message>Іменник біль - чоловічого роду</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*):f(.*)" postag_replace="$1:m$2"/></suggestion>
+        <example correction="біль почавсь|біль почався"><marker>біль почалася</marker> раптово</example>
+        <example correction="біль не проходив"><marker>біль не проходила</marker></example>
+      </rule>
+     -->
+    </rulegroup>
+
+    <rulegroup id="KLYCHNYI_AND_IMPERATIVE" name="Кличний та наказова форма" default="on">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun.*:v_kly.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="noun.*:v_kly.*"/>
+          </token>
+          <token postag_regexp="yes" postag="part.*" min="0"/>
+          <token postag_regexp="yes" postag="verb.*:impr.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*"/>
+          </token>
+        </pattern>
+        <message>Можливо, пропущена кома після кличного?</message>
+        <suggestion><match no="1"/>, <match no="2"/> <match no="3"/></suggestion>
+        <example correction="Олено, поклич"><marker>Олено поклич</marker> тата.</example>
+        <example correction="Олено, не розлий"><marker>Олено не розлий</marker> молоко.</example>
+      </rule>
+
+<!-- забагато фальшивих спрацьовувань, напр.
+    * Отоді, куме, заживем,
+    * 
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun.*:v_kly.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="noun.*:v_kly.*"/>
+            <exception postag_regexp="yes" postag="(part|conj|prep).*"/>
+          </token>
+          <token>,</token>
+          <token postag_regexp="yes" postag="verb.*:futr:p:1.*">
+            <exception postag_regexp="yes" postag="verb.*impr.*"/>
+          </token>
+        </pattern>
+        <message>Можливо, дієслово має стояти у наказовій формі?</message>
+        <suggestion><match no="1"/>, <match no="3" postag_regexp="yes" postag="verb.*impr:p:1.*"/></suggestion>
+        <!-
+        <example correction="Олено, підім|Олено, підімо"><marker>Олено, пішли</marker> додому.</example>
+        ->
+        <example correction="Ірмо, повернімось|Ірмо, повернімося|Ірмо, повернімся">Пані <marker>Ірмо, повернемося</marker> до театру.</example>
+        <example>Яким, вибачте, фанатичним бажанням</example>
+      </rule>
+-->
+      <rule>
+        <pattern>
+<!--
+          <or>
+            <token postag="SENT_START"/>
+            <token regexp="yes">[!?:;,…"«“„\(\)\[\]/–—-]</token>
+          </or>
+-->
+          <token postag="SENT_START"/>
+          <token postag_regexp="yes" postag="noun:anim(:.:v_naz|:f:v_zna|:m:v_dav).*">
+            <exception postag_regexp="yes" postag="noun:anim:.*:v_kly.*"/>
+            <exception postag_regexp="yes" postag="noun.*(lname).*|.*pron.*|(intj|part).*"/>
+            <exception regexp="yes">.*-.*|типу|чорт</exception>
+            <!--
+            <exception>ласка</exception>
+            <exception regexp="yes">честь|милість|високість</exception>
+            -->
+          </token>
+          <token>,</token>
+          <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*"/>
+            <exception postag_regexp="yes" postag="insert.*"/>
+            <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
+            <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|дякуй|дякуйте</exception>
+          </token>
+        </pattern>
+        <message>Можливо, іменник має бути у кличному відмінку?</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)(v_naz|v_zna|v_dav)(.*)" postag_replace="$1v_kly$3"/>, <match no="4"/></suggestion>
+        <example correction="Олено, ходім"><marker>Олена, ходім</marker> додому.</example>
+        <example correction="Христе, ходім"><marker>Христю, ходім</marker> додому.</example>
+        <example correction="Відьмаче, ходім"><marker>Відьмаку, ходім</marker> додому.</example>
+        <!--
+        <example correction="Насте, ходім"><marker>Настю ходім</marker> додому.</example>
+        -->
+        <example>Настю відправ додому</example>
+        <example>хлопці, ходім</example>
+        <example>Олі та Віті, ходім</example>
+        <example>... (Conservative Party) конституція, див. Хартія свободи...</example>
+        <example>будь ласка, скажіть мені</example>
+        <example>Ваша честь, дивіться.</example>
+        <example>та я феміністка, відчепіться</example>
+        <example>Я, повірте, навіть не знав</example>
+        <!-- dynamic tagger does not work on v_kly yet -->
+        <example>Екс-вкладники, готуйтеся до нових черг!</example>
+        <example>Гей, збирайтеся, панове молодці</example>
+        <example>Христя, знай, озиралася з повозки</example>
+        <example>Яким, вибачте, фанатичним бажанням</example>
+        <example>Іпатій Потій (1541–1613) — ...</example>
+        <example>Дівчина знай опускала туди</example>
+        <example>Чорт забирай!</example>
+        <example>Бобові перетріть крізь сито</example>
+        <example>Рибу з'їж сам</example>
+        <example>Настю відправ додому</example>
+      </rule>
+    </rulegroup>
+
+<!--
     TODO: досить складна логіка
     <rulegroup id="NE_Z_PRUKMETNYKAMY" name="Не з прикметниками">
       <rule>
