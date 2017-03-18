@@ -804,13 +804,13 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="TER_CHEGO" name="TER + Chego">
+    <rule id="TER_CHEGO" name="Confusão: TER + Chego">
     <!--    Created by Tiago F. Santos, 2017-02-27     -->
       <pattern>
           <token inflected='yes'>ter</token>
           <token>chego</token>
       </pattern>
-      <message>Possível confusão de palavras</message>
+      <message>Confusão de palavras</message>
         <suggestion>\1 chegado</suggestion>
       <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
     </rule>
@@ -1726,13 +1726,19 @@ title="Easy editing stylesheet" ?>
     <rule id='TODOS_PLURAL_NOUNS' name="Expressão: Todos + 'nome no plural'">
     <!-- Created by Tiago F. Santos, 2017-03-12 -->
       <pattern>
+          <token><exception regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</exception></token>
+        <marker>
           <token regexp='yes'>tod(as|os)</token>
           <token postag_regexp='yes' postag='(N|A).+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N|A).+'/></token>
+        </marker>
       </pattern>
       <message>Esta expressão no plural exige um segundo artigo.</message>
-        <suggestion>\1 <match no='1' regexp_match='.+(..)$' regexp_replace='$1'/> \2</suggestion>
+        <suggestion>\2 <match no='2' regexp_match='.+(..)$' regexp_replace='$1'/> \3</suggestion>
       <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
+      <example correction='todas as adversidades'>...uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação...</example>
+      <example>Por favor, fiquem todos calmos.</example>
+      <example>São todos iguais?</example>
     </rule>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
