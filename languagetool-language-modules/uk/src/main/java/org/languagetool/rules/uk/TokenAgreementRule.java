@@ -232,6 +232,11 @@ public class TokenAgreementRule extends Rule {
             reqTokenReadings = null;
             continue;
           }
+          // на біс (можливо краще tag=intj?)
+          if( token.equalsIgnoreCase("біс") ) {
+            reqTokenReadings = null;
+            continue;
+          }
         }
 
         if( prep.equalsIgnoreCase("з") ) {

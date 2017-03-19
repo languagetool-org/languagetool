@@ -76,6 +76,7 @@ public class TokenAgreementRuleTest {
     assertEmptyMatch("що балотувався за цім округом");
 
     assertEmptyMatch("на дому");
+    assertEmptyMatch("на біс");
 
     assertEmptyMatch("окрім як українці");
     assertEmptyMatch("за двісті метрів");

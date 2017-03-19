@@ -75,7 +75,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     // кличний для неістот
     matches = rule.match(langTool.getAnalyzedSentence("душе"));
 
-    assertEquals(1, matches.length);
+    assertEquals(0, matches.length);
 
     // розмовний інфінітив
     matches = rule.match(langTool.getAnalyzedSentence("писать"));
