@@ -2,6 +2,10 @@
 
 ## 3.7 (release planned for 2017-03-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary
+
 #### English
   * added and improved rules
 
