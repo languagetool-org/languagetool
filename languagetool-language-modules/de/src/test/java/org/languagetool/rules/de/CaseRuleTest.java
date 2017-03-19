@@ -96,6 +96,7 @@ public class CaseRuleTest {
     assertGood("Er mag Obst, wie zum Beispel Apfelsinen.");
 
     assertBad("Er müsse Überlegen, wie er das Problem löst.");
+    assertBad("Er sagte, dass er Über einen Stein stolperte.");
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
     assertBad("Tom kann mit fast Allem umgehen.");
