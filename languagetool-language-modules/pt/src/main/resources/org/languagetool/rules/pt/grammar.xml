@@ -15077,6 +15077,28 @@ TODO Write better examples
       <example correction="emigraram para">Muitos portugueses <marker>imigraram para</marker> França nos anos 60.</example>
     </rule>
 
+    <rule id="EMERGIR_EM" name="Confusão: Emergir + em">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes'>emergir</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion><match no='1' regexp_match='eme(.+)' regexp_replace='ime$1'/> \2</suggestion>
+      <example correction="imergir em">Para uma limpeza adequada dos intrumentos, deve <marker>emergir em</marker> água durante cerca 30 minutos.</example>
+    </rule>
+
+    <rule id="IMERGIR_DE" name="Confusão: Imergir + de">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes'>imergir</token>
+          <token regexp='yes'>d[eao]s?|à</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion><match no='1' regexp_match='ime(.+)' regexp_replace='eme$1'/> \2</suggestion>
+      <example correction="emergiu à">...assim, ela <marker>imergiu à</marker> superfície sem qualquer esforço.</example>
+    </rule>
+
   <rulegroup id="URL_VALIDATION" name="Validação de URLs">
     <!-- Localized from french grammar.xml by Tiago F. Santos, 30-01-2017 -->
       <url>https://pt.wikipedia.org/wiki/URL</url>
