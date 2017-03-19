@@ -15057,11 +15057,11 @@ TODO Write better examples
     <rule id="EMIGRAR_DE" name="Confusão: Emigrar + de">
     <!--    Created by Tiago F. Santos, 2017-03-17     -->
       <pattern>
-          <token inflected='yes' regexp='yes'>emigr(ar|ante|ação)</token>
+          <token inflected='yes' regexp='yes'>emigr(ar|antes?|ação)</token>
           <token inflected='yes' regexp='yes' min='0'>vir|vindo</token>
           <token>de</token>
       </pattern>
-      <message>Confusão de palavras</message>
+      <message>Possível confusão de palavras. Emigrar significa sair do país de referido para outro.</message>
         <suggestion><match no='1' regexp_match='emi(.+)' regexp_replace='imi$1'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
       <example correction="imigrantes vindos de">Os <marker>emigrantes vindos de</marker> leste tem característica particulares.</example>
     </rule>
@@ -15072,7 +15072,7 @@ TODO Write better examples
           <token inflected='yes' regexp='yes'>imigr(ar|ante|ação)</token>
           <token>para</token>
       </pattern>
-      <message>Confusão de palavras</message>
+      <message>Possível confusão de palavras. Imigrar significa vir do exterior para o país referido.</message>
         <suggestion><match no='1' regexp_match='imigr(.+)' regexp_replace='emigr$1'/> \2</suggestion>
       <example correction="emigraram para">Muitos portugueses <marker>imigraram para</marker> França nos anos 60.</example>
     </rule>
