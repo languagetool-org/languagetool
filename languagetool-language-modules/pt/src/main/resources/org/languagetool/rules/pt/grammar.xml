@@ -15688,6 +15688,63 @@ TODO Write better examples
   </category>
  <category id="NON_FORMAL_SPEECH" name="Discurso Não Formal" type="style">
 
+  <rulegroup id="MONTES_DE" name="Linguagem Informal: 'montes de'">
+    <short>Linguagem informal.</short>
+    <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+		<token postag_regexp='yes' postag="N.MS.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imenso</suggestion>
+      <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
+    </rule>
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+		<token postag_regexp='yes' postag="N.MP.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensos</suggestion>
+      <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>	  
+    </rule>
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+          <token postag_regexp='yes' postag="N.FS.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensa</suggestion>
+      <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
+    </rule>
+    <rule>
+      <pattern>
+	  <token postag_regexp='yes' postag="V.+"></token>
+	<marker>
+          <token>montes</token>
+          <token>de</token>
+	</marker>  
+          <token postag_regexp='yes' postag="N.FP.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensas</suggestion>
+      <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>	  
+    </rule>
+  </rulegroup>
+
     <!-- This is detected by pt-PT spell-checker. TODO Move to pt-BR if needed -->
     <!-- A APRENDIZ a aprendiza -->
     <rule id="A_APRENDIZ" name="A aprendiza">
@@ -15695,7 +15752,7 @@ TODO Write better examples
           <token>a</token>
           <token>aprendiz</token>
       </pattern>
-      <message>Substitua por <suggestion>a aprendiza</suggestion>.</message>
+      <message>Linguagem informal. Substitua por <suggestion>a aprendiza</suggestion>.</message>
       <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
     </rule>
 
