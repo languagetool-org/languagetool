@@ -97,6 +97,7 @@ public class CaseRuleTest {
     assertGood("Er will die Ausgaben für Umweltschutz und Soziales kürzen.");
     assertGood("Die Musicalverfilmung „Die Schöne und das Biest“ bricht mehrere Rekorde.");
 
+    assertBad("Der Vater (51) Fuhr nach Rom.");
     assertBad("Er müsse Überlegen, wie er das Problem löst.");
     assertBad("Er sagte, dass er Über einen Stein stolperte.");
     assertBad("Tom ist etwas über Dreißig.");
