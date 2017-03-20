@@ -846,7 +846,7 @@ public class CaseRule extends GermanRule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token, lookupLowerCase) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
       AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
@@ -859,7 +859,7 @@ public class CaseRule extends GermanRule {
           return true;
         }
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr, lookupLowerCase))) ||
+      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(prevToken.getReadings().size() == 1 && prevToken.hasPartialPosTag("PRO:PER:NOM:"))) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
@@ -868,11 +868,16 @@ public class CaseRule extends GermanRule {
     return false;
   }
 
-  private boolean isNumber(String token, AnalyzedTokenReadings lookup) {
-    if(token.matches("\\d+")) {
-      return true;
+  private boolean isNumber(String token) {
+    try {
+      if(token.matches("\\d+")) {
+        return true;
+      }
+      AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
+      return lookup != null && lookup.hasPosTag("ZAL");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    return lookup != null && lookup.hasPosTag("ZAL");
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
