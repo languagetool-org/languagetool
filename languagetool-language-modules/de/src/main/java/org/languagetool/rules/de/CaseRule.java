@@ -684,6 +684,12 @@ public class CaseRule extends GermanRule {
         if (!isPotentialError) {
           continue;
         }
+      } else if (analyzedToken.hasPartialPosTag("SUB:") &&
+                 i < tokens.length-1 &&
+                 Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &&
+                 tokens[i+1].matchesPosTagRegex("VER:[123]:.*")) {
+    	// "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
+        continue;  
       }
       AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
