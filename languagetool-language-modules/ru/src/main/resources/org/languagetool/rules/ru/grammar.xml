@@ -163,7 +163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
-                    <token>,</token>
+                    <token min="0" max="1">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d\d\d</token>
@@ -171,14 +171,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>Днём недели \3 \4 \5 является не \1, а {realDay}.</message>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 октября 2014</marker> г.</example>
+                <example correction="">Конференция состоится в <marker>понедельник 7 октября 2014</marker> г.</example>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 окт 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 октября 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 окт 2014</marker> г.</example>
             </rule>
-              <rule>
+            <rule>
                   <pattern>
                       <token regexp="yes">&weekdays;</token>
-                      <token>,</token>
+                      <token min="0" max="1">,</token>
                       <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>            
                       <token>.</token>
                       <token regexp="yes">0?[1-9]|1[0-2]</token>
@@ -188,6 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
                 <message>Днём недели \3.\5.\7 является не \1, а {realDay}.</message>
                 <example correction="">Конференция состоится в <marker>понедельник, 7.10.2014</marker> г.</example>
+                <example correction="">Конференция состоится в <marker>понедельник 7.10.2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
