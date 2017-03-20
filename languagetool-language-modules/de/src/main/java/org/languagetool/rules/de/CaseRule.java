@@ -829,24 +829,31 @@ public class CaseRule extends GermanRule {
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
     String token = tokens[i].getToken();
+    AnalyzedTokenReadings lookupLowerCase = null;
+    try {
+      lookupLowerCase = tagger.lookup(StringTools.lowercaseFirstChar(token));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token, lookupLowerCase) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
       AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
       AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       String prevTokenStr = prevToken != null ? prevToken.getToken() : "";
       if (prevToken != null && ("und".equals(prevTokenStr) || "oder".equals(prevTokenStr) || "beziehungsweise".equals(prevTokenStr))) {
-        if (prevPrevToken != null && tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) {
-          // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
+        if (prevPrevToken != null &&
+            ((tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) || // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
+             (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings) && lookupLowerCase != null && lookupLowerCase.hasPartialPosTag("ADJ")))) { // "die Ausgaben für Umweltschutz und Soziales"
           return true;
         }
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
+      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr, lookupLowerCase))) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(prevToken.getReadings().size() == 1 && prevToken.hasPartialPosTag("PRO:PER:NOM:"))) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
@@ -855,16 +862,11 @@ public class CaseRule extends GermanRule {
     return false;
   }
 
-  private boolean isNumber(String token) {
-    try {
-      if(token.matches("\\d+")) {
-        return true;
-      }
-      AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
-      return lookup != null && lookup.hasPosTag("ZAL");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+  private boolean isNumber(String token, AnalyzedTokenReadings lookup) {
+    if(token.matches("\\d+")) {
+      return true;
     }
+    return lookup != null && lookup.hasPosTag("ZAL");
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {

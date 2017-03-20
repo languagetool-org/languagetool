@@ -94,6 +94,7 @@ public class CaseRuleTest {
     assertGood("Er kann ihr das bieten, was sie verdient.");
     assertGood("Er fragte, ob das gelingen wird.");
     assertGood("Er mag Obst, wie zum Beispel Apfelsinen.");
+    assertGood("Er will die Ausgaben für Umweltschutz und Soziales kürzen.");
 
     assertBad("Er müsse Überlegen, wie er das Problem löst.");
     assertBad("Er sagte, dass er Über einen Stein stolperte.");
