@@ -835,12 +835,6 @@ public class CaseRule extends GermanRule {
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
     String token = tokens[i].getToken();
-    AnalyzedTokenReadings lookupLowerCase = null;
-    try {
-      lookupLowerCase = tagger.lookup(StringTools.lowercaseFirstChar(token));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
@@ -853,10 +847,22 @@ public class CaseRule extends GermanRule {
       AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       String prevTokenStr = prevToken != null ? prevToken.getToken() : "";
       if (prevToken != null && ("und".equals(prevTokenStr) || "oder".equals(prevTokenStr) || "beziehungsweise".equals(prevTokenStr))) {
-        if (prevPrevToken != null &&
-            ((tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) || // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
-             (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings) && lookupLowerCase != null && lookupLowerCase.hasPartialPosTag("ADJ")))) { // "die Ausgaben für Umweltschutz und Soziales"
-          return true;
+        if (prevPrevToken != null) {
+          if (tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) {
+            // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
+            return true;
+          } else if (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings)) {
+            AnalyzedTokenReadings lookupLowerCase = null;
+            try {
+              lookupLowerCase = tagger.lookup(StringTools.lowercaseFirstChar(token));
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+            if (lookupLowerCase != null && lookupLowerCase.hasPartialPosTag("ADJ")) {
+              // "die Ausgaben für Umweltschutz und Soziales"
+              return true;
+            }
+          }
         }
       }
       return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
@@ -912,6 +918,15 @@ public class CaseRule extends GermanRule {
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    AnalyzedTokenReadings prevLowercaseReadings = null;
+
+    if (i > 1 && sentenceStartExceptions.contains(tokens[i-2].getToken())) {
+      try {
+        prevLowercaseReadings = tagger.lookup(prevToken.getToken().toLowerCase());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
 
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
     boolean isPossiblyFollowedByInfinitive = nextReadings != null && nextReadings.getToken().equals("zu");
@@ -919,13 +934,13 @@ public class CaseRule extends GermanRule {
     boolean isFollowedByPossessiveIndicator = nextReadings != null && POSSESSIVE_INDICATORS.contains(nextReadings.getToken());
 
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
-    boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
+    boolean isPrevDeterminer = prevToken != null && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"));
     if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
-      if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {
+      if (!hasPartialTag(prevPrevToken, "ART", "PRP", "ZAL")) {
         return false;
       }
     }

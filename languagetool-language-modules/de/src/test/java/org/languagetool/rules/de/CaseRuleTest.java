@@ -95,6 +95,7 @@ public class CaseRuleTest {
     assertGood("Er fragte, ob das gelingen wird.");
     assertGood("Er mag Obst, wie zum Beispel Apfelsinen.");
     assertGood("Er will die Ausgaben für Umweltschutz und Soziales kürzen.");
+    assertGood("Die Musicalverfilmung „Die Schöne und das Biest“ bricht mehrere Rekorde.");
 
     assertBad("Er müsse Überlegen, wie er das Problem löst.");
     assertBad("Er sagte, dass er Über einen Stein stolperte.");
