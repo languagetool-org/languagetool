@@ -18,9 +18,8 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
@@ -30,32 +29,20 @@ import org.languagetool.tools.StringTools;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.TextAction;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.TextAction;
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * A simple GUI to check texts with.
@@ -77,7 +64,6 @@ public final class Main {
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
-  private static final int MAX_RECENT_FILES = 8;
 
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
@@ -97,20 +83,13 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
-  private OpenAction openAction;
-  private SaveAction saveAction;
-  private SaveAsAction saveAsAction;
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
-  private File currentFile;
-  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
-  private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
-  private JMenu recentFilesMenu;
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JSplitPane splitPane;
@@ -119,69 +98,6 @@ public final class Main {
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
-  }
-
-  private void loadFile() {
-    File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
-    if (file == null) {  // user clicked cancel
-      return;
-    }
-    loadFile(file);
-  }
-
-  private void loadFile(File file) {
-    try (FileInputStream inputStream = new FileInputStream(file)) {
-      BOMInputStream bomIn = new BOMInputStream(inputStream, false,
-              ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
-              ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
-      String charsetName;
-      if (bomIn.hasBOM() == false) {
-        // No BOM found
-        bom = null;
-        charsetName = null;
-      } else {
-        bom = bomIn.getBOM();
-        charsetName = bom.getCharsetName();
-      }
-      String fileContents = StringTools.readStream(bomIn, charsetName);
-      textArea.setText(fileContents);
-      currentFile = file;
-      updateTitle();
-      if(recentFiles.contains(file.getAbsolutePath())) {
-        recentFiles.remove(file.getAbsolutePath());
-      }
-      recentFiles.add(file.getAbsolutePath());
-      localStorage.saveProperty("recentFiles", recentFiles);
-      updateRecentFilesMenu();
-    } catch (IOException e) {
-      Tools.showError(e);
-    }
-  }
-
-  private void saveFile(boolean newFile) {
-    if (currentFile == null || newFile) {
-      JFileChooser jfc = new JFileChooser();
-      jfc.setFileFilter(new PlainTextFileFilter());
-      jfc.showSaveDialog(frame);
-
-      File file = jfc.getSelectedFile();
-      if (file == null) {  // user clicked cancel
-        return;
-      }
-      currentFile = file;
-      bom = null;
-      updateTitle();
-    }
-    try {
-      if(bom != null) {
-        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
-        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
-      } else {
-        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
-      }
-    } catch (IOException ex) {
-      Tools.showError(ex);
-    }
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
@@ -237,27 +153,10 @@ public final class Main {
     return frame;
   }
 
-  private void updateTitle() {
-    StringBuilder sb = new StringBuilder();
-    if(currentFile != null) {
-      sb.append(currentFile.getName());
-      if(bom != null) {
-        sb.append(" (").append(bom.getCharsetName()).append(')');
-      }
-      sb.append(" - ");
-    }
-    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
-    frame.setTitle(sb.toString());
-  }
-
   private void createGUI() {
-    loadRecentFiles();
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
-    openAction = new OpenAction();
-    saveAction = new SaveAction();
-    saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
     showResultAction = new ShowResultAction(true);
@@ -321,21 +220,6 @@ public final class Main {
     JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
-
-    JButton openButton = new JButton(openAction);
-    openButton.setHideActionText(true);
-    openButton.setFocusable(false);
-    toolbar.add(openButton);
-
-    JButton saveButton = new JButton(saveAction);
-    saveButton.setHideActionText(true);
-    saveButton.setFocusable(false);
-    toolbar.add(saveButton);
-
-    JButton saveAsButton = new JButton(saveAsAction);
-    saveAsButton.setHideActionText(true);
-    saveAsButton.setFocusable(false);
-    toolbar.add(saveAsButton);
 
     JButton spellButton = new JButton(this.checkAction);
     spellButton.setHideActionText(true);
@@ -507,14 +391,6 @@ public final class Main {
     JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
-    fileMenu.add(openAction);
-    fileMenu.add(saveAction);
-    fileMenu.add(saveAsAction);
-    recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
-    recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
-    fileMenu.add(recentFilesMenu);
-    updateRecentFilesMenu();
-    fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
     fileMenu.add(new QuitAction());
@@ -587,27 +463,6 @@ public final class Main {
     menuBar.add(grammarMenu);
     menuBar.add(helpMenu);
     return menuBar;
-  }
-
-  private void updateRecentFilesMenu() {
-    recentFilesMenu.removeAll();
-    String[] files = recentFiles.toArray(new String[recentFiles.size()]);
-    ArrayUtils.reverse(files);
-    for(String filename : files) {
-      recentFilesMenu.add(new RecentFileAction(new File(filename)));
-    }
-  }
-
-  private void loadRecentFiles() {
-    CircularFifoQueue<String> l = localStorage.loadProperty("recentFiles", CircularFifoQueue.class);
-    if(l != null) {
-      for(String name : l) {
-        File f = new File(name);
-        if(f.exists() && f.isFile()) {
-          recentFiles.add(name);
-        }
-      }
-    }
   }
 
   private void addLookAndFeelMenuItem(JMenu lafMenu,
@@ -1097,16 +952,13 @@ public final class Main {
       });
     } else if (args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"))) {
       printUsage();
-    } else if (args.length == 0 || args.length == 1) {
+    } else if (args.length == 0) {
       SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
           try {
             prg.createGUI();
             prg.showGUI();
-            if (args.length == 1) {
-              prg.loadFile(new File(args[0]));
-            }
           } catch (Exception e) {
             Tools.showError(e);
           }
@@ -1120,10 +972,8 @@ public final class Main {
 
   private static void printUsage() {
     System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-    System.out.println("    or java org.languagetool.gui.Main [file]");
     System.out.println("Parameters:");
     System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
-    System.out.println("    file:       a plain text file to load on startup");
   }
 
   private class ControlReturnTextCheckingListener extends KeyAdapter {
@@ -1225,59 +1075,6 @@ public final class Main {
       return "*.txt";
     }
 
-  }
-
-  class OpenAction extends AbstractAction {
-
-    OpenAction() {
-      super(getLabel("guiMenuOpen"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuOpenShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuOpenLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOpen"));
-      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_O));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_open.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_open.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      loadFile();
-    }
-  }
-
-  class SaveAction extends AbstractAction {
-
-    SaveAction() {
-      super(getLabel("guiMenuSave"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
-      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_save.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_save.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      saveFile(false);
-    }
-  }
-
-  class SaveAsAction extends AbstractAction {
-
-    SaveAsAction() {
-      super(getLabel("guiMenuSaveAs"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveAsShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveAsLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_saveas.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_saveas.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      saveFile(true);
-    }
   }
 
   class CheckClipboardAction extends AbstractAction {
@@ -1482,29 +1279,6 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       JTextComponent component = getFocusedComponent();
       component.selectAll();
-    }
-  }
-
-  class RecentFileAction extends AbstractAction {
-
-    private final File file;
-
-    RecentFileAction(File file) {
-      super(file.getName());
-      this.file = file;
-      putValue(Action.SHORT_DESCRIPTION, file.getAbsolutePath());
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      if(file.exists()) {
-        loadFile(file);
-      } else {
-        JOptionPane.showMessageDialog(frame, messages.getString("guiFileNotFound"),
-                messages.getString("dialogTitleError"), JOptionPane.ERROR_MESSAGE);
-        recentFiles.remove(file.getAbsolutePath());
-        updateRecentFilesMenu();
-      }
     }
   }
 
