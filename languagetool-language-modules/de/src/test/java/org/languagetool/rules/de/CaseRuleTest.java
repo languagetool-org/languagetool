@@ -149,8 +149,8 @@ public class CaseRuleTest {
     assertGood("Der Lesestoff bestimmt die Leseweise.");
     assertGood("Ich habe nicht viel von einem Reisenden.");
     assertGood("Die Vereinigten Staaten");
+    assertGood("Der Satz vom ausgeschlossenen Dritten.");
     //TODO:
-    //assertGood("Der Satz vom ausgeschlossenen Dritten.");
     assertGood("Die Ausgewählten werden gut betreut.");
     assertGood("Die ausgewählten Leute werden gut betreut.");
     //assertBad("Die ausgewählten werden gut betreut.");
