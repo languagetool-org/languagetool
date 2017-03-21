@@ -55,6 +55,13 @@
 #### Russian
   * added and improved rules
 
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
+
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
     Michał Janik (issue #404)
