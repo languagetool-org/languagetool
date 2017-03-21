@@ -26155,27 +26155,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
                     <marker>
-                        <token>wurden</token>
+                        <token regexp="yes">w[euü]rden</token>
                     </marker>
                     <token regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' (Hilfsverb für das Präteritum) &odkomma;?</message>
+                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' &odkomma;?</message>
                 <example correction="worden">Nachdem er besiegt <marker>wurden</marker> war, gab er völlig auf.</example><!-- NOTE WAR_WERDEN also detects an error here. -->
                 <example correction="worden">Nachdem du besiegt <marker>wurden</marker> bist, gabst du völlig auf.</example>
+                <example correction="worden">Nachdem du besiegt <marker>werden</marker> bist, gabst du völlig auf.</example>
+                <example correction="worden">Nachdem du besiegt <marker>würden</marker> bist, gabst du völlig auf.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="5" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
+                    <token skip="-1" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
                     <marker>
-                        <token>wurden</token>
+                        <token regexp="yes">w[euü]rden</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\3' (Hilfsverb für das Präteritum) &odkomma;?</message>
+                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\3' &odkomma;?</message>
                 <example correction="worden">Die Tür ist auf den Boden gelegt <marker>wurden</marker>.</example>
                 <example correction="worden">Ihr seid auf den Boden gelegt <marker>wurden</marker>.</example>
+                <example correction="worden">Die Tür ist auf den Boden gelegt <marker>werden</marker>.</example>
+                <example correction="worden">Die Tür ist auf den Boden gelegt <marker>würden</marker>.</example>
                 <example>Nachdem sie auf den Boden gelegt <marker>wurden</marker>.</example>
                 <example>Fälle, die ihm zuzurechnen sind bzw. gelöst wurden.</example>
+                <example>Die Tür soll auf den Boden gelegt werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPRECH_NICHT" name="'bitte sprech (sprich)'">
