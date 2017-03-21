@@ -4444,7 +4444,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>hages</suggestion>
             <example correction="hagués|hages">M'estranyava que no <marker>hagues</marker> vingut encara.</example>
         </rule>
-        <rulegroup id="HAVER_SENSE_HAC" name="Haver sense hac: *eu/feu fet">
+        <rulegroup id="HAVER_SENSE_HAC" name="Haver sense hac: *eu/heu fet">
+            <rule>
+                <pattern>
+                    <token regexp="yes">av[ií](a|es|en)<exception regexp="yes">\p{Lu}+</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)av[ií](a|es|en)" regexp_replace="havi$1"/> \2</suggestion>?</message>
+                <example correction="havien dit">Tot el que <marker>avien dit</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">av[ií](em|eu)<exception regexp="yes">\p{Lu}+</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)av[ií](em|eu)" regexp_replace="haví$1"/> \2</suggestion>?</message>
+                <example correction="havíem dit">Tot el que <marker>aviem dit</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
