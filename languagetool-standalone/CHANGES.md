@@ -54,6 +54,7 @@
 
 #### Russian
   * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
 
 #### Ukrainian
   * Significant dictionary update:
