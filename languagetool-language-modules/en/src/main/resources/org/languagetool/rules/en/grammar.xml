@@ -14186,6 +14186,29 @@ USA
                 <example correction="piece">It's a <marker>peace</marker> of cake!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ALLREADY_ALL_READY" name="allready vs. all ready">
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token regexp="yes">you|s?he|they</token>
+                    <marker><token>already</token></marker>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Did you mean <suggestion>all ready</suggestion>?</message>
+                <example correction="all ready">Are you <marker>already</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>all</token>
+                        <token>ready</token>
+                    </marker>
+                    <token postag="JJ"/>
+                </pattern>
+                <message>Did you mean <suggestion>already</suggestion>?</message>
+                <example correction="already">The device is <marker>all ready</marker> available in Korea.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUIET_QUITE" name="quite (quiet)">
             <rule>
                 <pattern>
