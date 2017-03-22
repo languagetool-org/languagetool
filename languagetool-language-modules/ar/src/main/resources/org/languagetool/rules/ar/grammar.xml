@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+Arabic Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2017 Taha Zerrouki (http://www.tahadz.com),
+  Kali Imane & TCHOKETCH Karima and the LanguageTool contributors
+
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+
+
+<rules lang="ar" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <!-- ====================================================================== -->
+    <!-- Gender error-->
+    <!-- ====================================================================== -->
+    <category id="M_L_F" name="Masculine gender" type="grammar">
+    <rulegroup id="ReplaceDeterminerF" name="هذه) هذا)">
+    	<rule  > 
+      		<pattern>  
+          		<marker>
+              		 <token>هذا</token>
+          		</marker>
+          		<token regexp="yes">الكتف|الفخذ|الساق|الريح|البئر|المراجع</token>
+      		</pattern>
+      		<message>الإسم مؤنث..أتقصد<suggestion>هذه </suggestion>؟</message>
+      		<example correction="هذه"> <marker>هذا</marker></example>
+      		
+     	</rule>
+     	<rule >
+     		<pattern>
+     			<marker><token>هذا</token></marker>
+     	   		<token>اليمين</token>  
+     		</pattern>
+     		<message> أتقصد باليمين القسم<suggestion>هذه  </suggestion>?</message> 
+     		<example correction="هذه"><marker>هذا</marker></example>	     
+     	</rule>
+     	<rule>
+     		<pattern>
+     			<marker><token>هذا</token></marker>
+     			<token>السن</token>
+     		</pattern>
+     		<message>أتقصد بالسن:العمر و الجارحة<suggestion>هذه السن</suggestion>؟</message>
+     		<example correction="هذه"><marker>هذا</marker>السن تعبر عن مدى كبر هذا الشيخ</example>
+     	</rule>     	
+    </rulegroup>
+    <rulegroup id="AdjectifFeminin" name="الصفة تتبع الموصوف">
+    	<rule >
+     		<pattern>
+     			<token>أدى</token>
+     			<token>اليمين</token>
+     			<marker> 
+     				<token>القانوني</token>
+     			</marker>
+     		</pattern>
+     		<message>أتقصد<suggestion>القانونية</suggestion>؟</message>
+     		<example correction=" القانونية"> جميع الرؤساء يؤدون اليمين<marker>القانوني</marker></example>
+    	</rule>
+    	<rule>
+    		<pattern>
+    			<token>حلفت</token>
+    			<token>يمينا</token>
+    			<marker><token>صادقا</token></marker>
+    		</pattern>
+    		<message> أتقصد<suggestion>صادقة </suggestion>؟</message>
+     		<example correction="صادقة"> حلفت يمينا <marker>صادقا</marker></example>    		
+    	</rule>
+    	<rule>
+    		<pattern>
+    			<token>خنصري</token>
+    			<marker><token>مجروح</token></marker>
+    		</pattern>
+    		<message>أتقصد <suggestion>مجروحة</suggestion>؟</message>
+     		<example correction="مجروحة"><marker>مجروح</marker>خنصري </example>    		
+    	</rule>
+    </rulegroup>        
+    </category> 
+
+
+
+<!-- ====================================================================== -->
+<!-- Common errors-->
+<!-- ====================================================================== -->
+<category id="common_errors" name="أخطاء لغوية شائعة" type="grammar">
+<rulegroup id="semantic_erros" name="دلالية">
+		<rule>
+			<pattern>
+				<token>غاية</token>
+				<marker><token>الوضاحة</token></marker>
+			</pattern>
+			<message> أتقصد<suggestion>الوضوح </suggestion>؟</message>
+			<example correction="الوضوح">هذا الأمر في غاية <marker>الوضاحة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>لم</token>
+				<token>يثبت</token>
+				<token>لهذا</token>
+				<token>الدواء</token>
+				<marker><token>نجاعة</token></marker>
+			</pattern>
+			<message> أتقصد<suggestion>نجوع </suggestion>؟</message>
+			<example correction="نجوع"><marker>نجاعة</marker></example>		
+		</rule>
+	<rule id="inshalla" name="إن شاء الله">	 
+      		<pattern>  
+      			<marker><token>إنشاء</token></marker>
+          		<token>الله</token> 		          		
+      		</pattern>
+      		<message>قل <suggestion>إن شاء</suggestion>؟الله</message>
+      		<example correction="إن شاء"> <marker>إنشاء</marker></example> 		   	
+      </rule>
+    </rulegroup>  
+</category>
+<!-- ====================================================================== -->
+<!-- Feminin Gender -->
+<!-- ====================================================================== -->  
+	<category id="F_L_M" name="Feminin gender instead of masculine" type="grammar">
+	<rulegroup id="NounMasculin" name="الاسم مذكر">
+		<rule>
+    		<pattern>
+    			<token>قميص</token>
+    			<marker>
+    				<token regexp="yes"> قديمة|جديدة</token>
+    			</marker>
+       		</pattern>
+       		<message> أتقصد<suggestion>جديد </suggestion>؟</message>
+       		<example correction="جديد">هذا قميص<marker>جديدة</marker>
+</example>
+       		<example correction="قديم">هذا قميص<marker>قديمة</marker>
+</example>    	
+   		</rule> 
+   		<rule>
+   			<pattern>
+   				<token>وقود</token>
+   				<marker><token>كافية</token></marker>
+   			</pattern>
+   			<message>أتقصد <suggestion>كافٍ</suggestion>؟</message>
+   			<example correction="كافٍ"><marker>كافية</marker></example>
+   			<example>لا بد من حرق وقود كاف</example>
+   		</rule>
+   		<rule>
+   			<pattern>
+   				<token>ميناء</token>
+   				<marker><token>أمينة</token></marker>
+   			</pattern>
+   			<message> أتقصد<suggestion>أمين </suggestion>؟</message>
+   			<example correction="أمين"><marker>أمينة</marker>أمين</example>
+   		</rule>
+
+	</rulegroup>
+		 
+	<rule id="V_M" name="انتفخت بطني">
+		<pattern>
+			<marker><token>انتفخت</token></marker>
+			<token regexp="yes">بطن|بطنن|بطنهم|بطنك|بطنه|بطني</token>
+		</pattern>
+		<message>أتقصد <suggestion>انتفخ\2</suggestion>؟</message>
+		<example correction=" انتفخ">انتفخ بطني من الأكل ليلة البارحة<marker>انتفخت</marker></example>
+	</rule>
+	<rule id="ReplaceDeterminerM" name="هذا) هذه)">	 
+      		<pattern>  
+          		<marker>
+              		 <token>هذه</token>
+          		</marker>
+          		<token regexp="yes">رفات|ذقن</token>
+      		</pattern>
+      		<message> أتقصد<suggestion>هذا </suggestion>؟</message>
+      		<example correction="هذا"> <marker>هذه</marker></example> 		   	
+	</rule>	
+	</category>
+<!-- ====================================================================== -->
+<!-- Prépositions -->
+<!-- ====================================================================== -->
+	<category id="Prép" name="Prépositions" type="grammar">
+	<rulegroup id="RepPrep" name="حروف الجر">
+		<rule>
+			<pattern>
+				<token>يدل</token>
+				<marker><token>إلى</token></marker>					
+			</pattern>
+			<message>أتقصد <suggestion>على</suggestion>؟</message>
+			<example correction="على"> يدل 
+<marker>إلى</marker> حسن خلق </example>
+		</rule>
+		<rule>
+			<pattern>
+				<token >برهنت</token>
+				<marker><token negate ="yes"> على</token></marker>
+			</pattern>
+			<message>أتقصد<suggestion>على</suggestion></message>
+			<example correction="على"><marker>/2</marker>برهنت</example>			
+		</rule>
+		<rule>
+			<pattern>
+				<token>تمرست</token>
+				<marker>
+					<token>على</token>
+					<token>الأمور</token>
+				</marker>
+			</pattern>
+			<message>أتقصد <suggestion>بالأمور</suggestion>؟</message>
+			<example correction="بالأمور"><marker>على الأمور</marker>تمرست</example>
+		</rule>	
+		<rule>
+			<pattern>
+				<token>التمادي</token>
+				<marker><token>على</token></marker>
+				<token>الباطل</token>
+			</pattern>
+			<message>أتقصد <suggestion>في</suggestion>؟</message>
+			<example correction="في"><marker>في</marker></example>
+		</rule>	
+		<rule>
+			<pattern>
+				<token>أوشك</token>
+				<marker>
+					<token>على</token>
+					<token>الموت</token>
+				</marker>
+			</pattern>
+			<message>أتقصد <suggestion>أن يموت</suggestion>؟</message>
+			<example correction="أن يموت"><marker>على الموت</marker></example>
+		</rule>	
+		<rule>
+			<pattern>
+				<token>أوشك</token>
+				<marker>
+					<token>على</token>
+					<token>الانتهاء</token>
+				</marker>
+			</pattern>
+			<message>أتقصد <suggestion>أن ينتهي</suggestion>؟</message>
+			<example correction="أن ينتهي"><marker>على الانتهاء</marker></example>
+		</rule>	
+	</rulegroup>
+	</category> 
+<!-- ====================================================================== -->
+<!-- توافق المبتدأ والخبر -->
+<!-- ====================================================================== -->	
+<category id="AccGenderNumberInchoactifInonciatof" name="توافق الجنس و النوع بين المبتدأ و الخبر" type="grammar">
+	<rule id="G_N_I_I" name="يدافعون) يدافعان)">	 
+      		<pattern>  
+          		<token>الجنود</token>
+          		<marker><token>يدافعان</token></marker>
+          		<token>عن</token>
+          		<token >الوطن</token>
+      		</pattern>
+      		<message>أتقصد <suggestion>يدافعون</suggestion>؟</message>
+      		<example correction="يدافعون"> <marker>يدافعان</marker></example> 		   	
+      </rule>	
+</category>
+<!-- ====================================================================== -->
+<!-- Verb subject gender agreement-->
+<!-- ====================================================================== -->
+<category id="Number_gender_agreement_circum_accusative_subject" name="توافق الجنس و النوع بين الفعل و المفعول به" type="grammar">
+	<rule id="G_N_C_A_S" name="يحملن) تحملن)">	 
+      		<pattern>  
+          		<token skip="1">جاءت</token>          		
+          		<token>السيدات</token>
+          		<marker><token>تحملن</token></marker>
+          		<token skip="1">أطفالهن</token>          		
+      		</pattern>
+      		<message>أتقصد <suggestion>يحملن</suggestion>؟</message>
+      		<example correction="يحملن"> <marker>تحملن</marker></example> 		   	
+      </rule>	
+</category> 
+<!-- ====================================================================== -->
+<!-- Noun & adjective agreement-->
+<!-- ====================================================================== -->
+<category id="Adjectif_Name" name="توافق الجنس و النوع بين الصفة و الموصوف" type="grammar">
+	<rule id="G_N_Adj_Nm" name="الكرماء) الكريم)">	 
+      		<pattern>  
+          		<token>الرجال</token>
+          		<marker><token>الكريم</token></marker>
+          		<token skip="1">يساعدون</token>
+          		<token skip="1">الناس</token>          		          		
+      		</pattern>
+      		<message>أتقصد <suggestion>الكرام</suggestion>؟</message>
+      		<example correction="الكرام"> <marker>الكريم</marker></example> 		   	
+      </rule>	
+</category>
+<!-- ====================================================================== -->
+<!-- Verb subject agreement-->
+<!-- ====================================================================== -->
+<category id="Verb_Subject" name="توافق النوع بين الفعل و الفاعل" type="grammar">
+	<rule id="Verb_S" name="شربت) شرب)">	 
+      		<pattern>  
+      			<marker><token>شرب</token></marker>
+          		<token>البنت</token>         		
+          		<token skip="1">عصير</token>
+          		<token skip="1">البرتقال</token>          		          		
+      		</pattern>
+      		<message>أتقصد <suggestion>شربت</suggestion>؟</message>
+      		<example correction="شربت"> <marker>شرب</marker> البنت</example> 		   	
+      </rule>
+</category>
+<!-- ====================================================================== -->
+<!-- Pluriel-->
+<!-- ====================================================================== -->
+<category id="Pluriel" name="أخطاء في الجمع" type="grammar">
+	<rulegroup id="PluralRules" name="قواعد الجمع">
+		<rule>
+			<pattern>
+				<marker><token>الموانئ</token></marker>
+			</pattern>
+			<message> صيغة الجمع غير صحيحة: لا تحتاج إلى الياء المهموزة..أتقصد<suggestion>المواني </suggestion>؟</message>
+			<example correction="المواني"><marker>الموانئ</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>إطارات</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع إطار من جمع التكسير ..أتقصد <suggestion>أطر</suggestion>؟</message>
+			<example correction="أطر"><marker>إطارات</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>إطارات</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع إطار من جمع التكسير ..أتقصد<suggestion>أطر</suggestion>؟</message>
+			<example correction="أطر"><marker>إطارات</marker></example>
+		</rule>
+		
+		<rule>
+			<pattern>
+				<marker><token regexp="yes">بدائل|بدلات</token></marker>
+			</pattern>
+			<message>صيغة الجمع الصحيحة هي:  <suggestion>أبدال</suggestion>؟</message>
+			<example correction="أبدال"><marker>\1</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token regexp="yes">جدايا|جديان</token></marker>
+			</pattern>
+			<message>  صيغة الجمع غير صحيحة:جمع جدي هو <suggestion>جداء</suggestion>؟</message>
+			<example correction="جداء"><marker>\1</marker></example>
+		</rule>		
+		<rule>
+			<pattern>
+				<marker><token>محلات </token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع محل هو: <suggestion>محال</suggestion>؟</message>
+			<example correction="محال"><marker>محلات</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>أمساء</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع مساء هو: <suggestion>أمسية</suggestion>؟</message>
+			<example correction="أمسية"><marker>أمساء</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>خيطان</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع خيط هو: <suggestion>خيوط</suggestion>؟</message>
+			<example correction="خيوط"><marker>خيطان</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>أدخنة</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع دخان هو: <suggestion>دواخن</suggestion>؟</message>
+			<example correction="دواخن"><marker>أدخنة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>أفمام</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع فم هو: <suggestion>أفواه</suggestion>؟</message>
+			<example correction="أفواه"><marker>أفمام</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>سندات</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع سند هو: <suggestion>أسناد</suggestion>؟</message>
+			<example correction="أسناد"><marker>سندات</marker></example>
+		</rule>
+		
+		<rule>
+			<pattern>
+				<marker><token>صباحات</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع صباح هو: <suggestion>أصبحة</suggestion>؟</message>
+			<example correction="أصبحة"><marker>صباحات</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>صحر</token></marker>
+			</pattern>
+			<message>صيغة الجمع غير صحيحة:جمع صحراء هو: <suggestion>صحاري</suggestion>؟</message>
+			<example correction="صحاري"><marker>صحر</marker></example>
+			<example correction="صحارى"><marker>صحر</marker></example>
+			<example correction="صحراوات"><marker>صحر</marker></example>
+		</rule>
+	</rulegroup>
+</category>
+<!-- ====================================================================== -->
+<!-- Pluriel-->
+<!-- ====================================================================== -->
+<category id="NumbersErrors" name="الأخطاء المتعلقة بالأعداد" type="grammar">
+	<rulegroup id="Number_F" name="تأنيث العدد">
+	<rule>
+			<pattern>
+				<marker><token>ثلاث</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ثلاثة</suggestion>؟</message>
+			<example correction="ثلاثة"><marker>ثلاث</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>أربع</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>أربعة</suggestion>؟</message>
+			<example correction="أربعة"><marker>أربع</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>خمس</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>خمسة</suggestion>؟</message>
+			<example correction="خمسة"><marker>خمس</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>ست</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ستة</suggestion>؟</message>
+			<example correction="ستة"><marker>ست</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>سبع</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>سبعة</suggestion>؟</message>
+			<example correction="سبعة"><marker>سبع</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>ثمان</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ثمانية</suggestion>؟</message>
+			<example correction="ثمانية"><marker>ثمان</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>تسع</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>تسعة</suggestion>؟</message>
+			<example correction="تسعة"><marker>تسع</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>عشر</token></marker>
+				<token>شهور</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>عشرة</suggestion>؟</message>
+			<example correction="عشرة"><marker>عشر</marker></example>
+		</rule>
+	</rulegroup>
+	<rulegroup id="Number_M" name="تذكير العدد">
+		<rule>
+			<pattern>
+				<marker><token>ثلاثة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ثلاث</suggestion>؟</message>
+			<example correction="ثلاث"><marker>ثلاثة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>أربعة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>أربع</suggestion>؟</message>
+			<example correction="أربع"><marker>أربعة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>خمسة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>خمس</suggestion>؟</message>
+			<example correction="خمس"><marker>خمسة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>ستة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ست</suggestion>؟</message>
+			<example correction="ستة"><marker>ست</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>سبعة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>سبع</suggestion>؟</message>
+			<example correction="سبع"><marker>سبعة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>ثمانية</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>ثمان</suggestion>؟</message>
+			<example correction="ثمان"><marker>ثمانية</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>تسعة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>تسع</suggestion>؟</message>
+			<example correction="تسع"><marker>تسعة</marker></example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker><token>عشرة</token></marker>
+				<token regexp="yes">نسوة|سنين</token>				
+			</pattern>			
+			<message>أتقصد <suggestion>عشر</suggestion>؟</message>
+			<example correction="عشر"><marker>عشرة</marker></example>
+		</rule>
+	</rulegroup>
+</category>
+ 
+</rules>
+        
+                   
+               
+            
+                       
