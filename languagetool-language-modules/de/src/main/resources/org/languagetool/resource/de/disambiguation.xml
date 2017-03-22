@@ -200,7 +200,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Los Angeles" id="LOS_ANGELES">
         <pattern>
             <token>Los</token>
-            <token>Angeles</token>
+            <token regexp="yes">Alamos|Angeles</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -209,14 +209,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Las</token>
             <token>Vegas</token>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
-
-    <rule name="Los Alamos" id="LOS_ALAMOS">
-        <pattern case_sensitive="yes">
-            <token>Los</token>
-            <token>Alamos</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -687,7 +679,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="Hillary Clinton" id="HILLARY_CLINTON">
         <pattern>
-            <token>Hillary</token>
+            <token regexp='yes'>Hillary|Bill</token>
             <token regexp='yes'>Clintons?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
