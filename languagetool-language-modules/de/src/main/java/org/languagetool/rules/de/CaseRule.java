@@ -867,10 +867,10 @@ public class CaseRule extends GermanRule {
         }
       }
       return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
-         (hasPartialTag(prevToken, "ART", "PRO:") && !(prevToken.getReadings().size() == 1 && prevToken.hasPartialPosTag("PRO:PER:NOM:"))) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
+         (hasPartialTag(prevToken, "ART", "PRO:") && !(prevToken.getReadings().size() == 1 && prevToken.hasPartialPosTag("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag("EIG:")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
-         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
-         (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
+         (hasPartialTag(prevPrevToken, "PRO:IND:", "PRO:POS:", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
+         (hasPartialTag(prevPrevPrevToken, "PRO:IND:", "PRO:POS:", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
     }
     return false;
   }
@@ -935,7 +935,9 @@ public class CaseRule extends GermanRule {
     boolean isFollowedByPossessiveIndicator = nextReadings != null && POSSESSIVE_INDICATORS.contains(nextReadings.getToken());
 
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
-    boolean isPrevDeterminer = prevToken != null && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"));
+    boolean isPrevDeterminer = prevToken != null
+                               && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"))
+                               && !prevToken.hasPartialPosTag("EIG:");
     if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
