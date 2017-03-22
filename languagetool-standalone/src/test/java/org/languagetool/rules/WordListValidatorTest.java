@@ -48,7 +48,7 @@ public class WordListValidatorTest {
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Hidschāb/S",
-	    "Erdoğan/S"
+          "Erdoğan/S"
   ));
 
   @Test
