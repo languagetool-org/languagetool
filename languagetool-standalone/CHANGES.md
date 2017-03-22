@@ -2,6 +2,10 @@
 
 ## 3.7 (release planned for 2017-03-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary
+
 #### English
   * added and improved rules
 
@@ -22,9 +26,9 @@
 #### Italian
   * added one rule
 
-#### Lithuanian and Malayalam
-  * Lithuanian and Malayalam are not part of this release anymore. They still exist
-    in the git repository and can be re-activated as soon as a new maintainer takes
+#### Lithuanian, Malayalam, and Icelandic
+  * Lithuanian, Malayalam, and Icelandic are not part of this release anymore. They still
+    exist in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
 #### Portuguese
@@ -32,9 +36,10 @@
     - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
-    - typography: chemical formulas, degrees signs, dash signs, and punctuation
-    - semantics: url validator and date checker improvements
+    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
+    - semantics: wrong words in the context, url validator and date checker improvements
     - registered brands category added
+    - translation errors category added
   * false friends support added:
     - Portuguese to Spanish (186 new pairs)
     - Portuguese to English (156 new pairs)
@@ -49,6 +54,14 @@
 
 #### Russian
   * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
+
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
 
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 

@@ -39,7 +39,9 @@ import java.util.regex.Pattern;
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
-  
+
+  // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+  private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
   private static final int SUGGESTION_MIN_LENGTH = 2;
   private static final List<Replacement> REPL = Arrays.asList(
@@ -82,8 +84,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
   private final Tagger tagger;
-  // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
-  public static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
@@ -114,7 +114,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   public List<String> getCandidates(String word) {
-    List<String> suggestions = new ArrayList<>();
     List<List<String>> partList = splitter.getAllSplits(word);
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
@@ -123,9 +122,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         // so we get e.g. Einzahlungschein -> Einzahlungsschein
         candidates.add(parts.get(0) + "s" + parts.get(1));
       }
+      if (parts.size() == 2 && parts.get(1).startsWith("s")) {
+        // so we get e.g. Ordnungshütter -> Ordnungshüter (Ordnungshütter is split as Ordnung + shütter)
+        String firstPart = parts.get(0);
+        String secondPart = parts.get(1);
+        candidates.addAll(super.getCandidates(Arrays.asList(firstPart + "s", secondPart.substring(1))));
+      }
     }
-    suggestions.addAll(candidates);
-    return suggestions;
+    return candidates;
   }
 
   @Override
@@ -196,13 +200,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
-    Iterator<String> iterator = suggestions.iterator();
-    while (iterator.hasNext()) {
-      String suggestion = iterator.next();
-      if (suggestion.length() > 1 && suggestion.startsWith("-")) {
-        iterator.remove();
-      }
-    }
+    suggestions.removeIf(s -> s.length() > 1 && s.startsWith("-"));
   }
 
   // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
@@ -417,7 +415,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
-        return false;
+    	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+    	// to accept sentences such as
+    	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
+    	if (word.startsWith("ost") || word.startsWith("süd")) {
+          end = 3;
+    	} else if (word.startsWith("west") || word.startsWith("nord")) {
+    	  end = 4;
+    	} else {
+    	  return false;
+    	}
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);

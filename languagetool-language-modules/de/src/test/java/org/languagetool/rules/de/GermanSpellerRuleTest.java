@@ -131,6 +131,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Bund-Länder-Kommission")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
@@ -251,6 +252,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "kan.", "kann.", "an.");
     assertCorrection(rule, "Einzahlungschein", "Einzahlungsschein");
     assertCorrection(rule, "Arbeitamt", "Arbeitet", "Arbeitsamt");
+    assertCorrection(rule, "Ordnungshütter", "Ordnungshüter");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");

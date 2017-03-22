@@ -153,8 +153,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
-            new PortugueseAccentuationCheckRule(messages)
-            //new PortugueseWrongWordInContextRule(messages)
+            new PortugueseAccentuationCheckRule(messages),
+            new PortugueseWrongWordInContextRule(messages)
     );
   }
 

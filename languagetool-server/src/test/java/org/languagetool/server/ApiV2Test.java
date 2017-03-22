@@ -33,7 +33,7 @@ public class ApiV2Test {
     assertTrue(json.contains("\"German (Germany)\""));
     assertTrue(json.contains("\"de\""));
     assertTrue(json.contains("\"de-DE\""));
-    assertTrue(StringUtils.countMatches(json, "\"name\"") >= 44);
+    assertTrue(StringUtils.countMatches(json, "\"name\"") >= 43);
   }
   
 }

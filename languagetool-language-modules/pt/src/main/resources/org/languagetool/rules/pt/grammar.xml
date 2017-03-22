@@ -25,8 +25,7 @@ title="Easy editing stylesheet" ?>
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
-
-$Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
+ 
 -->
 <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -46,7 +45,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
 
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões">
     <!ENTITY unidades_de_medida "([µnmcdhk]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
-    <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉]">
+    <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
     <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
@@ -354,7 +353,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
             <exception postag='(D[ADIP].|NC|A..)[MC]S.+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
           <token postag='(N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-            <exception regexp="yes">há|são|ser|haver|devido</exception></token>
+            <exception regexp="yes">há|são|ser|haver|devido|vão</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
@@ -362,6 +361,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]S$2' postag_regexp="yes"/> \3</suggestion>
         <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='(N.|A..|Z.)[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
+      <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
     </rule>
     <rule>
       <pattern>
@@ -388,7 +388,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
         <marker>
           <token postag='(D[ADIP].|NC|A..)[MC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..)[MC]P.+|C.|R.|SPS00|VMG0000' postag_regexp='yes'></exception>
-            <exception regexp="yes">há|são|ser|haver|serão</exception></token>
+            <exception regexp="yes">há|são|ser|haver|serão|vão|uso</exception></token>
           <token postag='(N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|C.|R.|SPS00' postag_regexp='yes'></exception></token>
         </marker>
@@ -399,6 +399,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]S(.+)" postag_replace='(D[ADIP].|NC|A..)[MC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
       <example type='correct'>Sou todo ouvidos</example>
+      <example type='correct'>Uso óculos desde os 6 anos,</example>
     </rule>
     <rule>
       <antipattern>
@@ -803,6 +804,45 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+    <rule id="TER_CHEGO" name="Confusão: TER + Chego">
+    <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>chego</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion>\1 chegado</suggestion>
+      <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
+    </rule>
+
+    <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS" name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
+    <!-- Created by Tiago F. Santos, 2017-03-10 -->
+      <pattern>
+          <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(m|ão|õe)$</token>
+          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>[oa]s?</token>
+      </pattern>
+      <message>As ênclises terminadas em m, ão ou õe exigem alteração do pronome.</message>
+        <suggestion>\1-n\3</suggestion>
+        <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
+      <example correction='tinham-no'>Muitos <marker>tinham-o</marker>  como um bom amigo.</example>
+      <example>Eu tinha-o como um bom amigo.</example>
+    </rule>
+
+    <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_LOS" name='Colocações pronomiais: ênclise com o infinitivo (lo, la, los, las)'>
+    <!-- Created by Tiago F. Santos, 2017-03-10 -->
+      <pattern>
+          <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(r|s|z)$</token>
+          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>[oa]s?</token>
+      </pattern>
+      <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
+        <suggestion><match no='1' regexp_match='(.*)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
+        <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
+      <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
+      <example>Ele teve-a como perdida.</example>
+    </rule>
+
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
@@ -834,11 +874,26 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
     </rule>
   </rulegroup>
 
+    <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
+    <!--      Created by Tiago F. Santos, 2017-03-05      -->
+      <antipattern>
+          <token regexp='yes' skip='-1'>&negacoes;</token>
+          <token>sequer</token>
+      </antipattern>
+      <pattern>
+          <token>sequer</token>
+      </pattern>
+      <message>'Sequer' deve ser precedido de uma negação.</message>
+        <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
+      <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
+      <example>Nem sequer vi o que estava a fazer.</example>
+    </rule>
+
   <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
       <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
       <short>Erro de regência verbal.</short>
     <rule id='PHRASAL_VERB_PREFERIR' name='Regência verbal: Preferir X a Y'>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
+    <!--      Created by Tiago F. Santos, 2017-01-24      -->
     <!-- Loosely based on CoGrOO rule -->
       <pattern>
           <token inflected='yes'>preferir</token>
@@ -854,7 +909,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-de-preferir-e-a-coordenacao-de-oracoes-de-infinitivo/26152</url>
       <example correction='peixe a carne'>Eu prefiro <marker>peixe do que carne</marker>.</example>
     </rule>
-    <rule id='PHRASAL_VERB_COM' name='Regência verbal: VERBO + com'>
+    <rule id='PHRASAL_VERB_COM' name='Regência verbal: VERBO + com ()'>
     <!-- Loosely based on CoGrOO rule -->
       <pattern>
           <token inflected='yes' regexp='yes'>namorar|arrasar</token>
@@ -865,7 +920,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction='Namorei'><marker>Namorei com</marker> a ideia de comprar um carro novo.</example>
       <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
     </rule>
-    <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com'>
+    <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com (a)'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token min='0' regexp='yes'>me|te|se|vos</token>
@@ -879,7 +934,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <short>Erro de regência verbal.</short>
       <example correction='habituar-te a'>Conseguiste <marker>habituar-te com</marker> o clima?</example>
     </rule>
-    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em'>
+    <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em ()'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token inflected='yes'>acarretar</token>
@@ -889,7 +944,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
-    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a'>
+    <rule id='PHRASAL_VERB_A_DE' name='Regência verbal: VERBO + a (de)'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token regexp='yes'>valorizaç(ão|ões)</token>
@@ -899,7 +954,7 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
         <suggestion>\1 de</suggestion><!-- TODO Add suggestions for the contracted forms -->
       <example correction='valorização de'>Cada vez se dá mais importância à <marker>valorização a</marker> recursos humanos altamente qualificados.</example>
     </rule>
-    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de'>
+    <rule id='PHRASAL_VERB_DE' name='Regência verbal: VERBO + de ()'>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token inflected='yes' regexp='yes'>evitar|usufruir</token>
@@ -911,6 +966,19 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <Incorrect>Nós evitaremos de falar em dinheiro.</example>
       <example>Nós evitaremos falar em dinheiro.</example> -->
       <example correction='evito'>Eu <marker>evito de</marker> comer fritos.</example>
+    </rule>
+    <rule id='PHRASAL_VERB_EM_POR' name='Regência verbal: VERBO + em (por)'>
+    <!--                     Loosely based on CoGrOO rules                 -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>empatar</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+        </marker>
+          <token regexp='yes'>\d+</token>
+      </pattern>
+      <message>Erro de regêngia verbal.</message>
+        <suggestion>\1 por</suggestion>
+      <example correction='empatou por'>A equipa <marker>empatou em</marker> 1 a 1.</example>
     </rule>
   </rulegroup>
 
@@ -1000,6 +1068,31 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction='Nenhum lugar te recorda'><marker>Nenhum lugar recorda-te</marker> daquelas férias?</example>
     </rule>
   </rulegroup>
+
+    <rule id="POR_QUE_PORQUE" name="Confusão: 'Por que' com 'Porque' ">
+    <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+        <marker>
+          <token>porque</token>
+        </marker>
+          <token regexp='yes'>raz(ão|ões)|motivos?|causas?</token>
+      </pattern>
+      <message>Sempre que possa substituir por expressões equivalentes a "pelo qual", deve utilizar <suggestion>por que</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/pelourinho/falta-apurar-e-nao-faltam-apurar--por-que-vs-porque/309</url>
+      <example correction="Por que"><marker>Porque</marker> motivo tem uma atitude tão indiferente?</example>
+    </rule>
+
+    <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
+    <!--    Created by Tiago F. Santos, 2017-03-12     -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token regexp='yes'>nada|tudo</token>
+          <token>haver</token>
+      </pattern>
+      <message>Confusão de palavras.</message>
+        <suggestion>\1 \2 a ver</suggestion>
+      <example correction='tem nada a ver'>Não <marker>tem nada haver</marker> com isso.</example>
+    </rule>
 
   <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
     <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
@@ -1616,6 +1709,50 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
     </rule>
 
+    <rule id='DAR_À_LUZ' name="Expressão invariável: 'dar à luz'">
+    <!-- Created by Tiago F. Santos, 2017-03-12 -->
+      <pattern>
+          <token inflected='yes'>dar</token>
+          <token regexp='yes'>às?|aos?</token>
+          <token regexp='yes'>luz(es)?</token>
+          <token regexp='yes'>as?</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>\1 à luz</suggestion>
+        <suggestion>\1 à luz, \4</suggestion>
+      <example correction='deu à luz|deu à luz, a'>Quando <marker>deu à luz a</marker> bebé, ele ficou radiante.</example>
+    </rule>
+
+    <rule id='TODOS_PLURAL_NOUNS' name="Expressão: Todos + 'nome no plural'">
+    <!-- Created by Tiago F. Santos, 2017-03-12 -->
+      <pattern>
+          <token><exception regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</exception></token>
+        <marker>
+          <token regexp='yes'>tod(as|os)</token>
+          <token postag_regexp='yes' postag='(N|A).+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N|A).+'/></token>
+        </marker>
+      </pattern>
+      <message>Esta expressão no plural exige um segundo artigo.</message>
+        <suggestion>\2 <match no='2' regexp_match='.+(..)$' regexp_replace='$1'/> \3</suggestion>
+      <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
+      <example correction='todas as adversidades'>...uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação...</example>
+      <example>Por favor, fiquem todos calmos.</example>
+      <example>São todos iguais?</example>
+    </rule>
+
+    <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
+    <!-- Created by Tiago F. Santos, 2017-03-15 -->
+      <pattern>
+          <token regexp='yes'>[nd]?[ao]s?</token>
+          <token>de</token>
+          <token>mais</token>
+      </pattern>
+      <message>Confusão de termos.</message>
+        <suggestion>\1 \2\3</suggestion>
+      <example correction='Os demais'><marker>Os de mais</marker> intervenientes na conversa, tiveram que ficar calados.</example>
+    </rule>
+
   <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <!-- Loosely based on CoGrOO rule -->
@@ -1647,6 +1784,38 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       <short>«Em anexo» é invariável.</short>
       <example correction='em anexo|anexos'>Seguem <marker>em anexos</marker> os seguintes documentos:</example>
       <example correction="em anexo|anexas">As imagens seguem <marker>em anexas</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="CERCA_DE_NR" name="Aproximação excessivamente precisa">
+    <!-- Created by Tiago F. Santos, 2017-02-28 -->
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>cerca|perto|volta</token>
+          <token>de</token>
+          <token regexp='yes'>\d+[1-9]
+            <exception regexp='yes'>\d5</exception></token>
+        </marker>
+          <token><exception regexp='yes'>[.,]</exception></token>
+      </pattern>
+      <message>Se está a fazer uma aproximação, utilize números redondos</message>
+        <suggestion>\1 \2 <match no='3' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
+      <example correction="cerca de 10|11">Faltam <marker>cerca de 11</marker> dias para as férias.</example>
+      <example>Corresponde a população residente na cidade, porém cerca de 41,2% corresponde a residentes da Província de Bueno</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>aproximadamente|quase</token>
+          <token regexp='yes'>\d+[1-9]</token>
+      </pattern>
+      <message>Se está a fazer uma aproximação, utilize números redondos</message>
+        <suggestion>\1 <match no='2' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
+      <example correction="aproximadamente 10|11">Faltam <marker>aproximadamente 11</marker> dias para as férias.</example>
     </rule>
   </rulegroup>
 
@@ -2203,17 +2372,6 @@ $Id: grammar.xml,v 1.202 2017-03-08 07:06:00 marcoagpinto Exp $
       </pattern>
       <message>Substitua por <suggestion>aquando</suggestion>.</message>
       <example correction="aquando">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
-    </rule>
-
-    <!-- TODO Merge à-há confusion in a rulegroup to compact options -->
-    <!-- À QUE há que -->
-    <rule id="À_QUE" name="Confusão: à que - há que">
-      <pattern>
-          <token>à</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>há que</suggestion>.</message>
-      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
     </rule>
 
     <!-- A QUE SERVE ISTO/ISSO para que serve isto/isso -->
@@ -2982,6 +3140,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- NAME/NOUN+ESTA+PREPOSITION name/noun+está+preposition -->
     <rule>
       <pattern>
+		<token regexp="yes">o|a|um|uma</token>
 		<token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
         <marker>
           <token>esta</token>
@@ -3147,12 +3306,36 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
           <token>à</token>
         </marker>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-          <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception></token>
+          <token skip="4">
+            <exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception>
+            <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
           <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
       </pattern>
       <message>Substitua por <suggestion>há</suggestion>.</message>
       <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
+      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
     </rule>
+
+    <rule id="HÁ-DIRECTION" name="Confusão: Há + Direção">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>há</token>
+          <token regexp='yes'>frente|trás|esquerda|direita</token>
+      </pattern>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
+      <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
+    </rule>
+
+    <!-- À QUE há que -->
+    <rule id="À_QUE" name="Confusão: à que - há que">
+      <pattern>
+          <token>à</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>há que</suggestion>.</message>
+      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
+    </rule>
+
 
     <!-- AI aí -->
     <rule id="AI" name="Confusão: ai - aí">
@@ -14043,7 +14226,7 @@ TODO Write better examples
       </pattern>
       <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no="3" regexp_match="(\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
-      <example correction='103 41'>A média exate é de 17,<marker>10341</marker> valores.</example>
+      <example correction='103 41'>A média exata é de 17,<marker>10341</marker> valores.</example>
       <example correction='242 19858156'>O ano tem exatamente 365,<marker>24219858156</marker> dias.</example>
     </rule>
   </rulegroup>
@@ -14092,6 +14275,31 @@ TODO Write better examples
       <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
     </rule>
   </rulegroup>
+
+    <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}</token>
+          <token>,</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+      </pattern>
+      <message>Utilize antes uma vírgula para separar os decimais.</message>
+        <suggestion>\1,\3</suggestion>
+      <example correction="9,5"><marker>9'5</marker></example>
+      <example correction="9,5%"><marker>9'5%</marker></example>
+      <example correction="349,5">9.<marker>349'5</marker></example>
+      <example correction="349,5">1.999.<marker>349'5</marker></example>
+      <example correction="349,5">1 999 <marker>349'5</marker></example>
+      <example>1,23'2</example>
+      <example>41° 22'44.</example>
+    </rule>
 
     <rule id="PERCENT_WITHOUT_SPACE" name="Remover espaço em percentagens (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
@@ -14195,7 +14403,7 @@ TODO Write better examples
           <token regexp='yes'>(\d+)(&tabela_periodica;)+([₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Os multiplicadores nas fórmulas químicas devem ser separados.</message>
-        <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
       <example correction='4 H₂O'><marker>4H₂O</marker></example>
     </rule>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
@@ -14282,6 +14490,43 @@ TODO Write better examples
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
       <example correction='C₂H₆'><marker>C2H6</marker></example>
     </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+7((&tabela_periodica;)+)?
+            <exception>V7</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
+      <example correction='C₇H₁₆'><marker>C7H₁₆</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+8((&tabela_periodica;)+)?
+            <exception>V8</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
+      <example correction='C₈H₁₈'><marker>C8H₁₈</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+9((&tabela_periodica;)+)?
+            <exception>V9</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
+      <example correction='C₉H₂₀'><marker>C9H₂₀</marker></example>
+      <example>Lola T70 Chevy V8</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(\d+)?(&tabela_periodica;)+0((&tabela_periodica;)+)?
+            <exception>V0</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
+      <example correction='C₉H₂₀'><marker>C₉H₂0</marker></example>
+    </rule>
   </rulegroup>
 
     <rule id="DEGREE_SYMBOL" name="símbol de grau (°)">
@@ -14296,6 +14541,19 @@ TODO Write better examples
       <example>...o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E...</example>
       <example>...que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a...</example>
       <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
+    </rule>
+
+    <rule id="PLURAL_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
+    <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token regexp="yes">\d+</token>
+        <marker>
+          <token regexp="yes">(&unidades_de_medida;|h|hr)s</token>
+        </marker>
+      </pattern>
+      <message>As abreviaturas de unidades de medida padrão não tem plural.</message>
+        <suggestion><match no='2' regexp_match='(&unidades_de_medida;|h|hr)s' regexp_replace='$1'/></suggestion>
+      <example correction="kg">São 2 <marker>kgs</marker> de maças.</example>
     </rule>
 
     <rule id="KELVIN" name="kelvin (no graus)">
@@ -14353,30 +14611,43 @@ TODO Write better examples
       <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
     </rule>
 
-    <rule id="AVOID_DECIMAL_APOSTROPHE" name="Evitar apóstrofe em decimais">
+  <rulegroup id="PRIORITIZE_QUOTES" name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-      <antipattern>
-          <token regexp="yes">\d{1,2}</token>
-          <token>,</token>
-          <token regexp='yes'>\d+</token>
-          <token spacebefore="no" regexp="yes">['`’‘]</token>
-          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
-      </antipattern>
+    <rule>
       <pattern>
-          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
-          <token spacebefore="no" regexp="yes">['`’‘]</token>
-          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
+          <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+        <marker>
+          <token>“</token>
+        </marker>
       </pattern>
-      <message>Utilize antes uma vírgula para separar os decimais.</message>
-        <suggestion>\1,\3</suggestion>
-      <example correction="9,5"><marker>9'5</marker></example>
-      <example correction="9,5%"><marker>9'5%</marker></example>
-      <example correction="349,5">9.<marker>349'5</marker></example>
-      <example correction="349,5">1.999.<marker>349'5</marker></example>
-      <example correction="349,5">1 999 <marker>349'5</marker></example>
-      <example>1,23'2</example>
-      <example>41° 22'44.</example>
+      <message>Utilize primeiro aspas baixas.</message>
+        <suggestion>«</suggestion>
+      <example correction="«">Disse que <marker>“</marker>sim”.</example>
+      <example>«Disse que “sim”».</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+        <marker>
+          <token>”</token>
+        </marker>
+      </pattern>
+      <message>Utilize primeiro aspas baixas.</message>
+        <suggestion>»</suggestion>
+      <example correction="»">Disse que “sim<marker>”</marker>.</example>
+      <example>«Disse que “sim”».</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip="-1">‘<exception scope="next">’</exception></token>
+          <token regexp="yes">[«“]</token>
+      </pattern>
+      <message>Prioritize as aspas.</message>
+        <suggestion><match no="2"/><match no="1" include_skipped="following"/> <match no="1"/></suggestion>
+      <example correction="«Disse que ‘"><marker>‘Disse que «</marker>sim».’</example>
+      <example>«Disse que "sim"».</example>
+    </rule>
+  </rulegroup>
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
@@ -14526,17 +14797,6 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
       <short>Dar um espaço</short>
       <example correction="100 €">Deve-se <marker>100€</marker>.</example>
-    </rule>
-
-    <rule id="LOWER_QUOTES" name="Símbolo não utilizado em português: „">
-    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
-      <pattern>
-          <token>„</token>
-      </pattern>
-      <message>O símbolo de aspas baixas não é utilizado em português.</message>
-        <suggestion>“</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Aspas</url>
-      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
 
   <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
@@ -14793,6 +15053,51 @@ TODO Write better examples
  </category>
 
  <category id="SEMANTICS" name="Semântica" type="inconsistency">
+
+    <rule id="EMIGRAR_DE" name="Confusão: Emigrar + de">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes' regexp='yes'>emigr(ar|antes?|ação)</token>
+          <token inflected='yes' regexp='yes' min='0'>vir|vindo</token>
+          <token>de</token>
+      </pattern>
+      <message>Possível confusão de palavras. Emigrar significa sair do país de referido para outro.</message>
+        <suggestion><match no='1' regexp_match='emi(.+)' regexp_replace='imi$1'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
+      <example correction="imigrantes vindos de">Os <marker>emigrantes vindos de</marker> leste tem característica particulares.</example>
+    </rule>
+
+    <rule id="IMIGRAR_PARA" name="Confusão: Imigrar + para">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes' regexp='yes'>imigr(ar|ante|ação)</token>
+          <token>para</token>
+      </pattern>
+      <message>Possível confusão de palavras. Imigrar significa vir do exterior para o país referido.</message>
+        <suggestion><match no='1' regexp_match='imigr(.+)' regexp_replace='emigr$1'/> \2</suggestion>
+      <example correction="emigraram para">Muitos portugueses <marker>imigraram para</marker> França nos anos 60.</example>
+    </rule>
+
+    <rule id="EMERGIR_EM" name="Confusão: Emergir + em">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes'>emergir</token>
+          <token regexp='yes'>em|n[ao]s?</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion><match no='1' regexp_match='eme(.+)' regexp_replace='ime$1'/> \2</suggestion>
+      <example correction="imergir em">Para uma limpeza adequada dos intrumentos, deve <marker>emergir em</marker> água durante cerca 30 minutos.</example>
+    </rule>
+
+    <rule id="IMERGIR_DE" name="Confusão: Imergir + de">
+    <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <pattern>
+          <token inflected='yes'>imergir</token>
+          <token regexp='yes'>d[eao]s?|à</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion><match no='1' regexp_match='ime(.+)' regexp_replace='eme$1'/> \2</suggestion>
+      <example correction="emergiu à">...assim, ela <marker>imergiu à</marker> superfície sem qualquer esforço.</example>
+    </rule>
 
   <rulegroup id="URL_VALIDATION" name="Validação de URLs">
     <!-- Localized from french grammar.xml by Tiago F. Santos, 30-01-2017 -->
@@ -15405,6 +15710,63 @@ TODO Write better examples
   </category>
  <category id="NON_FORMAL_SPEECH" name="Discurso Não Formal" type="style">
 
+  <rulegroup id="MONTES_DE" name="Linguagem Informal: 'montes de'">
+    <short>Linguagem informal.</short>
+    <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+		<token postag_regexp='yes' postag="N.MS.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imenso</suggestion>
+      <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
+    </rule>
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+		<token postag_regexp='yes' postag="N.MP.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensos</suggestion>
+      <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>	  
+    </rule>
+    <rule>
+      <pattern>
+		<token postag_regexp='yes' postag="V.+"></token>
+		<marker>
+          <token>montes</token>
+          <token>de</token>
+		</marker>  
+          <token postag_regexp='yes' postag="N.FS.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensa</suggestion>
+      <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
+    </rule>
+    <rule>
+      <pattern>
+	  <token postag_regexp='yes' postag="V.+"></token>
+	<marker>
+          <token>montes</token>
+          <token>de</token>
+	</marker>  
+          <token postag_regexp='yes' postag="N.FP.+"></token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensas</suggestion>
+      <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>	  
+    </rule>
+  </rulegroup>
+
     <!-- This is detected by pt-PT spell-checker. TODO Move to pt-BR if needed -->
     <!-- A APRENDIZ a aprendiza -->
     <rule id="A_APRENDIZ" name="A aprendiza">
@@ -15412,7 +15774,7 @@ TODO Write better examples
           <token>a</token>
           <token>aprendiz</token>
       </pattern>
-      <message>Substitua por <suggestion>a aprendiza</suggestion>.</message>
+      <message>Linguagem informal. Substitua por <suggestion>a aprendiza</suggestion>.</message>
       <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
     </rule>
 
@@ -15535,6 +15897,236 @@ TODO Write better examples
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
       <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
+    </rule>
+
+  </category>
+
+  <category id="TRANSLATION_ERRORS" name="Erros de tradução" type="mistranslation">
+
+  <rulegroup id="DECIMAL_COMMA" name="Utilização de vírgula como separador de decimais" default="on">
+    <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
+    <!-- TODO Tokenizer improvements to fully activate rule -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+      </antipattern>
+      <antipattern>
+          <token><exception regexp='yes'>\d+</exception></token>
+          <token regexp="yes">\d{3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+          <token><exception regexp='yes'>\d+</exception></token>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">\d{1,3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+          <token>.</token>
+          <token regexp="yes">\d{3}</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>
+      <!--<antipattern>  mês d'un punto 
+        <marker>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no">.<exception postag="SENT_END"/></token>
+        </marker>
+      </antipattern>-->
+      <antipattern> <!-- Enumeração principal da frase -->
+        <marker>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore="no" regexp="yes">[.:)]</token>
+        </marker>
+      </antipattern>
+      <!--<antipattern>  horas 
+        <marker>
+          <token regexp="yes">([01]?[0-9]|2[0-4])</token>
+          <token>.</token>
+          <token>\d{2}</token>
+          <token regexp="yes">h|horas|am|pm</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes" skip="2">([01]?[0-9]|2[0-4])</token>
+          <token>.</token>
+          <token>\d{2}</token>
+          <token regexp="yes">&partes_do_dia;</token>
+        </marker>
+      </antipattern>-->
+      <!--
+      <antipattern>
+        <marker>
+          <token>les</token>
+          <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+        </marker>
+      </antipattern>-->
+      <antipattern> <!-- tabelas, figuras, etc.  -->
+        <marker>
+          <token inflected="yes" regexp="yes">(revisi|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token min="0" regexp="yes" inflected="yes">ac?tual|anterior|antiga|nova</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token inflected="yes" regexp="yes">(revisi|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+          <token regexp="yes">e|ou|,</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+          <token regexp="yes">e|ou|,</token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>
+      <!--<antipattern>   Livros da Bíblia 
+        <marker>
+          <token postag="_abrev_biblia"/>
+          <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
+          <token regexp="yes">\d+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+        </marker>
+      </antipattern>-->
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+</token>
+          <token>.</token>
+          <token regexp='yes'>\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vígula.</message>
+        <suggestion>\1,\3</suggestion>
+      <example correction="9,5"><marker>9.5</marker></example>
+      <example correction="9,5">És de <marker>9.5</marker>.</example>
+      <example correction="9349,5"><marker>9349.5</marker></example>
+      <example correction="349,56">1 999 <marker>349.56</marker></example>
+      <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²...</example>
+      <example>1.231</example>
+      <example>1.231.437</example>
+      <example>As tabelas 5.7 e 5.8.</example>
+      <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
+      <example>1.0. Introdução.</example>
+      <!--<example>Às 5.40 da madrugada.</example>
+      <example>E subiram às 17.40 h.</example>
+      <example>E subiram às 17.40h.</example>-->
+      <example>Os art. 5.4 e 5.6.</example>
+      <example>A versão 2.4.x é a mais recente.</example>
+      <example>A versão 2.4 é a mais recente.</example>
+      <example>O Apache 2.4 é assim.</example>
+      <example>Na web 2.0 é assim.</example>
+      <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
+      <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
+      <example>Esse número diminuiu para 300.000 em 1939.</example>
+      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena...</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d{1,3}</token>
+          <token>,</token>
+          <token regexp='yes'>\d{3}</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vígula.</message>
+        <suggestion>\1 \3,\5</suggestion>
+      <example correction="21 349,56"><marker>21,349.56</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d{1,3}</token>
+          <token>,</token>
+          <token regexp='yes'>\d{3}</token>
+          <token>,</token>
+          <token regexp='yes'>\d{3}</token>
+          <token>.</token>
+          <token regexp='yes'>\d+</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vígula.</message>
+        <suggestion>\1 \3 \5,\7</suggestion>
+      <example correction="21 999 349,56"><marker>21,999,349.56</marker></example>
+    </rule>
+  </rulegroup>
+
+    <rule id="OPENING_INTERROGATION" name="Sinal de interrogação inicial" default="on">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token>¿</token>
+          <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de interrogação inicial.</message>
+        <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Ponto_de_interroga%C3%A7%C3%A3o</url>
+      <example correction="Como"><marker>¿Como</marker> estás?</example>
+      <example>Estás bem?</example>
+    </rule>
+
+    <rule id="OPENING_EXCLAMATION" name="Sinal de exclamação inicial" default="on">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token>¡</token>
+          <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de exclamação inicial.</message>
+        <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Pontos_de_interroga%C3%A7%C3%A3o_e_de_exclama%C3%A7%C3%A3o_invertidos</url>
+      <example correction="Muito"><marker>¡Muito</marker> bem!</example>
+      <example>Mesmo bom!</example>
+    </rule>
+
+    <rule id="LOWER_QUOTES" name="Símbolo não utilizado em português: „">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token>„</token>
+      </pattern>
+      <message>O símbolo de aspas baixas não é utilizado em português.</message>
+        <suggestion>“</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Aspas</url>
+      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
 
   </category>

@@ -5138,7 +5138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <marker>
                         <token>so</token>
-                        <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
+                        <token skip="-1">das<exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -8756,6 +8756,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>bekanntermaßen</suggestion> im Sinne von 'bekanntlich' wird zusammengeschrieben.</message>
             <example correction="Bekanntermaßen"><marker>Bekannter Maßen</marker> sind viele einfach depressiv.</example>
         </rule>
+        <rule id="IM_STANDE" name="im Stande (imstande) sein" default="off">
+            <pattern>
+                <token>im</token>
+                <token>Stande</token>
+            </pattern>
+            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1stande</suggestion> sein'.</message>
+            <url>http://www.duden.de/rechtschreibung/imstande</url>
+            <short>&getrennt;.</short>
+            <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
+            <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
+        </rule>
+        <rule id="IN_FRAGE_II" name="in Frage (infrage) stellen/kommen" default="off">
+            <pattern>
+                <token>in</token>
+                <token>Frage</token>
+            </pattern>
+            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1frage</suggestion> stellen/kommen'.</message>
+            <url>http://www.duden.de/rechtschreibung/infrage</url>
+            <short>&getrennt;.</short>
+            <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
+            <example correction="infrage">Sie stellte seine Glaubwürdigkeit <marker>in Frage</marker>.</example>
+        </rule>
+        <rule id="ZU_GRUNDE" name="zu Grunde (zugrunde) gehen/richten" default="off">
+            <pattern>
+                <token>zu</token>
+                <token>Grunde</token>
+            </pattern>
+            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1grunde</suggestion> gehen/richten'.</message>
+            <url>http://www.duden.de/rechtschreibung/zugrunde</url>
+            <short>&getrennt;.</short>
+            <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
+            <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
+        </rule>
+        <rule id="ZU_RATE_II" name="zu Rate (zurate) ziehen" default="off">
+            <pattern>
+                <token>zu</token>
+                <token>Rate</token>
+            </pattern>
+            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rate</suggestion> ziehen'.</message>
+            <url>http://www.duden.de/rechtschreibung/zurate</url>
+            <short>&getrennt;.</short>
+            <example correction="zurate">Sie zog ihn <marker>zu Rate</marker>.</example>
+            <example>Ziehen Sie ihn bitte <marker>zurate</marker>.</example>
+        </rule>
+        <rule id="ZU_RANDE" name="zu Rande (zurande) kommen" default="off">
+            <pattern>
+                <token>zu</token>
+                <token>Rande</token>
+            </pattern>
+            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rande</suggestion> kommen'.</message>
+            <url>http://www.duden.de/rechtschreibung/zurande</url>
+            <short>getrennt;.</short>
+            <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -10686,6 +10740,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er wird im gleichen Maße besser <marker>wie</marker> sie.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>weiter</token>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token regexp="yes">(bis|vor)her</token>
+                </antipattern>
                 <pattern>
                     <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
                     <marker>
@@ -10696,6 +10757,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'\1 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
                 <example correction="als">Heute geht es mir besser <marker>wie</marker> gestern.</example>
                 <example correction="als">Ich bin besser <marker>wie</marker> vor drei Jahren.</example>
+                <example>Ich mache weiter <marker>wie</marker> bisher.</example>
+                <example>Auch nach dem Schlaganfall rauchte er weiter <marker>wie</marker> vorher.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12263,6 +12326,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (vom = von dem) und muss dann großgeschrieben werden.</message>
             <example correction="Sammeln">Damals lebten die Menschen vom <marker>sammeln</marker>.</example>
             <example>Ein Hut, der vom deutschen Bundespräsidenten übergeben wird.</example>
+        </rule>
+        <rule id="VOM_SPRACHADJEKTIV" name="vom + substantiviertes Sprachadjektiv">
+            <pattern>
+                <token>vom</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">(&sprachadj1;)en</token>
+                </marker>
+                <token regexp='yes'>ins?|\.</token> <!-- wir erkennen nicht alle Nomen, also so... -->
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (vom = von dem) und muss dann großgeschrieben werden.</message>
+            <example correction="Französischen">Er übersetzt das Buch vom <marker>französischen</marker> in seine Muttersprache.</example>
+            <example correction="Russischen">Er übersetzt das Buch vom <marker>russischen</marker> ins Deutsche.</example>
         </rule>
         <rule id="AM_VERB_KLEIN" name="am + kleingeschriebenes Verb">
             <pattern case_sensitive="yes">
@@ -17823,11 +17898,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">französische[rn]?</token>
+                        <token regexp="yes">(rus|franzö)sische[rn]?</token>
                     </marker>
                     <token>Revolution</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (1789–1799)? &namengross;</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> Revolution? &namengross;</message>
                 <url>http://www.duden.de/rechtschreibung/Revolution</url>
                 <short>&namengross;</short>
                 <example>Die <marker>Französische</marker> Revolution</example>
@@ -24669,60 +24744,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="x-Achse">Die <marker>X-Achse</marker> oder Abszissenachse</example>
             </rule>
         </rulegroup>
-        <rule id="IM_STANDE" name="im Stande (imstande) sein" default="off">
-            <pattern>
-                <token>im</token>
-                <token>Stande</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1stande</suggestion> sein'.</message>
-            <url>http://www.duden.de/rechtschreibung/imstande</url>
-            <short>&getrennt;.</short>
-            <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
-            <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
-        </rule>
-        <rule id="IN_FRAGE_II" name="in Frage (infrage) stellen/kommen" default="off">
-            <pattern>
-                <token>in</token>
-                <token>Frage</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1frage</suggestion> stellen/kommen'.</message>
-            <url>http://www.duden.de/rechtschreibung/infrage</url>
-            <short>&getrennt;.</short>
-            <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
-            <example correction="infrage">Sie stellte seine Glaubwürdigkeit <marker>in Frage</marker>.</example>
-        </rule>
-        <rule id="ZU_GRUNDE" name="zu Grunde (zugrunde) gehen/richten" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Grunde</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1grunde</suggestion> gehen/richten'.</message>
-            <url>http://www.duden.de/rechtschreibung/zugrunde</url>
-            <short>&getrennt;.</short>
-            <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
-            <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
-        </rule>
-        <rule id="ZU_RATE_II" name="zu Rate (zurate) ziehen" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Rate</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rate</suggestion> ziehen'.</message>
-            <url>http://www.duden.de/rechtschreibung/zurate</url>
-            <short>&getrennt;.</short>
-            <example correction="zurate">Sie zog ihn <marker>zu Rate</marker>.</example>
-            <example>Ziehen Sie ihn bitte <marker>zurate</marker>.</example>
-        </rule>
-        <rule id="ZU_RANDE" name="zu Rande (zurande) kommen" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Rande</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rande</suggestion> kommen'.</message>
-            <url>http://www.duden.de/rechtschreibung/zurande</url>
-            <short>getrennt;.</short>
-            <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
-        </rule>
         <rulegroup id="GROSSSCHREIBUNG_MAL" name="Großschreibung des Wortes 'Mal'">
             <url>http://www.duden.de/rechtschreibung/Mal_Zeitpunkt</url>
             <rule>
@@ -24755,6 +24776,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Weiß">Sie heiratet in <marker>weiß</marker>.</example>
             <example correction="Rot">Die Farbe <marker>rot</marker> steht für die Liebe.</example>
+        </rule>
+        <rule id="VERB_VOR_NEBENSATZ" name="Verb + ',' + Nebensatz">
+            <pattern>
+                <token postag="VER:(MOD|AUX):[123]:.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">haben|sein</exception></token>
+                <token postag="ADV:MOD|NEG" postag_regexp="yes" min="0" max="2"/>
+                <!-- Statt postag="SUB:.*" könnte man auch postag="VER:INF:.*" verwenden. Vorteil: weniger falsch Positive; Nachteil: weniger echte Treffer -->
+                <marker><token postag="SUB:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ][a-zäöüß]+n</token></marker>
+                <token>,</token>
+                <token regexp="yes" skip="-1">dass|warum|weshalb|wozu|wodurch|womit<exception scope="next">,</exception></token>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Meinten Sie das kleingeschriebene Verb <suggestion><match no="3" case_conversion="startlower"/></suggestion>?</message>
+            <short>&prgk;.</short>
+            <example correction="verstehen">Ich kann <marker>Verstehen</marker>, warum du das getan hast.</example>
+            <example correction="nachvollziehen">Ich kann wirklich nicht <marker>Nachvollziehen</marker>, weshalb du dies tun willst.</example>
+            <example correction="behaupten">Ich würde niemals <marker>Behaupten</marker>, dass du spinnst.</example>
+            <example>Er hatte Hoffnungen, dass er studieren würde.</example>
+            <example correction="aussagen">Wir wollen <marker>Aussagen</marker>, dass du der Täter bist.</example>
+            <example>Wir wollen Aussagen, dass du der Täter bist, nicht glauben.</example>
+            <example>Das alles sind Indizien, dass du der Täter warst.</example>
         </rule>
     </category>
 
@@ -26114,27 +26155,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
                     <marker>
-                        <token>wurden</token>
+                        <token regexp="yes">w[euü]rden</token>
                     </marker>
                     <token regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' (Hilfsverb für das Präteritum) &odkomma;?</message>
+                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' &odkomma;?</message>
                 <example correction="worden">Nachdem er besiegt <marker>wurden</marker> war, gab er völlig auf.</example><!-- NOTE WAR_WERDEN also detects an error here. -->
                 <example correction="worden">Nachdem du besiegt <marker>wurden</marker> bist, gabst du völlig auf.</example>
+                <example correction="worden">Nachdem du besiegt <marker>werden</marker> bist, gabst du völlig auf.</example>
+                <example correction="worden">Nachdem du besiegt <marker>würden</marker> bist, gabst du völlig auf.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="5" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
+                    <token skip="-1" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
                     <marker>
-                        <token>wurden</token>
+                        <token regexp="yes">w[euü]rden</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\3' (Hilfsverb für das Präteritum) &odkomma;?</message>
+                <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\3' &odkomma;?</message>
                 <example correction="worden">Die Tür ist auf den Boden gelegt <marker>wurden</marker>.</example>
                 <example correction="worden">Ihr seid auf den Boden gelegt <marker>wurden</marker>.</example>
+                <example correction="worden">Die Tür ist auf den Boden gelegt <marker>werden</marker>.</example>
+                <example correction="worden">Die Tür ist auf den Boden gelegt <marker>würden</marker>.</example>
                 <example>Nachdem sie auf den Boden gelegt <marker>wurden</marker>.</example>
                 <example>Fälle, die ihm zuzurechnen sind bzw. gelöst wurden.</example>
+                <example>Die Tür soll auf den Boden gelegt werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPRECH_NICHT" name="'bitte sprech (sprich)'">
@@ -30702,6 +30748,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO.*" postag_regexp="yes"/>
                     <token>das</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="VER:[1-3]:.*" postag_regexp="yes" regexp="yes" inflected="yes">&verbendirekterede;</token>
+                    <token postag="ART:.*|PRO:.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token skip="-1">
                         <exception  scope="next" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>                    
@@ -30712,7 +30763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="previous" regexp="yes">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>                        
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token skip="-1" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
@@ -30721,10 +30772,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="VER:(INF|EIZ):.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
-                <message>Sollten Sie hier ein Komma vor '\3' einfügen (Relativsatz)?</message>
+                <message>Fügen Sie vor '\3' ein Komma ein, falls damit ein Relativsatz beginnt.</message>
                 <suggestion>\2, <match no="3" include_skipped="all"/> \4</suggestion>
                 <example correction="Auto, das am Straßenrand steht" type="incorrect">Das <marker>Auto das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
                 <example>Das <marker>Auto, das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
+                <example>Die Entscheidung der acht Richter sei einstimmig gewesen, sagte die legendäre Sprecherin Erika Mustermann.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -30799,7 +30851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>                        
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
@@ -30873,7 +30925,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>                        
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token skip="-1" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
@@ -30944,7 +30996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>                        
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
@@ -31011,7 +31063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope ="next" postag="SUB:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token skip="-1" regexp="yes">welcher|welche|welches|welchem|wessen|dessen|deren|denen
+                    <token skip="-1" regexp="yes" case_sensitive="yes">welcher|welche|welches|welchem|wessen|dessen|deren|denen
                         <exception scope="previous" postag="PRP:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -31055,7 +31107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token skip="-1" regexp="yes">die|der|dem|den|dessen|deren|denen
+                    <token skip="-1" regexp="yes" case_sensitive="yes">die|der|dem|den|dessen|deren|denen
                         <exception scope="previous" postag="PRP:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -31123,7 +31175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token regexp="yes">die|der|dem|den|dessen|deren|denen
+                    <token regexp="yes" case_sensitive="yes">die|der|dem|den|dessen|deren|denen
                         <exception scope="previous" postag="PRP:.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1">
@@ -31241,7 +31293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token regexp="yes">das|dessen|dem
+                    <token regexp="yes" case_sensitive="yes">das|dessen|dem
                         <exception scope="previous" postag="PRP:.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1">
@@ -31324,7 +31376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"><exception scope="previous">,</exception></token>
-                    <token skip="-1" regexp="yes">welcher|welche|welches|welchem|wessen
+                    <token skip="-1" regexp="yes" case_sensitive="yes">welcher|welche|welches|welchem|wessen
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -31434,8 +31486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"><exception scope="previous">,</exception></token>
-                    <token regexp="yes">die|der|dem|den|dessen|deren|denen
-                    </token>
+                    <token regexp="yes" case_sensitive="yes">die|der|dem|den|dessen|deren|denen</token>
                     <token skip="-1">
                         <exception postag="(SUB|EIG|ADJ|PA1|PA2|PRO:DEM|PRO:IND):.*SIN.*(FEM|MAS|NEU).*|(SUB|EIG|ADJ|PA1|PA2|PRO:DEM|PRO:IND):.*PLU.*|ZAL|UNKNOWN" postag_regexp="yes"/>
                         <exception regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -31538,7 +31589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"><exception scope="previous">,</exception></token>
-                    <token regexp="yes">das|dessen|dem</token>
+                    <token regexp="yes" case_sensitive="yes">das|dessen|dem</token>
                     <token skip="-1">
                         <exception postag="(SUB|EIG|ADJ|PA1|PA2|PRO:DEM):.*SIN.*(NEU|MAS).*|ZAL|UNKNOWN" postag_regexp="yes"/>
                         <exception regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
