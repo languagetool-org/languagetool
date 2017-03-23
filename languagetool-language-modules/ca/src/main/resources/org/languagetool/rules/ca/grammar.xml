@@ -33906,6 +33906,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="TORNAR_GIRAR" name="*tornar/girar la vista">
             <rule>
                 <pattern>
+                    <token>se</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">tornar</token>
+                    </marker>
+                    <token min="0">en</token>
+                    <token>contra</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="3" regexp_match="(?iu)torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <example correction="girà">La realitat se li <marker>tornà</marker> en contra.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <and>
                             <token inflected="yes">tornar</token>
