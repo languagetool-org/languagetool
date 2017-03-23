@@ -418,6 +418,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
+        <pattern>
+            <token>avant</token>
+            <token>la</token>
+            <token>lettre</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="noch und nöcher" id="NOCH_UND_NOECHER">
         <pattern>
             <token>noch</token>
@@ -563,7 +572,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     
     <rule name="Magna cum laude" id="MAGNA_CUM_LAUDE">
         <pattern>
-            <token regexp="yes">magna|summa</token>
+            <token regexp="yes" min="0">magna|summa</token>
             <token>cum</token>
             <token>laude</token>
         </pattern>
@@ -689,6 +698,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>Fethullah</token>
             <token regexp='yes'>Gülens?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Recep Tayyip Erdoğan" id="ERDOGAN">
+        <pattern>
+            <token>Recep</token>
+            <token>Tayyip</token>
+            <token regexp='yes'>Erdoğans?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
