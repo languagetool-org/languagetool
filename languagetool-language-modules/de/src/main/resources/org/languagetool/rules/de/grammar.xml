@@ -8810,6 +8810,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>getrennt;.</short>
             <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
         </rule>
+        <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">schwarz|rot</token>
+                    <token inflected="yes">sehen</token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1sehen' meinten, muss das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>getrennt;.</short>
+                <example correction="schwarzsehen">Du darfst für die Zukunft nicht <marker>schwarz sehen</marker>.</example>
+                <example correction="rotgesehen">Nach dieser Äußerung habe ich nur noch <marker>rot gesehen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">schwarz|rot</token>
+                    <token>zu</token>
+                    <token>sehen</token>
+                </pattern>
+                <message>Die Verben 'schwarzsehen' (= pessimistisch in die Zukunft blicken) und 'rotsehen' (= die Beherrschung verlieren) werden zusammengeschrieben</message>
+                <suggestion>\1zusehen</suggestion>
+                <short>getrennt;.</short>
+                <example correction="schwarzzusehen">Wir nehmen die Herausforderung an, ohne <marker>schwarz zu sehen</marker>.</example>
+                <example correction="rotzusehen">Statt <marker>rot zu sehen</marker>, zähle erst bis zehn.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
