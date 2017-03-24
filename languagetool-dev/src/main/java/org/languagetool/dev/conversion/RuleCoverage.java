@@ -680,7 +680,7 @@ public class RuleCoverage {
     private void setupDictionaryFiles() {
        try {
          filename = "" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
-               language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
+               language.getShortCode() + "/" + language.getName().toLowerCase() + ".dict";
          dictFile = new File(filename);
           dictLookup = (DictionaryLookup) loadDictionary();
           dictIterator = resetDictIterator();
@@ -688,7 +688,7 @@ public class RuleCoverage {
           try {
             // a different formulation of the filename
             filename = "./src/" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
-              language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
+              language.getShortCode() + "/" + language.getName().toLowerCase() + ".dict";
             dictFile = new File(filename);
             dictLookup = (DictionaryLookup) loadDictionary();
             dictIterator = resetDictIterator();
