@@ -171,6 +171,7 @@ public class English extends Language implements AutoCloseable {
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),
+        new OpenNMTRule(),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
