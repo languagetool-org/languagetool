@@ -58,11 +58,6 @@ public class Irish extends Language {
   }
   
   @Override
-  public String getShortName() {
-    return "ga";
-  }
-
-  @Override
   public String getShortCode() {
     return "ga";
   }
