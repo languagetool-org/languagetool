@@ -174,23 +174,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
-            <token>vogue</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="en masse" id="EN_MASSE">
-        <pattern>
-            <token>en</token>
-            <token>masse</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="en passant" id="EN_PASSANT">
-        <pattern>
-            <token>en</token>
-            <token>passant</token>
+            <token regexp="yes">vogue|gros|masse|passant|détail</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -216,7 +200,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Los Angeles" id="LOS_ANGELES">
         <pattern>
             <token>Los</token>
-            <token>Angeles</token>
+            <token regexp="yes">Alamos|Angeles</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -225,14 +209,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Las</token>
             <token>Vegas</token>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
-
-    <rule name="Los Alamos" id="LOS_ALAMOS">
-        <pattern case_sensitive="yes">
-            <token>Los</token>
-            <token>Alamos</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -271,19 +247,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="World of Warcraft" id="WOW">
+        <pattern>
+            <token>World</token>
+            <token>of</token>
+            <token>Warcraft</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Social Media" id="SOCIAL_MEDIA">
+        <pattern>
+            <token>Social</token>
+            <token>Media</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Rock and Roll" id="ROCK_AND_ROLL">
         <pattern>
             <token>Rock</token>
             <token>and</token>
             <token>Roll</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="en gros" id="EN_GROS">
-        <pattern>
-            <token>en</token>
-            <token>gros</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -298,7 +283,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="starker Tobak" id="STARKER_TOBAK">
         <pattern>
-            <token regexp="yes">alter|starker</token>
+            <token regexp="yes">alter|starker|anno</token>
             <token>Tobak</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -315,7 +300,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="São Paulo" id="SAO_PAULO">
         <pattern>
             <token>São</token>
-            <token>Paulo</token>
+            <token regexp="yes">(Paulo|Vicente|Miguel|José)s?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -344,6 +329,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Le Havre/Le Mans" id="LE_HAVRE">
+        <pattern>
+            <token>Le</token>
+            <token regexp='yes'>Havre|Mans</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Phnom Penh" id="PHNOM_PENH">
         <pattern>
             <token>Phnom</token>
@@ -362,6 +355,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Open-Source-Software" id="OPEN_SOURCE_SOFTWARE">
         <pattern>
             <token>Open-Source-Software</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Jungle World" id="JUNGLE_WORLD">
+        <pattern>
+            <token>Jungle</token>
+            <token>World</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Rolling Stones" id="STONES">
+        <pattern>
+            <token>Rolling</token>
+            <token regexp='yes'>Stones?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -401,11 +410,172 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="sit venia verbo" id="VENIA_VERBO">
+        <pattern>
+            <token>sit</token>
+            <token>venia</token>
+            <token>verbo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in vino veritas" id="VINO_VERITAS">
+        <pattern>
+            <token>in</token>
+            <token>vino</token>
+            <token>veritas</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bona fide" id="BONA_FIDE">
+        <pattern>
+            <token>bona</token>
+            <token>fide</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ex nihilo" id="EX_NIHILO">
+        <pattern>
+            <token>ex</token>
+            <token>nihilo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="suum cuique" id="SUUM_CUIQUE">
+        <pattern>
+            <token>suum</token>
+            <token>cuique</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Urbi et orbi" id="URBI_ORBI">
+        <pattern>
+            <token>Urbi</token>
+            <token>et</token>
+            <token>orbi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Spiritus Rector" id="SPIRITUS_RECTOR">
+        <pattern>
+            <token>Spiritus</token>
+            <token>Rector</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Terra incognita" id="TERRA_INCOGNITA">
+        <pattern>
+            <token>Terra</token>
+            <token>incognita</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="non sequitur" id="NON_SEQUITUR">
+        <pattern>
+            <token>non</token>
+            <token>sequitur</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="reductio ad absurdum" id="REDUCTIO_AD_ABSURDUM">
+        <pattern>
+            <token>reductio</token>
+            <token>ad</token>
+            <token>absurdum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Tertium non datur" id="TERTIUM_NON_DATUR">
+        <pattern>
+            <token>Tertium</token>
+            <token>non</token>
+            <token>datur</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="requiescat in pace" id="RIP">
+        <pattern>
+            <token>requiescat</token>
+            <token>in</token>
+            <token>pace</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in statu nascendi" id="IN_STATU_NASCENDI">
+        <pattern>
+            <token>in</token>
+            <token>statu</token>
+            <token>nascendi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in memoriam" id="IN_MEMORIAM">
+        <pattern>
+            <token>in</token>
+            <token>memoriam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="stante pede" id="STANTE_PEDE">
+        <pattern>
+            <token>stante</token>
+            <token>pede</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="honoris causa" id="HC">
+        <pattern>
+            <token>honoris</token>
+            <token>causa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in situ" id="IN_SITU">
+        <pattern>
+            <token regexp="yes">in|ex</token>
+            <token>situ</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="peu à peu" id="PEU_A_PEU">
         <pattern>
             <token>peu</token>
             <token>à</token>
             <token>peu</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
+        <pattern>
+            <token>avant</token>
+            <token>la</token>
+            <token>lettre</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Île de Ré" id="ILE_DE_FRANCE">
+        <pattern>
+            <token>Île</token>
+            <token>de</token>
+            <token regexp="yes">Ré|France|Porquerolles</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -431,7 +601,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Air Force" id="AIR_FORCE">
         <pattern>
             <token>Air</token>
-            <token>Force</token>
+            <token regexp="yes">Force|France</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -466,6 +636,30 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>Memento</token>
             <token>mori</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ad hoc" id="AD_HOC">
+        <pattern>
+            <token>ad</token>
+            <token regexp='yes'>hoc|hominem|infinitum|libitum|nauseam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="salva veritate" id="SALVA_VERITATE">
+        <pattern>
+            <token>salva</token>
+            <token>veritate</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ab ovo" id="AB_OVO">
+        <pattern>
+            <token>ab</token>
+            <token>ovo</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -531,7 +725,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     
     <rule name="Magna cum laude" id="MAGNA_CUM_LAUDE">
         <pattern>
-            <token>magna</token>
+            <token regexp="yes" min="0">magna|summa</token>
             <token>cum</token>
             <token>laude</token>
         </pattern>
@@ -653,6 +847,31 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Fethullah Gülen" id="GUELEN">
+        <pattern>
+            <token>Fethullah</token>
+            <token regexp='yes'>Gülens?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Recep Tayyip Erdoğan" id="ERDOGAN">
+        <pattern>
+            <token>Recep</token>
+            <token>Tayyip</token>
+            <token regexp='yes'>Erdoğans?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Hillary Clinton" id="HILLARY_CLINTON">
+        <pattern>
+            <token regexp='yes'>Hillary|Bill</token>
+            <token regexp='yes'>Clintons?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Abu" id="ABU_DHABI">
         <pattern>
             <token>Abu</token>
@@ -719,6 +938,40 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Sex and the City" id="SEX_CITY">
+        <pattern>
+            <token>Sex</token>
+            <token>and</token>
+            <token>the</token>
+            <token>City</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Breaking Bad" id="BREAKING_BAD">
+        <pattern>
+            <token>Breaking</token>
+            <token>Bad</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Star Wars" id="STARWARS">
+        <pattern>
+            <token>Star</token>
+            <token regexp="yes">Wars|Trek</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Vienna Capitals" id="VIENNA_CAPITALS">
+        <pattern>
+            <token>Vienna</token>
+            <token>Capitals</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Human Rights Watch" id="HUMAN_RIGHTS_WATCH">
         <pattern>
             <token>Human</token>
@@ -748,6 +1001,30 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Special</token>
             <token>Olympics</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Scotland Yard" id="SCOTLAND_YARD">
+        <pattern case_sensitive="yes">
+            <token>Scotland</token>
+            <token>Yard</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Buckingham Palace" id="BUCKINGHAM_PALACE">
+        <pattern case_sensitive="yes">
+            <token>Buckingham</token>
+            <token>Palace</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Parks" id="PARKS">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Central|Hyde</token>
+            <token>Park</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
