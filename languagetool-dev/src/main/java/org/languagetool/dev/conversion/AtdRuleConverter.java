@@ -550,19 +550,19 @@ public class AtdRuleConverter extends RuleConverter {
     public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
         // special cases of start and end of sentence anchors
         if (e.equals("0BEGIN.0")) {
-            ltRule = addToken(ltRule, "", SENT_START, null, false, false, false, 0, thirdIndentInt);
+            ltRule = addToken(ltRule, "", SENT_START, null, false, false, false, 0, thirdIndentInt, false);
             return ltRule;
         }
         if (e.equals("0END.0")) {
-          ltRule = addToken(ltRule, "", SENT_END, null, false, false, false, 0, thirdIndentInt);
+          ltRule = addToken(ltRule, "", SENT_END, null, false, false, false, 0, thirdIndentInt, false);
           return ltRule;
         }
         if (hasPosTag(e)) {
             String[] parts = e.split("/");
             parts[1] = fixNoun(parts[1]);
-            ltRule = addToken(ltRule, parts[0], parts[1], exceptions, false, false, false, 0, thirdIndentInt);
+            ltRule = addToken(ltRule, parts[0], parts[1], exceptions, false, false, false, 0, thirdIndentInt, false);
         } else {
-            ltRule = addToken(ltRule, e, null, exceptions, false, false, false, 0, thirdIndentInt);
+            ltRule = addToken(ltRule, e, null, exceptions, false, false, false, 0, thirdIndentInt, true);
         }
         return ltRule;
     }
