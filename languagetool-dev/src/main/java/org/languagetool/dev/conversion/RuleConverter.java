@@ -157,6 +157,10 @@ public abstract class RuleConverter {
         if (token.equals(".*")) {
           token = "";
         }
+        // <regexp> can only do tokens
+        if (careful || inflected || negate || postag != null || exceptions != null || skip == -1) {
+          regexp = false;
+        }
         
         String inflectedString = "";
         if (inflected) {
