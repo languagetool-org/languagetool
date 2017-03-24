@@ -34,10 +34,10 @@ import org.languagetool.tagging.Tagger;
 public class DemoTagger implements Tagger {
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> l = new ArrayList<>();
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:
       l.add(new AnalyzedToken(word, null, null));

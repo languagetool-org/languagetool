@@ -37,11 +37,11 @@ import java.util.List;
  */
 public class DisambiguationRuleLoader extends DefaultHandler {
 
-  public final List<DisambiguationPatternRule> getRules(final InputStream stream)
+  public final List<DisambiguationPatternRule> getRules(InputStream stream)
       throws ParserConfigurationException, SAXException, IOException {
-    final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
-    final SAXParserFactory factory = SAXParserFactory.newInstance();
-    final SAXParser saxParser = factory.newSAXParser();
+    DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    SAXParser saxParser = factory.newSAXParser();
     Tools.setPasswordAuthenticator();
     saxParser.parse(stream, handler);
     return handler.getDisambRules();

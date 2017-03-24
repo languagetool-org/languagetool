@@ -18,7 +18,9 @@
  */
 package org.languagetool.commandline;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.WordRepeatRule;
@@ -29,32 +31,34 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class CommandLineToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class CommandLineToolsTest {
 
   private ByteArrayOutputStream out;
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
-    final ByteArrayOutputStream err = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
     System.setOut(new PrintStream(this.out));
     System.setErr(new PrintStream(err));
   }
 
-  @Override
+  @After
   public void tearDown() throws Exception {
-    super.tearDown();
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }
 
+  @Test
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
 
     int matches = CommandLineTools.checkText("Foo.", tool);
     String output = new String(this.out.toByteArray());

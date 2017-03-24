@@ -18,8 +18,9 @@
  */
 package org.languagetool.languagemodel;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.Experimental;
@@ -54,7 +55,10 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
    */
   public static void validateDirectory(File topIndexDir) {
     if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
-      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
+      throw new RuntimeException("Not found or is not a directory:\n" +
+              topIndexDir + "\n" +
+              "As ngram directory, please select the directory that has a subdirectory like 'en'\n" +
+              "(or whatever language code you're using).");
     }
     List<String> dirs = new ArrayList<>();
     for (String name : topIndexDir.list()) {
@@ -124,7 +128,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
       throw new RuntimeException("Requested " + tokens.size() + "gram but index has only up to " + maxNgram + "gram: " + tokens);
     }
     Objects.requireNonNull(tokens);
-    Term term = new Term("ngram", StringUtils.join(tokens, " "));
+    Term term = new Term("ngram", String.join(" ", tokens));
     return getCount(term, getLuceneSearcher(tokens.size()));
   }
 
@@ -195,6 +199,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
         String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
         result += Long.parseLong(countStr);
       }
+      //System.out.println(term + " -> " + result);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

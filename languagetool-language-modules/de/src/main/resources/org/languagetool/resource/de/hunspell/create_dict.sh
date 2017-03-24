@@ -14,14 +14,16 @@ then
 fi
 
 REPO=/home/dnaber/.m2/repository
-LT_VERSION=3.3-SNAPSHOT
-FREQ_FILE=/lt/frequency-data/freeWordFreqsGaia/de_free_gaia.xml
+LT_VERSION=3.7-SNAPSHOT
+# get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
+# this is optional, remove "-freq $FREQ_FILE" below for not using frequencies:
+FREQ_FILE=/lt/de_wordlist.xml
 INPUT_ENCODING=latin1
 OUTPUT_ENCODING=utf8
 TEMP_FILE=/tmp/lt-dictionary.dump
 OUTPUT_FILE=/tmp/out.dict
 
-CPATH=$REPO/com/carrotsearch/hppc/0.5.3/hppc-0.5.3.jar:$REPO/org/carrot2/morfologik-stemming/1.9.0/morfologik-stemming-1.9.0.jar:$REPO/org/carrot2/morfologik-fsa/1.9.0/morfologik-fsa-1.9.0.jar:$REPO/org/carrot2/morfologik-tools/1.9.0/morfologik-tools-1.9.0.jar:$REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:languagetool-tools/target/languagetool-tools-${LT_VERSION}.jar
+CPATH=$REPO/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.jar:$REPO/com/beust/jcommander/1.48/jcommander-1.48.jar:$REPO/org/carrot2/morfologik-fsa-builders/2.1.2/morfologik-fsa-builders-2.1.2.jar:$REPO/org/carrot2/morfologik-stemming/2.1.2/morfologik-stemming-2.1.2.jar:$REPO/org/carrot2/morfologik-fsa/2.1.2/morfologik-fsa-2.1.2.jar:$REPO/org/carrot2/morfologik-tools/2.1.2/morfologik-tools-2.1.2.jar:$REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:languagetool-tools/target/languagetool-tools-${LT_VERSION}.jar
 LANG_CODE=$1
 COUNTRY_CODE=$2
 PREFIX=${LANG_CODE}_${COUNTRY_CODE}
@@ -40,7 +42,6 @@ mvn clean package -DskipTests &&
  recode $INPUT_ENCODING..$OUTPUT_ENCODING | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
 java -cp $CPATH:languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar \
-  org.languagetool.tools.SpellDictionaryBuilder -i $TEMP_FILE -info $INFO_FILE -o $OUTPUT_FILE \
-  -freq $FREQ_FILE
+  org.languagetool.tools.SpellDictionaryBuilder -i $TEMP_FILE -info $INFO_FILE -o $OUTPUT_FILE -freq $FREQ_FILE
 
 rm $TEMP_FILE

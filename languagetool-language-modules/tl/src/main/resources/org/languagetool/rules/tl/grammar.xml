@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 See tagset.txt for the different POS, Lexical Categories, and corresponding attributes
 -->
 <rules lang="tl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <category name="Alternation of D and R">
+    <category id="D_AND_R" name="Alternation of D and R">
         <rule id="D_WORDS" name="Sound and Letter Change from 'd' to 'r'">
             <pattern case_sensitive="no">
                 <token regexp="yes">.*[aeiou]</token>
@@ -30,7 +30,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                     <token regexp="yes">ding?|dito|ditong|daw|diyang?|dyang?|doong?</token>
                 </marker>
             </pattern>
-            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter R.</message>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter R.</message>
             <short>Alternation of 'd' and 'r'</short>
             <example correction="rin">Baka ang tingin mo ay talo ka <marker>din</marker>.</example>
             <example correction="rito">Kinuha ko ito <marker>dito</marker>.</example>
@@ -56,7 +56,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                     <token regexp="yes">daang?</token>
                 </marker>
             </pattern>
-            <message> Do you mean <suggestion><match no="3" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="3"></match> should start with the letter R.</message>
+            <message> Do you mean <suggestion><match no="3" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"/></suggestion>? If the preceding word ends with a vowel, <match no="3"/> should start with the letter R.</message>
             <short>Alternation of 'd' and 'r'</short>
             <example correction="raan">Nasa apat na <marker>daan</marker> ang dumating.</example>
             <example correction="raang">Nasa apat na <marker>daang</marker> tao ang dumating.</example>
@@ -72,7 +72,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                     <token regexp="yes">ring?|rito|ritong|raw|riyang?|roong?</token>
                 </marker>
             </pattern>
-            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter D.</message>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter D.</message>
             <short>Alternation of 'd' and 'r'</short>
             <example correction="din">Baka ang tingin mo ay pangit <marker>rin</marker> ikaw.</example>
             <example correction="dito">Kinuha ko itong lapis <marker>rito</marker>.</example>
@@ -98,7 +98,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                     <token regexp="yes">raang?</token>
                 </marker>
             </pattern>
-            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter D.</message>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter D.</message>
             <short>Alternation of 'd' and 'r'</short>
             <example correction="daan">Nasa tatlong <marker>raan</marker> ang dumating.</example>
             <example correction="daang">Nasa tatlong <marker>raang</marker> tao ang dumating.</example>
@@ -108,12 +108,12 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example>May apat na <marker>raang</marker> piso ka ba?</example>
         </rule>
     </category>
-    <category name="Affix Usage">
+    <category id="AFFIX_USAGE" name="Affix Usage">
         <rule id="NAG-" name="nag- (-um-)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
             </pattern>
-            <message>Do you mean <suggestion><match no="1" regexp_match="nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
+            <message>Do you mean <suggestion><match no="1" regexp_match="nag(.)(.*)" regexp_replace="$1um$2"/></suggestion>?</message>
             <short>Wrong Actor Affix</short>
             <example correction="bumunot">Ang dentista ay <marker>nagbunot</marker> ng ngipin.</example>
             <example>Ang dentista ay<marker>bumunot</marker> ng ngipin</example>
@@ -122,16 +122,16 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <pattern case_sensitive="yes">
                 <token regexp="yes">Nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
             </pattern>
-            <message>Do you mean <suggestion><match no="1" case_conversion="startupper" regexp_match="Nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
+            <message>Do you mean <suggestion><match no="1" case_conversion="startupper" regexp_match="Nag(.)(.*)" regexp_replace="$1um$2"/></suggestion>?</message>
             <short>Wrong Actor Affix</short>
             <example correction="Bumunot"><marker>Nagbunot</marker> ng ngipin ang dentista.</example>
         </rule>
     </category>
-    <category name="Ligature Usage">
+    <category id="LIGATURE_USAGE" name="Ligature Usage">
         <rule id="ADJECTIVE-C_COMMON_NOUN" name="adjective-c (adjective-c na)">
             <pattern case_sensitive="no">
                 <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="yes">.*[bcdfghjklmpqrstvwxyz]</token>
-                <token postag="(NCOM).*" postag_regexp="yes"></token>
+                <token postag="(NCOM).*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>\1 na \2</suggestion>? If the adjective ends with a consonant, except the letter N, the ligature &quot;na&quot; should be added.</message>
             <short>Wrong Ligature</short>
@@ -141,7 +141,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-N_COMMON_NOUN" name="adjective-n (adjective-ng)">
             <pattern case_sensitive="no">
                 <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[n]</token>
-                <token postag="(NCOM).*" postag_regexp="yes"></token>
+                <token postag="(NCOM).*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>\1g \2</suggestion>? If the adjective ends with the letter N, the ligature &quot;-g&quot; should be added.</message>
             <short>Wrong Ligature</short>
@@ -151,20 +151,20 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-V_COMMON_NOUN" name="adjective-v (adjective-v-ng)">
             <pattern case_sensitive="no">
                 <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[aeiou]</token>
-                <token postag="(NCOM).*" postag_regexp="yes"></token>
+                <token postag="(NCOM).*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>\1ng \2</suggestion>? If the adjective ends with a vowel, the ligature &quot;-ng&quot; should be added.</message>
             <short>Wrong Ligature</short>
             <example correction="mababang bata">Siya ay isang <marker>mababa bata</marker>.</example>
         </rule>
     </category>
-    <category name="Ng and Nang">
+    <category id="NG_NANG" name="Ng and Nang">
         <rule id="VERB_NG_ADVERB" name="verb ng adverb (verb nang adverb)">
             <pattern case_sensitive="no">
-                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
                 <marker>
                     <token>ng</token>
-                    <token postag="(AVMA|AVNU|AVDE|AVEO|AVET|AVCO|AVCT|AVSO|AVST|AVAY|AVGI|AVAG|AVPA).*" postag_regexp="yes"></token>
+                    <token postag="(AVMA|AVNU|AVDE|AVEO|AVET|AVCO|AVCT|AVSO|AVST|AVAY|AVGI|AVAG|AVPA).*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Do you mean <suggestion>nang \3</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
@@ -173,11 +173,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         </rule>
         <rule id="VERB_NG_DI_ADVERB" name="verb ng di adverb (verb nang di adverb)">
             <pattern case_sensitive="no">
-                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
                 <marker>
                     <token>ng</token>
                     <token regexp="yes">hindi|di</token>
-                    <token postag="(AVSC).*" postag_regexp="yes"></token>
+                    <token postag="(AVSC).*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Do you mean <suggestion>nang \3 \4</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
@@ -186,12 +186,12 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         </rule>
         <rule id="VERB_NG_DI_ADVERB2" name="verb ng 'di adverb (verb nang contdi adverb)">
             <pattern case_sensitive="no">
-                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
                 <marker>
                     <token>ng</token>
                     <token>'</token>
                     <token>di</token>
-                    <token postag="(AVSC).*" postag_regexp="yes"></token>
+                    <token postag="(AVSC).*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Do you mean <suggestion>nang \3\4 \5</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
@@ -199,11 +199,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="nang 'di gaanong">Kumain <marker>ng 'di gaanong</marker> maayos.</example>
         </rule>
     </category>
-    <category name="Adjective Plurality">
+    <category id="ADJ_PLURAL" name="Adjective Plurality">
         <rule id="ADJECTIVE-PL_AKO" name="adjective-pl ako (adjective-pl kami)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>ako</token>
                 </marker>
@@ -217,7 +217,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_AKONG" name="adjective-pl akong (adjective-pl kaming)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>akong</token>
                 </marker>
@@ -231,7 +231,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_KA" name="adjective-pl ka (adjective-pl kayo)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token regexp="yes">ikaw|ka</token>
                 </marker>
@@ -244,7 +244,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_KANG" name="adjective-pl kang (adjective-pl kayong)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>kang</token>
                 </marker>
@@ -257,7 +257,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_SIYA" name="adjective-pl siya (adjective-pl sila)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>siya</token>
                 </marker>
@@ -270,7 +270,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_SIYANG" name="adjective-pl siyang (adjective-pl silang)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>siyang</token>
                 </marker>
@@ -283,11 +283,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="ADJECTIVE-PL_SI" name="adjective-pl si (adjective-pl sina)">
             <pattern case_sensitive="no">
                 <token negate="yes">at</token>
-                <token postag="ADMO P"></token>
+                <token postag="ADMO P"/>
                 <marker>
                     <token>si</token>
                 </marker>
-                <token postag="(NPRO|NCOM).*" postag_regexp="yes"></token>
+                <token postag="(NPRO|NCOM).*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>sina</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
             <short>Plurality Agreement</short>
@@ -295,11 +295,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example>Maganda <marker>si</marker> Maria.</example>
         </rule>
     </category>
-    <category name="Wrong Determiner">
+    <category id="DETERMINERS" name="Wrong Determiner">
         <rule id="SI_COMMON_NOUN" name="si (ang)">
             <pattern case_sensitive="no">
                 <token>si</token>
-                <token postag="NCOM.*" postag_regexp="yes"></token>
+                <token postag="NCOM.*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>ang \2</suggestion>? &quot;si&quot; is a personal name marker.</message>
             <short>Wrong Determiner</short>
@@ -308,7 +308,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="NI_COMMON_NOUN" name="ni (ng)">
             <pattern case_sensitive="no">
                 <token>ni</token>
-                <token postag="NCOM.*" postag_regexp="yes"></token>
+                <token postag="NCOM.*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>ng \2</suggestion>? &quot;ni&quot; is a personal name marker.</message>
             <short>Wrong Determiner</short>
@@ -318,14 +318,14 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         <rule id="KAY_COMMON_NOUN" name="kay (sa)">
             <pattern case_sensitive="no">
                 <token>kay</token>
-                <token postag="NCOM.*" postag_regexp="yes"></token>
+                <token postag="NCOM.*" postag_regexp="yes"/>
             </pattern>
             <message>Do you mean <suggestion>sa \2</suggestion>? &quot;kay&quot; is a personal name marker.</message>
             <short>Wrong Determiner</short>
             <example correction="sa abogado">Pinalakad <marker>kay abogado</marker> ang lupa.</example>
         </rule>
     </category>
-    <category name="Word Repetition">
+    <category id="REPETITION" name="Word Repetition">
         <rule id="ANG_ANG" name="ang ang (ang mga)">
             <pattern case_sensitive="no">
                 <token>ang</token>
@@ -354,7 +354,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="ng mga">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
         </rule>
     </category>
-    <category name="False Friend">
+    <category id="FALSE_FRIENDS" name="False Friend">
         <rule id="LAGGING" name="lagging (laging)">
             <pattern case_sensitive="no">
                 <token>lagging</token>
@@ -372,7 +372,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="naging">Siya ay <marker>nagging</marker> aso.</example>
         </rule>
     </category>
-    <category name="Loan Words">
+    <category id="LOAN_WORDS" name="Loan Words">
         <rule id="CAKE" name="cake (keyk)">
             <pattern case_sensitive="no">
                 <token>cake</token>
@@ -417,12 +417,12 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <pattern case_sensitive="no">
                 <token regexp="yes">(.*)raid</token>
             </pattern>
-            <message>Do you mean <suggestion><match no="1" regexp_match="(.*)raid" regexp_replace="$1reyd"></match></suggestion>?</message>
+            <message>Do you mean <suggestion><match no="1" regexp_match="(.*)raid" regexp_replace="$1reyd"/></suggestion>?</message>
             <short>Loan Word</short>
             <example correction="nagreyd">May <marker>nagraid</marker> daw dito kagabi?</example>
         </rule>
     </category>
-    <category name="Code-switching">
+    <category id="CODE_SWITCHING" name="Code-switching">
         <rule id="WHERE" name="where (nasaan)">
             <pattern case_sensitive="no">
                 <token>where</token>
@@ -440,13 +440,13 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="ikaw">Ano ba, nasaan na <marker>you</marker>?</example>
         </rule>
     </category>
-    <category name="Missing Determiner">
+    <category id="MISSING_DETERMINERS" name="Missing Determiner">
         <rule id="ADJECTIVE_PROPER_NOUN" name="adjective (adjective si)">
             <pattern case_sensitive="no">
                 <token regexp="yes" negate="yes">si|sina</token>
                 <marker>
-                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
-                    <token postag="NPRO.*" postag_regexp="yes"></token>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
+                    <token postag="NPRO.*" postag_regexp="yes"/>
                 </marker>
                 <token regexp="yes" negate="yes">si|sina</token>
             </pattern>
@@ -455,14 +455,14 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="Matalino si Maria"><marker>Matalino Maria</marker>.</example>
         </rule>
     </category>
-    <category name="Missing Lexical Marker">
+    <category id="MISSING_LEXICAL_MARKERS" name="Missing Lexical Marker">
         <rule id="SI_PROPER_NOUN_ADJECTIVE" name="si... adjective (si... ay adjective)">
             <pattern case_sensitive="no">
                 <token negate="yes">ay</token>
                 <token regexp="yes">si|sina|kay|kina</token>
                 <marker>
-                    <token postag="NPRO.*" postag_regexp="yes"></token>
-                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                    <token postag="NPRO.*" postag_regexp="yes"/>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 </marker>
                 <token negate="yes">ay</token>
             </pattern>
@@ -475,8 +475,8 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                 <token negate="yes">ay</token>
                 <token>ang</token>
                 <marker>
-                    <token postag="NCOM.*" postag_regexp="yes"></token>
-                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                    <token postag="NCOM.*" postag_regexp="yes"/>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 </marker>
                 <token negate="yes">ay</token>
             </pattern>
@@ -490,8 +490,8 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                 <token>ang</token>
                 <token>mga</token>
                 <marker>
-                    <token postag="NCOM.*" postag_regexp="yes"></token>
-                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                    <token postag="NCOM.*" postag_regexp="yes"/>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 </marker>
                 <token negate="yes">ay</token>
             </pattern>
@@ -504,8 +504,8 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                 <token negate="yes">ay</token>
                 <token regexp="yes">si|sina|kay|kina</token>
                 <marker>
-                    <token postag="NPRO.*" postag_regexp="yes"></token>
-                    <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                    <token postag="NPRO.*" postag_regexp="yes"/>
+                    <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
                 </marker>
                 <token negate="yes">ay</token>
             </pattern>
@@ -514,13 +514,13 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example correction="Maria ay kumakain">Si <marker>Maria kumakain</marker>.</example>
         </rule>
     </category>
-    <category name="Missing Last Word">
+    <category id="MISSING_LAST_WORD" name="Missing Last Word">
         <rule id="SI_LAST_WORD_MISSING" name="si is the last word">
             <pattern case_sensitive="no">
-                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 <marker>
                     <token regexp="yes">si|sina</token>
-                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Probably a proper noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
@@ -530,10 +530,10 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         </rule>
         <rule id="ANG_LAST_WORD_MISSING" name="ang is the last word">
             <pattern case_sensitive="no">
-                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 <marker>
                     <token>ang</token>
-                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
@@ -543,11 +543,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         </rule>
         <rule id="MGA_LAST_WORD_MISSING" name="mga is the last word">
             <pattern case_sensitive="no">
-                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
                 <token>ang</token>
                 <marker>
                     <token>mga</token>
-                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
@@ -556,16 +556,16 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <example>Maganda ang mga halaman.</example>
         </rule>
     </category>
-    <category name="Exchange Word Positions">
+    <category id="WORD_POSITIONS" name="Exchange Word Positions">
         <rule id="PROPER_NOUN_SI_PUNCT" name="... si (si...)">
             <pattern case_sensitive="no">
                 <marker>
-                    <token postag="(NPRO|NCOM).*" postag_regexp="yes"></token>
+                    <token postag="(NPRO|NCOM).*" postag_regexp="yes"/>
                     <token regexp="yes">si|sina</token>
                 </marker>
-                <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
             </pattern>
-            <message>Do you mean <suggestion><match no="2" case_conversion="startlower"></match> \1</suggestion>? Irregular POS sequence due to transposition of words.</message>
+            <message>Do you mean <suggestion><match no="2" case_conversion="startlower"/> \1</suggestion>? Irregular POS sequence due to transposition of words.</message>
             <short>Exchange Word Positions</short>
             <example correction="si Maria">Maganda <marker>Maria si</marker>.</example>
         </rule>

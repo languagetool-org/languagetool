@@ -28,7 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.xml.sax.SAXException;
 
 /**
@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Marcin Miłkowski
  */
-public class XmlRuleDisambiguator implements Disambiguator {
+public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
 
@@ -45,7 +45,7 @@ public class XmlRuleDisambiguator implements Disambiguator {
 
   public XmlRuleDisambiguator(Language language) {
     Objects.requireNonNull(language);
-    String disambiguationFile = language.getShortName() + "/" + DISAMBIGUATION_FILE;
+    String disambiguationFile = language.getShortCode() + "/" + DISAMBIGUATION_FILE;
     try {
       disambiguationRules = loadPatternRules(disambiguationFile);
     } catch (Exception e) {
@@ -68,7 +68,7 @@ public class XmlRuleDisambiguator implements Disambiguator {
    * @return a List of {@link DisambiguationPatternRule} objects
    */
   protected List<DisambiguationPatternRule> loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
-    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
+    DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
     return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
   }
 

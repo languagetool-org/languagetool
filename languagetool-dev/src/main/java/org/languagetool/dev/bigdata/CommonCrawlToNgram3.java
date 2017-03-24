@@ -162,7 +162,7 @@ class CommonCrawlToNgram3 implements AutoCloseable {
       System.out.println("Usage: " + CommonCrawlToNgram3.class + " <langCode> <input.xz/bz2> <outputDir>");
       System.exit(1);
     }
-    Language language = Languages.getLanguageForShortName(args[0]);
+    Language language = Languages.getLanguageForShortCode(args[0]);
     File input = new File(args[1]);
     File outputDir = new File(args[2]);
     try (CommonCrawlToNgram3 prg = new CommonCrawlToNgram3(language, input, outputDir)) {

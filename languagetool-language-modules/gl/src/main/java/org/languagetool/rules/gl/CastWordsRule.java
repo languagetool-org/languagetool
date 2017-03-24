@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -50,7 +49,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public CastWordsRule(final ResourceBundle messages) throws IOException {
+  public CastWordsRule(ResourceBundle messages) throws IOException {
     super(messages);
   }
 
@@ -72,7 +71,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " é un castelanismo. Empregue no seu sitio: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

@@ -21,10 +21,11 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -57,7 +58,7 @@ abstract class Server {
    * Start the server.
    */
   public void run() {
-    final String hostName = host != null ? host : "localhost";
+    String hostName = host != null ? host : "localhost";
     System.out.println("Starting LanguageTool " + JLanguageTool.VERSION +
             " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
@@ -90,8 +91,8 @@ abstract class Server {
 
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
-    final int requestLimit = config.getRequestLimit();
-    final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    int requestLimit = config.getRequestLimit();
+    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
     if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
       return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
     }
@@ -103,35 +104,90 @@ abstract class Server {
   }
 
   protected static void printCommonConfigFileOptions() {
-    System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
-    System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
+    System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' (DEPRECATED) for emulation of After the Deadline output (optional)");
+    System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline') - DEPRECATED");
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
+    System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
     System.out.println("                 'requestLimit' - maximum number of requests (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
-  }
-  
-  protected static void printCommonOptions() {
-    System.out.println("  --port, -p     port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
-    System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
-    System.out.println("                 it can only be connected from the computer it was started on");
-    System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
-    System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
-    System.out.println("                         example: --allow-origin \"*\"");
-    System.out.println("  --verbose, -v  in case of exceptions, log the input text (up to 500 characters)");
+    System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
   }
 
+  protected static void printCommonOptions() {
+    System.out.println("  --port, -p PRT   port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
+    System.out.println("  --public         allow this server process to be connected from anywhere; if not set,");
+    System.out.println("                   it can only be connected from the computer it was started on");
+    System.out.println("  --allow-origin   ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
+    System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
+    System.out.println("                         example: --allow-origin \"*\"");
+    System.out.println("  --verbose, -v    in case of exceptions, log the input text (up to 500 characters)");
+    System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
+    System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
+    System.out.println("                         parameter in properties files)");
+  }
+
+  protected static void checkForNonRootUser() {
+    if ("root".equals(System.getProperty("user.name"))) {
+      System.out.println("****************************************************************************************************");
+      System.out.println("*** WARNING: this process is running as root - please do not run it as root for security reasons ***");
+      System.out.println("****************************************************************************************************");
+    }
+  }
+  
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
-    return new ThreadPoolExecutor(threadPoolSize, threadPoolSize,
-            0L, TimeUnit.MILLISECONDS,
-            workQueue);
+    return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
+  }
+
+  /**
+   * Check a tiny text with all languages and all variants, so that e.g. static caches
+   * get initialized. This helps getting a slightly better performance when real
+   * texts get checked.
+   */
+  protected void warmUp() {
+    List<Language> languages = Languages.get();
+    System.out.println("Running warm up with all " + languages.size() + " languages/variants:");
+    for (int i = 1; i <= 2; i++) {
+      long startTime = System.currentTimeMillis();
+      for (Language language : languages) {
+        System.out.print(language.getLocaleWithCountryAndVariant() + " ");
+        JLanguageTool lt = new JLanguageTool(language);
+        try {
+          lt.check("test");
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      long endTime = System.currentTimeMillis();
+      float runTime = (endTime-startTime)/1000.0f;
+      System.out.printf(Locale.ENGLISH, "\nRun #" + i + " took %.2fs\n", runTime);
+    }
+    System.out.println("Warm up finished");
+  }
+
+  static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
+  
+    StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
+      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
+    }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+      super.afterExecute(r, t);
+      if (t != null && t instanceof OutOfMemoryError) {
+        // we prefer to stop instead of being in an unstable state:
+        //noinspection CallToPrintStackTrace
+        t.printStackTrace();
+        System.exit(1);
+      }
+    }
   }
 
 }

@@ -51,7 +51,7 @@ final class HTTPTools {
    * See http://stackoverflow.com/questions/2893819/telling-java-to-accept-self-signed-ssl-certificate
    */
   static void disableCertChecks() throws NoSuchAlgorithmException, KeyManagementException {
-    final TrustManager[] trustAllCerts = {
+    TrustManager[] trustAllCerts = {
             new X509TrustManager() {
               @Override
               public X509Certificate[] getAcceptedIssuers() {
@@ -63,21 +63,21 @@ final class HTTPTools {
               public void checkServerTrusted(X509Certificate[] certs, String authType) {}
             }
     };
-    final SSLContext sc = SSLContext.getInstance("SSL");
+    SSLContext sc = SSLContext.getInstance("SSL");
     sc.init(null, trustAllCerts, new SecureRandom());
     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
   }
 
   static String checkAtUrl(URL url) throws IOException {
-    final InputStream stream = (InputStream)url.getContent();
+    InputStream stream = (InputStream)url.getContent();
     return StringTools.streamToString(stream, "UTF-8");
   }
 
   static String checkAtUrlByPost(URL url, String postData) throws IOException {
-    final String keepAlive = System.getProperty("http.keepAlive");
+    String keepAlive = System.getProperty("http.keepAlive");
     try {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
-      final URLConnection connection = url.openConnection();
+      URLConnection connection = url.openConnection();
       connection.setDoOutput(true);
       try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
         writer.write(postData);

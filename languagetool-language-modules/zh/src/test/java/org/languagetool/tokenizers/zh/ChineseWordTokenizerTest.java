@@ -19,9 +19,11 @@
 
 package org.languagetool.tokenizers.zh;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 /**
  * The test of ChineseWordTokenizer.
@@ -31,8 +33,9 @@ import junit.framework.TestCase;
  * @author Jiamin Zheng
  * @author Zihao Li
  */
-public class ChineseWordTokenizerTest extends TestCase {
+public class ChineseWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
 
     ChineseWordTokenizer wordTokenizer = new ChineseWordTokenizer();

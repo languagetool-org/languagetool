@@ -37,15 +37,23 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.queue.CircularFifoQueue;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -57,9 +65,8 @@ import org.languagetool.AnalyzedTokenReadings;
 public final class Main {
 
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
-  static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
-  static final String HTML_FONT_END = "</font>";
-  static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
+  private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
+  private static final String HTML_FONT_END = "</font>";
 
   private static final String TRAY_ICON = "/TrayIcon.png";
   private static final String TRAY_SERVER_ICON = "/TrayIconWithServer.png";
@@ -70,6 +77,7 @@ public final class Main {
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
+  private static final int MAX_RECENT_FILES = 8;
 
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
@@ -79,7 +87,6 @@ public final class Main {
   private JTextPane taggerArea;
   private JTextArea textArea;
   private JTextPane resultArea;
-  private ResultArea resultAreaHelper;
   private LanguageComboBox languageBox;
   private CheckboxMenuItem enableHttpServerItem;
   private HTTPServer httpServer;
@@ -94,19 +101,28 @@ public final class Main {
   private SaveAction saveAction;
   private SaveAsAction saveAsAction;
   private AutoCheckAction autoCheckAction;
+  private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
   private File currentFile;
+  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
+  private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
+  private JMenu recentFilesMenu;
+  private final LocalStorage localStorage;
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+  private JSplitPane splitPane;
+  private final JPanel mainPanel = new JPanel();
 
-  private Main() {
+  private Main(LocalStorage localStorage) {
+    this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
   }
 
   private void loadFile() {
-    final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
+    File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
     if (file == null) {  // user clicked cancel
       return;
     }
@@ -115,10 +131,28 @@ public final class Main {
 
   private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
-      final String fileContents = StringTools.readStream(inputStream, null);
+      BOMInputStream bomIn = new BOMInputStream(inputStream, false,
+              ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+              ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+      String charsetName;
+      if (bomIn.hasBOM() == false) {
+        // No BOM found
+        bom = null;
+        charsetName = null;
+      } else {
+        bom = bomIn.getBOM();
+        charsetName = bom.getCharsetName();
+      }
+      String fileContents = StringTools.readStream(bomIn, charsetName);
       textArea.setText(fileContents);
       currentFile = file;
       updateTitle();
+      if(recentFiles.contains(file.getAbsolutePath())) {
+        recentFiles.remove(file.getAbsolutePath());
+      }
+      recentFiles.add(file.getAbsolutePath());
+      localStorage.saveProperty("recentFiles", recentFiles);
+      updateRecentFilesMenu();
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -126,7 +160,7 @@ public final class Main {
 
   private void saveFile(boolean newFile) {
     if (currentFile == null || newFile) {
-      final JFileChooser jfc = new JFileChooser();
+      JFileChooser jfc = new JFileChooser();
       jfc.setFileFilter(new PlainTextFileFilter());
       jfc.showSaveDialog(frame);
 
@@ -135,29 +169,36 @@ public final class Main {
         return;
       }
       currentFile = file;
+      bom = null;
       updateTitle();
     }
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
-      writer.write(textArea.getText());
+    try {
+      if(bom != null) {
+        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
+        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
+      } else {
+        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
+      }
     } catch (IOException ex) {
       Tools.showError(ex);
     }
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
-    final LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
+    LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
     dialog.show();
     List<Language> newExtLanguages = dialog.getLanguages();
     externalLanguages.clear();
     externalLanguages.addAll(newExtLanguages);
-    languageBox.populateLanguageBox(externalLanguages);
+    languageBox.setModel(LanguageComboBoxModel.create(messages,
+            EXTERNAL_LANGUAGE_SUFFIX, false, externalLanguages, null));
     languageBox.selectLanguage(ltSupport.getLanguage());
   }
 
   private void showOptions() {
-    final JLanguageTool langTool = ltSupport.getLanguageTool();
-    final List<Rule> rules = langTool.getAllRules();
-    final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
+    JLanguageTool langTool = ltSupport.getLanguageTool();
+    List<Rule> rules = langTool.getAllRules();
+    ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
     try { //save config - needed for the server
@@ -197,14 +238,20 @@ public final class Main {
   }
 
   private void updateTitle() {
-    if (currentFile == null) {
-      frame.setTitle("LanguageTool " + JLanguageTool.VERSION);
-    } else {
-      frame.setTitle(currentFile.getName() + " - LanguageTool " + JLanguageTool.VERSION);
+    StringBuilder sb = new StringBuilder();
+    if(currentFile != null) {
+      sb.append(currentFile.getName());
+      if(bom != null) {
+        sb.append(" (").append(bom.getCharsetName()).append(')');
+      }
+      sb.append(" - ");
     }
+    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
+    frame.setTitle(sb.toString());
   }
 
   private void createGUI() {
+    loadRecentFiles();
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
@@ -213,10 +260,11 @@ public final class Main {
     saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
+    showResultAction = new ShowResultAction(true);
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
+    URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
 
     textArea = new JTextArea();
@@ -227,9 +275,9 @@ public final class Main {
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
 
-    final GridBagConstraints buttonCons = new GridBagConstraints();
+    GridBagConstraints buttonCons = new GridBagConstraints();
 
-    final JPanel insidePanel = new JPanel();
+    JPanel insidePanel = new JPanel();
     insidePanel.setOpaque(false);
     insidePanel.setLayout(new GridBagLayout());
 
@@ -238,14 +286,15 @@ public final class Main {
     buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(new JLabel(messages.getString("textLanguage") + " "), buttonCons);
 
-    languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
-    languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
+    //create a ComboBox with flags, do not include hidden languages
+    languageBox = LanguageComboBox.create(messages, EXTERNAL_LANGUAGE_SUFFIX,
+            true, false);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(languageBox, buttonCons);
 
-    final JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
+    JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     buttonCons.gridwidth = GridBagConstraints.REMAINDER;
@@ -260,10 +309,10 @@ public final class Main {
     buttonCons.weightx = 1.0;
     insidePanel.add(statusLabel, buttonCons);
 
-    final Container contentPane = frame.getContentPane();
-    final GridBagLayout gridLayout = new GridBagLayout();
+    Container contentPane = frame.getContentPane();
+    GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
-    final GridBagConstraints cons = new GridBagConstraints();
+    GridBagConstraints cons = new GridBagConstraints();
 
     cons.gridx = 0;
     cons.gridy = 1;
@@ -310,10 +359,11 @@ public final class Main {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 5.0f;
-    final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+    splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
-    splitPane.setDividerLocation(200);
-    contentPane.add(splitPane, cons);
+    mainPanel.setLayout(new GridLayout(0,1));
+    contentPane.add(mainPanel, cons);
+    mainPanel.add(splitPane);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.gridx = 0;
@@ -324,7 +374,7 @@ public final class Main {
     contentPane.add(insidePanel, cons);
 
     ltSupport = new LanguageToolSupport(this.frame, this.textArea, this.undoRedo);
-    resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
+    ResultAreaHelper.install(messages, ltSupport, resultArea);
     languageBox.selectLanguage(ltSupport.getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
@@ -336,8 +386,8 @@ public final class Main {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
           frame.applyComponentOrientation(
-            ComponentOrientation.getOrientation(Locale.getDefault()));
-          Language lang = (Language) languageBox.getSelectedItem();
+                  ComponentOrientation.getOrientation(Locale.getDefault()));
+          Language lang = languageBox.getSelectedLanguage();
           ComponentOrientation componentOrientation =
             ComponentOrientation.getOrientation(lang.getLocale());
           textArea.applyComponentOrientation(componentOrientation);
@@ -362,7 +412,7 @@ public final class Main {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
           statusLabel.setText(msg);
           if (event.getCaller() == getFrame()) {
             setWaitCursor();
@@ -373,16 +423,16 @@ public final class Main {
             checkAction.setEnabled(true);
             unsetWaitCursor();
           }
-          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
-          statusLabel.setText(msg);          
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
+          statusLabel.setText(msg);
         } else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
           languageBox.selectLanguage(ltSupport.getLanguage());
         } else if (event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
-            //this will trigger a check and the result will be updated by
-            //the CHECKING_FINISHED event
+          //this will trigger a check and the result will be updated by
+          //the CHECKING_FINISHED event
         } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED) {
-            final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
-            statusLabel.setText(msg);
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
+          statusLabel.setText(msg);
         }
       }
     });
@@ -415,6 +465,22 @@ public final class Main {
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
+    splitPane.setDividerLocation(200);
+    MainWindowStateBean state =
+            localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+    if(state != null) {
+      if(state.getBounds() != null) {
+        frame.setBounds(state.getBounds());
+        ResizeComponentListener.setBoundsProperty(frame, state.getBounds());
+      }
+      if(state.getDividerLocation() != null) {
+        splitPane.setDividerLocation(state.getDividerLocation());
+      }
+      if(state.getState() != null) {
+        frame.setExtendedState(state.getState());
+      }
+    }
+    ResizeComponentListener.attachToWindow(frame);
     maybeStartServer();
   }
 
@@ -432,18 +498,22 @@ public final class Main {
 
   private JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
-    final JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
+    JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
     fileMenu.setMnemonic(getMnemonic("guiMenuFile"));
-    final JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
+    JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
     editMenu.setMnemonic(getMnemonic("guiMenuEdit"));
-    final JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
+    JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
     grammarMenu.setMnemonic(getMnemonic("guiMenuGrammar"));
-    final JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
+    JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
     fileMenu.add(openAction);
     fileMenu.add(saveAction);
     fileMenu.add(saveAsAction);
+    recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
+    recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
+    fileMenu.add(recentFilesMenu);
+    updateRecentFilesMenu();
     fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
@@ -452,6 +522,8 @@ public final class Main {
     grammarMenu.add(checkAction);
     JCheckBoxMenuItem item = new JCheckBoxMenuItem(autoCheckAction);
     grammarMenu.add(item);
+    JCheckBoxMenuItem showResult = new JCheckBoxMenuItem(showResultAction);
+    grammarMenu.add(showResult);
     grammarMenu.add(new CheckClipboardAction());
     grammarMenu.add(new TagTextAction());
     grammarMenu.add(new AddRulesAction());
@@ -517,13 +589,34 @@ public final class Main {
     return menuBar;
   }
 
+  private void updateRecentFilesMenu() {
+    recentFilesMenu.removeAll();
+    String[] files = recentFiles.toArray(new String[recentFiles.size()]);
+    ArrayUtils.reverse(files);
+    for(String filename : files) {
+      recentFilesMenu.add(new RecentFileAction(new File(filename)));
+    }
+  }
+
+  private void loadRecentFiles() {
+    CircularFifoQueue<String> l = localStorage.loadProperty("recentFiles", CircularFifoQueue.class);
+    if(l != null) {
+      for(String name : l) {
+        File f = new File(name);
+        if(f.exists() && f.isFile()) {
+          recentFiles.add(name);
+        }
+      }
+    }
+  }
+
   private void addLookAndFeelMenuItem(JMenu lafMenu,
         UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)
   {
     JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
     lafMenu.add(lfItem);
     buttonGroup.add(lfItem);
-    if (laf.getName().equals(UIManager.getLookAndFeel().getName())) {
+    if (laf.getClassName().equals(UIManager.getLookAndFeel().getClass().getName())) {
       buttonGroup.setSelected(lfItem.getModel(), true);
     }
   }
@@ -560,41 +653,41 @@ public final class Main {
   }
 
   private PopupMenu makePopupMenu() {
-    final PopupMenu popup = new PopupMenu();
-    final ActionListener rmbListener = new TrayActionRMBListener();
+    PopupMenu popup = new PopupMenu();
+    ActionListener rmbListener = new TrayActionRMBListener();
     // Enable or disable embedded HTTP server:
     enableHttpServerItem = new CheckboxMenuItem(Tools.getLabel(messages.getString("tray_menu_enable_server")));
     enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
     enableHttpServerItem.addItemListener(new TrayActionItemListener());
     popup.add(enableHttpServerItem);
     // Check clipboard text:
-    final MenuItem checkClipboardItem =
+    MenuItem checkClipboardItem =
             new MenuItem(Tools.getLabel(messages.getString("guiMenuCheckClipboard")));
     checkClipboardItem.addActionListener(rmbListener);
     popup.add(checkClipboardItem);
     // Open main window:
-    final MenuItem restoreItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuShowMainWindow")));
+    MenuItem restoreItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuShowMainWindow")));
     restoreItem.addActionListener(rmbListener);
     popup.add(restoreItem);
     // Exit:
-    final MenuItem exitItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuQuit")));
+    MenuItem exitItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuQuit")));
     exitItem.addActionListener(rmbListener);
     popup.add(exitItem);
     return popup;
   }
 
   private void checkClipboardText() {
-    final String s = getClipboardText();
+    String s = getClipboardText();
     textArea.setText(s);
   }
 
   private void hideToTray() {
     if (!isInTray) {
-      final SystemTray tray = SystemTray.getSystemTray();
-      final String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
-      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
-      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
-      final PopupMenu popup = makePopupMenu();
+      SystemTray tray = SystemTray.getSystemTray();
+      String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
+      URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
+      PopupMenu popup = makePopupMenu();
       try {
         trayIcon = new TrayIcon(img, TRAY_TOOLTIP, popup);
         trayIcon.addMouseListener(new TrayActionListener());
@@ -643,6 +736,20 @@ public final class Main {
     } catch (IOException e) {
       Tools.showError(e);
     }
+
+    MainWindowStateBean bean = new MainWindowStateBean();
+    bean.setBounds(ResizeComponentListener.getBoundsProperty(frame));
+    bean.setState(frame.getExtendedState());
+    Component comp = mainPanel.getComponent(0);
+    if(comp instanceof JSplitPane) {
+      bean.setDividerLocation(((JSplitPane)comp).getDividerLocation());
+    } else {
+      MainWindowStateBean old = 
+        localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+      bean.setDividerLocation(old.getDividerLocation());
+    }
+    localStorage.saveProperty("gui.state", bean);
+
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
     System.exit(0);
@@ -650,10 +757,10 @@ public final class Main {
 
   private void setTrayIcon() {
     if (trayIcon != null) {
-      final SystemTray tray = SystemTray.getSystemTray();
-      final boolean httpServerRunning = httpServer != null && httpServer.isRunning();
-      final boolean smallTray = tray.getTrayIconSize().height <= 16;
-      final String iconPath;
+      SystemTray tray = SystemTray.getSystemTray();
+      boolean httpServerRunning = httpServer != null && httpServer.isRunning();
+      boolean smallTray = tray.getTrayIconSize().height <= 16;
+      String iconPath;
       if (httpServerRunning) {
         trayIcon.setToolTip(messages.getString("tray_tooltip_server_running"));
         iconPath = smallTray ? TRAY_SMALL_SERVER_ICON : TRAY_SERVER_ICON;
@@ -661,8 +768,8 @@ public final class Main {
         trayIcon.setToolTip(TRAY_TOOLTIP);
         iconPath = smallTray ? TRAY_SMALL_ICON : TRAY_ICON;
       }
-      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
-      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
+      URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
       trayIcon.setImage(img);
     }
   }
@@ -677,7 +784,7 @@ public final class Main {
 
   // show GUI and check the text from clipboard/selection:
   private void restoreFromTrayAndCheck() {
-    final String s = getClipboardText();
+    String s = getClipboardText();
     restoreFromTray();
     textArea.setText(s);
   }
@@ -689,11 +796,11 @@ public final class Main {
       clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     }
     String s;
-    final Transferable data = clipboard.getContents(this);
+    Transferable data = clipboard.getContents(this);
     try {
       if (data != null
-          && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
-        final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
+              && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
+        DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
         try (Reader sr = df.getReaderForText(data)) {
           s = StringTools.readerToString(sr);
         }
@@ -710,7 +817,7 @@ public final class Main {
     Configuration config = ltSupport.getConfig();
     if (config.getRunServer()) {
       try {
-        final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+        HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {
@@ -745,8 +852,8 @@ public final class Main {
 
   private String getStackTraceAsHtml(Exception e) {
     return "<br><br><b><font color=\"red\">"
-         + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
-         + "</font></b><br>";
+            + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
+            + "</font></b><br>";
   }
 
   private void setWaitCursor() {
@@ -774,10 +881,10 @@ public final class Main {
       sb.append("<tr>");
       sb.append("<td bgcolor=\"");
       if(odd) {
-          sb.append("#ffffff");
+        sb.append("#ffffff");
       }
       else {
-          sb.append("#f1f1f1");
+        sb.append("#f1f1f1");
       }
       sb.append("\">");
       if(!t.isWhitespace()) {
@@ -788,8 +895,8 @@ public final class Main {
       }
       Iterator<AnalyzedToken> iterator = t.iterator();
       while (iterator.hasNext()) {
-        final AnalyzedToken token = iterator.next();
-        final String posTag = token.getPOSTag();
+        AnalyzedToken token = iterator.next();
+        String posTag = token.getPOSTag();
         if (t.isSentenceStart()) {
           sb.append(StringTools.escapeHTML("<S>"));
         } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
@@ -798,12 +905,12 @@ public final class Main {
           sb.append(StringTools.escapeHTML("<P/>"));
         } else {
           if (!t.isWhitespace()) {
-            sb.append(token);
-            if (iterator.hasNext()) {
-              sb.append(", ");
-            }
+          sb.append(token);
+          if (iterator.hasNext()) {
+            sb.append(", ");
           }
         }
+      }
       }
       if (!t.isWhitespace()) {
         if (t.getChunkTags().size() > 0) {
@@ -820,10 +927,10 @@ public final class Main {
       sb.append("</td>");
       sb.append("<td bgcolor=\"");
       if(odd) {
-          sb.append("#ffffff");
+        sb.append("#ffffff");
       }
       else {
-          sb.append("#f1f1f1");
+        sb.append("#f1f1f1");
       }
       sb.append("\">");
       if (!"".equals(t.getHistoricalAnnotations())) {
@@ -837,10 +944,10 @@ public final class Main {
   }
 
   private void tagTextAndDisplayResults() {
-    final JLanguageTool langTool = ltSupport.getLanguageTool();
+    JLanguageTool langTool = ltSupport.getLanguageTool();
     // tag text
-    final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
-    final StringBuilder sb = new StringBuilder();
+    List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+    StringBuilder sb = new StringBuilder();
     if(taggerShowsDisambigLog) {
       sb.append("<table>");
       sb.append("<tr>");
@@ -854,7 +961,7 @@ public final class Main {
       boolean odd = true;
       try {
         for (String sent : sentences) {
-          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
           odd = appendTagsWithDisambigLog(sb, analyzed, odd);
         }
       } catch (Exception e) {
@@ -864,11 +971,11 @@ public final class Main {
     } else {
       try {
         for (String sent : sentences) {
-          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
-          final String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
-                replace("&lt;S&gt;", "&lt;S&gt;<br>").
-                replace("[", "<font color='" + TAG_COLOR + "'>[").
-                replace("]", "]</font><br>");
+          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
+                  replace("&lt;S&gt;", "&lt;S&gt;<br>").
+                  replace("[", "<font color='" + TAG_COLOR + "'>[").
+                  replace("]", "]</font><br>");
           sb.append(analyzedString).append('\n');
         }
       } catch (Exception e) {
@@ -915,8 +1022,8 @@ public final class Main {
                   new JCheckBox(messages.getString("ShowDisambiguatorLog"));
           showDisAmbig.setSelected(taggerShowsDisambigLog);
           showDisAmbig.addItemListener((ItemEvent e) -> {
-              taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
-              ltSupport.getConfig().setTaggerShowsDisambigLog(taggerShowsDisambigLog);
+            taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
+            ltSupport.getConfig().setTaggerShowsDisambigLog(taggerShowsDisambigLog);
           });
           panel.add(showDisAmbig,c);
           c.gridx = 1;
@@ -927,7 +1034,7 @@ public final class Main {
         }
         // orientation each time should be set as language may is changed
         taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
-          ((Language) languageBox.getSelectedItem()).getLocale()));
+                languageBox.getSelectedLanguage().getLocale()));
 
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
@@ -935,15 +1042,44 @@ public final class Main {
     });
   }
 
+  private void setResultAreaVisible(boolean enable) {
+    if (enable) {
+      this.mainPanel.removeAll();
+      mainPanel.add(this.splitPane);
+      splitPane.setTopComponent(new JScrollPane(textArea));
+      splitPane.setDividerLocation(200);
+      MainWindowStateBean state
+              = localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+      if (state != null && state.getDividerLocation() != null) {
+        splitPane.setDividerLocation(state.getDividerLocation());
+      }
+      ResultAreaHelper.enable(resultArea);
+    } else {
+      MainWindowStateBean bean = new MainWindowStateBean();
+      bean.setDividerLocation(splitPane.getDividerLocation());
+      localStorage.saveProperty("gui.state", bean);
+      this.mainPanel.removeAll();
+      splitPane.setTopComponent(null);
+      mainPanel.add(new JScrollPane(textArea));
+      ResultAreaHelper.disable(resultArea);
+    }
+    mainPanel.validate();
+  }
+
   private void setTrayMode(boolean trayMode) {
     this.closeHidesToTray = trayMode;
   }
 
-  public static void main(final String[] args) {
+  public static void main(String[] args) {
     if (System.getSecurityManager() == null) {
       JnaTools.setBugWorkaroundProperty();
     }
-    final Main prg = new Main();
+    LocalStorage localStorage = new LocalStorage();
+    LocaleBean bean = localStorage.loadProperty("gui.locale", LocaleBean.class);
+    if(bean != null) {
+      Locale.setDefault(bean.asLocale());
+    }
+    Main prg = new Main(localStorage);
     if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
       // dock to systray on startup
       SwingUtilities.invokeLater(new Runnable() {
@@ -978,6 +1114,7 @@ public final class Main {
       });
     } else {
       printUsage();
+      System.exit(1);
     }
   }
 
@@ -989,12 +1126,7 @@ public final class Main {
     System.out.println("    file:       a plain text file to load on startup");
   }
 
-  private class ControlReturnTextCheckingListener implements KeyListener {
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {}
+  private class ControlReturnTextCheckingListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -1015,10 +1147,10 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final Configuration config = ltSupport.getConfig();
+        Configuration config = ltSupport.getConfig();
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
-          final boolean serverStarted = maybeStartServer();
+          boolean serverStarted = maybeStartServer();
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
           config.saveConfiguration(ltSupport.getLanguage());
@@ -1045,7 +1177,7 @@ public final class Main {
         quit();
       } else {
         JOptionPane.showMessageDialog(null, "Unknown action: "
-            + e.getActionCommand(), "Error", JOptionPane.ERROR_MESSAGE);
+                + e.getActionCommand(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
 
@@ -1055,7 +1187,7 @@ public final class Main {
 
   }
 
-  class TrayActionListener implements MouseListener {
+  class TrayActionListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
@@ -1069,44 +1201,22 @@ public final class Main {
       }
     }
 
-    @Override
-    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {}
-    @Override
-    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
-
   }
 
-  class CloseListener implements WindowListener {
+  class CloseListener extends WindowAdapter {
 
     @Override
     public void windowClosing(@SuppressWarnings("unused")WindowEvent e) {
       quitOrHide();
     }
 
-    @Override
-    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
-
   }
 
   static class PlainTextFileFilter extends FileFilter {
 
     @Override
-    public boolean accept(final File f) {
-      final boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
+    public boolean accept(File f) {
+      boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
       return isTextFile || f.isDirectory();
     }
 
@@ -1375,10 +1485,66 @@ public final class Main {
     }
   }
 
+  class RecentFileAction extends AbstractAction {
+
+    private final File file;
+
+    RecentFileAction(File file) {
+      super(file.getName());
+      this.file = file;
+      putValue(Action.SHORT_DESCRIPTION, file.getAbsolutePath());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if(file.exists()) {
+        loadFile(file);
+      } else {
+        JOptionPane.showMessageDialog(frame, messages.getString("guiFileNotFound"),
+                messages.getString("dialogTitleError"), JOptionPane.ERROR_MESSAGE);
+        recentFiles.remove(file.getAbsolutePath());
+        updateRecentFilesMenu();
+      }
+    }
+  }
+
+  class ShowResultAction extends AbstractAction {
+
+    private boolean enable;
+
+    ShowResultAction(boolean initial) {
+      super(getLabel("guiShowResultArea"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiShowResultArea"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("guiShowResultArea"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiShowResultArea"));
+      enable = initial;
+      putValue(Action.SELECTED_KEY, enable);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      enable = !enable;
+      putValue(Action.SELECTED_KEY, enable);
+      setResultAreaVisible(enable);
+    }
+  }
+
   private ImageIcon getImageIcon(String filename) {
     Image image = Toolkit.getDefaultToolkit().getImage(
             JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename));
     return new ImageIcon(image);
   }
 
+  private ConfigurationDialog getCurrentConfigDialog() {
+    Language language = ltSupport.getLanguage();
+    ConfigurationDialog configDialog;
+    if (configDialogs.containsKey(language)) {
+      configDialog = configDialogs.get(language);
+    } else {
+      configDialog = new ConfigurationDialog(frame, false, ltSupport.getConfig());
+      configDialog.addExtraPanel(new GuiLangConfigPanel(messages, localStorage));
+      configDialogs.put(language, configDialog);
+    }
+    return configDialog;
+  }
 }

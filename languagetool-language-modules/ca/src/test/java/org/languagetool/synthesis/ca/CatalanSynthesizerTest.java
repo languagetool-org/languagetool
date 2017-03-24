@@ -19,17 +19,19 @@
 
 package org.languagetool.synthesis.ca;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
-
-public class CatalanSynthesizerTest extends TestCase {
+public class CatalanSynthesizerTest {
 
   private final CatalanSynthesizer synth = new CatalanSynthesizer();
 
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
 

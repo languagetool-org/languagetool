@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -38,6 +39,8 @@ public class HTTPServerConfig {
 
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
+  
+  static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -54,6 +57,8 @@ public class HTTPServerConfig {
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
+  protected int cacheSize = 0;
+  protected boolean warmUp = false;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -86,7 +91,7 @@ public class HTTPServerConfig {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
           break;
         case "-p":
         case "--port":
@@ -101,14 +106,20 @@ public class HTTPServerConfig {
           break;
         case "--allow-origin":
           allowOriginUrl = args[++i];
+          if (allowOriginUrl.startsWith("--")) {
+            throw new IllegalArgumentException("Missing argument for '--allow-origin'");
+          }
+          break;
+        case LANGUAGE_MODEL_OPTION:
+          setLanguageModelDirectory(args[++i]);
           break;
       }
     }
   }
 
-  private void parseConfigFile(File file) {
+  private void parseConfigFile(File file, boolean loadLangModel) {
     try {
-      final Properties props = new Properties();
+      Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
@@ -117,20 +128,21 @@ public class HTTPServerConfig {
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
+        if (maxWorkQueueSize < 0) {
+          throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
-        if (langModel != null) {
-          languageModelDir = new File(langModel);
-          if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
-            throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
-          }
+        if (langModel != null && loadLangModel) {
+          setLanguageModelDirectory(langModel);
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
-          throw new IllegalArgumentException("Invalid value for maxCheckThreads: " + maxCheckThreads);
+          throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
-          atdLanguage = Languages.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
+          System.out.println("WARNING: The AfterTheDeadline mode has been deprecated and will be removed in the next version of LanguageTool");
+          atdLanguage = Languages.getLanguageForShortCode(getProperty(props, "afterTheDeadlineLanguage", file));
         }
         String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
         if (rulesConfigFilePath != null) {
@@ -139,9 +151,28 @@ public class HTTPServerConfig {
             throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
           }
         }
+        cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
+        if (cacheSize < 0) {
+          throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
+        }
+        String warmUpStr = getOptionalProperty(props, "warmUp", "false");
+        if (warmUpStr.equals("true")) {
+          warmUp = true;
+        } else if (warmUpStr.equals("false")) {
+          warmUp = false;
+        } else {
+          throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
+    }
+  }
+
+  private void setLanguageModelDirectory(String langModelDir) {
+    languageModelDir = new File(langModelDir);
+    if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
+      throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
     }
   }
 
@@ -161,7 +192,9 @@ public class HTTPServerConfig {
   }
 
   /**
-   * URL of server whose visitors may request data via Ajax, or {@code *} (= anyone) or {@code null} (= no support for CORS).
+   * Value to set as the "Access-Control-Allow-Origin" http header. {@code null}
+   * will not return that header at all. With {@code *} your server can be used from any other web site
+   * from Javascript/Ajax (search Cross-origin resource sharing (CORS) for details).
    */
   @Nullable
   public String getAllowOriginUrl() {
@@ -239,7 +272,12 @@ public class HTTPServerConfig {
     return maxCheckThreads;
   }
 
-  /** @since 2.8 */
+  /**
+   * Set to {@code true} if this is running behind a (reverse) proxy which
+   * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
+   * in that header will then be used for enforcing a request limitation.
+   * @since 2.8
+   */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
   }
@@ -252,6 +290,16 @@ public class HTTPServerConfig {
   /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
+  }
+
+  /** @since 3.7 */
+  int getCacheSize() {
+    return cacheSize;
+  }
+
+  /** @since 3.7 */
+  boolean getWarmUp() {
+    return warmUp;
   }
 
   /**
@@ -267,7 +315,7 @@ public class HTTPServerConfig {
    * @throws IllegalConfigurationException if property is not set 
    */
   protected String getProperty(Properties props, String propertyName, File config) {
-    final String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
       throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
@@ -275,7 +323,7 @@ public class HTTPServerConfig {
   }
 
   protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    final String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null) {
       return defaultValue;
     }

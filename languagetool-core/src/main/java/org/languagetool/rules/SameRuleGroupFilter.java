@@ -25,7 +25,6 @@ import java.util.List;
 /**
  * Filter rule matches so that only the first match is kept from overlapping
  * matches with the same rule group (actually: the same id).
- *
  * @since 1.8
  */
 public class SameRuleGroupFilter implements RuleMatchFilter {
@@ -36,10 +35,10 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);
-    final List<RuleMatch> filteredRules = new ArrayList<>();
+    List<RuleMatch> filteredRules = new ArrayList<>();
     for (int i = 0; i < ruleMatches.size(); i++) {
-      final RuleMatch match = ruleMatches.get(i);
-      while (i <  ruleMatches.size() - 1 && overlapAndMatch(match, ruleMatches.get(i + 1))) {
+      RuleMatch match = ruleMatches.get(i);
+      while (i < ruleMatches.size() - 1 && overlapAndMatch(match, ruleMatches.get(i + 1))) {
         i++;  // skip next match
       }
       filteredRules.add(match);
@@ -47,7 +46,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
     return filteredRules;
   }
 
-  private boolean overlapAndMatch(final RuleMatch match, RuleMatch nextMatch) {
+  private boolean overlapAndMatch(RuleMatch match, RuleMatch nextMatch) {
     return overlaps(match, nextMatch) && haveSameRuleGroup(match, nextMatch);
   }
 
@@ -59,7 +58,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
   }
 
   private boolean haveSameRuleGroup(RuleMatch match, RuleMatch nextMatch) {
-    final String id1 = match.getRule().getId();
+    String id1 = match.getRule().getId();
     return id1 != null && id1.equals(nextMatch.getRule().getId());
   }
 

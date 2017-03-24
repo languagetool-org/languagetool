@@ -18,19 +18,22 @@
  */
 package org.languagetool.rules.fr;
 
-import junit.framework.TestCase;
-  import org.languagetool.JLanguageTool;
-  import org.languagetool.TestTools;
-  import org.languagetool.language.French;
-  import org.languagetool.rules.RuleMatch;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.French;
+import org.languagetool.rules.RuleMatch;
 
-  import java.io.IOException;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Marcin Miłkowski
  */
-public class QuestionWhitespaceRuleTest extends TestCase {
+public class QuestionWhitespaceRuleTest {
 
+    @Test
     public final void testRule() throws IOException {
       QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages());
       RuleMatch[] matches;

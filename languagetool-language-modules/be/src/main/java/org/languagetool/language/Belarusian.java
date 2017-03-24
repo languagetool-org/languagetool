@@ -35,7 +35,9 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  * Belarusian language declarations.
  *
  * Copyright (C) 2010 Alex Buloichik (alex73mail@gmail.com)
+ * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
+@Deprecated
 public class Belarusian extends Language {
 
   private Tagger tagger;
@@ -47,7 +49,7 @@ public class Belarusian extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "be";
   }
 

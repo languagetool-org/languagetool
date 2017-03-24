@@ -166,7 +166,7 @@ public class PolishWordTokenizer extends WordTokenizer {
         l.add(token);
       }
     }
-    return joinUrls(l);
+    return joinEMailsAndUrls(l);
   }
 
   /**

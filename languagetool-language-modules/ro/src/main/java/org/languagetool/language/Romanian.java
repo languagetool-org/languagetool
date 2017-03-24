@@ -59,7 +59,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "ro";
   }
 

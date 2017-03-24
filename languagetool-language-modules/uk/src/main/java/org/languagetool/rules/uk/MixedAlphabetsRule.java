@@ -20,13 +20,13 @@ package org.languagetool.rules.uk;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
@@ -42,12 +42,12 @@ public class MixedAlphabetsRule extends Rule {
 
   private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
   private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
-  private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
-  private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
-  private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
+  private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]).*");
+  private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзийїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
+  private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrstvzDFGJLNQRSUVZ].*");
   private static final Pattern COMMON_CYR_LETTERS = Pattern.compile("[АВЕІКОРСТУХ]+");
 
-  public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
+  public MixedAlphabetsRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -80,7 +80,7 @@ public class MixedAlphabetsRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
@@ -108,7 +108,7 @@ public class MixedAlphabetsRule extends Rule {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
-        String msg = "Вжито кирилічні літери замість латинських на позначення латинської цифри";
+        String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
         ruleMatches.add(potentialRuleMatch);
       }
@@ -122,6 +122,13 @@ public class MixedAlphabetsRule extends Rule {
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
           ruleMatches.add(potentialRuleMatch);
         }
+      }
+      else if( i>1 && i<tokens.length-1
+          && tokenString.equals("i")
+          && tokens[i+1].getToken().matches("[а-яіїєґА-ЯІЇЄҐ].*") ) {
+        String msg = "Вжито латинську і замість кирилічної";
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg);
+        ruleMatches.add(potentialRuleMatch);
       }
       else if( tokenString.endsWith("°С") ) {  // cyrillic С
         List<String> replacements = new ArrayList<>();
@@ -139,7 +146,7 @@ public class MixedAlphabetsRule extends Rule {
   
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements) {
     String tokenString = readings.getToken();
-    String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
+    String msg = tokenString + getSuggestion(tokenString) + String.join(", ", replacements);
     
     return createRuleMatch(readings, replacements, msg);
   }
@@ -157,8 +164,10 @@ public class MixedAlphabetsRule extends Rule {
 
   private static final Map<Character, Character> toLatMap = new HashMap<>();
   private static final Map<Character, Character> toCyrMap = new HashMap<>();
-  private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
-  private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
+  private static final String cyrChars = "аеіїкморстухАВЕІКМНОРСТУХ";
+  private static final String latChars = "aeiïkmopctyxABEIKMHOPCTYX";
+  private static final String[] umlauts = { "á", "Á", "é", "É", "í", "Í", "ḯ", "Ḯ", "ó", "Ó", "ú", "ý", "Ý" };
+  private static final String[] umlautsReplace = { "а́", "А́", "е́", "Е́", "і́", "І́", "ї́", "Ї́", "о́", "О́", "и́", "у́", "У́" };
 
   static {
     for (int i = 0; i < cyrChars.length(); i++) {
@@ -170,6 +179,9 @@ public class MixedAlphabetsRule extends Rule {
   private static String toCyrillic(String word) {
     for (Map.Entry<Character, Character> entry : toCyrMap.entrySet()) {
       word = word.replace(entry.getKey(), entry.getValue());
+    }
+    for(int i=0; i<umlauts.length; i++) {
+      word = word.replace(umlauts[i], umlautsReplace[i]);
     }
     return word;
   }

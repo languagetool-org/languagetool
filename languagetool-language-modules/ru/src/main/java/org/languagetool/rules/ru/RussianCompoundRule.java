@@ -39,7 +39,7 @@ public class RussianCompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/ru/compounds.txt");
 
-  public RussianCompoundRule(final ResourceBundle messages) throws IOException {
+  public RussianCompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Эти слова должны быть написаны через дефис.",
             "Эти слова должны быть написаны слитно.",

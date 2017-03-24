@@ -18,18 +18,21 @@
  */
 package org.languagetool.rules.km;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Nathan Wells
  */
-public class KhmerWordRepeatRuleTest extends TestCase {
+public class KhmerWordRepeatRuleTest {
 
+  @Test
   public void testWordRepeatRule() throws IOException {
     final Khmer language = new Khmer();
     KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), language);

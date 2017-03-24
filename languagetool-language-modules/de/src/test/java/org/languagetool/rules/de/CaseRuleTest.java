@@ -18,30 +18,34 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 
-public class CaseRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+
+public class CaseRuleTest {
 
   private CaseRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
-    rule = new CaseRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
+    rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
+    lt = new JLanguageTool(new GermanyGerman());
   }
 
+  @Test
   public void testRuleActivation() throws IOException {
-    assertTrue(rule.supportsLanguage(new German()));
+    assertTrue(rule.supportsLanguage(new GermanyGerman()));
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -74,15 +78,37 @@ public class CaseRuleTest extends TestCase {
     assertGood("Wenn er mich das rechtzeitig wissen lässt, gerne.");
     assertGood("Und sein völlig aufgewühltes Inneres erzählte von den Geschehnissen.");
     assertGood("Aber sein aufgewühltes Inneres erzählte von den Geschehnissen.");
-    // assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen."); TODO: 'Sein' is mistagged
+    assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen.");
     assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
     assertGood("Ein Kaninchen, das zaubern kann.");
     assertGood("Keine Ahnung, wie ich das prüfen sollte.");
     assertGood("Und dann noch Strafrechtsdogmatikerinnen.");
+    assertGood("Er kann ihr das bieten, was sie verdient.");
+    assertGood("Das fragen sich mittlerweile viele.");
+    assertGood("Ich habe gehofft, dass du das sagen würdest.");
+    assertGood("Eigentlich hätte ich das wissen müssen.");
+    assertGood("Mir tut es wirklich leid, Ihnen das sagen zu müssen.");
+    assertGood("Der Wettkampf endete im Unentschieden.");
+    assertGood("Er versuchte, Neues zu tun.");
+    assertGood("Du musst das wissen, damit du die Prüfung bestehst");
+    assertGood("Er kann ihr das bieten, was sie verdient.");
+    assertGood("Er fragte, ob das gelingen wird.");
+    assertGood("Er mag Obst, wie zum Beispel Apfelsinen.");
+    assertGood("Er will die Ausgaben für Umweltschutz und Soziales kürzen.");
+    assertGood("Die Musicalverfilmung „Die Schöne und das Biest“ bricht mehrere Rekorde.");
+    assertGood("Joachim Sauer lobte Johannes Rau.");
+    assertGood("Im Falle des Menschen ist dessen wirkendes Wollen gegeben.");
+    assertGood("Szenario: 1) Zwei Galaxien verschmelzen."); // should be accepted by isNumbering
 
+    assertBad("Dann will sie mit London Über das Referendum verhandeln.");
+    assertBad("Sie kann sich täglich Über vieles freuen.");
+    assertBad("Der Vater (51) Fuhr nach Rom.");
+    assertBad("Er müsse Überlegen, wie er das Problem löst.");
+    assertBad("Er sagte, dass er Über einen Stein stolperte.");
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
     assertBad("Tom kann mit fast Allem umgehen.");
+    assertBad("Dabei Übersah er sie.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
@@ -94,6 +120,9 @@ public class CaseRuleTest extends TestCase {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
+
+    assertGood("Anders als physikalische Konstanten werden mathematische Konstanten unabhängig von jedem physikalischen Maß definiert.");
+    assertGood("Eine besonders einfache Klasse bilden die polylogarithmischen Konstanten.");
     
     assertGood("Sie werden im Allgemeinen gefasst.");
     assertGood("Sie werden im allgemeinen Fall gefasst.");
@@ -112,14 +141,21 @@ public class CaseRuleTest extends TestCase {
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
-    
+
+    assertGood("Wacht auf, Verdammte dieser Welt!");
+    assertGood("Er sagt, dass Geistliche davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche Würdenträger davon betroffen sind.");
+    assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
+    assertBad("Er ist begeistert Von der Fülle.");
+    assertBad("Er wohnt Über einer Garage.");
+
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");
     assertGood("Der Lesestoff bestimmt die Leseweise.");
     assertGood("Ich habe nicht viel von einem Reisenden.");
     assertGood("Die Vereinigten Staaten");
+    assertGood("Der Satz vom ausgeschlossenen Dritten.");
     //TODO:
-    //assertGood("Der Satz vom ausgeschlossenen Dritten.");
     assertGood("Die Ausgewählten werden gut betreut.");
     assertGood("Die ausgewählten Leute werden gut betreut.");
     //assertBad("Die ausgewählten werden gut betreut.");
@@ -148,11 +184,11 @@ public class CaseRuleTest extends TestCase {
     assertBad("Ein Einfacher Satz zum Testen.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");
-    assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
-    //assertEquals(2, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
+    assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
+    //assertEquals(2, lt.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
 
-    assertEquals(0, langTool.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
-    //assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
+    assertEquals(0, lt.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
+    //assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
     //TODO: error not found:
     //assertBad("So schwer, dass selbst Er ihn nicht hochheben kann.");
 
@@ -169,17 +205,36 @@ public class CaseRuleTest extends TestCase {
     assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
     assertGood("Das Gebäude des Auswärtigen Amts.");
     assertGood("Das Gebäude des Auswärtigen Amtes.");
+    assertGood("   Im Folgenden beschreibe ich das Haus."); // triggers WHITESPACE_RULE, but should not trigger CASE_RULE (see github #258)
+    assertGood("\"Im Folgenden beschreibe ich das Haus.\""); //triggers TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN, but should not trigger CASE_RULE 
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
+    assertGood("Gestern habe ich 10 Spieße gegessen.");
+    assertGood("Die Verurteilten wurden mit dem Fallbeil enthauptet.");
+    assertGood("Den Begnadigten kam ihre Reue zugute.");
+    assertGood("Die Zahl Vier ist gerade.");
+    assertGood("Ich glaube, dass das geschehen wird.");
+    assertGood("Ich glaube, dass das geschehen könnte.");
+    assertGood("Ich glaube, dass mir das gefallen wird.");
+    assertGood("Ich glaube, dass mir das gefallen könnte.");
+    assertGood("Alldem wohnte etwas faszinierend Rätselhaftes inne.");
+    assertGood("Schau mich an, Kleine!");
+    assertGood("Schau mich an, Süßer!");
+    assertGood("Weißt du, in welchem Jahr das geschehen ist?");
+    assertGood("Das wissen viele nicht.");
+    assertBad("Das sagen haben hier viele.");
+    assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
+    assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
   }
 
   private void assertGood(String input) throws IOException {
-    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(langTool.getAnalyzedSentence(input)).length);
+    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(lt.getAnalyzedSentence(input)).length);
   }
 
   private void assertBad(String input) throws IOException {
-    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(langTool.getAnalyzedSentence(input)).length);
+    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(lt.getAnalyzedSentence(input)).length);
   }
 
+  @Test
   public void testSubstantivierteVerben() throws IOException {
     // correct sentences:
     assertGood("Das fahrende Auto.");
@@ -226,6 +281,7 @@ public class CaseRuleTest extends TestCase {
     // TODO: detect all the cases not preceded with 'das'
   }
 
+  @Test
   public void testPhraseExceptions() throws IOException {
     // correct sentences:
     assertGood("Das gilt ohne Wenn und Aber.");
@@ -241,15 +297,16 @@ public class CaseRuleTest extends TestCase {
     // error not found here as it's in the XML rules:
     //assertBad("Das gilt ohne wenn und aber.");
   }
-  
+
+  @Test
   public void testCompareLists() throws IOException {
-    AnalyzedSentence sentence1 = langTool.getAnalyzedSentence("Hier ein Test");
+    AnalyzedSentence sentence1 = lt.getAnalyzedSentence("Hier ein Test");
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new String[]{"Hier", "ein"}));
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new String[]{"", "Hier", "ein", "Test"}));
     assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "Hier", "ein", "Test"}));
 
-    AnalyzedSentence sentence2 = langTool.getAnalyzedSentence("das Heilige Römische Reich");
+    AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
     assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
     assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
   }

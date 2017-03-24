@@ -18,13 +18,16 @@
  */
 package org.languagetool.rules.patterns;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
 
-public class PatternRuleXmlCreatorTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class PatternRuleXmlCreatorTest {
+
+  @Test
   public void testToXML() throws IOException {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
@@ -42,6 +45,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
             "</rule>", xml);
   }
 
+  @Test
   public void testToXMLWithRuleGroup() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
@@ -53,6 +57,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<token>blah</token>"));
   }
 
+  @Test
   public void testToXMLWithRuleGroupAndSubId1() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "1");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
@@ -62,6 +67,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<message>This is a dummy message 1.</message>"));
   }
 
+  @Test
   public void testToXMLWithRuleGroupAndSubId2() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "2");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
@@ -71,6 +77,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
   }
 
+  @Test
   public void testToXMLWithAntiPattern() {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE_ANTIPATTERN");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
@@ -82,6 +89,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
             "  </antipattern>\n"));
   }
 
+  @Test
   public void testToXMLInvalidRuleId() {
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     PatternRuleId fakeRuleId = new PatternRuleId("FAKE_ID");

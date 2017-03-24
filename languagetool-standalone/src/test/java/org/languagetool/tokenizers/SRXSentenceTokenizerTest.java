@@ -18,24 +18,28 @@
  */
 package org.languagetool.tokenizers;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-public class SRXSentenceTokenizerTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+public class SRXSentenceTokenizerTest {
+
+  @Test
   public void testOfficeFootnoteTokenize() {
     int count = 0;
     for (Language language : Languages.get()) {
       if (language.getSentenceTokenizer().getClass() != SRXSentenceTokenizer.class) {
         continue;
       }
-      if (language.getShortName().equals("km") || language.getShortName().equals("ml")) {
+      if (language.getShortCode().equals("km") || language.getShortCode().equals("ml")) {
         // TODO: I don't know about these...
         continue;
       }
-      final String input = "A sentence.\u0002 And another one.";
-      final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
+      String input = "A sentence.\u0002 And another one.";
+      SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
       assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
               "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
       count++;

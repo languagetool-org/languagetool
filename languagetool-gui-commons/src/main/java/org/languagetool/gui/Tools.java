@@ -34,9 +34,10 @@ import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
@@ -57,7 +58,7 @@ public final class Tools {
    * Show a file chooser dialog and return the file selected by the user or
    * <code>null</code>.
    */
-  static File openFileDialog(final Frame frame, final FileFilter fileFilter) {
+  static File openFileDialog(Frame frame, FileFilter fileFilter) {
     return openFileDialog(frame, fileFilter, null);
   }
 
@@ -69,7 +70,7 @@ public final class Tools {
    * @return the selected file
    * @since 2.6
    */
-  static File openFileDialog(final Frame frame, final FileFilter fileFilter, final File initialDir) {
+  static File openFileDialog(Frame frame, FileFilter fileFilter, File initialDir) {
     return openFileDialog(frame, fileFilter, initialDir, JFileChooser.FILES_ONLY);
   }
 
@@ -84,8 +85,8 @@ public final class Tools {
     return openFileDialog(frame, null, initialDir, JFileChooser.DIRECTORIES_ONLY);
   }
 
-  private static File openFileDialog(final Frame frame, final FileFilter fileFilter, final File initialDir, int mode) {
-    final JFileChooser jfc = new JFileChooser();
+  private static File openFileDialog(Frame frame, FileFilter fileFilter, File initialDir, int mode) {
+    JFileChooser jfc = new JFileChooser();
     jfc.setFileSelectionMode(mode);
     jfc.setCurrentDirectory(initialDir);
     jfc.setFileFilter(fileFilter);
@@ -96,9 +97,9 @@ public final class Tools {
   /**
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
-  static void showError(final Exception e) {
+  static void showError(Exception e) {
     String stackTrace = org.languagetool.tools.Tools.getFullStackTrace(e);
-    final String msg = "<html><p style='width: 600px;'>" + StringTools.escapeHTML(stackTrace);
+    String msg = "<html><p style='width: 600px;'>" + StringTools.escapeHTML(stackTrace);
     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
@@ -107,8 +108,8 @@ public final class Tools {
    * Show the exception (message without stacktrace) in a dialog and print the
    * stacktrace to STDERR.
    */
-  static void showErrorMessage(final Exception e, final Component parent) {
-    final String msg = e.getMessage();
+  static void showErrorMessage(Exception e, Component parent) {
+    String msg = e.getMessage();
     JOptionPane.showMessageDialog(parent, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
@@ -117,7 +118,7 @@ public final class Tools {
    * Show the exception (message without stacktrace) in a dialog and print the
    * stacktrace to STDERR.
    */
-  static void showErrorMessage(final Exception e) {
+  static void showErrorMessage(Exception e) {
     showErrorMessage(e, null);
   }
 
@@ -126,7 +127,7 @@ public final class Tools {
    * That isn't really sensible, so we shorten the text here in order to preserve the important parts.
    */
   public static String shortenComment(String comment) {
-    final int maxCommentLength = 100;
+    int maxCommentLength = 100;
     String shortComment = comment;
     if (shortComment.length() > maxCommentLength) {
       // if there is text in brackets, drop it (beginning at the end)
@@ -155,7 +156,7 @@ public final class Tools {
    * @param label Label to convert.
    * @return String UI element string without mnemonics.
    */
-  public static String getLabel(final String label) {
+  public static String getLabel(String label) {
     return label.replaceAll("&([^&])", "$1").replaceAll("&&", "&");
   }
 
@@ -165,7 +166,7 @@ public final class Tools {
    * @param label String Label of the UI element
    * @return Mnemonic of the UI element, or {@code \u0000} in case of no mnemonic set.
    */
-  public static char getMnemonic(final String label) {
+  public static char getMnemonic(String label) {
     int mnemonicPos = label.indexOf('&');
     while (mnemonicPos != -1 && mnemonicPos == label.indexOf("&&")
             && mnemonicPos < label.length()) {
@@ -184,8 +185,8 @@ public final class Tools {
    * @since 2.6
    */
   public static void centerDialog(JDialog dialog) {
-    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    final Dimension frameSize = dialog.getSize();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
             screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
@@ -195,36 +196,28 @@ public final class Tools {
    * @since 3.3
    */
   public static void configureFromRules(JLanguageTool langTool, Configuration config) {
-    final Set<String> disabledRules = config.getDisabledRuleIds();
+    Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules != null) {
       for (String ruleId : disabledRules) {
         langTool.disableRule(ruleId);
       }
     }
-    final Set<String> disabledCategories = config.getDisabledCategoryNames();
+    Set<String> disabledCategories = config.getDisabledCategoryNames();
     if (disabledCategories != null) {
       for (String categoryName : disabledCategories) {
         langTool.disableCategory(categoryName);
       }
     }
-    final Set<String> enabledRules = config.getEnabledRuleIds();
+    Set<String> enabledRules = config.getEnabledRuleIds();
     if (enabledRules != null) {
       for (String ruleName : enabledRules) {
-        langTool.enableDefaultOffRule(ruleName);
         langTool.enableRule(ruleName);
       }
     }
   }
-
-  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
-    int dialogWidth = 320;
-    JTextPane textPane = new JTextPane();
-    textPane.setEditable(false);
-    textPane.setContentType("text/html");
-    textPane.setBorder(BorderFactory.createEmptyBorder());
-    textPane.setOpaque(false);
-    textPane.setBackground(new Color(0, 0, 0, 0));
-    textPane.addHyperlinkListener(new HyperlinkListener() {
+  
+  static void addHyperlinkListener(JTextPane pane) {
+    pane.addHyperlinkListener(new HyperlinkListener() {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -238,6 +231,17 @@ public final class Tools {
         }
       }
     });
+  }
+
+  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
+    int dialogWidth = 320;
+    JTextPane textPane = new JTextPane();
+    textPane.setEditable(false);
+    textPane.setContentType("text/html");
+    textPane.setBorder(BorderFactory.createEmptyBorder());
+    textPane.setOpaque(false);
+    textPane.setBackground(new Color(0, 0, 0, 0));
+    Tools.addHyperlinkListener(textPane);
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
     String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
     String exampleSentences = getExampleSentences(rule, messages);
@@ -271,15 +275,15 @@ public final class Tools {
 
   private static String getExampleSentences(Rule rule, ResourceBundle messages) {
     StringBuilder examples = new StringBuilder(200);
-    java.util.List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+    List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
       String incorrectExample = incorrectExamples.iterator().next().getExample();
       String sentence = incorrectExample.replace("<marker>", "<span style='background-color:#ff8080'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
     }
-    java.util.List<String> correctExamples = rule.getCorrectExamples();
+    List<CorrectExample> correctExamples = rule.getCorrectExamples();
     if (correctExamples.size() > 0) {
-      String correctExample = correctExamples.iterator().next();
+      String correctExample = correctExamples.iterator().next().getExample();
       String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
     } else if (incorrectExamples.size() > 0) {

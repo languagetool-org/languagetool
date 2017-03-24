@@ -23,16 +23,12 @@ import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -57,6 +53,7 @@ public class ConfusionProbabilityRuleTest {
       }
     };
     assertGood("Their are new ideas to explore.", ruleWithException);
+    assertMatch("İm dabei gut auszusehen.");  // bug with the special char 'İ' which, when lowercased becomes  a regular 'i'
   }
 
   @Test
@@ -131,46 +128,6 @@ public class ConfusionProbabilityRuleTest {
 
   private void assertGood(String input) throws IOException {
     assertGood(input, rule);
-  }
-
-  static class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
-    static Map<String,Integer> map = new HashMap<>();
-    FakeLanguageModel() {
-      super(3);
-      // for "Their are new ideas to explore":
-      map.put("There are", 10);
-      map.put("There are new", 5);
-      map.put("Their are", 2);
-      map.put("Their are new", 1);
-      // for "Why is there car broken again?"
-      map.put("Why is", 50);
-      map.put("Why is there", 5);
-      map.put("Why is their", 5);
-      map.put("their car", 11);
-      map.put("their car broken", 2);
-    }
-    @Override
-    public void doValidateDirectory(File topIndexDir) {
-    }
-    @Override
-    public long getCount(List<String> tokens) {
-      Integer count = map.get(String.join(" ", tokens));
-      return count == null ? 0 : count;
-    }
-    @Override
-    public long getCount(String token1) {
-      return getCount(Arrays.asList(token1));
-    }
-    @Override
-    public long getTotalTokenCount() {
-      int sum = 0;
-      for (int val : map.values()) {
-        sum += val;
-      }
-      return sum;
-    }
-    @Override
-    public void close() {}
   }
 
   private static class FakeRule extends ConfusionProbabilityRule {

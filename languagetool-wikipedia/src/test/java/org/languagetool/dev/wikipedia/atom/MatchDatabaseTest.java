@@ -22,20 +22,21 @@ import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 
 import java.sql.SQLException;
 import java.util.Date;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class MatchDatabaseTest {
   
   @Test
   public void test() throws SQLException, ClassNotFoundException {
-    Language language = Languages.getLanguageForShortName("de");
+    Language language = Languages.getLanguageForShortCode("de");
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
     database.dropTables();
     database.createTables();
@@ -43,7 +44,7 @@ public class MatchDatabaseTest {
     assertThat(database.list().size(), is(0));
     assertThat(database.getCheckDates().size(), is(0));
     FakeRule rule1 = new FakeRule(1);
-    rule1.setCategory(new Category("My Category"));
+    rule1.setCategory(new Category(new CategoryId("TEST_ID"), "My Category"));
     RuleMatch ruleMatch = new RuleMatch(rule1, 5, 10, "my message");
     AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);

@@ -18,9 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.*;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
@@ -65,8 +63,11 @@ final class PerformanceTest {
     PerformanceTest test = new PerformanceTest();
     String languageCode = args[0];
     File textFile = new File(args[1]);
-    //JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(languageCode));
-    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortName(languageCode));
+    //ResultCache cache = new ResultCache(1000, 5, TimeUnit.MINUTES);
+    //JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(languageCode));
+    //JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
+    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode));
+    //MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
     test.run(langTool, textFile);
     langTool.shutdown();
   }

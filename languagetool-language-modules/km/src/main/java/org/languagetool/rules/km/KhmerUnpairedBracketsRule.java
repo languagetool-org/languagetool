@@ -30,7 +30,7 @@ public class KhmerUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final List<String> KM_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'", "«");
   private static final List<String> KM_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'", "»");
   
-  public KhmerUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
+  public KhmerUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, KM_START_SYMBOLS, KM_END_SYMBOLS);
   }
 

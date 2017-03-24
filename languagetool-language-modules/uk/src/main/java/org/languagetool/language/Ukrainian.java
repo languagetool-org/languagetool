@@ -30,6 +30,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
@@ -38,6 +39,8 @@ import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
 import org.languagetool.rules.uk.TokenAgreementRule;
+import org.languagetool.rules.uk.TokenInflectionAgreementRule;
+import org.languagetool.rules.uk.TokenVerbAgreementRule;
 import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -74,7 +77,7 @@ public class Ukrainian extends Language {
 
   @Override
   public Locale getLocale() {
-    return new Locale(getShortName());
+    return new Locale(getShortCode());
   }
 
   @Override
@@ -83,7 +86,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "uk";
   }
 
@@ -143,19 +146,28 @@ public class Ukrainian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        new CommaWhitespaceRule(messages),
-        // TODO: does not handle !.. and ?..
-        //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this),
-        new MixedAlphabetsRule(messages),
+        new CommaWhitespaceRule(messages,
+            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
+            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
+
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
         //            new UppercaseSentenceStartRule(messages),
         new MultipleWhitespaceRule(messages, this),
         new UkrainianWordRepeatRule(messages, this),
-        // specific to Ukrainian:
+
+        // TODO: does not handle !.. and ?..
+        //            new DoublePunctuationRule(messages),
+        new MorfologikUkrainianSpellerRule(messages, this),
+
+        new TokenVerbAgreementRule(messages),
+        new TokenInflectionAgreementRule(messages),
+        new TokenAgreementRule(messages),
+
+        new MixedAlphabetsRule(messages),
+
         new SimpleReplaceRule(messages),
         new SimpleReplaceSoftRule(messages),
-        new TokenAgreementRule(messages),
+
         new HiddenCharacterRule(messages)
     );
   }
@@ -164,7 +176,7 @@ public class Ukrainian extends Language {
   public List<String> getRuleFileNames() {
     List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortCode() + "/";
     for (String ruleFile : RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
     }

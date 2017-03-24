@@ -18,7 +18,10 @@
  */
 package org.languagetool.commandline;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,7 +34,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -50,15 +53,14 @@ public class MainTest extends AbstractSecurityTestCase {
   private PrintStream stdout;
   private PrintStream stderr;
 
-  public MainTest(String testName) throws IOException {
-    super(testName);
+  public MainTest() throws IOException {
     enTestFile = writeToTempFile("This is an test.\n\n" +
         "This is a test of of language tool.\n\n" +
         "This is is a test of language tool.");
     xxRuleFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<rules lang=\"en\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
         "xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
-             "<category name=\"trivial category\">\n" +
+             "<category id=\"CAT1\" name=\"trivial category\">\n" +
         "<rule id=\"EXAMPLE_RULE\" name=\"External rule to test\">\n" +
             "<pattern><token>language</token><token>tool</token></pattern>\n" +
             "<message>This is wrong!</message>\n" +
@@ -85,7 +87,7 @@ public class MainTest extends AbstractSecurityTestCase {
         "    ");
     bitextFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<rules targetLang=\"pl\" xsi:noNamespaceSchemaLocation=\"../bitext.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
-        "<category name=\"idioms\">\n" +
+        "<category id=\"CAT1\" name=\"idioms\">\n" +
         "<rule lang=\"pl\" id=\"red_herring\" name=\"Red herring -> odwraca uwagę\">\n" +
         "<pattern>\n" +
         "\t<source lang=\"en\">\n" +
@@ -109,7 +111,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   }
 
-  @Override
+  @Before
   public void setUp() throws Exception {
     super.setUp();
     this.stdout = System.out;
@@ -120,32 +122,34 @@ public class MainTest extends AbstractSecurityTestCase {
     System.setErr(new PrintStream(this.err));
   }
 
-  @Override
+  @After
   public void tearDown() throws Exception {
-    super.tearDown();
     System.setOut(this.stdout);
     System.setErr(this.stderr);
+    super.tearDown();
   }
 
+  @Test
   public void testUsageMessage() throws Exception {
     try {
-      final String[] args = {"-h"};
+      String[] args = {"-h"};
       Main.main(args);
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
-      final String output = new String(this.out.toByteArray());
+      String output = new String(this.out.toByteArray());
       assertTrue(output.contains("Usage: java -jar languagetool-commandline.jar"));
       assertEquals("Exit status", 1, e.status);
     }
   }
 
+  @Test
   public void testPrintLanguages() throws Exception {
     try {
-      final String[] args = {"--list"};
+      String[] args = {"--list"};
       Main.main(args);
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
-      final String output = new String(this.out.toByteArray());
+      String output = new String(this.out.toByteArray());
       assertTrue(output.contains("German"));
       assertTrue(output.contains("de-DE"));
       assertTrue(output.contains("English"));
@@ -153,246 +157,271 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
 
+  @Test
   public void testFileWithExternalRule() throws Exception {
     //note: we pretend this is Breton because the English language tool is already initialized
-    final String[] args = {"-l", "br", "--rulefile", getRuleFilePath(), getTestFilePath()};
+    String[] args = {"-l", "br", "--rulefile", getRuleFilePath(), getTestFilePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Breton") == 0);
     assertTrue(stdout.contains("Rule ID: EXAMPLE_RULE"));
   }
 
+  @Test
   public void testEnglishFile() throws Exception {
-    final String[] args = {"-l", "en", getTestFilePath()};
+    String[] args = {"-l", "en", getTestFilePath()};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileAutoDetect() throws Exception {
-    final String[] args = {"-adl", getTestFilePath()};
+    String[] args = {"-adl", getTestFilePath()};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.contains("Using English for file"));
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdInAutoDetect() throws Exception {
-    final String test = "This is an test.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-adl"};
+    String test = "This is an test.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-adl"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Working on STDIN...") == 0);
     assertTrue(stderr.contains("Using English for"));
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testStdInWithExternalFalseFriends() throws Exception {
-    final String test = "Láska!\n";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
+    String test = "Láska!\n";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.contains("Expected text language: Slovak"));
     assertTrue(stderr.contains("Working on STDIN..."));
     assertTrue(stdout.contains("Rule ID: LASKA"));
   }
 
+  @Test
   public void testEnglishFileVerbose() throws Exception {
-    final String[] args = {"-l", "en", "-v", getTestFilePath()};
+    String[] args = {"-l", "en", "-v", getTestFilePath()};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
-    final String tagText = new String(this.err.toByteArray());
+    String tagText = new String(this.err.toByteArray());
     assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
 
+  @Test
   public void testEnglishFileApplySuggestions() throws Exception {
-    final String[] args = {"-l", "en", "--apply", getTestFilePath()};
+    String[] args = {"-l", "en", "--apply", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue(output.contains("This is a test.\n\n" +
         "This is a test of language tool.\n\n" +
         "This is a test of language tool.")); // \r\n in Windows tests at the end...
   }
 
+  @Test
   public void testEnglishStdIn1() throws Exception {
-    final String test = "This is an test.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en"};
+    String test = "This is an test.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdIn2() throws Exception {
-    final String test = "This is an test.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en", "-"};
+    String test = "This is an test.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en", "-"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdIn3() throws Exception {
-    final String test = "This is an test.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en", "-a", "-"};
+    String test = "This is an test.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertEquals("This is a test.", output);
   }
 
+  @Test
   public void testEnglishStdIn4() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
-    final String[] args = {"-l", "en", "--api", "-"};
+    String[] args = {"-l", "en", "--api", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
         "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" shortmsg=\"Word repetition\" " +
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"));
   }
+  
+  @Test
+  public void testEnglishStdInJsonOutput() throws Exception {
+    System.setIn(new FileInputStream(enTestFile));
+    String[] args = {"-l", "en", "--json", "-"};
+
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel " + 
+      "sound, e.g. 'a sentence', 'a university'\",\"shortMessage\":\"Wrong article\",\"replacements\":[{\"value\":\"a\"}],\"offset\":8,\"length\":2,\"context\":" + 
+      "{\"text\":\"This is an test.  This is a test of of language tool.  ...\",\"offset\":8,\"length\":2},\"rule\":{\"id\":\"EN_A_VS_AN\",\"description\":\"Use of " + 
+      "'a' vs. 'an'\",\"issueType\":\"misspelling\",\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}}},{\"message\":\"Possible typo: you repeated a word\","));
+    assertTrue("Doesn't display Time", !output.contains("Time: "));
+    assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
+    assertTrue("Json end check",output.endsWith("}]}"));
+  }
 
   //test line mode vs. para mode
   //first line mode
+  @Test
   public void testEnglishLineMode() throws Exception {
-    final String test = "This is what I mean\nand you know it.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en", "-a", "-b", "-"};
+    String test = "This is what I mean\nand you know it.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en", "-a", "-b", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertEquals("This is what I mean\nAnd you know it.", output);
   }
 
   //first line mode
+  @Test
   public void testEnglishParaMode() throws Exception {
-    final String test = "This is what I mean\nand you know it.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en", "-a", "-"};
+    String test = "This is what I mean\nand you know it.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertEquals("This is what I mean\nand you know it.", output);
   }
 
+  @Test
   public void testPolishStdInDefaultOff() throws Exception {
-    final String test = "To jest test, który zrobiłem, który mi się podoba.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    String test = "To jest test, który zrobiłem, który mi się podoba.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stderr.contains("Working on STDIN..."));
     assertTrue(stdout.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
   }
 
+  @Test
   public void testPolishApiStdInDefaultOff() throws Exception {
-    final String test = "To jest test, który zrobiłem, który mi się podoba.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    String test = "To jest test, który zrobiłem, który mi się podoba.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"--api", "-l", "pl", "-eo", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertThat(StringUtils.countMatches(output, "<error "), is(1));
     assertThat(StringUtils.countMatches(output, "<matches "), is(1));
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
   }
 
+  @Test
   public void testPolishApiStdInDefaultOffNoErrors() throws Exception {
-    final String test = "To jest test.";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    String test = "To jest test.";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertThat(StringUtils.countMatches(output, "<error "), is(0));
     assertThat(StringUtils.countMatches(output, "<matches "), is(1));
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));
   }
 
+  @Test
   public void testPolishSpelling() throws Exception {
-    final String test = "Zwuasdac?";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
+    String test = "Zwuasdac?";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stderr.contains("Working on STDIN..."));
     assertTrue(stdout.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
   }
 
+  @Test
   public void testEnglishFileRuleDisabled() throws Exception {
-    final String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
+    String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(!stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileRuleEnabled() throws Exception {
-    final String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
+    String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileFakeRuleEnabled() throws Exception {
-    final String test = "Zwuasdac?";
-    final byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
-    final String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
+    String test = "Zwuasdac?";
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
+    String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
     Main.main(args);
-    final String stderr = new String(this.err.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
   }
 
+  @Test
   public void testEnglishFileAPI() throws Exception {
-    final String[] args = {"-l", "en", "--api", getTestFilePath()};
+    String[] args = {"-l", "en", "--api", getTestFilePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
         "msg=\"Use &apos;a&apos; instead of &apos;an&apos; if the following word doesn&apos;t start with a vowel sound, e.g. &apos;a sentence&apos;, " +
@@ -402,28 +431,30 @@ public class MainTest extends AbstractSecurityTestCase {
         "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
   }
 
+  @Test
   public void testGermanFileWithURL() throws Exception {
-    final File input = writeToTempFile("Ward ihr zufrieden damit?");
-    final String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
+    File input = writeToTempFile("Ward ihr zufrieden damit?");
+    String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("ruleId=\"WARD_VS_WART\" subId=\"1\""));
     //check URL part
     assertTrue(output.contains("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
 
     //now check in normal mode and check for URL
-    final String[] args2 = {"-l", "de", input.getAbsolutePath()};
+    String[] args2 = {"-l", "de", input.getAbsolutePath()};
     Main.main(args2);
-    final String output2 = new String(this.out.toByteArray());
+    String output2 = new String(this.out.toByteArray());
     assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
   }
 
+  @Test
   public void testPolishFileAPI() throws Exception {
-    final File input = writeToTempFile("To jest świnia która się ślini.");
-    final String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
+    File input = writeToTempFile("To jest świnia która się ślini.");
+    String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray(),"UTF-8");
+    String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
     //This tests whether XML encoding is actually UTF-8:
@@ -433,8 +464,9 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
   }
 
+  @Test
   public void testPolishLineNumbers() throws Exception {
-    final File input = writeToTempFile(
+    File input = writeToTempFile(
         "Test.\n" +
             "Test.\n" +
             "Test.\n" +
@@ -444,117 +476,126 @@ public class MainTest extends AbstractSecurityTestCase {
             "\n" +
         "Test który wykaże błąd.");
  
-    final String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
+    String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray(),"UTF-8");
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray(),"UTF-8");
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stdout.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
   }
 
+  @Test
   public void testEnglishTagger() throws Exception {
-    final String[] args = {"-l", "en", "--taggeronly", getTestFilePath()};
+    String[] args = {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
 
+  @Test
   public void testBitextMode() throws Exception {
-    final File input = writeToTempFile(
+    File input = writeToTempFile(
         "This is not actual.\tTo nie jest aktualne.\n" +
             "Test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
+    String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertTrue(stdout.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeWithDisabledRule() throws Exception {
-    final File input = writeToTempFile(
+    File input = writeToTempFile(
         "this is not actual.\tTo nie jest aktualne.\n" +
             "test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
+    String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertFalse(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeWithEnabledRule() throws Exception {
-    final File input = writeToTempFile(
+    File input = writeToTempFile(
         "this is not actual.\tTo nie jest aktualne.\n" +
             "test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
+    String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertFalse(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
     assertFalse(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertTrue(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeApply() throws Exception {
-    final File input = writeToTempFile("There is a dog.\tNie ma psa.");
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
+    File input = writeToTempFile("There is a dog.\tNie ma psa.");
+    String[] args = {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue(output.startsWith("Istnieje psa."));
   }
 
+  @Test
   public void testBitextWithExternalRule() throws Exception {
-    final File input = writeToTempFile("This is a red herring.\tTo jest czerwony śledź.");
-    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", "--bitextrules",
+    File input = writeToTempFile("This is a red herring.\tTo jest czerwony śledź.");
+    String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", "--bitextrules",
         bitextFile.getAbsolutePath(), input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue("red_herring rule should be in the output" + output, output.contains("Rule ID: red_herring"));
   }
 
-
+  @Test
   public void testListUnknown() throws Exception {
-    final String[] args = {"-l", "pl", "-u", getTestFilePath()};
+    String[] args = {"-l", "pl", "-u", getTestFilePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stdout.contains("Unknown words: [., This, an, is, language, of, tool]"));
   }
 
+  @Test
   public void testNoListUnknown() throws Exception {
-    final String[] args = {"-l", "pl", getTestFilePath()};
+    String[] args = {"-l", "pl", getTestFilePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(!stdout.contains("Unknown words: [This, an, is]"));
   }
 
+  @Test
   public void testLangWithCountryVariant() throws Exception {
-    final File input = writeToTempFile("This is modelling.");
-    final String[] args = {"-l", "en-US", input.getAbsolutePath()};
+    File input = writeToTempFile("This is modelling.");
+    String[] args = {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
-    final String stdout = new String(this.out.toByteArray());
-    final String stderr = new String(this.err.toByteArray());
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English (US)") == 0);
     assertTrue(stdout.contains("MORFOLOGIK_RULE_EN_US"));
   }
 
+  @Test
   public void testValencianCatalan() throws Exception {
     File input = writeToTempFile("Que sigui així.");
     String[] args = {"-l", "ca-ES-valencia", input.getAbsolutePath()};
@@ -565,6 +606,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_VALENCIANS"));
   }
 
+  @Test
   public void testCatalan() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca-ES", input.getAbsolutePath()};
@@ -575,6 +617,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
+  @Test
   public void testCatalan2() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca", input.getAbsolutePath()};
@@ -585,24 +628,26 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
+  @Test
   public void testNoXmlFilteringByDefault() throws Exception {
-    final File input = writeToTempFile("This < is is > filtered.");
-    final String[] args = {input.getAbsolutePath()};
+    File input = writeToTempFile("This < is is > filtered.");
+    String[] args = {input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertTrue(output.contains("ENGLISH_WORD_REPEAT_RULE"));
   }
 
+  @Test
   public void testXmlFiltering() throws Exception {
-    final File input = writeToTempFile("This < is is > filtered.");
-    final String[] args = {"--xmlfilter", input.getAbsolutePath()};
+    File input = writeToTempFile("This < is is > filtered.");
+    String[] args = {"--xmlfilter", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray());
     assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));
   }
 
   private File writeToTempFile(String content) throws IOException {
-    final File tempFile = createTempFile();
+    File tempFile = createTempFile();
     try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
       writer.print(content);
       writer.print('\n');
@@ -611,13 +656,13 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   private File createTempFile() throws IOException {
-    final File input = File.createTempFile(MainTest.class.getName(), ".txt");
+    File input = File.createTempFile(MainTest.class.getName(), ".txt");
     input.deleteOnExit();
     return input;
   }
 
   private File writeToTempXMLFile(String content) throws IOException {
-    final File tempFile = createTempXMLFile();
+    File tempFile = createTempXMLFile();
     try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
       writer.println(content);
     }
@@ -625,7 +670,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   private File createTempXMLFile() throws IOException {
-    final File input = File.createTempFile("rules-xx-", ".xml");
+    File input = File.createTempFile("rules-xx-", ".xml");
     input.deleteOnExit();
     return input;
   }

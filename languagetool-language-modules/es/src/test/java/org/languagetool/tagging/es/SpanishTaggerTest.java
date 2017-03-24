@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.es;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class SpanishTaggerTest extends TestCase {
+public class SpanishTaggerTest {
 
   private SpanishTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new SpanishTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Spanish());
   }
 
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Soy un hombre muy honrado.",
         "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM", tokenizer, tagger);

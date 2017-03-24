@@ -38,6 +38,9 @@ import java.io.IOException;
  */
 final class EmptyLuceneIndexCreator {
 
+  private EmptyLuceneIndexCreator() {
+  }
+
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
       System.out.println("Usage: " + EmptyLuceneIndexCreator.class.getSimpleName() + " <indexPath>");
@@ -46,17 +49,15 @@ final class EmptyLuceneIndexCreator {
     Analyzer analyzer = new StandardAnalyzer();
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
     Directory directory = FSDirectory.open(new File(args[0]).toPath());
-    IndexWriter writer = new IndexWriter(directory, config);
-
-    FieldType fieldType = new FieldType();
-    fieldType.setIndexOptions(IndexOptions.DOCS);
-    fieldType.setStored(true);
-    Field countField = new Field("totalTokenCount", String.valueOf(0), fieldType);
-    Document doc = new Document();
-    doc.add(countField);
-    writer.addDocument(doc);
-
-    writer.close();
+    try (IndexWriter writer = new IndexWriter(directory, config)) {
+      FieldType fieldType = new FieldType();
+      fieldType.setIndexOptions(IndexOptions.DOCS);
+      fieldType.setStored(true);
+      Field countField = new Field("totalTokenCount", String.valueOf(0), fieldType);
+      Document doc = new Document();
+      doc.add(countField);
+      writer.addDocument(doc);
+    }
   }
 
 }

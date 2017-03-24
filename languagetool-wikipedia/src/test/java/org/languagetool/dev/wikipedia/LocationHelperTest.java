@@ -18,14 +18,16 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import xtc.tree.Location;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
-public class LocationHelperTest extends TestCase {
+public class LocationHelperTest {
 
+  @Test
   public void testAbsolutePositionFor() {
     assertThat(checkLocation(1, 1, "hallo"), is(0));
     assertThat(checkLocation(1, 2, "hallo"), is(1));
@@ -33,6 +35,7 @@ public class LocationHelperTest extends TestCase {
     assertThat(checkLocation(3, 3, "\n\nxyz"), is(4));
   }
 
+  @Test
   public void testInvalidPosition() {
     assertThat(checkLocation(1, 1, "hallo"), is(0));
     try {

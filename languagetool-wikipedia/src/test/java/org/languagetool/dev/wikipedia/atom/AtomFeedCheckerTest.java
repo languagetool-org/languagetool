@@ -33,9 +33,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class AtomFeedCheckerTest {
 

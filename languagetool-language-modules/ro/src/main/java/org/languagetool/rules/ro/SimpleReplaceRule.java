@@ -45,7 +45,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages, new Romanian());
     super.setCategory(Categories.MISC.getCategory(messages));
   }

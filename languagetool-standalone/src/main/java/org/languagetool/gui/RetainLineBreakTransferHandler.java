@@ -28,37 +28,37 @@ class RetainLineBreakTransferHandler extends TransferHandler {
 
   @Override
   protected Transferable createTransferable(JComponent c) {
-    final JEditorPane pane = (JEditorPane) c;
-    final String htmlText = pane.getText();
-    final String plainText = extractText(new StringReader(htmlText));
+    JEditorPane pane = (JEditorPane) c;
+    String htmlText = pane.getText();
+    String plainText = extractText(new StringReader(htmlText));
     return new MyTransferable(plainText, htmlText);
   }
 
   private String extractText(Reader reader) {
 
-    final StringBuilder result = new StringBuilder();
-    final HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
+    StringBuilder result = new StringBuilder();
+    HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
       @Override
-      public void handleText(final char[] data, final int pos) {
+      public void handleText(char[] data, int pos) {
         result.append(data);
       }
       @Override
       public void handleStartTag(HTML.Tag tag, MutableAttributeSet attribute, int pos) {
       }
       @Override
-      public void handleEndTag(HTML.Tag tag, final int pos) {
+      public void handleEndTag(HTML.Tag tag, int pos) {
       }
       @Override
-      public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet a, final int pos) {
+      public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet a, int pos) {
         if (tag.equals(HTML.Tag.BR)) {
           result.append('\n');
         }
       }
       @Override
-      public void handleComment(final char[] data, final int pos) {
+      public void handleComment(char[] data, int pos) {
       }
       @Override
-      public void handleError(final String errMsg, final int pos) {
+      public void handleError(String errMsg, int pos) {
       }
     };
     try {

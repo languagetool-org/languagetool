@@ -31,8 +31,7 @@ public class PolishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final List<String> PL_START_SYMBOLS = Arrays.asList("[", "(", "{", "„", "»", "\"");
   private static final List<String> PL_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "«", "\"");
   
-  public PolishUnpairedBracketsRule(final ResourceBundle messages,
-      final Language language) {
+  public PolishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, PL_START_SYMBOLS, PL_END_SYMBOLS);
     addExamplePair(Example.wrong("To jest zdanie z <marker>„</marker>cudzysłowem."),
                    Example.fixed("To jest zdanie z <marker>„</marker>cudzysłowem”."));

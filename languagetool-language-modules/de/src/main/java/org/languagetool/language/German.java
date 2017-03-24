@@ -101,7 +101,7 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "de";
   }
 
@@ -145,7 +145,6 @@ public class German extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
         new Contributor("Jan Schreiber"),
-        new Contributor("Markus Brenneis"),
         Contributors.DANIEL_NABER,
     };
   }
@@ -188,7 +187,7 @@ public class German extends Language implements AutoCloseable {
   public CompoundWordTokenizer getNonStrictCompoundSplitter() {
     if (compoundTokenizer == null) {
       try {
-        final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
+        GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
         compoundTokenizer = word -> new ArrayList<>(tokenizer.tokenize(word));
       } catch (IOException e) {
         throw new RuntimeException("Could not set up German compound splitter", e);
@@ -214,7 +213,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
       // for testing:
       //languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
       //languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
@@ -230,7 +229,10 @@ public class German extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
+  /**
+   * Closes the language model, if any. 
+   * @since 3.1 
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {
@@ -241,6 +243,14 @@ public class German extends Language implements AutoCloseable {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
+    }
+    return 0;
   }
 
 }

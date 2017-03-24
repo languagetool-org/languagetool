@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -35,16 +36,14 @@ import java.util.*;
  * @author Daniel Naber
  * @since 3.0
  */
-public class SimilarNameRule extends Rule {
+public class SimilarNameRule extends TextLevelRule {
 
   private static final int minLength = 4;
   private static final int maxDiff = 1;
   
-  private final Set<String> namesSoFar = new HashSet<>();
-
   public SimilarNameRule(ResourceBundle messages) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Angela Müller ist CEO. <marker>Miller</marker> wurde in Hamburg geboren."),
                    Example.fixed("Angela Müller ist CEO. <marker>Müller</marker> wurde in Hamburg geboren."));
     setDefaultOff();
@@ -61,30 +60,35 @@ public class SimilarNameRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    for (AnalyzedTokenReadings token : tokens) {
-      String word = token.getToken();
-      // not tagged = too many correct words are not known so we cannot use that:
-      //boolean isName = word.length() > minLength && (token.hasPartialPosTag("EIG:") || !token.isTagged());
-      boolean isName = word.length() >= minLength && token.hasPartialPosTag("EIG:") && !token.hasPartialPosTag(":COU");
-      if (isName && StringTools.startsWithUppercase(word)) {
-        String similarName = similarName(word);
-        if (similarName != null) {
-          String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
-          final RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), token.getEndPos(), msg);
-          ruleMatch.setSuggestedReplacement(similarName);
-          ruleMatches.add(ruleMatch);
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    Set<String> namesSoFar = new HashSet<>();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      for (AnalyzedTokenReadings token : tokens) {
+        String word = token.getToken();
+        // not tagged = too many correct words are not known so we cannot use that:
+        //boolean isName = word.length() > minLength && (token.hasPartialPosTag("EIG:") || !token.isTagged());
+        boolean isName = word.length() >= minLength && token.hasPartialPosTag("EIG:") && !token.hasPartialPosTag(":COU");
+        if (isName && StringTools.startsWithUppercase(word)) {
+          String similarName = similarName(word, namesSoFar);
+          if (similarName != null) {
+            String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
+            RuleMatch ruleMatch = new RuleMatch(this, pos+token.getStartPos(), pos+token.getEndPos(), msg);
+            ruleMatch.setSuggestedReplacement(similarName);
+            ruleMatches.add(ruleMatch);
+          }
+          namesSoFar.add(word);
         }
-        namesSoFar.add(word);
       }
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
 
   @Nullable
-  private String similarName(String nameHere) {
+  private String similarName(String nameHere, Set<String> namesSoFar) {
     for (String name : namesSoFar) {
       if (name.equals(nameHere)) {
         continue;
@@ -102,10 +106,5 @@ public class SimilarNameRule extends Rule {
     }
     return null;
   }
-
-  @Override
-  public void reset() {
-    namesSoFar.clear();
-  }
-
+  
 }

@@ -24,7 +24,6 @@ import org.languagetool.Experimental;
  * Helper to build {@link PatternToken}s.
  * @since 3.1
  */
-@Experimental
 public class PatternTokenBuilder {
 
   private PatternToken token;

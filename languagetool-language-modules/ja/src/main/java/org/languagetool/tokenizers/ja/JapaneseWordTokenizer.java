@@ -31,12 +31,12 @@ public class JapaneseWordTokenizer implements Tokenizer {
   private final StringTagger stringTagger;
 
   public JapaneseWordTokenizer() {
-    stringTagger = SenFactory.getStringTagger(null);
+    stringTagger = SenFactory.getStringTagger(null, false);
   }
 
   @Override  
   public List<String> tokenize(String text) {
-    final List<String> ret = new ArrayList<>();
+    List<String> ret = new ArrayList<>();
     List<Token> tokens = new ArrayList<>();
     try {
       stringTagger.analyze(text, tokens);

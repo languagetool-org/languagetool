@@ -18,29 +18,29 @@
  */
 package org.languagetool.tagging.gl;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 /**
  * @author Susana Sotelo Docio
  * based on English test
  */
-public class GalicianTaggerTest extends TestCase {
+public class GalicianTaggerTest {
 
   private GalicianTagger tagger;
   private WordTokenizer tokenizer;
   
-  @Override
+  @Before
   public void setUp() {
     tagger = new GalicianTagger();
     tokenizer = new WordTokenizer();
   }
 
-
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Todo vai mudar",
         "Todo/[todo]DI0MS0|Todo/[todo]PI0MS000 -- vai/[ir]VMIP3S0|vai/[ir]VMM02S0 -- mudar/[mudar]VMN0000|mudar/[mudar]VMN01S0|mudar/[mudar]VMN03S0|mudar/[mudar]VMSF1S0|mudar/[mudar]VMSF3S0", tokenizer, tagger);

@@ -66,6 +66,7 @@ public class WikipediaSentenceSource extends SentenceSource {
     super(language, filter);
     textFilter.enableMapping(false);  // improves performance
     try {
+      System.setProperty("jdk.xml.totalEntitySizeLimit", String.valueOf(Integer.MAX_VALUE));  // see https://github.com/dbpedia/extraction-framework/issues/487
       XMLInputFactory factory = XMLInputFactory.newInstance();
       reader = factory.createXMLEventReader(xmlInput);
       sentenceTokenizer = language.getSentenceTokenizer();
@@ -94,7 +95,7 @@ public class WikipediaSentenceSource extends SentenceSource {
         throw new NoSuchElementException();
       }
       WikipediaSentence wikiSentence = sentences.remove(0);
-      String url = "http://" + language.getShortName() + ".wikipedia.org/wiki/" + wikiSentence.title;
+      String url = "http://" + language.getShortCode() + ".wikipedia.org/wiki/" + wikiSentence.title;
       return new Sentence(wikiSentence.sentence, getSource(), wikiSentence.title, url, wikiSentence.articleCount);
     } catch (XMLStreamException e) {
       throw new RuntimeException(e);

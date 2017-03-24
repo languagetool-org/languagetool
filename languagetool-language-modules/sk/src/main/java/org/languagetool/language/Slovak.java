@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
@@ -53,7 +52,7 @@ public class Slovak extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "sk";
   }
   
@@ -115,16 +114,11 @@ public class Slovak extends Language {
   public List<String> getRuleFileNames() {
     List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortCode() + "/";
     for (String ruleFile : RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
     }
     return ruleFileNames;
-  }
-
-  @Override
-  public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

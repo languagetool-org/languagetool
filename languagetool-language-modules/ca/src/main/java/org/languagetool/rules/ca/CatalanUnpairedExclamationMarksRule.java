@@ -32,8 +32,7 @@ public class CatalanUnpairedExclamationMarksRule extends GenericUnpairedBrackets
   private static final List<String> CA_START_SYMBOLS = Arrays.asList("¡");
   private static final List<String> CA_END_SYMBOLS   = Arrays.asList("!");
   
-  public CatalanUnpairedExclamationMarksRule(final ResourceBundle messages,
-      final Language language) {
+  public CatalanUnpairedExclamationMarksRule(ResourceBundle messages, Language language) {
     super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();

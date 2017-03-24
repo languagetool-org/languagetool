@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
@@ -47,7 +46,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public NewZealandReplaceRule(final ResourceBundle messages) throws IOException {
+  public NewZealandReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),
@@ -72,7 +71,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " is a non-standard expression, in New Zealand English it is more common to use: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

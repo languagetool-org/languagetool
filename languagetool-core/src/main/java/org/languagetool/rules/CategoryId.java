@@ -40,8 +40,8 @@ public class CategoryId {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    CategoryId that = (CategoryId) o;
-    if (!id.equals(that.id)) return false;
+    CategoryId other = (CategoryId) o;
+    if (!id.equals(other.id)) return false;
     return true;
   }
 

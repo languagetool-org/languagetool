@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -87,7 +88,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "en";
   }
 
@@ -142,14 +143,19 @@ public class English extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
+    return new Contributor[] { new Contributor("Mike Unwalla"), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
   @Override
@@ -165,6 +171,7 @@ public class English extends Language implements AutoCloseable {
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),
+        new OpenNMTRule(),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
@@ -183,7 +190,10 @@ public class English extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 2.7 */
+  /**
+   * Closes the language model, if any. 
+   * @since 2.7 
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {

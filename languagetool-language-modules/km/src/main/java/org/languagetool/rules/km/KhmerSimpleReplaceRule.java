@@ -43,7 +43,7 @@ public class KhmerSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public KhmerSimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public KhmerSimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages, new Khmer());
     super.setCategory(Categories.MISC.getCategory(messages));
   }

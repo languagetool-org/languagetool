@@ -41,17 +41,19 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
   
   @Test
   public void testMorfologikSpeller() throws IOException {
-    final BritishEnglish language = new BritishEnglish();
-    final MorfologikBritishSpellerRule rule =
+    BritishEnglish language = new BritishEnglish();
+    MorfologikBritishSpellerRule rule =
             new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
 
-    final JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool langTool = new JLanguageTool(language);
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
     //with doesn't
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
+    //with diacritics 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("The entrée at the café.")).length);
     //with an abbreviation:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);

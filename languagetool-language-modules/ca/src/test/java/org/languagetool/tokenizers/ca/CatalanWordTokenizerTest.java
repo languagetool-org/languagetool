@@ -19,15 +19,30 @@
 
 package org.languagetool.tokenizers.ca;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class CatalanWordTokenizerTest extends TestCase {
+public class CatalanWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
+    tokens = wordTokenizer.tokenize("name@example.com");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("name@example.com.");
+    assertEquals(tokens.size(), 2);
+    tokens = wordTokenizer.tokenize("name@example.com:");
+    assertEquals(tokens.size(), 2);
+    tokens = wordTokenizer.tokenize("L'origen de name@example.com.");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[L', origen,  , de,  , name@example.com, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("L'origen de name@example.com i de name2@example.com.");
+    assertEquals(tokens.size(), 13);
+    assertEquals("[L', origen,  , de,  , name@example.com,  , i,  , de,  , name2@example.com, .]", tokens.toString());
     tokens = wordTokenizer.tokenize("L'\"ala bastarda\".");
     assertEquals(tokens.size(), 7);
     assertEquals("[L', \", ala,  , bastarda, \", .]", tokens.toString());

@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -26,23 +27,28 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Jaume Ortolà
  */
-public class AccentuationCheckRuleTest extends TestCase {
+public class AccentuationCheckRuleTest {
 
   private AccentuationCheckRule rule;
   private JLanguageTool         langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("—I continues mantenint que això va succeir");
+    assertCorrect("No hi ha ningú aquí que begui vi?");
     assertCorrect("Va tocar l'ària da capo de les variacions Goldberg.");
     assertCorrect("A ponent continua la serra de Fontpobra");
     assertCorrect("com a base de la categoria faria que els enllaços");
@@ -92,6 +98,9 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("El millor de la historia.");
+    assertIncorrect("El millor d'aquesta historia.");
+    assertIncorrect("L'ultima consideració.");
     assertIncorrect("Com s'ha dit les primaries autonòmiques s'han ajornat");
     assertIncorrect("Com sabeu les primaries s'han ajornat");
     assertIncorrect("Les continues al·lusions a la victòria.");
@@ -137,6 +146,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testPositions() throws IOException {
     final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;

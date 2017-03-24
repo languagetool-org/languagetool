@@ -18,10 +18,10 @@
  */
 package org.languagetool.tagging.de;
 
-import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -29,11 +29,14 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.*;
 
-@SuppressWarnings("ConstantConditions")
-public class GermanTaggerTest extends TestCase {
+import static org.junit.Assert.*;
 
+@SuppressWarnings("ConstantConditions")
+public class GermanTaggerTest {
+
+  @Test
   public void testTagger() throws IOException {
-    final GermanTagger tagger = new GermanTagger();
+    GermanTagger tagger = new GermanTagger();
     
     AnalyzedTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[Haus/SUB:AKK:SIN:NEU, Haus/SUB:DAT:SIN:NEU, Haus/SUB:NOM:SIN:NEU]", toSortedString(aToken));
@@ -56,6 +59,11 @@ public class GermanTaggerTest extends TestCase {
             "groß/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("großer")));
     assertEquals("groß", aToken3.getReadings().get(0).getLemma());
     
+    // checks for github issue #635: Some German verbs on the beginning of a sentences are identified only as substantive
+    assertTrue(tagger.tag(Collections.singletonList("Haben"), true).toString().contains("VER"));
+    assertTrue(tagger.tag(Collections.singletonList("Können"), true).toString().contains("VER"));
+    assertTrue(tagger.tag(Collections.singletonList("Gerade"), true).toString().contains("ADJ"));
+
     // from both german.dict and added.txt:
     AnalyzedTokenReadings aToken4 = tagger.lookup("Interessen");
     assertEquals("Interessen[Interesse/SUB:AKK:PLU:NEU, Interesse/SUB:DAT:PLU:NEU, " +
@@ -104,8 +112,9 @@ public class GermanTaggerTest extends TestCase {
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
+  @Test
   public void testExtendedTagger() throws IOException {
-    final GermanTagger tagger = new GermanTagger();
+    GermanTagger tagger = new GermanTagger();
 
     assertEquals("Kuß[Kuß/SUB:AKK:SIN:MAS, Kuß/SUB:DAT:SIN:MAS, Kuß/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Kuß")));
     assertEquals("Kuss[Kuss/SUB:AKK:SIN:MAS, Kuss/SUB:DAT:SIN:MAS, Kuss/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Kuss")));
@@ -117,8 +126,9 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("muss[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muss")));
   }
 
+  @Test
   public void testTaggerBaseforms() throws IOException {
-    final GermanTagger tagger = new GermanTagger();
+    GermanTagger tagger = new GermanTagger();
     
     List<AnalyzedToken> readings1 = tagger.lookup("übrigbleibst").getReadings();
     assertEquals(1, readings1.size());
@@ -137,6 +147,7 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("Haus", readings3.get(2).getLemma());
   }
 
+  @Test
   public void testTag() throws IOException {
     GermanTagger tagger = new GermanTagger();
     List<String> upperCaseWord = Arrays.asList("Das");
@@ -146,18 +157,20 @@ public class GermanTaggerTest extends TestCase {
     assertTrue(readings2.toString().startsWith("[Das[der/ART:"));
   }
 
+  @Test
   public void testTagWithManualDictExtension() throws IOException {
     // words not originally in Morphy but added in LT 1.8 (moved from added.txt to german.dict)
-    final GermanTagger tagger = new GermanTagger();
-    final List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
+    GermanTagger tagger = new GermanTagger();
+    List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
     assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:AKK:PLU:FEM*," +
         "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
   }
 
+  @Test
   public void testDictionary() throws IOException {
-    final Dictionary dictionary = Dictionary.read(
+    Dictionary dictionary = Dictionary.read(
         JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
-    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    DictionaryLookup dl = new DictionaryLookup(dictionary);
     for (WordData wd : dl) {
       if (wd.getTag() == null || wd.getTag().length() == 0) {
         System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem()
@@ -171,8 +184,8 @@ public class GermanTaggerTest extends TestCase {
    * the elements alphabetically.
    */
   private String toSortedString(AnalyzedTokenReadings tokenReadings) {
-    final StringBuilder sb = new StringBuilder(tokenReadings.getToken());
-    final Set<String> elements = new TreeSet<>();
+    StringBuilder sb = new StringBuilder(tokenReadings.getToken());
+    Set<String> elements = new TreeSet<>();
     sb.append('[');
     for (AnalyzedToken reading : tokenReadings) {
       if (!elements.contains(reading.toString())) {

@@ -18,11 +18,33 @@
  */
 package org.languagetool.commandline;
 
+import static org.languagetool.tools.StringTools.filterXML;
+import static org.languagetool.tools.StringTools.readerToString;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
@@ -30,16 +52,9 @@ import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tools.JnaTools;
+import org.languagetool.tools.StringTools.ApiPrintMode;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-
-import static org.languagetool.tools.StringTools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -62,6 +77,7 @@ class Main {
     srcLt = null;
     bRules = null;
     lt = new MultiThreadedJLanguageTool(options.getLanguage(), options.getMotherTongue());
+    lt.setCleanOverlappingMatches(false);
     if (options.getRuleFile() != null) {
       addExternalRules(options.getRuleFile());
     }
@@ -69,7 +85,7 @@ class Main {
       lt.activateLanguageModelRules(options.getLanguageModel());
     }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
-            new HashSet<>(Arrays.asList(options.getDisabledRules())), new HashSet<>(Arrays.asList(options.getEnabledRules())), options.isUseEnabledOnly());
+            new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
   }
 
   private void addExternalRules(String filename) throws IOException {
@@ -96,7 +112,7 @@ class Main {
     return lt;
   }
   
-  private void setListUnknownWords(final boolean listUnknownWords) {
+  private void setListUnknownWords(boolean listUnknownWords) {
     lt.setListUnknownWords(listUnknownWords);
   }
   
@@ -114,29 +130,29 @@ class Main {
     profileRules = true;
   }
 
-  private void setBitextMode(final Language sourceLang,
-      final String[] disabledRules, final String[] enabledRules, final File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
+  private void setBitextMode(Language sourceLang,
+      List<String> disabledRules, List<String> enabledRules, File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
-    final Language target = lt.getLanguage();
+    Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
-    Tools.selectRules(lt, disabledRules, enabledRules);
-    Tools.selectRules(srcLt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules, true);
+    Tools.selectRules(srcLt, disabledRules, enabledRules, true);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage(), bitextRuleFile);
 
     List<BitextRule> bRuleList = new ArrayList<>(bRules);
-    for (final BitextRule bitextRule : bRules) {
-      for (final String disabledRule : disabledRules) {
+    for (BitextRule bitextRule : bRules) {
+      for (String disabledRule : disabledRules) {
         if (bitextRule.getId().equals(disabledRule)) {
           bRuleList.remove(bitextRule);
         }
       }
     }
     bRules = bRuleList;
-    if (enabledRules.length > 0) {
+    if (enabledRules.size() > 0) {
       bRuleList = new ArrayList<>();
-      for (final String enabledRule : enabledRules) {
-        for (final BitextRule bitextRule : bRules) {
+      for (String enabledRule : enabledRules) {
+        for (BitextRule bitextRule : bRules) {
           if (bitextRule.getId().equals(enabledRule)) {
             bRuleList.add(bitextRule);
           }
@@ -146,17 +162,17 @@ class Main {
     }
   }
 
-  private void runOnFile(final String filename, final String encoding,
-      final boolean xmlFiltering) throws IOException {
+  private void runOnFile(String filename, String encoding,
+      boolean xmlFiltering) throws IOException {
     if (bitextMode) {
-      final TabBitextReader reader = new TabBitextReader(filename, encoding);
+      TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (options.isApplySuggestions()) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isApiFormat());
+        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isXmlFormat());
       }
     } else {
-      final String text = getFilteredText(filename, encoding, xmlFiltering);
+      String text = getFilteredText(filename, encoding, xmlFiltering);
       if (isStdIn(filename)) {
         System.err.println("Working on STDIN...");
       } else {
@@ -165,8 +181,8 @@ class Main {
       if (options.isAutoDetect()) {
         Language language = detectLanguageOfString(text);
         if (language == null) {
-          System.err.println("Could not detect language well enough, using English");
-          language = new English();
+          System.err.println("Could not detect language well enough, using American English");
+          language = new AmericanEnglish();
         }
         changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
         System.err.println("Using " + language.getName() + " for file " + filename);
@@ -176,11 +192,11 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!options.isTaggerOnly()) {
-        CommandLineTools.checkText(text, lt, options.isApiFormat(), 0, options.isListUnknown());
+        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.isListUnknown());
       } else {
         CommandLineTools.tagText(text, lt);
       }
-      if (options.isListUnknown() && !options.isApiFormat()) {
+      if (options.isListUnknown() && !options.isXmlFormat() && !options.isJsonFormat()) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
     }
@@ -191,7 +207,7 @@ class Main {
     if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
-    if (!options.isApiFormat() && !options.isApplySuggestions()) {
+    if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       if (isStdIn(filename)) {
         System.err.println("Working on STDIN...");
       } else {
@@ -202,7 +218,7 @@ class Main {
       throw new IllegalArgumentException("Profiling mode cannot be used with input from STDIN");
     }
     int runCount = 1;
-    final List<Rule> rules = lt.getAllActiveRules();
+    List<Rule> rules = lt.getAllActiveRules();
     if (profileRules) {
       System.out.printf("Testing %d rules\n", rules.size());
       System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
@@ -210,13 +226,10 @@ class Main {
     }
     int lineOffset = 0;
     int tmpLineOffset = 0;
-    handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
+    handleLine(ApiPrintMode.START_API, 0, new StringBuilder());
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
-      int matches = 0;
-      long sentences = 0;
-      final long startTime = System.currentTimeMillis();
       try (
           InputStreamReader isr = getInputStreamReader(filename, encoding);
           BufferedReader br = new BufferedReader(isr)
@@ -230,8 +243,8 @@ class Main {
           if (lineCount == 1 && options.isAutoDetect()) {
             Language language = detectLanguageOfString(line);
             if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
-              language = new English();
+              System.err.println("Could not detect language well enough, using American English");
+              language = new AmericanEnglish();
             }
             System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
@@ -242,10 +255,9 @@ class Main {
           tmpLineOffset++;
 
           if (isBreakPoint(line)) {
-            matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
-            sentences += lt.getSentenceCount();
+            handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb);
             if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
+              lt.sentenceTokenize(sb.toString()).size();
             }
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
@@ -253,19 +265,16 @@ class Main {
         }
       } finally {
         if (sb.length() > 0) {
-          sentences += lt.getSentenceCount();
           if (profileRules) {
-            sentences += lt.sentenceTokenize(sb.toString()).size();
+            lt.sentenceTokenize(sb.toString()).size();
           }
         }
-        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
-        // printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
+        handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb);
       }
     }
   }
 
-  private int handleLine(final XmlPrintMode mode, final int lineOffset,
-                               final StringBuilder sb) throws IOException {
+  private int handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
     int matches = 0;
     String s = filterXML(sb.toString());
     if (options.isApplySuggestions()) {
@@ -273,8 +282,8 @@ class Main {
       } else if (profileRules) {
         matches += Tools.profileRulesOnLine(s, lt, currentRule);
       } else if (!options.isTaggerOnly()) {
-        matches += CommandLineTools.checkText(s, lt, options.isApiFormat(), -1, lineOffset,
-                matches, mode, options.isListUnknown(), Collections.<String>emptyList());
+        matches += CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
+            lineOffset, matches, mode, options.isListUnknown(), Collections.<String>emptyList());
       } else {
         CommandLineTools.tagText(s, lt);
       }
@@ -285,40 +294,33 @@ class Main {
     return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara() || "".equals(line);
   }
 
-  private InputStreamReader getInputStreamReader(String filename, String encoding)
-      throws UnsupportedEncodingException, FileNotFoundException {
-    final InputStreamReader isr;
+  private InputStreamReader getInputStreamReader(String filename, String encoding) throws IOException {
+    String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
+    InputStream is = System.in;
     if (!isStdIn(filename)) {
-      final File file = new File(filename);
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)));
+      is = new FileInputStream(new File(filename));
+      BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);
+      if (bomIn.hasBOM() && encoding == null) {
+        charsetName = bomIn.getBOMCharsetName();
       }
-    } else {
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(System.in));
-      }
+      is = bomIn;
     }
-    return isr;
+    return new InputStreamReader(new BufferedInputStream(is), charsetName);
   }
 
   private boolean isStdIn(String filename) {
     return "-".equals(filename);
   }
 
-  private void runRecursive(final String filename, final String encoding,
-      final boolean xmlFiltering) {
-    final File dir = new File(filename);
-    final File[] files = dir.listFiles();
+  private void runRecursive(String filename, String encoding, boolean xmlFiltering) {
+    File dir = new File(filename);
+    File[] files = dir.listFiles();
     if (files == null) {
       throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
     }
-    for (final File file : files) {
+    for (File file : files) {
       try {
         if (file.isDirectory()) {
           runRecursive(file.getAbsolutePath(), encoding, xmlFiltering);
@@ -339,30 +341,26 @@ class Main {
    * Loads filename and filters out XML. Note that the XML
    * filtering can lead to incorrect positions in the list of matching rules.
    */
-  private String getFilteredText(final String filename, final String encoding, boolean xmlFiltering) throws IOException {
+  private String getFilteredText(String filename, String encoding, boolean xmlFiltering) throws IOException {
     if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
-    String fileContents;
-    String encodingName = encoding != null ? encoding : Charset.defaultCharset().name();
-    if (isStdIn(filename)) {
-      fileContents = streamToString(new BufferedInputStream(System.in), encodingName);
-    } else {
-      fileContents = streamToString(new FileInputStream(filename), encodingName);
-    }
-    if (xmlFiltering) {
-      return filterXML(fileContents);
-    } else {
-      return fileContents;
+    try (InputStreamReader reader = getInputStreamReader(filename, encoding)) {
+      String fileContents = readerToString(reader);
+      if (xmlFiltering) {
+        return filterXML(fileContents);
+      } else {
+        return fileContents;
+      }
     }
   }
 
   private void changeLanguage(Language language, Language motherTongue,
-                              String[] disabledRules, String[] enabledRules) {
+                              List<String> disabledRules, List<String> enabledRules) {
     try {
       lt = new MultiThreadedJLanguageTool(language, motherTongue);
-      Tools.selectRules(lt, disabledRules, enabledRules);
+      Tools.selectRules(lt, disabledRules, enabledRules, true);
       if (options.isVerbose()) {
         lt.setOutput(System.err);
       }
@@ -374,9 +372,9 @@ class Main {
   /**
    * Command line tool to check plain text files.
    */
-  public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
+  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     JnaTools.setBugWorkaroundProperty();
-    final CommandLineParser commandLineParser = new CommandLineParser();
+    CommandLineParser commandLineParser = new CommandLineParser();
     CommandLineOptions options = null;
     try {
        options = commandLineParser.parseOptions(args);
@@ -414,19 +412,19 @@ class Main {
 
     String languageHint = null;
     if (options.getLanguage() == null) {
-      if (!options.isApiFormat() && !options.isAutoDetect()) {
+      if (!options.isXmlFormat() && !options.isAutoDetect()) {
         System.err.println("No language specified, using English (no spell checking active, " +
                 "specify a language variant like 'en-GB' if available)");
       }
       options.setLanguage(new English());
-    } else if (!options.isApiFormat() && !options.isApplySuggestions()) {
+    } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
 
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
 
-    final Main prg = new Main(options);
+    Main prg = new Main(options);
     if (options.getFalseFriendFile() != null) {
       List<AbstractPatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
       for (AbstractPatternRule ffRule : ffRules) {
@@ -434,8 +432,10 @@ class Main {
       }
     }
     if (prg.lt.getAllActiveRules().size() == 0) {
-      throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
-              Arrays.toString(options.getEnabledRules()));
+      List<String> catIds = options.getEnabledCategories().stream().map(i -> i.toString()).collect(Collectors.toList());
+      throw new RuntimeException("No rules are active. Please make sure your rule ids " +
+              "(" + options.getEnabledRules() + ") and " +
+              "category ids (" + catIds + ") are correct");
     }
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?
@@ -466,9 +466,9 @@ class Main {
   }
 
   private static void printLanguages() {
-    final List<String> languages = new ArrayList<>();
+    List<String> languages = new ArrayList<>();
     for (Language language : Languages.get()) {
-      languages.add(language.getShortNameWithCountryAndVariant() + " " + language.getName());
+      languages.add(language.getShortCodeWithCountryAndVariant() + " " + language.getName());
     }
     Collections.sort(languages);
     for (String s : languages) {
@@ -476,7 +476,7 @@ class Main {
     }
   }
 
-  private static Language detectLanguageOfString(final String text) {
+  private static Language detectLanguageOfString(String text) {
     LanguageIdentifier identifier = new LanguageIdentifier();
     return identifier.detectLanguage(text);
   }

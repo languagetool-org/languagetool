@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.pl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
@@ -26,8 +26,11 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 
 import java.io.IOException;
 
-public class MultipleWhitespaceRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class MultipleWhitespaceRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
     final JLanguageTool langTool = new JLanguageTool(new Polish());

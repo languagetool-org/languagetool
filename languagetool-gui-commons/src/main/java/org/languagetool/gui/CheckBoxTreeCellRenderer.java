@@ -35,6 +35,7 @@ class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer {
 
   private final DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
   private final JCheckBox checkBox = new JCheckBox();
+  
   private Component defaultComponent;
 
   CheckBoxTreeCellRenderer() {

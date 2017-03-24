@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -30,17 +31,20 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public class CatalanUnpairedBracketsRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class CatalanUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
     langTool = new JLanguageTool(new Catalan());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     assertCorrect("L'«home és així»");
@@ -126,7 +130,8 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(1, matches.length);
   }
-  
+
+  @Test
   public void testMultipleSentences() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Catalan());
     tool.enableRule("CA_UNPAIRED_BRACKETS");

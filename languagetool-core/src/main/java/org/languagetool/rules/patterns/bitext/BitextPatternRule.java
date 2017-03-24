@@ -40,7 +40,7 @@ public class BitextPatternRule extends BitextRule {
   private final AbstractPatternRule srcRule;
   private final AbstractPatternRule trgRule;
   
-  BitextPatternRule(final AbstractPatternRule src, final AbstractPatternRule trg) {    
+  BitextPatternRule(AbstractPatternRule src, AbstractPatternRule trg) {    
     srcRule = src;
     trgRule = trg;
   }

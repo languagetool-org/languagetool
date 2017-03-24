@@ -65,7 +65,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String path = "/" + language.getShortName() + "/confusion_sets.txt";
+    String path = "/" + language.getShortCode() + "/confusion_sets.txt";
     try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
       ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
       this.wordToSets = confusionSetLoader.loadConfusionSet(confusionSetStream);
@@ -190,11 +190,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private ConfusionString getConfusionString(Set<ConfusionString> confusionSet, GoogleToken token) {
     for (ConfusionString s : confusionSet) {
-      if (s.getString().equals(token.token)) {
+      if (s.getString().equalsIgnoreCase(token.token)) {
         return s;
       }
     }
-    throw new RuntimeException("Not found in set: " + token);
+    throw new RuntimeException("Not found in set '" + confusionSet + "': " + token);
   }
 
   private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, long factor) {

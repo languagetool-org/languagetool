@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.Assert.fail;
 
 public class LanguageModelSanityTest {
 

@@ -18,15 +18,22 @@
  */
 package org.languagetool.tagging.el;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-
+import org.ioperm.morphology.el.GreekAnalyzer;
+import org.ioperm.morphology.el.Lemma;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.WordTagger;
 
 /**
  *
  * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class GreekTagger extends BaseTagger {
+
+  private final GreekAnalyzer tagger;
 
   @Override
   public String getManualAdditionsFileName() {
@@ -35,5 +42,17 @@ public class GreekTagger extends BaseTagger {
 
   public GreekTagger() {
     super("/el/greek.dict",  new Locale("el"));
+    tagger = new GreekAnalyzer();
+  }
+
+  @Override
+  protected List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
+    List<AnalyzedToken> tokens = new ArrayList<>();
+    List<Lemma> lemma = tagger.getLemma(word, false);
+    for(Lemma lm : lemma) {
+      AnalyzedToken tk =  new AnalyzedToken(word, lm.getTag(), lm.getLemma());
+      tokens.add(tk);
+    }
+    return tokens;
   }
 }

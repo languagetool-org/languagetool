@@ -60,6 +60,11 @@ public class CatalanTagger extends BaseTagger {
   }
   
   @Override
+  public String getManualRemovalsFileName() {
+    return "/ca/removed-tagger.txt";
+  }
+  
+  @Override
   public boolean overwriteWithManualTagger(){
     return false;
   }

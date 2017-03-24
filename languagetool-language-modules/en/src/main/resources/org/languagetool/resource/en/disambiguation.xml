@@ -105,7 +105,7 @@
       <disambig action="immunize"/>
     </rule>
     
-    <!-- oficially not written with the apostrophe -->
+    <!-- officially not written with the apostrophe -->
     <rule id="HUMAN_RIGHTS_COUNCIL" name="Human Rights Council">
       <pattern case_sensitive="yes">
         <token>Human</token>
@@ -883,6 +883,20 @@
         </pattern>
         <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
+    <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
+        <pattern>
+            <marker>
+                <and>
+                <token postag="VBZ"/>
+                <token postag="NNS"/>
+                </and>
+            </marker>
+            <token regexp="yes">were|are</token>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
+                 outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
+    </rule>
     <rule name="are + we|you -&gt; are (verb)" id="ARE_PRP">
         <pattern>
             <marker>
@@ -1016,6 +1030,18 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
     </rule>
     <rule>
+        <pattern>
+            <marker>
+                <token>can</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig postag="MD"/>
+        <example type="untouched">Ignore the usual <marker>cant</marker> from the politicians.</example>
+        <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">So this too <marker>can</marker>'t be used.</example>
+    </rule>
+    <rule>
     <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|he|she|we|they</token>
@@ -1027,7 +1053,7 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">Yes, we <marker>can</marker>!</example>
      </rule>
     </rulegroup>
-  
+
     <rulegroup id="CAN_NN" name="can as a noun">
     <rule>
       <pattern>
@@ -1056,17 +1082,47 @@
     </rule>
     <rule>
       <pattern>
-        <token postag="DT"><exception postag="PDT" /><exception>these</exception></token>
+        <token postag="DT"><exception postag="PDT" /><exception regexp="yes">each|some|these</exception></token>
         <marker>
           <token>can</token>
         </marker>
       </pattern>
       <disambig postag="NN"/>
       <example type="untouched">You can!</example>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="untouched">For example, some <marker>can</marker> accommodate the largest aircraft and other hangars cannot.</example>
+      <example type="untouched">All <marker>can</marker> accommodate small aircraft.</example>
       <example type="ambiguous" inputform="can[can/MD]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token postag="MD"/>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> might be dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token regexp="yes">is|was|will|were</token>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You <marker>can</marker> be happy without money.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> is dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> was not dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> will be used to demonstrate problem.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">If this <marker>can</marker> were to fall, there would be much damage to the equipment.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> were dirty. [Non-standard English]</example>
+    </rule>
     </rulegroup>
-  
+
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
@@ -1166,6 +1222,19 @@
       <example type="untouched">What it all means, I don't know.</example>
       <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[mean/VBZ]">To be a Christian <marker>means</marker> to say yes where I otherwise say no.</example>
     </rule>
+
+    <rule id="TO_VB_PRP" name="to + verb + prp => TO">
+        <pattern>
+            <marker>
+            <token postag="TO">to</token>
+            <token postag="VB"><exception postag="NNP"/></token>
+            </marker>
+            <token postag="PRP\$?|DT" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Peter admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
+        <example type="ambiguous" inputform="bill[bill/NN,bill/VB,bill/VBP]" outputform="bill[bill/VB]">I admit to <marker>bill</marker> the customer incorrectly.</example>
+    </rule>
     
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
         <pattern>
@@ -1190,6 +1259,16 @@
         <disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
         <example type="untouched">I cannot do it.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
+    </rule>
+    <rule name="haven't => verb only" id="HAVENT">
+        <pattern>
+            <marker>
+                <token>haven</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="filter" postag="MD"/>
     </rule>
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
@@ -1529,7 +1608,7 @@
 
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
-            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each|that</exception></token>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
                 <and>
                     <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
@@ -2270,12 +2349,12 @@
         <example type="ambiguous" inputform="English[English/JJ,English/NNP]" outputform="English[English/NNP]">Excuse my bad <marker>English</marker>.</example>
         <example type="untouched">These real English are nice.</example>
     </rule>
-    <rule name="those/these + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
+    <rule name="those + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
         <pattern>
-            <token regexp="yes">th[eo]se</token>
+            <token>those</token>
             <marker>
                 <and>
-                <token postag="VB[PN]" postag_regexp="yes"/>
+                <token postag="VBD"/>
                 <token postag="NN(:U?N)?" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -2284,6 +2363,22 @@
         <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
         <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
                  outputform="illustrated[illustrate/VBN]">Those <marker>illustrated</marker> are a prime example.</example>
+    </rule>
+    <rule name="those/these + VBN/NN + are -> NN" id="DT_plural_VBNNN_NN">
+        <!-- So cases like 'These book are ...' can be detected by the rules: -->
+        <pattern>
+            <token regexp="yes">th[eo]se</token>
+            <marker>
+                <and>
+                    <token postag="VB[PN]" postag_regexp="yes"/>
+                    <token postag="NN(:U?N)?" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token>are</token>
+        </pattern>
+        <disambig action="remove" postag="VB[DP]?"/>
+        <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]"
+                 outputform="book[book/NN]">These <marker>book</marker> are a prime example.</example>
     </rule>
     <rule name="those/these + so + VBN/VBD/JJ -> so = JJ" id="DT_plural_so_vbn">
         <pattern>
@@ -2772,6 +2867,38 @@
             <example type="untouched">This is your's.</example>
             <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
         </rule>
+        <rule name="s = POS with NNS + are/were">
+            <pattern>
+                <token postag="NN:UN?" postag_regexp="yes"/>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">s</token>
+                <marker>
+                    <and>
+                        <token postag="JJ"/>
+                        <token postag="VBN"/>
+                    </and>
+                </marker>
+                <token postag="NNS"/>
+                <token regexp="yes">are|were</token>
+            </pattern>
+            <disambig postag="JJ"/>
+        </rule>
+        <rule name="s = POS with NN + is/was">
+            <pattern>
+                <token postag="NN:UN?" postag_regexp="yes"/>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">s</token>
+                <marker>
+                    <and>
+                        <token postag="JJ"/>
+                        <token postag="VBN"/>
+                    </and>
+                </marker>
+                <token postag="NNP?|NN:.*" postag_regexp="yes"/>
+                <token regexp="yes">is|was</token>
+            </pattern>
+            <disambig postag="JJ"/>
+        </rule>
         <rule name="s = has">
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
@@ -3027,6 +3154,7 @@
     	</pattern>
     	<disambig postag="VBZ"/>
     	<example type="untouched">He comes from another city.</example>
+    	<example type="untouched">In music, a <marker>comes</marker> is the answer to the first subject (dux) in a fugue. [Shorter OED, 1985.]</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
       </rule>
       <rule>
@@ -3382,7 +3510,7 @@
           <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
         </rule>
         
-        <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing =>noun">
+        <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing/modal => noun">
           <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -3391,14 +3519,18 @@
               <token postag="VBG" postag_regexp="yes"/>
             </and>
             </marker>
-            <token postag="VBZ"/>
+            <token postag_regexp="yes" postag="VBZ|MD"/>
           </pattern>
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">I do what I want to.</example>
+          <example type="untouched">Make sure that your <marker>watering can</marker> does not have a hole.</example>
           <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Your <marker>singing</marker> puts professional singers to shame.</example>
+          <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Her <marker>singing</marker> can shatter glasses!</example>
+          <example type="ambiguous" inputform="dreaming[dream/VBG,dreaming/NN:UN]" outputform="dreaming[dreaming/NN:UN]">Your <marker>dreaming</marker> will not change the world. Do something!</example>
+          <example type="ambiguous" inputform="fighting[fight/VBG,fighting/NN:U]" outputform="fighting[fighting/NN:U]">... and their <marker>fighting</marker> won't change the situation.</example>
         </rule>
         
-        <rule id="PRPPOSS_VBG_JJ_NN" name="Possesive pronoun + verb/noun + verb sing =>noun">
+        <rule id="PRPPOSS_VBG_JJ_NN" name="Possesive pronoun + verb/adjective + noun sing => adjective">
           <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -3942,46 +4074,6 @@
             <disambig action="filterall"/>
         </rule>
 
-        
-   <!--  the chunker fails for addresses, we need this for CD_NN -->
-    <rule name="Number + Uppercase word/no tag + uppercase word -&gt; immunize" id="CD_UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
-        <pattern case_sensitive="yes">
-        <marker>
-            <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
-            <token postag="NNP"/>            
-            <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
-         </marker>            
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>        
-        
-    <rule name="Immunize votes" id="X_TO_X_VOTE">
-      <pattern>
-        <token regexp="yes">\d+</token>
-        <token>to</token>
-        <token regexp="yes">\d+</token>
-        <token>vote</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    
-    <rule name="Immunize age" id="X_WAS_CD">
-      <pattern>
-        <token regexp="yes">s?he|you|I|we|they|it</token>
-        <token inflected="yes">be</token>
-        <token postag="CD"/>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    
-    <rule name="Immunize decade" id="X0decade">
-      <pattern>
-        <token regexp="yes">\d+0</token>
-        <token>decade</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    
     <rule name="Immunize 'no big deal'" id="NO_BIG_DEAL">
       <pattern>
       <token>no</token>
@@ -4032,14 +4124,14 @@
     </rule>
     
     <rule name="Immunize 'the line of least resistance'" id="LEAST_RESISTANCE">
-    <pattern>
-      <token>the</token>
-      <token>line</token>
-      <token>of</token>
-      <token>least</token>
-      <token>resistance</token>
-    </pattern>
-    <disambig action="immunize"/>
+      <pattern>
+        <token>the</token>
+        <token>line</token>
+        <token>of</token>
+        <token>least</token>
+        <token>resistance</token>
+      </pattern>
+      <disambig action="immunize"/>
     </rule>
 
     <rule name="Immunize 'World Wide Web'" id="WORLD_WIDE_WEB">
@@ -4058,12 +4150,57 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    
+
+    <rule name="Ignore spelling of 'status quo'" id="STATUS_QUO">
+      <pattern>
+        <token>status</token>
+        <token>quo</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of 'pacta sunt servanda'" id="PACTA_SUNT_SERVANDA">
+        <pattern>
+            <token>pacta</token>
+            <token>sunt</token>
+            <token>servanda</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Immunize 'Hong Kong'" id="HONG_KONG">
       <pattern>
         <token>Hong</token>
         <token>Kong</token>
       </pattern>
       <disambig action="immunize"/>
+    </rule>
+    <rule name="Ignore spelling of NNP (mid and end sentence)" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z]+</token>
+        <marker>
+          <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+<!-- For action="ignore_spelling", it is not possible to use example sentences that testrules validates.
+Find. The hoopes are defective.
+Find. Hoopes, loops, and other types of coil are used in this test.
+Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
+Find. These coils, Hoopes, and other types of loops are satisfactory.
+Find. Get these items: 
+	* Hoopes
+	* Loops
+	* Coils.
+Find. Get these items: 1) Hoopes 2) Loops 3) Coils.
+Ignore spelling. "Ah! I'm dying," said Pierrette, falling to her knees.
+Ignore spelling. "Ah, this is my idiot son Takashi."
+Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
+Ignore spelling. "Does he live with a princess?" asked Gerda.
+Ignore spelling. Is the average Dalek dangerous?
+False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
+False positive. Zelda told me to tell you to go away.
+False positive. Geez is a Semitic language that was spoken in Ethiopia.
+False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
+False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
+-->
     </rule>
 </rules>

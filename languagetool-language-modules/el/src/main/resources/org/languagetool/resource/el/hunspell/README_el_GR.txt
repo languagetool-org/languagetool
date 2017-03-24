@@ -6,7 +6,7 @@ URL       :  http://elspell.math.upatras.gr
 
   This release added the MPL and LGPL to the available licences and an
 update to the .aff file (by Nick Demou).
-  The dictionary is triple licenced now and it is based on earlier work
+  The dictionary is triple licensed now and it is based on earlier work
 done by Evripidis Papakostas. [mentioned below]
   The new licence is also mentioned below.
 

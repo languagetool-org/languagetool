@@ -34,13 +34,13 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
   private transient org.languagetool.openoffice.Main instance;
 
   @Override
-  public final Object createInstanceWithArgumentsAndContext(final Object[] arguments, 
-      final XComponentContext xContext) {
+  public final Object createInstanceWithArgumentsAndContext(Object[] arguments, 
+      XComponentContext xContext) {
     return createInstanceWithContext(xContext);
   }
 
   @Override
-  public final Object createInstanceWithContext(final XComponentContext xContext) {    
+  public final Object createInstanceWithContext(XComponentContext xContext) {    
     if (instance == null) {     
       instance = new org.languagetool.openoffice.Main(xContext);      
     } else {  

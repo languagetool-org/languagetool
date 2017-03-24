@@ -31,6 +31,10 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * @deprecated this language hasn't been maintained for years, it will be removed from LanguageTool after release 3.6
+ */
+@Deprecated
 public class Lithuanian extends Language {
 
   private Tagger tagger;
@@ -47,7 +51,7 @@ public class Lithuanian extends Language {
   }
   
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "lt";
   }
 

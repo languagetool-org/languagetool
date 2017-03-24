@@ -30,8 +30,8 @@ public class DictionaryBuilderTestHelper {
         "--exit", "false",
         "-i", file.toString(), 
         "-o", outputFile.toString(),
-        "-info", infoFile, 
-        "--overwrite"};
+        "-info", infoFile 
+    };
     DictionaryExporter.main(buildOptions);
     return outputFile;
   }

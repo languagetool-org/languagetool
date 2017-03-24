@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class CatalanTaggerTest extends TestCase {
+public class CatalanTaggerTest {
 
   private CatalanTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new CatalanTagger();
     tokenizer = new WordTokenizer();
   }
-  
+
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Catalan());
   }
 
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("UPF", "UPF/[UPF]NPFSO00", tokenizer, tagger);
     TestTools

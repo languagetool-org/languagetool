@@ -75,7 +75,7 @@ public final class RuleOverview {
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
-    System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
@@ -99,12 +99,12 @@ public final class RuleOverview {
         continue;
       }
       System.out.print("<tr>");
-      final String langCode = lang.getShortName();
+      final String langCode = lang.getShortCode();
       final File langSpecificWebsite = new File(webRoot, langCode);
       final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
       if (variants.size() > 0) {
-        variantsText = "<br/><span class='langVariants'>Variants for: " + StringUtils.join(variants, ", ") + "</span>";
+        variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
       if (langSpecificWebsite.isDirectory()) {
         System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
@@ -175,9 +175,7 @@ public final class RuleOverview {
       String maintainerInfo = getMaintainerInfo(lang);
       String maintainerText;
       boolean greyOutMaintainer = false;
-      if (langCode.equals("pt")) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span> - ";
-      } else if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
+      if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
         maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
@@ -231,7 +229,7 @@ public final class RuleOverview {
   private List<Language> getVariants(List<Language> allLanguages, Language lang) {
     List<Language> variants = new ArrayList<>();
     for (Language sortedLanguage : allLanguages) {
-      if (sortedLanguage.isVariant() && lang.getShortName().equals(sortedLanguage.getShortName())) {
+      if (sortedLanguage.isVariant() && lang.getShortCode().equals(sortedLanguage.getShortCode())) {
         variants.add(sortedLanguage);
       }
     }
@@ -245,36 +243,18 @@ public final class RuleOverview {
   }
 
   private int countXmlRules(String xmlRules) {
-    int pos = 0;
-    int count = 0;
-    while (true) {
-      pos = xmlRules.indexOf("<rule ", pos + 1);
-      if (pos == -1) {
-        break;
-      }
-      count++;
-    }
-    return count;
+    return StringUtils.countMatches(xmlRules, "<rule ");  // rules with IDs
   }
 
   private int countXmlRuleGroupRules(String xmlRules) {
-    int pos = 0;
-    int countInRuleGroup = 0;
-    while (true) {
-      pos = xmlRules.indexOf("<rule>", pos + 1);
-      if (pos == -1) {
-        break;
-      }
-      countInRuleGroup++;
-    }
-    return countInRuleGroup;
+    return StringUtils.countMatches(xmlRules, "<rule>"); // rules in rule groups have no ID
   }
 
   private int countFalseFriendRules(String falseFriendRules, Language lang) {
     int pos = 0;
     int count = 0;
     while (true) {
-      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortName(), pos + 1);
+      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortCode(), pos + 1);
       if (pos == -1) {
         break;
       }
@@ -311,12 +291,12 @@ public final class RuleOverview {
   }
 
   private int countConfusionPairs(Language lang) {
-    String path = "/" + lang.getShortName() + "/confusion_sets.txt";
+    String path = "/" + lang.getShortCode() + "/confusion_sets.txt";
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
         ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-        return confusionSetLoader.loadConfusionSet(confusionSetStream).size();
+        return confusionSetLoader.loadConfusionSet(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

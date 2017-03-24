@@ -50,7 +50,7 @@ final class RuleSimplifier {
     if (!basePath.exists()) {
       throw new RuntimeException("basePath does not exist: " + basePath);
     }
-    String langCode = lang.getShortName();
+    String langCode = lang.getShortCode();
     File xml = new File(basePath, "/" + langCode + "/src/main/resources/org/languagetool/rules/" + langCode + "/grammar.xml");
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
@@ -195,7 +195,7 @@ final class RuleSimplifier {
 
   public static void main(String[] args) throws IOException {
     RuleSimplifier prg = new RuleSimplifier();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

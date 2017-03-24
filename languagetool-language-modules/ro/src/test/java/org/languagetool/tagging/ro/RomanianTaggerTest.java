@@ -20,6 +20,7 @@ package org.languagetool.tagging.ro;
 
 import java.io.IOException;
 
+import org.junit.Test;
 import org.languagetool.TestTools;
 
 /**
@@ -30,6 +31,7 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
   /**
    * First we test if the tagger works fine with single words
    */
+  @Test
   public void testTaggerMerge() throws Exception {
     // merge - verb indicativ imperfect, persoana întâi, singular
     assertHasLemmaAndPos("mergeam", "merge", "V0s1000ii0");
@@ -42,6 +44,7 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
    * <code>merseserăm</code> had some problems (incorrect lemma - mege -
    * missing "r")
    */
+  @Test
   public void testTaggerMerseseram() throws Exception {
     // first make sure lemma is correct (ignore POS)
     assertHasLemmaAndPos("merseserăm", "merge", null);
@@ -54,6 +57,7 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
   /**
    * A special word: a fi (to be) - eu sunt (i am) + ei sunt (they are)
    */
+  @Test
   public void testTagger_Fi() throws Exception {
     // fi - verb indicativ prezent, persoana întâi, singular
     assertHasLemmaAndPos("sunt", "fi", "V0s1000izf");
@@ -61,6 +65,7 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
     assertHasLemmaAndPos("sunt", "fi", "V0p3000izf");
   }
 
+  @Test
   public void testTaggerUserDict() throws Exception {
     assertHasLemmaAndPos("configurați", "configura", "V0p2000cz0"); // de adăugat formele pentru infinitiv și participiu
     // to be updated when the words from added.txt are moved to romanian.dict  
@@ -69,6 +74,7 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
   /**
    * the big picture: test is tagger performs well with a sentence
    */
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert(
                     "Cartea este frumoasă.",

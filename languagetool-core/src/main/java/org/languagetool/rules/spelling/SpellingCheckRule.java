@@ -33,6 +33,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -57,7 +58,9 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
-
+  private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
+  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
   private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
@@ -66,7 +69,7 @@ public abstract class SpellingCheckRule extends Rule {
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
 
-  public SpellingCheckRule(final ResourceBundle messages, final Language language) {
+  public SpellingCheckRule(ResourceBundle messages, Language language) {
     super(messages);
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -97,6 +100,19 @@ public abstract class SpellingCheckRule extends Rule {
    */
   public void addIgnoreTokens(List<String> tokens) {
     wordsToBeIgnored.addAll(tokens);
+    updateIgnoredWordDictionary();
+  }
+
+  //(re)create a Map<String, Set<String>> of all words to be ignored:
+  // The words' first char serves as key, and the Set<String> contains all Strings starting with this char
+  private void updateIgnoredWordDictionary() {
+    wordsToBeIgnoredDictionary = wordsToBeIgnored
+                                   .stream()
+                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
+    wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
+                                             .stream()
+                                             .map(s -> s.toLowerCase())
+                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
   }
 
   /**
@@ -112,7 +128,7 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
-    if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
+    if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);
     }
     return moreSuggestions;
@@ -189,6 +205,10 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }
+
+  protected boolean isEMail(String token) {
+    return WordTokenizer.isEMail(token);
+  }
   
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
@@ -197,6 +217,7 @@ public abstract class SpellingCheckRule extends Rule {
     for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
       addIgnoreWords(ignoreWord, wordsToBeIgnored);
     }
+    updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
       wordsToBeProhibited.addAll(expandLine(prohibitedWord));
     }
@@ -209,16 +230,16 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.7
    */
   protected String getIgnoreFileName() {
-    return language.getShortName() + SPELLING_IGNORE_FILE;
+    return language.getShortCode() + SPELLING_IGNORE_FILE;
   }
 
   /**
    * Get the name of the spelling file, which lists words to be accepted
    * and used for suggestions, even when the spell checker would not accept them.
-   * @since 2.9
+   * @since 2.9, public since 3.5
    */
-  protected String getSpellingFileName() {
-    return language.getShortName() + SPELLING_FILE;
+  public String getSpellingFileName() {
+    return language.getShortCode() + SPELLING_FILE;
   }
 
   /**
@@ -227,7 +248,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected String getProhibitFileName() {
-    return language.getShortName() + SPELLING_PROHIBIT_FILE;
+    return language.getShortCode() + SPELLING_PROHIBIT_FILE;
   }
 
   /**
@@ -325,6 +346,36 @@ public abstract class SpellingCheckRule extends Rule {
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
+  }
+  
+  /**
+   * Checks whether a <code>word</code> starts with an ignored word.
+   * Note that a minimum <code>word</code>-length of 4 characters is expected.
+   * (This is for better performance. Moreover, such short words are most likely contained in the dictionary.)
+   * @param word - entire word
+   * @param caseSensitive - determines whether the check is case-sensitive
+   * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
+   * If there are several matches from the set of ignored words, the length of the longest matching word is returned.
+   * @since 3.5
+   */
+  protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
+    if (word.length() < 4) {
+      return 0;
+    }
+    Optional<String> match = null;
+    if(caseSensitive) {
+      Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
+      if (subset != null) {
+        match = subset.stream().filter(s -> word.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
+      }
+    } else {
+      String lowerCaseWord = word.toLowerCase();
+      Set<String> subset = wordsToBeIgnoredDictionaryIgnoreCase.get(lowerCaseWord.substring(0, 1));
+      if (subset != null) {
+        match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
+      }
+    }
+    return match != null && match.isPresent() ? match.get().length() : 0;
   }
 
 }

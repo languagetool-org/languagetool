@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.Assert.fail;
 
 /**
  * Test for multiple languages in multiple threads.
@@ -102,10 +102,10 @@ public class MultiThreadingTest1 {
   private void initExpectedResults(List<Language> languages) throws IOException {
     for (Language lang : languages) {
       JLanguageTool lt = new JLanguageTool(lang);
-      String input = examples.get(lang.getShortNameWithCountryAndVariant());
+      String input = examples.get(lang.getShortCodeWithCountryAndVariant());
       if (input != null) {
         List<RuleMatch> matches = lt.check(input);
-        expectedResults.put(lang.getShortNameWithCountryAndVariant(), toString(matches));
+        expectedResults.put(lang.getShortCodeWithCountryAndVariant(), toString(matches));
       }
     }
   }
@@ -132,16 +132,16 @@ public class MultiThreadingTest1 {
 
     @Override
     public void run() {
-      String input = examples.get(lang.getShortNameWithCountryAndVariant());
+      String input = examples.get(lang.getShortCodeWithCountryAndVariant());
       if (input != null) {
         try {
           JLanguageTool lt = new JLanguageTool(lang);
           //System.out.println("Running with " + lang.getShortNameWithCountryAndVariant());
           List<RuleMatch> matches = lt.check(input);
           //System.out.println("=>" + matches);
-          String expected = expectedResults.get(lang.getShortNameWithCountryAndVariant());
+          String expected = expectedResults.get(lang.getShortCodeWithCountryAndVariant());
           String real = MultiThreadingTest1.toString(matches);
-          if (!expectedResults.get(lang.getShortNameWithCountryAndVariant()).equals(real)) {
+          if (!expectedResults.get(lang.getShortCodeWithCountryAndVariant()).equals(real)) {
             fail(lang + ": got '" + real + "', expected '" + expected + "'");
           }
         } catch (IOException e) {

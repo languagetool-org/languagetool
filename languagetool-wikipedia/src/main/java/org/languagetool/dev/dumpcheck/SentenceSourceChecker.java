@@ -19,7 +19,7 @@
 package org.languagetool.dev.dumpcheck;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -45,8 +45,8 @@ public class SentenceSourceChecker {
   }
 
   public static void main(String[] args) throws IOException {
-    final SentenceSourceChecker prg = new SentenceSourceChecker();
-    final CommandLine commandLine = ensureCorrectUsageOrExit(args);
+    SentenceSourceChecker prg = new SentenceSourceChecker();
+    CommandLine commandLine = ensureCorrectUsageOrExit(args);
     File propFile = null;
     if (commandLine.hasOption('d')) {
       propFile = new File(commandLine.getOptionValue('d'));
@@ -54,22 +54,22 @@ public class SentenceSourceChecker {
         throw new IOException("File not found or isn't a file: " + propFile.getAbsolutePath());
       }
     }
-    final String languageCode = commandLine.getOptionValue('l');
-    final Set<String> disabledRuleIds = new HashSet<>();
+    String languageCode = commandLine.getOptionValue('l');
+    Set<String> disabledRuleIds = new HashSet<>();
     if (commandLine.hasOption("rule-properties")) {
-      final File disabledRulesPropFile = new File(commandLine.getOptionValue("rule-properties"));
+      File disabledRulesPropFile = new File(commandLine.getOptionValue("rule-properties"));
       if (!disabledRulesPropFile.exists() || disabledRulesPropFile.isDirectory()) {
         throw new IOException("File not found or isn't a file: " + disabledRulesPropFile.getAbsolutePath());
       }
-      final Properties disabledRules = new Properties();
+      Properties disabledRules = new Properties();
       try (FileInputStream stream = new FileInputStream(disabledRulesPropFile)) {
         disabledRules.load(stream);
         addDisabledRules("all", disabledRuleIds, disabledRules);
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
       }
     }
-    final int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
-    final int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
+    int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
+    int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     String[] ruleIds = commandLine.hasOption('r') ? commandLine.getOptionValue('r').split(",") : null;
     String[] categoryIds = commandLine.hasOption("also-enable-categories") ?
                            commandLine.getOptionValue("also-enable-categories").split(",") : null;
@@ -81,9 +81,9 @@ public class SentenceSourceChecker {
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
-    final String disabledRulesString = disabledRules.getProperty(languageCode);
+    String disabledRulesString = disabledRules.getProperty(languageCode);
     if (disabledRulesString != null) {
-      final String[] ids = disabledRulesString.split(",");
+      String[] ids = disabledRulesString.split(",");
       disabledRuleIds.addAll(Arrays.asList(ids));
     }
   }
@@ -142,8 +142,9 @@ public class SentenceSourceChecker {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
-    final Language lang = Languages.getLanguageForShortName(langCode);
-    final MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+    Language lang = Languages.getLanguageForShortCode(langCode);
+    MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+    languageTool.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
     }
@@ -193,7 +194,7 @@ public class SentenceSourceChecker {
     } finally {
       languageTool.shutdown();
       if (resultHandler != null) {
-        final float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
+        float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
         try {
@@ -211,11 +212,6 @@ public class SentenceSourceChecker {
     }
     for (String ruleId : ruleIds) {
       languageTool.enableRule(ruleId);
-    }
-    for (Rule rule : languageTool.getAllRules()) {
-      if (rule.isDefaultOff()) {
-        languageTool.enableDefaultOffRule(rule.getId());
-      }
     }
     warnOnNonExistingRuleIds(ruleIds, languageTool);
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
@@ -250,7 +246,7 @@ public class SentenceSourceChecker {
         for (Rule rule : languageTool.getAllRules()) {
           if (rule.getCategory().getName().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
-            languageTool.enableDefaultOffRule(rule.getId());
+            languageTool.enableRule(rule.getId());
           }
         }
       }
@@ -258,7 +254,7 @@ public class SentenceSourceChecker {
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
-    final List<Rule> allActiveRules = languageTool.getAllActiveRules();
+    List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule rule : allActiveRules) {
       if (rule.isDictionaryBasedSpellingRule()) {
         languageTool.disableRule(rule.getId());

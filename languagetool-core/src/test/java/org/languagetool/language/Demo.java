@@ -37,7 +37,9 @@ import org.languagetool.tagging.xx.DemoTagger;
  */
 public class Demo extends Language {
 
+  @Deprecated
   public static final String SHORT_NAME = "xx";
+  public static final String SHORT_CODE = "xx";
 
   private Tagger tagger;
   private Chunker chunker;
@@ -62,8 +64,8 @@ public class Demo extends Language {
   }
 
   @Override
-  public String getShortName() {
-    return SHORT_NAME;
+  public String getShortCode() {
+    return SHORT_CODE;
   }
 
   @Override

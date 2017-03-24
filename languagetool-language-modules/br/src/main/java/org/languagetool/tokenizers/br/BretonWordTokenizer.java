@@ -39,22 +39,20 @@ public class BretonWordTokenizer extends WordTokenizer {
    * and it occurs in many words.  So tokenizer should not split it.
    * Also split things like "n’eo" into 2 tokens only "n’" + "eo".
    * 
-   * @param text
-   *          - Text to tokenize
+   * @param text Text to tokenize
    * @return List of tokens.
-   * 
    *         Note: a special string ##BR_APOS## is used to replace apostrophes
    *         during tokenizing.
    */
   @Override
-  public List<String> tokenize(final String text) {
+  public List<String> tokenize(String text) {
 
     // FIXME: this is a bit of a hacky way to tokenize.  It should work
     // but I should work on a more elegant way.
     String replaced = text.replaceAll("([Cc])['’‘ʼ]([Hh])", "$1\u0001\u0001BR_APOS\u0001\u0001$2")
         .replaceAll("(\\p{L})['’‘ʼ]", "$1\u0001\u0001BR_APOS\u0001\u0001 ");
 
-    final List<String> tokenList = super.tokenize(replaced);
+    List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
 
     // Put back apostrophes and remove spurious spaces.

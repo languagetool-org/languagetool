@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
 
 public class GenericUnpairedBracketsRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testRule() throws IOException {
@@ -70,7 +70,7 @@ public class GenericUnpairedBracketsRuleTest {
   @Test
   public void testRuleMatchPositions() throws IOException {
     setUpRule(new FakeLanguage());
-    RuleMatch match1 = langTool.check("This »is a test.").get(0);
+    RuleMatch match1 = lt.check("This »is a test.").get(0);
     assertThat(match1.getFromPos(), is(5));
     assertThat(match1.getToPos(), is(6));
     assertThat(match1.getLine(), is(0));
@@ -78,7 +78,7 @@ public class GenericUnpairedBracketsRuleTest {
     assertThat(match1.getColumn(), is(5));
     assertThat(match1.getEndColumn(), is(6));
 
-    RuleMatch match2 = langTool.check("This.\nSome stuff.\nIt »is a test.").get(0);
+    RuleMatch match2 = lt.check("This.\nSome stuff.\nIt »is a test.").get(0);
     assertThat(match2.getFromPos(), is(21));
     assertThat(match2.getToPos(), is(22));
     assertThat(match2.getLine(), is(2));  // first line is 0
@@ -88,17 +88,17 @@ public class GenericUnpairedBracketsRuleTest {
   }
 
   private void setUpRule(Language language) {
-    langTool = new JLanguageTool(language);
-    for (Rule rule : langTool.getAllRules()) {
-      langTool.disableRule(rule.getId());
+    lt = new JLanguageTool(language);
+    for (Rule rule : lt.getAllRules()) {
+      lt.disableRule(rule.getId());
     }
     GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(),
             Arrays.asList("»"), Arrays.asList("«"));
-    langTool.addRule(rule);
+    lt.addRule(rule);
   }
 
   private void assertMatches(int expectedMatches, String input) throws IOException {
-    List<RuleMatch> ruleMatches = langTool.check(input);
+    List<RuleMatch> ruleMatches = lt.check(input);
     assertEquals("Expected " + expectedMatches + " matches, got: " + ruleMatches, expectedMatches, ruleMatches.size());
   }
 

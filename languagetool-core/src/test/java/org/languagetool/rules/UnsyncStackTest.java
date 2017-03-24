@@ -19,14 +19,17 @@
 
 package org.languagetool.rules;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.EmptyStackException;
 
-public class UnsyncStackTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class UnsyncStackTest {
+
+  @Test
   public void testStack() {
-    final UnsyncStack<String> stack = new UnsyncStack<>();
+    UnsyncStack<String> stack = new UnsyncStack<>();
     assertTrue(stack.empty());
     stack.push("test");
     assertEquals("test", stack.peek());

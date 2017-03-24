@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.languagetool</groupId>
+        <artifactId>languagetool-parent</artifactId>
+        <version>3.7-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <artifactId>languagetool-http-client</artifactId>
+    <url>http://www.languagetool.org</url>
+    <name>LanguageTool HTTP API client</name>
+    <description>Access to LanguageTool via its HTTP API</description>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <packaging>jar</packaging>
+
+    <developers>
+        <developer>
+            <name>Daniel Naber</name>
+            <roles><role>Maintainer</role></roles>
+        </developer>
+        <developer>
+            <name>Marcin Miłkowski</name>
+            <roles><role>Maintainer</role></roles>
+        </developer>
+    </developers>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-server</artifactId>
+            <version>${languagetool.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

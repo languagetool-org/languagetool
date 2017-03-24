@@ -29,10 +29,10 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 

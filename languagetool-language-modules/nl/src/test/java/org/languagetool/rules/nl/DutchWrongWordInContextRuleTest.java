@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.nl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
 
@@ -27,8 +27,9 @@ import java.io.IOException;
 /**
  * @author Markus Brenneis
  */
-public class DutchWrongWordInContextRuleTest extends TestCase {
+public class DutchWrongWordInContextRuleTest {
 
+  @Test
   public void testRule() throws IOException {
     DutchWrongWordInContextRule rule = new DutchWrongWordInContextRule(null);
     JLanguageTool langTool = new JLanguageTool(new Dutch());

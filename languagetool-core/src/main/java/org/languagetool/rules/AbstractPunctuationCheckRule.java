@@ -34,7 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public abstract class AbstractPunctuationCheckRule extends Rule {
 
-  public AbstractPunctuationCheckRule(final ResourceBundle messages) {
+  public AbstractPunctuationCheckRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
   }
@@ -54,14 +54,14 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
   protected abstract boolean isPunctuation(String token);
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
 
     int startTokenIdx = -1;
     String tkns = "";
     for (int i = 0; i < tokens.length; i++) {
-      final String tokenStr = tokens[i].getToken();
+      String tokenStr = tokens[i].getToken();
 
       if (isPunctuation(tokenStr)) {
         tkns += tokenStr;
@@ -74,8 +74,8 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
       }
 
       if (tkns.length() >= 2 && !isPunctsJoinOk(tkns)) {
-        final String msg = "bad duplication or combination of punctuation signs";
-        final RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx].getStartPos(),
+        String msg = "bad duplication or combination of punctuation signs";
+        RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx].getStartPos(),
             tokens[startTokenIdx].getStartPos() + tkns.length(), msg,
             "Punctuation problem");
         ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));

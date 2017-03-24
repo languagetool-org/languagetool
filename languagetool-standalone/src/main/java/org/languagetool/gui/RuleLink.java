@@ -45,7 +45,7 @@ class RuleLink {
   }
 
   static RuleLink getFromString(String ruleLink) {
-    final String id;
+    String id;
     if (ruleLink.startsWith(DEACTIVATE_URL)) {
       id = ruleLink.substring(DEACTIVATE_URL.length());
       return new RuleLink(DEACTIVATE_URL, id);

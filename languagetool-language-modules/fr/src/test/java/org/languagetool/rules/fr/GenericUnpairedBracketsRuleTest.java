@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.fr;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
@@ -27,11 +27,14 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Collections;
 
-public class GenericUnpairedBracketsRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class GenericUnpairedBracketsRuleTest {
 
   private GenericUnpairedBracketsRule rule;
   private JLanguageTool langTool;
-  
+
+  @Test
   public void testFrenchRule() throws IOException {
     langTool = new JLanguageTool(new French());
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);

@@ -32,10 +32,10 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Helper to loads text files from classpath.
- * @since 3.3
+ * Helper to load text files from classpath.
+ * @since 3.3, public since 3.5
  */
-class CachingWordListLoader {
+public class CachingWordListLoader {
 
   // Speed up the server use case, where rules get initialized for every call.
   private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
@@ -55,7 +55,7 @@ class CachingWordListLoader {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
+        String line = scanner.nextLine();
         if (line.startsWith("#")) {
           continue;
         }
@@ -68,7 +68,7 @@ class CachingWordListLoader {
     return result;
   }
 
-  List<String> loadWords(String filePath) throws IOException {
+  public List<String> loadWords(String filePath) throws IOException {
     return cache.getUnchecked(filePath);
   }
   

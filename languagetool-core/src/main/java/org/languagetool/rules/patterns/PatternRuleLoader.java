@@ -42,9 +42,9 @@ public class PatternRuleLoader extends DefaultHandler {
   /**
    * @param file XML file with pattern rules
    */
-  public final List<AbstractPatternRule> getRules(final File file) throws IOException {
+  public final List<AbstractPatternRule> getRules(File file) throws IOException {
     try (InputStream inputStream = new FileInputStream(file)) {
-      final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      PatternRuleLoader ruleLoader = new PatternRuleLoader();
       return ruleLoader.getRules(inputStream, file.getAbsolutePath());
     }
   }
@@ -62,12 +62,12 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param is stream with the XML rules
    * @param filename used only for verbose exception message - should refer to where the stream comes from
    */
-  public final List<AbstractPatternRule> getRules(final InputStream is, final String filename) throws IOException {
+  public final List<AbstractPatternRule> getRules(InputStream is, String filename) throws IOException {
     try {
-      final PatternRuleHandler handler = new PatternRuleHandler();
+      PatternRuleHandler handler = new PatternRuleHandler();
       handler.setRelaxedMode(relaxedMode);
-      final SAXParserFactory factory = SAXParserFactory.newInstance();
-      final SAXParser saxParser = factory.newSAXParser();
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      SAXParser saxParser = factory.newSAXParser();
       Tools.setPasswordAuthenticator();
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
       saxParser.parse(is, handler);

@@ -19,16 +19,17 @@
 
 package org.languagetool.tokenizers.pl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class PolishSentenceTokenizerTest extends TestCase {
+public class PolishSentenceTokenizerTest {
 
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Polish());
 
+  @Test
   public final void testTokenize() {
     
     testSplit("To się wydarzyło 3.10.2000 i mam na to dowody.");

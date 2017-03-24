@@ -33,14 +33,14 @@ public class IncorrectBitextExample {
   private final StringPair example;
   private final List<String> corrections;
 
-  public IncorrectBitextExample(final StringPair example) {
+  public IncorrectBitextExample(StringPair example) {
     this(example, Collections.<String>emptyList());
   }
 
   /**
    * @since 2.9
    */
-  public IncorrectBitextExample(final StringPair example, final List<String> corrections) {
+  public IncorrectBitextExample(StringPair example, List<String> corrections) {
     this.example = Objects.requireNonNull(example);
     this.corrections = Collections.unmodifiableList(corrections);
   }

@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules.sv;
 
+import org.junit.Test;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
 
 public class SwedishPatternRuleTest extends PatternRuleTest {
-  
+
+  @Test
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();
   }

@@ -18,23 +18,27 @@
  */
 package org.languagetool.rules.fa;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
-import junit.framework.TestCase;
-import org.languagetool.JLanguageTool;
 
-public class PersianSpaceBeforeRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class PersianSpaceBeforeRuleTest {
 
   private PersianSpaceBeforeRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new PersianSpaceBeforeRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     langTool = new JLanguageTool(TestTools.getDemoLanguage());
   }
 
+  @Test
   public void testRules() throws IOException {
     assertMatches("به اینجا", 1);
     assertMatches("من به اینجا", 0);

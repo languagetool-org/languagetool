@@ -35,6 +35,11 @@ public class PortugueseTagger extends BaseTagger {
   public String getManualAdditionsFileName() {
     return "/pt/added.txt";
   }
+  
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/pt/removed.txt";
+  }
 
   public PortugueseTagger() {
     super("/pt/portuguese.dict", new Locale("pt"));

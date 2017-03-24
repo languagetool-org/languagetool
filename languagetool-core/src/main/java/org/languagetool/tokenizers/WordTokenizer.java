@@ -40,6 +40,7 @@ public class WordTokenizer implements Tokenizer {
 
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
+  private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
       "\u1160\u1680"
@@ -73,17 +74,24 @@ public class WordTokenizer implements Tokenizer {
     return false;
   }
 
+  /**
+   * @since 3.5
+   */
+  public static boolean isEMail(String token) {
+    return E_MAIL.matcher(token).matches();
+  }
+
   public WordTokenizer() {
   }
 
   @Override
-  public List<String> tokenize(final String text) {
-    final List<String> l = new ArrayList<>();
-    final StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
+  public List<String> tokenize(String text) {
+    List<String> l = new ArrayList<>();
+    StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
-    return joinUrls(l);
+    return joinEMailsAndUrls(l);
   }
 
   /**
@@ -95,11 +103,49 @@ public class WordTokenizer implements Tokenizer {
     return TOKENIZING_CHARACTERS;
   }
 
+  protected List<String> joinEMailsAndUrls(List<String> list) {
+    return joinUrls(joinEMails(list));
+  }
+
+  /**
+   * @since 3.5
+   */
+  protected List<String> joinEMails(List<String> list) {
+    StringBuilder sb = new StringBuilder();
+    for (String item : list) {
+      sb.append(item);
+    }
+    String text = sb.toString();
+    if (E_MAIL.matcher(text).find()) {
+      Matcher matcher = E_MAIL.matcher(text);
+      List<String> l = new ArrayList<>();
+      int currentPosition = 0, start, end, idx = 0;
+      while (matcher.find()) {
+        start = matcher.start();
+        end = matcher.end();
+        while (currentPosition < end) {
+          if (currentPosition < start) {
+            l.add(list.get(idx));
+          } else if (currentPosition == start) {
+            l.add(matcher.group());
+          }
+          currentPosition += list.get(idx).length();
+          idx++;
+        }
+      }
+      if (currentPosition < text.length()) {
+        l.addAll(list.subList(idx, list.size()));
+      }
+      return l;
+    }
+    return list;
+  }
+
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url
   protected List<String> joinUrls(List<String> l) {
-    final List<String> newList = new ArrayList<>();
+    List<String> newList = new ArrayList<>();
     boolean inUrl = false;
-    final StringBuilder url = new StringBuilder();
+    StringBuilder url = new StringBuilder();
     String urlQuote = null;
     for (int i = 0; i < l.size(); i++) {
       if (urlStartsAt(i, l)) {
@@ -127,18 +173,18 @@ public class WordTokenizer implements Tokenizer {
   }
 
   private boolean urlStartsAt(int i, List<String> l) {
-    final String token = l.get(i);
+    String token = l.get(i);
     if (isProtocol(token) && l.size() > i + 3) {
-      final String nToken = l.get(i + 1);
-      final String nnToken = l.get(i + 2);
-      final String nnnToken = l.get(i + 3);
+      String nToken = l.get(i + 1);
+      String nnToken = l.get(i + 2);
+      String nnnToken = l.get(i + 3);
       if (nToken.equals(":") && nnToken.equals("/") && nnnToken.equals("/")) {
         return true;
       }
     }
     if (l.size() > i + 1) {
-      final String nToken = l.get(i);
-      final String nnToken = l.get(i + 1);
+      String nToken = l.get(i);
+      String nnToken = l.get(i + 1);
       if (nToken.equals("www") && nnToken.equals(".")) {
         return true;
       }
@@ -156,19 +202,19 @@ public class WordTokenizer implements Tokenizer {
   }
 
   private boolean urlEndsAt(int i, List<String> l, String urlQuote) {
-    final String token = l.get(i);
+    String token = l.get(i);
     if (StringTools.isWhitespace(token)) {
       return true;
     } else if (token.equals(")") || token.equals("]")) {   // this is guesswork
       return true;
     } else if (l.size() > i + 1) {
-      final String nToken = l.get(i + 1);
+      String nToken = l.get(i + 1);
       if (StringTools.isWhitespace(nToken) &&
             (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?") || token.equals(urlQuote))) {
         return true;
       }
     } else {
-      final Matcher matcher = URL_CHARS.matcher(token);
+      Matcher matcher = URL_CHARS.matcher(token);
       if (!matcher.matches()) {
         return true;
       }

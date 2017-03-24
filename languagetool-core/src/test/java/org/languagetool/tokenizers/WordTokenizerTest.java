@@ -19,24 +19,36 @@
 
 package org.languagetool.tokenizers;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class WordTokenizerTest extends TestCase {
+public class WordTokenizerTest {
 
   private final WordTokenizer wordTokenizer = new WordTokenizer();
-  
+
+  @Test
   public void testTokenize() {
-    final WordTokenizer wordTokenizer = new WordTokenizer();
-    final List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
+    WordTokenizer wordTokenizer = new WordTokenizer();
+    List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
     assertEquals(tokens.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", tokens.toString());
-    final List <String> tokens2 = wordTokenizer.tokenize("This\rbreaks");
-    assertEquals(3, tokens2.size());
-    assertEquals("[This, \r, breaks]", tokens2.toString());
+    tokens = wordTokenizer.tokenize("This\rbreaks");
+    assertEquals(3, tokens.size());
+    assertEquals("[This, \r, breaks]", tokens.toString());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org");
+    assertEquals(1, tokens.size());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org.");
+    assertEquals(2, tokens.size());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org:");
+    assertEquals(2, tokens.size());
+    tokens = wordTokenizer.tokenize("Schreiben Sie Hr. Meier (meier@mail.com).");
+    assertEquals(tokens.size(), 13);
   }
 
+  @Test
   public void testIsUrl() {
     assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
     assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
@@ -44,7 +56,18 @@ public class WordTokenizerTest extends TestCase {
     assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
     assertFalse(WordTokenizer.isUrl("something-else"));
   }
-  
+
+  @Test
+  public void testIsEMail() {
+    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.de"));
+    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.languagetool.de"));
+    assertTrue(WordTokenizer.isEMail("martin-mustermann@test.com"));
+    assertFalse(WordTokenizer.isEMail("@test.de"));
+    assertFalse(WordTokenizer.isEMail("f.test@test"));
+    assertFalse(WordTokenizer.isEMail("f@t.t"));
+  }
+
+  @Test
   public void testUrlTokenize() {
     assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
     assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
@@ -57,12 +80,14 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("foo| |https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info| |bar",
           tokenize("foo https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info bar"));
   }
-  
+
+  @Test
   public void testUrlTokenizeWithQuote() {
     assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
     assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
   }
-  
+
+  @Test
   public void testUrlTokenizeWithAppendedCharacter() {
     assertEquals("foo| |(|http://ex.net/p?a=x#i|)| |bar", tokenize("foo (http://ex.net/p?a=x#i) bar"));
     assertEquals("foo| |http://ex.net/p?a=x#i|,| |bar", tokenize("foo http://ex.net/p?a=x#i, bar"));
@@ -72,6 +97,7 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("foo| |http://ex.net/p?a=x#i|!| |bar", tokenize("foo http://ex.net/p?a=x#i! bar"));
   }
 
+  @Test
   public void testIncompleteUrlTokenize() {
     assertEquals("http|:|/", tokenize("http:/"));
     assertEquals("http://", tokenize("http://"));
@@ -85,7 +111,7 @@ public class WordTokenizerTest extends TestCase {
   }
 
   private String tokenize(String text) {
-    final List<String> tokens = wordTokenizer.tokenize(text);
+    List<String> tokens = wordTokenizer.tokenize(text);
     return String.join("|", tokens);
   }
   

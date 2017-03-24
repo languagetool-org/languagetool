@@ -37,8 +37,8 @@ public class GreekWordTokenizer implements Tokenizer {
   }
 
   @Override
-  public List<String> tokenize(final String text) {
-    final List<String> tokens = new ArrayList<>();
+  public List<String> tokenize(String text) {
+    List<String> tokens = new ArrayList<>();
     tokenizer.yyreset(new StringReader(text));
     try {
       while (tokenizer.getNextToken() != GreekWordTokenizerImpl.YYEOF) {

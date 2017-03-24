@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.it;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Italian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class ItalianSRXSentenceTokenizerTest extends TestCase {
+public class ItalianSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Italian());
 
+  @Test
   public void testTokenize() {
     testSplit("Il Castello Reale di Racconigi è situato a Racconigi, in provincia di Cuneo ma poco distante da Torino. ",
               "Nel corso della sua quasi millenaria storia ha visto numerosi rimaneggiamenti e divenne di proprietà dei Savoia a partire dalla seconda metà del XIV secolo.");

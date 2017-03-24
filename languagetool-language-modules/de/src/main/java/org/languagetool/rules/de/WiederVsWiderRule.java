@@ -52,13 +52,13 @@ public class WiederVsWiderRule extends GermanRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     boolean foundSpiegelt = false;
     boolean foundWieder = false;
     boolean foundWider = false;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      String token = tokens[i].getToken();
       if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
               || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
         foundSpiegelt = true;
@@ -70,11 +70,11 @@ public class WiederVsWiderRule extends GermanRule {
       if (foundSpiegelt && foundWieder && !foundWider &&
           !(tokens.length > i + 2 && (tokens[i + 1].getToken().equals("wider") || tokens[i + 2].getToken().equals("wider")) )
          ) {
-        final String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' " +
+        String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' " +
                 "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
-        final String shortMsg = "'wider' in 'widerspiegeln' wird mit 'i' geschrieben";
-        final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg, shortMsg);
+        String shortMsg = "'wider' in 'widerspiegeln' wird mit 'i' geschrieben";
+        int pos = tokens[i].getStartPos();
+        RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg, shortMsg);
         ruleMatch.setSuggestedReplacement("wider");
         ruleMatches.add(ruleMatch);
         foundSpiegelt = false;

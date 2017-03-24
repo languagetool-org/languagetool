@@ -54,14 +54,14 @@ class ExampleSentenceProvider {
   }
 
   private void initExampleSentences(Language language) throws IOException {
-    final JLanguageTool lt = new JLanguageTool(language);
-    final List<Rule> rules = lt.getAllActiveRules();
-    final List<ExampleSentence> sentences = new ArrayList<>();
+    JLanguageTool lt = new JLanguageTool(language);
+    List<Rule> rules = lt.getAllActiveRules();
+    List<ExampleSentence> sentences = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule && !rule.isDefaultOff()) {
-        final List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+        List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
         for (IncorrectExample incorrectExample : incorrectExamples) {
-          final ExampleSentence sentence = new ExampleSentence(incorrectExample.getExample(), rule.getId());
+          ExampleSentence sentence = new ExampleSentence(incorrectExample.getExample(), rule.getId());
           sentences.add(sentence);
         }
       }
@@ -70,8 +70,8 @@ class ExampleSentenceProvider {
   }
 
   List<ExampleSentence> getRandomSentences(Language lang) {
-    final List<ExampleSentence> sentences = new ArrayList<>(languageToExamples.get(lang));
-    final int sentenceCount = rnd.nextInt(Math.max(1, maxSentences - minSentences)) + minSentences;
+    List<ExampleSentence> sentences = new ArrayList<>(languageToExamples.get(lang));
+    int sentenceCount = rnd.nextInt(Math.max(1, maxSentences - minSentences)) + minSentences;
     Collections.shuffle(sentences, rnd);
     return sentences.subList(0, Math.min(sentences.size(), sentenceCount));
   }

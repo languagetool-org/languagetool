@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.sv;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class SwedishTaggerTest extends TestCase {
+public class SwedishTaggerTest {
     
   private SwedishTagger tagger;
   private WordTokenizer tokenizer;
       
-  @Override
+  @Before
   public void setUp() {
     tagger = new SwedishTagger();
     tokenizer = new WordTokenizer();
   }
-  
+
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Swedish());
   }
 
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Det är nog bäst att du får en klubba till",
         "Det/[det]PN -- är/[vara]VB:PRS -- nog/[nog]AB -- bäst/[bra]JJ:S|bäst/[bäst]AB|bäst/[god]JJ:S -- att/[att]KN -- du/[du]PN -- får/[få]VB:PRS|får/[får]NN:OF:PLU:NOM:NEU|får/[får]NN:OF:SIN:NOM:NEU -- en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN|en/[passant]en passant NN:OF:SIN:NOM:UTR|en/[passanten]en passant NN:BF:SIN:NOM:UTR|en/[passantens]en passant NN:BF:SIN:GEN:UTR|en/[passanter]en passant NN:OF:PLU:NOM:UTR|en/[passanterna]en passant NN:BF:PLU:NOM:UTR|en/[passanternas]en passant NN:BF:PLU:GEN:UTR|en/[passanters]en passant NN:OF:PLU:GEN:UTR|en/[passants]en passant NN:OF:SIN:GEN:UTR -- klubba/[klubba]NN:OF:SIN:NOM:UTR|klubba/[klubba]VB:IMP|klubba/[klubba]VB:INF -- till/[till]AB|till/[till]PP", tokenizer, tagger);        

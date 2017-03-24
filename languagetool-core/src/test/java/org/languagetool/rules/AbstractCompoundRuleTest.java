@@ -18,12 +18,13 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.JLanguageTool;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
-import org.languagetool.JLanguageTool;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Abstract test case for CompoundRule.
@@ -31,18 +32,12 @@ import org.languagetool.JLanguageTool;
  *    
  * @author Daniel Naber
  */
-public abstract class AbstractCompoundRuleTest extends TestCase {
+public abstract class AbstractCompoundRuleTest {
 
   // the object used for checking text against different rules
-  protected JLanguageTool langTool;
+  protected JLanguageTool lt;
   // the rule that checks that compounds (if in the list) are not written as separate words. Language specific.
   protected AbstractCompoundRule rule;
-
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    // concrete classes will initialize langTool and rule variables here.
-  }
 
   public void check(int expectedErrors, String text) throws IOException {
     check(expectedErrors, text, null);
@@ -55,23 +50,23 @@ public abstract class AbstractCompoundRuleTest extends TestCase {
    * @param expSuggestions the expected suggestions
    */
   public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", langTool);
+    assertNotNull("Please initialize langTool!", lt);
     assertNotNull("Please initialize 'rule'!", rule);
-    final RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
+    RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
+    assertEquals("Expected " + expectedErrors + " error(s), but got: " + Arrays.toString(ruleMatches),
             expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
     if (expSuggestions != null) {
-      final RuleMatch ruleMatch = ruleMatches[0];
-      final String errorMessage =
+      RuleMatch ruleMatch = ruleMatches[0];
+      String errorMessage =
               String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
               Arrays.toString(expSuggestions));
       assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
-      for (final Object element : ruleMatch.getSuggestedReplacements()) {
-        final String suggestion = (String) element;
+      for (Object element : ruleMatch.getSuggestedReplacements()) {
+        String suggestion = (String) element;
         assertEquals(expSuggestions[i], suggestion);
         i++;
       }

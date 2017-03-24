@@ -19,16 +19,17 @@
 
 package org.languagetool.tokenizers.ca;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class CatalanSentenceTokenizerTest extends TestCase {
+public class CatalanSentenceTokenizerTest {
 
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Catalan());
 
+  @Test
   public final void testTokenize() {
 
     // Simple sentences
@@ -48,7 +49,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
             "»La Maria va engegar el cotxe");
     testSplit("diu que va dir. ", "A mi em feia estrany.");
     
-    // N.
+    // N., t.
     testSplit("Vés-te’n. ", "A mi em feia estrany.");  
     testSplit("Vés-te'n. ", "A mi em feia estrany.");
     testSplit("VÉS-TE'N. ", "A mi em feia estrany.");
@@ -58,6 +59,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(" n. 3");
     testSplit("n. 3");
     testSplit("(\"n. 3\".");
+    testSplit("En el t. 2 de la col·lecció");
+    testSplit("Llança't. ", "Fes-ho.");
     
     // Initials
     testSplit("A l'atenció d'A. Comes.");

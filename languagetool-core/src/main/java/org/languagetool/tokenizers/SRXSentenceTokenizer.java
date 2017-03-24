@@ -56,7 +56,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
 
   @Override
   public final List<String> tokenize(String text) {
-    return SrxTools.tokenize(text, srxDocument, language.getShortName() + parCode);
+    return SrxTools.tokenize(text, srxDocument, language.getShortCode() + parCode);
   }
 
   @Override

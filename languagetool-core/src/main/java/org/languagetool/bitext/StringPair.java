@@ -28,7 +28,7 @@ public final class StringPair {
   private final String sourceString;
   private final String targetString;
   
-  public StringPair(final String source, final String target) {
+  public StringPair(String source, String target) {
     sourceString = source;
     targetString = target;
   }

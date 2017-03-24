@@ -47,6 +47,15 @@ public class MorfologikTagger implements WordTagger {
   MorfologikTagger(URL dictUrl) {
     this.dictUrl = Objects.requireNonNull(dictUrl);
   }
+  
+  /**
+   * Constructs a MorfologikTagger with the given morfologik dictionary.
+   * @since 3.4
+   */
+  public MorfologikTagger(Dictionary dictionary) {
+    this.dictUrl = null;
+    this.dictionary = dictionary;
+  }
 
   private synchronized Dictionary getDictionary() throws IOException {
     if (dictionary == null) {

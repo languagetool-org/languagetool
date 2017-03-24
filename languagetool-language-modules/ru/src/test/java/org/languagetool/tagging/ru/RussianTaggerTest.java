@@ -18,33 +18,36 @@
  */
 package org.languagetool.tagging.ru;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class RussianTaggerTest extends TestCase {
+public class RussianTaggerTest {
     
   private RussianTagger tagger;
   private WordTokenizer tokenizer;
       
-  @Override
+  @Before
   public void setUp() {
     tagger = new RussianTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Russian());
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Все счастливые семьи похожи друг на друга,  каждая  несчастливая  семья несчастлива по-своему.",
-        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:PL:Nom|счастливые/[счастливый]ADJ:PL:V -- семьи/[семья]NN:Fem:PL:Nom|семьи/[семья]NN:Fem:PL:V|семьи/[семья]NN:Fem:Sin:R -- похожи/[похожий]ADJ_Short:PL -- друг/[друг]NN:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Masc:Sin:R|друга/[друг]NN:Masc:Sin:V -- каждая/[каждый]PADJ:Fem:Nom -- несчастливая/[несчастливый]ADJ:Fem:Nom -- семья/[семья]NN:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ_Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);        
+        "Все/[весь]ADJ:MPR:PL:Nom|Все/[весь]ADJ:MPR:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:Posit:PL:Nom|счастливые/[счастливый]ADJ:Posit:PL:V -- семьи/[семья]NN:Inanim:Fem:PL:Nom|семьи/[семья]NN:Inanim:Fem:PL:V|семьи/[семья]NN:Inanim:Fem:Sin:R -- похожи/[похожий]ADJ:Short:PL -- друг/[друг]NN:Anim:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Anim:Masc:Sin:R|друга/[друг]NN:Anim:Masc:Sin:V -- каждая/[каждый]ADJ:MPR:Fem:Nom -- несчастливая/[несчастливый]ADJ:Posit:Fem:Nom -- семья/[семья]NN:Inanim:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ:Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);
     TestTools.myAssert("Все смешалось в доме Облонских.",
-        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:Neut -- в/[в]PREP -- доме/[дом]NN:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);        
+        "Все/[весь]ADJ:MPR:PL:Nom|Все/[весь]ADJ:MPR:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:Neut -- в/[в]PREP -- доме/[дом]NN:Inanim:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);
   }
 
 }

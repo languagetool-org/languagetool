@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class PedlerCorpusTest {
 

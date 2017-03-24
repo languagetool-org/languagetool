@@ -47,7 +47,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected String getSpellingFileName() {
+  public String getSpellingFileName() {
     return "/nl/spelling/spelling.txt";
   }
 

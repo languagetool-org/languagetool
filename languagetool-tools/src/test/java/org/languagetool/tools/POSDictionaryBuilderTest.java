@@ -36,7 +36,7 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   @Ignore("for interactive use only")
   public void testExportAndImport() throws Exception {
     for (Language language : Languages.get()) {
-      String langCode = language.getShortName();
+      String langCode = language.getShortCode();
       File dir = new File("./languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool/resource/" + langCode);
       File oldBinaryFile = new File(dir, language.getName().toLowerCase() + ".dict");
       File infoFile = new File(dir, language.getName().toLowerCase() + ".info");

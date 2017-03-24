@@ -18,22 +18,24 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Daniel Naber
  */
-public class DoublePunctuationRuleTest extends TestCase {
+public class DoublePunctuationRuleTest {
 
+  @Test
   public void testRule() throws IOException {
-    final DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
+    DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
     
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));

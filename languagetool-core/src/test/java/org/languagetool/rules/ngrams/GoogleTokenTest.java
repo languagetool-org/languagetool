@@ -72,11 +72,11 @@ public class GoogleTokenTest {
     public Tagger getTagger() {
       return new Tagger() {
         @Override
-        public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-          final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+        public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
+          List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
           int pos = 0;
           for (String word : sentenceTokens) {
-            final List<AnalyzedToken> l = new ArrayList<>();
+            List<AnalyzedToken> l = new ArrayList<>();
             switch (word) {
               case "This": l.add(new AnalyzedToken(word, "DT", word)); break;
               case "is": l.add(new AnalyzedToken(word, "VBZ", word)); break;
@@ -102,10 +102,10 @@ public class GoogleTokenTest {
 
   private class MyWordTokenizer extends WordTokenizer {
     @Override
-    public List<String> tokenize(final String text) {
+    public List<String> tokenize(String text) {
       List<String> tokens = super.tokenize(text);
       String prev = null;
-      final Stack<String> l = new Stack<>();
+      Stack<String> l = new Stack<>();
       for (String token : tokens) {
         if ("'".equals(prev)) {
           if (token.equals("t")) {

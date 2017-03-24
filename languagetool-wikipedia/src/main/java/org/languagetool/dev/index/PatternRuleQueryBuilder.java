@@ -18,10 +18,8 @@
  */
 package org.languagetool.dev.index;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.sandbox.queries.regex.JavaUtilRegexCapabilities;
-import org.apache.lucene.sandbox.queries.regex.RegexQuery;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 import org.apache.lucene.search.spans.SpanNearQuery;
@@ -69,11 +67,11 @@ public class PatternRuleQueryBuilder {
    * @throws UnsupportedPatternRuleException if no query could be created for the rule
    */
   public Query buildRelaxedQuery(AbstractPatternRule rule) throws UnsupportedPatternRuleException {
-    final BooleanQuery booleanQuery = new BooleanQuery();
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (PatternToken patternToken : rule.getPatternTokens()) {
       try {
-        final BooleanClause clause = makeQuery(patternToken);
-        booleanQuery.add(clause);
+        BooleanClause clause = makeQuery(patternToken);
+        builder.add(clause);
       } catch (UnsupportedPatternRuleException e) {
         //System.out.println("Ignoring because it's not supported: " + element + ": " + e);
         // cannot handle - okay to ignore, as we may return too broad matches
@@ -81,27 +79,28 @@ public class PatternRuleQueryBuilder {
         throw new RuntimeException("Could not create query for rule " + rule.getId(), e);
       }
     }
-    if (booleanQuery.clauses().size() == 0) {
+    BooleanQuery query = builder.build();
+    if (query.clauses().size() == 0) {
       throw new UnsupportedPatternRuleException("No items found in rule that can be used to build a search query: " + rule);
     }
-    return booleanQuery;
+    return query;
   }
 
   private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {
     checkUnsupportedElement(patternToken);
 
-    final String termStr = patternToken.getString();
-    final String pos = patternToken.getPOStag();
+    String termStr = patternToken.getString();
+    String pos = patternToken.getPOStag();
 
-    final BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
-    final BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
+    BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
+    BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
 
     if (termQuery != null && posQuery != null) {
       // if both term and POS are set, we create a query where both are at the same position
       if (mustOccur(termQuery) && mustOccur(posQuery)) {
-        final SpanQuery spanQueryForTerm = asSpanQuery(termQuery);
-        final SpanQuery spanQueryForPos = asSpanQuery(posQuery);
-        final SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};
+        SpanQuery spanQueryForTerm = asSpanQuery(termQuery);
+        SpanQuery spanQueryForPos = asSpanQuery(posQuery);
+        SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};
         return new BooleanClause(new SpanNearQuery(spanClauses, 0, false), BooleanClause.Occur.MUST);
       } else {
         // should not happen, we always use Occur.MUST:
@@ -121,7 +120,7 @@ public class PatternRuleQueryBuilder {
     if (query.getQuery() instanceof MultiTermQuery) {
       return new SpanMultiTermQueryWrapper<>((MultiTermQuery) query.getQuery());
     } else {
-      final Set<Term> terms = new HashSet<>();
+      Set<Term> terms = new HashSet<>();
       try {
         indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);
       } catch (IOException e) {
@@ -139,18 +138,18 @@ public class PatternRuleQueryBuilder {
   }
 
   @Nullable
-  private BooleanClause getTermQueryOrNull(PatternToken patternToken, String termStr) {
+  private BooleanClause getTermQueryOrNull(PatternToken patternToken, String termStr) throws UnsupportedPatternRuleException {
     if (termStr == null || termStr.isEmpty()) {
       return null;
     }
-    final Query termQuery;
-    final Term termQueryTerm = getTermQueryTerm(patternToken, termStr);
+    Query termQuery;
+    Term termQueryTerm = getTermQueryTerm(patternToken, termStr);
     if (patternToken.getNegation() || patternToken.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (patternToken.isInflected() && patternToken.isRegularExpression()) {
       Term lemmaQueryTerm = getQueryTerm(patternToken, LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
-      final Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);
+      Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (patternToken.isInflected() && !patternToken.isRegularExpression()) {
       /*
@@ -159,11 +158,11 @@ public class PatternRuleQueryBuilder {
       Query query = new TermQuery(lemmaQueryTerm);
       return new BooleanClause(query, BooleanClause.Occur.MUST);
       */
-      final Synthesizer synthesizer = language.getSynthesizer();
+      Synthesizer synthesizer = language.getSynthesizer();
       if (synthesizer != null) {
         try {
-          final String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
-          final Query query;
+          String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
+          Query query;
           if (synthesized.length == 0) {
             query = new TermQuery(termQueryTerm);
           } else {
@@ -194,12 +193,12 @@ public class PatternRuleQueryBuilder {
   }
 
   @Nullable
-  private BooleanClause getPosQueryOrNull(PatternToken patternToken, String pos) {
+  private BooleanClause getPosQueryOrNull(PatternToken patternToken, String pos) throws UnsupportedPatternRuleException {
     if (pos == null || pos.isEmpty()) {
       return null;
     }
-    final Query posQuery;
-    final Term posQueryTerm;
+    Query posQuery;
+    Term posQueryTerm;
     if (patternToken.getPOSNegation() || patternToken.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
@@ -229,29 +228,21 @@ public class PatternRuleQueryBuilder {
     }
   }
 
-  private Query getRegexQuery(Term term, String str, PatternToken patternToken) {
+  private Query getRegexQuery(Term term, String str, PatternToken patternToken) throws UnsupportedPatternRuleException {
     try {
       if (needsSimplification(str)) {
         Term newTerm = new Term(term.field(), simplifyRegex(term.text()));
         return new RegexpQuery(newTerm);
       }
       if (str.contains("?iu") || str.contains("?-i")) {
-        // Lucene's RegexpQuery doesn't seem to handle this correctly
-        return getFallbackRegexQuery(str, patternToken);
+        // Lucene's RegexpQuery doesn't seem to support this
+        throw new UnsupportedPatternRuleException("Regex constructs like '?iu' and '?-i' are not supported: " + patternToken);
       }
       return new RegexpQuery(term);
     } catch (IllegalArgumentException e) {
-      // fallback for special constructs like "\p{Punct}" not supported by Lucene RegExp:
-      return getFallbackRegexQuery(str, patternToken);
+      // constructs like "\p{Punct}" not supported by Lucene RegExp:
+      throw new UnsupportedPatternRuleException("Advanced regex like '\\p{Punct}' are not supported: " + patternToken);
     }
-  }
-
-  /** Return a query with the old (and slow, but more complete) way Lucene implements regular expressions. */
-  private RegexQuery getFallbackRegexQuery(String str, PatternToken patternToken) {
-    // No lowercase of str, so '\p{Punct}' doesn't become '\p{punct}':
-    final RegexQuery query = new RegexQuery(new Term(patternToken.isCaseSensitive() ? FIELD_NAME : FIELD_NAME_LOWERCASE, str));
-    query.setRegexImplementation(new JavaUtilRegexCapabilities(JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
-    return query;
   }
 
   private void checkUnsupportedElement(PatternToken patternPatternToken)

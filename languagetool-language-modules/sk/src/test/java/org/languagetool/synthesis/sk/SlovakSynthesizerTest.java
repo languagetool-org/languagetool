@@ -19,15 +19,17 @@
 
 package org.languagetool.synthesis.sk;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
+public class SlovakSynthesizerTest {
 
-public class SlovakSynthesizerTest extends TestCase {
-
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     SlovakSynthesizer synth = new SlovakSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), 

@@ -59,7 +59,7 @@ final class StartupTimePerformanceTest {
       }
       //System.out.println(runTime + "ms");
     }
-    System.out.println(language.getShortNameWithCountryAndVariant() + ": avg. Time: " + (float)totalTime/RUNS + "ms");
+    System.out.println(language.getShortCodeWithCountryAndVariant() + ": avg. Time: " + (float)totalTime/RUNS + "ms");
   }
 
   public static void main(String[] args) throws IOException {

@@ -106,7 +106,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @param rulesDir The directory's name of the grammar checker's rules directory.
    *  The default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
-  public DefaultResourceDataBroker(final String resourceDir, final String rulesDir) {
+  public DefaultResourceDataBroker(String resourceDir, String rulesDir) {
     this.resourceDir = (resourceDir == null) ? "" : resourceDir;
     this.rulesDir = (rulesDir == null) ? "" : rulesDir;
   }
@@ -124,9 +124,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    */
   @Override
-  public InputStream getFromResourceDirAsStream(final String path) {
-    final String completePath = getCompleteResourceUrl(path);
-    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+  public InputStream getFromResourceDirAsStream(String path) {
+    String completePath = getCompleteResourceUrl(path);
+    InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -144,9 +144,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    */
   @Override
-  public URL getFromResourceDirAsUrl(final String path) {
-    final String completePath = getCompleteResourceUrl(path);
-    final URL resource = ResourceDataBroker.class.getResource(completePath);
+  public URL getFromResourceDirAsUrl(String path) {
+    String completePath = getCompleteResourceUrl(path);
+    URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -159,7 +159,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return The full relative path to the resource including the path to the
    *         {@code resource} directory.
    */
-  private String getCompleteResourceUrl(final String path) {
+  private String getCompleteResourceUrl(String path) {
     return appendPath(resourceDir, path);
   }
 
@@ -174,9 +174,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    */
   @Override
-  public InputStream getFromRulesDirAsStream(final String path) {
-    final String completePath = getCompleteRulesUrl(path);
-    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+  public InputStream getFromRulesDirAsStream(String path) {
+    String completePath = getCompleteRulesUrl(path);
+    InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -191,9 +191,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    */
   @Override
-  public URL getFromRulesDirAsUrl(final String path) {
-    final String completePath = getCompleteRulesUrl(path);
-    final URL resource = ResourceDataBroker.class.getResource(completePath);
+  public URL getFromRulesDirAsUrl(String path) {
+    String completePath = getCompleteRulesUrl(path);
+    URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -211,12 +211,12 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @param path The relative path to a resource item inside of the {@code rules} directory.
    * @return The full relative path to the resource including the path to the {@code rules} directory.
    */
-  private String getCompleteRulesUrl(final String path) {
+  private String getCompleteRulesUrl(String path) {
     return appendPath(rulesDir, path);
   }
 
   private String appendPath(String baseDir, String path) {
-    final StringBuilder completePath = new StringBuilder(baseDir);
+    StringBuilder completePath = new StringBuilder(baseDir);
     if (!this.rulesDir.endsWith("/") && !path.startsWith("/")) {
       completePath.append('/');
     }
@@ -237,7 +237,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public boolean resourceExists(String path) {
-    final String completePath = getCompleteResourceUrl(path);
+    String completePath = getCompleteResourceUrl(path);
     return ResourceDataBroker.class.getResource(completePath) != null;
   }
   
@@ -250,7 +250,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public boolean ruleFileExists(String path) {
-    final String completePath = getCompleteRulesUrl(path);
+    String completePath = getCompleteRulesUrl(path);
     return ResourceDataBroker.class.getResource(completePath) != null;
   }
 

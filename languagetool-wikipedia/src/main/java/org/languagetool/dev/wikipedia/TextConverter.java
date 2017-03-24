@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import de.fau.cs.osr.ptk.common.ast.*;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.sweble.wikitext.engine.Page;
 import org.sweble.wikitext.engine.PageTitle;
 import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
@@ -220,7 +220,7 @@ public class TextConverter extends Visitor {
     if ("nbsp".equals(er.getName())) {
       write('\u00A0');  // non-breaking space
     } else {
-      String ch = StringEscapeUtils.unescapeHtml("&" + er.getName() + ";");
+      String ch = StringEscapeUtils.unescapeHtml4("&" + er.getName() + ";");
       write(ch);
     }
   }

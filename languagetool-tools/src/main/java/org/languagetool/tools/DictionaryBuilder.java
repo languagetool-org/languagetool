@@ -83,8 +83,7 @@ class DictionaryBuilder {
     props.store(new FileOutputStream(infoFile), "");
     String[] buildOptions = {"--exit", "false",
         "-i", inputFile.toString(), 
-        "-f", serializationFormat.toString(), 
-        "--overwrite"};
+        "-f", serializationFormat.toString()};
     System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildOptions));
     DictCompile.main(buildOptions);
     // move output file to the desired path and name
@@ -99,8 +98,7 @@ class DictionaryBuilder {
         "--exit", "false",
         "-i", inputFile.toString(), 
         "-o", resultFile.toString(),
-        "-f", serializationFormat.toString(), 
-        "--overwrite"};
+        "-f", serializationFormat.toString()};
     System.out.println("Running Morfologik FSACompile.main with these options: " + Arrays.toString(buildOptions));
     FSACompile.main(buildOptions);
     System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
@@ -151,14 +149,10 @@ class DictionaryBuilder {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     File tempFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-        new FileOutputStream(tempFile.getAbsoluteFile()),
-        getOption("fsa.dict.encoding")));
+    String encoding = getOption("fsa.dict.encoding");
     int freqValuesApplied = 0;
-    try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(
-          new FileInputStream(dictFile.getAbsoluteFile()),
-          getOption("fsa.dict.encoding")));
+    try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile.getAbsoluteFile()), encoding));
+         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dictFile.getAbsoluteFile()), encoding))) {
       String line;
       int maxFreq = Collections.max(freqList.values());
       double maxFreqLog = Math.log(maxFreq);
@@ -189,8 +183,6 @@ class DictionaryBuilder {
           }
         }
       }
-      br.close();
-      bw.close();
       System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
     } catch (IOException e) {
       throw new RuntimeException("Cannot read file: " + dictFile.getAbsolutePath());

@@ -34,7 +34,7 @@ public class LocationHelper {
     int pos = 0;
     int ignoreLevel = 0;
     boolean inReference = false;
-    final StringBuilder relevantLine = new StringBuilder();
+    StringBuilder relevantLine = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
       char ch = text.charAt(i);
       if (line == location.line) {

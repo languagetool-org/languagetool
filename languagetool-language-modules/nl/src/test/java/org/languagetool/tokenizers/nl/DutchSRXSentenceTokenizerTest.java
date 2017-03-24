@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.nl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -28,10 +28,11 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  * @author Adapted by R. Baars for Dutch
  * @author Pander OpenTaal added examples from Wikipedia and Taaladvies
  */
-public class DutchSRXSentenceTokenizerTest extends TestCase {
+public class DutchSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Dutch());
 
+  @Test
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:

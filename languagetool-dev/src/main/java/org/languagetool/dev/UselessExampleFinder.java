@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -35,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Finds and removes "useless" examples sentences. "Useless" are sentences
@@ -53,7 +55,7 @@ final class UselessExampleFinder {
     if (!basePath.exists()) {
       throw new RuntimeException("basePath does not exist: " + basePath);
     }
-    String langCode = lang.getShortName();
+    String langCode = lang.getShortCode();
     File xml = new File(basePath, "/" + langCode + "/src/main/resources/org/languagetool/rules/" + langCode + "/grammar.xml");
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
@@ -61,7 +63,7 @@ final class UselessExampleFinder {
       if (!(rule instanceof PatternRule)) {
         continue;
       }
-      List<String> correctExamples = rule.getCorrectExamples();
+      List<CorrectExample> correctExamples = rule.getCorrectExamples();
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       for (IncorrectExample incorrectExample : incorrectExamples) {
         checkCorrections(rule, correctExamples, incorrectExample, xmlLines);
@@ -74,7 +76,8 @@ final class UselessExampleFinder {
     }
   }
 
-  private void checkCorrections(Rule rule, List<String> correctExamples, IncorrectExample incorrectExample, List<String> xmlLines) {
+  private void checkCorrections(Rule rule, List<CorrectExample> correctExamplesObjs, IncorrectExample incorrectExample, List<String> xmlLines) {
+    List<String> correctExamples = correctExamplesObjs.stream().map(k -> k.getExample()).collect(Collectors.toList());
     List<String> corrections = incorrectExample.getCorrections();
     for (String correction : corrections) {
       String fixedSentence = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", "<marker>" + correction.replace("$", "\\$") + "</marker>");
@@ -146,7 +149,7 @@ final class UselessExampleFinder {
 
   public static void main(String[] args) throws IOException {
     UselessExampleFinder prg = new UselessExampleFinder();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

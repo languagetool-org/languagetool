@@ -19,7 +19,8 @@
 
 package org.languagetool.tagging.disambiguation.rules.fr;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -31,7 +32,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class FrenchRuleDisambiguatorTest extends TestCase {
+public class FrenchRuleDisambiguatorTest {
 
   private FrenchTagger tagger;
   private WordTokenizer tokenizer;
@@ -39,7 +40,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();
@@ -49,6 +50,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     disamb2 = new DemoDisambiguator();    
   }
 
+  @Test
   public void testChunker() throws IOException {
     TestTools.myAssert("Il a enfin publié son livre.",
         "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s  /[null]null livre/[livre]N e s ./[null]null", 

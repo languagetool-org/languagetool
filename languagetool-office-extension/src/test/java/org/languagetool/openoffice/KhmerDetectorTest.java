@@ -18,12 +18,15 @@
  */
 package org.languagetool.openoffice;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class KhmerDetectorTest extends TestCase {
-  
+import static org.junit.Assert.*;
+
+public class KhmerDetectorTest {
+
+  @Test
   public void testIsThisLanguage() {
-    final KhmerDetector detector = new KhmerDetector();
+    KhmerDetector detector = new KhmerDetector();
     
     assertTrue(detector.isThisLanguage("ប៉ុ"));
     assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));

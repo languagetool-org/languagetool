@@ -18,7 +18,8 @@
  */
 package org.languagetool.tagging.ro;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
@@ -29,23 +30,26 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Root class for RomanianTagger tests.
  * Provides convenient methods to find specific lemma/pos
  * 
  * @author Ionuț Păduraru
  */
-public abstract class AbstractRomanianTaggerTest extends TestCase {
+public abstract class AbstractRomanianTaggerTest {
 
   private RomanianTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = createTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Romanian());
   }

@@ -20,13 +20,13 @@
 package org.languagetool.tagging.disambiguation.xx;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 
 /**
  * Trivial disambiguator.
  * Does nothing at all. Just copies input to output.   
  */
-public class DemoDisambiguator implements Disambiguator {
+public class DemoDisambiguator extends AbstractDisambiguator {
 
   @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {

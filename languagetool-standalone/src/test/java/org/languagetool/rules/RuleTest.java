@@ -18,23 +18,26 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
-public class RuleTest extends TestCase {
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class RuleTest {
+
+  @Test
   public void testJavaRules() throws IOException {
-    final Set<String> ids = new HashSet<>();
-    final Set<Class> ruleClasses = new HashSet<>();
+    Set<String> ids = new HashSet<>();
+    Set<Class> ruleClasses = new HashSet<>();
     if (Languages.getWithDemoLanguage().size() <= 1) {
       System.err.println("***************************************************************************");
       System.err.println("WARNING: found only these languages - the tests might not be complete:");
@@ -42,8 +45,8 @@ public class RuleTest extends TestCase {
       System.err.println("***************************************************************************");
     }
     for (Language language : Languages.getWithDemoLanguage()) {
-      final JLanguageTool lt = new JLanguageTool(language);
-      final List<Rule> allRules = lt.getAllRules();
+      JLanguageTool lt = new JLanguageTool(language);
+      List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
         if (!(rule instanceof AbstractPatternRule)) {
           assertIdUniqueness(ids, ruleClasses, language, rule);
@@ -56,7 +59,7 @@ public class RuleTest extends TestCase {
   }
 
   private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
-    final String ruleId = rule.getId();
+    String ruleId = rule.getId();
     if (ids.contains(ruleId) && !ruleClasses.contains(rule.getClass())) {
       throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
     }
@@ -65,7 +68,7 @@ public class RuleTest extends TestCase {
   }
 
   private void assertIdValidity(Language language, Rule rule) {
-    final String ruleId = rule.getId();
+    String ruleId = rule.getId();
     if (!ruleId.matches("^[A-Z_]+$")) {
       throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: "
               + language + ", only [A-Z_] are allowed");
@@ -78,9 +81,9 @@ public class RuleTest extends TestCase {
   }
 
   private void testCorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
-    List<String> correctExamples = rule.getCorrectExamples();
-    for (String correctExample : correctExamples) {
-      String input = cleanMarkers(correctExample);
+    List<CorrectExample> correctExamples = rule.getCorrectExamples();
+    for (CorrectExample correctExample : correctExamples) {
+      String input = cleanMarkers(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Got unexpected rule match for correct example sentence:\n"
@@ -108,8 +111,6 @@ public class RuleTest extends TestCase {
       lt.disableRule(rule.getId());
     }
     lt.enableRule(ruleToActivate.getId());
-    //make sure that the rule that is by default off is on
-    lt.enableDefaultOffRule(ruleToActivate.getId());
   }
 
   private String cleanMarkers(String example) {

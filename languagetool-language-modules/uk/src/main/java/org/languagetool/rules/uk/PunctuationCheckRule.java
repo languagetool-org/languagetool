@@ -30,7 +30,7 @@ import org.languagetool.rules.AbstractPunctuationCheckRule;
  */
 public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
 
-  public PunctuationCheckRule(final ResourceBundle messages) {
+  public PunctuationCheckRule(ResourceBundle messages) {
     super(messages);
     // super.setCategory(new Category(messages.getString("category_misc")));
   }
@@ -47,7 +47,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * (java.lang.String)
    */
   @Override
-  protected final boolean isPunctsJoinOk(final String tokens) {
+  protected final boolean isPunctsJoinOk(String tokens) {
     return // we ignore duplicated spaces - too many errors
            tokens.matches("([,:] | *- |,- | ) *") // internal punctuation
         || tokens.matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
@@ -61,7 +61,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * (java.lang.String)
    */
   @Override
-  protected final boolean isPunctuation(final String token) {
+  protected final boolean isPunctuation(String token) {
     return token.matches("^[.,!?: -]$");
   }
 

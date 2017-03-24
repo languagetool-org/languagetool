@@ -18,58 +18,63 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternRule;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
-public class SameRuleGroupFilterTest extends TestCase {
+public class SameRuleGroupFilterTest {
 
   private static final Language language = TestTools.getDemoLanguage();
 
+  @Test
   public void testFilter() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
-    final SameRuleGroupFilter filter = new SameRuleGroupFilter();
-    final List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    SameRuleGroupFilter filter = new SameRuleGroupFilter();
+    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
     assertEquals(1, filteredMatches.size());
     assertEquals("Match1", filteredMatches.get(0).getMessage());
   }
 
+  @Test
   public void testNoFilteringIfNotOverlapping() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
-    final SameRuleGroupFilter filter = new SameRuleGroupFilter();
-    final List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
+    SameRuleGroupFilter filter = new SameRuleGroupFilter();
+    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches.size());
   }
 
+  @Test
   public void testNoFilteringIfDifferentRulegroups() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
-    final SameRuleGroupFilter filter = new SameRuleGroupFilter();
-    final List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    SameRuleGroupFilter filter = new SameRuleGroupFilter();
+    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches.size());
   }
 
+  @Test
   public void testOverlaps() {
-    final SameRuleGroupFilter filter = new SameRuleGroupFilter();
+    SameRuleGroupFilter filter = new SameRuleGroupFilter();
 
     assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
     assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));
@@ -83,7 +88,7 @@ public class SameRuleGroupFilterTest extends TestCase {
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {
-    return new RuleMatch(null, fromPos, toPos, "FakeMatch1");
+    return new RuleMatch(new FakeRule(), fromPos, toPos, "FakeMatch1");
   }
 
 }

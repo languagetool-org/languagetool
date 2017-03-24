@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
@@ -47,7 +46,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public BritishReplaceRule(final ResourceBundle messages) throws IOException {
+  public BritishReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Where's the <marker>bathroom</marker> on the Enterprise?"),
@@ -72,7 +71,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " is a common American expression, in British English it is more common to use: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

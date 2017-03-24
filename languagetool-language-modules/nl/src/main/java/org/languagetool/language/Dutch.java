@@ -54,7 +54,7 @@ public class Dutch extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "nl";
   }
 

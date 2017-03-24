@@ -45,7 +45,7 @@ public class TabBitextReader implements BitextReader {
   /**
    * @param encoding input encoding or {@code null} to use the platform default
    */
-  public TabBitextReader(final String filename, final String encoding) {
+  public TabBitextReader(String filename, String encoding) {
     try {     
       if (encoding == null) {
         in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
@@ -61,11 +61,11 @@ public class TabBitextReader implements BitextReader {
   }
 
   @Nullable
-  protected StringPair tab2StringPair(final String line) {
+  protected StringPair tab2StringPair(String line) {
     if (line == null) {
       return null;
     }
-    final String[] fields = line.split("\t");
+    String[] fields = line.split("\t");
     if (fields.length < 2) {
       throw new RuntimeException("Unexpected format, expected two tab-separated columns: " + line);
     }
@@ -87,7 +87,7 @@ public class TabBitextReader implements BitextReader {
     @Override
     public StringPair next() {
       try {
-        final StringPair result = nextPair;
+        StringPair result = nextPair;
         sentencePos = nextPair.getSource().length() + 1;
         if (nextLine != null) {
           prevLine = nextLine;

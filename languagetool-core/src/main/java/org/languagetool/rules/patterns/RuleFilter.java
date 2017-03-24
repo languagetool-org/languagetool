@@ -52,7 +52,7 @@ public abstract class RuleFilter {
     return acceptRuleMatch(fakeMatch, arguments, patternTokens) != null;
   }
 
-  private class FakeRule extends Rule {
+  private static class FakeRule extends Rule {
     @Override public String getId() { return "FAKE-RULE-FOR-FILTER"; }
     @Override public String getDescription() { return "<none>"; }
     @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }

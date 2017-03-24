@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.German;
@@ -34,11 +34,14 @@ import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
-  
+
+  // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+  private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
   private static final int SUGGESTION_MIN_LENGTH = 2;
   private static final List<Replacement> REPL = Arrays.asList(
@@ -75,7 +78,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       new Replacement("F", "Ph"),
       new Replacement("Ph", "F")
   );
-  
+
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
   private final GermanWordSplitter splitter;
@@ -97,20 +100,36 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
+  protected void init() throws IOException {
+    super.init();
+    String pattern = "(" + nonWordPattern.pattern() + "|(?<=\\d)\\-|\\-(?=\\d+))";
+    nonWordPattern = Pattern.compile(pattern);
+    needsInit = false;
+  }
+
+  @Override
   public String getId() {
     return RULE_ID;
   }
 
   @Override
   public List<String> getCandidates(String word) {
-    List<String> suggestions = new ArrayList<>();
     List<List<String>> partList = splitter.getAllSplits(word);
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       candidates.addAll(super.getCandidates(parts));
+      if (parts.size() == 2 && !parts.get(0).endsWith("s")) {
+        // so we get e.g. Einzahlungschein -> Einzahlungsschein
+        candidates.add(parts.get(0) + "s" + parts.get(1));
+      }
+      if (parts.size() == 2 && parts.get(1).startsWith("s")) {
+        // so we get e.g. Ordnungshütter -> Ordnungshüter (Ordnungshütter is split as Ordnung + shütter)
+        String firstPart = parts.get(0);
+        String secondPart = parts.get(1);
+        candidates.addAll(super.getCandidates(Arrays.asList(firstPart + "s", secondPart.substring(1))));
+      }
     }
-    suggestions.addAll(candidates);
-    return suggestions;
+    return candidates;
   }
 
   @Override
@@ -121,7 +140,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected void addIgnoreWords(String origLine, Set<String> wordsToBeIgnored) {
     String line;
-    if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
+    if (language.getShortCodeWithCountryAndVariant().equals("de-CH")) {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
       // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
       line = origLine.replace("ß", "ss");
@@ -136,9 +155,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return lineExpander.expandLine(line);
   }
 
+  /*
+   * @since 3.6
+   */
+  @Override
+  public List<String> getSuggestions(String word) throws IOException {
+    List<String> suggestions = super.getSuggestions(word);
+    if (word.endsWith(".")) {
+      // To avoid losing the "." of "word" if it is at the end of a sentence.
+      suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
+    }
+    return suggestions;
+  }
+
   @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
-    if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
+    if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {
@@ -159,7 +191,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected void filterForLanguage(List<String> suggestions) {
-    if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
+    if (language.getShortCodeWithCountryAndVariant().equals("de-CH")) {
       for (int i = 0; i < suggestions.size(); i++) {
         String s = suggestions.get(i);
         suggestions.set(i, s.replace("ß", "ss"));
@@ -168,13 +200,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
-    Iterator<String> iterator = suggestions.iterator();
-    while (iterator.hasNext()) {
-      String suggestion = iterator.next();
-      if (suggestion.length() > 1 && suggestion.startsWith("-")) {
-        iterator.remove();
-      }
-    }
+    suggestions.removeIf(s -> s.length() > 1 && s.startsWith("-"));
   }
 
   // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
@@ -189,14 +215,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     boolean ignore = super.ignoreWord(words, idx);
-    boolean ignoreUncapitalizedWord = idx == 0 && super.ignoreWord(WordUtils.uncapitalize(words.get(0)));
-    boolean ignoreByHyphen = !ignore && words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen;
+    boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
+    boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
+    if (!ignore && !ignoreUncapitalizedWord) {
+      if (words.get(idx).contains("-")) {
+        ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
+      }
+      ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
+    }
+    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound;
   }
-
+  
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
-    String w = word.replaceFirst("\\.$", "");
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+    String w = StringUtils.removeEnd(word, ".");
     if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
     } else if ("desweiteren".equals(w)) {
@@ -207,8 +239,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("wie viele");
     } else if ("wievielen".equals(w)) {
       return Collections.singletonList("wie vielen");
-    } else if ("vorteilen".equals(w)) {
-      return Collections.singletonList("Vorteilen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
@@ -225,6 +255,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Maßnahmen");
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
+    } else if (word.equals("Hobbies")) {
+      return Collections.singletonList("Hobbys");
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
@@ -240,6 +272,48 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (participleSuggestion != null) {
       return Collections.singletonList(participleSuggestion);
     }
+    // hyphenated compounds words (e.g., "Netflix-Flm")
+    if (suggestions.isEmpty() && word.contains("-")) {
+      String[] words = word.split("-");
+      if (words.length > 1) {
+        List<List<String>> suggestionLists = new ArrayList<>(words.length);
+        int startAt = 0, stopAt = words.length;
+        if (super.ignoreWord(words[0] + "-" + words[1])) { // "Au-pair-Agentr"
+          startAt = 2;
+          suggestionLists.add(Collections.singletonList(words[0] + "-" + words[1]));
+        }
+        if (super.ignoreWord(words[words.length-2] + "-" + words[words.length-1])) { // "Seniren-Au-pair"
+          stopAt = words.length-2;
+        }
+        for (int idx = startAt; idx < stopAt; idx++) {
+          if (super.ignoreWord(words[idx])) {
+            suggestionLists.add(Collections.singletonList(words[idx]));
+          } else if (hunspellDict.misspelled(words[idx])) {
+            List<String> list = sortSuggestionByQuality(words[idx], super.getSuggestions(words[idx]));
+            suggestionLists.add(list);
+          } else {
+            suggestionLists.add(Collections.singletonList(words[idx]));
+          }
+        }
+        if (stopAt < words.length-1) {
+          suggestionLists.add(Collections.singletonList(words[words.length-2] + "-" + words[words.length-1]));
+        }
+        if (suggestionLists.size() <= 3) {  // avoid OOM on words like "free-and-open-source-and-cross-platform"
+          List<String> additionalSuggestions = suggestionLists.get(0);
+          for (int idx = 1; idx < suggestionLists.size(); idx++) {
+            List<String> suggestionList = suggestionLists.get(idx);
+            List<String> newList = new ArrayList<>(additionalSuggestions.size() * suggestionList.size());
+            for (String additionalSuggestion : additionalSuggestions) {
+              for (String aSuggestionList : suggestionList) {
+                newList.add(additionalSuggestion + "-" + aSuggestionList);
+              }
+            }
+            additionalSuggestions = newList;
+          }
+          return additionalSuggestions;
+        }
+      }
+    }
     return Collections.emptyList();
   }
 
@@ -248,7 +322,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getPastTenseVerbSuggestion(String word) {
     if (word.endsWith("e")) {
-      String wordStem = word.replaceFirst("e$", "");
+      // strip trailing "e"
+      String wordStem = word.substring(0, word.length()-1);
       try {
         String lemma = baseForThirdPersonSingularVerb(wordStem);
         if (lemma != null) {
@@ -281,7 +356,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getParticipleSuggestion(String word) {
     if (word.startsWith("ge") && word.endsWith("t")) {
-      String baseform = word.replaceFirst("^ge", "").replaceFirst("t$", "en");
+      // strip leading "ge" and replace trailing "t" with "en":
+      String baseform = word.substring(2, word.length()-1) + "en";
       try {
         String participle = getParticipleForBaseform(baseform);
         if (participle != null) {
@@ -306,10 +382,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean ignoreByHangingHyphen(List<String> words, int idx) {
     String word = words.get(idx);
-    String nextWord = getWordAfterEnumerationOrNull(words, idx);
+    String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
+    if (nextWord != null) {
+      nextWord = StringUtils.removeEnd(nextWord, ".");
+    }
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
     if (isCompound) {
-      return !hunspellDict.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+      return !hunspellDict.misspelled(StringUtils.removeEnd(word, "-"));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
     }
     return false;
   }
@@ -325,6 +404,73 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return null;
+  }
+
+  // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
+  // that contains an ignored word from spelling.txt (e.g., "Feynman")
+  private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
+    String[] words = word.split("-");
+    if (words.length < 2) {
+      // non-hyphenated compound (e.g., "Feynmandiagramm"):
+      // only search for compounds that start(!) with a word from spelling.txt
+      int end = super.startsWithIgnoredWord(word, true);
+      if (end < 3) {
+    	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+    	// to accept sentences such as
+    	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
+    	if (word.startsWith("ost") || word.startsWith("süd")) {
+          end = 3;
+    	} else if (word.startsWith("west") || word.startsWith("nord")) {
+    	  end = 4;
+    	} else {
+    	  return false;
+    	}
+      }
+      String ignoredWord = word.substring(0, end);
+      String partialWord = word.substring(end);
+      boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
+      if (!needFugenS && partialWord.length() > 1) {
+        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
+      } else if (needFugenS && partialWord.length() > 2) {
+        partialWord = partialWord.startsWith("s") ? partialWord.substring(1) : partialWord;
+        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
+      }
+      return false;
+    }
+    // hyphenated compound (e.g., "Feynman-Diagramm"):
+    boolean hasIgnoredWord = false;
+    List<String> toSpellCheck = new ArrayList<>(3);
+    String stripFirst = word.substring(words[0].length()+1); // everything after the first "-"
+    String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1); // everything up to the last "-"
+
+    if (super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
+      hasIgnoredWord = true;
+      if (!super.ignoreWord(words[0])) {
+        toSpellCheck.add(words[0]);
+      }
+    } else if (super.ignoreWord(stripLast)) { // e.g., "Au-pair-Agentur"
+      hasIgnoredWord = true;
+      if (!super.ignoreWord(words[words.length-1])){
+        toSpellCheck.add(words[words.length-1]);
+      }
+    } else {
+      for (String word1 : words) {
+        if (super.ignoreWord(word1)) {
+          hasIgnoredWord = true;
+        } else {
+          toSpellCheck.add(word1);
+        }
+      }
+    }
+
+    if (hasIgnoredWord) {
+      for (String w : toSpellCheck) {
+        if (hunspellDict.misspelled(w)) {
+          return false;
+        }
+      }
+    }
+    return hasIgnoredWord;
   }
 
   private List<String> sortByReplacements(String misspelling, List<String> suggestions) {

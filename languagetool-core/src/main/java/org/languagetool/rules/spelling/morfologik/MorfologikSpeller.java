@@ -29,7 +29,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -87,7 +86,7 @@ public class MorfologikSpeller {
   }
 
   public List<String> getSuggestions(String word) {
-    final List<String> suggestions = new ArrayList<>();
+    List<String> suggestions = new ArrayList<>();
     suggestions.addAll(speller.findReplacements(word));
     suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary

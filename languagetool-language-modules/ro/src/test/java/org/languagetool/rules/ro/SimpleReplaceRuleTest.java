@@ -19,29 +19,31 @@
 
 package org.languagetool.rules.ro;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 /**
  * @author Ionuț Păduraru
  */
-public class SimpleReplaceRuleTest extends TestCase {
+public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
     langTool = new JLanguageTool(new Romanian());
   }
@@ -49,6 +51,7 @@ public class SimpleReplaceRuleTest extends TestCase {
   /**
    * Make sure that the suggested word is not the same as the wrong word
    */
+  @Test
   public void testInvalidSuggestion()  {
     final List<String> invalidSuggestions = new ArrayList<>();
     final List<Map<String,String>> wrongWords = rule.getWrongWords();
@@ -66,6 +69,7 @@ public class SimpleReplaceRuleTest extends TestCase {
     }
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:

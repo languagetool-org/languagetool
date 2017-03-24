@@ -46,8 +46,10 @@ class UndoRedoSupport {
 
   final UndoAction undoAction;
   final RedoAction redoAction;
+  
   private final UndoManager undoManager;
   private final ResourceBundle messages;
+  
   private boolean compoundMode = false;
   private CompoundEdit ce = null;
 

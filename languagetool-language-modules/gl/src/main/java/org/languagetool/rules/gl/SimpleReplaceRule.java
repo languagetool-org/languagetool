@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -50,7 +49,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
   }
 
@@ -72,7 +71,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " non existe en galego. Talvez quería vostede dicir: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

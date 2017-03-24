@@ -28,10 +28,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -120,12 +117,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 
   public ComplexAdjectiveConcordanceRule(ResourceBundle messages)
       throws IOException {
-    super.setCategory(new Category("Z) Concordances en grups nominals"));
+    super.setCategory(new Category(new CategoryId("CONCORDANCES_GRUPS_NOMINALS"), "Z) Concordances en grups nominals"));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("Anàlisis <marker>clínic</marker>."),
-        Example.fixed("Anàlisis <marker>clíniques</marker>."));
+                   Example.fixed("Anàlisis <marker>clíniques</marker>."));
     addExamplePair(Example.wrong("Tinc dues taules <marker>verds</marker>."),
-        Example.fixed("Tinc dues taules <marker>verdes</marker>."));
+                   Example.fixed("Tinc dues taules <marker>verdes</marker>."));
   }
 
   @Override

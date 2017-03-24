@@ -20,6 +20,8 @@ package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -32,22 +34,24 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/pt/post-reform-compounds.txt");
 
-  public PostReformPortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
+  public PostReformPortugueseCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
             "Esta palavra é hifenizada.",
-            "Esta palavra é escrita em conjunto.",
-            "Esta palavra é uma palavra ou com um hífen.",
-            "Juntos grafias de palavras");
+            "Esta palavra é composta por justaposição.",
+            "Esta palavra pode ser composta por justaposição ou hifenizada.",
+            "Este conjunto forma uma palavra composta.");
+    super.setCategory(Categories.COMPOUNDING.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   @Override
   public String getId() {
-    return "PT_COMPOUNDS_PRE_REFORM";
+    return "PT_COMPOUNDS_POST_REFORM";
   }
 
   @Override
   public String getDescription() {
-    return "Juntos ortografia de palavras, por exemplo 'CD-ROM' em vez de 'CD ROM'";
+    return "Palavras compostas, por exemplo 'CD-ROM' em vez de 'CD ROM'";
   }
 
   @Override

@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!--  ======================================== -->
 
 
-    <category name="Kapitalizácia">
+    <category id="CAT1" name="Kapitalizácia">
         <!--  ======================================== -->
 
         <rulegroup id="PAMATNY_DEN" name="Pamätný deň začína veľkým písmenom">
@@ -158,7 +158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!--  ======================================== -->
 
-    <category name="Rôzne">
+    <category id="CAT2" name="Rôzne">
         <!--  ======================================== -->
 
         <rulegroup id="KOHO_CI" name="Zámeno 'koho' nahraďte zámenom 'čí'">
@@ -167,7 +167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>koho</token>
-                    <token postag="S...." postag_regexp="yes"></token>
+                    <token postag="S...." postag_regexp="yes"/>
                 </pattern>
 		<!-- POZN:regulárny výraz (.) na mieste morfologickej značky v atribúte postag a následne premenná $1 (číslo podľa poradia) v atribúte postag_replace umožní prebratie vybranej morfologickej značky tokenu. V tomto prípade sa 'čí' vyskloňuje podľa podstatného mena -->
                 <message>
@@ -186,7 +186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>koho</token>
 		    <token skip="-1" postag="A....." postag_regexp="yes"/>
 		    <!--token skip="-1" postag="A....." postag_regexp="yes"><exception scope="next">a</exception></token-->
-                    <token postag="S...." postag_regexp="yes"></token>
+                    <token postag="S...." postag_regexp="yes"/>
                 </pattern>
                 <message>
 			Zámeno 'koho' nahraďte zámenom 'čí': 
@@ -203,7 +203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>koho</token>
 		    <token skip="-1" inflected="yes">byť</token>
-                    <token postag="S...." postag_regexp="yes"></token>
+                    <token postag="S...." postag_regexp="yes"/>
                 </pattern>
                 <message>
 			Zámeno 'koho' nahraďte zámenom 'čí': 

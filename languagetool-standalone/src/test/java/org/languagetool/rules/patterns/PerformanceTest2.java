@@ -46,7 +46,7 @@ final class PerformanceTest2 {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     System.out.println("Text length: " + text.length());
     Random rnd = new Random(42);
-    Language language = Languages.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortCode(languageCode);
     long totalTime = 0;
     for (int i = 0; i < RUNS; i++) {
       int beginIndex = rnd.nextInt(text.length());

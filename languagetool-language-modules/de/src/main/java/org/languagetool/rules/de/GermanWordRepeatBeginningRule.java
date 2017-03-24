@@ -35,8 +35,13 @@ import org.languagetool.rules.WordRepeatBeginningRule;
  * @author Markus Brenneis
  */
 public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
-  
-  public GermanWordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
+
+  private static final Set<String> ADVERBS = new HashSet<>(Arrays.asList(
+          "Auch", "Anschließend", "Außerdem", "Danach", "Ferner",
+          "Nebenher", "Nebenbei", "Überdies", "Weiterführend", "Zudem", "Zusätzlich"
+  ));
+
+  public GermanWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("Dann hatten wir Freizeit. Dann gab es Essen. <marker>Dann</marker> gingen wir schlafen."),
                    Example.fixed("Dann hatten wir Freizeit. Danach gab es Essen. <marker>Schließlich</marker> gingen wir schlafen."));
@@ -47,13 +52,8 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "GERMAN_WORD_REPEAT_BEGINNING_RULE";
   }
   
-  private static final Set<String> ADVERBS = new HashSet<>(Arrays.asList(
-          "Auch", "Anschließend", "Außerdem", "Danach", "Ferner",
-          "Nebenher", "Nebenbei", "Überdies", "Weiterführend", "Zudem", "Zusätzlich"
-  ));
-  
   @Override
-  protected boolean isAdverb(final AnalyzedTokenReadings token) {
+  protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADVERBS.contains(token.getToken());
   }
 

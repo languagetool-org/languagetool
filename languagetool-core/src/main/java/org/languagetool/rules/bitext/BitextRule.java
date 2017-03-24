@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -48,15 +47,6 @@ public abstract class BitextRule extends Rule {
             DifferentPunctuationRule.class
     );
   }
-
-  @Override
-  public abstract String getDescription();
-
-  @Override
-  public abstract String getId();
-
-  @Override
-  public abstract void reset();
 
   public abstract String getMessage();
 
@@ -81,7 +71,7 @@ public abstract class BitextRule extends Rule {
    * by LT, you need to use the default tokenizers etc.
    * @param lang Source Language
    */
-  public final void setSourceLanguage(final Language lang) {
+  public final void setSourceLanguage(Language lang) {
     sourceLanguage = lang;
   }
 
@@ -92,7 +82,7 @@ public abstract class BitextRule extends Rule {
   /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
-  public final void setCorrectBitextExamples(final List<StringPair> correctExamples) {
+  public final void setCorrectBitextExamples(List<StringPair> correctExamples) {
     this.correctExamples = correctExamples;
   }
 
@@ -118,11 +108,4 @@ public abstract class BitextRule extends Rule {
     return incorrectExamples;
   }
 
-  protected String getPureText(AnalyzedSentence sentence) {
-    final StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : sentence.getTokens()) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
-  }
 }

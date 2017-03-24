@@ -32,6 +32,10 @@ import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
+ */
+@Deprecated
 public class Swedish extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
@@ -43,7 +47,7 @@ public class Swedish extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "sv";
   }
 

@@ -39,13 +39,11 @@ public final class Example {
 
   /**
    * Create an example text (usually just one sentence) without an error - the fixed error (compared to the text created
-   * with {@link #wrong(String)}) must be marked with {@code <marker>...</marker>}.
-   * @throws IllegalArgumentException if the {@code <marker>...</marker>} is missing
-   * @since 2.5
+   * with {@link #wrong(String)}) can be marked with {@code <marker>...</marker>}.
+   * @since 2.5, return type modified in 3.5
    */
-  public static String fixed(String example) {
-    requireMarkup(example);
-    return example;
+  public static CorrectExample fixed(String example) {
+    return new CorrectExample(example);
   }
 
   private static void requireMarkup(String example) {

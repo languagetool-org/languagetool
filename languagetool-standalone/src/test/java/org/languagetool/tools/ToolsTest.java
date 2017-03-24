@@ -18,10 +18,13 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
-import org.languagetool.language.Polish;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.ResultCache;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.xml.sax.SAXException;
@@ -32,14 +35,17 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-public class ToolsTest extends TestCase {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+
+public class ToolsTest {
 
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     this.stdout = System.out;
     this.stderr = System.err;
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -48,31 +54,55 @@ public class ToolsTest extends TestCase {
     System.setErr(new PrintStream(err));
   }
 
-  @Override
+  @After
   public void tearDown() throws Exception {
-    super.tearDown();
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }
-  
-  public void testBitextCheck() throws IOException, ParserConfigurationException, SAXException {
-    final English english = new English();
-    final JLanguageTool srcTool = new JLanguageTool(english);
-    final Polish polish = new Polish();
-    final JLanguageTool trgTool = new JLanguageTool(polish);
 
-    final List<BitextRule> rules = Tools.getBitextRules(english, polish);
+  @Test
+  public void testBitextCheck() throws IOException, ParserConfigurationException, SAXException {
+    testBitextCheck(null);
+    testBitextCheck(new ResultCache(100));
+  }
+  
+  private void testBitextCheck(ResultCache cache) throws IOException, ParserConfigurationException, SAXException {
+    Language english = Languages.getLanguageForShortCode("en");
+    JLanguageTool srcTool = new JLanguageTool(english, null, cache);
+    Language polish = Languages.getLanguageForShortCode("pl");
+    JLanguageTool trgTool = new JLanguageTool(polish, null, cache);
+    List<BitextRule> rules = Tools.getBitextRules(english, polish);
     
-    int matches1 = Tools.checkBitext(
+    int matchCount = Tools.checkBitext(
         "This is a perfectly good sentence.",
         "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules).size();
-    assertEquals(0, matches1);
+    assertEquals(0, matchCount);
 
-    List<RuleMatch> matches = Tools.checkBitext(
+    List<RuleMatch> matches1 = Tools.checkBitext(
             "This is not actual.",
             "To nie jest aktualne.",
             srcTool, trgTool, rules);
-    assertEquals(1, matches.size());
-    assertTrue(matches.get(0).getRule().getId().equals("ACTUAL"));
+    assertEquals(1, matches1.size());
+    assertThat(matches1.get(0).getRule().getId(), is("ACTUAL"));
+    assertThat(matches1.get(0).getFromPos(), is(12));
+    assertThat(matches1.get(0).getToPos(), is(20));
+
+    List<RuleMatch> matches2 = Tools.checkBitext(
+            "A sentence. This is not actual.",
+            "Zdanie. To nie jest aktualne.",
+            srcTool, trgTool, rules);
+    assertEquals(1, matches2.size());
+    assertThat(matches2.get(0).getRule().getId(), is("ACTUAL"));
+    assertThat(matches2.get(0).getFromPos(), is(20));
+    assertThat(matches2.get(0).getToPos(), is(28));
+
+    List<RuleMatch> matches3 = Tools.checkBitext(
+            "A new sentence. This is not actual.",
+            "Nowa zdanie. To nie jest aktualne.",
+            srcTool, trgTool, rules);
+    assertEquals(1, matches3.size());
+    assertThat(matches3.get(0).getRule().getId(), is("ACTUAL"));
+    assertThat(matches3.get(0).getFromPos(), is(25));
+    assertThat(matches3.get(0).getToPos(), is(33));
   }
 }

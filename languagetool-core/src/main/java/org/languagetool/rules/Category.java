@@ -46,33 +46,6 @@ public final class Category {
     this(id, name, Location.INTERNAL, true);
   }
 
-  /**
-   * @param name name of the category
-   * @deprecated use {@link Category(CategoryId, String)} instead (deprecated since 3.3)
-   */
-  public Category(String name) {
-    this(name, Location.INTERNAL);
-  }
-
-  /**
-   * @param name name of the category
-   * @since 2.8
-   * @deprecated use {@link Category(CategoryId, String, Location)} instead (deprecated since 3.3)
-   */
-  public Category(String name, Location location) {
-    this(name, location, true);
-  }
-
-  /**
-   * Create a new category.
-   * @param name name of the category
-   * @since 2.9
-   * @deprecated use {@link Category(CategoryId, String, Location, boolean)} instead (deprecated since 3.3)
-   */
-  public Category(String name, Location location, boolean onByDefault) {
-    this(null, name, location, onByDefault);
-  }
-
   /** @since 3.3 */
   public Category(CategoryId id, String name, Location location) {
     this(id, name, location, true);

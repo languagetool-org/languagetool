@@ -33,6 +33,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @deprecated this language hasn't been maintained for years, it will be removed from LanguageTool after release 3.6
+ */
+@Deprecated
 public class Malayalam extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
@@ -45,7 +49,7 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "ml";
   }
 

@@ -65,7 +65,7 @@ public class CompoundRuleData {
     return Collections.unmodifiableSet(onlyDashSuggestion);
   }
 
-  private void loadCompoundFile(final String path) throws IOException {
+  private void loadCompoundFile(String path) throws IOException {
     try (
       InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
       InputStreamReader reader = new InputStreamReader(stream, "utf-8");
@@ -80,18 +80,18 @@ public class CompoundRuleData {
         validateLine(path, line);
         if (line.endsWith("+")) {
           line = removeLastCharacter(line);
-          noDashSuggestion.add(line.toLowerCase());
+          noDashSuggestion.add(line);
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
-          onlyDashSuggestion.add(line.toLowerCase());
+          onlyDashSuggestion.add(line);
         }
-        incorrectCompounds.add(line.toLowerCase());
+        incorrectCompounds.add(line);
       }
     }
   }
 
   private void validateLine(String path, String line) throws IOException {
-    final String[] parts = line.split(" ");
+    String[] parts = line.split(" ");
     if (parts.length == 1) {
       throw new RuntimeException("Not a compound in file " + path + ": " + line);
     }

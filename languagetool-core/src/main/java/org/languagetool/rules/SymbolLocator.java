@@ -31,7 +31,7 @@ public class SymbolLocator {
   private final int index;
   private final int startPos;
 
-  SymbolLocator(final String symbol, final int index, final int startPos) {
+  SymbolLocator(String symbol, int index, int startPos) {
     this.symbol = symbol;
     this.index = index;
     this.startPos = startPos;

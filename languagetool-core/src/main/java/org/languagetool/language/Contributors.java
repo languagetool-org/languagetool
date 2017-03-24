@@ -23,11 +23,11 @@ package org.languagetool.language;
  */
 final class Contributors {
 
-    private Contributors() {
-    }
+  private Contributors() {
+  }
 
-    static final Contributor MARCIN_MILKOWSKI = new Contributor("Marcin Miłkowski", "http://marcinmilkowski.pl");
-    static final Contributor DANIEL_NABER = new Contributor("Daniel Naber", "http://www.danielnaber.de");
-    static final Contributor DOMINIQUE_PELLE = new Contributor("Dominique Pellé", "http://dominiko.livejournal.com/tag/lingvoilo");
+  static final Contributor MARCIN_MILKOWSKI = new Contributor("Marcin Miłkowski", "http://marcinmilkowski.pl");
+  static final Contributor DANIEL_NABER = new Contributor("Daniel Naber", "http://www.danielnaber.de");
+  static final Contributor DOMINIQUE_PELLE = new Contributor("Dominique Pellé", "http://dominiko.livejournal.com/tag/lingvoilo");
 
 }

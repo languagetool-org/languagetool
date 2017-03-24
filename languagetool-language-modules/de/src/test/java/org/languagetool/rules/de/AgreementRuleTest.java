@@ -18,34 +18,35 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
-
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Daniel Naber
  */
-public class AgreementRuleTest extends TestCase {
+public class AgreementRuleTest {
 
   private AgreementRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
-    rule = new AgreementRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
+    rule = new AgreementRule(TestTools.getMessages("de"), new GermanyGerman());
+    lt = new JLanguageTool(new GermanyGerman());
   }
-  
+
+  @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
     assertGood("So ist es in den USA.");
@@ -81,6 +82,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("... wo es zu einer regen Bautätigkeit kam.");
     assertGood("Mancher ausscheidende Politiker hinterlässt eine Lücke.");
     assertGood("Kern einer jeden Tragödie ist es, ..");
+    assertGood("Das wenige Sekunden alte Baby schrie laut.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -123,6 +125,18 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Die Beibehaltung des Art. 1 ist geplant.");
     assertGood("Die Verschiebung des bisherigen Art. 1 ist geplant.");
 
+    assertGood("In diesem Fall hatte das Vorteile.");
+    assertGood("So hat das Konsequenzen.");
+
+    assertGood("Ein für viele wichtiges Anliegen.");
+    assertGood("Das weckte bei vielen ungute Erinnerungen.");
+    assertGood("Etwas, das einem Angst macht.");
+    assertGood("Einem geschenkten Gaul schaut man nicht ins Maul.");
+
+    assertGood("Das erfordert Können.");
+    assertGood("Ist das Kunst?");
+    assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
+
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
@@ -130,9 +144,11 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Gutenberg, der quadratische Mann.");
     assertGood("Die größte Stuttgarter Grünanlage ist der Friedhof.");
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
-    // TODO: not detected, because "die" is considered a relative pronoun:
-    //assertBad("Gutenberg, die Genie.");
-    
+    // TODO: Find agreement errors in relative clauses
+    assertBad("Gutenberg, die Genie.");
+    //assertBad("Gutenberg, die größte Genie.");
+    //assertBad("Gutenberg, die größte Genie aller Zeiten.");
+    //assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
     // some of these used to cause false alarms:
     assertGood("Das Münchener Fest.");
     assertGood("Das Münchner Fest.");
@@ -230,6 +246,7 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Es sind der Frau.");
   }
 
+  @Test
   public void testVieleWenige() throws IOException {
     assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
     assertGood("Für einige markante Szenen");
@@ -243,7 +260,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Es kam zur Fusion der genannten und noch einiger weiterer Unternehmen.");
     assertGood("Zu dieser Fragestellung gibt es viele unterschiedliche Meinungen.");
   }
-  
+
+  @Test
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
     assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
@@ -254,15 +272,17 @@ public class AgreementRuleTest extends TestCase {
     //TODO: input is actually correct
     assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
   }
-  
+
+  @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(new German());
+      JLanguageTool lt = new JLanguageTool(new GermanyGerman());
       // used to be not detected > 1.0.1:
       String str = "Und so.\r\nDie Bier.";
       List<RuleMatch> matches = lt.check(str);
       assertEquals(1, matches.size());
   }
-  
+
+  @Test
   public void testDetAdjNounRule() throws IOException {
     // correct sentences:
     assertGood("Das ist der riesige Tisch.");
@@ -292,12 +312,12 @@ public class AgreementRuleTest extends TestCase {
   }
 
   private void assertGood(String s) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
   }
 
   private void assertBad(String s, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
@@ -307,8 +327,8 @@ public class AgreementRuleTest extends TestCase {
   }
 
   private void assertBadWithMessage(String s, String expectedErrorSubstring) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
-    final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
+    String errorMessage = rule.match(lt.getAnalyzedSentence(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
   }

@@ -19,22 +19,24 @@
 
 package org.languagetool.rules.bitext;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
-public class DifferentLengthRuleTest extends TestCase {
-  
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class DifferentLengthRuleTest {
+
+  @Test
   public void testRule() throws IOException {
-    final DifferentLengthRule rule = new DifferentLengthRule();
+    DifferentLengthRule rule = new DifferentLengthRule();
     RuleMatch[] matches;
-    final JLanguageTool trgLangTool = new JLanguageTool(TestTools.getDemoLanguage());
-    final JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
+    JLanguageTool trgLangTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
     rule.setSourceLanguage(TestTools.getDemoLanguage());
     // correct sentences:
     matches = rule.match(

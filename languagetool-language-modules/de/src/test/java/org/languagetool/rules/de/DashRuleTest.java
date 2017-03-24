@@ -18,17 +18,20 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
-public class DashRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class DashRuleTest {
 
   private final DashRule rule = new DashRule(TestTools.getMessages("de"));
 
+  @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());
 
@@ -49,12 +52,12 @@ public class DashRuleTest extends TestCase {
     assertBad("Die große Diäten- Erhöhungs-Manie kam dann doch.", lt);
   }
 
-  private void assertGood(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertGood(String text, JLanguageTool lt) throws IOException {
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
-  private void assertBad(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertBad(String text, JLanguageTool lt) throws IOException {
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

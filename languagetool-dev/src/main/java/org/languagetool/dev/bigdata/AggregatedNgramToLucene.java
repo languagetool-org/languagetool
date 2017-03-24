@@ -134,7 +134,7 @@ class AggregatedNgramToLucene implements AutoCloseable {
     }
   }
   
-  class LuceneIndex {
+  static class LuceneIndex {
 
     private final Directory directory;
     private final IndexWriter indexWriter;

@@ -33,7 +33,7 @@ public final class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/sk/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Toto slovo sa zvyčajne píše so spojovníkom.",
             "Toto slovo sa obvykle píše bez spojovníka.",

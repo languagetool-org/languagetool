@@ -18,7 +18,6 @@
  */
 package org.languagetool;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
@@ -54,7 +53,7 @@ public final class Languages {
   public static List<Language> get() {
     List<Language> result = new ArrayList<>();
     for (Language lang : LANGUAGES) {
-      if (!"xx".equals(lang.getShortName())) {  // skip demo language
+      if (!"xx".equals(lang.getShortCode())) {  // skip demo language
         result.add(lang);
       }
     }
@@ -71,22 +70,22 @@ public final class Languages {
   }
 
   private static List<Language> getAllLanguages() {
-    final List<Language> languages = new ArrayList<>();
-    final Set<String> languageClassNames = new HashSet<>();
+    List<Language> languages = new ArrayList<>();
+    Set<String> languageClassNames = new HashSet<>();
     try {
-      final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
+      Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
-        final URL url = propertyFiles.nextElement();
+        URL url = propertyFiles.nextElement();
         try (InputStream inputStream = url.openStream()) {
           // We want to be able to read properties file with duplicate key, as produced by
           // Maven when merging files:
-          final MultiKeyProperties props = new MultiKeyProperties(inputStream);
-          final List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
+          MultiKeyProperties props = new MultiKeyProperties(inputStream);
+          List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
           if (classNamesStr == null) {
             throw new RuntimeException("Key '" + PROPERTIES_KEY + "' not found in " + url);
           }
           for (String classNames : classNamesStr) {
-            final String[] classNamesSplit = classNames.split("\\s*,\\s*");
+            String[] classNamesSplit = classNames.split("\\s*,\\s*");
             for (String className : classNamesSplit) {
               if (languageClassNames.contains(className)) {
                 // avoid duplicates - this way we are robust against problems with the maven assembly
@@ -108,8 +107,8 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
-      final Class<?> aClass = Class.forName(className);
-      final Constructor<?> constructor = aClass.getConstructor();
+      Class<?> aClass = Class.forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
@@ -125,7 +124,7 @@ public final class Languages {
    * @return a Language object or {@code null} if there is no such language
    */
   @Nullable
-  public static Language getLanguageForName(final String languageName) {
+  public static Language getLanguageForName(String languageName) {
     for (Language element : LANGUAGES) {
       if (languageName.equals(element.getName())) {
         return element;
@@ -135,22 +134,21 @@ public final class Languages {
   }
 
   /**
-   * Get the Language object for the given short language name.
-   *
+   * Get the Language object for the given language code.
    * @param langCode e.g. <code>en</code> or <code>es-US</code>
-   * @return a Language object
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @since 3.6
    */
-  public static Language getLanguageForShortName(final String langCode) {
-    final Language language = getLanguageForShortNameOrNull(langCode);
+  public static Language getLanguageForShortCode(String langCode) {
+    Language language = getLanguageForShortCodeOrNull(langCode);
     if (language == null) {
-      final List<String> codes = new ArrayList<>();
+      List<String> codes = new ArrayList<>();
       for (Language realLanguage : LANGUAGES) {
-        codes.add(realLanguage.getShortNameWithCountryAndVariant());
+        codes.add(realLanguage.getShortCodeWithCountryAndVariant());
       }
       Collections.sort(codes);
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-              " Supported language codes are: " + StringUtils.join(codes, ", ") + ". The list of languages is read from " + PROPERTIES_PATH +
+              " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
               " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
     }
     return language;
@@ -159,13 +157,12 @@ public final class Languages {
   /**
    * Return whether a language with the given language code is supported. Which languages
    * are supported depends on the classpath when the {@code Language} object is initialized.
-   *
    * @param langCode e.g. {@code en} or {@code en-US}
    * @return true if the language is supported
    * @throws IllegalArgumentException in some cases of an invalid language code format
    */
-  public static boolean isLanguageSupported(final String langCode) {
-    return getLanguageForShortNameOrNull(langCode) != null;
+  public static boolean isLanguageSupported(String langCode) {
+    return getLanguageForShortCodeOrNull(langCode) != null;
   }
 
   /**
@@ -174,18 +171,18 @@ public final class Languages {
    * if available.
    * @throws RuntimeException if no language was found and American English as a fallback is not available
    */
-  public static Language getLanguageForLocale(final Locale locale) {
-    final Language language = getLanguageForLanguageNameAndCountry(locale);
+  public static Language getLanguageForLocale(Locale locale) {
+    Language language = getLanguageForLanguageNameAndCountry(locale);
     if (language != null) {
       return language;
     } else {
-      final Language firstFallbackLanguage = getLanguageForLanguageNameOnly(locale);
+      Language firstFallbackLanguage = getLanguageForLanguageNameOnly(locale);
       if (firstFallbackLanguage != null) {
         return firstFallbackLanguage;
       }
     }
     for (Language aLanguage : LANGUAGES) {
-      if (aLanguage.getShortNameWithCountryAndVariant().equals("en-US")) {
+      if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
     }
@@ -193,21 +190,21 @@ public final class Languages {
   }
 
   @Nullable
-  private static Language getLanguageForShortNameOrNull(final String langCode) {
+  private static Language getLanguageForShortCodeOrNull(String langCode) {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
     if (langCode.contains("-x-")) {
       // e.g. "de-DE-x-simple-language"
       for (Language element : LANGUAGES) {
-        if (element.getShortName().equalsIgnoreCase(langCode)) {
+        if (element.getShortCode().equalsIgnoreCase(langCode)) {
           return element;
         }
       }
     } else if (langCode.contains("-")) {
-      final String[] parts = langCode.split("-");
+      String[] parts = langCode.split("-");
       if (parts.length == 2) { // e.g. en-US
         for (Language element : LANGUAGES) {
-          if (parts[0].equalsIgnoreCase(element.getShortName())
+          if (parts[0].equalsIgnoreCase(element.getShortCode())
                   && element.getCountries().length == 1
                   && parts[1].equalsIgnoreCase(element.getCountries()[0])) {
             result = element;
@@ -216,7 +213,7 @@ public final class Languages {
         }
       } else if (parts.length == 3) { // e.g. ca-ES-valencia
         for (Language element : LANGUAGES) {
-          if (parts[0].equalsIgnoreCase(element.getShortName())
+          if (parts[0].equalsIgnoreCase(element.getShortCode())
                   && element.getCountries().length == 1
                   && parts[1].equalsIgnoreCase(element.getCountries()[0])
                   && parts[2].equalsIgnoreCase(element.getVariant())) {
@@ -229,7 +226,7 @@ public final class Languages {
       }
     } else {
       for (Language element : LANGUAGES) {
-        if (langCode.equalsIgnoreCase(element.getShortName())) {
+        if (langCode.equalsIgnoreCase(element.getShortCode())) {
           result = element;
             /* TODO: It should return the DefaultLanguageVariant,
              * not the first language found */
@@ -243,8 +240,8 @@ public final class Languages {
   @Nullable
   private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
     for (Language language : LANGUAGES) {
-      if (language.getShortName().equals(locale.getLanguage())) {
-        final List<String> countryVariants = Arrays.asList(language.getCountries());
+      if (language.getShortCode().equals(locale.getLanguage())) {
+        List<String> countryVariants = Arrays.asList(language.getCountries());
         if (countryVariants.contains(locale.getCountry())) {
           return language;
         }
@@ -257,8 +254,8 @@ public final class Languages {
   private static Language getLanguageForLanguageNameOnly(Locale locale) {
     // use default variant if available:
     for (Language language : LANGUAGES) {
-      if (language.getShortName().equals(locale.getLanguage()) && language.hasVariant()) {
-        final Language defaultVariant = language.getDefaultLanguageVariant();
+      if (language.getShortCode().equals(locale.getLanguage()) && language.hasVariant()) {
+        Language defaultVariant = language.getDefaultLanguageVariant();
         if (defaultVariant != null) {
           return defaultVariant;
         }
@@ -266,7 +263,7 @@ public final class Languages {
     }
     // use the first match otherwise (which should be the only match):
     for (Language language : LANGUAGES) {
-      if (language.getShortName().equals(locale.getLanguage()) && !language.hasVariant()) {
+      if (language.getShortCode().equals(locale.getLanguage()) && !language.hasVariant()) {
         return language;
       }
     }

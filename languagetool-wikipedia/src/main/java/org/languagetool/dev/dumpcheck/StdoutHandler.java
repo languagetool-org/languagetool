@@ -47,7 +47,7 @@ class StdoutHandler extends ResultHandler {
         String output = i + ".) Line " + (match.getLine() + 1) + ", column "
                 + match.getColumn() + ", Rule ID: " + match.getRule().getId();
         if (match.getRule() instanceof AbstractPatternRule) {
-          final AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
+          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
         }
         System.out.println(output);
@@ -55,7 +55,7 @@ class StdoutHandler extends ResultHandler {
         msg = msg.replaceAll("<suggestion>", "'");
         msg = msg.replaceAll("</suggestion>", "'");
         System.out.println("Message: " + msg);
-        final List<String> replacements = match.getSuggestedReplacements();
+        List<String> replacements = match.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
           System.out.println("Suggestion: " + String.join("; ", replacements));
         }

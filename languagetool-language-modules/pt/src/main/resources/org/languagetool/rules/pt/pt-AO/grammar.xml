@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+
+<!--
+ Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
+
+ Copyright (C) 2016 Tiago F. Santos (tiagofsantos81@sapo.pt)
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
+-->
+<!DOCTYPE rules [
+
+    <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
+    <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
+    <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
+    <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
+    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+
+    <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+
+]>
+
+<rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- Unification rules retrieved from galician grammar.xml - START-->
+    <unification feature="number">
+        <equivalence type="singular">
+          <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+        </equivalence>
+
+        <equivalence type="plural">
+          <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="gender">
+        <equivalence type="masc">
+          <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+        </equivalence>
+
+        <equivalence type="fem">
+          <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="person">
+        <equivalence type="first">
+          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="second">
+          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="third">
+          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+<!-- Unification rules retrieved from galician grammar.xml - END  -->
+
+<category id="ANGOLA_PORTUGUESE" name="Português de Angola (pré-AO90)">
+
+    <!--          Tiago F. Santos Rules Start         ****START**** -->
+    <!-- ********************************************************** -->
+  <rulegroup id='CORRETOR_CORRECTOR' name='Confusão corrector-corretor'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-01    -->
+    <rule>
+      <pattern>
+          <token>corretor</token>
+          <token>gramatical</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>corrector \2</suggestion>?</message>
+      <example correction='corrector gramatical'>O LanguageTool é um <marker>corretor gramatical</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>corretores</token>
+          <token>gramaticais</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>correctores \2</suggestion>?</message>
+      <example correction='correctores gramaticais'>Os <marker>corretores gramaticais</marker> são uma grande ajuda.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>corrector</token>
+          <token min='0' regexp='yes'>d[ea]</token>
+          <token regexp='yes'>bolsa|seguros|imobiliário|valores</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>corretor <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
+      <example correction='corretor da Bolsa'>O Jorge é um <marker>corrector da Bolsa</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>correctores</token>
+          <token min='0' regexp='yes'>d[ea]</token>
+          <token regexp='yes'>bolsa|seguros|imobiliários|valores</token>
+      </pattern>
+      <message>Pretende dizer <suggestion>corretores <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>?</message>
+      <example correction='corretores imobiliários'>Os <marker>correctores imobiliários</marker> dedicam-se à venda de imóveis.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- COMPOSTAS Colocações pronominais com três termos	       -->
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+    <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais três termos'>
+      <pattern>
+          <token postag='V.*' postag_regexp='yes'>
+            <exception regexp='yes'>como|para|casa</exception></token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+          <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
+      </pattern>
+      <message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2‑\3</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+    <!--		TODO Write better examples		-->
+      <example correction='dar‑nos‑á'><marker>dar nos á</marker>.</example>
+    </rule>
+
+    <!-- COMPOSTAS Colocações pronominais com dois termos	       -->
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+    <rule default='off' id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
+    <!-- 		Brazilian Portuguese has inverted colocations  -->
+      <pattern>
+          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+    <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas. They produce too many
+			false positives (Determinants & Contractions)  -->
+      </pattern>
+      <message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+    <!--		TODO Write better examples		-->
+      <example correction='dar‑me'><marker>dar me</marker>.</example>
+    </rule>
+
+</category>
+
+  <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)">
+
+    <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|outonos?
+            <exception regexp='yes'>mar|dez</exception></token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Janeiro'>O ano novo chinês é a 28 de <marker>janeiro</marker>.</example>
+      <example correction='Inverno'>Este <marker>inverno</marker> está a ser muito seco.</example>
+      <example correction='Set'>22 <marker>set</marker> - início do Outono.</example>
+      <example>Só faltam dez dias para as férias.</example>
+    </rule>
+
+  <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
+    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>sábados?|domingo|s[aá]b|dom</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, os dias da semana são capitalizados.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Domingo'>O torneio é no próximo <marker>domingo</marker>.</example>
+      <example correction='Sáb'>A nova temporada estreia em <marker>sáb</marker> 24 dez 2016.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>[Ff]eiras?</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
+        <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
+    <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='AO45: Capitalização de Pontos Cardeais'>
+    <rule>
+      <pattern case_sensitive='yes'>
+        <marker>
+          <token regexp='yes'>&pontos_cardeais;
+            <exception>este</exception></token>
+        </marker>
+          <token negate='yes'>-</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+      <example>Devolva este livro assim que puder.</example>
+    </rule>
+<!-- TODO resolve Este e este confusion through wrong word in context
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>este</token>
+          <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
+    </rule>-->
+  </rulegroup>
+
+    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+    <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+          <token>muito</token>
+          <token>pelo</token>
+          <token>é</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
+</category>
+
+</rules>

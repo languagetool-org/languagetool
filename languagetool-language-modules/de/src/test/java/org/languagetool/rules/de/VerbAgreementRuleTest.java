@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
@@ -29,24 +30,33 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Markus Brenneis
  */
-public class VerbAgreementRuleTest extends TestCase {
+public class VerbAgreementRuleTest {
 
+  private JLanguageTool lt;
   private VerbAgreementRule rule;
-  private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
+    lt = new JLanguageTool(new German());
     rule = new VerbAgreementRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
   }
-  
+
+  @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
+    assertGood("Kümmere du dich mal nicht darum!");
+    assertGood("Ich weiß, was ich tun werde, falls etwas geschehen sollte.");
+    assertGood("...die dreißig Jahre jünger als ich ist.");
+    assertGood("Ein Mann wie ich braucht einen Hut.");
+    assertGood("Egal, was er sagen wird, ich habe meine Entscheidung getroffen.");
+    assertGood("Du Beharrst darauf, dein Wörterbuch hätte recht, hast aber von den Feinheiten des Japanischen keine Ahnung!");
+    assertGood("Bin gleich wieder da.");
     assertGood("Wobei ich äußerst vorsichtig bin.");
     assertGood("Es ist klar, dass ich äußerst vorsichtig mit den Informationen umgehe");
     assertGood("Es ist klar, dass ich äußerst vorsichtig bin.");
@@ -71,6 +81,7 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("/usr/bin/firefox");
     assertGood("Das sind Leute, die viel mehr als ich wissen.");
     assertGood("Das ist mir nicht klar, kannst ja mal beim Kunden nachfragen.");
+    assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -80,7 +91,8 @@ public class VerbAgreementRuleTest extends TestCase {
     assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
   }
-  
+
+  @Test
   public void testWrongVerbSubject() throws IOException {
     // correct sentences:
     assertGood("Auch morgen lebe ich.");
@@ -188,11 +200,11 @@ public class VerbAgreementRuleTest extends TestCase {
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals(0, rule.match(lt.analyzeText(s)).length);
   }
 
   private void assertBad(String s, int n) throws IOException {
-    assertEquals(n, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals(n, rule.match(lt.analyzeText(s)).length);
   }
 
   private void assertBad(String s) throws IOException {
@@ -200,14 +212,14 @@ public class VerbAgreementRuleTest extends TestCase {
   }
 
   private void assertBad(String s, String expectedErrorSubstring) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
-    final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    assertEquals(1, rule.match(lt.analyzeText(s)).length);
+    final String errorMessage = rule.match(lt.analyzeText(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
   }
 
   private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    RuleMatch[] matches = rule.match(lt.analyzeText(s));
     assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];

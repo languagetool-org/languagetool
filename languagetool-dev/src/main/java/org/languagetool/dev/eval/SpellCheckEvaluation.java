@@ -77,6 +77,6 @@ public class SpellCheckEvaluation {
       System.exit(1);
     }
     SpellCheckEvaluation eval = new SpellCheckEvaluation();
-    eval.run(Languages.getLanguageForShortName(args[0]), new File(args[1]));
+    eval.run(Languages.getLanguageForShortCode(args[0]), new File(args[1]));
   }
 }

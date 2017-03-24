@@ -70,7 +70,7 @@ public class Breton extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "br";
   }
 

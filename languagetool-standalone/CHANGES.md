@@ -1,6 +1,398 @@
 # LanguageTool Change Log
 
-## 3.3 (release planned for 2016-03-28)
+## 3.7 (release planned for 2017-03-27)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary
+
+#### English
+  * added and improved rules
+
+#### French
+  * improved rules
+  * upgraded dictionaries to Dicollecte-6.0.2
+
+#### German
+  * added and improved rules
+  * added some common Latin and English phrases that will be ignored by the spell checker
+  * updated Hunspell dictionary to version 2017.01.12:
+    * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
+    * https://extensions.libreoffice.org/extensions/german-de-ch-frami-dictionaries
+
+#### Greek
+  * added and improved rules
+
+#### Italian
+  * added one rule
+
+#### Lithuanian, Malayalam, and Icelandic
+  * Lithuanian, Malayalam, and Icelandic are not part of this release anymore. They still
+    exist in the git repository and can be re-activated as soon as a new maintainer takes
+    care of them.
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - capitalization: AO90 and AO45 rules
+    - style: repetitions and barbarism detection
+    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
+    - semantics: wrong words in the context (22 confusion pairs), url validator and date checker improvements
+    - registered brands category added
+    - translation errors category added
+  * false friends support added:
+    - Portuguese to Spanish (186 new pairs)
+    - Portuguese to English (156 new pairs)
+    - Portuguese to French (78 new pairs)
+    - Portuguese to German (16 new pairs)
+    - Portuguese to Galician (9 new pairs)
+  * spellchecking suggestions activated
+  * updated Hunspell dictionary to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-MZ pre-AO] Dicionários Natura 18.02.2017
+
+#### Russian
+  * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
+
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
+
+#### Command-line
+  * Added a `--languageModel` option to the embedded server, thanks to 
+    Michał Janik (issue #404)
+
+#### HTTP API
+  * The 'AfterTheDeadline' mode has been deprecated and will be removed in
+    the next version, unless users complain and present a valid use case.
+  * The old XML-based API has been removed. The migration to the new JSON-based
+    API is documented at https://languagetool.org/http-api/migration.php
+  * Speed up with a cache for cases where the same sentences get checked
+    again (e.g. due to a correction in a text that doesn't affect all sentences
+    but causes the whole text to be re-checked)
+  
+#### Java API
+  * Some deprecated methods have been removed.
+  * A new class `ResultCache` has been added to speed up the LT server
+  * `EnglishRule`, `GermanRule`, `CatalanRule`, and `FrenchRule`are now 
+    deprecated. These are empty abstract classes that never had any real 
+    use. Rules that extend these classes will directly extend `Rule` or
+    `TextLevelRule` in a future release.
+  * All rules that work on the text level instead of the sentence level
+    (e.g. word coherency) now extend `TextLevelRule` instead of `Rule`
+  
+#### Internal
+  * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
+
+
+## 3.6 (2016-12-28)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * added about 131 confusion pairs like woman/women (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * The American and Canadian English (en-US, en-CA) spelling dictionaries have
+    been updated to the latest version from http://wordlist.aspell.net (2016.06.26)
+  * The Australian English (en-AU) spelling dictionary has been updated to the
+    latest version from http://extensions.libreoffice.org/extension-center/english-dictionaries
+    (2016-03-14 according to that page)
+
+#### French
+  * added and improved rules
+  * upgraded dictionaries to Dicollecte-5.7
+
+#### German
+  * added and improved rules
+  * added about 34 confusion pairs like ihm/im (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * bugfix regarding errors in the last word of a sentence (#273)
+  * The internal part-of-speech dictionary has been updated with the help of
+    Julian von Heyl of http://korrekturen.de - many entries have been fixed and
+    added. The new data has its own Maven and git project now
+    (https://github.com/languagetool-org/german-pos-dict)
+
+#### Lithuanian
+  * The `Lithuanian` class has been deprecated. Lithuanian in LT hasn't been maintained
+    for years and there's no new maintainer in sight. It has also very low usage
+    on languagetool.org and very few error detection rules anyway, so we'll remove its
+    support from LT in the next release.
+
+#### Malayalam
+  * The `Malayalam` class has been deprecated. Malayalam in LT hasn't been maintained
+    for years and there's no new maintainer in sight. It has also very low usage
+    on languagetool.org and very few error detection rules anyway, so we'll remove its
+    support from LT in the next release.
+  
+#### Portuguese
+  * general agreement rules added
+    * number and gender words agreement
+    * general subject-verb agreement
+    * accentuated form confusion, 'dequeísmos' and many more
+  * new compound form detection (pt-PT recognizes all compound verbal derivations)
+  * duplications, redundancies, typography and semantics categories added
+  * style category rules added
+    * new word repetitions rules, fragment detection, verbosity checks, passive voice and many other
+  * new sentence disambiguator and new word tokenizer
+  * sentence segmentation improvements
+  * former rules and messages revision, improvement and classification
+  * post-reform agreement support added and pre-reform components updated
+    * European Portuguese specific rule group added
+      * post-reform agreement by default
+      * compound verbs, possessive pronouns, reflexive forms placement, gerund and more
+    * pre-reform agreement locales support added
+      * Angola, Cape Verde, East Timor, Guinea Bissau, Macau, Mozambique and São Tomé e Principe
+    * base spelling dictionary and tagger update
+    * variants dictionaries added and many part-of-speech fixes
+  * Portuguese has been prepared to use ngram data, that means it has a
+    `confusion_sets.txt` file where word pairs could be added.
+    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
+    for more information but note that we cannot offer the required
+    ngram data yet for Portuguese, as we rely on the Google ngram
+    data and Portuguese isn't part of that.
+
+#### Russian
+  * added and improved many rules
+  * added new rules with java filter
+  * added new Java rule `RussianWordCoherencyRule`
+  * added words suggested by users
+  * improved disambiguation rules
+  * updated tagger dictionary from AOT rev.268 with extended POS tags
+  * improved SRX sentences segmentation
+  * added `removed.txt` for words that need to be removed from the dictionary
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * significant dictionary update
+  * new adj/noun inflection rule 
+  * dynamic tagging improvements
+  * disambiguation improvements
+  * some improvements to existing rules
+  * experimental noun/verb agreement rule
+
+#### HTTP API
+  * The old API has been deactivated, as documented at
+    https://languagetool.org/http-api/migration.php - it
+    now returns a pseudo error pointing to the migration page
+
+#### Java API
+  * A new method for removing overlapping errors has been implemented. By default,
+    it is enabled for the HTTP API and LibreOffice outputs, and disabled for the
+    command-line output. If necessary, priorities for rules and categories can bet set
+    in `Language.getPriorityForId(String id)`. Default value is `0`, positive integers have
+    higher priority and negative integers have lower priority.
+  * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
+    instead
+  * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
+    `Language.getShortCodeWithCountryAndVariant()` instead
+  * `Languages.getLanguageForShortName()` has been deprecated, use
+    `Languages.getLanguageForShortCode()` instead
+  * The following languages have been unmaintained for a long time. A warning has been
+    shown for some time on languagetool.org and in the stand-alone GUI for these
+    languages. This warning has now been extended to Java in the form of a deprecation,
+    i.e. the constructors of the following languages have been deprecated. That does
+    *not* mean they are going to be removed in the next version, but it's a warning
+    that we cannot offer support for them or guarantee they will be included in the
+    future:
+    * Belarusian
+    * Swedish
+    * Icelandic
+    * Tagalog
+    * Asturian
+    * Danish
+    * Slovenian
+    
+    If you're interested in contributing to one of these languages, please post to
+    our forum at http://forum.languagetool.org.
+  * The uppercase sentence start rule (id `UPPERCASE_SENTENCE_START`) now ignores
+    immunized tokens - this way users can add lowercase words to `disambiguation.xml`
+    so the rule won't complain about these lowercase words at the beginning of a sentence.
+  
+#### Command-line
+  * Added a `--json` option as an alternative to `--api` (deprecated XML output)
+    See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
+
+#### Internal
+  * Apache commons-lang has been updated from 2.6 to commons-lang3 3.5
+  * Updated lucene-gosen-ipadic to 6.2.1 (#376)
+
+
+## 3.5 (2016-09-30)
+
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+
+#### English
+  * added and improved rules
+  * added about 50 confusion pairs like talking/taking (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+  * added category `MISUSED_TERMS_EU_PUBLICATIONS`
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
+
+#### Esperanto
+  * added and improved rules
+
+#### French
+  * added and improved rules
+
+#### German
+  * added rules
+  * fixed several false alarms
+
+#### Polish
+  * added and improved rules
+
+#### Portuguese (European)
+  * added and improved rules
+ 
+#### Portuguese (Brazilian)
+  * added rules
+
+#### Russian
+  * now possible checking the texts with the signs of stress
+  * added and improved many new grammar and style rules
+  * added words suggested by users
+  * improved disambiguation rules
+  * for review, test and improve rules, feedback in bugtracker thanks to Konstantin Ladutenko
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * added ~6k new words
+  * added many new grammar and styling rules
+  * added many new barbarism replacement suggestions
+  * improved dynamic word tagging
+
+#### General
+  * Bugfix: avoid repeating the same suggestion
+  * Enhancement: ignore e-mail addresses
+
+#### Java API
+  * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
+    instead of a list of `String`s.
+
+#### GUI (stand-alone version)
+  * speed up for long texts with many errors (#530)
+  * add new menu item for showing/hiding the result area
+
+#### Command-line
+  * Deprecated the `--api` option - we recommend using LanguageTool
+    in server mode (JSON API), which is faster as it has no start up
+    overhead for each call. See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
+
+
+## 3.4 (2016-06-27)
+
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+ 
+#### English
+  * added about 33 confusion pairs such as throe/throw, raps/wraps (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### French
+  * upgraded dictionaries to Dicollecte-5.6
+  * added 32 confusion pairs like pris/prix, quand/quant (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### German
+  * added some rules
+  * improved handling of hyphenated compound words
+  
+#### Greek
+  * added some rules
+
+#### Polish
+  * added and improved rules
+  * removed some false alarms
+  
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added 14 confusion pairs like tubo/tuvo, ciento/siento (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
+  * upgraded Hunspell dictionary to 2.1
+
+#### Russian
+  * rebuilt spellchecker dictionary
+  * added words suggested by users
+  * added and improved rules
+
+#### Ukrainian
+  * big dictionary update (thousands of new words and many fixes)
+  * compound tagger improvements
+  * several new rules and many improvements to existing ones
+  * new token inflection agreement rule (still work-in-progress so turned off by default)
+  * new replacement suggestions for barbarisms
+
+#### Java API
+  * some formerly deprecated code has been removed
+  * all rules now have a category ("Misc" if the rule doesn't specify a category)
+  * a new module `languagetool-http-client` has been added with a class
+    `RemoteLanguageTool` that you can use to query a remote LanguageTool server
+    via HTTP or HTTPS
+  * removed the public modifier from `LanguageComboBox`
+
+#### Embedded HTTPS server
+  * The existing HTTP/HTTPS API will be replaced by a new one
+    that returns JSON. This version of LanguageTool supports
+    both APIs. The new API is prefixed with `/v2/`.
+    It is documented at https://languagetool.org/http-api/swagger-ui/#/default.
+    Please do not use the old XML-based HTTP API anymore. 
+    Information about migrating from the old to the new API
+    can be found at https://languagetool.org/http-api/migration.php
+  * Changed behaviour for OutOfMemory situations: the server
+    process now stops instead of being in an unstable state
+  * Missing parameters (like `text`) now cause a `400 Bad Request`
+    response (it used to produce `500 Internal Server Error`)
+  * New parameter `preferredVariants` to specify which variant is preferred
+    when the language is auto-detected: Example:
+    `language=auto&preferredVariants=en-GB,de-AT` - if English text is detected,
+    British English will be used, if German text is detected, German (Austria)
+    will be used.
+  * Code refactorings: methods have been removed without being deprecated first,
+    e.g. in `LanguageToolHttpHandler`
+
+#### Rule Syntax
+  * groups of rules and categories are now required to have non-empty names
+    to avoid user confusion
+
+#### GUI (stand-alone version)
+  * detect encoding of files with BOM header
+  * add new menu to open recent files
+  * add new configuration option to allow user to select the GUI language
+  * preserve GUI state between program restarts
+
+#### Command-line
+  * detect encoding of files with BOM header when there is no `encoding` parameter
+
+
+## 3.3 (2016-03-28)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -17,6 +409,9 @@
   * added about 215 confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
+#### Esperanto
+  * improved several rules
+
 #### French
   * added and improved rules
 
@@ -29,7 +424,7 @@
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
-  * added new xml rules
+  * added new XML rules
 
 #### Polish
   * added and improved a large number of rules, largely improved disambiguation
@@ -46,6 +441,17 @@
   
 #### Spanish
   * added German false friends
+
+#### Ukrainian
+  * big dictionary update:
+    * more than 202K lemmas
+    * homonyms have been properly split
+    * vocative case for inanimates has be added
+    * list of barbarism has been updated
+  * improved some rules
+  * improved sentence tokenization
+  * improved dynamic tagging for compounds
+  * some improvements for disambiguation
 
 #### Java API
   * some formerly deprecated code has been removed

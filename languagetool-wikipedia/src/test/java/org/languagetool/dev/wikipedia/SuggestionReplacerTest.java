@@ -18,9 +18,9 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import junit.framework.TestCase;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
@@ -36,14 +36,16 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-public class SuggestionReplacerTest extends TestCase {
+public class SuggestionReplacerTest {
 
   private final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
   private final GermanyGerman germanyGerman = new GermanyGerman();
   private final JLanguageTool langTool = getLanguageTool();
   private final JLanguageTool englishLangTool = getLanguageTool(new English());
 
+  @Test
   public void testApplySuggestionToOriginalText() throws Exception {
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     applySuggestion(langTool, filter, "Die CD ROM.", "Die <s>CD-ROM.</s>");
@@ -62,6 +64,7 @@ public class SuggestionReplacerTest extends TestCase {
                                       "\n\nEin <s>ökumenischer</s> Gottesdienst.\n");
   }
 
+  @Test
   public void testNestedTemplates() throws Exception {
     String markup = "{{FNBox|\n" +
             "  {{FNZ|1|1979 und 1984}}\n" +
@@ -70,27 +73,32 @@ public class SuggestionReplacerTest extends TestCase {
     applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenischer</s>"));
   }
 
+  @Test
   public void testReference1() throws Exception {
     String markup = "Hier <ref name=isfdb>\n" +
             "Retrieved 2012-07-31.</ref> steht,, das Haus.";
     applySuggestion(langTool, filter, markup, markup.replace("steht,, das Haus.", "<s>steht,</s> das Haus."));
   }
 
+  @Test
   public void testReference2() throws Exception {
     String markup = "Hier <ref name=\"NPOVxxx\" /> steht,, das Haus.";
     applySuggestion(langTool, filter, markup, markup.replace("steht,, das Haus.", "<s>steht, das</s> Haus."));
   }
 
+  @Test
   public void testErrorAtTextBeginning() throws Exception {
     String markup = "A hour ago\n";
     applySuggestion(englishLangTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
+  @Test
   public void testErrorAtParagraphBeginning() throws Exception {
     String markup = "X\n\nA hour ago\n";
     applySuggestion(englishLangTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
+  @Test
   public void testKnownBug() throws Exception {
     String markup = "{{HdBG GKZ|9761000}}.";
     try {
@@ -100,6 +108,7 @@ public class SuggestionReplacerTest extends TestCase {
     }
   }
 
+  @Test
   public void testComplexText() throws Exception {
     String markup = "{{Dieser Artikel|behandelt die freie Onlineenzyklopädie Wikipedia; zu dem gleichnamigen Asteroiden siehe [[(274301) Wikipedia]].}}\n" +
             "\n" +
@@ -116,6 +125,7 @@ public class SuggestionReplacerTest extends TestCase {
     applySuggestion(langTool, filter, markup, markup.replace("Und und so.", "<s>Und so.</s>"));
   }
 
+  @Test
   public void testCompleteText() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia.txt");
     String origMarkup = IOUtils.toString(stream, "utf-8");
@@ -152,6 +162,7 @@ public class SuggestionReplacerTest extends TestCase {
     }
   }
 
+  @Test
   public void testCompleteText2() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia2.txt");
     String origMarkup = IOUtils.toString(stream, "utf-8");

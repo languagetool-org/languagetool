@@ -31,7 +31,7 @@ import org.languagetool.rules.CommaWhitespaceRule;
  */
 public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
 
-  public PersianCommaWhitespaceRule(final ResourceBundle messages) {
+  public PersianCommaWhitespaceRule(ResourceBundle messages) {
     super(messages);
   }
   

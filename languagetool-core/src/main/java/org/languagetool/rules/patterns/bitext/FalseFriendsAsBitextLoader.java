@@ -43,24 +43,24 @@ import org.xml.sax.SAXException;
 public class FalseFriendsAsBitextLoader {
 
   public List<BitextPatternRule> getFalseFriendsAsBitext(
-          final String filename, final Language motherTongue,
-          final Language language) throws ParserConfigurationException,
+          String filename, Language motherTongue,
+          Language language) throws ParserConfigurationException,
           SAXException, IOException {
-    final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    final List<BitextPatternRule> bRules = new ArrayList<>();
-    final List<AbstractPatternRule> rules1 = ruleLoader.getRules(JLanguageTool
-            .getDataBroker().getFromRulesDirAsStream(filename),
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    List<BitextPatternRule> bRules = new ArrayList<>();
+    List<AbstractPatternRule> rules1 = ruleLoader.getRules(
+            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),
             motherTongue, language);
-    final List<AbstractPatternRule> rules2 = ruleLoader.getRules(JLanguageTool
-            .getDataBroker().getFromRulesDirAsStream(filename),
+    List<AbstractPatternRule> rules2 = ruleLoader.getRules(
+            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),
             language, motherTongue);
-    final Map<String, AbstractPatternRule> srcRules = new HashMap<>();
+    Map<String, AbstractPatternRule> srcRules = new HashMap<>();
     for (AbstractPatternRule rule : rules1) {
       srcRules.put(rule.getId(), rule);
     }
     for (AbstractPatternRule rule : rules2) {
       if (srcRules.containsKey(rule.getId())) {
-        final BitextPatternRule bRule = new BitextPatternRule(
+        BitextPatternRule bRule = new BitextPatternRule(
                 srcRules.get(rule.getId()), rule);
         bRule.setSourceLanguage(motherTongue);
         bRule.setCategory(rule.getCategory());

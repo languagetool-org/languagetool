@@ -19,27 +19,29 @@
 
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.RuleMatch;
 
-public class BritishReplaceRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class BritishReplaceRuleTest {
 
   private BritishReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     rule = new BritishReplaceRule(TestTools.getMessages("en"));
     langTool = new JLanguageTool(new BritishEnglish());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -59,7 +61,7 @@ public class BritishReplaceRuleTest extends TestCase {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

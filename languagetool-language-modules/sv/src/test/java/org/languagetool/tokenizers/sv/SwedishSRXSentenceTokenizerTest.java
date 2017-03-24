@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.sv;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class SwedishSRXSentenceTokenizerTest extends TestCase {
+public class SwedishSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Swedish());
 
+  @Test
   public void testTokenize() {
     testSplit("Onkel Toms stuga är en roman skriven av Harriet Beecher Stowe, publicerad den 1852. ",
               "Den handlar om slaveriet i USA sett ur slavarnas perspektiv och bidrog starkt till att slaveriet avskaffades 1865 efter amerikanska inbördeskriget.");

@@ -19,29 +19,33 @@
 
 package org.languagetool;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import junit.framework.TestCase;
 
-public class AnalyzedSentenceTest extends TestCase {
+public class AnalyzedSentenceTest {
 
+  @Test
   public void testToString() {
-    final AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
+    AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));
     words[1] = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
     words[2].addReading(new AnalyzedToken(".", "SENT_END", null));
-    final AnalyzedSentence sentence = new AnalyzedSentence(words);
+    AnalyzedSentence sentence = new AnalyzedSentence(words);
     assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
   }
 
+  @Test
   public void testCopy() {
-    final AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
+    AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));
     words[1] = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
     words[2].addReading(new AnalyzedToken(".", "SENT_END", null));
-    final AnalyzedSentence sentence = new AnalyzedSentence(words);
-    final AnalyzedSentence copySentence = sentence.copy(sentence);
+    AnalyzedSentence sentence = new AnalyzedSentence(words);
+    AnalyzedSentence copySentence = sentence.copy(sentence);
     assertEquals(sentence, copySentence);
     //now change the first sentence
     words[1].immunize(); // this would not work if we stored a copy, which we probably should

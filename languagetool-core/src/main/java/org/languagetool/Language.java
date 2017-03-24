@@ -69,10 +69,13 @@ public abstract class Language {
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
+   * For most languages this is a two-letter code according to ISO 639-1,
+   * but for those languages that don't have a two-letter code, a three-letter
+   * code according to ISO 639-2 is returned.
    * The country parameter (e.g. "US"), if any, is not returned.
-   * @return language code
+   * @since 3.6
    */
-  public abstract String getShortName();
+  public abstract String getShortCode();
 
   /**
    * Get this language's name in English, e.g. <code>English</code> or
@@ -157,7 +160,7 @@ public abstract class Language {
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {
-    return new Locale(getShortName());
+    return new Locale(getShortCode());
   }
 
   /**
@@ -167,9 +170,9 @@ public abstract class Language {
   public Locale getLocaleWithCountryAndVariant() {
     if (getCountries().length > 0) {
       if (getVariant() != null) {
-        return new Locale(getShortName(), getCountries()[0], getVariant());
+        return new Locale(getShortCode(), getCountries()[0], getVariant());
       } else {
-        return new Locale(getShortName(), getCountries()[0]);
+        return new Locale(getShortCode(), getCountries()[0]);
       }
     } else {
       return getLocale();
@@ -181,13 +184,13 @@ public abstract class Language {
    * i.e. a path in the classpath.
    */
   public List<String> getRuleFileNames() {
-    final List<String> ruleFiles = new ArrayList<>();
-    final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    List<String> ruleFiles = new ArrayList<>();
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
-            + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
-    if (getShortNameWithCountryAndVariant().length() > 2) {
-      final String fileName = getShortName() + "/"
-              + getShortNameWithCountryAndVariant()
+            + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
+    if (getShortCodeWithCountryAndVariant().length() > 2) {
+      String fileName = getShortCode() + "/"
+              + getShortCodeWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
@@ -296,12 +299,12 @@ public abstract class Language {
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
    */
-  public final String getTranslatedName(final ResourceBundle messages) {
+  public final String getTranslatedName(ResourceBundle messages) {
     try {
-      return messages.getString(getShortNameWithCountryAndVariant());
+      return messages.getString(getShortCodeWithCountryAndVariant());
     } catch (MissingResourceException e) {
       try {
-        return messages.getString(getShortName());
+        return messages.getString(getShortCode());
       } catch (MissingResourceException e1) {
         return getName();
       }
@@ -312,10 +315,10 @@ public abstract class Language {
    * Get the short name of the language with country and variant (if any), if it is
    * a single-country language. For generic language classes, get only a two- or
    * three-character code.
-   * @since 1.8
+   * @since 3.6
    */
-  public final String getShortNameWithCountryAndVariant() {
-    String name = getShortName();
+  public final String getShortCodeWithCountryAndVariant() {
+    String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
       if (getVariant() != null) {   // e.g. "ca-ES-valencia"
@@ -366,7 +369,7 @@ public abstract class Language {
    */
   public final boolean isVariant() {
     for (Language language : Languages.get()) {
-      final boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
+      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {
         return true;
       }
@@ -380,7 +383,7 @@ public abstract class Language {
    */
   public final boolean hasVariant() {
     for (Language language : Languages.get()) {
-      final boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
+      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && getClass().isAssignableFrom(language.getClass())) {
         return true;
       }
@@ -403,11 +406,11 @@ public abstract class Language {
    * @since 1.8
    */
   public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
-    if (getShortName().equals(otherLanguage.getShortName())) {
-      final boolean thisHasCountry = hasCountry();
-      final boolean otherHasCountry = otherLanguage.hasCountry();
+    if (getShortCode().equals(otherLanguage.getShortCode())) {
+      boolean thisHasCountry = hasCountry();
+      boolean otherHasCountry = otherLanguage.hasCountry();
       return !(thisHasCountry && otherHasCountry) ||
-              getShortNameWithCountryAndVariant().equals(otherLanguage.getShortNameWithCountryAndVariant());
+              getShortCodeWithCountryAndVariant().equals(otherLanguage.getShortCodeWithCountryAndVariant());
     } else {
       return false;
     }
@@ -449,5 +452,30 @@ public abstract class Language {
     }
     return false;
   }
+  
+  /**
+   * Returns a priority for Rule or Category Id (default: 0).
+   * Positive integers have higher priority.
+   * Negative integers have lower priority.
+   * @since 3.6
+   */
+  public int getPriorityForId(String id) {
+    return 0;
+  }
 
+  /**
+   * Considers languages as equal if their language code, including the country and variant codes are equal.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Language other = (Language) o;
+    return Objects.equals(getShortCodeWithCountryAndVariant(), other.getShortCodeWithCountryAndVariant());
+  }
+
+  @Override
+  public int hashCode() {
+    return getShortCodeWithCountryAndVariant().hashCode();
+  }
 }

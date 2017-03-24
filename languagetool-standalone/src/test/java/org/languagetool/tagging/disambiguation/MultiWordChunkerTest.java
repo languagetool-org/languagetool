@@ -18,32 +18,35 @@
  */
 package org.languagetool.tagging.disambiguation;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.language.Ukrainian;
 
-public class MultiWordChunkerTest extends TestCase {
+import static org.junit.Assert.assertTrue;
 
+public class MultiWordChunkerTest {
+
+  @Test
   public void testDisambiguate() throws Exception {
-    final Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
-    final JLanguageTool lt = new JLanguageTool(new English());
-    final AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
-    final AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
-    final AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+    Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
+    JLanguageTool lt = new JLanguageTool(new English());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
+    AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+    AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     assertTrue(tokens[4].getReadings().toString().contains("<ELLIPSIS>"));
     assertTrue(tokens[6].getReadings().toString().contains("</ELLIPSIS>"));
   }
-  
+
+  @Test
   public void testDisambiguateMultiSpace() throws Exception {
-      final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
-      final JLanguageTool lt = new JLanguageTool(new Ukrainian());
-      final AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
-      final AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
-      final AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+      Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+      JLanguageTool lt = new JLanguageTool(new Ukrainian());
+      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
+      AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+      AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
       assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
       assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
     }

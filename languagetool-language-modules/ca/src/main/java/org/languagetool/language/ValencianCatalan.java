@@ -40,11 +40,6 @@ public class ValencianCatalan extends Catalan {
   }
   
   @Override
-  public String getShortName() {
-    return "ca";
-  }
-  
-  @Override
   public List<String> getDefaultEnabledRulesForVariant() {
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_VALENCIANS",
         "EXIGEIX_ACCENTUACIO_VALENCIANA", "EXIGEIX_POSSESSIUS_U",

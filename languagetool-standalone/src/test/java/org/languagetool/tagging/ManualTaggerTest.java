@@ -37,10 +37,10 @@ public class ManualTaggerTest {
     assertThat(tagger.tag("").size(), is(0));
     assertThat(tagger.tag("gibtsnicht").size(), is(0));
 
-    assertEquals("[Ableitung/SUB:NOM:PLU:FEM, Ableitung/SUB:GEN:PLU:FEM, Ableitung/SUB:DAT:PLU:FEM, Ableitung/SUB:AKK:PLU:FEM]",
-            tagger.tag("Ableitungen").toString());
+    assertEquals("[Enigma/EIG:NOM:SIN:MAS, Enigma/EIG:GEN:SIN:MAS, Enigma/EIG:DAT:SIN:MAS, Enigma/EIG:AKK:SIN:MAS]",
+            tagger.tag("Enigma").toString());
     // lookup is case sensitive:
-    assertThat(tagger.tag("ableitungen").size(), is(0));
+    assertThat(tagger.tag("enigma").size(), is(0));
   }
 
 }

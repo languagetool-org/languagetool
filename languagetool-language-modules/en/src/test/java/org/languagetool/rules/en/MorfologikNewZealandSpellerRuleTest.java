@@ -41,11 +41,11 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    final NewZealandEnglish language = new NewZealandEnglish();
-    final MorfologikNewZealandSpellerRule rule =
+    NewZealandEnglish language = new NewZealandEnglish();
+    MorfologikNewZealandSpellerRule rule =
             new MorfologikNewZealandSpellerRule(TestTools.getMessages("en"), language);
 
-    final JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool langTool = new JLanguageTool(language);
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);

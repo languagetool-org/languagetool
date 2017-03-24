@@ -31,7 +31,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/sv/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Dessa ord skrivs samman med bindestreck.",
             "Dessa ord skrivs samman.",

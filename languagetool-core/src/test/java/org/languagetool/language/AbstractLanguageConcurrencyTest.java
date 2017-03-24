@@ -25,6 +25,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -36,15 +37,16 @@ public abstract class AbstractLanguageConcurrencyTest {
 
   volatile int failedTests;
   
+  @Ignore("too slow to run every time")
   @Test
   public void testSpellCheckerFailure() throws Exception {
-    final String sampleText = createSampleText();
-    final Language language = createLanguage();
-    final int threadCount = Runtime.getRuntime().availableProcessors() * 10;
-    final int testRuns = 100;
+    String sampleText = createSampleText();
+    Language language = createLanguage();
+    int threadCount = Runtime.getRuntime().availableProcessors() * 10;
+    int testRuns = 100;
 
-    final ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
-    final Lock testWriteLock = testWaitLock.writeLock();
+    ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
+    Lock testWriteLock = testWaitLock.writeLock();
     testWriteLock.lock();
     
     failedTests = 0;

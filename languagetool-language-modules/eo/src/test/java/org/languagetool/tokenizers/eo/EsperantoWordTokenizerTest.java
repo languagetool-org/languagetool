@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.eo;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class EsperantoWordTokenizerTest extends TestCase {
+public class EsperantoWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     EsperantoWordTokenizer wordTokenizer = new EsperantoWordTokenizer();
     List<String> testList = wordTokenizer.tokenize("Tio estas\u00A0testo");

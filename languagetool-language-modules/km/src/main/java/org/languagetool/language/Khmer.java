@@ -52,7 +52,7 @@ public class Khmer extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "km";
   }
 

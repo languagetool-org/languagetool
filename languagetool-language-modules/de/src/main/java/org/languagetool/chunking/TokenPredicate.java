@@ -35,8 +35,8 @@ final class TokenPredicate extends Expression.Arg.Pred<ChunkTaggedToken> {
 
   @Override
   public boolean apply(ChunkTaggedToken analyzedToken) {
-    final String[] parts = getDescription().split("=");
-    final String exprType;
+    String[] parts = getDescription().split("=");
+    String exprType;
     String exprValue;
     if (parts.length == 1) {
       exprType = "string";

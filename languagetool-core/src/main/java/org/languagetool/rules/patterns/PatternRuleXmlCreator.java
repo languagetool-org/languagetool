@@ -53,21 +53,21 @@ public class PatternRuleXmlCreator {
    * @since 2.3
    */
   public final String toXML(PatternRuleId ruleId, Language language) {
-    final List<String> filenames = language.getRuleFileNames();
-    final XPath xpath = XPathFactory.newInstance().newXPath();
+    List<String> filenames = language.getRuleFileNames();
+    XPath xpath = XPathFactory.newInstance().newXPath();
     for (String filename : filenames) {
       try (InputStream is = this.getClass().getResourceAsStream(filename)) {
-        final Document doc = getDocument(is);
-        final Node ruleNode = (Node) xpath.evaluate("/rules/category/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
+        Document doc = getDocument(is);
+        Node ruleNode = (Node) xpath.evaluate("/rules/category/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
         if (ruleNode != null) {
           return nodeToString(ruleNode);
         }
-        final Node ruleNodeInGroup = (Node) xpath.evaluate("/rules/category/rulegroup/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
+        Node ruleNodeInGroup = (Node) xpath.evaluate("/rules/category/rulegroup/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
         if (ruleNodeInGroup != null) {
           return nodeToString(ruleNodeInGroup);
         }
         if (ruleId.getSubId() != null) {
-          final NodeList ruleGroupNodes = (NodeList) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']/rule", doc, XPathConstants.NODESET);
+          NodeList ruleGroupNodes = (NodeList) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']/rule", doc, XPathConstants.NODESET);
           if (ruleGroupNodes != null) {
             for (int i = 0; i < ruleGroupNodes.getLength(); i++) {
               if (Integer.toString(i+1).equals(ruleId.getSubId())) {
@@ -76,7 +76,7 @@ public class PatternRuleXmlCreator {
             }
           }
         } else {
-          final Node ruleGroupNode = (Node) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
+          Node ruleGroupNode = (Node) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
           if (ruleGroupNode != null) {
             return nodeToString(ruleGroupNode);
           }
@@ -89,9 +89,9 @@ public class PatternRuleXmlCreator {
   }
 
   private Document getDocument(InputStream is) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-    final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-    final DOMImplementationLS impl = (DOMImplementationLS)registry.getDOMImplementation("LS");
-    final LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
+    DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+    DOMImplementationLS impl = (DOMImplementationLS)registry.getDOMImplementation("LS");
+    LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
     // we need to ignore whitespace here so the nodeToString() method will be able to indent it properly:
     parser.setFilter(new IgnoreWhitespaceFilter());
     LSInput domInput = impl.createLSInput();
@@ -100,9 +100,9 @@ public class PatternRuleXmlCreator {
   }
 
   private String nodeToString(Node node) {
-    final StringWriter sw = new StringWriter();
+    StringWriter sw = new StringWriter();
     try {
-      final Transformer t = TransformerFactory.newInstance().newTransformer();
+      Transformer t = TransformerFactory.newInstance().newTransformer();
       t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
       t.transform(new DOMSource(node), new StreamResult(sw));
     } catch (TransformerException e) {
@@ -110,7 +110,7 @@ public class PatternRuleXmlCreator {
     }
     // We have to use our own simple indentation. as the Java transformer indentation
     // introduces whitespace e.g. in the <suggestion> elements, breaking rules:
-    final String xml = sw.toString()
+    String xml = sw.toString()
       .replace("<token", "\n    <token")
       .replace("<and", "\n    <and")
       .replace("</and>", "\n    </and>")

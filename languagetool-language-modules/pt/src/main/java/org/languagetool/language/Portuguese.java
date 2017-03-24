@@ -21,31 +21,40 @@ package org.languagetool.language;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
+import org.languagetool.rules.pt.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
-import org.languagetool.rules.pt.PortugueseReplaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.io.File;
 
 /**
- * Pre-spelling-reform Portuguese.
+ * Post-spelling-reform Portuguese.
  */
-public class Portuguese extends Language {
+public class Portuguese extends Language implements AutoCloseable {
 
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
   
   private Tagger tagger;
+  private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
+  private LuceneLanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -53,13 +62,13 @@ public class Portuguese extends Language {
   }
 
   @Override
-  public String getShortName() {
+  public String getShortCode() {
     return "pt";
   }
 
   @Override
   public String[] getCountries() {
-    return new String[]{"AO", "MZ"};
+    return new String[]{"", "CV", "GW", "MO", "ST", "TL"};
   }
 
   @Override
@@ -70,7 +79,9 @@ public class Portuguese extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/")
+            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
+            new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
+            new Contributor("Tiago F. Santos (3.6+)", "tiagofsantos81@sapo.pt")
     };
   }
 
@@ -80,6 +91,28 @@ public class Portuguese extends Language {
       tagger = new PortugueseTagger();
     }
     return tagger;
+  }
+
+  /**
+   * @since 3.6
+   */
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new PortugueseHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+
+  /**
+   * @since 3.6
+   */
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new PortugueseWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
@@ -101,17 +134,27 @@ public class Portuguese extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
-            new DoublePunctuationRule(messages),
+            new CommaWhitespaceRule(messages,
+                Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
+                Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
             new GenericUnpairedBracketsRule(messages),
-            new HunspellNoSuggestionRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this),
-            new WordRepeatRule(messages, this),
+            new HunspellRule(messages, this),
+            new LongSentenceRule(messages, 45, true),
+            new UppercaseSentenceStartRule(messages, this,
+                Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
+                Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             //Specific to Portuguese:
-            new PreReformPortugueseCompoundRule(messages),
-            new PortugueseReplaceRule(messages)
+            new PostReformPortugueseCompoundRule(messages),
+            new PortugueseReplaceRule(messages),
+            new PortugueseReplaceRule2(messages),
+            new PortugueseClicheRule(messages),
+            new PortugueseWikipediaRule(messages),
+            new PortugueseWordRepeatRule(messages, this),
+            new PortugueseWordRepeatBeginningRule(messages, this),
+            new PortugueseAccentuationCheckRule(messages),
+            new PortugueseWrongWordInContextRule(messages)
     );
   }
 
@@ -120,4 +163,47 @@ public class Portuguese extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  /** @since 3.6 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.6 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new PortugueseConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.6 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "PT_MULTI_REPLACE":          return -5;
+      case "PT_PT_SIMPLE_REPLACE":      return -6;
+      case "HUNSPELL_RULE":             return -10;
+      case "CRASE_CONFUSION":           return -15;
+      case "FINAL_STOPS":               return -25;
+      case "T-V_DISTINCTION":           return -40;
+      case "T-V_DISTINCTION_ALL":       return -41;
+      case "REPEATED_WORDS":            return -90;
+      case "REPEATED_WORDS_3X":         return -91;
+      case "WIKIPEDIA_COMMON_ERRORS":   return -100;
+      case "TOO_LONG_SENTENCE":         return -1000;
+    }
+    return 0;
+  }
 }

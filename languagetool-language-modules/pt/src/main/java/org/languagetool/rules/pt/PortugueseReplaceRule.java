@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.pt;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
@@ -47,8 +47,9 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(final ResourceBundle messages) throws IOException {
+  public PortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>device</marker>"),
                    Example.fixed("<marker>dispositivo</marker>"));
@@ -72,7 +73,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " é um estrangeirismo. Em Português é mais comum usar: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

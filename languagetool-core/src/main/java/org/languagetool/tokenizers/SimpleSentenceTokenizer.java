@@ -38,7 +38,7 @@ public class SimpleSentenceTokenizer extends SRXSentenceTokenizer {
   }
   
   static class AnyLanguage extends Language {
-    @Override public String getShortName() {
+    @Override public String getShortCode() {
       return "xx";
     }
     @Override public String getName() {

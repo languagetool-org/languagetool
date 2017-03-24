@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
@@ -33,27 +35,29 @@ import java.io.IOException;
  */
 public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    langTool = new JLanguageTool(new Russian());
+  @Before
+  public void setUp() throws Exception {
+    lt = new JLanguageTool(new Russian());
     rule = new RussianCompoundRule(TestTools.getEnglishMessages());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Он вышел из-за дома.");
+    check(0, "Разработка ПО за идею.");
     // Both  suggestion for some words:
     check(0, "естественно-научный");
     // incorrect sentences:
     check(1, "из за", new String[]{"из-за"});
+    check(1, "по за", new String[]{"по-за"});
     check(1, "нет нет из за да да");
     //FIXME: suggestions / longest match
     check(1, "Ростов на Дону", new String[]{"Ростов-на-Дону"});
     // no hyphen suggestion for some words:
     check(1, "кругло суточный", new String[]{"круглосуточный"});
     // also accept incorrect upper/lowercase spelling:
-    check(1, "Ростов на дону", new String[]{"Ростов-на-дону"});
+//    check(1, "Ростов на дону", new String[]{"Ростов-на-Дону"});
     // also detect an error if only some of the hyphens are missing:
     check(1, "Ростов-на Дону", new String[]{"Ростов-на-Дону"});
     // first part is a single character:

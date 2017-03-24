@@ -41,15 +41,16 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    final AustralianEnglish language = new AustralianEnglish();
-    final MorfologikAustralianSpellerRule rule =
+    AustralianEnglish language = new AustralianEnglish();
+    MorfologikAustralianSpellerRule rule =
             new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language);
 
-    final JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool langTool = new JLanguageTool(language);
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A café")).length);  // check encoding isn't broken
     //with doesn't
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);

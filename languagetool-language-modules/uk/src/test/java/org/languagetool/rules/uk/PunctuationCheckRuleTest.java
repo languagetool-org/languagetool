@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.uk;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -27,8 +27,11 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-public class PunctuationCheckRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class PunctuationCheckRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     PunctuationCheckRule rule = new PunctuationCheckRule(TestTools.getEnglishMessages());
 

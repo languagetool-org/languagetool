@@ -31,10 +31,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class SpellingCheckRuleTest {
 
@@ -99,6 +99,12 @@ public class SpellingCheckRuleTest {
       assertTrue(isUrl("http://www.test-dash.com/foo/%C3%B-dash"));
       assertTrue(isUrl("www.languagetool.org"));
       assertFalse(isUrl("languagetool.org"));  // currently not detected
+      assertTrue(isEMail("martin.mustermann@test.de"));
+      assertTrue(isEMail("martin.mustermann@test.languagetool.de"));
+      assertTrue(isEMail("martin-mustermann@test.com"));
+      assertFalse(isEMail("@test.de"));
+      assertFalse(isEMail("f.test@test"));
+      assertFalse(isEMail("f@t.t"));
     }
   }
 }

@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -55,7 +55,7 @@ final class AllConfusionRulesEvaluator {
     if ("en".equals(args[0])) {
       lang = new ConfusionRuleEvaluator.EnglishLight();
     } else {
-      lang = Languages.getLanguageForShortName(args[0]);
+      lang = Languages.getLanguageForShortCode(args[0]);
     }
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[1]));
     List<String> inputsFiles = new ArrayList<>();
@@ -63,7 +63,7 @@ final class AllConfusionRulesEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel);
+    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false);
     eval.setVerboseMode(false);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");

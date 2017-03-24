@@ -19,16 +19,17 @@
 
 package org.languagetool.tokenizers.ru;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class RussianSRXSentenceTokenizerTest extends TestCase {
+public class RussianSRXSentenceTokenizerTest {
 
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Russian());
 
+  @Test
   public final void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:

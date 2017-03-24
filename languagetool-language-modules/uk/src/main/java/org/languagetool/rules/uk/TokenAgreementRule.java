@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -54,7 +53,7 @@ public class TokenAgreementRule extends Rule {
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
   private static final String REQUIRE_VIDMINOK_SUBSTR = ":rv_";
   private static final String VIDMINOK_SUBSTR = ":v_";
-  private static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
+  static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
   private static final String reqAnimInanimRegex = ":r(?:in)?anim";
   private static final Pattern REQ_ANIM_INANIM_PATTERN = Pattern.compile(reqAnimInanimRegex);
@@ -68,7 +67,7 @@ public class TokenAgreementRule extends Rule {
       "ім'я", "прізвище"
       ));
 
-  public TokenAgreementRule(final ResourceBundle messages) throws IOException {
+  public TokenAgreementRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -85,16 +84,9 @@ public class TokenAgreementRule extends Rule {
   public String getShort() {
     return "Узгодження слів у реченні";
   }
-  /**
-   * Indicates if the rule is case-sensitive. 
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
-  public boolean isCaseSensitive() {
-    return false;
-  }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
     boolean insideMultiword = false;
@@ -186,10 +178,11 @@ public class TokenAgreementRule extends Rule {
 //      }
 
       //TODO: for numerics only v_naz
-      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
-        posTagsToFind.add("v_naz");
-      }
-      else if( prep.equalsIgnoreCase("замість") ) {
+//      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
+//        posTagsToFind.add("v_naz");
+//      }
+//      else 
+      if( prep.equalsIgnoreCase("замість") ) {
         posTagsToFind.add("v_naz");
       }
 
@@ -206,7 +199,7 @@ public class TokenAgreementRule extends Rule {
       }
 
       //      System.out.println("For " + tokenReadings + " to match " + posTagsToFind + " of " + reqTokenReadings.getToken());
-      if( ! getReadingWithVidmPosTag(posTagsToFind, tokenReadings) ) {
+      if( ! hasVidmPosTag(posTagsToFind, tokenReadings) ) {
         if( isTokenToSkip(tokenReadings) )
           continue;
 
@@ -218,7 +211,7 @@ public class TokenAgreementRule extends Rule {
 
         //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
         if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") || prep.equals("на") ) {
-          if( PosTagHelper.hasPosTag(tokenReadings, ".*p:v_naz.*:anim[^&]*") ) { // but not &pron:
+          if( PosTagHelper.hasPosTag(tokenReadings, "noun:anim.*:p:v_naz[^&]*") ) { // but not &pron:
             reqTokenReadings = null;
             continue;
           }
@@ -226,11 +219,21 @@ public class TokenAgreementRule extends Rule {
 
         if (prep.equalsIgnoreCase("на")) {
           // 1) на (свято) Купала, на (вулиці) Мазепи, на (вулиці) Тюльпанів
-          if ((Character.isUpperCase(token.charAt(0)) && posTag.matches("noun:.:v_rod.*"))
+          if ((Character.isUpperCase(token.charAt(0)) && posTag.matches("noun.*?:.:v_rod.*"))
                 // 2) поміняти ім'я на Захар; поміняв Іван на Петро
                 || (posTag.matches(".*[fl]name.*")
                     && ((i > 1 && NAMES.contains(tokens[i-2].getAnalyzedToken(0).getToken()))
                         || (i > 2 && NAMES.contains(tokens[i-3].getAnalyzedToken(0).getLemma()))))) {
+            reqTokenReadings = null;
+            continue;
+          }
+          // handled by xml rule
+          if( token.equals("манер") ) {
+            reqTokenReadings = null;
+            continue;
+          }
+          // на біс (можливо краще tag=intj?)
+          if( token.equalsIgnoreCase("біс") ) {
             reqTokenReadings = null;
             continue;
           }
@@ -269,7 +272,7 @@ public class TokenAgreementRule extends Rule {
             continue;
           }
 
-          if( IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag())
+          if( PosTagHelper.hasPosTag(tokens[i+1], "num.*")
               && (token.equals("мінус") || token.equals("плюс")
                   || token.equals("мінімум") || token.equals("максимум") ) ) {
             reqTokenReadings = null;
@@ -277,13 +280,13 @@ public class TokenAgreementRule extends Rule {
           }
 
           // на мохом стеленому дні - пропускаємо «мохом»
-          if( PosTagHelper.hasPosTag(tokenReadings, "noun:.:v_oru.*")
+          if( PosTagHelper.hasPosTag(tokenReadings, "noun.*?:.:v_oru.*")
               && tokens[i+1].hasPartialPosTag("adjp") ) {
             continue;
           }
           
           if( (prep.equalsIgnoreCase("через") || prep.equalsIgnoreCase("на"))  // років 10, відсотки 3-4
-              && (posTag.startsWith("noun:p:v_naz") || posTag.startsWith("noun:p:v_rod")) // token.equals("років") 
+              && (posTag.startsWith("noun:inanim:p:v_naz") || posTag.startsWith("noun:inanim:p:v_rod")) // token.equals("років") 
               && IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
             reqTokenReadings = null;
             continue;
@@ -316,13 +319,10 @@ public class TokenAgreementRule extends Rule {
 
           if( tokens.length > i+2 ) {
             // спиралося на місячної давнини рішення
-            if (/*prep.equalsIgnoreCase("на") &&*/ posTag.matches("adj.*:[mfn]:v_rod.*")) {
-              String gender = PosTagHelper.getGender(posTag);
-              if( gender == null ) {
-//                System.err.println("unknown gender for " + token);
-              }
+            if (/*prep.equalsIgnoreCase("на") &&*/ PosTagHelper.hasPosTag(tokenReadings, "adj.*:[mfn]:v_rod.*")) {
+              String genders = PosTagHelper.getGenders(tokenReadings, "adj.*:[mfn]:v_rod.*");
               
-              if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
+              if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:["+genders+"]:v_rod.*")) {
                 i += 1;
                 continue;
               }
@@ -333,14 +333,6 @@ public class TokenAgreementRule extends Rule {
               //          reqTokenReadings = null;
               continue;
             }
-//            // спиралося на місячної давнини рішення
-//            if (prep.equalsIgnoreCase("на") && posTag.matches("adj.*:[mfn]:v_rod.*")) {
-//              String gender = PosTagHelper.getGender(posTag);
-//              if ( hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
-//                i+=1;
-//                continue;
-//              }
-//            }
           }
         }
 
@@ -393,7 +385,7 @@ public class TokenAgreementRule extends Rule {
 //    return false;
 //  }
 
-  private boolean getReadingWithVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
+  static boolean hasVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
 
     for(AnalyzedToken token: tokenReadings) {
@@ -431,8 +423,8 @@ public class TokenAgreementRule extends Rule {
 
     List<String> suggestions = new ArrayList<>();
     
-    final String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
-    for(AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
+    String requiredPostTagsRegEx = ":(" + String.join("|", posTagsToFind) + ")";
+    for (AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
     
       String oldPosTag = analyzedToken.getPOSTag();
       
@@ -488,7 +480,7 @@ public class TokenAgreementRule extends Rule {
     }
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
-        reqTokenReadings.getToken(), StringUtils.join(reqVidminkyNames, ", "), StringUtils.join(foundVidminkyNames, ", "));
+        reqTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
         
     if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
       msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
@@ -503,7 +495,7 @@ public class TokenAgreementRule extends Rule {
     else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
         String posTag2 = token.getPOSTag();
-        if( posTag2.matches(".*:v_naz.*:anim.*") ) {
+        if( posTag2.matches("noun:anim.*:v_naz.*") ) {
           msg += ". Можливо тут «о» — це вигук і потрібно кличний відмінок?";
           try {
             String newPostag = posTag2.replace("v_naz", "v_kly");

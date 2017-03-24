@@ -19,28 +19,32 @@
 
 package org.languagetool.bitext;
 
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class TabBitextReaderTest extends TestCase {
+public class TabBitextReaderTest {
 
+  @Test
   public void testReader() throws Exception {
     // Create a simple plain text file.
-    final File input = File.createTempFile("input", "txt");  
+    File input = File.createTempFile("input", "txt");  
     input.deleteOnExit();
 
     // Populate the file with data.
-    final PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
     writer.println("This is not actual.\tTo nie jest aktualne.");
     writer.println("Test\tTest");
     writer.println("ab\tVery strange data indeed, much longer than input");
     writer.close();  
 
-    final TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
+    TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
       assertTrue(srcAndTrg.getSource() != null);

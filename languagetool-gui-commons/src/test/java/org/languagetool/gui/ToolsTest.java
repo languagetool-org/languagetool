@@ -18,34 +18,40 @@
  */
 package org.languagetool.gui;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class ToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class ToolsTest {
+
+  @Test
   public void testShortenComment() {
-    final String testString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
-    final String testStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
-    final String testLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore (et dolore magna aliqua).";
-    final String testLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore.";
-    final String testVeryLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt [ut labore et dolore magna aliqua]).";
-    final String testVeryLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt).";
-    final String shortenedString = Tools.shortenComment(testString);
+    String testString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
+    String testStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
+    String testLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore (et dolore magna aliqua).";
+    String testLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore.";
+    String testVeryLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt [ut labore et dolore magna aliqua]).";
+    String testVeryLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt).";
+    String shortenedString = Tools.shortenComment(testString);
     assertEquals(testStringShortened, shortenedString);
-    final String shortenedLongString = Tools.shortenComment(testLongString);
+    String shortenedLongString = Tools.shortenComment(testLongString);
     assertEquals(testLongStringShortened, shortenedLongString);
-    final String shortenedVeryLongString = Tools.shortenComment(testVeryLongString);
+    String shortenedVeryLongString = Tools.shortenComment(testVeryLongString);
     assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
   }
 
+  @Test
   public void testGetLabel() {
     assertEquals("This is a Label", Tools.getLabel("This is a &Label"));
     assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
+  @Test
   public void testGetOOoLabel() {
     assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
+  @Test
   public void testGetMnemonic() {
     assertEquals('F', Tools.getMnemonic("&File"));
     assertEquals('O', Tools.getMnemonic("&OK"));

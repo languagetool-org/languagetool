@@ -49,6 +49,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="αυτές">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι <marker>αυτοί</marker> είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
             <example>Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι αυτές είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
         </rule>
+        <rule id="GREEK_AGREEMENT_2" name="τρέχων έτος → τρέχον έτος">
+            <pattern>
+                <marker>
+                    <token>τρέχων</token>
+                </marker>
+                <token>έτος</token>
+            </pattern>
+            <message>Το ουσιαστικό «\2» είναι ουδέτερο, χρησιμοποιήστε τον ουδέτερο τύπο «<suggestion>τρέχον</suggestion>»</message>
+            <short>Πρόβλημα συμφωνίας</short>
+            <example correction="τρέχον">Προσθέτουμε στο <marker>τρέχων</marker> έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
+            <example>Προσθέτουμε στο τρέχον έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
+        </rule>        
     </category>
     <category id="ORTHOGRAPHY" name="Orthography">
         <rule id="GREEK_WHERE-" name="πού;">
@@ -144,8 +156,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="και">Το δεν γράφεται <marker>κι</marker> δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
             <example>Το δεν γράφεται και δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
         </rule>
+        <rule id="GREEK_ART_MASC_MISSING_N" name="τελικό ν αρσενικού άρθρου" type="grammar">
+            <pattern>
+                <marker>
+                    <token>το</token>
+                </marker>
+                    <token postag="N:MASC:SG:ACC"/>
+            </pattern>
+            <message>Το τελικό ν του αρσενικού άρθρου διατηρείται στον γραπτό λόγο. Χρησιμοποιήστε <suggestion>τον</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="τον">Πιθανόν να εξαφανίστηκε επειδή δεν άντεξε <marker>το</marker> ανταγωνισμό με τον ανατομικά ανώτερο σμιλόδοντα.</example>
+            <example>Αποφεύγουν τον ανταγωνισμό με το να καταλαμβάνουν διαφορετικούς τομείς του βροχοδάσους.</example>
+        </rule>
+        <rule id="GREEK_ART_FEM_MISSING_N" name="τελικό ν θηλυκού άρθρου (τn → την)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>τη</token>
+                </marker>
+                <token postag="N:FEM:SG:ACC" regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>την</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="την">Το Σιν Φέιν ψηφίζει υπέρ της συνεργασίας του με <marker>τη</marker> αστυνομία για πρώτη φορά στην ιστορία του κόμματος.</example>
+            <example>Το Σιν Φέιν ψηφίζει υπέρ της συνεργασίας του με την αστυνομία για πρώτη φορά στην ιστορία του κόμματος.</example>
+        </rule>
+        <rule id="GREEK_ART_FEM_EXTRA_N" name="τελικό ν θηλυκού άρθρου (τnν → τη)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>την</token>
+                </marker>
+                <token postag="N:FEM:SG:ACC">
+                    <exception regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα : κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>τη</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="τη">Για <marker>την</marker> λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
+            <example>Για τη λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
+        </rule>
     </category>
     <category id="REDUNDANCY" name="Redundant Phrases">
+        <rule id="GREEK_MORE_ADJ_COMP" name="«πιο» πριν από επίθετο σε συγκριτικό βαθμό" type="grammar">
+            <pattern>
+                <marker>
+                    <token>πιο</token>
+                    <token postag_regexp="yes" postag="ADJ:COMP:.*"/>
+                </marker>
+            </pattern>
+            <message>Το επίθετο <suggestion>\2</suggestion> είναι σε συγκριτικό βαθμό και εμπεριέχει την έννοια του «πιο».</message>
+            <short>Λάθος πλεονασμού</short>
+            <example correction="ισχυρότερα">Όσο μεγαλύτερη ροπή θέλουμε να μεταφέρουμε τόσο <marker>πιο ισχυρότερα</marker> και περισσότερα πρέπει να είναι τα ελατήρια.</example>
+            <example>Όσο μεγαλύτερη ροπή θέλουμε να μεταφέρουμε τόσο ισχυρότερα και περισσότερα πρέπει να είναι τα ελατήρια.</example>
+        </rule>
         <rulegroup id="GREEK_REDUNDANT_1" name="ανέκαθεν">
             <rule>
                 <pattern>
@@ -243,8 +305,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ανεξαρτήτως">Γίνονται όλοι δεκτοί <marker>ανεξαρτήτου</marker> ηλικίας.</example>
             <example>Γίνονται όλοι δεκτοί ανεξαρτήτως ηλικίας.</example>
         </rule>
+        <rule id="GREEK_SYNTAX_3" name="καλός όρισες → καλώς όρισες">
+            <pattern>
+                <marker>
+                    <token>καλός</token>
+                </marker>
+                <token regexp="yes">ήρθες|ήρθατε|ήλθες|ήλθατε|όρισες|ορίσατε</token>
+            </pattern>
+            <message>Το «\1» είναι επίθετο, χρησιμοποιήστε το επίρρημα «<suggestion>καλώς</suggestion>»</message>
+            <short>Συντακτικό λάθος</short>
+            <example correction="Καλώς"><marker>Καλός</marker> ορίσατε στην ιστοσελίδα μας!</example>
+            <example>Καλώς ορίσατε στην ιστοσελίδα μας!</example>
+        </rule>
     </category>
-    <category id="PUNCTUATION" name="Punctuation" type="typographical">
+    <category id="PUNCTUATION" name="Στίξη" type="typographical">
         <rule id="GREEK_PUNC_1" name="κόμμα μετά από μόριο στην αρχή της πρότασης">
             <pattern>
                 <token postag="SENT_START" />
@@ -347,7 +421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς…</example>
         </rule>
     </category>
-    <category id="STYLE" name="Style">
+    <category id="STYLE" name="Υφολογικά λάθη" type="style">
         <rule id="GREEK_STYLE_AND" name="χρήση «κι» σε επίσημο λόγο">
             <pattern>
                 <marker>

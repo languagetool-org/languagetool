@@ -58,122 +58,106 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         Java-Regel AgreementRule.
         -->
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                    <token postag="SUB:.*" postag_regexp="yes">
-                        <exception postag_regexp="yes" postag="ADJ:.*"/><!-- needed for AgreementRule to not false alert on 'den Berliner Arbeitern' -->
-                    </token>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token postag="SUB:.*" postag_regexp="yes">
+                    <exception postag_regexp="yes" postag="ADJ:.*"/><!-- needed for AgreementRule to not false alert on 'den Berliner Arbeitern' -->
+                </token>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 1b" id="UNIFY_DET_SUB2">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <!--"beiden Filmen", but: "dass sie Geliebte waren"-->
-                    <token postag="(PRO|ART):.*" postag_regexp="yes"><exception>sie</exception></token>
-                    <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"/></token>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <!--"beiden Filmen", but: "dass sie Geliebte waren"-->
+                <token postag="(PRO|ART):.*" postag_regexp="yes"><exception>sie</exception></token>
+                <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"/></token>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
     <!-- TODO: this would fix false alarm for 'die ältere der beiden Töchter' but causes other problems
     <rule name="NP unify 1c" id="UNIFY_DET_ADJ">
         <pattern>
-            <marker>
                 <unify>
                     <feature id="number"/><feature id="case"/><feature id="gender"/>
                     "die ältere [der beiden]"
                     <token regexp="yes">der|die|das</token>
                     <token postag="ADJ.*:(DEF|IND).*" postag_regexp="yes"/>
                 </unify>
-            </marker>
         </pattern>
         <disambig action="unify"/>
     </rule>
     -->
     <rule name="NP unify 2" id="UNIFY_DET_ADJ_ADJ_SUB">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 2b" id="UNIFY_DET_ADJ_UND_ADJ_SUB">
         <pattern>
-            <marker>
-                <unify>
-                    <!-- "Der größte und schönste Tempel" -->
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <unify-ignore>
-                        <token>und</token>
-                    </unify-ignore>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
+            <unify>
+                <!-- "Der größte und schönste Tempel" -->
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <unify-ignore>
+                    <token>und</token>
+                </unify-ignore>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 3" id="UNIFY_DET_ADJ_SUB">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 3b" id="UNIFY_ADJ_SUB">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <!-- "Am Strand stehen schöne Häuser"-->
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <!-- "Am Strand stehen schöne Häuser"-->
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
 
     <rule name="NP unify 4" id="UNIFY_4">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <!-- "Die von der Regierung geprüften Hunde" -->
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <!-- "Die von der Regierung geprüften Hunde" -->
+                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <unify-ignore>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
                     <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                    <unify-ignore>
-                        <token postag="PRP:.*" postag_regexp="yes"/>
-                        <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
-                        <!--<token postag="ADJ:.*" postag_regexp="yes"/>-->
-                        <token postag="SUB:.*" postag_regexp="yes"/>
-                    </unify-ignore>
-                    <token postag="PA2:.*" postag_regexp="yes"/>
+                    <!--<token postag="ADJ:.*" postag_regexp="yes"/>-->
                     <token postag="SUB:.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
+                </unify-ignore>
+                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
         </pattern>
         <disambig action="unify"/>
     </rule>
@@ -182,263 +166,865 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name=".,;:…!? UNKNOWN -> PKT" id="UNKNOWN_PKT">
         <pattern>
-            <marker>
-                <token regexp="yes">[\.,;:…!\?]</token>
-            </marker>
+            <token regexp="yes">[\.,;:…!\?]</token>
         </pattern>
         <disambig action="add"><wd pos="PKT"/></disambig>
     </rule>
 
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
-            <marker>
-                <token>en</token>
-                <token>vogue</token>
-            </marker>
+            <token>en</token>
+            <token regexp="yes">vogue|gros|masse|passant|détail</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Côte d'Azur" id="COTE_DAZUR">
         <pattern>
-            <marker>
-                <token>Côte</token>
-                <token>d</token>
-                <token regexp="yes">['’]</token>
-                <token>Azur</token>
-            </marker>
+            <token>Côte</token>
+            <token>d</token>
+            <token regexp="yes">['’]</token>
+            <token>Azur</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="Sauce hollandaise" id="SAUCE_HOLLANDAISE">
+    <rule name="Saucen" id="SAUCEN">
         <pattern>
-            <marker>
-                <token>Sauce</token>
-                <token>hollandaise</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="G7-Gipfel" id="Gx-GIPFEL">
-        <pattern>
-            <marker>
-                <token regexp="yes">G[78]-Gipfel</token>
-            </marker>
+            <token>Sauce</token>
+            <token regexp='yes'>hollandaise|béarnaise|bordelaise|Bolognese|Béchamel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Los Angeles" id="LOS_ANGELES">
         <pattern>
-            <marker>
-                <token>Los</token>
-                <token>Angeles</token>
-            </marker>
+            <token>Los</token>
+            <token regexp="yes">Alamos|Angeles</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
 
     <rule name="Las Vegas" id="LAS_VEGAS">
         <pattern case_sensitive="yes">
-            <marker>
-                <token>Las</token>
-                <token>Vegas</token>
-            </marker>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
-    
-    <rule name="Los Alamos" id="LOS_ALAMOS">
-        <pattern case_sensitive="yes">
-            <marker>
-                <token>Los</token>
-                <token>Alamos</token>
-            </marker>
+            <token>Las</token>
+            <token>Vegas</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
 
+    <rule name="Valleys" id="VALLEYS">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Death|Silicon</token>
+            <token>Valley</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Oak Ridge" id="OAK_RIDGE">
         <pattern case_sensitive="yes">
-            <marker>
-                <token>Oak</token>
-                <token>Ridge</token>
-            </marker>
+            <token>Oak</token>
+            <token>Ridge</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
 
     <rule name="Mise en scène" id="MISE_EN_SCENE">
         <pattern>
-            <marker>
-                <token>Mise</token>
-                <token>en</token>
-                <token>scène</token>
-            </marker>
+            <token>Mise</token>
+            <token>en</token>
+            <token>scène</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
 
     <rule name="Rhythm and Blues" id="RHYTHM_AND_BLUES">
         <pattern>
-            <marker>
-                <token>Rhythm</token>
-                <token>and</token>
-                <token>Blues</token>
-            </marker>
+            <token>Rhythm</token>
+            <token>and</token>
+            <token>Blues</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="World of Warcraft" id="WOW">
+        <pattern>
+            <token>World</token>
+            <token>of</token>
+            <token>Warcraft</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Social Media" id="SOCIAL_MEDIA">
+        <pattern>
+            <token>Social</token>
+            <token>Media</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Rock and Roll" id="ROCK_AND_ROLL">
         <pattern>
-            <marker>
-                <token>Rock</token>
-                <token>and</token>
-                <token>Roll</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="en gros" id="EN_GROS">
-        <pattern>
-            <marker>
-                <token>en</token>
-                <token>gros</token>
-            </marker>
+            <token>Rock</token>
+            <token>and</token>
+            <token>Roll</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Alexius Meinong" id="ALEXIUS_MEINONG">
         <pattern>
-            <marker>
-                <token>Alexius</token>
-                <token regexp="yes">Meinongs?</token>
-            </marker>
+            <token>Alexius</token>
+            <token regexp="yes">Meinongs?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="starker Tobak" id="STARKER_TOBAK">
         <pattern>
-            <marker>
-                <token regexp="yes">alter|starker</token>
-                <token>Tobak</token>
-            </marker>
+            <token regexp="yes">alter|starker|anno</token>
+            <token>Tobak</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Alfred Nobel" id="ALFRED_NOBEL">
         <pattern>
-            <marker>
-                <token>Alfred</token>
-                <token>Nobel</token>
-            </marker>
+            <token>Alfred</token>
+            <token>Nobel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="São Paulo" id="SAO_PAULO">
         <pattern>
-            <marker>
-                <token>São</token>
-                <token>Paulo</token>
-            </marker>
+            <token>São</token>
+            <token regexp="yes">(Paulo|Vicente|Miguel|José)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Addis Abeba" id="ADDIS_ABEBA">
+        <pattern>
+            <token>Addis</token>
+            <token>Abeba</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="La Paz" id="LA_PAZ">
+        <pattern>
+            <token>La</token>
+            <token>Paz</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Santo Domingo" id="SANTO_DOMINGO">
+        <pattern>
+            <token>Santo</token>
+            <token>Domingo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Le Havre/Le Mans" id="LE_HAVRE">
+        <pattern>
+            <token>Le</token>
+            <token regexp='yes'>Havre|Mans</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Phnom Penh" id="PHNOM_PENH">
+        <pattern>
+            <token>Phnom</token>
+            <token>Penh</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Open Source" id="OPEN_SOURCE">
         <pattern>
-            <marker>
-                <token>Open</token>
-                <token>Source</token>
-            </marker>
+            <token>Open</token>
+            <token>Source</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Open-Source-Software" id="OPEN_SOURCE_SOFTWARE">
         <pattern>
-            <marker>
-                <token>Open-Source-Software</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="x-Jährige" id="x-JAEHRIGE">
-        <pattern>
-            <marker>
-                <!-- "Zeit seines Lebens hat der 76-Jährige keine Häuser gebaut." (aber: hat der 76-jährige Architekt...) -->
-                <token regexp="yes">\d+-Jährigen?</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="Ein und Alles" id="EIN_UND_ALLES">
-        <pattern>
-            <!-- http://canoo.net/blog/2008/11/14/zum-einen-zum-anderen/ -->
-            <marker>
-                <token>Ein</token>
-                <token>und</token>
-                <token>Alles</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    
-    <rule name="à la carte" id="A_LA_CARTE">
-        <pattern>
-            <marker>
-                <token>à</token>
-                <token>la</token>
-                <token>carte</token>
-            </marker>
+            <token>Open-Source-Software</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="Ave Maria" id="AVE_MARIA">
+    <rule name="Jungle World" id="JUNGLE_WORLD">
         <pattern>
-            <marker>
-                <token>Ave</token>
-                <token>Maria</token>
-            </marker>
+            <token>Jungle</token>
+            <token>World</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Rolling Stones" id="STONES">
+        <pattern>
+            <token>Rolling</token>
+            <token regexp='yes'>Stones?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Ein und Alles" id="EIN_UND_ALLES">
+        <pattern>
+            <!-- http://canoo.net/blog/2008/11/14/zum-einen-zum-anderen/ -->
+            <token>Ein</token>
+            <token>und</token>
+            <token>Alles</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="à la carte" id="A_LA_CARTE">
+        <pattern>
+            <token>à</token>
+            <token>la</token>
+            <token>carte</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
-            <marker>
-                <token>Big</token>
-                <token regexp="yes">Ben|Data</token>
-            </marker>
+            <token>Big</token>
+            <token regexp="yes">Ben|Data|Bang</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="coram publico" id="CORAM_PUBLICO">
         <pattern>
-            <marker>
-                <token>coram</token>
-                <token>publico</token>
-            </marker>
+            <token>coram</token>
+            <token>publico</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="sit venia verbo" id="VENIA_VERBO">
+        <pattern>
+            <token>sit</token>
+            <token>venia</token>
+            <token>verbo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in vino veritas" id="VINO_VERITAS">
+        <pattern>
+            <token>in</token>
+            <token>vino</token>
+            <token>veritas</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bona fide" id="BONA_FIDE">
+        <pattern>
+            <token>bona</token>
+            <token>fide</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ex nihilo" id="EX_NIHILO">
+        <pattern>
+            <token>ex</token>
+            <token>nihilo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="suum cuique" id="SUUM_CUIQUE">
+        <pattern>
+            <token>suum</token>
+            <token>cuique</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Urbi et orbi" id="URBI_ORBI">
+        <pattern>
+            <token>Urbi</token>
+            <token>et</token>
+            <token>orbi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Spiritus Rector" id="SPIRITUS_RECTOR">
+        <pattern>
+            <token>Spiritus</token>
+            <token>Rector</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Terra incognita" id="TERRA_INCOGNITA">
+        <pattern>
+            <token>Terra</token>
+            <token>incognita</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="non sequitur" id="NON_SEQUITUR">
+        <pattern>
+            <token>non</token>
+            <token>sequitur</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="reductio ad absurdum" id="REDUCTIO_AD_ABSURDUM">
+        <pattern>
+            <token>reductio</token>
+            <token>ad</token>
+            <token>absurdum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Tertium non datur" id="TERTIUM_NON_DATUR">
+        <pattern>
+            <token>Tertium</token>
+            <token>non</token>
+            <token>datur</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="requiescat in pace" id="RIP">
+        <pattern>
+            <token>requiescat</token>
+            <token>in</token>
+            <token>pace</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in statu nascendi" id="IN_STATU_NASCENDI">
+        <pattern>
+            <token>in</token>
+            <token>statu</token>
+            <token>nascendi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in memoriam" id="IN_MEMORIAM">
+        <pattern>
+            <token>in</token>
+            <token>memoriam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="stante pede" id="STANTE_PEDE">
+        <pattern>
+            <token>stante</token>
+            <token>pede</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="honoris causa" id="HC">
+        <pattern>
+            <token>honoris</token>
+            <token>causa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in situ" id="IN_SITU">
+        <pattern>
+            <token regexp="yes">in|ex</token>
+            <token>situ</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="peu à peu" id="PEU_A_PEU">
         <pattern>
-            <marker>
-                <token>peu</token>
-                <token>à</token>
-                <token>peu</token>
-            </marker>
+            <token>peu</token>
+            <token>à</token>
+            <token>peu</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
+        <pattern>
+            <token>avant</token>
+            <token>la</token>
+            <token>lettre</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Île de Ré" id="ILE_DE_FRANCE">
+        <pattern>
+            <token>Île</token>
+            <token>de</token>
+            <token regexp="yes">Ré|France|Porquerolles</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="noch und nöcher" id="NOCH_UND_NOECHER">
+        <pattern>
+            <token>noch</token>
+            <token>und</token>
+            <token>nöcher</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Coq au Vin" id="COQ_AU_VIN">
+        <pattern>
+            <token>Coq</token>
+            <token>au</token>
+            <token>Vin</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Air Force" id="AIR_FORCE">
+        <pattern>
+            <token>Air</token>
+            <token regexp="yes">Force|France</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="cui bono" id="CUI_BONO">
+        <pattern>
+            <token>Cui</token>
+            <token>Bono</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="In- und Ausland" id="IN_UND_AUSLAND">
+        <pattern>
+            <token>In-</token>
+            <token regexp='yes'>und|oder|beziehungsweise</token>
+            <token>Ausland</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
+        <pattern>
+            <token>in-</token>
+            <token regexp='yes'>und|oder|beziehungsweise</token>
+            <token regexp='yes'>ausländisch(e|er|es|em|en)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Memento mori" id="MEMENTO_MORI">
+        <pattern>
+            <token>Memento</token>
+            <token>mori</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ad hoc" id="AD_HOC">
+        <pattern>
+            <token>ad</token>
+            <token regexp='yes'>hoc|hominem|infinitum|libitum|nauseam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="salva veritate" id="SALVA_VERITATE">
+        <pattern>
+            <token>salva</token>
+            <token>veritate</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ab ovo" id="AB_OVO">
+        <pattern>
+            <token>ab</token>
+            <token>ovo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Persona non grata" id="PERSONA_NON_GRATA">
+        <pattern>
+            <token>Persona</token>
+            <token min="0">non</token>
+            <token regexp="yes">(in)?grata</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Enfant terrible" id="ENFANT_TERRIBLE">
+        <pattern>
+            <token>Enfant</token>
+            <token>terrible</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Fair Play" id="FAIR_PLAY">
+        <!-- http://www.korrekturen.de/wortliste/fair_play.shtml -->
+        <pattern case_sensitive="yes">
+            <token>Fair</token>
+            <token>Play</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule name="University of" id="UNIVERSITY_OF">
+        <pattern case_sensitive="yes">
+            <token>University</token>
+            <token>of</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Yad Vashem" id="YAD_VASHEM">
+        <pattern>
+            <token>Yad</token>
+            <token>Vashem</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule name="El Niño" id="EL_NINO">
+        <pattern>
+            <token>El</token>
+            <token>Niño</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Reih und Glied" id="REIH_UND_GLIED">
+        <pattern>
+            <token>Reih</token>
+            <token>und</token>
+            <token>Glied</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule name="Magna cum laude" id="MAGNA_CUM_LAUDE">
+        <pattern>
+            <token regexp="yes" min="0">magna|summa</token>
+            <token>cum</token>
+            <token>laude</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in medias res" id="IN_MEDIAS_RES">
+        <pattern>
+            <token>in</token>
+            <token>medias</token>
+            <token>res</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Facultas Docendi" id="FACULTAS_DOCENDI">
+        <pattern>
+            <token>Facultas</token>
+            <token>Docendi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Venia Legendi" id="VENIA_LEGENDI">
+        <pattern>
+            <token>Venia</token>
+            <token>Legendi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Grand Canyon" id="GRAND_CANYON">
+        <pattern>
+            <token>Grand</token>
+            <token regexp='yes'>Canyon|Prix|Slam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="horribile dictu" id="HORRIBILE_DICTU">
+        <pattern>
+            <token>horribile</token>
+            <token>dictu</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Diabetes mellitus" id="DIABETES_MELLITUS">
+        <pattern>
+            <token>Diabetes</token>
+            <token regexp="yes">mellitus|renalis|insipidus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Potz Blitz" id="POTZ_BLITZ">
+        <pattern>
+            <token>potz</token>
+            <token regexp="yes">Blitz|Blut|Donner|Donnerwetter|Marter|Teufel</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Wall Street" id="WALL_STREET">
+        <pattern>
+            <token regexp="yes">Wall|Downing|Baker</token>
+            <token>Street</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Fifth Avenue" id="FIFTH_AVENUE">
+        <pattern>
+            <token>Fifth</token>
+            <token>Avenue</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="per se" id="PER_SE">
+        <pattern>
+            <token>per</token>
+            <token regexp="yes">procura|rectum|saldo|se</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Pour le Mérite" id="POUR_LE_MERITE">
+        <pattern>
+            <token>Pour</token>
+            <token>le</token>
+            <token>Mérite</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="sui" id="SUI_GENERIS">
+        <pattern>
+            <token>sui</token>
+            <token>generis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="pacta" id="PACTA_SUNT_SERVANDA">
+        <pattern>
+            <token>pacta</token>
+            <token>sunt</token>
+            <token>servanda</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="virtual" id="VIRTUAL_REALITY">
+        <pattern>
+            <token>Virtual</token>
+            <token regexp="yes">Reality|Environments?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Fethullah Gülen" id="GUELEN">
+        <pattern>
+            <token>Fethullah</token>
+            <token regexp='yes'>Gülens?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Recep Tayyip Erdoğan" id="ERDOGAN">
+        <pattern>
+            <token>Recep</token>
+            <token>Tayyip</token>
+            <token regexp='yes'>Erdoğans?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Hillary Clinton" id="HILLARY_CLINTON">
+        <pattern>
+            <token regexp='yes'>Hillary|Bill</token>
+            <token regexp='yes'>Clintons?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Abu" id="ABU_DHABI">
+        <pattern>
+            <token>Abu</token>
+            <token>Dhabi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Great Barrier Reef" id="GREAT_BARRIER_REEF">
+        <pattern>
+            <token>Great</token>
+            <token>Barrier</token>
+            <token>Reef</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Rocky Mountains" id="ROCKY_MOUNTAINS">
+        <pattern>
+            <token>Rocky</token>
+            <token>Mountains</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Längeneinheiten" id="LAENGENEINHEITEN">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <token regexp="yes">[hμnpf]m</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Cordon bleu" id="CORDON_BLEU">
+        <pattern>
+            <token>Cordon</token>
+            <token>bleu</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Jour fixe" id="JOUR_FIXE">
+        <pattern>
+            <token regexp="yes">Blanc|Jour|Idée</token>
+            <token>fixe</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Pearl Harbor" id="PEARL_HARBOR">
+        <pattern>
+            <token>Pearl</token>
+            <token>Harbor</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Isle of Man" id="ISLE_OF_MAN">
+        <pattern>
+            <token>Isle</token>
+            <token>of</token>
+            <token regexp="yes">Man|Wight|Arran|Mull</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Sex and the City" id="SEX_CITY">
+        <pattern>
+            <token>Sex</token>
+            <token>and</token>
+            <token>the</token>
+            <token>City</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Breaking Bad" id="BREAKING_BAD">
+        <pattern>
+            <token>Breaking</token>
+            <token>Bad</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Star Wars" id="STARWARS">
+        <pattern>
+            <token>Star</token>
+            <token regexp="yes">Wars|Trek</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Vienna Capitals" id="VIENNA_CAPITALS">
+        <pattern>
+            <token>Vienna</token>
+            <token>Capitals</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Human Rights Watch" id="HUMAN_RIGHTS_WATCH">
+        <pattern>
+            <token>Human</token>
+            <token>Rights</token>
+            <token>Watch</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="pater familias" id="PATER_FAMILIAS">
+        <pattern>
+            <token>pater</token>
+            <token>familias</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="con Carne" id="CON_CARNE">
+        <pattern case_sensitive="yes">
+            <token>con</token>
+            <token>Carne</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Special Olympics" id="SPECIAL_OLYMPICS">
+        <pattern case_sensitive="yes">
+            <token>Special</token>
+            <token>Olympics</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Scotland Yard" id="SCOTLAND_YARD">
+        <pattern case_sensitive="yes">
+            <token>Scotland</token>
+            <token>Yard</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Buckingham Palace" id="BUCKINGHAM_PALACE">
+        <pattern case_sensitive="yes">
+            <token>Buckingham</token>
+            <token>Palace</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Parks" id="PARKS">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Central|Hyde</token>
+            <token>Park</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

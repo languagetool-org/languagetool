@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.pl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
@@ -27,8 +27,11 @@ import org.languagetool.language.Polish;
 import java.io.IOException;
 import java.util.Collections;
 
-public class PolishUnpairedBracketsRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class PolishUnpairedBracketsRuleTest {
+
+  @Test
   public void testRulePolish() throws IOException {
     Polish language = new Polish();
     PolishUnpairedBracketsRule rule = new PolishUnpairedBracketsRule(TestTools.getEnglishMessages(), language);

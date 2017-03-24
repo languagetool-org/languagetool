@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -26,20 +27,23 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Jaume Ortolà
  */
-public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
+public class ComplexAdjectiveConcordanceRuleTest {
 
   private ComplexAdjectiveConcordanceRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new ComplexAdjectiveConcordanceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -67,7 +71,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
     //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
-//    assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    //assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    assertCorrect("La raó sol allunyar-se dels extrems");
     assertCorrect("L'URL introduït");
     assertCorrect("Som els més antisistema");
     assertCorrect("En un entorn de prova segur");

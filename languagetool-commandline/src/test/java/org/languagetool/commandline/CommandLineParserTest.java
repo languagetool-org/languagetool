@@ -18,31 +18,36 @@
  */
 package org.languagetool.commandline;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class CommandLineParserTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class CommandLineParserTest {
+
+  @Test
   public void testUsage() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     try {
       parser.parseOptions(new String[]{});
       fail();
     } catch (WrongParameterNumberException ignored) {}
 
-    final CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
+    CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
     assertTrue(commandLineOptions.isPrintUsage());
   }
 
+  @Test
   public void testErrors() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     try {
       parser.parseOptions(new String[]{"--apply", "--taggeronly"});
       fail();
     } catch (IllegalArgumentException ignored) {}
   }
 
+  @Test
   public void testSimple() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     CommandLineOptions options;
 
     options = parser.parseOptions(new String[]{"filename.txt"});
@@ -51,17 +56,17 @@ public class CommandLineParserTest extends TestCase {
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"--language", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"-l", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"-v", "-l", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertTrue(options.isVerbose());
 

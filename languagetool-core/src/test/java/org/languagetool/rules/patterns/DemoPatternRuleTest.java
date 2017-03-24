@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -28,34 +29,41 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class DemoPatternRuleTest extends PatternRuleTest {
 
   private static final Language language = TestTools.getDemoLanguage();
-  
+
+  @Test
   public void testRules() throws IOException {
     runTestForLanguage(new Demo());
   }
 
+  @Test
   public void testGrammarRulesFromXML2() throws IOException {
     new PatternRule("-1", language, Collections.<PatternToken>emptyList(), "", "", "");
   }
 
+  @Test
   public void testMakeSuggestionUppercase() throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool langTool = new JLanguageTool(language);
 
-    final PatternToken patternToken = new PatternToken("Were", false, false, false);
-    final String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
-    final PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(patternToken), "desc", message, "msg");
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
+    PatternToken patternToken = new PatternToken("Were", false, false, false);
+    String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
+    PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(patternToken), "desc", message, "msg");
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
 
     assertEquals(1, matches.length);
-    final RuleMatch match = matches[0];
-    final List<String> replacements = match.getSuggestedReplacements();
+    RuleMatch match = matches[0];
+    List<String> replacements = match.getSuggestedReplacements();
     assertEquals(2, replacements.size());
     assertEquals("Where", replacements.get(0));
     assertEquals("We", replacements.get(1));
   }
 
+  @Test
   public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
@@ -114,30 +122,30 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testSentenceStart() throws IOException {
     JLanguageTool langTool = new JLanguageTool(language);
-    final PatternRule pr = makePatternRule("SENT_START One");
-    RuleMatch[] matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("One word."));
-    assertEquals(1, matches.length);
+    PatternRule pr = makePatternRule("SENT_START One");
+    assertEquals(0, pr.match(langTool.getAnalyzedSentence("Not One word.")).length);
+    assertEquals(1, pr.match(langTool.getAnalyzedSentence("One word.")).length);
   }
 
+  @Test
   public void testFormatMultipleSynthesis() throws Exception {
-    final String[] suggestions1 = { "blah blah", "foo bar" };
+    String[] suggestions1 = { "blah blah", "foo bar" };
     assertEquals(
             "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions1,
                     "This is how you should write: <suggestion>", "</suggestion>."));
 
-    final String[] suggestions2 = { "test", " " };
+    String[] suggestions2 = { "test", " " };
     assertEquals(
             "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions2,
                     "This is how you should write: <suggestion>", "</suggestion>."));
   }
 
-  private PatternRule makePatternRule(final String s) {
+  private PatternRule makePatternRule(String s) {
     return makePatternRule(s, false, false);
   }
 

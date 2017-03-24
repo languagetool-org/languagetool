@@ -19,20 +19,21 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertNull;
-import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
-  private final RuleMatch match = new RuleMatch(null, 0, 10, "message");
+  private final RuleMatch match = new RuleMatch(new FakeRule(), 0, 10, "message");
   private final DateCheckFilter filter = new DateCheckFilter();
 
   @Test

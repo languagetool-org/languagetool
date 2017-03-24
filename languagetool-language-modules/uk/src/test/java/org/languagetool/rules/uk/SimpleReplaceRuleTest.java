@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.uk;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -28,9 +28,12 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
 
-public class SimpleReplaceRuleTest extends TestCase {
 
+public class SimpleReplaceRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 
@@ -54,11 +57,6 @@ public class SimpleReplaceRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("Нападаючого"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
-
-    //refl
-    matches = rule.match(langTool.getAnalyzedSentence("відображаються"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
 
     // test ignoreTagged
     matches = rule.match(langTool.getAnalyzedSentence("щедрота"));

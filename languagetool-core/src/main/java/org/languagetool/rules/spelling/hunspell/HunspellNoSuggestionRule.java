@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 
 /**
@@ -41,7 +42,7 @@ public class HunspellNoSuggestionRule extends HunspellRule {
   /**
    * @since 3.3
    */
-  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, String correctedExample) {
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctedExample) {
     super(messages, language);
     addExamplePair(incorrectExample, correctedExample);
   }

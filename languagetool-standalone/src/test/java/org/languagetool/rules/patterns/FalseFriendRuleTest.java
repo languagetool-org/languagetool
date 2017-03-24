@@ -18,14 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.*;
 import org.languagetool.rules.RuleMatch;
@@ -33,53 +26,65 @@ import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.xml.sax.SAXException;
 
-public class FalseFriendRuleTest extends TestCase {
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
+public class FalseFriendRuleTest {
+
+  @Test
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool = new JLanguageTool(new English(), new German());
-    final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    JLanguageTool langTool = new JLanguageTool(new English(), new German());
+    List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", langTool);
     assertErrors(1, "I go to high school in Foocity.", langTool);
-    final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
+  @Test
   public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
-    final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
+    List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", langTool);
     assertErrors(1, "I go to high school in Berlin.", langTool);
-    final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
+  @Test
   public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool1 = new JLanguageTool(new BritishEnglish(), new German());
+    JLanguageTool langTool1 = new JLanguageTool(new BritishEnglish(), new German());
     langTool1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    final List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", langTool1);
+    List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", langTool1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
 
-    final JLanguageTool langTool2 = new JLanguageTool(new English(), new German());
+    JLanguageTool langTool2 = new JLanguageTool(new English(), new German());
     langTool2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    final List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", langTool2);
+    List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", langTool2);
     assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
-    final JLanguageTool langTool3 = new JLanguageTool(new AmericanEnglish(), new German());
+    JLanguageTool langTool3 = new JLanguageTool(new AmericanEnglish(), new German());
     langTool3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
     assertErrors(0, "And forDemoOnly.", langTool3);
   }
 
+  @Test
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool = new JLanguageTool(new German(), new English());
+    JLanguageTool langTool = new JLanguageTool(new German(), new English());
     assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
     assertErrors(0, "Man sollte ihn nicht so beschimpfen.", langTool);
     assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
   }
 
+  @Test
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool = new JLanguageTool(new English() {
+    JLanguageTool langTool = new JLanguageTool(new English() {
       @Override
       protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
@@ -93,16 +98,16 @@ public class FalseFriendRuleTest extends TestCase {
   }
   
   private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
-    final List<RuleMatch> matches = langTool.check(s);
+    List<RuleMatch> matches = langTool.check(s);
     //System.err.println(matches);
     assertEquals("Matches found: " + matches, errorCount, matches.size());
     return matches;
   }
   
-  private void assertSuggestions(final int suggestionCount, final String text, final JLanguageTool langTool) throws IOException {
-    final List<RuleMatch> matches = langTool.check(text);
+  private void assertSuggestions(int suggestionCount, String text, JLanguageTool langTool) throws IOException {
+    List<RuleMatch> matches = langTool.check(text);
     int suggestionsFound = 0;
-    for (final RuleMatch match : matches) {
+    for (RuleMatch match : matches) {
       int pos = 0;
       while (pos != -1) {
         pos = match.getMessage().indexOf("<suggestion>", pos + 1);

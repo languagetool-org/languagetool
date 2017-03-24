@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.uk;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -48,7 +47,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setIgnoreTaggedWords();
   }
@@ -71,7 +70,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " - помилкове слово, виправлення: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   @Override

@@ -18,14 +18,19 @@
  */
 package org.languagetool.rules;
 
-import org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -36,7 +41,7 @@ import java.util.*;
  */
 public abstract class AbstractSimpleReplaceRule extends Rule {
 
-  private boolean ignoreTaggedWords = false;
+  protected boolean ignoreTaggedWords = false;
   private boolean checkLemmas = true;
 
   protected abstract Map<String, List<String>> getWrongWords();
@@ -71,7 +76,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     ignoreTaggedWords = true;
   }
 
-  public AbstractSimpleReplaceRule(final ResourceBundle messages)
+  public AbstractSimpleReplaceRule(ResourceBundle messages)
       throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
@@ -88,7 +93,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " is not valid. Use: "
-        + StringUtils.join(replacements, ", ") + ".";
+        + String.join(", ", replacements) + ".";
   }
 
   public String getShort() {
@@ -100,11 +105,15 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
+  public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
+
+      // short for SENT_START
+      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) )
+        continue;
 
       //this rule is used mostly for spelling, so ignore both immunized
       // and speller-ignorable rules
@@ -118,23 +127,31 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
       String tokenString = cleanup(originalTokenStr);
 
-      if (!getWrongWords().containsKey(tokenString) && checkLemmas) {
-        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
-          String lemma = analyzedToken.getLemma();
-          if (lemma != null) {
-            lemma = cleanup(lemma);
-            if (getWrongWords().containsKey(lemma)) {
-              tokenString = lemma;
-              break;
-            }
-          }
-        }
-      }
-
       // try first with the original word, then with the all lower-case version
       List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
       if (possibleReplacements == null) {
         possibleReplacements = getWrongWords().get(tokenString);
+      }
+
+      if (possibleReplacements == null && checkLemmas) {
+        possibleReplacements = new ArrayList<>();
+
+        List<String> lemmas = new ArrayList<>();
+        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
+          String lemma = analyzedToken.getLemma();
+          if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
+            lemmas.add(cleanup(lemma));
+          }
+        }
+
+        for (String lemma: lemmas) {
+          List<String> replacements = getWrongWords().get(lemma);
+          if (replacements != null) {
+            possibleReplacements.addAll(replacements);
+          }
+        }
+
+        possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
       }
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
@@ -161,7 +178,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return tokenReadings.isTagged();
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
+  protected RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
       List<String> replacements) {
     String tokenString = tokenReadings.getToken();
     int pos = tokenReadings.getStartPos();

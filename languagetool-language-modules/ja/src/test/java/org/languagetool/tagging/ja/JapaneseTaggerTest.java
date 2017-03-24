@@ -18,23 +18,25 @@
  */
 package org.languagetool.tagging.ja;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 
-public class JapaneseTaggerTest extends TestCase {
+import java.io.IOException;
+
+public class JapaneseTaggerTest {
 
   private JapaneseTagger tagger;
   private JapaneseWordTokenizer tokenizer;
   
-  @Override
+  @Before
   public void setUp() {
     tagger = new JapaneseTagger();
     tokenizer = new JapaneseWordTokenizer();
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("これは簡単なテストです。",
         "これ/[これ]名詞-代名詞-一般 -- は/[は]助詞-係助詞 -- 簡単/[簡単]名詞-形容動詞語幹 -- な/[だ]助動詞 -- テスト/[テスト]名詞-サ変接続 -- です/[です]助動詞 -- 。/[。]記号-句点", tokenizer, tagger);

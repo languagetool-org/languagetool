@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.ro;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class RomanianWordTokenizerTest extends TestCase {
+public class RomanianWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     // basic test - simple words, no diacritics
     RomanianWordTokenizer w = new RomanianWordTokenizer();

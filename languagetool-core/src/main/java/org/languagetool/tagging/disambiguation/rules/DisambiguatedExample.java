@@ -33,7 +33,7 @@ public class DisambiguatedExample {
   private final String input;
   private final String output;
 
-  public DisambiguatedExample(final String example) {
+  public DisambiguatedExample(String example) {
     this(example, null, null);
   }
   
@@ -42,7 +42,7 @@ public class DisambiguatedExample {
    * @param input Ambiguous forms of a token (specify in 'word[lemma/POS]' format)
    * @param output Disambiguated forms of a token (specify in 'word[lemma/POS]' format)
    */
-  public DisambiguatedExample(final String example, final String input, final String output) {
+  public DisambiguatedExample(String example, String input, String output) {
     this.example = example;
     this.input = input;
     this.output = output;

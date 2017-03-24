@@ -33,26 +33,24 @@ public class SentenceWhitespaceRuleTest {
   @Test
   public void testMatch() throws Exception {
     SentenceWhitespaceRule rule = new SentenceWhitespaceRule(TestTools.getEnglishMessages());
-    JLanguageTool languageTool = new JLanguageTool(new FakeLanguage());
-    languageTool.addRule(rule);
+    JLanguageTool lt = new JLanguageTool(new FakeLanguage());
+    lt.addRule(rule);
 
-    assertGood("This is a text. And there's the next sentence.", rule, languageTool);
-    assertGood("This is a text! And there's the next sentence.", rule, languageTool);
-    assertGood("This is a text\nAnd there's the next sentence.", rule, languageTool);
-    assertGood("This is a text\n\nAnd there's the next sentence.", rule, languageTool);
+    assertGood("This is a text. And there's the next sentence.", rule, lt);
+    assertGood("This is a text! And there's the next sentence.", rule, lt);
+    assertGood("This is a text\nAnd there's the next sentence.", rule, lt);
+    assertGood("This is a text\n\nAnd there's the next sentence.", rule, lt);
 
-    assertBad("This is a text.And there's the next sentence.", rule, languageTool);
-    assertBad("This is a text!And there's the next sentence.", rule, languageTool);
-    assertBad("This is a text?And there's the next sentence.", rule, languageTool);
+    assertBad("This is a text.And there's the next sentence.", rule, lt);
+    assertBad("This is a text!And there's the next sentence.", rule, lt);
+    assertBad("This is a text?And there's the next sentence.", rule, lt);
   }
 
   private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
     assertThat(languageTool.check(text).size(), is(0));
-    rule.reset();
   }
 
   private void assertBad(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
     assertThat(languageTool.check(text).size(), is(1));
-    rule.reset();
   }
 }

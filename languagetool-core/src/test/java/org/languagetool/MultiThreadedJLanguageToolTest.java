@@ -18,16 +18,6 @@
  */
 package org.languagetool;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.RejectedExecutionException;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.MultipleWhitespaceRule;
@@ -36,21 +26,30 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.RejectedExecutionException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class MultiThreadedJLanguageToolTest {
 
   @Test
   public void testCheck() throws IOException {
     MultiThreadedJLanguageTool lt1 = new MultiThreadedJLanguageTool(new Demo());
-    final List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
-    assertEquals(9, ruleMatchIds1.size());
-    Assert.assertEquals(4, lt1.getSentenceCount());
+    lt1.setCleanOverlappingMatches(false);
+    List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
+    assertEquals(9, ruleMatchIds1.size()); 
     lt1.shutdown();
 
     JLanguageTool lt2 = new JLanguageTool(new Demo());
-    final List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
+    lt2.setCleanOverlappingMatches(false);
+    List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
-    Assert.assertEquals(4, lt1.getSentenceCount());
   }
   
   @Test
@@ -79,14 +78,14 @@ public class MultiThreadedJLanguageToolTest {
   @Test
   public void testConfigurableThreadPoolSize() throws IOException {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new Demo());
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
+    assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
     lt.shutdown();
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
-    final String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
-    final List<RuleMatch> matches = langTool.check(input);
-    final List<String> ruleMatchIds = new ArrayList<>();
+    String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
+    List<RuleMatch> matches = langTool.check(input);
+    List<String> ruleMatchIds = new ArrayList<>();
     for (RuleMatch match : matches) {
       ruleMatchIds.add(match.getRule().getId());
     }

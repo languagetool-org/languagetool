@@ -18,22 +18,25 @@
  */
 package org.languagetool.openoffice;
 
-import junit.framework.TestCase;
-
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
+import org.junit.Test;
 
-public class MainTest extends TestCase {
-  
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class MainTest {
+
+  @Test
   public void testDoProofreading() {
-    final Main prog = new Main(null);
+    Main prog = new Main(null);
     Main.setTestMode(true);
-    final String testString = "To jest trudne zdanie. A to następne.  A to przedostatnie jest.\u0002 Test ostatniego.";
-    final Locale plLoc = new Locale("pl", "PL", "");
-    final PropertyValue[] prop = new PropertyValue[0];
+    String testString = "To jest trudne zdanie. A to następne.  A to przedostatnie jest.\u0002 Test ostatniego.";
+    Locale plLoc = new Locale("pl", "PL", "");
+    PropertyValue[] prop = new PropertyValue[0];
     for (int i = 0; i <= testString.length(); i++) {
-      final ProofreadingResult paRes = prog.doProofreading("1", testString, plLoc, i, testString.length(), prop);
+      ProofreadingResult paRes = prog.doProofreading("1", testString, plLoc, i, testString.length(), prop);
       assertEquals("1", paRes.aDocumentIdentifier);
       assertTrue(paRes.nStartOfNextSentencePosition >= i);
       if (i < "To jest trudne zdanie. ".length()) {
@@ -41,28 +44,28 @@ public class MainTest extends TestCase {
         assertEquals(0, paRes.nStartOfSentencePosition);
       }
     }
-    final ProofreadingResult paRes1 = prog.doProofreading("1", testString, plLoc, 0, testString.length(), prop);
+    ProofreadingResult paRes1 = prog.doProofreading("1", testString, plLoc, 0, testString.length(), prop);
     assertEquals("1", paRes1.aDocumentIdentifier);
     assertEquals(23, paRes1.nStartOfNextSentencePosition);
     assertEquals(0, paRes1.nStartOfSentencePosition);
     //that was causing NPE but not anymore:
-    final String testString2 = "To jest „nowy problem”. A to inny jeszcze( „problem. Co jest „?"; 
-    final ProofreadingResult paRes2 = prog.doProofreading("1", testString2, plLoc, 0, testString2.length(), prop);
+    String testString2 = "To jest „nowy problem”. A to inny jeszcze( „problem. Co jest „?"; 
+    ProofreadingResult paRes2 = prog.doProofreading("1", testString2, plLoc, 0, testString2.length(), prop);
     assertEquals("1", paRes2.aDocumentIdentifier);
     assertEquals(24, paRes2.nStartOfNextSentencePosition);
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
-  
 
+  @Test
   public void testVariants() {
-    final Main prog = new Main(null);
+    Main prog = new Main(null);
     Main.setTestMode(true);
-    final String testString = "Sigui quina siga la teva intenció. Això és una prova.";
+    String testString = "Sigui quina siga la teva intenció. Això és una prova.";
     // LibreOffice config for languages with variants
-    final Locale cavaLoc = new Locale("qlt", "ES", "ca-ES-valencia"); 
-    final PropertyValue[] prop = new PropertyValue[0];
+    Locale cavaLoc = new Locale("qlt", "ES", "ca-ES-valencia"); 
+    PropertyValue[] prop = new PropertyValue[0];
     for (int i = 0; i <= testString.length(); i++) {
-      final ProofreadingResult paRes = prog.doProofreading("1", testString, cavaLoc, i, testString.length(), prop);
+      ProofreadingResult paRes = prog.doProofreading("1", testString, cavaLoc, i, testString.length(), prop);
       assertEquals("1", paRes.aDocumentIdentifier);
       assertTrue(paRes.nStartOfNextSentencePosition >= i);
       if (i < "Sigui quina siga la teva intenció. ".length()) {
@@ -72,14 +75,15 @@ public class MainTest extends TestCase {
         //assertEquals(2, paRes.aErrors.length);
       }
     }
-    final Locale caLoc = new Locale("ca", "ES", "");
-    final ProofreadingResult paRes = prog.doProofreading("1", testString, caLoc, 0, testString.length(), prop);
+    Locale caLoc = new Locale("ca", "ES", "");
+    ProofreadingResult paRes = prog.doProofreading("1", testString, caLoc, 0, testString.length(), prop);
     assertEquals("1", paRes.aDocumentIdentifier);
     //assertEquals(1, paRes.aErrors.length);
   }
 
+  @Test
   public void testCleanFootnotes() {
-    final Main prog = new Main(null);
+    Main prog = new Main(null);
     Main.setTestMode(true);
     assertEquals("A house.¹ Here comes more text.", prog.cleanFootnotes("A house.1 Here comes more text."));
     assertEquals("A road that's 3.4 miles long.", prog.cleanFootnotes("A road that's 3.4 miles long."));

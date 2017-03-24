@@ -33,9 +33,9 @@ abstract class LanguageDetector {
   abstract int getUpperBound();
 
   boolean isThisLanguage(String str) {
-    final int maxCheckLength = Math.min(str.length(), MAX_CHECK_LENGTH);
+    int maxCheckLength = Math.min(str.length(), MAX_CHECK_LENGTH);
     for (int i = 0; i < maxCheckLength; i++) {
-      final int numericValue = str.charAt(i);
+      int numericValue = str.charAt(i);
       if (numericValue >= getLowerBound() && numericValue <= getUpperBound()) {
         return true;
       }

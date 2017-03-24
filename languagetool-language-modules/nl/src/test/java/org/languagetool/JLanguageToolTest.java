@@ -18,13 +18,16 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.Dutch;
 
 import java.io.IOException;
 
-public class JLanguageToolTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class JLanguageToolTest {
+
+  @Test
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Dutch());
     assertEquals(0, tool.check("Een test, die geen fouten mag geven.").size());

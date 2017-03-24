@@ -19,14 +19,15 @@
 
 package org.languagetool.tokenizers.sk;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Slovak;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class SlovakSentenceTokenizerTest extends TestCase {
+public class SlovakSentenceTokenizerTest {
 
   private final Language lang = new Slovak();
   // accept \n as paragraph:
@@ -34,12 +35,13 @@ public class SlovakSentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
 
-  @Override
+  @Before
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
     stokenizer2.setSingleLineBreaksMarksParagraph(false);
   }
 
+  @Test
   public final void testTokenize() {
 
     testSplit("This is a sentence. ");

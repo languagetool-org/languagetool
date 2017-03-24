@@ -46,15 +46,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     pTokensMatched = new ArrayList<>(rule.getPatternTokens().size());
   }
 
-  public final AnalyzedSentence replace(final AnalyzedSentence sentence)
+  public final AnalyzedSentence replace(AnalyzedSentence sentence)
       throws IOException {
     List<PatternTokenMatcher> patternTokenMatchers = createElementMatchers();
 
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     AnalyzedTokenReadings[] whTokens = sentence.getTokens();
-    final int[] tokenPositions = new int[tokens.length + 1];
-    final int patternSize = patternTokenMatchers.size();
-    final int limit = Math.max(0, tokens.length - patternSize + 1);
+    int[] tokenPositions = new int[tokens.length + 1];
+    int patternSize = patternTokenMatchers.size();
+    int limit = Math.max(0, tokens.length - patternSize + 1);
     PatternTokenMatcher pTokenMatcher = null;
     boolean changed = false;
 
@@ -81,21 +81,21 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
       int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
-        final PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
+        PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
         pTokenMatcher = patternTokenMatchers.get(k);
         pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
-        final int nextPos = i + k + skipShiftTotal - minOccurSkip;
+        int nextPos = i + k + skipShiftTotal - minOccurSkip;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
-        final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
+        int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
-            final PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
-            final boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
+            PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
+            boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
                 firstMatchToken, prevSkipNext);
             if (nextElementMatch) {
               // this element doesn't match, but it's optional so accept this and continue
@@ -110,7 +110,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
                 prevTokenMatcher, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
-            final int skipShift = lastMatchToken - nextPos;
+            int skipShift = lastMatchToken - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
             prevSkipNext = pTokenMatcher.getPatternToken().getSkipNext();
             matchingTokens++;
@@ -177,13 +177,13 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
   }
 
 
-  private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence sentence,
-                                                final AnalyzedTokenReadings[] whiteTokens,
-                                                final AnalyzedTokenReadings[] unifiedTokens,
-                                                final int firstMatchToken, int lastMatchToken,
-                                                final int matchingTokens, final int[] tokenPositions) {
-    final AnalyzedTokenReadings[] whTokens = whiteTokens.clone();
-    final DisambiguationPatternRule rule = (DisambiguationPatternRule) this.rule;
+  private AnalyzedTokenReadings[] executeAction(AnalyzedSentence sentence,
+                                                AnalyzedTokenReadings[] whiteTokens,
+                                                AnalyzedTokenReadings[] unifiedTokens,
+                                                int firstMatchToken, int lastMatchToken,
+                                                int matchingTokens, int[] tokenPositions) {
+    AnalyzedTokenReadings[] whTokens = whiteTokens.clone();
+    DisambiguationPatternRule rule = (DisambiguationPatternRule) this.rule;
 
     int correctedStPos = 0;
     int startPositionCorrection = rule.getStartPositionCorrection();
@@ -229,14 +229,14 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       matchingTokensWithCorrection += maxPosCorrection;
     }
 
-    final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
+    int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
 
-    final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
-    final DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
+    boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
+    DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
 
-    final AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();
-    final Match matchElement = rule.getMatchElement();
-    final String disambiguatedPOS = rule.getDisambiguatedPOS();
+    AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();
+    Match matchElement = rule.getMatchElement();
+    String disambiguatedPOS = rule.getDisambiguatedPOS();
 
     switch (disAction) {
     case UNIFY:
@@ -248,10 +248,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             unifiedTokens[unifiedTokens.length - 1].setSentEnd();
           }
           for (int i = 0; i < unifiedTokens.length; i++) {
-            final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
             unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
-            final String prevValue = whTokens[position].toString();
-            final String prevAnot = whTokens[position].getHistoricalAnnotations();
+            String prevValue = whTokens[position].toString();
+            String prevAnot = whTokens[position].getHistoricalAnnotations();
             List<ChunkTag> chTags = whTokens[position].getChunkTags();
             whTokens[position] = unifiedTokens[i];
             whTokens[position].setChunkTags(chTags);
@@ -265,9 +265,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (newTokenReadings.length == matchingTokensWithCorrection
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
-            final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-            final String prevValue = whTokens[position].toString();
-            final String prevAnot = whTokens[position].getHistoricalAnnotations();
+            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+            String prevValue = whTokens[position].toString();
+            String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].removeReading(newTokenReadings[i]);
             annotateChange(whTokens[position], prevValue, prevAnot);
           }
@@ -278,11 +278,11 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             whTokens[fromPos].getStartPos());
         for (AnalyzedToken analyzedToken : tmp) {
           if (analyzedToken.getPOSTag() != null) {
-            final Matcher mPos = p.matcher(analyzedToken.getPOSTag());
+            Matcher mPos = p.matcher(analyzedToken.getPOSTag());
             if (mPos.matches()) {
-              final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
-              final String prevValue = whTokens[position].toString();
-              final String prevAnot = whTokens[position].getHistoricalAnnotations();
+              int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
+              String prevValue = whTokens[position].toString();
+              String prevAnot = whTokens[position].getHistoricalAnnotations();
               whTokens[position].removeReading(analyzedToken);
               annotateChange(whTokens[position], prevValue, prevAnot);
             }
@@ -295,23 +295,23 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (newTokenReadings.length == matchingTokensWithCorrection
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
-            final String token;
-            final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-            if ("".equals(newTokenReadings[i].getToken())) { // empty token
+            String token;
+            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+            if (newTokenReadings[i].getToken().isEmpty()) {
               token = whTokens[position].getToken();
             } else {
               token = newTokenReadings[i].getToken();
             }
-            final String lemma;
-            if (newTokenReadings[i].getLemma() == null) { // empty lemma
+            String lemma;
+            if (newTokenReadings[i].getLemma() == null) {
               lemma = token;
             } else {
               lemma = newTokenReadings[i].getLemma();
             }
-            final AnalyzedToken newTok = new AnalyzedToken(token,
+            AnalyzedToken newTok = new AnalyzedToken(token,
                 newTokenReadings[i].getPOSTag(), lemma);
-            final String prevValue = whTokens[position].toString();
-            final String prevAnot = whTokens[position].getHistoricalAnnotations();
+            String prevValue = whTokens[position].toString();
+            String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].addReading(newTok);
             annotateChange(whTokens[position], prevValue, prevAnot);
           }
@@ -320,7 +320,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case FILTERALL:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
-        final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+        int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
         PatternToken pToken;
         if (pTokensMatched.get(i + startPositionCorrection)) {
           pToken = rule.getPatternTokens().get(i + startPositionCorrection);
@@ -332,15 +332,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           }
          pToken = rule.getPatternTokens().get(i + k + startPositionCorrection);
         }
-        final Match tmpMatchToken = new Match(pToken.getPOStag(), null,
+        Match tmpMatchToken = new Match(pToken.getPOStag(), null,
             true,
             pToken.getPOStag(),
             null, Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
 
         MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position]);
-        final String prevValue = whTokens[position].toString();
-        final String prevAnot = whTokens[position].getHistoricalAnnotations();
+        String prevValue = whTokens[position].toString();
+        String prevAnot = whTokens[position].getHistoricalAnnotations();
         whTokens[position] = matchState.filterReadings();
         annotateChange(whTokens[position], prevValue, prevAnot);
       }
@@ -357,7 +357,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case FILTER:
       if (matchElement == null) { // same as REPLACE if using <match>
-        final Match tmpMatchToken = new Match(disambiguatedPOS, null,
+        Match tmpMatchToken = new Match(disambiguatedPOS, null,
             true, disambiguatedPOS, null,
             Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
@@ -373,9 +373,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           }
         }
         if (newPOSmatches) {
-          final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-          final String prevValue = whTokens[fromPos].toString();
-          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
+          MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+          String prevValue = whTokens[fromPos].toString();
+          String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
           whTokens[fromPos] = matchState.filterReadings();
           annotateChange(whTokens[fromPos], prevValue, prevAnot);
         }
@@ -387,21 +387,21 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (newTokenReadings != null && newTokenReadings.length > 0) {
           if (newTokenReadings.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
             for (int i = 0; i < newTokenReadings.length; i++) {
-              final String token;
-              final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+              String token;
+              int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
               if ("".equals(newTokenReadings[i].getToken())) { // empty token
                 token = whTokens[position].getToken();
               } else {
                 token = newTokenReadings[i].getToken();
               }
-              final String lemma;
+              String lemma;
               if (newTokenReadings[i].getLemma() == null) { // empty lemma
                 lemma = token;
               } else {
                 lemma = newTokenReadings[i].getLemma();
               }
-              final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
-              final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
+              AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
+              AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                   analyzedToken,
                   whTokens[fromPos].getStartPos());
               whTokens[position] = replaceTokens(
@@ -420,15 +420,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
           }
 
-          final AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
-          final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
+          AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
+          AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               analyzedToken, whTokens[fromPos].getStartPos());
           whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
         } else {
           // using the match element
-          final MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-          final String prevValue = whTokens[fromPos].toString();
-          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
+          MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+          String prevValue = whTokens[fromPos].toString();
+          String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
           whTokens[fromPos] = matchElementState.filterReadings();
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
           annotateChange(whTokens[fromPos], prevValue, prevAnot);
@@ -439,20 +439,20 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
   }
 
   private void annotateChange(AnalyzedTokenReadings atr,
-      final String prevValue, String prevAnot) {
+      String prevValue, String prevAnot) {
     atr.setHistoricalAnnotations(prevAnot + "\n" + rule.getFullId() + ": "
         + prevValue + " -> " + atr);
   }
 
   private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr,
-      final AnalyzedTokenReadings newAtr) {
-    final String prevValue = oldAtr.toString();
-    final String prevAnot = oldAtr.getHistoricalAnnotations();
-    final boolean isSentEnd = oldAtr.isSentenceEnd();
-    final boolean isParaEnd = oldAtr.isParagraphEnd();
-    final boolean spaceBefore = oldAtr.isWhitespaceBefore();
-    final int startPosition = oldAtr.getStartPos();
-    final List<ChunkTag> chunkTags = oldAtr.getChunkTags();
+      AnalyzedTokenReadings newAtr) {
+    String prevValue = oldAtr.toString();
+    String prevAnot = oldAtr.getHistoricalAnnotations();
+    boolean isSentEnd = oldAtr.isSentenceEnd();
+    boolean isParaEnd = oldAtr.isParagraphEnd();
+    boolean spaceBefore = oldAtr.isWhitespaceBefore();
+    int startPosition = oldAtr.getStartPos();
+    List<ChunkTag> chunkTags = oldAtr.getChunkTags();
     if (isSentEnd) {
       newAtr.setSentEnd();
     }

@@ -18,24 +18,27 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
-public class CommaWhitespaceRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class CommaWhitespaceRuleTest {
 
   private CommaWhitespaceRule rule;
   private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(TestTools.getDemoLanguage());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     assertMatches("This is a test sentence.", 0);
     assertMatches("This, is, a test sentence.", 0);
@@ -65,7 +68,7 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertMatches("This is a sentence with an orphaned full stop .", 1);
     assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
 
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     assertEquals(2, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());

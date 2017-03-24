@@ -70,7 +70,7 @@ final class AtomFeedCheckerCmd {
       System.out.println("Writing results to database at: " + databaseConfig.getUrl());
     }
     AtomFeedChecker atomFeedChecker;
-    Language language = Languages.getLanguageForShortName(langCode);
+    Language language = Languages.getLanguageForShortCode(langCode);
     if (args.length == 4) {
       String languageModelDir = args[3];
       atomFeedChecker = new AtomFeedChecker(language, databaseConfig, new File(languageModelDir));

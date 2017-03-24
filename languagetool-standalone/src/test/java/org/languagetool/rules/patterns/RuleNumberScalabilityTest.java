@@ -36,7 +36,7 @@ final class RuleNumberScalabilityTest {
       System.out.println("Usage: " + RuleNumberScalabilityTest.class.getSimpleName() + " <languageCode> <text_file>");
       System.exit(1);
     }
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(args[0]));
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(args[0]));
     String text = StringTools.readStream(new FileInputStream(args[1]), "utf-8");
     System.out.println("Warmup...");
     langTool.check(text);

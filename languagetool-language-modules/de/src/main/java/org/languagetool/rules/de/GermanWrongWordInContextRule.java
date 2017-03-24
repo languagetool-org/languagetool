@@ -25,7 +25,7 @@ import org.languagetool.rules.WrongWordInContextRule;
 
 public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
-  public GermanWrongWordInContextRule(final ResourceBundle messages) {
+  public GermanWrongWordInContextRule(ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("Eine Gitarre hat sechs <marker>Seiten</marker>."),
                    Example.fixed("Eine Gitarre hat sechs <marker>Saiten</marker>."));
