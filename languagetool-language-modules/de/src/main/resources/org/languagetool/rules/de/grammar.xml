@@ -8814,16 +8814,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/sprachwissen/sprachratgeber/verben-mit-dem-bestandteil-schwarz</url>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">in|zu|Farbe</exception></token>
                     <marker>
                         <token>schwarz</token>
                         <token regexp="yes">gearbeitet|gesehen|gefahren|arbeitend|fahrend|sehend</token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs 'schwarzsehen/-arbeiten/-fahren' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
-                <suggestion>\1\2</suggestion>
+                <suggestion>\2\3</suggestion>
                 <short>getrennt;.</short>
                 <example correction="schwarzgesehen">Er hat für die Zukunft nicht <marker>schwarz gesehen</marker>.</example>
                 <example correction="schwarzarbeitend">Man erwischte ihn <marker>schwarz arbeitend</marker>.</example>
+                <example>Das gleiche Kleid habe ich schon in <marker>Schwarz gesehen</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -8841,16 +8843,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ROTSEHEN" name="rot sehen (rotsehen)">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">in|zu|Farbe</exception></token>
                     <marker>
                         <token>rot</token>
                         <token regexp="yes">gesehen|sehend</token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs 'rotsehen' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
-                <suggestion>\1\2</suggestion>
+                <suggestion>\2\3</suggestion>
                 <short>getrennt;.</short>
                 <example correction="rotgesehen">Nach dieser Äußerung habe ich nur noch <marker>rot gesehen</marker>.</example>
                 <example>Was auch immer passiert, rot sehe ich nie.</example>
+                <example>Das gleiche Kleid habe ich schon in <marker>Rot gesehen</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
