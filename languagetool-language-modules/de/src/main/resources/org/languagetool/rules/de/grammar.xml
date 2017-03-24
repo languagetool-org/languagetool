@@ -20079,12 +20079,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]m</token>
                 <marker>
-                    <token>voraus</token>
+                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen</token>
                 </marker>
+                <token><exception postag="SUB:..+" postag_regexp="yes"/></token>
             </pattern>
-            <message>&inwend;'im Voraus' wird <suggestion>Voraus</suggestion> in der Regel großgeschrieben.</message>
+            <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
+            <url>https://www.korrekturen.de/wortliste/i/</url>
             <short>&prgk;.</short>
             <example correction="Voraus">Bezahlung bitte im <marker>voraus</marker>!</example>
+            <example correction="Wesentlichen">Gurken bestehen im <marker>wesentlichen</marker> aus Wasser.</example>
+            <example correction="Ungewissen">Sie ließ ihn im <marker>ungewissen</marker>.</example>
+            <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
+            <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
+            <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
+        </rule>
+        <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
+            <antipattern case_sensitive="yes">
+                <token>Großen</token>
+                <token>und</token>
+                <token>Ganzen</token>
+            </antipattern>
+            <pattern>
+                <token>im</token>
+                <marker>
+                    <token>großen</token>
+                    <token>und</token>
+                    <token>ganzen</token>
+                </marker>
+                <token><exception postag="SUB:..+" postag_regexp="yes"/></token>
+            </pattern>
+            <message>&inwend;'im <suggestion>Großen und Ganzen</suggestion>' werden 'Großen' und 'Ganzen' großgeschrieben.</message>
+            <url>https://www.korrekturen.de/wortliste/i/</url>
+            <short>&prgk;.</short>
+            <example correction="Großen und Ganzen">Im <marker>großen und Ganzen</marker> war es ein gelungener Abend.</example>
+            <example correction="Großen und Ganzen">Im <marker>Großen und ganzen</marker> war es ein gelungener Abend.</example>
+            <example correction="Großen und Ganzen">Im <marker>großen und ganzen</marker> war es ein gelungener Abend.</example>
         </rule>
         <rulegroup id="ZU_HAUSE" name="'zu hause (Hause)'">
             <rule>

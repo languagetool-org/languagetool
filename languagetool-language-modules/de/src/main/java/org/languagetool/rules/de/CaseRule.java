@@ -826,7 +826,7 @@ public class CaseRule extends GermanRule {
     return i >= 2
             && (tokens[i-1].getToken().equals(")") || tokens[i-1].getToken().equals("]"))
             && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches()
-            && !(i > 3 && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
+            && !(i > 3 && tokens[i-3].getToken().equals("(") && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
