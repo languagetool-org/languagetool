@@ -193,8 +193,18 @@
         <pattern>
             <marker>
                 <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
-                <token postag="Subst:Noun:Sg">dual</token>
+                <token postag="Subst:Noun:Sg.*">dual</token>
                 <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">do</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="is ail le" id="is_ail_le">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
+                <token postag="Subst:Noun:Sg.*">áil</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
