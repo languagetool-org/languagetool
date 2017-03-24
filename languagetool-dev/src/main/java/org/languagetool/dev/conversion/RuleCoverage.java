@@ -21,6 +21,8 @@ package org.languagetool.dev.conversion;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +56,7 @@ public class RuleCoverage {
     private DictionaryLookup dictLookup;
     private Language language;
     private String filename;
-    private File dictFile;
+    private Path dictFile;
     
     private String ruleFileHeader = RuleConverter.xmlHeader;
     private String categoriesString = "<category name=\"test\">";
@@ -90,7 +92,7 @@ public class RuleCoverage {
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
         this.filename = dictFileName;
-        this.dictFile = new File(filename);
+        this.dictFile = Paths.get(filename);
         setupDictionaryFiles();
     }
     
@@ -681,7 +683,7 @@ public class RuleCoverage {
        try {
          filename = "" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
                language.getShortCode() + "/" + language.getName().toLowerCase() + ".dict";
-         dictFile = new File(filename);
+          dictFile = Paths.get(filename);
           dictLookup = (DictionaryLookup) loadDictionary();
           dictIterator = resetDictIterator();
         } catch (IOException e) {
@@ -689,7 +691,7 @@ public class RuleCoverage {
             // a different formulation of the filename
             filename = "./src/" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
               language.getShortCode() + "/" + language.getName().toLowerCase() + ".dict";
-            dictFile = new File(filename);
+            dictFile = Paths.get(filename);
             dictLookup = (DictionaryLookup) loadDictionary();
             dictIterator = resetDictIterator();
           } catch (IOException e2) {
