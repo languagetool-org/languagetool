@@ -125,7 +125,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -150,7 +150,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
       <example type='incorrect'>Foi resolvido <marker>no hora</marker> certa.</example>
@@ -170,7 +170,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -195,7 +195,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
       <example type='incorrect'><marker>Alguns frases</marker> tem erros gramaticais.</example>
@@ -214,7 +214,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -236,7 +236,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
       <example type='incorrect'><marker>Alguma boi</marker> está no pasto.</example>
@@ -255,7 +255,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -263,6 +263,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
+      <example correction="os milhares|as (milhares)">Vejam <marker>as milhares</marker> de mulheres.</example>
     </rule>
     <rule>
       <pattern>
@@ -276,7 +277,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
       <example type='incorrect'><marker>Algumas bois</marker> estão no pasto.</example>
@@ -385,6 +386,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> \3</suggestion>
         <suggestion>\2 <match no="3" postag="(N.|A..)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
+      <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
     </rule>
     <rule>
@@ -2543,13 +2545,11 @@ title="Easy editing stylesheet" ?>
     <rule id="AMOR_PELA_LÍNGUA" name="Amor à língua">
       <pattern>
           <token>amor</token>
-        <marker>
           <token>pela</token>
-        </marker>
           <token>língua</token>
       </pattern>
-      <message>Substitua por <suggestion>à</suggestion>.</message>
-      <example correction="à">Tenho amor <marker>pela</marker> língua materna.</example>
+      <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
+      <example correction="amor à língua">Tenho <marker>amor pela língua</marker> materna.</example>
     </rule>
 
     <!-- ANALISE análise -->
@@ -2592,13 +2592,11 @@ title="Easy editing stylesheet" ?>
     <rule id="APOSTAR_EM_COMO" name="Apostar que">
       <pattern>
           <token inflected='yes'>apostar</token>
-        <marker>
           <token>em</token>
           <token>como</token>
-        </marker>
       </pattern>
-      <message>Substitua por <suggestion>que</suggestion>.</message>
-      <example correction="que">Vou apostar <marker>em como</marker> irei ganhar.</example>
+      <message>Substitua por <suggestion>\1 que</suggestion>.</message>
+      <example correction="apostar que">Vou <marker>apostar em como</marker> irei ganhar.</example>
     </rule>
 
     <!-- AO MEIO DIA ao meio-dia -->
@@ -2624,6 +2622,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
     <!-- AS MILHARES os milhares -->
+    <!-- TODO POS fixed remove after release
     <rule id="AS_MILHARES" name="Os milhares">
       <pattern>
           <token>as</token>
@@ -2631,7 +2630,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>os milhares</suggestion>.</message>
       <example correction="os milhares">Vejam <marker>as milhares</marker> de mulheres.</example>
-    </rule>
+    </rule>-->
 
     <!-- ABORDO DA a bordo da -->
     <rule id="ABORDO_DA" name="A bordo da">
@@ -2793,12 +2792,10 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">dezenas|centenas</token>
           <token>de</token>
-        <marker>
           <token>milhar</token>
-        </marker>
       </pattern>
-      <message>Substitua por <suggestion>milhares</suggestion>.</message>
-      <example correction="milhares">Existem várias centenas de <marker>milhar</marker> de militantes.</example>
+      <message>Substitua por <suggestion>\1 \2 milhares</suggestion>.</message>
+      <example correction="centenas de milhares">Existem várias <marker>centenas de milhar</marker> de militantes.</example>
     </rule>
 
     <!-- CHEGARAM A SABEREM chegaram a saber -->
@@ -3521,20 +3518,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     </rule>
   </rulegroup>
 
-    <!-- TODO Coverage by General Concordance Rules. Consider removal -->
-    <!-- MUITA > muito
-    <rule id="MUITA" name="Muito">
-      <pattern>
-        <marker>
-          <token>muita</token>
-        </marker>
-          <token postag="AQ0MS0"></token>
-      </pattern>
-      <message>Substitua por <suggestion>muito</suggestion>.</message>
-      <example correction="muito">Eu sou <marker>muita</marker> bom.</example>
-    </rule>
--->
-
     <!-- MULHER CARTEIRO carteira -->
     <rule id="MULHER_CARTEIRO" name="Carteira">
       <pattern>
@@ -3556,6 +3539,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     </rule>
 
     <!-- NA PRATICA na prática -->
+    <!-- TODO Covered by both PARONYMS rules. Remove after release 
     <rule id="NA_PRATICA" name="Confusão: pratica - prática">
       <pattern>
           <token>na</token>
@@ -3565,7 +3549,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       </pattern>
       <message>Substitua por <suggestion>prática</suggestion>.</message>
       <example correction="prática">Vamos ver na <marker>pratica</marker>.</example>
-    </rule>
+    </rule>-->
 
     <!-- NÃO ESTA FÁCIL não está fácil -->
     <rule id="NÃO_ESTA_FÁCIL" name="Confusão: esta - está">
@@ -3611,6 +3595,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     </rule>
 
     <!-- NO EUA nos EUA -->
+    <!-- TODO Covered by General Agreement rules. Remove after release
     <rule id="NO_EUA" name="Nos EUA">
       <pattern>
           <token>no</token>
@@ -3618,18 +3603,17 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       </pattern>
       <message>Substitua por <suggestion>nos EUA</suggestion>.</message>
       <example correction="nos EUA">Um evento realizado <marker>no EUA</marker>.</example>
-    </rule>
+    </rule>-->
 
     <!-- NOS + VERB - nós + verb -->
     <rule id="NOS_VERBO" name="Confusão: nos/nós + VERBO">
       <pattern>
-        <marker>
           <token case_sensitive="yes">Nos</token>
-        </marker>
-          <token postag="VMIP1P0"></token>
+          <token postag_regexp='yes' postag="V.+">
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
-      <message>Substitua por <suggestion>Nós</suggestion>.</message>
-      <example correction="Nós"><marker>Nos</marker> sabemos a resposta.</example>
+      <message>Substitua por <suggestion>Nós \2</suggestion>.</message>
+      <example correction="Nós sabemos"><marker>Nos sabemos</marker> a resposta.</example>
     </rule>
 
     <!-- NUM SEI não sei -->
@@ -3644,9 +3628,7 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
 
     <!-- O FACTO DA/DAS/DO/DOS *START* -->
     <!-- ***************************** -->
-
   <rulegroup id="O_FACTO_DA" name="O facto de + artigo">
-    <!-- O FACTO DA o facto de a -->
     <rule>
       <pattern>
           <token>o</token>
@@ -3656,7 +3638,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>o facto de a</suggestion>.</message>
       <example correction="o facto de a">Ter em conta <marker>o facto da</marker> aluna não saber.</example>
     </rule>
-    <!-- O FACTO DAS o facto de as -->
     <rule>
       <pattern>
           <token>o</token>
@@ -3666,7 +3647,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>o facto de as</suggestion>.</message>
       <example correction="o facto de as">Ter em conta <marker>o facto das</marker> alunas não saberem.</example>
     </rule>
-    <!-- O FACTO DO o facto de o -->
     <rule>
       <pattern>
           <token>o</token>
@@ -3676,7 +3656,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>o facto de o</suggestion>.</message>
       <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
     </rule>
-    <!-- O FACTO DOS o facto de os -->
     <rule>
       <pattern>
           <token>o</token>
@@ -3687,7 +3666,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
     </rule>
   </rulegroup>
-
     <!-- O FACTO DA/DAS/DO/DOS *END* -->
     <!-- ***************************** -->
 
@@ -3695,13 +3673,11 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <rule id="O_MAS" name="O mais">
       <pattern>
           <token>o</token>
-        <marker>
           <token>mas</token>
-        </marker>
-          <token postag_regexp="yes" postag="RG|AQ0MS0|AQ0CS0"></token>
+          <token postag_regexp="yes" postag="RG|A..[CM]S.+"></token>
       </pattern>
-      <message>Substitua por <suggestion>mais</suggestion>.</message>
-      <example correction="mais">Quero resultados o <marker>mas</marker> rapidamente possível</example>
+      <message>Substitua por <suggestion>\1 mais \3</suggestion>.</message>
+      <example correction="o mais rapidamente">Quero resultados <marker>o mas rapidamente</marker> possível</example>
     </rule>
 
     <!-- O MESMO DO QUE o mesmo que -->
@@ -3717,16 +3693,13 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     </rule>
 
     <!-- O MEU MUITO OBRIGADA o meu muito obrigado -->
-    <rule id="O_MEU_MUITO_OBRIGADA" name="O meu muito obrigado">
+    <rule id="O_MEU_MUITO_OBRIGADA" name="Masculino: Obrigado" default='off'>
       <pattern>
-          <token>o</token>
-          <token>meu</token>
-          <token>muito</token>
         <marker>
           <token>obrigada</token>
         </marker>
       </pattern>
-      <message>Substitua por <suggestion>obrigado</suggestion>.</message>
+      <message>Se o orador é do sexo masculino, utlize <suggestion>obrigado</suggestion>.</message>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
 
@@ -3734,23 +3707,21 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <rule id="OVELHA_RANHOSA" name="Confusão: ranhosa - ronhosa">
       <pattern>
           <token>ovelha</token>
-        <marker>
           <token>ranhosa</token>
-        </marker>
       </pattern>
-      <message>Substitua por <suggestion>ronhosa</suggestion>.</message>
-      <example correction="ronhosa">Ele é a ovelha <marker>ranhosa</marker> da família.</example>
+      <message>Substitua por <suggestion>\1 ronhosa</suggestion>.</message>
+      <example correction="ovelha ronhosa">Ele é a <marker>ovelha ranhosa</marker> da família.</example>
     </rule>
 
     <!-- PAIS NATAL pais natais -->
+    <!-- TODO Covered by General Number Agreement rules. Remove after release
     <rule id="PAIS_NATAL" name="Pais natais">
       <pattern>
           <token>pais</token>
           <token>natal</token>
       </pattern>
       <message>Substitua por <suggestion>pais natais</suggestion>.</message>
-      <example correction="pais natais">Havia muitos <marker>pais natal</marker> na festa.</example>
-    </rule>
+    </rule>-->
 
     <!-- PALAVRAS-CHAVES palavras-chave -->
     <rule id="PALAVRAS-CHAVES" name="Palavras-chave">
@@ -3777,16 +3748,12 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- O ANOS/ONUS/ÂNUS DA PROVA o ónus da prova -->
     <rule id="O_ANOS-ONUS-ÂNUS_DA_PROVA" name="Confusão: anos - ónus">
       <pattern>
-          <token>o</token>
-        <marker>
           <token regexp="yes">anos|onus|ânus</token>
-        </marker>
           <token>da</token>
           <token>prova</token>
       </pattern>
-      <message>Usar: <suggestion>ónus</suggestion>.</message>
-      <example type="correct">O <marker>ónus</marker> da prova é nosso.</example>
-      <example correction="ónus" type="incorrect">O <marker>anos</marker> da prova é nosso.</example>
+      <message>Usar: <suggestion>ónus \2 \3</suggestion>.</message>
+      <example correction="ónus da prova">O <marker>anos da prova</marker> é nosso.</example>
     </rule>
 
     <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
@@ -3849,18 +3816,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <example correction="pedir um conselho">Devemos <marker>pedir um concelho</marker> ao padre.</example>
     </rule>
 
-    <!-- TODO Coverage by VERBO_DE_QUE. Consider removal -->
-    <!-- PENSO DE QUE penso que
-    <rule id="PENSO_DE_QUE" name="Penso que">
-      <pattern>
-          <token>penso</token>
-          <token>de</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>penso que</suggestion>.</message>
-      <example correction="penso que">Eu <marker>penso de que</marker> é verdade.</example>
-    </rule>
--->
     <!-- PIOR EDUCADO mais mal-educado -->
     <rule id="PIOR_EDUCADO" name="Mais mal-educado">
       <pattern>
