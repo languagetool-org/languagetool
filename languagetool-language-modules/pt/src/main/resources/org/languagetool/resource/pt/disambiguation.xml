@@ -795,7 +795,6 @@
             <token>et</token>
             <token>al</token>
             <token>.</token>
-            <token>   </token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -943,14 +942,6 @@
         <pattern>
             <token>pax</token>
             <token>romana</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="persona non grata" id="persona_non_grata">
-        <pattern>
-            <token>persona</token>
-            <token>non</token>
-            <token>grata</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1407,7 +1398,8 @@
     <rule name="Los Angeles Clippers" id="Los_Angeles_Clippers">
         <pattern>
             <token>Los</token>
-            <token regexp='yes'>Angeles Clippers|Lakers</token>
+            <token regexp='yes'>Angeles|Lakers</token>
+            <token min='0'>Clippers</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1465,14 +1457,16 @@
     <rule name="New Orleans Hornets" id="New_Orleans_Hornets">
         <pattern>
             <token>New</token>
-            <token regexp='yes'>Orleans Hornets|Saints</token>
+            <token regexp='yes'>Orleans|Saints</token>
+            <token min='0'>Hornets</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="New York Giants" id="New_York_Giants">
         <pattern>
             <token>New</token>
-            <token regexp='yes'>York Giants|Jets|Knicks</token>
+            <token regexp='yes'>York|Jets|Knicks</token>
+            <token min='0'>Giants</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1655,7 +1649,8 @@
     <rule name="Alcalá de Guadaíra" id="Alcalá_de_Guadaíra">
         <pattern>
             <token>Alcalá</token>
-            <token regexp='yes'>de Guadaíra|Henares</token>
+            <token>de</token>
+            <token regexp='yes'>Guadaíra|Henares</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2295,7 +2290,8 @@
     <rule name="Kingston upon Hull" id="Kingston_upon_Hull">
         <pattern>
             <token>Kingston</token>
-            <token regexp='yes'>upon Hull|Thames</token>
+            <token regexp='yes'>upon|Thames</token>
+            <token min='0'>Hull</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2327,10 +2323,20 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="La Concepción" id="La_Concepción">
+        <pattern>
+            <token>La</token>
+            <token regexp='yes'>Concepción|Mosquitia|Paz</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="La Línea de la Concepción" id="La_Línea_de_la_Concepción">
         <pattern>
             <token>La</token>
-            <token regexp='yes'>Línea de la Concepción|Mosquitia|Paz</token>
+            <token>Línea</token>
+            <token>de</token>
+            <token>la</token>
+            <token>Concepción</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2694,7 +2700,8 @@
     <rule name="Reggio de Calàbria" id="Reggio_de_Calàbria">
         <pattern>
             <token>Reggio</token>
-            <token regexp='yes'>de Calàbria|l'Emília</token>
+            <token min='0'>de</token>
+            <token regexp='yes'>Calàbria|l'Emília</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3595,7 +3602,8 @@
     <rule name="error in judicando" id="error_in_judicando">
         <pattern>
             <token>error</token>
-            <token regexp='yes'>in judicando|procedendo</token>
+            <token min='0'>in</token>
+            <token regexp='yes'>judicando|procedendo</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4288,7 +4296,8 @@
     <rule name="reformatio in melius" id="reformatio_in_melius">
         <pattern>
             <token>reformatio</token>
-            <token regexp='yes'>in melius|pejus</token>
+            <token min='0'>in</token>
+            <token regexp='yes'>melius|pejus</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4953,10 +4962,11 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Potz Blitz" id="POTZ_BLITZ">
+    <rule name="O Blitz" id="O_BLITZ">
         <pattern>
-            <token>potz</token>
-            <token regexp="yes">Blitz|Blut|Donner|Donnerwetter|Marter|Teufel</token>
+            <token>[dno]</token>
+            <token regexp="yes">Blitz|Donner</token>
+            <token min='0'>Kebab</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5040,25 +5050,10 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Great Barrier Reef" id="GREAT_BARRIER_REEF">
-        <pattern>
-            <token>Great</token>
-            <token>Barrier</token>
-            <token>Reef</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
     <rule name="Rocky Mountains" id="ROCKY_MOUNTAINS">
         <pattern>
             <token>Rocky</token>
             <token>Mountains</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="Measures" id="MEASURES">
-        <pattern>
-            <token regexp="yes">\d+</token>
-            <token regexp="yes">[hμnpf]m</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5113,13 +5108,6 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Special Olympics" id="SPECIAL_OLYMPICS">
-        <pattern case_sensitive="yes">
-            <token>Special</token>
-            <token>Olympics</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
     <rule name="Scotland Yard" id="SCOTLAND_YARD">
         <pattern case_sensitive="yes">
             <token>Scotland</token>
@@ -5128,9 +5116,10 @@
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Buckingham Palace" id="BUCKINGHAM_PALACE">
-        <pattern case_sensitive="yes">
+        <pattern>
+            <token>Palácio</token>
+            <token>de</token>
             <token>Buckingham</token>
-            <token>Palace</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
