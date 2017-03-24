@@ -33,6 +33,31 @@ public class IrishTagger extends BaseTagger {
     super("/ga/irish.dict", new Locale("ga"));
   }
 
+  private boolean isUpperVowel(char c) {
+    switch(c) {
+      case 'A':
+      case 'E':
+      case 'I':
+      case 'O':
+      case 'U':
+      case '\u00c1':
+      case '\u00c9':
+      case '\u00cd':
+      case '\u00d3':
+      case '\u00da':
+        return true;
+      default:
+        return false;
+    }
+  }
+  private String toLowerCaseIrish(String s) {
+    if(s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
+      return s.charAt(0) + '-' + s.substring(1).toLowerCase();
+    } else {
+      return s.toLowerCase();
+    }
+  }
+
   // Not used
   @Override
   public String getManualAdditionsFileName() {
