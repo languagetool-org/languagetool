@@ -20,6 +20,8 @@ package org.languagetool.tagging.disambiguation.rules.ga;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -37,7 +39,7 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
     private SentenceTokenizer sentenceTokenizer;
     private XmlRuleDisambiguator disambiguator;
 
-    @Override
+    @Before
     public void setUp() {
         tagger = new IrishTagger();
         tokenizer = new WordTokenizer();
@@ -45,7 +47,8 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
         disambiguator = new XmlRuleDisambiguator(new Irish());
     }
 
-    public void testChunker() throws IOException {
+    @Test
+    public void testDisambiguation() throws IOException {
         TestTools.myAssert("As sin amach.",
                 "/[null]SENT_START As/[as]Prep:Simp  /[null]null sin/[sin]Pron:Dem  /[null]null amach/[amach]Adv:Dir ./[null]null",
                 tokenizer, sentenceTokenizer, tagger, disambiguator);
