@@ -115,8 +115,17 @@
     <rule id="MAC_LEINN" name="mac léinn">
         <pattern>
             <marker>
-                <token postag="Noun:Masc:.*" postag_regexp="yes">mac</token>
+                <token postag="Noun:Masc:.*" postag_regexp="yes" inflected="yes">mac</token>
                 <token postag="Noun:Masc:Gen:Sg">léinn</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="USC_OLLA" name="úsc olla">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc:.*" postag_regexp="yes" inflected="yes">úsc</token>
+                <token postag="Noun:Fem:Gen:Sg" inflected="yes">olann</token>
             </marker>
         </pattern>
         <disambig action="filterall"></disambig>
@@ -184,7 +193,27 @@
             <marker>
                 <token postag="Prep:Simp">ar</token>
                 <token postag="Noun:Fem:Com:Sg:Len">mhaithe</token>
-                <token postag="Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="is dual do" id="is_dual_do">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
+                <token postag="Subst:Noun:Sg.*">dual</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">do</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="is ail le" id="is_ail_le">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
+                <token postag="Subst:Noun:Sg.*">áil</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
