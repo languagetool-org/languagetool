@@ -85,8 +85,8 @@ public class Arabic extends Language {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Taha Zerrouki"),
-            new Contributor("KALI Imen"),
-            new Contributor("TCHOKETCH Karima"),
+            new Contributor("Imen Kali"),
+            new Contributor("Karima Tchoketch"),
             new Contributor("Sohaib AFIFI"),
     };
   }
