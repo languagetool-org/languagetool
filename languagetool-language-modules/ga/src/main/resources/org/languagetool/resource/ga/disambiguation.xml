@@ -182,7 +182,7 @@
             <pattern>
                 <marker>
                     <token postag="Prep:Poss:3P:Pl:Obj">á</token>
-                    <token postag="Verbal:Noun:VT(I|D)?:Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
@@ -373,6 +373,16 @@
             <disambig action="remove" postag="Part:Ad"/>
         </rule>
     </rulegroup>
+    <rule id="NI_RAIBH" name="ní raibh - raibh is a verb">
+        <pattern>
+            <token postag="(?:C[MUC]:)?Part:Vb.*" postag_regexp="yes"></token>
+            <marker>
+                <token postag="(?:C[MUC]:)?Verb:.*" postag_regexp="yes">raibh</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(?:C[MUC]:)?Verb:.*"/>
+    </rule>
+
     <!--
     <rulegroup id="AN_DA" name="an dá">
         <rule>
