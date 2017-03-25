@@ -1464,9 +1464,10 @@
     </rule>
     <rule name="New York Giants" id="New_York_Giants">
         <pattern>
+            <token min='0'>The</token>
             <token>New</token>
             <token regexp='yes'>York|Jets|Knicks</token>
-            <token min='0'>Giants</token>
+            <token min='0' regexp='yes'>Giants|Times</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2522,14 +2523,6 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="New York Times" id="New_York_Times">
-        <pattern>
-            <token>New</token>
-            <token>York</token>
-            <token>Times</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
     <rule name="Ningxia Hui" id="Ningxia_Hui">
         <pattern>
             <token>Ningxia</token>
@@ -2979,15 +2972,6 @@
         <pattern>
             <token>The</token>
             <token regexp='yes'>Economist|Guardian</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="The New York Times" id="The_New_York_Times">
-        <pattern>
-            <token>The</token>
-            <token>New</token>
-            <token>York</token>
-            <token>Times</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4987,7 +4971,7 @@
     <rule name="per se" id="PER_SE">
         <pattern>
             <token>per</token>
-            <token regexp="yes">procura|rectum|saldo|se</token>
+            <token regexp="yes">capita|procura|rectum|saldo|se</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
