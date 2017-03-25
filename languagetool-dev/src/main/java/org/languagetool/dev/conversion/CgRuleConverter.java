@@ -1150,7 +1150,7 @@ public class CgRuleConverter extends RuleConverter {
   
   boolean needsPattern(Token[] tokens) {
     for (Token token : tokens) {
-      if (token.careful || token.negate || token.scanahead || token.scanbehind || !token.exceptionString.equals("") || (token.skip == -1)) {
+      if (token.careful || token.negate || token.scanahead || token.scanbehind || (token.exceptionString != null && !token.exceptionString.equals("")) || (token.skip == -1)) {
         return true;
       }
     }
