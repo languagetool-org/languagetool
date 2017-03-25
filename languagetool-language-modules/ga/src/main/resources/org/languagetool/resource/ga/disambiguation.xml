@@ -409,15 +409,26 @@
         </pattern>
         <disambig action="remove" postag="(?:C[MCU]:)?Noun:Emph.*"/>
     </rule>
-    <rule id="PREP_DAT" name="prep dat">
-        <pattern>
-            <token postag="Prep:Simp" negate_pos="yes"></token>
-            <marker>
-                <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
-    </rule>
+    <rulegroup id="PREP_DAT" name="prep dat">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Simp"></token>
+                    <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Prep:Simp" negate_pos="yes"></token>
+                <marker>
+                    <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
+        </rule>
+    </rulegroup>
 
     <!--
     <rulegroup id="AN_DA" name="an dá">
