@@ -400,6 +400,24 @@
         </pattern>
         <disambig action="remove" postag="Verb:.*"/>
     </rule>
+    <rule id="MO_THEACHSA" name="mo theachsa">
+        <pattern>
+            <token postag="(?:Prep:)?Det:Poss.*" postag_regexp="yes" negate_pos="yes"></token>
+            <marker>
+                <token postag="(?:C[MCU]:)?Noun:Emph.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:C[MCU]:)?Noun:Emph.*"/>
+    </rule>
+    <rule id="PREP_DAT" name="prep dat">
+        <pattern>
+            <token postag="Prep:Simp" negate_pos="yes"></token>
+            <marker>
+                <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
+    </rule>
 
     <!--
     <rulegroup id="AN_DA" name="an dá">
