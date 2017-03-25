@@ -9,7 +9,7 @@
         <pattern>
             <marker>
                 <token postag="Prep:Simp">as</token>
-                <token regexp="yes" postag="Pron:Dem">sin|seo</token>
+                <token regexp="yes" postag="(?:CM:)?Pron:Dem" inflected="yes">sin|seo|siúd</token>
                 <token postag="Adv:Dir">amach</token>
             </marker>
         </pattern>
@@ -164,7 +164,7 @@
             <pattern>
                 <marker>
                     <token postag="Prep:Poss:3P:Sg:Masc:Obj">á</token>
-                    <token postag="Verbal:Noun:VT(I|D)?:Len" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?:Len" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
@@ -173,7 +173,7 @@
             <pattern>
                 <marker>
                     <token postag="Prep:Poss:3P:Sg:Fem:Obj">á</token>
-                    <token postag="Verbal:Noun:VT(I|D)?:hPref" postag_regexp="yes" regexp="yes">h[aeiouáéíóú].*</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?:hPref" postag_regexp="yes" regexp="yes">h[aeiouáéíóú].*</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
@@ -182,7 +182,7 @@
             <pattern>
                 <marker>
                     <token postag="Prep:Poss:3P:Pl:Obj">á</token>
-                    <token postag="Verbal:Noun:VT(I|D)?:Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
@@ -373,6 +373,52 @@
             <disambig action="remove" postag="Part:Ad"/>
         </rule>
     </rulegroup>
+    <rule id="NI_RAIBH" name="ní raibh - raibh is a verb">
+        <pattern>
+            <token postag="(?:C[MUC]:)?Part:Vb.*" postag_regexp="yes"></token>
+            <marker>
+                <token postag="(?:C[MUC]:)?Verb:.*" postag_regexp="yes">raibh</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(?:C[MUC]:)?Verb:.*"/>
+    </rule>
+    <rule id="LEAGAN_AMACH" name="leagan amach">
+        <pattern>
+            <marker>
+                <token postag="Verbal:Noun.*" postag_regexp="yes">leagan</token>
+            </marker>
+            <token>amach</token>
+        </pattern>
+        <disambig action="remove" postag="Verbal:Noun.*"/>
+    </rule>
+    <rule id="NIOS_ADJ" name="níos ADJ">
+        <pattern>
+            <marker>
+                <token postag="Verb:.*" postag_regexp="yes">níos</token>
+            </marker>
+            <token postag="Adj:.*|Adv.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="remove" postag="Verb:.*"/>
+    </rule>
+    <rule id="MO_THEACHSA" name="mo theachsa">
+        <pattern>
+            <token postag="(?:Prep:)?Det:Poss.*" postag_regexp="yes" negate_pos="yes"></token>
+            <marker>
+                <token postag="(?:C[MCU]:)?Noun:Emph.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:C[MCU]:)?Noun:Emph.*"/>
+    </rule>
+    <rule id="PREP_DAT" name="prep dat">
+        <pattern>
+            <token postag="Prep:Simp" negate_pos="yes"></token>
+            <marker>
+                <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
+    </rule>
+
     <!--
     <rulegroup id="AN_DA" name="an dá">
         <rule>
