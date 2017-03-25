@@ -34,7 +34,7 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
     - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
