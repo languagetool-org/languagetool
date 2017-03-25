@@ -20081,7 +20081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen</token>
                 </marker>
-                <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
+                <token><exception postag="(SUB|AD[JV]):.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
             <url>https://www.korrekturen.de/wortliste/i/</url>
@@ -20092,6 +20092,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
             <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
             <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
+            <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
+            <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
         </rule>
         <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
             <antipattern case_sensitive="yes">
@@ -20218,6 +20220,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tut mir leid <marker>wegen</marker> gestern</example>
                 <example>Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
                 <example>Von wegen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token regexp="yes">halbe[nrs]?</token></marker>
+                    <token>Weg</token>
+                </pattern>
+                <message>Meinten Sie die Wendung 'auf <suggestion>halbem</suggestion> Weg' (= bei der Hälfte)?</message>
+                <example correction="halbem">Treffen wir uns auf <marker>halben</marker> Weg.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="'auf Schritt und Tritt'">
