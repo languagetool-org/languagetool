@@ -15,7 +15,7 @@
 
 #### German
   * added and improved rules
-  * added some common Latin and English phrases that will be ignored by the spell checker
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
