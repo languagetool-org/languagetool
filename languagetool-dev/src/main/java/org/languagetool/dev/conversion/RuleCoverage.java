@@ -46,6 +46,7 @@ import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 
@@ -118,7 +119,8 @@ public class RuleCoverage {
       int discardedRules = 0;
       
         
-      for (AbstractPatternRule rule : rules) {
+      for (AbstractPatternRule arule : rules) {
+        PatternRule rule = (PatternRule) arule;
         String example = generateIncorrectExample(rule);
         if (isCoveredBy(example) == null) {
           w.write(rule.toXML());
@@ -738,7 +740,7 @@ public class RuleCoverage {
     }
     
     public void enableRule(String id) {
-      tool.enableDefaultOffRule(id);
+      tool.enableRule(id);
     }
     
     
