@@ -1033,7 +1033,7 @@
     <rule name="think tanks" id="think_tanks">
         <pattern>
             <token>think</token>
-            <token>tanks</token>
+            <token regexp='yes'>tanks?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5205,5 +5205,21 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+  <rulegroup name="Ignore all multiwords" id="SPECIES_SPELLING_RULE">
+      <rule name="Tag all multiwords 2" id="SPECIES_SPELLING_RULE_1">
+          <pattern>
+                  <token postag="&lt;NS.+&gt;" postag_regexp="yes"/>
+                  <token postag="&lt;/NS.+&gt;" postag_regexp="yes"/>
+          </pattern>
+        <disambig action="add"><wd pos="_SPECIES_"/><wd pos="_SPECIES_"/></disambig>
+      </rule>
+      <rule name="Ignore all multiwords" id="MULTIWORD_SPELLING_IGNORE_RULE">
+          <pattern>
+              <marker>
+                  <token postag="_SPECIES_"/>
+              </marker>
+          </pattern>
+        <disambig action="immunize"/>
+      </rule>
+  </rulegroup>
 </rules>
