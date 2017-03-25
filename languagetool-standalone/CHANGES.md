@@ -15,7 +15,7 @@
 
 #### German
   * added and improved rules
-  * added some common Latin and English phrases that will be ignored by the spell checker
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
@@ -34,7 +34,7 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
     - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation

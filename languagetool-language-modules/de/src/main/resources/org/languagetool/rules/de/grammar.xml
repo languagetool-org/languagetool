@@ -6702,6 +6702,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Dieser Artikel beantwortet die Frage, wieso häufig Raucher davon betroffen sind.</example>
             <example>Wieso oft Raucher davon betroffen sind?</example>
         </rule>
+        <rule id="DOLCEFARNIENTE" name="'Dolcefarniente'">
+            <pattern>
+                <token regexp="yes">das|des|dem|zum|beim</token>
+                <marker>
+                    <token>dolce</token>
+                    <token>far</token>
+                    <token>niente</token>
+                </marker>
+            </pattern>
+            <message>&getrennt;. Das Substantiv <suggestion>Dolcefarniente</suggestion> wird lt. Duden groß- und zusammengeschrieben.</message>
+            <url>http://www.duden.de/rechtschreibung/Dolcefarniente</url>
+            <short>&getrennt;.</short>
+            <example correction="Dolcefarniente">Ich genieße das <marker>dolce far niente</marker>, seit ich im Ruhestand bin.</example>
+		<example>Ich habe Urlaub. Dolce far niente, wie der Italiener sagt.</example>
+        </rule>
         <rule id="IN_KRAFT_TRETEN" name="'Inkrafttreten'">
             <pattern case_sensitive='yes'>
                 <token case_sensitive='no' regexp="yes">das|ein(em)?|dem|mit|nach|vor|zum|durch|beim?</token>
@@ -8807,7 +8822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rande</suggestion> kommen'.</message>
             <url>http://www.duden.de/rechtschreibung/zurande</url>
-            <short>getrennt;.</short>
+            <short>&getrennt;.</short>
             <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
         </rule>
         <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
@@ -8822,7 +8837,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Falls Sie eine Form des Verbs 'schwarzsehen/-arbeiten/-fahren' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
                 <suggestion>\2\3</suggestion>
-                <short>getrennt;.</short>
+                <short>&getrennt;.</short>
                 <example correction="schwarzgesehen">Er hat für die Zukunft nicht <marker>schwarz gesehen</marker>.</example>
                 <example correction="schwarzarbeitend">Man erwischte ihn <marker>schwarz arbeitend</marker>.</example>
                 <example>Das gleiche Kleid habe ich schon in <marker>Schwarz gesehen</marker>.</example>
@@ -8835,7 +8850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Die Verben 'schwarzsehen', 'schwarzarbeiten' und 'schwarzfahren' werden zusammengeschrieben.</message>
                 <suggestion>schwarzzu\3</suggestion>
-                <short>getrennt;.</short>
+                <short>&getrennt;.</short>
                 <example correction="schwarzzusehen">Wir nehmen die Herausforderung an, ohne <marker>schwarz zu sehen</marker>.</example>
                 <example correction="schwarzzuarbeiten">Anstatt <marker>schwarz zu arbeiten</marker>, solltest du Bewerbungen schreiben.</example>
             </rule>
@@ -8849,9 +8864,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">gesehen|sehend</token>
                     </marker>
                 </pattern>
-                <message>Falls Sie eine Form des Verbs 'rotsehen' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <message>Falls Sie eine Form des Verbs 'rotsehen' (= die Beherrschung verlieren) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
                 <suggestion>\2\3</suggestion>
-                <short>getrennt;.</short>
+                <short>&getrennt;.</short>
                 <example correction="rotgesehen">Nach dieser Äußerung habe ich nur noch <marker>rot gesehen</marker>.</example>
                 <example>Was auch immer passiert, rot sehe ich nie.</example>
                 <example>Das gleiche Kleid habe ich schon in <marker>Rot gesehen</marker>.</example>
@@ -8864,7 +8879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Das Verb 'rotsehen' (= die Beherrschung verlieren) wird zusammengeschrieben.</message>
                 <suggestion>rotzusehen</suggestion>
-                <short>getrennt;.</short>
+                <short>&getrennt;.</short>
                 <example correction="rotzusehen">Statt <marker>rot zu sehen</marker>, zähle erst bis zehn.</example>
            </rule>
         </rulegroup>
@@ -20081,7 +20096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen</token>
                 </marker>
-                <token><exception postag="SUB:..+" postag_regexp="yes"/></token>
+                <token><exception postag="(SUB|AD[JV]):.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
             <url>https://www.korrekturen.de/wortliste/i/</url>
@@ -20092,6 +20107,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
             <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
             <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
+            <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
+            <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
         </rule>
         <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
             <antipattern case_sensitive="yes">
@@ -20106,7 +20123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>und</token>
                     <token>ganzen</token>
                 </marker>
-                <token><exception postag="SUB:..+" postag_regexp="yes"/></token>
+                <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'im <suggestion>Großen und Ganzen</suggestion>' werden 'Großen' und 'Ganzen' großgeschrieben.</message>
             <url>https://www.korrekturen.de/wortliste/i/</url>
@@ -20218,6 +20235,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tut mir leid <marker>wegen</marker> gestern</example>
                 <example>Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
                 <example>Von wegen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token regexp="yes">halbe[nrs]?</token></marker>
+                    <token>Weg</token>
+                </pattern>
+                <message>Meinten Sie die Wendung 'auf <suggestion>halbem</suggestion> Weg' (= bei der Hälfte)?</message>
+                <example correction="halbem">Treffen wir uns auf <marker>halben</marker> Weg.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="'auf Schritt und Tritt'">
@@ -30017,6 +30043,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KOMMAFEHLER" name="Fehler in der Kommasetzung">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
+                <antipattern>
+                    <token skip="3">sondern</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token>ab</token>
+                    <token postag="PKT"/>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token><exception regexp="yes">,|;|-|–|\(|„|“|"</exception><exception postag="SENT_START"/></token>
@@ -30027,6 +30059,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1, \2</suggestion>
                 <example correction="Sommer, sondern" type="incorrect">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
+                <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
+                <example correction="zu, sondern">Warum nicht er nicht <marker>zu sondern</marker> ab?</example>
             </rule>
             <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor Erläuterung" default="off">
 <!-- Sonderfälle noch nicht behandelt, deshalb deafult="off"  -->
@@ -30517,6 +30551,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="KON.*|ADV.*|NEG.*|PRP.*" postag_regexp="yes"/>
                     <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|sobald</token>
                 </antipattern>
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token>
@@ -30536,6 +30574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie waren nicht nur unbeliebt, weil sie den Krieg nach Kambodscha getragen hatten, sondern auch weil sie für viele ein Symbol für die Fremdbestimmung darstellten.</example>
                 <example>Drei Tage nachdem er es getan hatte, bereute er es schon.</example>
                 <example>Wir kamen, drei Tage nachdem wir aufgebrochen waren, in Rom an.</example>
+                <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
             </rule>
             <rule>
                 <antipattern>
