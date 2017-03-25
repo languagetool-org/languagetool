@@ -43,6 +43,9 @@ public class IrishTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     TestTools.myAssert("non_existing_word","non_existing_word/[null]null", tokenizer, tagger);
     TestTools.myAssert("bhí sé anseo","bhí/[bí]Noun:Fem:Com:Sg:DefArt|bhí/[bí]Noun:Fem:Com:Sg:Len|bhí/[bí]Noun:Fem:Gen:Sg:Len|bhí/[bí]Noun:Fem:Voc:Sg:Len|bhí/[bí]Verb:VI:PastInd:Len -- sé/[is]Cop:Pres:Pron:Pers:3P:Sg:Masc|sé/[sé]Noun:Masc:Com:Sg|sé/[sé]Noun:Masc:Com:Sg:DefArt|sé/[sé]Noun:Masc:Com:Sg:Ecl|sé/[sé]Noun:Masc:Gen:Sg|sé/[sé]Noun:Masc:Gen:Sg:Ecl|sé/[sé]Num:Card|sé/[sé]Num:Card:Ecl|sé/[sé]Pron:Pers:3P:Sg:Masc:Sbj -- anseo/[anseo]Adv:Loc", tokenizer, tagger);
+    TestTools.myAssert("t-athair","t-athair/[athair]Noun:Masc:Com:Sg:DefArt", tokenizer, tagger);
+    TestTools.myAssert("tAthair","tAthair/[athair]Noun:Masc:Com:Sg:DefArt", tokenizer, tagger);
+    TestTools.myAssert("nAthair","nAthair/[athair]Noun:Fem:Com:Sg:Ecl|nAthair/[athair]Noun:Masc:Com:Sg:Ecl", tokenizer, tagger);
   }
 
 }
