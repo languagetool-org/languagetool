@@ -20,6 +20,9 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.ar.ArabicCommaWhitespaceRule;
+import org.languagetool.rules.ar.ArabicDoublePunctuationRule;
+import org.languagetool.rules.ar.ArabicLongSentenceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicTagger;
@@ -94,17 +97,13 @@ public class Arabic extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-    	new CommaWhitespaceRule(messages,
-    				                 Example.wrong("نعم<marker> ,</marker> لقد نجحنا."),
-    				                 Example.fixed("نعم<marker>,</marker> لقد نجحنا.")),
-        new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),
         // specific to Arabic :
-        new HunspellNoSuggestionRule(messages, this, Example.wrong("هذا <marker>الانسان</marker> رائع"), Example.fixed("هذا <marker>الإنسان</marker> رائع"))
-
-	
+        new HunspellNoSuggestionRule(messages, this),
+        new ArabicCommaWhitespaceRule(messages),
+        new ArabicDoublePunctuationRule(messages),
+        new ArabicLongSentenceRule(messages, 40)
     );
   }
 
