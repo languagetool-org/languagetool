@@ -46,7 +46,7 @@ import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 
 public class RuleCoverage {
@@ -102,8 +102,8 @@ public class RuleCoverage {
 
     // not really used anymore
     public void evaluateRules(String grammarfile) throws IOException {
-        List<PatternRule> rules = loadPatternRules(grammarfile);
-        for (PatternRule rule : rules) {
+        List<AbstractPatternRule> rules = loadPatternRules(grammarfile);
+        for (AbstractPatternRule rule : rules) {
             String example = generateIncorrectExample(rule);
             System.out.println("Rule " + rule.getId() + " is covered by " + isCoveredBy(example) + " for example " + example);
         }
@@ -111,14 +111,14 @@ public class RuleCoverage {
     
     // not really used anymore
     public void splitOutCoveredRules(String grammarfile, String discardfile) throws IOException {
-      List<PatternRule> rules = loadPatternRules(grammarfile);
+      List<AbstractPatternRule> rules = loadPatternRules(grammarfile);
       
       PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
       PrintWriter w2 = null;
       int discardedRules = 0;
       
         
-      for (PatternRule rule : rules) {
+      for (AbstractPatternRule rule : rules) {
         String example = generateIncorrectExample(rule);
         if (isCoveredBy(example) == null) {
           w.write(rule.toXML());
@@ -164,7 +164,7 @@ public class RuleCoverage {
       return coverages.toArray(new String[coverages.size()]);
     }
     
-    public String[] isCoveredBy(PatternRule rule) throws IOException {
+    public String[] isCoveredBy(AbstractPatternRule rule) throws IOException {
       ArrayList<String> coverages = new ArrayList<>();
       String example = generateIncorrectExample(rule);
     List<RuleMatch> matches = tool.check(example);
@@ -176,9 +176,9 @@ public class RuleCoverage {
       return coverages.toArray(new String[coverages.size()]);
     }
     
-    public ArrayList<String[]> isCoveredBy(List<PatternRule> rules) throws IOException {
+    public ArrayList<String[]> isCoveredBy(List<AbstractPatternRule> rules) throws IOException {
       ArrayList<String[]> coverages = new ArrayList<>();
-      for (PatternRule rule : rules) {
+      for (AbstractPatternRule rule : rules) {
         String[] cov = isCoveredBy(rule);
         coverages.add(cov);
       }
@@ -186,9 +186,9 @@ public class RuleCoverage {
     }
     
     /**
-     * Generates an error string that matches the given PatternRule object 
+     * Generates an error string that matches the given AbstractPatternRule object 
      */
-    public String generateIncorrectExample(PatternRule patternrule) {
+    public String generateIncorrectExample(AbstractPatternRule patternrule) {
         ArrayList<String> examples = new ArrayList<>();
         List<PatternToken> patternTokens = patternrule.getPatternTokens();
         for (int i=0;i< patternTokens.size();i++) {
@@ -700,7 +700,7 @@ public class RuleCoverage {
         }
     }
     
-    public List<PatternRule> loadPatternRules(final String filename)
+    public List<AbstractPatternRule> loadPatternRules(final String filename)
         throws IOException {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       InputStream is = this.getClass().getResourceAsStream(filename);
@@ -712,7 +712,7 @@ public class RuleCoverage {
       }
     }
     
-    public List<PatternRule> parsePatternRule(final String ruleString) {
+    public List<AbstractPatternRule> parsePatternRule(final String ruleString) {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       String ruleFileString = ruleFileHeader + categoriesString + ruleString + endCategoriesString + endRulesString;
       InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
@@ -723,7 +723,7 @@ public class RuleCoverage {
       }
     }
     
-    public List<PatternRule> parsePatternRuleExtraTokens(final String ruleString) {
+    public List<AbstractPatternRule> parsePatternRuleExtraTokens(final String ruleString) {
       String rs = ruleString;
       rs = rs.replace("<pattern>\n", "<pattern>\n<token/>\n");
     rs = rs.replace("</pattern>\n", "<token/>\n</pattern>\n");
