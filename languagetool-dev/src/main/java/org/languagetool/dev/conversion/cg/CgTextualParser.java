@@ -2199,7 +2199,7 @@ public class CgTextualParser {
     
     
     private void BACKTONL_LP() {
-        while (lpindex < inArray.length && !ISNL(lpindex) && (inArray[lpindex] != ';' || ISESC(lpindex))) {
+        while (lpindex < inArray.length && lpindex >= 0 && !ISNL(lpindex) && (inArray[lpindex] != ';' || ISESC(lpindex))) {
             lpindex--;
         }
         lpindex++;
