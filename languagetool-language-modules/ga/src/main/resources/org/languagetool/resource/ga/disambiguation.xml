@@ -382,6 +382,24 @@
         </pattern>
         <disambig action="filter" postag="(?:C[MUC]:)?Verb:.*"/>
     </rule>
+    <rule id="LEAGAN_AMACH" name="leagan amach">
+        <pattern>
+            <marker>
+                <token postag="Verbal:Noun.*" postag_regexp="yes">leagan</token>
+            </marker>
+            <token>amach</token>
+        </pattern>
+        <disambig action="remove" postag="Verbal:Noun.*"/>
+    </rule>
+    <rule id="NIOS_ADJ" name="níos ADJ">
+        <pattern>
+            <marker>
+                <token postag="Verb:.*" postag_regexp="yes">níos</token>
+            </marker>
+            <token postag="Adj:.*|Adv.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="remove" postag="Verb:.*"/>
+    </rule>
 
     <!--
     <rulegroup id="AN_DA" name="an dá">
