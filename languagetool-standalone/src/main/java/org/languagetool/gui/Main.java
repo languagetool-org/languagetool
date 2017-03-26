@@ -18,6 +18,26 @@
  */
 package org.languagetool.gui;
 
+/*
+  Copyright 2017, Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+import com.google.cloud.speech.spi.v1beta1.SpeechClient;
+import com.google.cloud.speech.v1beta1.*;
+import com.google.cloud.speech.v1beta1.RecognitionConfig.AudioEncoding;
+import com.google.protobuf.ByteString;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
@@ -27,6 +47,7 @@ import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 
+import javax.sound.sampled.AudioFileFormat;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
@@ -40,8 +61,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
+
+
 
 /**
  * A simple GUI to check texts with.
@@ -64,6 +90,7 @@ public final class Main {
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
 
+
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
 
@@ -82,16 +109,13 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
-
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
-
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
-
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JSplitPane splitPane;
@@ -102,6 +126,56 @@ public final class Main {
     messages = JLanguageTool.getMessageBundle();
   }
 
+  private String stopRecognition() throws Exception {
+    SpeechClient speech = SpeechClient.create();
+
+    Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
+      mic.close ();
+    // The path to the audio file to transcribe
+    String fileName = "record.raw";
+
+    // Reads the audio file into memory
+    Path path = Paths.get(fileName);
+    byte[] data = Files.readAllBytes(path);
+    ByteString audioBytes = ByteString.copyFrom(data);
+
+    // Builds the sync recognize request
+    RecognitionConfig config = RecognitionConfig.newBuilder()
+            .setEncoding(AudioEncoding.LINEAR16)
+            .setSampleRate(8000)
+            .build();
+    RecognitionAudio audio = RecognitionAudio.newBuilder()
+            .setContent(audioBytes)
+            .build();
+
+    // Performs speech recognition on the audio file
+    SyncRecognizeResponse response = speech.syncRecognize(config, audio);
+    List<SpeechRecognitionResult> results = response.getResultsList();
+
+    String text = "";
+    for (SpeechRecognitionResult result: results) {
+      List<SpeechRecognitionAlternative> alternatives = result.getAlternativesList();
+      for (SpeechRecognitionAlternative alternative: alternatives) {
+        text += alternative.getTranscript();
+        System.out.println(alternative.getTranscript());
+      }
+    }
+    speech.close();
+
+    return text;
+  }
+
+  private void startRecognition() throws Exception {
+    Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
+    File file = new File ("record.raw");	//Name your file whatever you want
+    try {
+      mic.captureAudioToFile (file);
+    } catch (Exception ex) {
+      //Microphone not available or some other error.
+      System.out.println ("ERROR: Microphone is not availible.");
+      ex.printStackTrace ();
+    }
+  }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
     LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
@@ -156,12 +230,10 @@ public final class Main {
     return frame;
   }
 
-
   private void createGUI() {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
-
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
     showResultAction = new ShowResultAction(true);
@@ -225,7 +297,6 @@ public final class Main {
     JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
-
 
     JButton spellButton = new JButton(this.checkAction);
     spellButton.setHideActionText(true);
@@ -470,7 +541,6 @@ public final class Main {
     menuBar.add(helpMenu);
     return menuBar;
   }
-
 
   private void addLookAndFeelMenuItem(JMenu lafMenu,
         UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)
