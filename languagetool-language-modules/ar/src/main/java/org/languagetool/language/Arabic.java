@@ -21,14 +21,15 @@ package org.languagetool.language;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.ArabicCommaWhitespaceRule;
+import org.languagetool.rules.ar.ArabicContractionSpellingRule;
 import org.languagetool.rules.ar.ArabicDoublePunctuationRule;
 import org.languagetool.rules.ar.ArabicLongSentenceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.SimpleSentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.ArabicSentenceTokenizer;
 import org.languagetool.tokenizers.ArabicWordTokenizer;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class Arabic extends Language {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer =  new SimpleSentenceTokenizer();
+      sentenceTokenizer =  new ArabicSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
@@ -106,7 +107,8 @@ public class Arabic extends Language {
         new HunspellNoSuggestionRule(messages, this),
         new ArabicCommaWhitespaceRule(messages),
         new ArabicDoublePunctuationRule(messages),
-        new ArabicLongSentenceRule(messages, 40)
+        new ArabicLongSentenceRule(messages, 40),
+        new ArabicContractionSpellingRule(messages)
     );
   }
 
