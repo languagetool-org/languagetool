@@ -55,7 +55,7 @@ public class ArabicWordTokenizer extends WordTokenizer {
     	 String token = st.nextToken();
   		// Strip Tashkeel and tatweel
  		//String striped = token.replaceAll("[ًٌٍَُِْـ]","");
-    	String striped = token.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\0655\0656]","");
+    	String striped = token.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]","");
  		l.add(striped);
     }
     return joinEMailsAndUrls(l);
