@@ -100,8 +100,8 @@ public class Arabic extends Language {
         new MultipleWhitespaceRule(messages, this),
         new SentenceWhitespaceRule(messages),
         new GenericUnpairedBracketsRule(messages,
-                Arrays.asList("[", "(", "{" , "«"), 
-                Arrays.asList("]", ")", "}" , "»")),
+                Arrays.asList("[", "(", "{" , "«", "﴾"), 
+                Arrays.asList("]", ")", "}" , "»", "﴿")),
         // specific to Arabic :
         new HunspellNoSuggestionRule(messages, this),
         new ArabicCommaWhitespaceRule(messages),
