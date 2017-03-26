@@ -64,6 +64,9 @@
   * Many new rules (barbarism, punctuations, and grammar)
   * Improved dynamic tagging for compound words
 
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
+
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
     Michał Janik (issue #404)
@@ -89,9 +92,6 @@
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)
