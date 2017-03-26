@@ -101,822 +101,934 @@ USA
 <!-- ====================================================================== -->
 <category id="common_errors" name="أخطاء لغوية شائعة" type="grammar">
 <rulegroup id="semantic_errors" name="دلالية">
-		<rule>
-			<pattern>
-				<token>غاية</token>
-				<marker><token>الوضاحة</token></marker>
-			</pattern>
-			<message> أتقصد<suggestion>الوضوح </suggestion>؟</message>
-			<example correction="الوضوح">هذا الأمر في غاية <marker>الوضاحة</marker></example>
-		</rule>
-		<rule>
-			<pattern>
-				<token>لم</token>
-				<token>يثبت</token>
-				<token>لهذا</token>
-				<token>الدواء</token>
-				<marker><token>نجاعة</token></marker>
-			</pattern>
-			<message> أتقصد<suggestion>نجوع </suggestion>؟</message>
-			<example correction="نجوع"><marker>نجاعة</marker></example>		
-		</rule>
+	<rule>
+		<pattern>
+		<token>غاية</token>
+		<marker><token>الوضاحة</token></marker>
+		</pattern>
+		<message> أتقصد<suggestion>الوضوح </suggestion>؟</message>
+		<example correction="الوضوح">هذا الأمر في غاية <marker>الوضاحة</marker></example>
+	</rule>
+	<rule>
+		<pattern>
+		<marker><token>نجاعة</token></marker>
+		</pattern>
+		<message> أتقصد<suggestion>نجوع </suggestion>؟</message>
+		<example correction="نجوع">لم يثبت لهذا الدواء<marker>نجاعة</marker></example>		
+	</rule>
 	<rule id="inshalla" name="إن شاء الله">	 
-      		<pattern>  
-      			<marker><token>إنشاء</token></marker>
-          		<token>الله</token> 		          		
-      		</pattern>
-      		<message>قل <suggestion>إن شاء</suggestion>؟الله</message>
-      		<example correction="إن شاء"> <marker>إنشاء</marker></example> 		   	
-      </rule>
+		<pattern>  
+		<marker><token>إنشاء</token></marker>
+		<token>الله</token> 		          		
+		</pattern>
+		<message>قل <suggestion>إن شاء</suggestion>؟الله</message>
+		<example correction="إن شاء"> <marker>إنشاء</marker></example> 		   	
+	</rule>
 	<rule>	 
-      		<pattern>
-            		<token>جمادى</token> 		          		
-      			<marker><token>الأول</token></marker>
+		<pattern>
+		<token>جمادى</token> 		          		
+		<marker><token>الأول</token></marker>
 
-      		</pattern>
-      		<message>قل جمادى<suggestion>الأولى</suggestion>لأن جمادى مؤنث</message>
-      		<example correction="الأولى">‎شهر جمادى<marker>الأول</marker></example> 		   	      </rule>
+		</pattern>
+		<message>قل جمادى<suggestion>الأولى</suggestion>لأن جمادى مؤنث</message>
+		<example correction="الأولى">‎شهر جمادى<marker>الأول</marker></example>
+	</rule>
 	<rule>	 
-      		<pattern>
-            		<token>جمادى</token> 		          		
-      			<marker><token>الآخر</token></marker>
+		<pattern>
+		<token>جمادى</token> 		          		
+		<marker><token>الآخر</token></marker>
 
-      		</pattern>
-      		<message>قل جمادى<suggestion>الآخرة</suggestion>لأن جمادى مؤنث</message>
-      		<example correction="الآخرة">‎شهر جمادى<marker>الآخر</marker></example> 		   	      </rule>
+		</pattern>
+		<message>قل جمادى<suggestion>الآخرة</suggestion>لأن جمادى مؤنث</message>
+		<example correction="الآخرة">‎شهر جمادى<marker>الآخر</marker></example>
+ 	</rule>
 	<rule>	 
-      		<pattern>
-            		<token>جمادى</token> 		          		
-      			<marker><token regexp='yes'>الثاني|الثانية</token></marker>
+		<pattern>
+		<token>جمادى</token> 		          		
+		<marker><token regexp='yes'>الثاني|الثانية</token></marker>
 
-      		</pattern>
-      		<message>قل جمادى<suggestion>الآخرة</suggestion>لأن العرب لا تسمي الثاني إلا لمن له ثالث ورابع</message>
-      		<example correction="الآخرة">  شهر جمادى<marker>الثانية</marker></example> 		   	      </rule>
+		</pattern>
+		<message>قل جمادى<suggestion>الآخرة</suggestion>لأن العرب لا تسمي الثاني إلا لمن له ثالث ورابع</message>
+		<example correction="الآخرة">  شهر جمادى<marker>الثانية</marker></example>
+	</rule>
 	<rule>	 
-      		<pattern>
-            		<token>ربيع</token> 		          		
-      			<marker><token>الثاني</token></marker>
+		<pattern>
+		<token>ربيع</token> 		          		
+		<marker><token>الثاني</token></marker>
 
-      		</pattern>
-      		<message>قل ربيع<suggestion>الآخر</suggestion>لأن العرب لا تسمي الثاني إلا لمن له ثالث ورابع</message>
-      		<example correction="الآخرة">  شهر ربيع<marker>الآخر</marker></example> 		   	      </rule>
-
+		</pattern>
+		<message>قل ربيع<suggestion>الآخر</suggestion>لأن العرب لا تسمي الثاني إلا لمن له ثالث ورابع</message>
+		<example correction="الآخرة">  شهر ربيع<marker>الآخر</marker></example>
+	</rule>
 	<rule>	 
-      		<pattern>
-            	<token regexp='yes'>أمر|الأمر|بالأمر|للأمر|كالأمر|بأمر|لأمر</token> 		          		
-      			<marker><token regexp='yes'>هام|الهام</token></marker>
-      		</pattern>
-      		<message>قل أمر<suggestion>مهم</suggestion><suggestion>المهم</suggestion>لأن "هامٌّ" هو اسم الفاعل من الفعل "هَمَّ" فنقول هَمَّهُ الأمرُ أي أَقْلَقَهُ وأَحْزَنَهُ </message>
-      		<example correction="مهم">‎هذا أمر<marker>هام</marker></example> 		   	      </rule>
-
-	<rule>	 
-      		<pattern>
-            	<marker><token>الرئيسية</token></marker> 		          		
-      		</pattern>
-      		<message>قل الرئيسية بل قل <suggestion>الرئيسة</suggestion>
-أن كلمة "رئيس" أو "رئيسة" من الصفات وياء النسبة لا تُنسب للصفات فلا يصح مثلًا قول "(رأيتُ الرجل العظيمي)" أو "(رأيتُ المرأة العظيمية)"
-</message>
-      		<example correction="الرئيسة">‎الصفحة <marker>الرئيسة</marker></example> 
-      		<example correction="الرئيس">‎الطبق <marker>الرئيسي</marker></example> 
-		   	</rule>
-	<rule>	 
-      		<pattern>
-            	<marker><token>الرئيسي</token> </marker>		          		
-      		</pattern>
-      		<message>لا تقل الرئيسي بل قل  <suggestion>الرئيس</suggestion>
-أن كلمة "رئيس" أو "رئيسة" من الصفات وياء النسبة لا تُنسب للصفات فلا يصح مثلًا قول "(رأيتُ الرجل العظيمي)" أو "(رأيتُ المرأة العظيمية)"
-</message>
-      		<example correction="الرئيسة">‎الصفحة <marker>الرئيسة</marker></example> 
-      		<example correction="الرئيس">‎الطبق <marker>الرئيسي</marker></example> 
-		   	</rule>
-	<rule>	 
-      		<pattern>
-            	<marker><token>سوف</token></marker>
-            	<token>لن</token> 		          		 		          		
-      		</pattern>
-      		<message>لا تقل سوف لن بل قل   <suggestion></suggestion>لن
-لا تقل: سوف لن أفعل هذا الأمر
-بل قل: لن أفعل هذا الأمر.
-لأن "سوف" تدل على المستقبل و"لن" أيضا تدل على المستقبل ,والمعنى تام بدون هذا الحشو
-</message>
-      		<example correction="لن">‎<marker>سوف لن</marker>أفعل هذا الأمر</example> 
-
-		   	</rule>
-
+		<pattern>
+		<token inflected='yes'>أمر</token> 		          		
+		<marker><token regexp='yes'>هام|الهام</token></marker>
+		</pattern>
+		<message>قل أمر<suggestion>مهم</suggestion><suggestion>المهم</suggestion>لأن "هامٌّ" هو اسم الفاعل من الفعل "هَمَّ" فنقول هَمَّهُ الأمرُ أي أَقْلَقَهُ وأَحْزَنَهُ </message>
+		<example correction="مهم">‎هذا أمر<marker>هام</marker></example>
+	</rule>
 
 	<rule>	 
-      		<pattern>
-            	<marker><token>مشوار</token></marker>
-      		</pattern>
-      		<message> كلمة مشوار لم ترد بهذا المعنى، استعمل  <suggestion>طريق</suggestion><suggestion>مسار</suggestion><suggestion>نزهة</suggestion>
-من الشائع التلفظ: بكلمة مشوار
-وينبغي أن يحل محلها: طريق، أو مسار، أو نزهة، أو ما يقوم مقامها
-كلمة مشوار لأنها لم ترد عن العرب بهذا المعنى.
-</message>
-      		<example correction="طريق">‎إن‎<marker>مشوار</marker>العلم طويل</example> 
-      		<example correction="نزهة">‎ذهبنا في ‎<marker>مشوار</marker></example> 
-		   	</rule>
+		<pattern>
+		<marker><token>الرئيسية</token></marker> 		          		
+		</pattern>
+		<message>قل الرئيسية بل قل <suggestion>الرئيسة</suggestion>
+		أن كلمة "رئيس" أو "رئيسة" من الصفات وياء النسبة لا تُنسب للصفات فلا يصح مثلًا قول "(رأيتُ الرجل العظيمي)" أو "(رأيتُ المرأة العظيمية)"
+		</message>
+		<example correction="الرئيسة">‎الصفحة <marker>الرئيسة</marker></example> 
+		<example correction="الرئيس">‎الطبق <marker>الرئيسي</marker></example> 
+	</rule>
+	<rule>	 
+		<pattern>
+		<marker><token>الرئيسي</token> </marker>		          		
+		</pattern>
+		<message>لا تقل الرئيسي بل قل  <suggestion>الرئيس</suggestion>
+		أن كلمة "رئيس" أو "رئيسة" من الصفات وياء النسبة لا تُنسب للصفات فلا يصح مثلًا قول "(رأيتُ الرجل العظيمي)" أو "(رأيتُ المرأة العظيمية)"
+		</message>
+		<example correction="الرئيسة">‎الصفحة <marker>الرئيسة</marker></example> 
+		<example correction="الرئيس">‎الطبق <marker>الرئيسي</marker></example> 
+	</rule>
+	<rule>	 
+		<pattern>
+		<marker><token>سوف</token></marker>
+		<token>لن</token> 		          		 		          		
+		</pattern>
+		<message>لا تقل سوف لن بل قل   <suggestion></suggestion>لن
+		لا تقل: سوف لن أفعل هذا الأمر
+		بل قل: لن أفعل هذا الأمر.
+		لأن "سوف" تدل على المستقبل و"لن" أيضا تدل على المستقبل ,والمعنى تام بدون هذا الحشو
+		</message>
+		<example correction="لن">‎<marker>سوف لن</marker>أفعل هذا الأمر</example> 
+	</rule>
+	<rule>	 
+		<pattern>
+		<marker><token>مشوار</token></marker>
+		</pattern>
+		<message> كلمة مشوار لم ترد بهذا المعنى، استعمل  <suggestion>طريق</suggestion><suggestion>مسار</suggestion><suggestion>نزهة</suggestion>
+		من الشائع التلفظ: بكلمة مشوار
+		وينبغي أن يحل محلها: طريق، أو مسار، أو نزهة، أو ما يقوم مقامها
+		كلمة مشوار لأنها لم ترد عن العرب بهذا المعنى.
+		</message>
+		<example correction="طريق">‎إن‎<marker>مشوار</marker>العلم طويل</example> 
+		<example correction="نزهة">‎ذهبنا في ‎<marker>مشوار</marker></example> 
+	</rule>
 
 	<rule>	 
-      		<pattern>
-            	<marker><token>على</token>
-<token>أهبة</token>
-<token>الاستعداد</token>
-</marker>
-      		</pattern>
-      		<message> استعمل  <suggestion>مستعد</suggestion><suggestion>متأهب</suggestion>
-لا تقل: 
-بل قل: أنا مستعد أو متأهب للقيام بهذا الأمر
-إذ أن الأهبة تعني "العدة"، وبناءً عليه يصبح معنى الجملة الأولى: "أنا على عُدّة الاستعداد للقيام بكذا"، والأصح أن تقول مثلاً، "أخذ فلان للسفر أهبته".
-</message>
-      		<example correction="مستعد">‎أنا ‎‎<marker>على أهبة الاستعداد</marker>للقيام بهذا الأمر</example> 
-      		<example correction="متأهب">‎أنا ‎‎<marker>على أهبة الاستعداد</marker>للقيام بهذا الأمر</example> 
-		   	</rule>
+		<pattern>
+		<marker><token>على</token>
+		<token>أهبة</token>
+		<token>الاستعداد</token>
+		</marker>
+		</pattern>
+		<message> استعمل  <suggestion>مستعد</suggestion><suggestion>متأهب</suggestion>
+		لا تقل: 
+		بل قل: أنا مستعد أو متأهب للقيام بهذا الأمر
+		إذ أن الأهبة تعني "العدة"، وبناءً عليه يصبح معنى الجملة الأولى: "أنا على عُدّة الاستعداد للقيام بكذا"، والأصح أن تقول مثلاً، "أخذ فلان للسفر أهبته".
+		</message>
+		<example correction="مستعد">‎أنا ‎‎<marker>على أهبة الاستعداد</marker>للقيام بهذا الأمر</example> 
+		<example correction="متأهب">‎أنا ‎‎<marker>على أهبة الاستعداد</marker>للقيام بهذا الأمر</example> 
+	</rule>
 
 	<rule>	 
-      		<pattern>
-            	<marker><token>التأقلم</token>
-<token>مع</token>
-</marker>
-      		</pattern>
-      		<message> استعمل  <suggestion>الاندماج في</suggestion>
-أي يدخل ويستحكم أو التَّعايُش في المحيط، العيش مع الآخرين بألفة. أما الفعل "تأقلم" فلم يرد في المعاجم
-</message>
-      		<example correction="الاندماج في">‎‎لم يستطع ‎‎<marker>التأقلم مع</marker> المحيط الجديد</example> 
-		   	</rule>
+		<pattern>
+		<marker><token>التأقلم</token>
+		<token>مع</token>
+		</marker>
+		</pattern>
+		<message> استعمل  <suggestion>الاندماج في</suggestion>
+		أي يدخل ويستحكم أو التَّعايُش في المحيط، العيش مع الآخرين بألفة. أما الفعل "تأقلم" فلم يرد في المعاجم
+		</message>
+		<example correction="الاندماج في">‎‎لم يستطع ‎‎<marker>التأقلم مع</marker> المحيط الجديد</example> 
+	</rule>
 
 	<rule>	 
-      		<pattern>
-            	<marker><token>مؤشرات</token>
-</marker>
-      		</pattern>
-      		<message> قل  <suggestion>إشارات</suggestion>
- <suggestion>علامات</suggestion>
- <suggestion>شواهد</suggestion>
- <suggestion>دلائل</suggestion>
-إذ أن "المُؤّشَّر" تعني: كل شيء مرقق.
-</message>
-      		<example correction="إشارات"> ‎هذه التصرفات هي  ‎‎<marker>مؤشرات</marker> لكذا</example> 
-		   	</rule>
+		<pattern>
+		<marker><token>مؤشرات</token>
+		</marker>
+		</pattern>
+		<message> قل  <suggestion>إشارات</suggestion>
+		<suggestion>علامات</suggestion>
+		<suggestion>شواهد</suggestion>
+		<suggestion>دلائل</suggestion>
+		إذ أن "المُؤّشَّر" تعني: كل شيء مرقق.
+		</message>
+		<example correction="إشارات"> ‎هذه التصرفات هي  ‎‎<marker>مؤشرات</marker> لكذا</example> 
+	</rule>
 
 	<rule>	 
-      		<pattern>
-<token>وأخيرا</token>
-            	<marker>
-<token>وليس</token>
-<token>آخرا</token>
-</marker>
-      		</pattern>
-      		<message> قل وأخيرا <suggestion></suggestion>
-"الأخير" تعني: آخر كل شيء. إذاً ليس هناك حاجة إلى القول "وليس آخراً" للدلالة على انتهاء الكلام، طالما أن القول الثاني يؤدي المعنى بلا زيادة.
-</message>
-      		<example correction="">‎ وأخيراً،‎‎<marker>وليس آخراً</marker> ، أختم كلامي بكذا</example> 
-		   	</rule>
-	<rule>	 
-      		<pattern>
-<token>يمت</token>
-            	<marker><token>للحقيقة</token></marker>
+		<pattern>
+		<token>وأخيرا</token>
+		<marker>
+		<token>وليس</token>
+		<token>آخرا</token>
+		</marker>
+		</pattern>
+		<message> قل وأخيرا <suggestion></suggestion>
+		"الأخير" تعني: آخر كل شيء. إذاً ليس هناك حاجة إلى القول "وليس آخراً" للدلالة على انتهاء الكلام، طالما أن القول الثاني يؤدي المعنى بلا زيادة.
+		</message>
+		<example correction="">‎ وأخيراً،‎‎<marker>وليس آخراً</marker> ، أختم كلامي بكذا</example> 
+	</rule>
 
-      		</pattern>
-      		<message> قل يمت  <suggestion>إلى الحقيقة</suggestion>
-فالفعل "مَتّ" يتعدى بـ "إلى"، لا باللام.
-</message>
-      		<example correction="إلى الحقيقة">‎  هذا الكلام لا يمت،‎‎<marker>للحقيقة</marker> بصلة</example> 
-		   	</rule>
 
 	<rule>	 
-      		<pattern>
-<token>امتثل</token>
-            	<marker><token>لأمره</token></marker>
-
-      		</pattern>
-      		<message> قل يمت <suggestion>أمره</suggestion> فالفعل "امتثل" يتعدى بنفسه، لا باللام. </message>
-      		<example correction="أمره">‎ أَمَرَهُ فامتثل ،‎‎<marker>لأمره</marker></example> 
-		   	</rule>
-
-		<rule>	 
-      		<pattern>
-				<token skip='1'>تماثل</token>
-            	<marker><token>للشفاء</token></marker>
-      		</pattern>
-      		<message> قل تماثل العليل  <suggestion>من علته</suggestion> فالفعل "تماثل" يتعدى بـ "من"، لا باللام؛ وهو يحمل معنى "الشفاء" ضمناً.</message>
-      		<example correction="من علّته">‎تماثل العليل ‎‎<marker>للشفاء</marker> أي أقبل وقارب البرء</example> 
-		 </rule>
+		<pattern>
+		<token skip='1'>تماثل</token>
+		<marker><token>للشفاء</token></marker>
+		</pattern>
+		<message> قل تماثل العليل  <suggestion>من علته</suggestion> فالفعل "تماثل" يتعدى بـ "من"، لا باللام؛ وهو يحمل معنى "الشفاء" ضمناً.</message>
+		<example correction="من علّته">‎تماثل العليل ‎‎<marker>للشفاء</marker> أي أقبل وقارب البرء</example> 
+	</rule>
         
-        
-                <rule>	 
-      		<pattern>
-		<token skip='1'>تمادى</token>
-            	<marker><token>بظلمه</token></marker>
-      		</pattern>
-      		<message> قل تمادى   <suggestion>في ظلمه</suggestion> 
-                        أي دام على فعله ولجّ، وبلغ فيه الغاية.
-فالفعل "تمادى" يتعدّى بـ "في"، لا بالباء.       
-                </message>
-      		<example correction="في ظلمه">‎تمادى فلان  ‎‎<marker>بظلمه</marker></example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token regexp='yes'>ماكينة|الماكينة</token></marker>
-      		</pattern>
-      		<message> قل   <suggestion>مَكِنَة</suggestion> 
-					<suggestion>المَكِنَة</suggestion>
-المكنة: جهاز تديره اليد أو الرِّجل أو قوة خارجية كالكهرباء، وجمعها "مَكِنات"      
-                </message>
-      		<example correction="مكنة">‎اشترت أمي  ‎‎<marker>ماكينة</marker>خياطة</example> 
-		</rule>
+		</pattern>
+		<message> قل   <suggestion>مَكِنَة</suggestion> 
+		<suggestion>المَكِنَة</suggestion>
+		المكنة: جهاز تديره اليد أو الرِّجل أو قوة خارجية كالكهرباء، وجمعها "مَكِنات"      
+		</message>
+		<example correction="مكنة">‎اشترت أمي  ‎‎<marker>ماكينة</marker>خياطة</example> 
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token regexp='yes'>المليء|مليء</token></marker>
-      		</pattern>
-      		<message> قل   <suggestion>المملوء</suggestion> 
-					<suggestion>مملوء</suggestion>
-					<suggestion>مَلآن</suggestion>
-					<suggestion>المَلآن</suggestion>
-					<suggestion>مُمتلِئ</suggestion>
-					<suggestion>المُمتلِئ</suggestion>
-من الفعل (مَلأ) الإناء بالماء، أي وضع فيه من الماء قدر ما يأخذه. أما (المليء) فتعني: الغني المقتدر، الحسن القضاء.
-                </message>
-      		<example correction="مملوء">هذا الإناء  ‎‎<marker>مليء</marker>بالشراب</example> 
-		</rule>
+		</pattern>
+		<message> قل   <suggestion>المملوء</suggestion> 
+		<suggestion>مملوء</suggestion>
+		<suggestion>مَلآن</suggestion>
+		<suggestion>المَلآن</suggestion>
+		<suggestion>مُمتلِئ</suggestion>
+		<suggestion>المُمتلِئ</suggestion>
+		من الفعل (مَلأ) الإناء بالماء، أي وضع فيه من الماء قدر ما يأخذه. أما (المليء) فتعني: الغني المقتدر، الحسن القضاء.
+		</message>
+		<example correction="مملوء">هذا الإناء  ‎‎<marker>مليء</marker>بالشراب</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<token regexp='yes'>استفتاء|الاستفتاء</token>
-		<marker><token regexp='yes'>على|عليه|عليها|</token></marker>
-      		</pattern>
-      		<message> قل   <suggestion>في</suggestion> 
-					<suggestion>فيه</suggestion>
-					<suggestion>فيها</suggestion>
- الفعل "استَفْتَاه" أي سأله رأيه في مسألة و "أفتى في المسألة": أبان الحكم فيها. وهو لا يتعدى بـ "على".
-                </message>
-      		<example correction="في">‎بدأ الاستفتاء  ‎‎<marker>على</marker>قانون الانتخاب الجديد</example> 
-		</rule>
+		<marker><token inflected='yes'>على</token></marker>
+		</pattern>
+		<message> قل   <suggestion>في</suggestion> 
+		<suggestion>فيه</suggestion>
+		<suggestion>فيها</suggestion>
+		الفعل "استَفْتَاه" أي سأله رأيه في مسألة و "أفتى في المسألة": أبان الحكم فيها. وهو لا يتعدى بـ "على".
+		</message>
+		<example correction="في">‎بدأ الاستفتاء  ‎‎<marker>على</marker>قانون الانتخاب الجديد</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<token>جهاز</token>
 		<marker><token regexp='yes'>التصنت|تصنت</token></marker>
-      		</pattern>
-      		<message> قل  جهاز <suggestion>تنصّت</suggestion> 
-					<suggestion>التنصّت</suggestion>
-                 </message>
-      		<example correction="تنصّت">‎زرعت المخابرات جهاز  ‎‎<marker>تصنت</marker>على العدو.				</example> 
-		</rule>
+		</pattern>
+		<message> قل  جهاز <suggestion>تنصّت</suggestion> 
+		<suggestion>التنصّت</suggestion>
+		</message>
+		<example correction="تنصّت">‎زرعت المخابرات جهاز  ‎‎<marker>تصنت</marker>على العدو.	</example> 
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>وبالتالي</token></marker>
-      		</pattern>
-      		<message> (بالتالي) هي جملة ركيكة، ومن الأفضل أن يحلّ محلّها ما يناسب المقام مما يلي:
-			<suggestion>ثَمّ</suggestion>
-			<suggestion>لذا</suggestion>
-			<suggestion>وعلى هذا</suggestion>
-			<suggestion>وبذلك</suggestion>
-			<suggestion>إذن</suggestion>
-			<suggestion>أيْ</suggestion>
-			<suggestion>ثَمَّ يتّضح</suggestion>
-			<suggestion>نجد أنّ</suggestion>
-			<suggestion> نرى أنّ</suggestion> 
+		</pattern>
+		<message> (بالتالي) هي جملة ركيكة، ومن الأفضل أن يحلّ محلّها ما يناسب المقام مما يلي:
+		<suggestion>ثَمّ</suggestion>
+		<suggestion>لذا</suggestion>
+		<suggestion>وعلى هذا</suggestion>
+		<suggestion>وبذلك</suggestion>
+		<suggestion>إذن</suggestion>
+		<suggestion>أيْ</suggestion>
+		<suggestion>ثَمَّ يتّضح</suggestion>
+		<suggestion>نجد أنّ</suggestion>
+		<suggestion> نرى أنّ</suggestion> 
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/7.htm</url>
+		<example correction="لذا">‎أنا أكلت، ‎‎<marker>وبالتالي</marker>أنا شبعت.
+		</example> 
+	</rule>
 
-
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/7.htm</url>
-      		<example correction="لذا">‎أنا أكلت، ‎‎<marker>وبالتالي</marker>أنا شبعت.
-</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>بشكل</token></marker>
 		<token regexp="yes">عام|ملحوظ|قوي|فعّال</token>
-
-      		</pattern>
-      		<message> الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية:
-			<suggestion>بطريقة</suggestion>
-			<suggestion>عموما</suggestion>
-			<suggestion>بقوة</suggestion>
-			<suggestion>بأسلوب</suggestion>
-			<suggestion>بصفة</suggestion>
-			<suggestion>بصيغة</suggestion>
-			<suggestion>بوجه</suggestion>
-			<suggestion>بدرجة</suggestion>
-			<suggestion>بكيفية</suggestion>
-
-من الشائع أن يقال: ... بشكل عام، أو تتباين بشكل ملحوظ، أو يؤكد بشكل قوي، أو حلّ المشكلة بالشكل المناسب، أو تعالج بشكل فعّال
-ويفضل أن يقال: بوجهٍ عام/عمومًا، تتباين تبايناً ملحوظاً، يؤكد بقوة، حلّ المشكلة على الوجه المناسب، تعالج بفاعلية.
-الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية: بطريقة، بأسلوب، بصفة، بصيغة، بوجه، بدرجة، بكيفية، الخ…. (مصدر)
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/12.htm</url>
-   <example correction="عمومًا">‎الأمر مستقر ‎‎<marker>بشكل عام</marker>في البلاد.</example>
-<example correction="بقوة">‎يؤكّد ‎‎<marker>بشكل قوي</marker>أنّ الأمر محسوم.</example> 
-<example correction="تباينًا ملحوظًا">‎تتباين المستويات‎‎<marker>بشكل ملحوظ</marker>في اللعب.</example>  
-<example correction="على الوجه المناسب">‎ستحلّ المشكلة‎‎<marker>بالشكل المناسب</marker>في وقتها.</example>
-<example correction="بفاعلية">‎تعالج الأمور‎‎<marker>بشكل فعّال</marker>في المخابر.</example>
-		</rule>
+		</pattern>
+		<message> الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية:
+		<suggestion>بطريقة</suggestion>
+		<suggestion>عموما</suggestion>
+		<suggestion>بقوة</suggestion>
+		<suggestion>بأسلوب</suggestion>
+		<suggestion>بصفة</suggestion>
+		<suggestion>بصيغة</suggestion>
+		<suggestion>بوجه</suggestion>
+		<suggestion>بدرجة</suggestion>
+		<suggestion>بكيفية</suggestion>
+		من الشائع أن يقال: ... بشكل عام، أو تتباين بشكل ملحوظ، أو يؤكد بشكل قوي، أو حلّ المشكلة بالشكل المناسب، أو تعالج بشكل فعّال
+		ويفضل أن يقال: بوجهٍ عام/عمومًا، تتباين تبايناً ملحوظاً، يؤكد بقوة، حلّ المشكلة على الوجه المناسب، تعالج بفاعلية.
+		الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية: بطريقة، بأسلوب، بصفة، بصيغة، بوجه، بدرجة، بكيفية، الخ…. (مصدر)
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/12.htm</url>
+		<example correction="عمومًا">‎الأمر مستقر ‎‎<marker>بشكل عام</marker>في البلاد.</example>
+		<example correction="بقوة">‎يؤكّد ‎‎<marker>بشكل قوي</marker>أنّ الأمر محسوم.</example> 
+		<example correction="تباينًا ملحوظًا">‎تتباين المستويات‎‎<marker>بشكل ملحوظ</marker>في اللعب.</example>  
+		<example correction="على الوجه المناسب">‎ستحلّ المشكلة‎‎<marker>بالشكل المناسب</marker>في وقتها.</example>
+		<example correction="بفاعلية">‎تعالج الأمور‎‎<marker>بشكل فعّال</marker>في المخابر.</example>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>من</token>
-				<token regexp='yes'>خلال|خلاله|خلالها</token>
-</marker>
-      		</pattern>
-      		<message> الأصوب أن يُختار - عوضًا عن (من خلال) - ما يناسب المقام مما يلي:
-			<suggestion>بـ</suggestion>
-			<suggestion>في</suggestion>
-			<suggestion>من طريق</suggestion>
-			<suggestion>بواسطة</suggestion>
-			<suggestion>أثناء</suggestion>
-			<suggestion>باستعراض</suggestion>
-			<suggestion>انطلاقًا من</suggestion>
-			<suggestion>باستعمال</suggestion>
-			<suggestion>بممارسة</suggestion>
-			<suggestion>بفضل</suggestion>
-			<suggestion>بسبب</suggestion>
-			<suggestion>نتيجة لـِ</suggestion>
-			<suggestion>بالاستفادة من</suggestion>
-			<suggestion>وذلك أن</suggestion>
-			<suggestion>بإجراء</suggestion>
-			<suggestion>بالرجوع إلى</suggestion>
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/12.htm</url>
-      		<example correction="من">‎تأكد الباحث ‎‎<marker>من خلال</marker>  أبحاثه أنّ الدواء نافع.
-</example> 
-      		<example correction="استنادا إليها"> ‎لست متحققا أنك تستطيع‎‎<marker>من خلالها</marker> 
-الإدعاء صراحة.
-</example> 
-		</rule>
+		<token regexp='yes'>خلال|خلاله|خلالها</token>
+		</marker>
+		</pattern>
+		<message> الأصوب أن يُختار - عوضًا عن (من خلال) - ما يناسب المقام مما يلي:
+		<suggestion>بـ</suggestion>
+		<suggestion>في</suggestion>
+		<suggestion>من طريق</suggestion>
+		<suggestion>بواسطة</suggestion>
+		<suggestion>أثناء</suggestion>
+		<suggestion>باستعراض</suggestion>
+		<suggestion>انطلاقًا من</suggestion>
+		<suggestion>باستعمال</suggestion>
+		<suggestion>بممارسة</suggestion>
+		<suggestion>بفضل</suggestion>
+		<suggestion>بسبب</suggestion>
+		<suggestion>نتيجة لـِ</suggestion>
+		<suggestion>بالاستفادة من</suggestion>
+		<suggestion>وذلك أن</suggestion>
+		<suggestion>بإجراء</suggestion>
+		<suggestion>بالرجوع إلى</suggestion>
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/12.htm</url>
+		<example correction="من">‎تأكد الباحث ‎‎<marker>من خلال</marker>  أبحاثه أنّ الدواء نافع.
+		</example> 
+		<example correction="استنادا إليها"> ‎لست متحققا أنك تستطيع‎‎<marker>من خلالها</marker> 
+		الإدعاء صراحة.
+		</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>على</token>
-				<token>الرغم</token>
-				<token>من</token>
-</marker>
-      		</pattern>
-      		<message>لأن كلمة (الرغم) لا تستعمل في غير التراكيب التي يكون معنى القَسْرِ وعدم الرغبة ملحوظًا غالبًا. وهي ترجمة سيئة لـ "Although" 
-			<suggestion>مع أنّ</suggestion>
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/16.htm</url>
-       <example correction="مع أنّ"> ‎‎<marker>على الرغم من</marker>أنّ المسألة صعبة</example> 
-       <example correction="مع أنّ"> ‎‎<marker>على الرغم من كون</marker> البلوتونيوم مادة سامة</example> 
-		</rule>
+		<token>الرغم</token>
+		<token>من</token>
+		</marker>
+		</pattern>
+		<message>لأن كلمة (الرغم) لا تستعمل في غير التراكيب التي يكون معنى القَسْرِ وعدم الرغبة ملحوظًا غالبًا. وهي ترجمة سيئة لـ "Although" 
+		<suggestion>مع أنّ</suggestion>
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/16.htm</url>
+		<example correction="مع أنّ"> ‎‎<marker>على الرغم من</marker>أنّ المسألة صعبة</example> 
+		<example correction="مع أنّ"> ‎‎<marker>على الرغم من كون</marker> البلوتونيوم مادة سامة</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>يتوجب</token></marker>
-				<token regexp='yes'>على|عليهم|عليه|عليها|علينا</token>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
+		<token inflected='yes'>على</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>يجب</suggestion>
+		<suggestion>ينبغي لنا</suggestion>
+		جاء في (المعجم الوسيط): «تَوَجَّب فلانٌ: أكل في اليوم والليلة أكلةً واحدةً.» 
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/18.htm</url>
+		<example correction="يجب"> ‎‎<marker>يتوجب</marker>علينا أن نفعل كذا</example> 
+	</rule>
 
-			<suggestion>يجب</suggestion>
-			<suggestion>ينبغي لنا</suggestion>
-جاء في (المعجم الوسيط): «تَوَجَّب فلانٌ: أكل في اليوم والليلة أكلةً واحدةً.» 
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/18.htm</url>
-       <example correction="يجب"> ‎‎<marker>يتوجب</marker>علينا أن نفعل كذا</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>الآنف</token>
-				<token>الذكر</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
+		<token>الذكر</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>المذكور آنفا</suggestion>
+		<suggestion>المتقدمّ ذكره</suggestion>
+		لأن آنفًا جاء في كلام العرب ظرف زمان، ولم يشتق من فعل (أَنِفَ) الذي يعني استنكف وتَنَزَّه (واسم الفاعل منه آنِف) 
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
+		<example correction="المذكور آنفا"> الخيار‎‎<marker>الآنف الذكر</marker>.</example> 
+	</rule>
 
-			<suggestion>المذكور آنفا</suggestion>
-			<suggestion>المتقدمّ ذكره</suggestion>
-لأن آنفًا جاء في كلام العرب ظرف زمان، ولم يشتق من فعل (أَنِفَ) الذي يعني استنكف وتَنَزَّه (واسم الفاعل منه آنِف) 
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
-       <example correction="المذكور آنفا"> الخيار‎‎<marker>الآنف الذكر</marker>.</example> 
-		</rule>
-
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>غسيل</token></marker>
-				<token>اﻷموال</token>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
+		<token>اﻷموال</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>تبييض</suggestion>
+		لأنها ترجمة مبتذلة لـ (Money laundering)
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
+		<example correction="تبييض"> محاربة‎‎<marker>غسيل</marker>الأموال.</example> 
+	</rule>
 
-			<suggestion>تبييض</suggestion>
-
-لأنها ترجمة مبتذلة لـ (Money laundering)
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
-       <example correction="تبييض"> محاربة‎‎<marker>غسيل</marker>الأموال.</example> 
-		</rule>
-
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token regexp='yes' skip='1'>فتح|فتحت|فتحوا</token></marker>
-				<token>الشرطة</token>
-				<token>الرصاص</token>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
+		<token>الشرطة</token>
+		<token>الرصاص</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
 
-			<suggestion>أطلق</suggestion>
-			<suggestion>أطلقت</suggestion>
+		<suggestion>أطلق</suggestion>
+		<suggestion>أطلقت</suggestion>
 
-لأنها ترجمة مبتذلة لـ (opened fire).
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
-       <example correction="أطلقت"> ‎‎<marker>فتحت</marker>الشرطة الرصاص على المتظاهرين.</example> 
-		</rule>
+		لأنها ترجمة مبتذلة لـ (opened fire).
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/17.htm</url>
+		<example correction="أطلقت"> ‎‎<marker>فتحت</marker>الشرطة الرصاص على المتظاهرين.</example> 
+	</rule>
 
 
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>إمكانيات</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>إمكانات</suggestion>
+		<suggestion>الإمكانات</suggestion>
+		</message>
+		<example correction="إمكانات"> للبلاد ‎‎<marker>إمكانيات</marker> هائلة</example> 
+	</rule>
 
-        <rule>	 
-      	<pattern>
-		<token>ينبغي</token>
-			<marker>	<token regexp='yes'>على|عليهم|عليه|عليها|علينا</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
-
-			<suggestion>لنا</suggestion>
-			<suggestion>له</suggestion>
-			<suggestion>لها</suggestion>
-			<suggestion>لهم</suggestion>
-جاء في التنزيل ﴿لا الشمس ينبغي لها أن تُدرك القمر﴾[36:40]
-﴿وما علّمناه الشعر وما ينبغي له﴾[36:69]
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/18.htm</url>
-       <example correction="لنا"> ينبغي ‎‎<marker>علينا</marker> أن نفعل كذا</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
-		<token regexp='yes'>أثر|يؤثر|أثرت</token>
-			<marker>	<token regexp='yes'>على|عليهم|عليه|عليها|علينا</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
-
-			<suggestion>في</suggestion>
-			<suggestion>فيه</suggestion>
-			<suggestion>فيها</suggestion>
-			<suggestion>فينا</suggestion>
-			<suggestion>به</suggestion>
-			<suggestion>بها</suggestion>
-			<suggestion>بنا</suggestion>
-			<suggestion>ب</suggestion>
-ولكن يمكن القول "إن الله تعالى يحب أن يُرى أثَرُ نعمته على عبده"
-                 </message>
-			<url>http://www.reefnet.gov.sy/Arabic_Proficiency/155.htm</url>
-       <example correction="فيه"> لقد أثّر ‎‎<marker>فيه</marker> الإسلام</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
-		<marker><token regexp='yes'>إمكانيات|الإمكانيات</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
-
-			<suggestion>إمكانات</suggestion>
-			<suggestion>الإمكانات</suggestion>
-                 </message>
-       <example correction="إمكانات"> للبلاد ‎‎<marker>إمكانيات</marker> هائلة</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token regexp='yes'>يتواجد|تتواجد</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
-
-			<suggestion>يوجد</suggestion>
-			<suggestion>توجد</suggestion>
-لأن تَواجَدَ فلانٌ: أي تظاهر بالوجْد. والوجْد: هو الحُب الشديد أو الحزن. (مصدر)
-                 </message>
-       <example correction="توجد">  ‎‎<marker>تتواجد</marker> المادة في الكون</example> 
-		</rule>
-
-
-        <rule>	 
-      	<pattern>
-		<marker><token regexp='yes'>مشاكل|المشاكل</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
-
-			<suggestion>مشكلات</suggestion>
-			<suggestion>المشكلات</suggestion>
-                 </message>
-       <example correction="المشكلات">  ‎‎<marker>المشاكل</marker> عويصة</example> 
-		</rule>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>يوجد</suggestion>
+		<suggestion>توجد</suggestion>
+		لأن تَواجَدَ فلانٌ: أي تظاهر بالوجْد. والوجْد: هو الحُب الشديد أو الحزن. (مصدر)
+		</message>
+		<example correction="توجد">  ‎‎<marker>تتواجد</marker> المادة في الكون</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+
+	<rule>	 
+		<pattern>
 		<marker><token>مسبقا</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>مقدّمًا</suggestion>
+		<suggestion>سلفًا</suggestion>
+		<suggestion>قبلًا</suggestion>
+		</message>
+		<example correction="سلفًا">  فعل ذلك‎‎<marker>مُسبقًا</marker></example> 
+	</rule>
 
-			<suggestion>مقدّمًا</suggestion>
-			<suggestion>سلفًا</suggestion>
-			<suggestion>قبلًا</suggestion>
-                 </message>
-       <example correction="سلفًا">  فعل ذلك‎‎<marker>مُسبقًا</marker></example> 
-		</rule>
 
-
-        <rule>	 
-      	<pattern>
-		<token>تعرف</token>
-		<marker><token>على</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: تعرّف
-
-			<suggestion>إلى</suggestion>
-                 </message>
-       <example correction="إلى">  تعرّف‎‎<marker>على</marker>الصديق</example> 
-		</rule>
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>متعارف</token>
-		<token regexp='yes'>عليه|عليها|على</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>عادات متعارفة</suggestion>
-                 </message>
+		<token inflected='yes'>على</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>عادات متعارفة</suggestion>
+		</message>
 		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/19.htm</url>
-       <example correction="متعارفة">  عادات‎‎<marker>متعارف عليها</marker>في البلاد</example> 
-		</rule>
+		<example correction="متعارفة">  عادات‎‎<marker>متعارف عليها</marker>في البلاد</example> 
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>بمثابة</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>بمنزلة</suggestion>
-			<suggestion>تقوم مقام</suggestion>
-			<suggestion></suggestion>
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>بمنزلة</suggestion>
+		<suggestion>تقوم مقام</suggestion>
+		<suggestion></suggestion>
+		</message>
 		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/65.htm</url>
 		<example correction='بمنزلة'>أنت <marker>بمثابة</marker> أبي.</example>
 		<example correction='تقوم مقام'>هذه الأداة <marker>بمثابة</marker> حاسوب.</example>
 		<example correction=''>سنعد عدم إجابتكم <marker>بمثابة</marker> موافقةٍ.</example>
-		</rule>
-
-        <rule>	 
-      	<pattern>
-		<token regexp='yes' skip='1'>حاز|يحوز|حازت</token>
-		<marker><token regexp='yes'>على|عليه|عليها</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: حاز
-		<suggestion></suggestion>
-                 </message>
-لأن الفعل "حاز" يتعدى بنفسه
-		<example correction=''>حاز فلان <marker>على</marker> الشهادات والأموال.</example>
-		</rule>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
-		<marker><token regexp='yes'>استبيان|الاستبيان</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
+
+
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>استبيان</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
 		<suggestion>استبانة</suggestion>
 		<suggestion>الاستبانة</suggestion>
-                 </message>
-لأن مصدر استبان استبانة، مثل استقام استقامة.
+		</message>
+		لأن مصدر استبان استبانة، مثل استقام استقامة.
 		<example correction='الاستبانة'>كانت نتيجة  <marker>الاستبيان</marker> أنّ....</example>
-		</rule>
-        <rule>	 
-      	<pattern>
+	</rule>
+
+	<rule>	 
+		<pattern>
 		<marker><token inflected='yes'>أخصائي</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
 		<suggestion>اختصاصي</suggestion>
-                 </message>
+		</message>
 		<example correction='الاختصاصي'>كان الطبيب  <marker>الأخصائي</marker> ماهرا</example>
-		</rule>
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token inflected='yes'>طقوس</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
 		<suggestion>شعائر</suggestion>
-                 </message>
-فلا وجود لطقوس في اللغة العربية.
+		</message>
+		فلا وجود لطقوس في اللغة العربية.
 		<example correction='الشعائر'>  <marker>الطقوس</marker> الدينية</example>
-		</rule>
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<token>كما</token>
 		<marker><token>وأنها</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
 		<suggestion>أنها</suggestion>
-                 </message>
-لأن "كما" في هذا السياق، تفيد معنى العطف، والواو حرف عطف. وعطفان لا يجتمعان.
+		</message>
+		لأن "كما" في هذا السياق، تفيد معنى العطف، والواو حرف عطف. وعطفان لا يجتمعان.
 		<example correction='أنها'>  
-المطالعة ممتعة كما  
-<marker>وأنها</marker> تثري ثقافة القارئ</example>
-		</rule>
+		المطالعة ممتعة كما  
+		<marker>وأنها</marker> تثري ثقافة القارئ</example>
+	</rule>
 
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>بحسب</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>حَسَبَ</suggestion>
-			<suggestion>تَبَعاً لـِ</suggestion>
-			<suggestion>طِبْقاً لـِ</suggestion>
-			<suggestion>وَفْقاً لـِ</suggestion>
-			<suggestion>بمقتضى</suggestion>
-			<suggestion>بمُوْجب</suggestion>
-			<suggestion>بناءً على</suggestion>
-			<suggestion>استناداً إلى</suggestion>
-			<suggestion>عملاً بـ</suggestion>
-			<suggestion>انطلاقاً من</suggestion>
-                 </message>
-(ترجمة غير صحيحة لـ According to)
-حَسَبُ الشيءِ: قَدْرُه وعددُه، فيقال على الصواب:حَسَبَ ما ذُكر. وليكن عملك بحَسَبِ ذلك: أي على وفاقه وعدده.
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>حَسَبَ</suggestion>
+		<suggestion>تَبَعاً لـِ</suggestion>
+		<suggestion>طِبْقاً لـِ</suggestion>
+		<suggestion>وَفْقاً لـِ</suggestion>
+		<suggestion>بمقتضى</suggestion>
+		<suggestion>بمُوْجب</suggestion>
+		<suggestion>بناءً على</suggestion>
+		<suggestion>استناداً إلى</suggestion>
+		<suggestion>عملاً بـ</suggestion>
+		<suggestion>انطلاقاً من</suggestion>
+		</message>
+		(ترجمة غير صحيحة لـ According to)
+		حَسَبُ الشيءِ: قَدْرُه وعددُه، فيقال على الصواب:حَسَبَ ما ذُكر. وليكن عملك بحَسَبِ ذلك: أي على وفاقه وعدده.
 		<example correction='حَسَبَ'>  
-تصنف هذه الأنواع   
-<marker>بحسب</marker> مصادر الطاقة </example>
-		</rule>
+		تصنف هذه الأنواع   
+		<marker>بحسب</marker> مصادر الطاقة </example>
+	</rule>
 
-
-
-
-
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>عامود</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>عمود</suggestion>
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>عمود</suggestion>
+		</message>
 		<example correction='عمود'>  
-يدل تغير الماء
-<marker>عامود</marker> الماء </example>
-		</rule>
+		يدل تغير الماء
+		<marker>عامود</marker> الماء </example>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token inflected='yes'>فشل</token>
 		<token inflected='yes'>في</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>أخفق</suggestion>
-لا تقل: فشلت في حياتها الزوجية، وفشل في دراسته
-بل قل: أخفقت في حياتها الزوجية، وأخفق في دراسته
-فَشِل: كَسِلَ وضعُف وتراخَى وجَبُن. جاء في القرآن: ﴿وَلاَ تَنَازَعُواْ فَتَفْشَلُواْ وَتَذْهَبَ رِيحُكُمْ﴾--[الأنفال:46]
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>أخفق</suggestion>
+		لا تقل: فشلت في حياتها الزوجية، وفشل في دراسته
+		بل قل: أخفقت في حياتها الزوجية، وأخفق في دراسته
+		فَشِل: كَسِلَ وضعُف وتراخَى وجَبُن. جاء في القرآن: ﴿وَلاَ تَنَازَعُواْ فَتَفْشَلُواْ وَتَذْهَبَ رِيحُكُمْ﴾--[الأنفال:46]
+		</message>
 		<example correction='أخفقت'>  
-<marker>فشلت</marker> في حياتها الزوجية </example>
+		<marker>فشلت</marker> في حياتها الزوجية </example>
 		<example correction='أخفق'>  
-<marker>فشل</marker> في دراسته </example>
-		</rule>
+		<marker>فشل</marker> في دراسته </example>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token inflected='yes'>اعتبر</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>عدّ</suggestion>
-لأن "اعتبرت" تعني اتخذته عبرة وعظة والصواب عددته. جاء في القرآن: ﴿وَقَالُواْ مَا لَنَا لاَ نَرَىٰ رِجَالاً كُنَّا نَعُدُّهُمْ مِّنَ ٱلأَشْرَارِ﴾--[ص:62]. ولم يقل نعتبرهم.
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>عدّ</suggestion>
+		لأن "اعتبرت" تعني اتخذته عبرة وعظة والصواب عددته. جاء في القرآن: ﴿وَقَالُواْ مَا لَنَا لاَ نَرَىٰ رِجَالاً كُنَّا نَعُدُّهُمْ مِّنَ ٱلأَشْرَارِ﴾--[ص:62]. ولم يقل نعتبرهم.
+		</message>
 		<example correction='ُعددت'>  
-<marker>اعتبرت</marker> زيدًا صديقي </example>
-		</rule>
+		<marker>اعتبرت</marker> زيدًا صديقي </example>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token inflected='yes'>برهة</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>هنيهة</suggestion>
-جاء في (لسان العرب): «البرهة: الحِينُ الطويل من الدهر، وقيل: الزمانُ. يقال: أَقمت عنده بُرْهَةً من الدهر كقولك أَقمت عنده سنة من الدهر.»
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>هنيهة</suggestion>
+		جاء في (لسان العرب): «البرهة: الحِينُ الطويل من الدهر، وقيل: الزمانُ. يقال: أَقمت عنده بُرْهَةً من الدهر كقولك أَقمت عنده سنة من الدهر.»
+		</message>
 		<example correction='هنيهة'> 
-غادر زيدٌ قبل  
-<marker>بُرهة</marker></example>
-		</rule>
+		غادر زيدٌ قبل  
+		<marker>بُرهة</marker></example>
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token regexp='yes'>للصالح|لصالح|لصالحك|لصالحنا|لصالحه</token></marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال: 
-			<suggestion>لمصلحة</suggestion>
-			<suggestion>لمصلحتك</suggestion>
-			<suggestion>لمصلحته</suggestion>
-			<suggestion>لمصلحتنا</suggestion>
-			<suggestion>للمصلحة</suggestion>
-لأن (صالح) اسم الفاعل من (صَلَحَ). يقال: صَلَح الشيءُ فهو صالح
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال: 
+		<suggestion>لمصلحة</suggestion>
+		<suggestion>لمصلحتك</suggestion>
+		<suggestion>لمصلحته</suggestion>
+		<suggestion>لمصلحتنا</suggestion>
+		<suggestion>للمصلحة</suggestion>
+		لأن (صالح) اسم الفاعل من (صَلَحَ). يقال: صَلَح الشيءُ فهو صالح
+			 </message>
 		<example correction='لمصلحة'> 
-كان التعديل
-<marker>لصالح</marker>الشركة</example>
-		</rule>
+		كان التعديل
+		<marker>لصالح</marker>الشركة</example>
+	</rule>
 
-        <rule>	 
-      	<pattern>
+	<rule>	 
+		<pattern>
 		<marker><token>عبارة</token>
-			<token>عن</token>
+		<token>عن</token>
 		</marker>
-      		</pattern>
-      		<message>
-ويفضل أن تحذف "عبارة عن" 
-			<suggestion></suggestion>
-(حشو لا ضرورة له)
-يتضح فساد المعنى في هذه النماذج إذا عُوِّض عن (عبارة عن) بـ (تعبير عن)...
-هذا الكلام عبارة عن كذا ≈ تعبير عن كذا ≈ معناه كذا ≈ ذو دَلالة على كذا
-                 </message>
-<url>http://www.reefnet.gov.sy/Arabic_Proficiency/72.htm</url>
+		</pattern>
+		<message>
+		ويفضل أن تحذف "عبارة عن" 
+		<suggestion></suggestion>
+		(حشو لا ضرورة له)
+		يتضح فساد المعنى في هذه النماذج إذا عُوِّض عن (عبارة عن) بـ (تعبير عن)...
+		هذا الكلام عبارة عن كذا ≈ تعبير عن كذا ≈ معناه كذا ≈ ذو دَلالة على كذا
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/72.htm</url>
 		<example correction=''> أشعة غاما هي  فوتونات. <marker>عبارة عن</marker>فوتونات</example>
 		<example correction=''> هذا الجهاز. <marker>عبارة عن</marker>صندوق فيه</example>
-		</rule>
+	</rule>
 
 
-        <rule>	 
-      	<pattern>
-		<marker><token>علاوة</token>
-			<token>على</token>
+	<rule>	 
+		<pattern>
+		<marker><token regexp='yes'>علاوة|وعلاوة</token>
+		<token>على</token>
 		</marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:  
-			<suggestion>إضافةً إلى</suggestion>
-			<suggestion>زيادةً على</suggestion>
-			<suggestion>فضلًا على</suggestion>
-لأن العِلاوة: أعلى الرأس، أو ما يُحمل على البعير وغيره. وهي ليست مصدرًا.
-                 </message>
-<url>http://www.reefnet.gov.sy/Arabic_Proficiency/77.htm</url>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>إضافةً إلى</suggestion>
+		<suggestion>زيادةً على</suggestion>
+		<suggestion>فضلًا على</suggestion>
+		لأن العِلاوة: أعلى الرأس، أو ما يُحمل على البعير وغيره. وهي ليست مصدرًا.
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/77.htm</url>
 		<example correction='فضلا على'> أشعة غاما هي  فوتونات. <marker>علاوة على</marker>ذلك</example>
-		</rule>
+	</rule>
 
-        <rule>	 
-      	<pattern>
-		<marker><token regexp='yes'>آونة|الأونة</token>
+	<rule>	 
+		<pattern>
+		<marker><token inlfected='yes'>آونة</token>
 		</marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:  
-			<suggestion>أوان</suggestion>
-			<suggestion>الأوان</suggestion>
-لأن الآونة جمع أوان، مثل أزمنة وزمان.
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>أوان</suggestion>
+		<suggestion>الأوان</suggestion>
+		لأن الآونة جمع أوان، مثل أزمنة وزمان.
+		</message>
 		<example correction='أوان'> بين. <marker>آونة</marker> وأخرى</example>
-		</rule>
+	</rule>
 
-        <rule>	 
-      	<pattern>
-		<marker><token regexp='yes'>البواسل|بواسل</token>
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>بواسل</token>
 		</marker>
-      		</pattern>
-      		<message>
-ويفضل أن يقال:  
-			<suggestion>البسلاء</suggestion>
-			<suggestion>الباسلون</suggestion>
-لأن البواسل جمع باسلة للمرأة، وباسل للحيوان كالأسد.
-                 </message>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>بسلاء</suggestion>
+		<suggestion>باسلون</suggestion>
+		لأن البواسل جمع باسلة للمرأة، وباسل للحيوان كالأسد.
+		</message>
 		<example correction='الباسلون'> الفرسان. <marker>البواسل</marker></example>
-		</rule>
+	</rule>
+
+
+	<rule>	 
+		<pattern>
+		<marker><token>لأول</token>
+		</marker>
+		<token>مرة</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>أول</suggestion>
+		مرة 
+		</message>
+		<example correction='أول'> ‎يُقام في دمشق معرض المخطوطات .<marker>لأول</marker> مرة</example>
+	</rule>
+
+
+
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>مستهتر</token>
+		</marker>
+		<token>بالقانون|بالدين|بالأعراف|بالعادات</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>مستهين</suggestion>
+		<suggestion>مستخفّ</suggestion>
+		بالقانون أو بالعادات،
+		لأن الاستهتار غاية الولع بالشيء فيقال فلان مستهتر بالقراءة إذا أولع بها بلا حد.
+		</message>
+		<example correction='مستهين'> ‎فلان  .<marker>مستهين</marker> بالقانون</example>
+	</rule>
+
+
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes' skip='1'>سواح</token>
+		</marker>
+		<token>أجانب</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>سيّاح</suggestion>
+		</message>
+		<example correction='سياح'> ‎هؤلاء  .<marker>سواح</marker> أجانب</example>
+	</rule>
+	<rule>	 
+		<pattern>
+		<marker><token>عن</token>
+		</marker>
+		<token>كثب</token>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>من</suggestion> كثب
+		لأن الكثب هو القرب
+		</message>
+		<example correction='من'> ‎نتابع الأمر  .<marker>عن</marker> كثب</example>
+	</rule>
+
+
+
+	<rule>	 
+		<pattern>
+		<token negate='yes'>في</token>
+		<marker><token>أثناء</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:  
+		<suggestion>في أثناء</suggestion>
+		<suggestion>خلال</suggestion>
+		لأن "أثناء" ليست ظرفًا ولا مضافة إلى ما تكسب منه الظرفية، ولهذا يجب أن تقترن بحرف الجر، أما خلال فهي ظرفية. جاء في القرآن ﴿فجاسوا خلال الديار﴾[17:5].
+		</message>
+		<example correction='في أثناء'> الزيارة  .<marker>أثناء</marker> العمل، تحرج الموظف</example>
+	</rule>
+
+
+	<rule>	 
+		<pattern>
+		<token inflected='yes'>نتج</token>
+		<marker><token>عن</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يحذف عن  
+		<suggestion></suggestion>
+
+		لأن نتج فعل متعدٍ، فلا حاجة لوجود حرف الجر.
+		</message>
+		<example correction=''> نتج <marker>عن</marker> هذا الدواء أعراض جانبية</example>
+	</rule>
+
+
+
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>حق</token></marker>
+		<token>اللجوء</token>
+		</pattern>
+		<message>
+		ويفضل أن يحذف عن  
+		<suggestion></suggestion>
+
+		لأن حق هنا لا لزوم لها في التعبير.
+		</message>
+		<example correction=''> حصل على <marker>حق</marker> اللجوء السياسي</example>
+	</rule>
+
+
+	<rule>	 
+		<pattern>
+		<marker><token inflected='yes'>طاولة</token></marker>
+		<token regexp='yes'>المفاوضات|المداولات</token>
+		</pattern>
+		<message>
+		ويفضل أن يحذف عن  
+		<suggestion></suggestion>
+
+		لأن طاولة هنا لا لزوم لها في التعبير.
+		</message>
+		<example correction=''> عودة الأطراف إلى   <marker>طاولة</marker> المداولات</example>
+	</rule>
+
+	<rule>	 
+		<pattern>
+		<marker><token>ككل</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال   
+		<suggestion>كليًّا</suggestion>
+
+		لأن ككل لا أصل لها في اللغة، وهي ترجمة سيئة لعبارة as a whole.
+		</message>
+		<example correction='كليا'>‎  عند النظر إلى الموضوع    <marker>ككل</marker></example>
+	</rule>
     </rulegroup>  
+</category>
+<!-- ====================================================================== -->
+<!-- Verb transitivity by a partical  الأفعال المتعدية بحرف -->
+<!-- ====================================================================== -->  
+<category id="verbtrans" name="الأفعال المتعدية بحرف" type="grammar">
+<rulegroup id="vta2vtb" name="تصحيح حرف التعدي">
+	<rule id='vta2vtb001'>	 
+		<pattern>
+		<token>يمت</token>
+		<marker><token>للحقيقة</token></marker>
+		</pattern>
+		<message> قل يمت  <suggestion>إلى الحقيقة</suggestion>
+		فالفعل "مَتّ" يتعدى بـ "إلى"، لا باللام.
+		</message>
+		<example correction="إلى الحقيقة">‎  هذا الكلام لا يمت،‎‎<marker>للحقيقة</marker> بصلة</example> 
+	</rule>
+
+	<rule id='vta2vtb002'>	 
+		<pattern>
+		<token skip='1'>تمادى</token>
+		<marker><token>بظلمه</token></marker>
+		</pattern>
+		<message> قل تمادى   <suggestion>في ظلمه</suggestion> 
+				أي دام على فعله ولجّ، وبلغ فيه الغاية.
+		فالفعل "تمادى" يتعدّى بـ "في"، لا بالباء.       
+		</message>
+		<example correction="في ظلمه">‎تمادى فلان  ‎‎<marker>بظلمه</marker></example> 
+	</rule>
+
+	<rule id='vta2vtb003'>	 
+		<pattern>
+		<token>تعرف</token>
+		<marker><token inflected='yes'>على</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال: تعرّف
+		<suggestion>إلى</suggestion>
+		</message>
+		<example correction="إلى">  تعرّف‎‎<marker>على</marker>الصديق</example> 
+	</rule>
+	<rule id='vta2vtb004'>	 
+		<pattern>
+		<token regexp='yes'>أثر|يؤثر|أثرت</token>
+		<marker>	<token inflected='yes'>على</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+
+		<suggestion>في</suggestion>
+		<suggestion>فيه</suggestion>
+		<suggestion>فيها</suggestion>
+		<suggestion>فينا</suggestion>
+		<suggestion>به</suggestion>
+		<suggestion>بها</suggestion>
+		<suggestion>بنا</suggestion>
+		<suggestion>ب</suggestion>
+		ولكن يمكن القول "إن الله تعالى يحب أن يُرى أثَرُ نعمته على عبده"
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/155.htm</url>
+		<example correction="فيه"> لقد أثّر ‎‎<marker>فيه</marker> الإسلام</example> 
+	</rule>
+
+	<rule id='vta2vtb005'>	 
+		<pattern>
+		<token>ينبغي</token>
+		<marker>	<token inflected='yes'>على</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+		<suggestion>لنا</suggestion>
+		<suggestion>له</suggestion>
+		<suggestion>لها</suggestion>
+		<suggestion>لهم</suggestion>
+		جاء في التنزيل ﴿لا الشمس ينبغي لها أن تُدرك القمر﴾[36:40]
+		﴿وما علّمناه الشعر وما ينبغي له﴾[36:69]
+		</message>
+		<url>http://www.reefnet.gov.sy/Arabic_Proficiency/18.htm</url>
+		<example correction="لنا"> ينبغي ‎‎<marker>علينا</marker> أن نفعل كذا</example> 
+	</rule>
+
+</rulegroup>
+<rulegroup id="vta2vt" name="حذف حرف التعدي">
+	<rule id='vta2vt001'>	 
+		<pattern>
+		<token>امتثل</token>
+		<marker><token>لأمره</token></marker>
+
+		</pattern>
+		<message> قل يمتثل <suggestion>أمره</suggestion> فالفعل "امتثل" يتعدى بنفسه، لا باللام. </message>
+		<example correction="أمره">‎ أَمَرَهُ فامتثل ،‎‎<marker>لأمره</marker></example> 
+	</rule>
+
+	<rule id='vta2vt002'>	 
+		<pattern>
+		<token skip='1' inflected='yes'>حاز</token>
+		<marker><token inflected='yes'>على</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال: حاز
+		<suggestion></suggestion>
+		</message>
+		لأن الفعل "حاز" يتعدى بنفسه
+		<example correction=''>حاز فلان <marker>على</marker> الشهادات والأموال.</example>
+	</rule>
+</rulegroup>
+<rulegroup id="vt2vt" name="إضافة حرف التعدي">
+
+</rulegroup>
 </category>
 <!-- ====================================================================== -->
 <!-- Feminin Gender -->
@@ -976,12 +1088,12 @@ USA
 <!-- ====================================================================== -->
 <!-- Prépositions -->
 <!-- ====================================================================== -->
-	<category id="Prép" name="Prépositions" type="grammar">
+	<category id="prep" name="Prepositions" type="grammar">
 	<rulegroup id="RepPrep" name="حروف الجر">
 		<rule>
 			<pattern>
 				<token>يدل</token>
-				<marker><token>إلى</token></marker>					
+				<marker><token inflected='yes'>إلى</token></marker>					
 			</pattern>
 			<message>أتقصد <suggestion>على</suggestion>؟</message>
 			<example correction="على"> يدل 
@@ -990,7 +1102,7 @@ USA
 		<rule>
 			<pattern>
 				<token >برهنت</token>
-				<marker><token negate ="yes"> على</token></marker>
+				<marker><token negate ="yes" inflected='yes'> على</token></marker>
 			</pattern>
 			<message>أتقصد<suggestion>على</suggestion></message>
 			<example correction="على"><marker>/2</marker>برهنت</example>			
@@ -999,7 +1111,7 @@ USA
 			<pattern>
 				<token>تمرست</token>
 				<marker>
-					<token>على</token>
+					<token inflected='yes'>على</token>
 					<token>الأمور</token>
 				</marker>
 			</pattern>
@@ -1104,6 +1216,18 @@ USA
 <!-- ====================================================================== -->
 <category id="Pluriel" name="أخطاء في الجمع" type="grammar">
 	<rulegroup id="PluralRules" name="قواعد الجمع">
+	<rule>	 
+		<pattern>
+		<marker><token regexp='yes'>مشاكل|المشاكل</token></marker>
+		</pattern>
+		<message>
+		ويفضل أن يقال:
+
+		<suggestion>مشكلات</suggestion>
+		<suggestion>المشكلات</suggestion>
+		</message>
+		<example correction="المشكلات">  ‎‎<marker>المشاكل</marker> عويصة</example> 
+	</rule>
 		<rule>
 			<pattern>
 				<marker><token>الموانئ</token></marker>
@@ -1202,10 +1326,20 @@ USA
 	</rulegroup>
 </category>
 <!-- ====================================================================== -->
-<!-- Pluriel-->
+<!-- Plurals-->
 <!-- ====================================================================== -->
 <category id="NumbersErrors" name="الأخطاء المتعلقة بالأعداد" type="grammar">
 	<rulegroup id="Number_F" name="تأنيث العدد">
+	<rule>
+		<pattern>
+		<marker><token>ثلاث</token></marker>
+		<token postag='NMP'/>			
+		</pattern>			
+		<message>أتقصد <suggestion>ثلاثة</suggestion>؟</message>
+		الاسم المذكر يسبق بعدد مؤنث
+		<example correction="ثلاثة"><marker>ثلاث</marker>أولاد</example>
+		<example correction="ثلاث"><marker>ثلاثة</marker>بنات</example>
+	</rule>
 	<rule>
 			<pattern>
 				<marker><token>ثلاث</token></marker>
@@ -1272,6 +1406,16 @@ USA
 		</rule>
 	</rulegroup>
 	<rulegroup id="Number_M" name="تذكير العدد">
+	<rule>
+		<pattern>
+		<marker><token>ثلاثة</token></marker>
+		<token postag='NFP'/>			
+		</pattern>			
+		<message>أتقصد <suggestion>ثلاث</suggestion>؟</message>
+		الاسم المؤنث يسبق بعدد مذكر
+		<example correction="ثلاثة"><marker>ثلاث</marker>أولاد</example>
+		<example correction="ثلاث"><marker>ثلاثة</marker>بنات</example>
+	</rule>
 		<rule>
 			<pattern>
 				<marker><token>ثلاثة</token></marker>
