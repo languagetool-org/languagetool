@@ -109,6 +109,8 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
+  private StartRecordingAction startRecordingAction;
+  private StopRecordingAction stopRecordingAction;
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
 
@@ -234,6 +236,9 @@ public final class Main {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
+     startRecordingAction = new StartRecordingAction();
+     stopRecordingAction = new StopRecordingAction();
+
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
     showResultAction = new ShowResultAction(true);
@@ -297,6 +302,19 @@ public final class Main {
     JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
+
+
+
+    JButton startRecordingButton = new JButton(this.startRecordingAction);
+    startRecordingButton.setHideActionText(true);
+    startRecordingButton.setFocusable(false);
+    toolbar.add(startRecordingButton);
+
+    JButton stopRecordingButton = new JButton(this.stopRecordingAction);
+    stopRecordingButton.setHideActionText(true);
+    stopRecordingButton.setFocusable(false);
+    toolbar.add(stopRecordingButton);
+
 
     JButton spellButton = new JButton(this.checkAction);
     spellButton.setHideActionText(true);
@@ -1137,6 +1155,42 @@ public final class Main {
       quitOrHide();
     }
 
+  }
+
+  class StartRecordingAction extends AbstractAction {
+
+    StartRecordingAction() {
+      putValue(Action.SMALL_ICON, getImageIcon("lc_mic.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_mic.png"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        ltSupport.getTextComponent().setText("Recording your voice");
+        startRecognition();
+      } catch (Exception e1) {
+        e1.printStackTrace();
+      }
+    }
+  }
+
+  class StopRecordingAction extends AbstractAction {
+
+    StopRecordingAction() {
+      putValue(Action.SMALL_ICON, getImageIcon("lc_stopmic.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_stopmic.png"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        String s = stopRecognition().toString();
+        ltSupport.getTextComponent().setText(s);
+      } catch (Exception e1) {
+        e1.printStackTrace();
+      }
+    }
   }
 
   class CheckClipboardAction extends AbstractAction {
