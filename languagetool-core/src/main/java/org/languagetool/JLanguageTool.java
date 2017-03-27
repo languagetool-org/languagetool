@@ -823,7 +823,7 @@ public class JLanguageTool {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
-      if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
+      if (ignoredCharacterRegex.matcher(tokens.get(i)).find()) {
         ignoredCharsTokens.put(i, tokens.get(i));
         tokens.set(i, ignoredCharacterRegex.matcher(tokens.get(i)).replaceAll(""));
       }
@@ -839,7 +839,7 @@ public class JLanguageTool {
    */
   public Map<CategoryId, Category> getCategories() {
     Map<CategoryId, Category> map = new HashMap<>();
-    for(Rule rule : getAllRules()) {
+    for (Rule rule : getAllRules()) {
       map.put(rule.getCategory().getId(), rule.getCategory());
     }
     return map;
