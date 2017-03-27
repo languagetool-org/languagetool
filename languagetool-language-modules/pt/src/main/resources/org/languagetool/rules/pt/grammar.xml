@@ -14226,9 +14226,31 @@ TODO Write better examples
     </rule>
     <rule>
           <regexp>([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)x([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
-      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+      <message>Prefira o símbolo de multiplicação.</message>
         <suggestion>\1×\2</suggestion>
       <example correction='2.998×10⁸'>c=<marker>2.998x10⁸</marker> m/s</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="PLUS_MINUS" name="Sinais matemáticos: +- - ± ">
+    <!-- Created by Tiago F. Santos, 2017-03-28 -->
+    <rule>
+      <pattern>
+          <token>+</token>
+          <token>-</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>+-</marker> 0,1 g</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>-</token>
+          <token>+</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
     </rule>
   </rulegroup>
 
