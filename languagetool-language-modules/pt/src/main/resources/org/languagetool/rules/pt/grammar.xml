@@ -14210,6 +14210,28 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="MULTIPLICATION_SIGN" name="Sinal de multiplicação: x - × ">
+    <!-- Created by Tiago F. Santos, 2017-03-27 -->
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+</token>
+        <marker>
+          <token>x</token>
+        </marker>
+          <token regexp="yes">[\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+</token>
+      </pattern>
+      <message>Prefira o símbolo de multiplicação.</message>
+        <suggestion>×</suggestion>
+      <example correction='×'>h = 6.626 <marker>x</marker> 10⁻³⁴ J.s</example>
+    </rule>
+    <rule>
+          <regexp>([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)x([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+        <suggestion>\1×\2</suggestion>
+      <example correction='2.998×10⁸'>c=<marker>2.998x10⁸</marker> m/s</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="YEAR_NUMBER_FORMAT" name="Formatação de números: anos">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
