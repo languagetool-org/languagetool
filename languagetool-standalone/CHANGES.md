@@ -2,6 +2,9 @@
 
 ## 3.7 (2017-03-27)
 
+#### Breton
+  * small rule improvements
+
 #### Catalan
   * added and improved rules
   * updated dictionary
