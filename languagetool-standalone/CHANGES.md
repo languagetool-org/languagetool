@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 3.8-SNAPSHOT (release planned for 2017-06-27)
+
+* ...
+
+
 ## 3.7 (2017-03-27)
 
 #### Breton
