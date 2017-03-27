@@ -373,9 +373,4 @@ public class AccentuationCheckRule extends Rule {
     return matches;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

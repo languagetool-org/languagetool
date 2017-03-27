@@ -557,9 +557,4 @@ public class ComplexAdjectiveConcordanceRule extends Rule {
     return m.matches();
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

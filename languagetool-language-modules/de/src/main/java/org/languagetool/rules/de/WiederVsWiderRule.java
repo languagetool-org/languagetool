@@ -85,9 +85,4 @@ public class WiederVsWiderRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

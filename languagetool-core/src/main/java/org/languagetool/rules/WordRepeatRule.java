@@ -107,9 +107,4 @@ public class WordRepeatRule extends Rule {
     return isWord;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

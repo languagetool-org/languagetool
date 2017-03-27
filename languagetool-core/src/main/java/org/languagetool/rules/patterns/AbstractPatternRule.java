@@ -159,10 +159,6 @@ public abstract class AbstractPatternRule extends Rule {
     return null;
   }
 
-  @Override
-  public void reset() {
-  }
-
   /**
    * @since 2.3
    */

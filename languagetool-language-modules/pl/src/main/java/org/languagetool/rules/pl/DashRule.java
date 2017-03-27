@@ -73,10 +73,6 @@ public class DashRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
-  @Override
-  public void reset() {
-  }
-
   private void loadCompoundFile(String path) throws IOException {
     try (
         InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);

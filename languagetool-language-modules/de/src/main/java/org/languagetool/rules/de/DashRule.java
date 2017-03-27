@@ -74,8 +74,4 @@ public class DashRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

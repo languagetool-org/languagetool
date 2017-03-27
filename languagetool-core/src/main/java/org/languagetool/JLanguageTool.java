@@ -550,13 +550,6 @@ public class JLanguageTool {
     if (printStream != null) {
       printIfVerbose(allRules.size() + " rules activated for language " + language);
     }
-    // Some rules have an internal state so they can do checks over sentence
-    // boundaries. These need to be reset so the checks don't suddenly
-    // work on different texts with the same data. However, it could be useful
-    // to keep the state information if we're checking a continuous text.    
-    for (Rule rule : allRules) {
-      rule.reset();
-    }
 
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);

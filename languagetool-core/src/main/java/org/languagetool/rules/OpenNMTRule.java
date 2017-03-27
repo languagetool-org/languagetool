@@ -153,8 +153,4 @@ public class OpenNMTRule extends Rule {
     return conn;
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

@@ -232,8 +232,4 @@ public abstract class WrongWordInContextRule extends Rule {
     
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

@@ -178,9 +178,4 @@ public class AvsAnRule extends Rule {
     return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

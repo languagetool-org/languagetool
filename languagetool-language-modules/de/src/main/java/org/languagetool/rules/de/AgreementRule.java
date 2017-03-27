@@ -566,8 +566,4 @@ public class AgreementRule extends Rule {
     return String.join("/", l);
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

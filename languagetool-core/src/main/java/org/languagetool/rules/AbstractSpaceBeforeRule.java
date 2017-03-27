@@ -83,8 +83,4 @@ public abstract class AbstractSpaceBeforeRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

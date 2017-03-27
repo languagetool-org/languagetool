@@ -239,8 +239,4 @@ public class TopoReplaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

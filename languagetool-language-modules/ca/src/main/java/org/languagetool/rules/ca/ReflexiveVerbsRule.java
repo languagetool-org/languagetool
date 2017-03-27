@@ -977,8 +977,4 @@ public class ReflexiveVerbsRule extends Rule {
        || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI));      
   }
   
-  @Override
-  public void reset() {
-    // nothing
-  }
 }

@@ -292,9 +292,6 @@ public class SubjectVerbAgreementRule extends Rule {
     throw new RuntimeException("No plural found for '" + token + "'");
   }
 
-  @Override
-  public void reset() {}
-  
   private static class SingularPluralPair {
     String singular;
     String plural;

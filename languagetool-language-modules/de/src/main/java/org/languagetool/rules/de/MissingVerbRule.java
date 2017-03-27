@@ -137,7 +137,4 @@ public class MissingVerbRule extends Rule {
     return false;
   }
 
-  @Override
-  public void reset() {
-  }
 }

@@ -1015,9 +1015,4 @@ public class CaseRule extends Rule {
     return true;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }
