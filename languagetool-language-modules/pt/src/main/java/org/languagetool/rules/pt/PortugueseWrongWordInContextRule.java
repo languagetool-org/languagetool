@@ -35,8 +35,8 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
     super(messages);
     super.setCategory(Categories.SEMANTICS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
-    addExamplePair(Example.wrong("A fruta vem da <marker>arvore</marker>."),
-                   Example.fixed("A fruta vem da <marker>árvore</marker>."));
+    addExamplePair(Example.wrong("O acidente <marker>infringiu</marker> grandes danos."),
+                   Example.fixed("O acidente <marker>infligiu</marker> grandes danos."));
   }
   
   @Override
@@ -51,7 +51,7 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Confusão de acordo com o contexto (Arvore/Árvore, Análise/Analise, etc.)";
+    return "Confusão de palavra dentro do contexto (Infligir/Infringir, etc.)";
   }
   
   @Override
@@ -61,7 +61,7 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getMessageString() {
-    return "Pretende dizer <suggestion>$SUGGESTION</suggestion> em vez de '$WRONGWORD'?";
+    return "Pretende dizer <suggestion>$SUGGESTION</suggestion> em vez de $WRONGWORD?";
   }
   
   @Override

@@ -6315,10 +6315,19 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">dates?</token></marker>
-          <token regexp="yes">fra[îi]ches?|séchées?|cultivées?|produites?|muscades?|medjool|Hamraya</token>
+          <token regexp="yes">fra[îi]ches?|dénoyautées?|fourrées?|sèches?|séchées?|cultivées?|produites?|muscades?|medjool|Hamraya</token>
         </pattern>
         <message>Confusion probable entre les mots « \1 » (moment dans le temps) et <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
         <example correction="dattes">Des <marker>dates</marker> séchées.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">confiture|crème|gâteau|mélasse|noyau|pâte|recette|sirop</token>
+          <token>de</token>
+          <marker><token regexp="yes">dates?</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « \3 » (moment dans le temps) et <suggestion><match no="3" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
+        <example correction="datte">Du sirop de <marker>date</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -10229,7 +10238,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="V avoir .*" postag_regexp="yes"/>
-          <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut[-‑‐]être|plus|presque|toujours|très|trop</token>
+          <token regexp="yes">assez|aussi|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut[-‑‐]être|plus|presque|toujours|très|trop</token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
@@ -10237,6 +10246,8 @@ though, and has since been slightly modified)-->
         <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
         <example correction="">J’ai bien <marker>manger</marker>.</example>
         <example>J’ai bien <marker>mangé</marker>.</example>
+        <example correction="">Il a aussi <marker>permit</marker>.</example>
+        <example>Il a aussi permis.</example>
       </rule>
       <rule>
         <pattern>
@@ -10266,7 +10277,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">(?:a|aura)[-‑‐]t[-‑‐](?:il|elle|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)[-‑‐](?:je|tu|ils?|elles?|on|[nv]ous)</token>
-          <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut[-‑‐]être|plus|presque|toujours|trop</token>
+          <token regexp="yes">assez|aussi|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>

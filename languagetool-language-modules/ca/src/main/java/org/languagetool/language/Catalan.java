@@ -167,6 +167,7 @@ public class Catalan extends Language {
       case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
+      case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;
     }
     return 0;

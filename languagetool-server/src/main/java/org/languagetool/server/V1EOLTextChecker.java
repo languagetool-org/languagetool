@@ -46,7 +46,7 @@ class V1EOLTextChecker extends V1TextChecker {
   }
 
   @Override
-  protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
+  protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches, boolean incompleteResult) {
     if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
       AtDXmlSerializer serializer = new AtDXmlSerializer();
       return serializer.ruleMatchesToXml(matches, text);

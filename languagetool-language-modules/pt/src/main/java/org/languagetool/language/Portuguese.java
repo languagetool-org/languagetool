@@ -81,7 +81,7 @@ public class Portuguese extends Language implements AutoCloseable {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
             new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
-            new Contributor("Tiago F. Santos (3.6+)", "tiagofsantos81@sapo.pt")
+            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81")
     };
   }
 
@@ -153,8 +153,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
-            new PortugueseAccentuationCheckRule(messages)
-            //new PortugueseWrongWordInContextRule(messages)
+            new PortugueseAccentuationCheckRule(messages),
+            new PortugueseWrongWordInContextRule(messages)
     );
   }
 
@@ -192,9 +192,13 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
-      case "CRASE_CONFUSION":           return -5;
-      case "T-V_DISTINCTION":           return -20;
-      case "T-V_DISTINCTION_ALL":       return -21;
+      case "PT_MULTI_REPLACE":          return -5;
+      case "PT_PT_SIMPLE_REPLACE":      return -6;
+      case "HUNSPELL_RULE":             return -10;
+      case "CRASE_CONFUSION":           return -15;
+      case "FINAL_STOPS":               return -25;
+      case "T-V_DISTINCTION":           return -40;
+      case "T-V_DISTINCTION_ALL":       return -41;
       case "REPEATED_WORDS":            return -90;
       case "REPEATED_WORDS_3X":         return -91;
       case "WIKIPEDIA_COMMON_ERRORS":   return -100;

@@ -99,10 +99,6 @@ public class HTTPServerTest {
     assertTrue(checkV2(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
     assertTrue(checkV2(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
       
-    //tests for bitext - not supported by V2 of the API yet
-    //assertTrue(bitextCheck(polish, english, "This is frivolous.", "To jest frywolne.").contains("FRIVOLOUS"));
-    //assertTrue(!bitextCheck(polish, english, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
-    
     //test for no changed if no options set
     String[] nothing = {};
     assertEquals(checkV2(english, german, "We will berate you"), 
@@ -241,31 +237,6 @@ public class HTTPServerTest {
     } finally {
       server.stop();
     }
-  }
-
-  private String bitextCheck(Language lang, Language motherTongue, String sourceText, String text) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortCode();
-    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
-    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
-    }
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
-    return HTTPTools.checkAtUrl(url);
-  }
-
-  private String bitextCheckDisabled(Language lang, Language motherTongue, String sourceText, String text, String[] disabled) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortCode();
-    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
-    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
-    }
-    if (disabled.length > 0) {
-      urlOptions += "&disabled=" + StringUtils.join(disabled, ",");
-    }
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
-    return HTTPTools.checkAtUrl(url);
   }
 
   private String checkV1(Language lang, String text) throws IOException {

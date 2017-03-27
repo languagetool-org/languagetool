@@ -40,7 +40,7 @@ import org.languagetool.tools.StringTools;
  * @author Jaume Ortolà i Font
  * l18n by Tiago F. Santos
  * TODO Verify all exceptions that apply to Portuguese
- * FIXME Cnverte all chunking tags to the ones used in Portuguese
+ * FIXME Convert all chunking tags to the ones used in Portuguese
  */
 public class PortugueseAccentuationCheckRule extends Rule {
 

@@ -123,6 +123,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Er liebt die Stil-, Text- und Grammatikprüfung.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
@@ -130,6 +131,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Bund-Länder-Kommission")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
@@ -141,11 +143,12 @@ public class GermanSpellerRuleTest {
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    assertThat(ruleGermany.getSuggestions("free-and-open-source").toString(), is("[]"));  // to prevent OutOfMemoryErrors: do not create hyphenated compounds consisting of >3 parts
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereite, konfliktbereitem, konfliktbereiten, konfliktbereiter, konfliktbereites, konfliktbereit]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
   }
 
   @Test
@@ -247,6 +250,9 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "bw.", "bzw.");
     assertCorrection(rule, "kan", "kann", "an");
     assertCorrection(rule, "kan.", "kann.", "an.");
+    assertCorrection(rule, "Einzahlungschein", "Einzahlungsschein");
+    assertCorrection(rule, "Arbeitamt", "Arbeitet", "Arbeitsamt");
+    assertCorrection(rule, "Ordnungshütter", "Ordnungshüter");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");

@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -48,15 +47,6 @@ public abstract class BitextRule extends Rule {
             DifferentPunctuationRule.class
     );
   }
-
-  @Override
-  public abstract String getDescription();
-
-  @Override
-  public abstract String getId();
-
-  @Override
-  public abstract void reset();
 
   public abstract String getMessage();
 
@@ -118,11 +108,4 @@ public abstract class BitextRule extends Rule {
     return incorrectExamples;
   }
 
-  protected String getPureText(AnalyzedSentence sentence) {
-    StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : sentence.getTokens()) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
-  }
 }

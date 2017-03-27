@@ -119,9 +119,23 @@ public class AgreementRule extends GermanRule {
     ),
     Arrays.asList(
         new PatternTokenBuilder().pos("SENT_START").build(),
-        new PatternTokenBuilder().token("Das").build(),
+        new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
-        new PatternTokenBuilder().posRegex("SUB:.*").build()// "Das erfordert Können und..."
+        new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().posRegex("ART:.*").build(), // "Das wenige Kilometer breite Tal"
+        new PatternTokenBuilder().posRegex("ADJ:.*").build(),
+        new PatternTokenBuilder().tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Van").build(), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
+        new PatternTokenBuilder().token("der").build(),
+        new PatternTokenBuilder().token("Bellen").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("mehrere").build(), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
+        new PatternTokenBuilder().pos("SUB:NOM:SIN:FEM:ADJ").build()
     )
   );
 
@@ -159,6 +173,7 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("auf");
     PREPOSITIONS.add("an");
     PREPOSITIONS.add("ab");
+    PREPOSITIONS.add("aus");
     PREPOSITIONS.add("für");
     PREPOSITIONS.add("zu");
     PREPOSITIONS.add("bei");
@@ -168,6 +183,8 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("mit");
     PREPOSITIONS.add("durch");
     PREPOSITIONS.add("während");
+    PREPOSITIONS.add("unter");
+    PREPOSITIONS.add("ohne");
     // TODO: add more
   }
   
@@ -202,8 +219,8 @@ public class AgreementRule extends GermanRule {
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
-    "jemand",
-    "niemand"
+    "jemand", "jemandes",
+    "niemand", "niemandes"
   ));
   
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
@@ -349,20 +366,22 @@ public class AgreementRule extends GermanRule {
     if (pos >= 1) {
       // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
       comma = tokens[pos-1].getToken().equals(",");
-      String term = tokens[pos].getToken().toLowerCase();
-      relPronoun = REL_PRONOUN.contains(term);
-      if (comma && relPronoun && pos+3 < tokens.length) {
+      String term = tokens[pos].getToken();
+      relPronoun = comma && REL_PRONOUN.contains(term);
+      if (relPronoun && pos+3 < tokens.length) {
         return true;
       }
     }
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
       comma = tokens[pos-2].getToken().equals(",");
-      String term1 = tokens[pos-1].getToken().toLowerCase();
-      String term2 = tokens[pos].getToken().toLowerCase();
-      boolean prep = PREPOSITIONS.contains(term1);
-      relPronoun = REL_PRONOUN.contains(term2);
-      return comma && prep && relPronoun;
+      if(comma) {
+        String term1 = tokens[pos-1].getToken();
+        String term2 = tokens[pos].getToken();
+        boolean prep = PREPOSITIONS.contains(term1);
+        relPronoun = REL_PRONOUN.contains(term2);
+        return prep && relPronoun;
+      }
     }
     return false;
   }

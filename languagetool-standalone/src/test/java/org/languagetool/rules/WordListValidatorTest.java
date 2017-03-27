@@ -37,18 +37,18 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
-          "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòÈÉÁÀÓÒãñíîş" +
+          "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòôÈÉÁÀÓÒãñíîş" +
           "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
           "Śśōżúï" +
           "·" +   // for Catalan
           "./-]+"
   );
 
-  // Words that are valid but with special characters so are that we don't want to
+  // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Hidschāb/S",
-          "rôle", "rôles"
+          "Erdoğan/S"
   ));
 
   @Test

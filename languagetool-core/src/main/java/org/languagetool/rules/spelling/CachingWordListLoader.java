@@ -32,7 +32,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Helper to loads text files from classpath.
+ * Helper to load text files from classpath.
  * @since 3.3, public since 3.5
  */
 public class CachingWordListLoader {

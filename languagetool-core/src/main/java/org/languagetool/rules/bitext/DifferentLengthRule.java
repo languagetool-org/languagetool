@@ -59,7 +59,7 @@ public class DifferentLengthRule extends BitextRule {
   public RuleMatch[] match(AnalyzedSentence sourceText,
       AnalyzedSentence targetText) throws IOException {
    
-    if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
+    if (isLengthDifferent(sourceText.getText(), targetText.getText())) {
       AnalyzedTokenReadings[] tokens = targetText.getTokens();
       int endPos = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
       return new RuleMatch[] { new RuleMatch(this, 0, endPos, getMessage()) };

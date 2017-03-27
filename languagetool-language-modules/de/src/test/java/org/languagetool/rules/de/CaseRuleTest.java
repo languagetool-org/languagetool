@@ -93,10 +93,22 @@ public class CaseRuleTest {
     assertGood("Du musst das wissen, damit du die Prüfung bestehst");
     assertGood("Er kann ihr das bieten, was sie verdient.");
     assertGood("Er fragte, ob das gelingen wird.");
+    assertGood("Er mag Obst, wie zum Beispel Apfelsinen.");
+    assertGood("Er will die Ausgaben für Umweltschutz und Soziales kürzen.");
+    assertGood("Die Musicalverfilmung „Die Schöne und das Biest“ bricht mehrere Rekorde.");
+    assertGood("Joachim Sauer lobte Johannes Rau.");
+    assertGood("Im Falle des Menschen ist dessen wirkendes Wollen gegeben.");
+    assertGood("Szenario: 1) Zwei Galaxien verschmelzen."); // should be accepted by isNumbering
 
+    assertBad("Dann will sie mit London Über das Referendum verhandeln.");
+    assertBad("Sie kann sich täglich Über vieles freuen.");
+    assertBad("Der Vater (51) Fuhr nach Rom.");
+    assertBad("Er müsse Überlegen, wie er das Problem löst.");
+    assertBad("Er sagte, dass er Über einen Stein stolperte.");
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
     assertBad("Tom kann mit fast Allem umgehen.");
+    assertBad("Dabei Übersah er sie.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
@@ -142,8 +154,8 @@ public class CaseRuleTest {
     assertGood("Der Lesestoff bestimmt die Leseweise.");
     assertGood("Ich habe nicht viel von einem Reisenden.");
     assertGood("Die Vereinigten Staaten");
+    assertGood("Der Satz vom ausgeschlossenen Dritten.");
     //TODO:
-    //assertGood("Der Satz vom ausgeschlossenen Dritten.");
     assertGood("Die Ausgewählten werden gut betreut.");
     assertGood("Die ausgewählten Leute werden gut betreut.");
     //assertBad("Die ausgewählten werden gut betreut.");

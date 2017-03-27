@@ -1,15 +1,29 @@
 # LanguageTool Change Log
 
-## 3.7 (release planned for 2017-03-27)
+## 3.8-SNAPSHOT (release planned for 2017-06-27)
+
+* ...
+
+
+## 3.7 (2017-03-27)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary
 
 #### English
   * added and improved rules
 
 #### French
+  * improved rules
   * upgraded dictionaries to Dicollecte-6.0.2
 
 #### German
   * added and improved rules
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
@@ -18,21 +32,48 @@
 #### Greek
   * added and improved rules
 
-#### Lithuanian and Malayalam
-  * Lithuanian and Malayalam are not part of this release anymore. They still exist
-    in the git repository and can be re-activated as soon as a new maintainer takes
+#### Italian
+  * added one rule
+
+#### Lithuanian, Malayalam, and Icelandic
+  * Lithuanian, Malayalam, and Icelandic are not part of this release anymore. They still
+    exist in the git repository and can be re-activated as soon as a new maintainer takes
     care of them.
 
 #### Portuguese
-  * added and improved grammar and style rules
-  * false friends support added
-    - Portuguese to English (121 pairs)
-    - French to Portuguese pair (30 pairs)
-    - Spanish to Portuguese pairs (10 pairs)
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - capitalization: AO90 and AO45 rules
+    - style: repetitions and barbarism detection
+    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
+    - semantics: wrong words in the context (22 confusion pairs), url validator and date checker improvements
+    - registered brands category added
+    - translation errors category added
+  * false friends support added:
+    - Portuguese to Spanish (186 new pairs)
+    - Portuguese to English (156 new pairs)
+    - Portuguese to French (78 new pairs)
+    - Portuguese to German (16 new pairs)
+    - Portuguese to Galician (9 new pairs)
   * spellchecking suggestions activated
+  * updated Hunspell dictionary to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.2
+    - [pt-MZ pre-AO] Dicionários Natura 18.02.2017
 
 #### Russian
   * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
+
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
+
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
 
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
@@ -50,18 +91,15 @@
 #### Java API
   * Some deprecated methods have been removed.
   * A new class `ResultCache` has been added to speed up the LT server
-  * `EnglishRule`, `GermanRule`, `PortugueseRule`, `CatalanRule`, and `FrenchRule`
-    are now deprecated. These are empty abstract classes that never had any
-    real use. Rules that extend these classes will directly extend `Rule` or
+  * `EnglishRule`, `GermanRule`, `CatalanRule`, and `FrenchRule`are now 
+    deprecated. These are empty abstract classes that never had any real 
+    use. Rules that extend these classes will directly extend `Rule` or
     `TextLevelRule` in a future release.
   * All rules that work on the text level instead of the sentence level
     (e.g. word coherency) now extend `TextLevelRule` instead of `Rule`
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)

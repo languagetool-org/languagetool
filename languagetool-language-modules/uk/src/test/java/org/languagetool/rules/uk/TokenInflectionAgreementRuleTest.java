@@ -137,6 +137,7 @@ public class TokenInflectionAgreementRuleTest {
     
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("за наявною інформацію")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("асоціюється в нас із сучасною цивілізацію")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("які вимагалися за тендерною документацію")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("зловживання монопольних становищем")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("проживання та дворазове харчуванням")).length);

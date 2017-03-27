@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
@@ -44,6 +45,16 @@ public class RuleMatchesAsJsonSerializer {
   private final JsonFactory factory = new JsonFactory();
   
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang) {
+    return ruleMatchesToJson(matches, text, contextSize, lang, false);
+  }
+
+  /**
+   * @param incompleteResults use true to indicate that results are incomplete (e.g. due to a timeout) - a 'warnings'
+   *                          section will be added to the JSON
+   * @since 3.7
+   */
+  @Experimental
+  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, boolean incompleteResults) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -54,6 +65,7 @@ public class RuleMatchesAsJsonSerializer {
       try (JsonGenerator g = factory.createGenerator(sw)) {
         g.writeStartObject();
         writeSoftwareSection(g);
+        writeWarningsSection(g, incompleteResults);
         writeLanguageSection(g, lang);
         writeMatchesSection(g, matches, text, contextTools);
         g.writeEndObject();
@@ -71,6 +83,12 @@ public class RuleMatchesAsJsonSerializer {
     g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
     g.writeStringField("apiVersion", String.valueOf(API_VERSION));
     g.writeStringField("status", STATUS);
+    g.writeEndObject();
+  }
+
+  private void writeWarningsSection(JsonGenerator g, boolean incompleteResults) throws IOException {
+    g.writeObjectFieldStart("warnings");
+    g.writeBooleanField("incompleteResults", incompleteResults);
     g.writeEndObject();
   }
 

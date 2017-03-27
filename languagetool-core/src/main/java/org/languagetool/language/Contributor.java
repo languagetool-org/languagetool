@@ -28,6 +28,10 @@ public final class Contributor {
   private final String name;
   private final String url;
 
+  /**
+   * @param name full name
+   * @param url URL to homepage or similar (optional)
+   */
   Contributor(String name, String url) {
     this.name = Objects.requireNonNull(name, "name cannot be null");
     this.url = url;
