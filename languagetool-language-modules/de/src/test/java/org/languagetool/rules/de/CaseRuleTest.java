@@ -99,7 +99,13 @@ public class CaseRuleTest {
     assertGood("Joachim Sauer lobte Johannes Rau.");
     assertGood("Im Falle des Menschen ist dessen wirkendes Wollen gegeben.");
     assertGood("Szenario: 1) Zwei Galaxien verschmelzen."); // should be accepted by isNumbering
+    assertGood("Existieren Außerirdische im Universum?");
+    assertGood("Tom vollbringt Außerordentliches.");
+    assertGood("Er führt Böses im Schilde.");
 
+    assertBad("Er ist Groß.");
+    assertBad("Er sammelt Große und kleine Tassen.");
+    assertBad("Er sammelt Große, mittlere und kleine Tassen.");
     assertBad("Dann will sie mit London Über das Referendum verhandeln.");
     assertBad("Sie kann sich täglich Über vieles freuen.");
     assertBad("Der Vater (51) Fuhr nach Rom.");

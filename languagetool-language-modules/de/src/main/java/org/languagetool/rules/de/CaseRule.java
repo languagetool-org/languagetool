@@ -490,6 +490,7 @@ public class CaseRule extends Rule {
     languages.add("Hochdeutsch");
     languages.add("Holländisch");
     languages.add("Indonesisch");
+    languages.add("Irisch");
     languages.add("Isländisch");
     languages.add("Italienisch");
     languages.add("Japanisch");
@@ -934,7 +935,10 @@ public class CaseRule extends Rule {
     boolean isPrevDeterminer = prevToken != null
                                && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"))
                                && !prevToken.hasPartialPosTag(":STD");
+    boolean isPrecededByVerb = prevToken != null && prevToken.matchesPosTagRegex("VER:(MOD:|AUX:)?[1-3]:.*") && !prevToken.hasLemma("sein");
     if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
+        && !(isPrecededByVerb && lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ:") && nextReadings != null &&
+             !nextReadings.getToken().equals("und") && !nextReadings.getToken().equals("oder") && !nextReadings.getToken().equals(","))
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
