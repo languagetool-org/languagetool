@@ -392,19 +392,6 @@ public class JLanguageTool {
 
   /**
    * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
-   * @param categoryName the name of the category to disable - no error will be thrown if the id does not exist
-   * @deprecated use {@link #disableCategory(CategoryId)} instead (deprecated since 3.3)
-   */
-  public void disableCategory(String categoryName) {
-    for(Rule rule : getAllRules()) {
-      if(rule.getCategory().getName().equals(categoryName)) {
-        disableCategory(rule.getCategory().getId());
-      }
-    }
-  }
-
-  /**
-   * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
    * @param id the id of the category to disable - no error will be thrown if the id does not exist
    * @since 3.3
    * @see #enableRuleCategory(CategoryId) 
