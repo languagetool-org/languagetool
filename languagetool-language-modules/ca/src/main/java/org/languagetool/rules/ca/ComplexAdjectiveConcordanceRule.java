@@ -37,7 +37,7 @@ import org.languagetool.rules.*;
  * 
  * @author Jaume Ortolà i Font
  */
-public class ComplexAdjectiveConcordanceRule extends CatalanRule {
+public class ComplexAdjectiveConcordanceRule extends Rule {
 
   /**
    * Patterns

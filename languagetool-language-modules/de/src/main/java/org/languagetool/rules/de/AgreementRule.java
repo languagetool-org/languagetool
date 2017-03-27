@@ -50,7 +50,7 @@ import java.util.*;
  *  
  * @author Daniel Naber
  */
-public class AgreementRule extends GermanRule {
+public class AgreementRule extends Rule {
 
   private final German language;
 

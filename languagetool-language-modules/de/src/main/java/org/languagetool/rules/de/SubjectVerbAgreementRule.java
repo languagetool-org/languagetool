@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
  * for documentation of the steps this rule relies on.
  * @since 2.9
  */
-public class SubjectVerbAgreementRule extends GermanRule {
+public class SubjectVerbAgreementRule extends Rule {
 
   private static final ChunkTag NPS = new ChunkTag("NPS"); // noun phrase singular
   private static final ChunkTag NPP = new ChunkTag("NPP"); // noun phrase plural

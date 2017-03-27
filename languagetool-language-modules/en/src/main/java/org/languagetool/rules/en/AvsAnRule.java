@@ -43,7 +43,7 @@ import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
  * 
  * @author Daniel Naber
  */
-public class AvsAnRule extends EnglishRule {
+public class AvsAnRule extends Rule {
 
   enum Determiner {
     A, AN, A_OR_AN, UNKNOWN

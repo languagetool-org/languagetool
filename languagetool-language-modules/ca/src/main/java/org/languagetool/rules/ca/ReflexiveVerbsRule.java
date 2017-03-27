@@ -38,7 +38,7 @@ import org.languagetool.tools.StringTools;
  *   
  * @author Jaume Ortolà i Font
  */
-public class ReflexiveVerbsRule extends CatalanRule {
+public class ReflexiveVerbsRule extends Rule {
 
   /**
    * Patterns

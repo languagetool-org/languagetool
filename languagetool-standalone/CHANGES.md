@@ -5,8 +5,10 @@
 * ...
 
 #### HTTP API
+ * The deprecated AfterTheDeadline mode has been removed
 
-* The deprecated AfterTheDeadline mode has been removed
+#### Java API
+ * Some deprecated methods and classes have been removed.
 
 
 ## 3.7 (2017-03-27)

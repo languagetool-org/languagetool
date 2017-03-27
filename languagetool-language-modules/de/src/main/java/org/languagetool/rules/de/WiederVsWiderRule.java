@@ -32,7 +32,7 @@ import org.languagetool.rules.*;
  *   
  * @author Daniel Naber
  */
-public class WiederVsWiderRule extends GermanRule {
+public class WiederVsWiderRule extends Rule {
 
   public WiederVsWiderRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));

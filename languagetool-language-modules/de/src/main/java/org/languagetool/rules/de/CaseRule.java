@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  *   
  * @author Daniel Naber
  */
-public class CaseRule extends GermanRule {
+public class CaseRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|[0-9]+|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
