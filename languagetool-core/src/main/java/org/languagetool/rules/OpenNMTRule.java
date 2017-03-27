@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Experimental;
@@ -30,6 +32,7 @@ import org.languagetool.Experimental;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -98,7 +101,9 @@ public class OpenNMTRule extends Rule {
       }
       return new RuleMatch[0];
     } else {
-      throw new RuntimeException("Got error " + responseCode + " from " + url);
+      InputStream inputStr = conn.getErrorStream();
+      String error = CharStreams.toString(new InputStreamReader(inputStr, Charsets.UTF_8));
+      throw new RuntimeException("Got error " + responseCode + " from " + url + ": " + error);
     }
   }
 
