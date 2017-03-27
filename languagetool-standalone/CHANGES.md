@@ -4,6 +4,10 @@
 
 * ...
 
+#### HTTP API
+
+* The deprecated AfterTheDeadline mode has been removed
+
 
 ## 3.7 (2017-03-27)
 

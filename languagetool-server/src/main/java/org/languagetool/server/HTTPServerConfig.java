@@ -20,8 +20,6 @@ package org.languagetool.server;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.Languages;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +31,7 @@ import java.util.Properties;
  */
 public class HTTPServerConfig {
 
-  enum Mode { LanguageTool, AfterTheDeadline }
+  enum Mode { LanguageTool }
 
   public static final String DEFAULT_HOST = "localhost";
 
@@ -50,7 +48,6 @@ public class HTTPServerConfig {
   protected long maxCheckTimeMillis = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
-  protected Language atdLanguage;
   protected File languageModelDir = null;
   protected int requestLimit;
   protected int requestLimitPeriodInSeconds;
@@ -139,10 +136,9 @@ public class HTTPServerConfig {
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
-        mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
-        if (mode == Mode.AfterTheDeadline) {
-          System.out.println("WARNING: The AfterTheDeadline mode has been deprecated and will be removed in the next version of LanguageTool");
-          atdLanguage = Languages.getLanguageForShortCode(getProperty(props, "afterTheDeadlineLanguage", file));
+        boolean atdMode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline");
+        if (atdMode) {
+          throw new IllegalArgumentException("The AfterTheDeadline mode is not supported anymore in LanguageTool 3.8 or later");
         }
         String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
         if (rulesConfigFilePath != null) {
@@ -247,15 +243,6 @@ public class HTTPServerConfig {
   /** @since 2.7 */
   Mode getMode() {
     return mode;
-  }
-
-  /**
-   * @return the language used, or {@code null} if not in AtD mode
-   * @since 2.7 
-   */
-  @Nullable
-  Language getAfterTheDeadlineLanguage() {
-    return atdLanguage;
   }
 
   /**
