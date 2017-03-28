@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -123,15 +123,26 @@ public final class Main {
   private JSplitPane splitPane;
   private final JPanel mainPanel = new JPanel();
 
+  private Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
+
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
   }
 
+  private void startRecognition() throws Exception {
+    File file = new File ("record.raw");	//Name your file whatever you want
+    try {
+      mic.captureAudioToFile (file);
+    } catch (Exception ex) {
+      //Microphone not available or some other error.
+      System.out.println ("ERROR: Microphone is not availible.");
+      ex.printStackTrace ();
+    }
+  }
+
   private String stopRecognition() throws Exception {
     SpeechClient speech = SpeechClient.create();
-
-    Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
       mic.close ();
     // The path to the audio file to transcribe
     String fileName = "record.raw";
@@ -163,20 +174,7 @@ public final class Main {
       }
     }
     speech.close();
-
     return text;
-  }
-
-  private void startRecognition() throws Exception {
-    Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
-    File file = new File ("record.raw");	//Name your file whatever you want
-    try {
-      mic.captureAudioToFile (file);
-    } catch (Exception ex) {
-      //Microphone not available or some other error.
-      System.out.println ("ERROR: Microphone is not availible.");
-      ex.printStackTrace ();
-    }
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
@@ -694,7 +692,7 @@ public final class Main {
     if(comp instanceof JSplitPane) {
       bean.setDividerLocation(((JSplitPane)comp).getDividerLocation());
     } else {
-      MainWindowStateBean old = 
+      MainWindowStateBean old =
         localStorage.loadProperty("gui.state", MainWindowStateBean.class);
       bean.setDividerLocation(old.getDividerLocation());
     }
