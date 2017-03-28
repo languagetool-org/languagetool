@@ -77,7 +77,7 @@ public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public boolean isCaseSensitive() {
-    return true;
+    return false;
   }
 
   @Override
