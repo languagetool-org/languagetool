@@ -14,7 +14,7 @@ then
 fi
 
 REPO=${HOME}/.m2/repository
-LT_VERSION=3.7-SNAPSHOT
+LT_VERSION=3.8-SNAPSHOT
 # get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
 # this is optional, remove "-freq $FREQ_FILE" below for not using frequencies:
 FREQ_FILE=/lt/de_wordlist.xml
