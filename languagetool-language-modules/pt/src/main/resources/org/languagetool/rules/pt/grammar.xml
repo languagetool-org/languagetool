@@ -117,7 +117,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
-            <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
+            <exception regexp='yes'>e|ser|são|termo|nome|reino</exception></token>
           <token min='0' postag='A..CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
           <token postag='(N.|A..)F.+' postag_regexp='yes'>
@@ -202,12 +202,16 @@ title="Easy editing stylesheet" ?>
       <example type='correct'><marker>Algumas frases</marker> tem erros gramaticais.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>zonas?</token>
+          <token>euro</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
-            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
+            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade|rua|ilha|lei|copa</exception></token>
           <token min='0' postag='A..CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
           <token postag='(N.|A..)M.+' postag_regexp='yes'>
@@ -248,7 +252,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FP.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
-            <exception regexp='yes'>e|mas|palavras|letras</exception></token>
+            <exception regexp='yes'>e|mas|palavras|letras|ruas|ilhas</exception></token>
           <token min='0' postag='A..CP.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CP.+'/></token>
           <token postag='(N.|A..)M.+' postag_regexp='yes'>
