@@ -202,6 +202,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rulegroup id="ne_proronila_ni" name="Опечатка «не проронила и слово»">
+         <!-- TODO: add postag for verb - переходный глагол-->   
+          <rule>
+              <pattern>
+		<token>не</token>
+                <token regexp="yes">проронил|проронила</token>
+                <token>и</token>
+                <token postag_regexp="yes" postag="NN:.*:.*:Sin:V"><exception postag_regexp="yes" postag="NN:.*:.*:Sin:R"></exception></token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1" /> <match no="2" /> ни <match no="4" postag="NN:(.*):(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="не проронила ни слова">За весь вечер она <marker>не проронила и слово</marker>.</example>
+          </rule>
+        </rulegroup>
         <rule id="zakonchit_школу" name="Опечатка «закончить/окончить»">
             <pattern>
 		<token inflected="yes">закончить</token>
