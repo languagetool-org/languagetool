@@ -24,6 +24,7 @@ import org.languagetool.rules.ar.ArabicCommaWhitespaceRule;
 import org.languagetool.rules.ar.ArabicContractionSpellingRule;
 import org.languagetool.rules.ar.ArabicDoublePunctuationRule;
 import org.languagetool.rules.ar.ArabicLongSentenceRule;
+import org.languagetool.rules.ar.ArabicWordRepeatRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicTagger;
@@ -108,6 +109,7 @@ public class Arabic extends Language {
         new ArabicCommaWhitespaceRule(messages),
         new ArabicDoublePunctuationRule(messages),
         new ArabicLongSentenceRule(messages, 40),
+        new ArabicWordRepeatRule(messages, this),
         new ArabicContractionSpellingRule(messages)
     );
   }
