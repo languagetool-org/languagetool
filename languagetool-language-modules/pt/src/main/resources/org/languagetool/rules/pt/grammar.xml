@@ -68,7 +68,7 @@ title="Easy editing stylesheet" ?>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!-- Unification rules retrieved from galician grammar.xml - START-->
-    <unification feature="number">
+      <unification feature="number">
         <equivalence type="singular">
           <token postag="(N..|[ADP]...|V....)S.+" postag_regexp="yes"/>
         </equivalence>
@@ -76,9 +76,9 @@ title="Easy editing stylesheet" ?>
         <equivalence type="plural">
           <token postag="(N..|[ADP]...|V....)P.+" postag_regexp="yes"/>
         </equivalence>
-    </unification>
+      </unification>
 
-    <unification feature="gender">
+      <unification feature="gender">
         <equivalence type="masc">
           <token postag="(N.|[ADP]..|V.....)[MC].*" postag_regexp="yes"/>
         </equivalence>
@@ -86,9 +86,9 @@ title="Easy editing stylesheet" ?>
         <equivalence type="fem">
           <token postag="(N.|[ADP]..|V.....)[FC].*" postag_regexp="yes"/>
         </equivalence>
-    </unification>
+      </unification>
 
-    <unification feature="person">
+      <unification feature="person">
         <equivalence type="first">
           <token postag="(V...|PP)1.*" postag_regexp="yes"/>
         </equivalence>
@@ -98,7 +98,7 @@ title="Easy editing stylesheet" ?>
         <equivalence type="third">
           <token postag="(V...|PP)3.*" postag_regexp="yes"/>
         </equivalence>
-    </unification>
+      </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
  <category id="GRAMMAR" name="Gramática Geral" type="grammar">
@@ -180,7 +180,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
       <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
-      <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example> 
+    <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example> 
                XXX testrules.sh says this example has no detectable errors but they appear in the Standalone tool. Verify with regression testing -->
     </rule>
     <rule>
@@ -410,8 +410,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-        <token regexp='yes'>tod[oa]</token>
-        <token>ouvidos</token>
+          <token regexp='yes'>tod[oa]</token>
+          <token>ouvidos</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|de|-</token>
@@ -854,7 +854,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>As ênclises terminadas em m, ão ou õe exigem alteração do pronome.</message>
         <suggestion>\1-n\3</suggestion>
-        <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
       <example correction='tinham-no'>Muitos <marker>tinham-o</marker>  como um bom amigo.</example>
       <example>Eu tinha-o como um bom amigo.</example>
     </rule>
@@ -868,7 +868,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
         <suggestion><match no='1' regexp_match='(.*)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
-        <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
       <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
       <example>Ele teve-a como perdida.</example>
     </rule>
@@ -927,12 +927,12 @@ title="Easy editing stylesheet" ?>
     <!-- Loosely based on CoGrOO rule -->
       <pattern>
           <token inflected='yes'>preferir</token>
-         <marker>
+        <marker>
           <token postag_regexp='yes' postag='N.+'/>
           <token regexp='yes'>d[eo]</token>
           <token>que</token>
           <token postag_regexp='yes' postag='N.+'/>
-         </marker>
+        </marker>
       </pattern>
       <message>Comparação de preferências utiliza a preposição "a".</message>
         <suggestion>\2 a \5</suggestion>
@@ -1045,7 +1045,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
-      <!--       Created by Tiago F. Santos, 2017-01-27 -->
+    <!--       Created by Tiago F. Santos, 2017-01-27 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <short>Erro de colocação pronominal.</short>
     <rule>
@@ -3165,12 +3165,12 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- NAME/NOUN+ESTA+PREPOSITION name/noun+está+preposition -->
     <rule>
       <pattern>
-		<token regexp="yes">o|a|um|uma</token>
-		<token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
+          <token regexp="yes">o|a|um|uma</token>
+          <token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
         <marker>
           <token>esta</token>
         </marker>
-		<token postag="SPS00"></token>
+          <token postag="SPS00"></token>
       </pattern>
       <message>Substitua por <suggestion>está</suggestion>.</message>
       <example correction="está">O Rui <marker>esta</marker> de saída.</example>
@@ -6635,7 +6635,7 @@ and tokenizer spreadsheet from the forum        -->
       <example correction="etc.">Pode comer francezinhas, feijoada, quiche, <marker>etc..</marker></example>
     </rule>
     <rule>
-      <!-- Localized from German grammar.xml -->
+    <!-- Localized from German grammar.xml -->
         <regexp>e\. ?t\. ?c\.</regexp>
       <message>Pretende dizer <suggestion>etc.</suggestion> (lat. et cetera)?</message>
       <example correction="etc.">Pode comer francezinhas, feijoada, quiche, <marker>e. t. c.</marker></example>
@@ -7022,10 +7022,10 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     <!-- BEBÉ(S) RECÉM-NASCIDO(S)  recém-nascido(s) -->
     <rule id="BEBÉ-S_RECÉM-NASCIDO-S" name="recém-nascido(s)">
       <pattern>
-	    <token regexp='yes'>bebés?</token>
-            <token>recém</token>
-	    <token>-</token>
-	    <token regexp='yes'>nascidos?|nascidas?</token>
+          <token regexp='yes'>bebés?</token>
+          <token>recém</token>
+          <token>-</token>
+          <token regexp='yes'>nascidos?|nascidas?</token>
       </pattern>
       <message>Substitua por <suggestion>\2\3\4</suggestion>.</message>
       <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
@@ -14574,7 +14574,7 @@ TODO Write better examples
       <example>Faz 25°.</example>
       <example>...o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E...</example>
       <example>...que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a...</example>
-      <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
+    <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
     </rule>
 
     <rule id="PLURAL_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
@@ -14601,7 +14601,7 @@ TODO Write better examples
       <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
     </rule>
 
-        <rulegroup id="DEGREE_MINUTES_SECONDS" name="Tipografia de graus, minutos e segundos: 50°45′ 20″">
+  <rulegroup id="DEGREE_MINUTES_SECONDS" name="Tipografia de graus, minutos e segundos: 50°45′ 20″">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule>
       <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*["'′`]\s*([\d., ]*\d)\s*["'′`]</regexp>
@@ -15749,16 +15749,16 @@ TODO Write better examples
  <category id="NON_FORMAL_SPEECH" name="Discurso Não Formal" type="style">
 
   <rulegroup id="MONTES_DE" name="Linguagem Informal: 'montes de'">
-    <short>Linguagem informal.</short>
+      <short>Linguagem informal.</short>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
     <rule>
       <pattern>
-		<token postag_regexp='yes' postag="V.+"></token>
-		<marker>
+          <token postag_regexp='yes' postag="V.+"></token>
+        <marker>
           <token>montes</token>
           <token>de</token>
-		</marker>  
-		<token postag_regexp='yes' postag="N.MS.+"></token>
+        </marker>  
+          <token postag_regexp='yes' postag="N.MS.+"></token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imenso</suggestion>
@@ -15766,12 +15766,12 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-		<token postag_regexp='yes' postag="V.+"></token>
-		<marker>
+          <token postag_regexp='yes' postag="V.+"></token>
+        <marker>
           <token>montes</token>
           <token>de</token>
-		</marker>  
-		<token postag_regexp='yes' postag="N.MP.+"></token>
+        </marker>  
+          <token postag_regexp='yes' postag="N.MP.+"></token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imensos</suggestion>
@@ -15779,11 +15779,11 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-		<token postag_regexp='yes' postag="V.+"></token>
-		<marker>
+          <token postag_regexp='yes' postag="V.+"></token>
+        <marker>
           <token>montes</token>
           <token>de</token>
-		</marker>  
+        </marker>  
           <token postag_regexp='yes' postag="N.FS.+"></token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
@@ -15792,11 +15792,11 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-	  <token postag_regexp='yes' postag="V.+"></token>
-	<marker>
+          <token postag_regexp='yes' postag="V.+"></token>
+        <marker>
           <token>montes</token>
           <token>de</token>
-	</marker>  
+        </marker>  
           <token postag_regexp='yes' postag="N.FP.+"></token>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
@@ -15979,7 +15979,7 @@ TODO Write better examples
           <token regexp='yes'>\d+</token>
         </marker>
       </antipattern>
-      <!--<antipattern>  mês d'un punto 
+    <!--<antipattern>  mês d'un punto 
         <marker>
           <token regexp="yes">\d+</token>
           <token>.</token>
@@ -15996,7 +15996,7 @@ TODO Write better examples
           <token spacebefore="no" regexp="yes">[.:)]</token>
         </marker>
       </antipattern>
-      <!--<antipattern>  horas 
+    <!--<antipattern>  horas 
         <marker>
           <token regexp="yes">([01]?[0-9]|2[0-4])</token>
           <token>.</token>
@@ -16012,7 +16012,7 @@ TODO Write better examples
           <token regexp="yes">&partes_do_dia;</token>
         </marker>
       </antipattern>-->
-      <!--
+    <!--
       <antipattern>
         <marker>
           <token>les</token>
@@ -16062,7 +16062,7 @@ TODO Write better examples
           <token regexp='yes'>\d+</token>
         </marker>
       </antipattern>
-      <!--<antipattern>   Livros da Bíblia 
+    <!--<antipattern>   Livros da Bíblia 
         <marker>
           <token postag="_abrev_biblia"/>
           <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
@@ -16087,9 +16087,9 @@ TODO Write better examples
       <example>1.231</example>
       <example>1.231.437</example>
       <example>As tabelas 5.7 e 5.8.</example>
-      <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
+    <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
       <example>1.0. Introdução.</example>
-      <!--<example>Às 5.40 da madrugada.</example>
+    <!--<example>Às 5.40 da madrugada.</example>
       <example>E subiram às 17.40 h.</example>
       <example>E subiram às 17.40h.</example>-->
       <example>Os art. 5.4 e 5.6.</example>
@@ -16097,7 +16097,7 @@ TODO Write better examples
       <example>A versão 2.4 é a mais recente.</example>
       <example>O Apache 2.4 é assim.</example>
       <example>Na web 2.0 é assim.</example>
-      <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
+    <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
       <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
       <example>Esse número diminuiu para 300.000 em 1939.</example>
       <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena...</example>
