@@ -43,7 +43,7 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("خطوة", tokens, position) && posIsIn(tokens, position - 2, "PRP")) {
+    if (wordRepetitionOf("خطوة", tokens, position) /*&& posIsIn(tokens, position - 2, "PRP")*/) {
       return true;   // "نفذت التعليمات خطوة خطوة."
     }
 

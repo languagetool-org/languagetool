@@ -62,7 +62,8 @@ public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getShort() {
-    return "Spelling mistake";
+	  //TODO : change to messages.getString
+    return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a";
   }
 
   @Override
@@ -72,7 +73,7 @@ public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Possible spelling mistake found";
+	  return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a \u0645\u062d\u062a\u0645\u0644";
   }
 
   @Override
