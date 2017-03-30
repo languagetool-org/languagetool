@@ -2737,17 +2737,6 @@ title="Easy editing stylesheet" ?>
       <example correction="assuntos para">Temos vários <marker>assuntos a</marker> esclarecer.</example>
     </rule>
 
-    <!-- ATAQUES EM MASSA ataques em grande escala -->
-    <rule id="ATAQUES_EM_MASSA" name="Ataques em grande escala">
-      <pattern>
-          <token regexp='yes'>ataques?</token>
-          <token>em</token>
-          <token>massa</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 em grande escala</suggestion>.</message>
-      <example correction="ataques em grande escala">As botnets fazem <marker>ataques em massa</marker>.</example>
-    </rule>
-
     <!-- ATÉ MANHÃ até amanhã -->
     <rule id="ATÉ_MANHÃ" name="Até amanhã">
       <pattern>
@@ -3283,17 +3272,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       </pattern>
       <message>Substitua por <suggestion>\1 inovadora<match no='1' regexp_match='(forma)(s?)' regexp_replace='$2'/></suggestion>.</message>
       <example correction="formas inovadoras">Tudo são <marker>formas inovadores</marker>.</example>
-    </rule>
-
-    <!-- FURTO DE IDENTIDADE usurpação de identidade -->
-    <rule id="FURTO_DE_IDENTIDADE" name="Usurpação de identidade">
-      <pattern>
-          <token>furto</token>
-          <token>de</token>
-          <token regexp='yes'>identidades?</token>
-      </pattern>
-      <message>Substitua por <suggestion>usurpação de \3</suggestion>.</message>
-      <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
     </rule>
 
     <!-- GUARDAS-CHUVAS guarda-chuvas -->
@@ -15941,6 +15919,17 @@ TODO Write better examples
 
   <category id="TRANSLATION_ERRORS" name="Erros de tradução" type="mistranslation">
 
+    <!-- ATAQUES EM MASSA ataques em grande escala -->
+    <rule id="ATAQUES_EM_MASSA" name="Ataques em grande escala">
+      <pattern>
+          <token regexp='yes'>ataques?</token>
+          <token>em</token>
+          <token>massa</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 em grande escala</suggestion>.</message>
+      <example correction="ataques em grande escala">As botnets fazem <marker>ataques em massa</marker>.</example>
+    </rule>  
+  
   <rulegroup id="DECIMAL_COMMA" name="Utilização de vírgula como separador de decimais" default="on">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
     <!-- TODO Tokenizer improvements to fully activate rule -->
@@ -16130,6 +16119,17 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <!-- FURTO DE IDENTIDADE usurpação de identidade -->
+    <rule id="FURTO_DE_IDENTIDADE" name="Usurpação de identidade">
+      <pattern>
+          <token>furto</token>
+          <token>de</token>
+          <token regexp='yes'>identidades?</token>
+      </pattern>
+      <message>Substitua por <suggestion>usurpação de \3</suggestion>.</message>
+      <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
+    </rule>  
+  
     <rule id="OPENING_INTERROGATION" name="Sinal de interrogação inicial" default="on">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
@@ -16191,7 +16191,29 @@ TODO Write better examples
     </rule>	
 	
   </rulegroup>
-  	
+
+  <rulegroup id="PEQUENO_INTESTINO" name="Erro de tradução: 'intestino delgado'">
+    <short>Erro de tradução.</short>
+    <rule>
+      <pattern>
+          <token>pequeno</token>
+          <token>intestino</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>intestino delgado</suggestion>
+      <example correction="intestino delgado">O <marker>pequeno intestino</marker> é um órgão importante.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>intestino</token>
+          <token>pequeno</token>		  
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>intestino delgado</suggestion>
+      <example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
+    </rule>	
+	
+  </rulegroup>  
 	
   </category>
 
