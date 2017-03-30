@@ -11864,7 +11864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
-                <example correction="Sie">Bitte führen <marker>sie</marker> die Bestellung so aus</example>
+                <example correction="Sie">Bitte führen <marker>sie</marker> die Bestellung so aus.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -11875,7 +11875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>bitte</token>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
-                <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus</example>
+                <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
                 <!--TODO: not detected as verb
                 <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>-->
             </rule>
@@ -15591,11 +15591,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>treue</token>
                     </marker>
-                    <token inflected="yes">schwören</token>
+                    <token regexp="yes" inflected="yes">schwören|halten|versprechen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Treue</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Treue">Ihr habt mir die <marker>treue</marker> geschworen.</example>
+                <example correction="Treue">Ich habe dir immer die <marker>treue</marker> gehalten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MIT_ALLEN_WASSERN" name="'mit allen wassern (Wassern) gewaschen'">
+            <rule>
+                <pattern>
+                    <token>allen</token>
+                    <marker>
+                        <token case_sensitive="yes">wassern</token>
+                    </marker>
+                    <token regexp="yes">gewaschen(e[mnrs]?)?</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wassern</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Wassern">Dieser Schuft ist mit allen <marker>wassern</marker> gewaschen!</example>
+                <example>Wegen eines Triebwerksschadens mussten wir auf offener See wassern.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUS_DEN_LATSCHEN" name="'aus den latschen (Latschen) kippen'">
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <token>den</token>
+                    <marker>
+                        <token case_sensitive="yes">latschen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Latschen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Latschen">Ich kippe hier noch aus den <marker>latschen</marker>!</example>
+                <example>Das hier ist ein Gefangenenlager, aus dem <marker>latschen</marker> wir nicht einfach so raus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUELLEN_ANGEBEN" name="'quellen (Quellen) angeben'">
