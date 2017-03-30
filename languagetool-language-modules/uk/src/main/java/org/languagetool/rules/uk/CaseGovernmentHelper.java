@@ -25,7 +25,7 @@ public class CaseGovernmentHelper {
         String line = scanner.nextLine();
         String[] parts = line.split(" ");
         String[] vidm = parts[1].split(":");
-        result.put(parts[0], new HashSet<String>(Arrays.asList(vidm)));
+        result.put(parts[0], new HashSet<>(Arrays.asList(vidm)));
       }
       //        System.err.println("Found case governments: " + result.size());
       return result;

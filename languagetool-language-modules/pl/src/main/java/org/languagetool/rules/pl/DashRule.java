@@ -92,7 +92,7 @@ public class DashRule extends Rule {
           line = removeLastCharacter(line);
         }
 
-        List<PatternToken> tokList = new ArrayList<PatternToken>();
+        List<PatternToken> tokList = new ArrayList<>();
         String[] tokens = line.split("-");
         int tokenCounter = 0;
         for (String token : tokens) {
