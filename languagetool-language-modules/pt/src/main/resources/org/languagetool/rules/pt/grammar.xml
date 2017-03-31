@@ -1895,7 +1895,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
         <marker>
-          <token postag_regexp='yes' postag="N.FP.+"></token>
+          <token postag_regexp='yes' postag="NCFP.+"></token>
         </marker>
           <token postag_regexp='yes' postag="V...3S.+"></token>
       </pattern>
@@ -1906,7 +1906,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>as</token>
         <marker>
-          <token postag_regexp='yes' postag="N.FS.+"></token>
+          <token postag_regexp='yes' postag="NCFS.+"></token>
         </marker>
           <token postag_regexp='yes' postag="V...3P.+"></token>
       </pattern>
@@ -1917,7 +1917,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>o</token>
         <marker>
-          <token postag_regexp='yes' postag="N.MP.+"></token>
+          <token postag_regexp='yes' postag="NCMP.+"></token>
         </marker>
           <token postag_regexp='yes' postag="V...3S."></token>
       </pattern>
@@ -1928,7 +1928,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>os</token>
         <marker>
-          <token postag_regexp='yes' postag="N.MS.+"></token>
+          <token postag_regexp='yes' postag="NCMS.+"></token>
         </marker>
           <token postag_regexp='yes' postag="V...3P."></token>
       </pattern>
@@ -1943,11 +1943,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
           <token>gente</token>
-        <marker>
           <token postag_regexp='yes' postag="V...1P.+"></token>
-        </marker>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="3" postag_regexp= "yes" postag="VMIP1P0" postag_replace="VMIP3S0"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion>\1 \2 <match no="3" postag_regexp= "yes" postag="(V...)1P(.+)" postag_replace="$13S$2"/></suggestion></message>
       <short>Erro de concordância de número</short>
       <example correction="vai">A gente <marker>vamos</marker> à praia.</example>
     </rule>
@@ -3130,7 +3128,8 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
           <token>a</token>
         <marker>
           <token postag_regexp='yes' postag="V.+">
-            <exception postag="VMN0000"/></token>
+            <exception postag="VMN0000"/>
+            <exception>salvo</exception></token>
         </marker>
       </pattern>
       <message>Usar infinitivo: <suggestion><match no="3" postag_regexp= "yes" postag="V.+" postag_replace="VMN0000"/></suggestion></message>
