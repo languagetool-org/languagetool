@@ -1893,7 +1893,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>é</token>
         </marker>
-          <token postag_regexp="yes"  postag="AQ0CP0|AQ0MP0|AQ0FP0|VMII2P0"></token>
+          <token postag_regexp="yes" postag="A...P.+"></token>
       </pattern>
       <message>Erro de concordância de número.</message>
         <suggestion>são</suggestion>
@@ -1907,10 +1907,10 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>quem</token>
         <marker>
-          <token postag="VMIS3P0"></token>
+          <token postag="V...3P.+"></token>
         </marker>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="VMIS3P0" postag_replace="VMIS3S0"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag=""(V...3)P(.+)"" postag_replace="$1S$2"/></suggestion></message>
  FIXME This example is correct
       <example correction="fez|fê">Foram eles quem <marker>fizeram</marker> os trabalhos.</example>
     </rule>
@@ -1924,44 +1924,44 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
         <marker>
-          <token postag="NCFP000"></token>
+          <token postag_regexp='yes' postag="N.FP.+"></token>
         </marker>
-          <token postag="VMIP3S0"></token>
+          <token postag_regexp='yes' postag="V...3S.+"></token>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCFP000" postag_replace="NCFS000"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)FP(.+)" postag_replace="$1FS$2"/></suggestion></message>
       <example correction="vaca">A <marker>vacas</marker> está no pasto.</example>
     </rule>
     <rule>
       <pattern>
           <token>as</token>
         <marker>
-          <token postag="NCFS000"></token>
+          <token postag_regexp='yes' postag="N.FS.+"></token>
         </marker>
-          <token postag="VMIP3P0"></token>
+          <token postag_regexp='yes' postag="V...3P.+"></token>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCFS000" postag_replace="NCFP000"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)FS(.+)" postag_replace="$1FP$2"/></suggestion></message>
       <example correction="vacas">As <marker>vaca</marker> estão no pasto.</example>
     </rule>
     <rule>
       <pattern>
           <token>o</token>
         <marker>
-          <token postag="NCMP000"></token>
+          <token postag_regexp='yes' postag="N.MP.+"></token>
         </marker>
-          <token postag="VMIP3S0"></token>
+          <token postag_regexp='yes' postag="V...3S."></token>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCMP000" postag_replace="NCMS000"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)MP(.+)" postag_replace="$1MS$2"/></suggestion></message>
       <example correction="boi">O <marker>bois</marker> está no pasto.</example>
     </rule>
     <rule>
       <pattern>
           <token>os</token>
         <marker>
-          <token postag="NCMS000"></token>
+          <token postag_regexp='yes' postag="N.MS.+"></token>
         </marker>
-          <token postag="VMIP3P0"></token>
+          <token postag_regexp='yes' postag="V...3P."></token>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="NCMS000" postag_replace="NCMP000"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)MS(.+)" postag_replace="$1MP$2"/></suggestion></message>
       <example correction="bois">Os <marker>boi</marker> estão no pasto.</example>
     </rule>
   </rulegroup>
@@ -1973,7 +1973,7 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token>gente</token>
         <marker>
-          <token postag="VMIP1P0"></token>
+          <token postag_regexp='yes' postag="V...1P.+"></token>
         </marker>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="3" postag_regexp= "yes" postag="VMIP1P0" postag_replace="VMIP3S0"/></suggestion></message>
@@ -1990,7 +1990,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>-|–|—</token>
           <token>se</token>
         </marker>
-          <token postag_regexp="yes"  postag="NCFP000|NCMP000|AQ0FP0|AQ0MP0"></token>
+          <token postag_regexp="yes"  postag="(N..|A...)P.+"></token>
       </pattern>
       <message>Erro de concordância de número.</message>
         <suggestion>procuram-se</suggestion>
@@ -2154,7 +2154,7 @@ title="Easy editing stylesheet" ?>
     <!-- DE PRESSA - depressa -->
     <rule id="DE_PRESSA" name="Confusão: de pressa - depressa">
       <pattern>
-          <token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
+          <token postag_regexp="yes" postag="(N..|A...)S.+"></token>
         <marker>
           <token>de</token>
           <token>pressa</token>
@@ -2167,7 +2167,7 @@ title="Easy editing stylesheet" ?>
     <!-- DE VAGAR - devagar -->
     <rule id="DE_VAGAR" name="Confusão: de vagar - devagar">
       <pattern>
-          <token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
+          <token postag_regexp="yes" postag="(N..|A...)S.+"></token>
         <marker>
           <token>de</token>
           <token>vagar</token>
@@ -2226,21 +2226,6 @@ title="Easy editing stylesheet" ?>
       <message>Erro de género. Usar: <suggestion>o</suggestion>.</message>
       <example correction="o">Temos de curar <marker>a</marker> herpes.</example>
     </rule>
-
-    <!-- TODO Review coverage by General Concordance Rules -->
-    <!-- FIXME Conjugês is incorrect			-->
-    <!-- DET_FEM_MAS words that use "os" instead of "as"
-    <rule id="DET_FEM_MAS_AS_OS" name="Palavras as-os">
-      <pattern case_sensitive="no">
-        <marker>
-          <token>as</token>
-        </marker>
-          <token regexp="yes">mármores|cônjuges|espécimes|braceletes</token>
-      </pattern>
-      <message>Erro de género. Usar: <suggestion>os</suggestion>.</message>
-      <example correction="os">Temos de estudar <marker>as</marker> espécimes.</example>
-    </rule>
--->
 
   <rulegroup id="DET_MAS_FEM_O_A" name="Erros de concordância de género específicos">
       <short>Erro de concordância de género</short>
@@ -3170,13 +3155,14 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
     <rule id="ESTAR-ESTÃO_A_PLURAL" name="Usar infinitivo ESTAR/ESTÃO + A + INFINITIVO">
       <pattern>
-          <token regexp="yes">estar|estão</token>
+          <token inflected="yes">estar</token>
           <token>a</token>
         <marker>
-          <token postag="VMSF3P0"></token>
+          <token postag_regexp='yes' postag="V.+">
+            <exception postag="VMN0000"/></token>
         </marker>
       </pattern>
-      <message>Usar infinitivo: <suggestion><match no="3" postag_regexp= "yes" postag="VMSF3P0" postag_replace="VMN0000"/></suggestion></message>
+      <message>Usar infinitivo: <suggestion><match no="3" postag_regexp= "yes" postag="V.+" postag_replace="VMN0000"/></suggestion></message>
       <example correction="pedir">Alguns carteiros estão a <marker>pedirem</marker> a reforma.</example>
     </rule>
 
