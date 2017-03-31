@@ -9890,6 +9890,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="SIGUI_SENT" name="*sigui sent/continuï sent">
+            <pattern>
+                <token regexp="yes">sigui|siga<exception scope="previous" regexp="yes">bé|ja</exception></token>
+                <token regexp="yes">sent|essent</token>
+            </pattern>
+            <message>Possible error de traducció automàtica</message>
+            <suggestion>\1 encara</suggestion>
+            <suggestion><match no="1" postag="VS(.*)" postag_regexp="yes" postag_replace="VM$1">continuar</match> \2</suggestion>
+            <suggestion><match no="1" postag="VS(.*)" postag_regexp="yes" postag_replace="VM$1">seguir</match> \2</suggestion>
+            <example correction="sigui encara|continuï essent|segueixi essent">Vull que <marker>sigui essent</marker> així.</example>
+            <example correction="siga encara|continue sent|seguesca sent|seguisca sent">Vull que <marker>siga sent</marker> així.</example>
+        </rule>
         <rule id="PROJECTO" name="projecto/projecte">
             <pattern>
                  <marker>
