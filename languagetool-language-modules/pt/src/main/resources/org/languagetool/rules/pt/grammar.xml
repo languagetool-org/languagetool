@@ -962,7 +962,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Neste contexto o verbo "habituar" rege-se com a preposição "a".</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/><match no='3' include_skipped='all'/><match no='4' include_skipped='all'/> a</suggestion>
-      <short>Erro de regência verbal.</short>
       <example correction='habituar-te a'>Conseguiste <marker>habituar-te com</marker> o clima?</example>
     </rule>
     <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em ()'>
@@ -971,7 +970,7 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes'>acarretar</token>
           <token regexp='yes'>em|n[ao]s?</token>
       </pattern>
-      <message>Erro de regêngia verbal.</message>
+      <message>Este verbo não se rege com a proposição "em".</message>
         <suggestion>\1</suggestion>
       <example correction='acarretaram'>Estas derrapagens no orçamento <marker>acarretaram nos</marker> valores irrazoáveis que foram apresentados.</example>
     </rule>
@@ -991,7 +990,7 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes' regexp='yes'>evitar|usufruir</token>
           <token regexp='yes'>d[eao]s?</token>
       </pattern>
-      <message>Erro de regêngia verbal.</message>
+      <message>Este verbo não se rege com a proposição "de".</message>
         <suggestion>\1</suggestion>
     <!-- <Example>
       <Incorrect>Nós evitaremos de falar em dinheiro.</example>
@@ -1007,7 +1006,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token regexp='yes'>\d+</token>
       </pattern>
-      <message>Erro de regêngia verbal.</message>
+      <message>Este verbo não se rege com a proposição "em".</message>
         <suggestion>\1 por</suggestion>
       <example correction='empatou por'>A equipa <marker>empatou em</marker> 1 a 1.</example>
     </rule>
@@ -1296,7 +1295,7 @@ title="Easy editing stylesheet" ?>
           <token>à</token>
           <token><match no='0'/></token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\1 a \3</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction="dia a dia">Foi preciso conformar com a rotina do <marker>dia à dia</marker>.</example>
@@ -1310,7 +1309,7 @@ title="Easy editing stylesheet" ?>
           <token postag='Z.+' postag_regexp='yes'/>
         </marker>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\2 a \4</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction="10 a 30">Consiga descontos de <marker>10 à 30</marker> por cento nos saldos desta semana.</example>
@@ -1323,7 +1322,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag_regexp='yes' postag='N.F.+'/>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='devido à'>Isso é <marker>devido a</marker> presença de estranhos.</example>
@@ -1337,7 +1336,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag_regexp='yes' postag='N.F.+'/>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\1 \2 <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-crase-em-em-relacao-a-disciplina/31029</url>
       <example correction='Em relação à'><marker>Em relação a</marker> falecida, estamos a averiguar a situação.</example>
@@ -1396,7 +1395,7 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='Z.+|C.' max='3'/>
           <token regexp='yes'>horas?</token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='Chego às vinte e uma horas'><marker>Chego as vinte e uma horas</marker>.</example>
@@ -1407,7 +1406,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>direita|esquerda</token>
           <token regexp='yes'>[dn][eao]s?</token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>à \2 \3</suggestion>
       <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
       <example>Os autocarros estacionaram à esquerda do pátio.</example>
@@ -1420,7 +1419,7 @@ title="Easy editing stylesheet" ?>
           <token>à</token>
           <token case_sensitive='no' regexp='yes'>(&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> a \5</suggestion>
       <example correction='segunda-feira a sexta'>A semana de trabalho é de <marker>segunda-feira à sexta</marker>-feira.</example>
       <example correction='Junho a Setembro'>Os melhores meses para ir de férias é de <marker>Junho à Setembro</marker>.</example>
@@ -1431,7 +1430,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>às?</token>
           <token regexp='yes'>mim|ti|si|ele|ela|eles|elas|nós|vós|vos</token>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>a \2</suggestion>
       <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
       <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
@@ -1459,7 +1458,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag_regexp='yes' postag='(N.|A..)F.+'/>
       </pattern>
-      <message>Erro de crase.</message>
+      <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>\1-se <match no='4' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <example correction='candidatou-se à'>Ele <marker>candidatou-se a</marker> posição de gestor.</example>
     </rule>
@@ -1495,35 +1494,6 @@ title="Easy editing stylesheet" ?>
       <example correction='mim, estudar|eu estudar'>Para <marker>mim estudar</marker> é um sacrifício.</example>
       <example>Para mim, estudar é um sacrifício.</example>
     </rule>
-
-    <!-- FIXME While containing rule regressed. Comment out until I have time to fix
-    <rule id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08
-      <antipattern>
-          <token>a</token>
-          <token postag='D.+' postag_regexp='yes'/>
-      </antipattern>
-      <pattern>
-          <token postag='D.+' postag_regexp='yes'/>
-          <token inflected='yes' ><match no='1' postag='D.+' postag_regexp='yes'/></token> --><!-- Restrict to only inflected equivalents TODO Improve
-      </pattern>
-      <message>Possível fragmento.</message>
-        <suggestion>\1</suggestion>
-        <suggestion>\2</suggestion>
-      <example correction='o|um'>Foi <marker>o um</marker> erro de digitação.</example>
-      <example correction='As|A'><marker>As a</marker> resposta está incorreta.</example>
-      <example correction='Os|O'><marker>Os o</marker> lugar que se visita.</example>
--->
-
-    <!--<example correction='Toda|Todo'><marker>Toda todo</marker> lugar que se visita.</example>
-      <example><marker>A uns</marker> dão prioridade, a outros, ignoram.</example>
-      <example>Leve <marker>a sua</marker> irmã no carro.</example>
-      <example>Em todos os comprimentos de onda.</example>
-      <example>Há um pouco de verdade no que ele está dizendo.</example>
-      <example>Nem todos os professores se comportam assim.</example>
-      <example>A algumas.</example>
-    </rule>
--->
 
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
@@ -4155,66 +4125,31 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
     <!-- XEQUE AVULSO CARECA CRUZADO VISADO cheque avulso careca cruzado visado -->
     <rule>
       <pattern case_sensitive="no">
-        <marker>
-          <token>xeque</token>
-        </marker>
-          <token regexp="yes">avulso|careca|cruzado|visado</token>
+          <token regexp="yes">xeques?</token>
+          <token regexp="yes">(avulso|careca|cruzado|visado)s?</token>
       </pattern>
-      <message>Substitua por <suggestion>cheque</suggestion>.</message>
+      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> cruzado.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-        <marker>
-          <token>xeques</token>
-        </marker>
-          <token regexp="yes">avulso|carecas|cruzados|visados</token>
-      </pattern>
-      <message>Substitua por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> visados.</example>
     </rule>
     <rule>
       <pattern case_sensitive="no">
-        <marker>
-          <token>xeque</token>
-        </marker>
+          <token regexp="yes">xeques?</token>
           <token>sem</token>
           <token>cobertura</token>
       </pattern>
-      <message>Substitua por <suggestion>cheque</suggestion>.</message>
+      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> sem cobertura.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-        <marker>
-          <token>xeques</token>
-        </marker>
-          <token>sem</token>
-          <token>cobertura</token>
-      </pattern>
-      <message>Substitua por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> sem cobertura.</example>
     </rule>
     <rule>
       <pattern case_sensitive="no">
-        <marker>
-          <token>xeque</token>
-        </marker>
+          <token regexp="yes">xeques?</token>
           <token>em</token>
           <token>branco</token>
       </pattern>
-      <message>Substitua por <suggestion>cheque</suggestion>.</message>
+      <message>Substitua por <suggestion>><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
       <example correction="cheque">É um <marker>xeque</marker> em branco.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-        <marker>
-          <token>xeques</token>
-        </marker>
-          <token>em</token>
-          <token>branco</token>
-      </pattern>
-      <message>Substitua por <suggestion>cheques</suggestion>.</message>
       <example correction="cheques">São <marker>xeques</marker> em branco.</example>
     </rule>
   </rulegroup>
@@ -14189,7 +14124,7 @@ TODO Write better examples
   <rulegroup id="GENERAL_NUMBER_FORMAT" name="Formatação de números e anos: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
-      <short>Error ortotipográfico</short>
+      <short>Erro tipográfico</short>
     <rule>
       <antipattern>
           <token spacebefore='no'>,</token>
