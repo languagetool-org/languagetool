@@ -86,6 +86,9 @@ public class HTTPServerConfig {
    */
   HTTPServerConfig(String[] args) {
     for (int i = 0; i < args.length; i++) {
+      if (args[i].matches("--[a-zA-Z]+=.+")) {
+        System.err.println("WARNING: use `--option value`, not `--option=value`, parameters will be ignored otherwise: " + args[i]);
+      }
       switch (args[i]) {
         case "--config":
           parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
