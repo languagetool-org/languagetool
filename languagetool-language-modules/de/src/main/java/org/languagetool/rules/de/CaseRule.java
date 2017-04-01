@@ -937,7 +937,7 @@ public class CaseRule extends Rule {
                                && !prevToken.hasPartialPosTag(":STD");
     boolean isPrecededByVerb = prevToken != null && prevToken.matchesPosTagRegex("VER:(MOD:|AUX:)?[1-3]:.*") && !prevToken.hasLemma("sein");
     if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
-        && !(isPrecededByVerb && lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ:") && nextReadings != null &&
+        && !(isPrecededByVerb && lowercaseReadings != null && hasPartialTag(lowercaseReadings, "ADJ:", "PA") && nextReadings != null &&
              !nextReadings.getToken().equals("und") && !nextReadings.getToken().equals("oder") && !nextReadings.getToken().equals(","))
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
