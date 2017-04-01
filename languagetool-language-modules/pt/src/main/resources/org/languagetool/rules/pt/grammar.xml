@@ -1947,7 +1947,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Erro de concordância de número: <suggestion>\1 \2 <match no="3" postag_regexp= "yes" postag="(V...)1P(.+)" postag_replace="$13S$2"/></suggestion></message>
       <short>Erro de concordância de número</short>
-      <example correction="vai">A gente <marker>vamos</marker> à praia.</example>
+      <example correction="A gente vai|A gente vá"><marker>A gente vamos</marker> à praia.</example>
     </rule>
 
     <!-- TODO Use inflections to improve rule. Suggestion inflect='yes'>procurar<	-->
@@ -4117,43 +4117,6 @@ TODO Remove. Integrateg in rulegroup EM_ANEXO_CONFUSION
       <message>Substitua por <suggestion>\1 em branco</suggestion>.</message>
       <example correction="votos em branco">Houve muitos <marker>votos brancos</marker> na eleição.</example>
     </rule>
-
-    <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
-    <!-- ************************************************************* -->
-  <rulegroup id='XEQUE_CHEQUE' name='Confusão Xeque - Cheque'>
-    <!-- XEQUE AVULSO CARECA CRUZADO VISADO cheque avulso careca cruzado visado -->
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token regexp="yes">(avulso|careca|cruzado|visado)s?</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2</suggestion>.</message>
-      <example correction="cheque">É um <marker>xeque</marker> cruzado.</example>
-      <example correction="cheques">São <marker>xeques</marker> visados.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token>sem</token>
-          <token>cobertura</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
-      <example correction="cheque">É um <marker>xeque</marker> sem cobertura.</example>
-      <example correction="cheques">São <marker>xeques</marker> sem cobertura.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token>em</token>
-          <token>branco</token>
-      </pattern>
-      <message>Substitua por <suggestion>><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
-      <example correction="cheque">É um <marker>xeque</marker> em branco.</example>
-      <example correction="cheques">São <marker>xeques</marker> em branco.</example>
-    </rule>
-  </rulegroup>
-    <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
-    <!-- *********************************************************** -->
 
     <!-- TIVER + A + INF-VERB estiver + a + inf-verb-->
     <rule id='TIVER_ESTIVER' name='Confusão ESTIVER - ESTIVER'>
@@ -6887,7 +6850,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
 
   <rulegroup id="MÃE_E_PAI" name="pais">
-    <short>Pleonasmo.</short>
+    <short>Redundância no neutro.</short>
     <rule>
       <pattern>
           <token>a</token>
@@ -6898,7 +6861,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 		  <token>meu</token>
 		  <token>pai</token>
       </pattern>
-      <message>Pleonasmo. Substitua por <suggestion>os meus pais</suggestion>.</message>
+      <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
       <example correction="os meus pais">Quero <marker>a minha mãe e o meu pai</marker>.</example>
     </rule>
     <rule>
@@ -6909,7 +6872,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 		  <token>e</token>
 		  <token>pai</token>
       </pattern>
-      <message>Pleonasmo. Substitua por <suggestion>os meus pais</suggestion>.</message>
+      <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
       <example correction="os meus pais">Quero <marker>a minha mãe e pai</marker>.</example>
     </rule>
     <rule>
@@ -6922,7 +6885,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 		  <token>meu</token>
 		  <token>pai</token>
       </pattern>
-      <message>Pleonasmo. Substitua por <suggestion>aos meus pais</suggestion>.</message>
+      <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
       <example correction="aos meus pais">Obrigado <marker>à minha mãe e ao meu pai</marker>.</example>
     </rule>
     <rule>
@@ -6933,7 +6896,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 		  <token>e</token>
 		  <token>pai</token>
       </pattern>
-      <message>Pleonasmo. Substitua por <suggestion>aos meus pais</suggestion>.</message>
+      <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
       <example correction="aos meus pais">Obrigado <marker>à minha mãe e pai</marker>.</example>
     </rule>	
   </rulegroup>  
@@ -14722,7 +14685,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp="yes">[€\u8371]</token>
-          <token regexp="yes">\d+[\,\.]?(\d+)?</token>
+          <token regexp="yes">\d+([\,\.]\d+)?</token>
       </pattern>
       <message>O símbolos de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
       <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
@@ -15096,6 +15059,43 @@ TODO Write better examples
       <example correction="">Carregue em <marker>http://foobar.com/|foo.html</marker></example>
     </rule>
   </rulegroup>
+
+    <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
+    <!-- ************************************************************* -->
+  <rulegroup id='XEQUE_CHEQUE' name='Confusão Xeque - Cheque'>
+    <!-- Rule by Marco A.G. Pinto -->
+    <rule>
+      <pattern case_sensitive="no">
+          <token regexp="yes">xeques?</token>
+          <token regexp="yes">(avulso|careca|cruzado|visado)s?</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2</suggestion>.</message>
+      <example correction="cheque cruzado">É um <marker>xeque cruzado</marker>.</example>
+      <example correction="cheques visados">São <marker>xeques visados</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="no">
+          <token regexp="yes">xeques?</token>
+          <token>sem</token>
+          <token>cobertura</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
+      <example correction="cheque sem cobertura">É um <marker>xeque sem cobertura</marker>.</example>
+      <example correction="cheques sem cobertura">São <marker>xeques sem cobertura</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="no">
+          <token regexp="yes">xeques?</token>
+          <token>em</token>
+          <token>branco</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
+      <example correction="cheque em branco">É um <marker>xeque em branco</marker>.</example>
+      <example correction="cheques em branco">São <marker>xeques em branco</marker>.</example>
+    </rule>
+  </rulegroup>
+    <!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
+    <!-- *********************************************************** -->
 
     <!--      Semantics rules l18n from Catalan grammar.xml - START-->
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-13 -->
