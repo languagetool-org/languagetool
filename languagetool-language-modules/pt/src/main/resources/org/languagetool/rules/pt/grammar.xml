@@ -15859,17 +15859,18 @@ TODO Write better examples
 
  <category id="TRANSLATION_ERRORS" name="Erros de tradução" type="mistranslation">
 
-     <!-- CAMINHAR CAMINHOS percorrer caminhos -->
+    <!-- CAMINHAR CAMINHOS percorrer caminhos -->
     <rule id="CAMINHAR_CAMINHOS" name="percorrer caminhos">
       <pattern>
-          <token>caminhar</token>
+		<marker>
+          <token inflected='yes'>caminhar</token>
+		</marker>
           <token>caminhos</token>
       </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>percorrer caminhos</suggestion>
-      <example correction="percorrer caminhos">Devemos <marker>caminhar caminhos</marker> descobertos por tentativa e erro.</example>
+	  <message>Substitua por <suggestion><match no='1' postag='V.+'>percorrer</match></suggestion>.</message>
+      <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
     </rule>  
- 
+  
     <!-- ATAQUES EM MASSA ataques em grande escala -->
     <rule id="ATAQUES_EM_MASSA" name="Ataques em grande escala">
       <pattern>
