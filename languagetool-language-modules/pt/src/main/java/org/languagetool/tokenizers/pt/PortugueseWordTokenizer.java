@@ -84,7 +84,7 @@ public class PortugueseWordTokenizer implements Tokenizer {
   public List<String> tokenize(String text) {
     HashMap<String, String> urls = new HashMap<>();
 
-    text = cleanup(text);
+    // text = cleanup(text);
     
     if( text.contains(",") ) {
     	text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
@@ -163,11 +163,11 @@ public class PortugueseWordTokenizer implements Tokenizer {
     return tokenList;
   }
 
-  private static String cleanup(String text) {
-    text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
-    text = text.replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
+  // private static String cleanup(String text) {
+    // text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
+    // text = text.replace('\u2011', '-'); we handle \u2013 in tagger so we can base our rule on it
 
-    return text;
-  }
+    // return text;
+  // } TODO Remove after regression testing
 
 }

@@ -102,6 +102,7 @@ public class CaseRuleTest {
     assertGood("Existieren Außerirdische im Universum?");
     assertGood("Tom vollbringt Außerordentliches.");
     assertGood("Er führt Böses im Schilde.");
+    assertGood("Es gab Überlebende.");
 
     assertBad("Er ist Groß.");
     assertBad("Er sammelt Große und kleine Tassen.");
