@@ -184,6 +184,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das ist die Gegenleistung <marker>bei Übernahmeangeboten</marker> und Pflichtangeboten.</example>
             <example>Sie lagen <marker>bei einigen</marker> 100 Nanosekunden.</example>
         </rule>
+        <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
+            <rule>
+                <pattern>
+                    <token regexp="yes">wo(her)?</token>
+                    <marker>
+                        <token>bis</token>
+                    </marker>
+                    <token>du</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>bist</suggestion>?</message>
+                <example correction='bist'>Wo <marker>bis</marker> du denn?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">wo(her)?</token>
+                    <token>du</token>
+                    <marker>
+                        <token>bis</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>bist</suggestion>?</message>
+                <example correction='bist'>Ich hab gefragt, wo du <marker>bis</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="ET" name="et (er)">
             <pattern>
                 <marker>
