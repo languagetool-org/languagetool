@@ -13188,17 +13188,18 @@ TODO Write better examples
   </rulegroup>
 
     <rule id="ENUMERATION_AND_DASHES" name="Enumerações com travessões: 1.2.-">
-    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
       <pattern>
-          <token regexp="yes">\d[\d.]*</token>
+          <token postag='SENT_START'/>
+          <token regexp="yes">\d+(\.\d+)?</token>
           <token>.</token>
           <token regexp="yes" min="1" max="3">[—–‒-]</token>
       </pattern>
       <message>Os travessões são desnecessários em enumerações.</message>
-        <suggestion>\1.</suggestion>
-      <example correction="1."><marker>1.-</marker> Introducció</example>
-      <example correction="1."><marker>1.--</marker> Introducció</example>
-    <!-- <example correction="1.3."><marker>1.3—</marker> Introducció</example>-->
+        <suggestion>\2.</suggestion>
+      <example correction="1."><marker>1.-</marker> Introdução</example>
+      <example correction="1."><marker>1.--</marker> Introdução</example>
+      <example correction="1.3."><marker>1.3.—</marker> Introdução</example>
       <example>50-30</example>
       <example>...com uma pedra...—, acho que...</example>
     </rule>
@@ -13444,7 +13445,6 @@ TODO Write better examples
       <example correction="»">Disse que “sim<marker>”</marker>.</example>
       <example>«Disse que “sim”».</example>
     </rule>
-    <!-- FIXME Resolve conflict with tokenizer cleanup method 
     <rule>
       <pattern>
           <token skip="-1">‘<exception scope="next">’</exception></token>
@@ -13455,7 +13455,6 @@ TODO Write better examples
       <example correction="«Disse que ‘"><marker>‘Disse que «</marker>sim».’</example>
       <example>«Disse que "sim"».</example>
     </rule>
-    -->
   </rulegroup>
 
     <!--     Typography rules from English grammar.xml      - START-->
@@ -14751,6 +14750,7 @@ TODO Write better examples
   
   <rulegroup id="DECIMAL_COMMA" name="Utilização de vírgula como separador de decimais" default="on">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
       <antipattern>
           <token regexp="yes">\d{3}\.\d{3}</token>
           <token><exception regexp='yes'>\d+</exception></token>
@@ -14827,7 +14827,7 @@ TODO Write better examples
           <token regexp="yes">\d+\.\d+
             <exception regexp="yes">\d{1,2}\.\d{3}</exception></token>
       </pattern>
-      <message>Para separar os decimais, utilize uma vígula.</message>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
       <example correction="9,5"><marker>9.5</marker></example>
       <example correction="9,5">És de <marker>9.5</marker>.</example>
@@ -14854,12 +14854,12 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d{1,3}\.\d{3}</token>
+          <token regexp="yes">\d{2,3}\.\d{3}</token>
       </pattern>
-      <message>Para separar os decimais, utilize uma vígula. Se for um ano, não deve ser separado.</message>
+      <message>Para separar os decimais, utilize uma vírgula. Se é um número inteiro deve ser separado.</message>
         <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1$2'/></suggestion>
-      <example correction="1,231|1231"><marker>1.231</marker></example>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
+      <example correction="11,231|11 231"><marker>11.231</marker></example>
       <example><marker>9.5</marker></example>
       <example>És de <marker>9.5</marker>.</example>
       <example><marker>9349.5</marker></example>
@@ -14868,9 +14868,19 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
+          <token regexp="yes">\d\.\d{3}</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula. Se é um número inteiro não deve ser separado.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1$2'/></suggestion>
+      <example correction="1,231|1231"><marker>1.231</marker></example>
+      <example><marker>19.349</marker></example>
+    </rule>
+    <rule>
+      <pattern>
           <token regexp="yes">\d{1,3},\d{3}\.\d+</token>
       </pattern>
-      <message>Para separar os decimais, utilize uma vígula.</message>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2,$3'/></suggestion>
       <example correction="21 349,56"><marker>21,349.56</marker></example>
     </rule>
@@ -14878,7 +14888,7 @@ TODO Write better examples
       <pattern>
           <token regexp="yes">\d{1,3},\d{3},\d{3}.\d+</token>
       </pattern>
-      <message>Para separar os decimais, utilize uma vígula.</message>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2 $3,$4'/></suggestion>
       <example correction="21 999 349,56"><marker>21,999,349.56</marker></example>
     </rule>
