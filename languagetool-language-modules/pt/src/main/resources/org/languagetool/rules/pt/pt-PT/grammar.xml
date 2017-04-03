@@ -103,7 +103,7 @@ title="Easy editing stylesheet" ?>
     <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
           <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
           <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
@@ -122,12 +122,12 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes'>(algum|nenhum)a?</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&negacoes;</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
@@ -136,7 +136,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
@@ -148,18 +148,18 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
@@ -181,22 +181,22 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes'>(algum|nenhum)a?</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&negacoes;</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>-|–</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
@@ -207,24 +207,24 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
       <message>Palavra composta. Será que quis dizer:</message>
-        <suggestion>\2-<match no='1' case_conversion="alllower"/></suggestion>
+        <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
-      <example correction='dou-te'><marker>Te dou</marker> um laptop.</example>
+      <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
       <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>
@@ -235,7 +235,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
           <token regexp='yes'>&PP_nao_ambiguos;</token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
@@ -457,8 +457,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">um</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>dum</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -474,8 +474,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">uma</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>duma</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -491,8 +491,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">umas</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>dumas</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -508,8 +508,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">uns</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>duns</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -525,8 +525,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes">um</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>num</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -542,8 +542,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes">uma</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>numa</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -559,8 +559,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes">umas</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>numas</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -576,8 +576,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes">uns</token>
         </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
       </pattern>
       <message>Pode também dizer <suggestion>nums</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -605,7 +605,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
         FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
       <antipattern>
@@ -632,7 +632,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
@@ -655,7 +655,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token regexp='yes'>tu|vós</token>
@@ -672,7 +672,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token regexp='yes'>você|vocês</token>
@@ -689,7 +689,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token postag="V.+" postag_regexp='yes'/>
@@ -709,7 +709,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
