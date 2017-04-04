@@ -383,209 +383,57 @@ title="Easy editing stylesheet" ?>
 <category id="CONTRACTIONS" name="Contrações">
 
   <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
-    <!-- DE OUTRA doutra				-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRA' name='De + outra'>
+    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">outra</token>
+          <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
       </pattern>
-      <message>Pode também dizer <suggestion>doutra</suggestion>.</message>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
+      <example correction='doutrem'><marker>de outrem</marker>.</example>
+      <example correction='doutro'><marker>de outro</marker>.</example>
+      <example correction='doutros'><marker>de outros</marker>.</example>
       <example correction='doutra'><marker>de outra</marker>.</example>
-    </rule>
-
-    <!-- DE OUTRAS doutras				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRAS' name='De + outras'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='doutras'><marker>de outras</marker>.</example>
     </rule>
-
-    <!-- DE OUTREM doutrem				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outrem'>
-      <pattern>
+    <rule default='on' id='CONTRACAO_DUM' name='De + um/uns'>
+      <antipattern>
           <token>de</token>
-          <token case_sensitive="yes">outrem</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutrem</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutrem'><marker>de outrem</marker>.</example>
-    </rule>
-
-    <!-- DE OUTRO doutro				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRO' name='De + outro'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutro'><marker>de outro</marker>.</example>
-    </rule>
-
-    <!-- DE OUTROS doutros				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTROS' name='De + outros'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutros'><marker>de outros</marker>.</example>
-    </rule>
-
-    <!-- DE UM dum				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUM' name='De + um'>
-
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
           <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token postag='(V.+)' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode também dizer <suggestion>dum</suggestion>.</message>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
-    </rule>
-
-    <!-- DE UMA duma				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUMA' name='De + uma'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>duma</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
-    </rule>
-
-    <!-- DE UMAS dumas				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUMAS' name='De + umas'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>dumas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
-    </rule>
-
-    <!-- DE UNS duns				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUNS' name='De + uns'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>duns</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='duns'><marker>de uns</marker> rios.</example>
     </rule>
-
-    <!-- EM UM num				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUM' name='Em + um'>
-      <pattern>
-        <marker>
+    <rule default='on' id='CONTRACAO_NUM' name='Em + um/uns'>
+      <antipattern>
           <token>em</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
           <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token postag='(V.+)' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode também dizer <suggestion>num</suggestion>.</message>
+      <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='num'><marker>em um</marker> belo dia.</example>
-    </rule>
-
-    <!-- EM UMA numa				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMA' name='Em + uma'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>numa</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
-    </rule>
-
-    <!-- EM UMAS numas				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMAS' name='Em + umas'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>numas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
+      <example correction='nuns'><marker>em uns</marker> rios.</example>
     </rule>
-
-    <!-- EM UNS nums				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMS' name='Em + uns'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>nums</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='nums'><marker>em uns</marker> rios.</example>
-    </rule>
- 
-</rulegroup>
+  </rulegroup>
 
 </category>
 
