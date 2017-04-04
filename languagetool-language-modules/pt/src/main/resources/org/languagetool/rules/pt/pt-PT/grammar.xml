@@ -220,9 +220,11 @@ title="Easy editing stylesheet" ?>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\2-\1</suggestion>
+      <message>Palavra composta. Será que quis dizer:</message>
+        <suggestion>\2-<match no='1' case_conversion="alllower"/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
+      <example correction='dou-te'><marker>Te dou</marker> um laptop.</example>
       <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>

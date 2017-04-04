@@ -93,7 +93,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
-          if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
+          if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0 && k + 1 < patternTokenMatchers.size()) {
             PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
             boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
                 firstMatchToken, prevSkipNext);

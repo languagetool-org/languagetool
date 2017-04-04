@@ -89,10 +89,6 @@ public abstract class SpellingCheckRule extends Rule {
     return true;
   }
 
-  @Override
-  public void reset() {
-  }
-
   /**
    * Add the given words to the list of words to be ignored during spell check.
    * You might want to use {@link #acceptPhrases(List)} instead, as only that

@@ -52,8 +52,4 @@ public abstract class TextLevelRule extends Rule {
     throw new RuntimeException("Not implemented for a text-level rule");
   }
 
-  @Override
-  public final void reset() {
-    // we have no state like sentence-level rules, so this can be final
-  }
 }

@@ -266,11 +266,6 @@ public class TokenVerbAgreementRule extends Rule {
     );
   }
 
-
-  @Override
-  public void reset() {
-  }
-
   static class Inflection {
     final String gender;
     final String plural;

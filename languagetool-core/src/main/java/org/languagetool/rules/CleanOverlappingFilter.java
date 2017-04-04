@@ -39,7 +39,7 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
   
   @Override
   public final List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
-    List<RuleMatch> cleanList = new ArrayList<RuleMatch>();
+    List<RuleMatch> cleanList = new ArrayList<>();
     RuleMatch prevRuleMatch = null;
     for(RuleMatch ruleMatch: ruleMatches) {
       // first item

@@ -361,9 +361,4 @@ public class PortugueseAccentuationCheckRule extends Rule {
     return matches;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

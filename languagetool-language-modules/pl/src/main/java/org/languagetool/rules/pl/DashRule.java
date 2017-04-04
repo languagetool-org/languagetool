@@ -73,10 +73,6 @@ public class DashRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
-  @Override
-  public void reset() {
-  }
-
   private void loadCompoundFile(String path) throws IOException {
     try (
         InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
@@ -96,7 +92,7 @@ public class DashRule extends Rule {
           line = removeLastCharacter(line);
         }
 
-        List<PatternToken> tokList = new ArrayList<PatternToken>();
+        List<PatternToken> tokList = new ArrayList<>();
         String[] tokens = line.split("-");
         int tokenCounter = 0;
         for (String token : tokens) {

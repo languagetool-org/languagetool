@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  *   
  * @author Daniel Naber
  */
-public class CaseRule extends GermanRule {
+public class CaseRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|[0-9]+|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
@@ -490,6 +490,7 @@ public class CaseRule extends GermanRule {
     languages.add("Hochdeutsch");
     languages.add("Holländisch");
     languages.add("Indonesisch");
+    languages.add("Irisch");
     languages.add("Isländisch");
     languages.add("Italienisch");
     languages.add("Japanisch");
@@ -826,7 +827,7 @@ public class CaseRule extends GermanRule {
     return i >= 2
             && (tokens[i-1].getToken().equals(")") || tokens[i-1].getToken().equals("]"))
             && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches()
-            && !(i > 3 && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
+            && !(i > 3 && tokens[i-3].getToken().equals("(") && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
@@ -934,7 +935,10 @@ public class CaseRule extends GermanRule {
     boolean isPrevDeterminer = prevToken != null
                                && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"))
                                && !prevToken.hasPartialPosTag(":STD");
+    boolean isPrecededByVerb = prevToken != null && prevToken.matchesPosTagRegex("VER:(MOD:|AUX:)?[1-3]:.*") && !prevToken.hasLemma("sein");
     if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)
+        && !(isPrecededByVerb && lowercaseReadings != null && hasPartialTag(lowercaseReadings, "ADJ:", "PA") && nextReadings != null &&
+             !nextReadings.getToken().equals("und") && !nextReadings.getToken().equals("oder") && !nextReadings.getToken().equals(","))
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
@@ -1013,11 +1017,6 @@ public class CaseRule extends GermanRule {
       i++;
     }
     return true;
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

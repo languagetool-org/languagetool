@@ -40,6 +40,7 @@ class SimilarWordFinder {
 
   private static final int MAX_DIST = 1;
   private static final KeyboardDistance keyDistance = new GermanQwertzKeyboardDistance();
+  //private static final KeyboardDistance keyDistance = new QwertyKeyboardDistance();
 
   private KnownPairs knownPairs = new KnownPairs();
 

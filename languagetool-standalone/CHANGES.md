@@ -1,6 +1,20 @@
 # LanguageTool Change Log
 
-## 3.7 (release planned for 2017-03-27)
+## 3.8-SNAPSHOT (release planned for 2017-06-27)
+
+* ...
+
+#### HTTP API
+ * The deprecated AfterTheDeadline mode has been removed
+
+#### Java API
+ * Some deprecated methods and classes have been removed.
+
+
+## 3.7 (2017-03-27)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -15,6 +29,7 @@
 
 #### German
   * added and improved rules
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
@@ -33,7 +48,7 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
     - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
@@ -63,6 +78,9 @@
   * Many new rules (barbarism, punctuations, and grammar)
   * Improved dynamic tagging for compound words
 
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
+
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
     Michał Janik (issue #404)
@@ -88,9 +106,6 @@
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)

@@ -531,8 +531,4 @@ public class TokenAgreementRule extends Rule {
       return null;
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

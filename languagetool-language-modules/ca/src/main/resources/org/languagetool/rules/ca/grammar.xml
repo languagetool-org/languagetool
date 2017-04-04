@@ -60,7 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA|Imma|UCI|UCE|ISO|UVI">
-    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
+    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY mots_HAC_ASPIRADA "Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|harolds?|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Harvard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hein.*|Heisen.*|Heitz|Helmand|Helen|Helsingborg|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|hinterlands?|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|hobbies|Hohen.*|Hölderlin|h[òo]ldings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houla|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|(?-i)Hagen|Hamada">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]|11\.[0-5]\d">
@@ -247,7 +247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">cafés?|vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Manassés|Moisés|Rubén|Noé</token> <!-- atés que: loc_conj en disambiguation -->
+                    <token regexp="yes">cafés?|vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Manassés|Moisés|Rubén|Noé|Peloponés</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
@@ -9890,6 +9890,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="SIGUI_SENT" name="*sigui sent/continuï sent">
+            <pattern>
+                <token regexp="yes">sigui|siga<exception scope="previous" regexp="yes">bé|ja</exception></token>
+                <token regexp="yes">sent|essent</token>
+            </pattern>
+            <message>Possible error de traducció automàtica</message>
+            <suggestion>\1 encara</suggestion>
+            <suggestion><match no="1" postag="VS(.*)" postag_regexp="yes" postag_replace="VM$1">continuar</match> \2</suggestion>
+            <suggestion><match no="1" postag="VS(.*)" postag_regexp="yes" postag_replace="VM$1">seguir</match> \2</suggestion>
+            <example correction="sigui encara|continuï essent|segueixi essent">Vull que <marker>sigui essent</marker> així.</example>
+            <example correction="siga encara|continue sent|seguesca sent|seguisca sent">Vull que <marker>siga sent</marker> així.</example>
+        </rule>
         <rule id="PROJECTO" name="projecto/projecte">
             <pattern>
                  <marker>
@@ -33904,6 +33916,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No així.</example>
         </rule>
         <rulegroup id="TORNAR_GIRAR" name="*tornar/girar la vista">
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">tornar</token>
+                    </marker>
+                    <token min="0">en</token>
+                    <token>contra</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="3" regexp_match="(?iu)torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <example correction="girà">La realitat se li <marker>tornà</marker> en contra.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>

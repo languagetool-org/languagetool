@@ -34,7 +34,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static org.languagetool.server.ServerTools.print;
-import static org.languagetool.tools.StringTools.escapeForXmlContent;
 
 class LanguageToolHttpHandler implements HttpHandler {
 
@@ -43,10 +42,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
-  private final TextChecker textCheckerV1;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
-  private final boolean afterTheDeadlineMode;
   private final Set<String> ownIps;
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
@@ -59,14 +56,11 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    afterTheDeadlineMode = config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline;
-    this.textCheckerV1 = new V1EOLTextChecker(config, internal);
     this.textCheckerV2 = new V2TextChecker(config, internal);
   }
 
   /** @since 2.6 */
   void shutdown() {
-    textCheckerV1.shutdownNow();
   }
 
   @Override
@@ -108,19 +102,10 @@ class LanguageToolHttpHandler implements HttpHandler {
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else {
-          if (afterTheDeadlineMode) {
-            String text = parameters.get("data");
-            if (text == null) {
-              throw new IllegalArgumentException("Missing 'data' parameter");
-            }
-            text = text.replaceAll("</p>", "\n\n").replaceAll("<.*?>", "");  // clean up HTML, position changes don't matter for AtD
-            textCheckerV1.checkText(text, httpExchange, parameters);
-          } else {
-            if (requestedUri.getRawPath().contains("/v2/")) {
-              throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
-            }
-            throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
+          if (requestedUri.getRawPath().contains("/v2/")) {
+            throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
           }
+          throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -228,15 +213,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void sendError(HttpExchange httpExchange, int httpReturnCode, String response) throws IOException {
-    if (afterTheDeadlineMode) {
-      String xmlResponse = "<results><message>" + escapeForXmlContent(response) + "</message></results>";
-      httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
-    } else {
-      ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());
-      httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    }
+    ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());
+    httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {

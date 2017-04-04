@@ -5889,8 +5889,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Meinten Sie den Philosophen Alexius <suggestion>Meinong</suggestion>?</message>
+		<url>https://de.wikipedia.org/wiki/Alexius_Meinong</url>
             <short>&eigenname;</short>
             <example correction="Meinong">Alexius <marker>Meinung</marker> ist ein Philosoph.</example>
+        </rule>
+        <rule id="HENRY_MATISSE" name="'Henry (Henri) Matisse'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Henry</token>
+                </marker>
+                <token regexp="yes">(Poincaré|Matisse)?</token>
+            </pattern>
+            <message>Meinten Sie den französischen Vornamen <suggestion>Henri</suggestion>?</message>
+            <short>&eigenname;</short>
+            <example correction="Henri">Die Poincaré-Vermutung ist nach <marker>Henry</marker> Poincaré benannt.</example>
+        </rule>
+        <rule id="RINGO_STARR" name="Ringo Starr">
+            <pattern>
+                <token>Ringo</token>
+                <token regexp="yes">Stars?</token>
+            </pattern>
+            <message>Meinen Sie <suggestion>Ringo Starr</suggestion>, den Schlagzeuger der Beatles?</message>
+            <url>https://de.wikipedia.org/wiki/Ringo_Starr</url>
+            <short>&eigenname;</short>
+            <example correction="Ringo Starr">Kennst du <marker>Ringo Star</marker>?</example>
+        </rule>
+        <rule id="SOPHIA_LOREN" name="Sophia Loren">
+            <antipattern>
+                <token>Sophia</token>
+                <token>Loren</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Sofia|Sophia</token>
+                <token regexp="yes">Lorr?enn?e?s?</token>
+            </pattern>
+            <message>Meinen Sie <suggestion>Sophia Loren</suggestion>, die italienische Schauspielerin?</message>
+            <url>https://de.wikipedia.org/wiki/Sophia_Loren</url>
+            <short>&eigenname;</short>
+            <example correction="Sophia Loren">Kennst du <marker>Sofia Loren</marker>?</example>
+        </rule>
+        <rule id="ADDAMS_FAMILY" name="Addams Family">
+            <pattern>
+                <token regexp="yes">Add?ams?<exception>Addams</exception></token>
+                <token>Family</token>
+            </pattern>
+            <message>Meinen Sie die Fernsehserie <suggestion>Addams Family</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/The_Addams_Family</url>
+            <short>&eigenname;</short>
+            <example correction="Addams Family">Kennst du die <marker>Adams Family</marker>?</example>
         </rule>
         <rule id="JOSEF_HAYDN" name="'Josef (Joseph) Haydn'">
             <pattern case_sensitive="yes">
@@ -6543,6 +6589,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>rote Armee Fraktion</marker></example>
             </rule>
         </rulegroup>
+        <rule id="FELDHERRNHALLE" name="Feldherrenhalle (Feldherrenhalle)">
+            <pattern>
+                <token>Feldherrenhalle</token>
+            </pattern>
+            <message>Meinten Sie die Münchner <suggestion>Feldherrnhalle</suggestion> am Odeonsplatz?</message>
+            <example correction="Feldherrnhalle">Die <marker>Feldherrenhalle</marker> ist eine klassizistische Loggia am südlichen Ende des Odeonsplatzes.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -6701,6 +6754,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Wie so"><marker>Wieso</marker> häufig in den letzten Wochen kam er auch heute zu spät.</example>
             <example>Dieser Artikel beantwortet die Frage, wieso häufig Raucher davon betroffen sind.</example>
             <example>Wieso oft Raucher davon betroffen sind?</example>
+        </rule>
+        <rule id="DOLCEFARNIENTE" name="'Dolcefarniente'">
+            <pattern>
+                <token regexp="yes">das|des|dem|zum|beim</token>
+                <marker>
+                    <token>dolce</token>
+                    <token>far</token>
+                    <token>niente</token>
+                </marker>
+            </pattern>
+            <message>&getrennt;. Das Substantiv <suggestion>Dolcefarniente</suggestion> wird lt. Duden groß- und zusammengeschrieben.</message>
+            <url>http://www.duden.de/rechtschreibung/Dolcefarniente</url>
+            <short>&getrennt;.</short>
+            <example correction="Dolcefarniente">Ich genieße das <marker>dolce far niente</marker>, seit ich im Ruhestand bin.</example>
+		<example>Ich habe Urlaub. Dolce far niente, wie der Italiener sagt.</example>
         </rule>
         <rule id="IN_KRAFT_TRETEN" name="'Inkrafttreten'">
             <pattern case_sensitive='yes'>
@@ -8807,9 +8875,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rande</suggestion> kommen'.</message>
             <url>http://www.duden.de/rechtschreibung/zurande</url>
-            <short>getrennt;.</short>
+            <short>&getrennt;.</short>
             <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
         </rule>
+        <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
+            <url>http://www.duden.de/sprachwissen/sprachratgeber/verben-mit-dem-bestandteil-schwarz</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">in|zu|Farbe</exception></token>
+                    <marker>
+                        <token>schwarz</token>
+                        <token regexp="yes">gearbeitet|gesehen|gefahren|arbeitend|fahrend|sehend</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'schwarzsehen/-arbeiten/-fahren' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="schwarzgesehen">Er hat für die Zukunft nicht <marker>schwarz gesehen</marker>.</example>
+                <example correction="schwarzarbeitend">Man erwischte ihn <marker>schwarz arbeitend</marker>.</example>
+                <example>Das gleiche Kleid habe ich schon in <marker>Schwarz gesehen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>schwarz</token>
+                    <token>zu</token>
+                    <token regexp="yes">sehen|arbeiten|fahren</token>
+                </pattern>
+                <message>Die Verben 'schwarzsehen', 'schwarzarbeiten' und 'schwarzfahren' werden zusammengeschrieben.</message>
+                <suggestion>schwarzzu\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="schwarzzusehen">Wir nehmen die Herausforderung an, ohne <marker>schwarz zu sehen</marker>.</example>
+                <example correction="schwarzzuarbeiten">Anstatt <marker>schwarz zu arbeiten</marker>, solltest du Bewerbungen schreiben.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ROTSEHEN" name="rot sehen (rotsehen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">in|zu|Farbe</exception></token>
+                    <marker>
+                        <token>rot</token>
+                        <token regexp="yes">gesehen|sehend</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'rotsehen' (= die Beherrschung verlieren) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="rotgesehen">Nach dieser Äußerung habe ich nur noch <marker>rot gesehen</marker>.</example>
+                <example>Was auch immer passiert, rot sehe ich nie.</example>
+                <example>Das gleiche Kleid habe ich schon in <marker>Rot gesehen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>rot</token>
+                    <token>zu</token>
+                    <token>sehen</token>
+                </pattern>
+                <message>Das Verb 'rotsehen' (= die Beherrschung verlieren) wird zusammengeschrieben.</message>
+                <suggestion>rotzusehen</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="rotzusehen">Statt <marker>rot zu sehen</marker>, zähle erst bis zehn.</example>
+           </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -11784,7 +11910,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
-                <example correction="Sie">Bitte führen <marker>sie</marker> die Bestellung so aus</example>
+                <example correction="Sie">Bitte führen <marker>sie</marker> die Bestellung so aus.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -11795,7 +11921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>bitte</token>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
-                <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus</example>
+                <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
                 <!--TODO: not detected as verb
                 <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>-->
             </rule>
@@ -15511,11 +15637,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>treue</token>
                     </marker>
-                    <token inflected="yes">schwören</token>
+                    <token regexp="yes" inflected="yes">schwören|halten|versprechen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Treue</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Treue">Ihr habt mir die <marker>treue</marker> geschworen.</example>
+                <example correction="Treue">Ich habe dir immer die <marker>treue</marker> gehalten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MIT_ALLEN_WASSERN" name="'mit allen wassern (Wassern) gewaschen'">
+            <rule>
+                <pattern>
+                    <token>allen</token>
+                    <marker>
+                        <token case_sensitive="yes">wassern</token>
+                    </marker>
+                    <token regexp="yes">gewaschen(e[mnrs]?)?</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wassern</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Wassern">Dieser Schuft ist mit allen <marker>wassern</marker> gewaschen!</example>
+                <example>Wegen eines Triebwerksschadens mussten wir auf offener See wassern.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUS_DEN_LATSCHEN" name="'aus den latschen (Latschen) kippen'">
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <token>den</token>
+                    <marker>
+                        <token case_sensitive="yes">latschen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Latschen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Latschen">Ich kippe hier noch aus den <marker>latschen</marker>!</example>
+                <example>Das hier ist ein Gefangenenlager, aus dem <marker>latschen</marker> wir nicht einfach so raus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUELLEN_ANGEBEN" name="'quellen (Quellen) angeben'">
@@ -20021,12 +20178,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]m</token>
                 <marker>
-                    <token>voraus</token>
+                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen</token>
                 </marker>
+                <token><exception postag="(SUB|AD[JV]):.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>&inwend;'im Voraus' wird <suggestion>Voraus</suggestion> in der Regel großgeschrieben.</message>
+            <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
+            <url>https://www.korrekturen.de/wortliste/i/</url>
             <short>&prgk;.</short>
             <example correction="Voraus">Bezahlung bitte im <marker>voraus</marker>!</example>
+            <example correction="Wesentlichen">Gurken bestehen im <marker>wesentlichen</marker> aus Wasser.</example>
+            <example correction="Ungewissen">Sie ließ ihn im <marker>ungewissen</marker>.</example>
+            <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
+            <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
+            <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
+            <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
+            <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
+        </rule>
+        <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
+            <antipattern case_sensitive="yes">
+                <token>Großen</token>
+                <token>und</token>
+                <token>Ganzen</token>
+            </antipattern>
+            <pattern>
+                <token>im</token>
+                <marker>
+                    <token>großen</token>
+                    <token>und</token>
+                    <token>ganzen</token>
+                </marker>
+                <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>&inwend;'im <suggestion>Großen und Ganzen</suggestion>' werden 'Großen' und 'Ganzen' großgeschrieben.</message>
+            <url>https://www.korrekturen.de/wortliste/i/</url>
+            <short>&prgk;.</short>
+            <example correction="Großen und Ganzen">Im <marker>großen und Ganzen</marker> war es ein gelungener Abend.</example>
+            <example correction="Großen und Ganzen">Im <marker>Großen und ganzen</marker> war es ein gelungener Abend.</example>
+            <example correction="Großen und Ganzen">Im <marker>großen und ganzen</marker> war es ein gelungener Abend.</example>
         </rule>
         <rulegroup id="ZU_HAUSE" name="'zu hause (Hause)'">
             <rule>
@@ -20132,6 +20320,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
                 <example>Von wegen!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token regexp="yes">(halb|gütlich|friedlich)e[nrs]?</token></marker>
+                    <token>Weg</token>
+                </pattern>
+                <message>Meinten Sie die Wendung 'auf <suggestion><match no="2" postag="ADJ:DAT:SIN:MAS:GRU:SOL"/></suggestion> Weg'?</message>
+                <example correction="halbem">Treffen wir uns auf <marker>halben</marker> Weg.</example>
+                <example correction="gütlichem">Einigen wir uns auf <marker>gütliche</marker> Weg.</example>
+                <example correction="friedlichem">Schlichten wir den Streit auf <marker>friedlicher</marker> Weg.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="'auf Schritt und Tritt'">
             <rule>
@@ -20186,7 +20385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]er|[Dd]en|[Dd]em|[Ii]m</token>
+                    <token regexp="yes">[Dd]e[mnr]|[Ii]m</token>
                     <token regexp="yes">[0-9]+</token>
                     <token>.</token>
                     <marker>
@@ -24514,6 +24713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="IM_ALLGEMEINEN" name="'im allgemeinen (Allgemeinen)'">
+            <url>http://www.korrekturen.de/wortliste/im_allgemeinen.shtml</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
@@ -24527,7 +24727,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
-                <url>http://www.korrekturen.de/wortliste/im_allgemeinen.shtml</url>
                 <short>&prgk;.</short>
                 <example correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeine</marker> auch ein „Problem“ dar.</example>
                 <example correction="Allgemeinen">Im <marker>allgemeinen</marker> stimme ich dir zu.</example>
@@ -24535,6 +24734,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Im <marker>allgemeinen</marker> Sprachgebrauch ist das anders.</example>
                 <example>Im <marker>allgemeinen</marker>, umgangssprachlichen Sprachgebrauch ist das anders.</example>
                 <example>Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>im</token>
+                    <marker><token>allgemeinen</token></marker>
+                    <token postag="ADJ:PRD:KOM"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Allgemeinen">Sarah ist im <marker>allgemeinen</marker> zuverlässiger als Tom.</example>
+                <example correction="Allgemeinen">Ein im <marker>allgemeinen</marker> weniger fehleranfälliges Verfahren ist das ABC-Verfahren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DES_UEBLICHEN" name="'des üblichen (Üblichen)'">
@@ -25789,11 +25999,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ein</token>
                 </antipattern>
                 <antipattern>
-                    <token>was</token>
-                    <token>ist</token>
-                    <token>das</token>
+                    <token skip="-1">was</token>
                     <token>für</token>
                     <token>ein</token>
+                    <token/>
+                    <token regexp="yes">gewesen|war|ist|sein?|\?|!|,</token>
                 </antipattern>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -25823,6 +26033,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Was für <marker>ein Auftritt</marker>!</example>
                 <example>Die Unterscheidung war allgemein gebräuchlich, ohne ein Titel zu sein.</example>
                 <example>Was ist das für ein Lärm?</example>
+                <example>Sie fragte, was er für ein Mensch sei.</example>
+                <example>Was ist er für ein Mensch?</example>
+                <example>Was war das für ein Lärm?</example>
+                <example>Was war ich doch für ein Dummkopf, dass ich das getan habe!</example>
+                <example>Ich kann nicht fassen, was ich doch für ein Dummkopf war!</example>
                 <example correction="">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
             <rule>
@@ -26293,7 +26508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: the list of words needs to be extended -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">beantworte|kaufe|kaufte|kaufst|kaufen|verkaufe|verwünsche</token>
+                    <token regexp="yes">beantworte|kauft?e|kaufst|kaufen|verkaufe|verwünsche</token>
                     <marker>
                         <token>dem</token>
                     </marker>
@@ -27441,9 +27656,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABKUERZUNG_FALSCHE_PUNKTE" name="zu viel gesetzte Punkte in Abkürzungen (z. B. 'e.t.c.')">
             <!-- TODO ergänzen. -->
             <rule>
-                <regexp>e\. t\. c\.</regexp>
+                <regexp>e\. ?t\. ?c\.</regexp>
                 <message>Meinten Sie <suggestion>etc.</suggestion> (lat. et cetera)?</message>
                 <example correction="etc.">Sie erkennt einige Fehler <marker>e. t. c.</marker></example>
+                <example correction="etc.">Sie erkennt einige Fehler <marker>e.t.c.</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Fehlende Punkte in Abkürzungen ('z B.' etc.)">
@@ -29919,6 +30135,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KOMMAFEHLER" name="Fehler in der Kommasetzung">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
+                <antipattern>
+                    <token skip="3">sondern</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token>ab</token>
+                    <token postag="PKT"/>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token><exception regexp="yes">,|;|-|–|\(|„|“|"</exception><exception postag="SENT_START"/></token>
@@ -29929,6 +30151,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1, \2</suggestion>
                 <example correction="Sommer, sondern" type="incorrect">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
+                <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
+                <example correction="zu, sondern">Warum nicht er nicht <marker>zu sondern</marker> ab?</example>
             </rule>
             <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor Erläuterung" default="off">
 <!-- Sonderfälle noch nicht behandelt, deshalb deafult="off"  -->
@@ -30211,7 +30435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -30223,7 +30447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -30279,7 +30503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen</token>
                     <token skip="-1" />
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|VER:EIZ:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:EIZ:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes" skip="-1">wie|als<exception scope="next" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/></token>
                     <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
@@ -30305,7 +30529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -30318,7 +30542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <pattern>
@@ -30419,6 +30643,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="KON.*|ADV.*|NEG.*|PRP.*" postag_regexp="yes"/>
                     <token regexp="yes">weil|obwohl|ob|obgleich|sodass|dass|indem|wenn|falls|sofern|nachdem|sobald</token>
                 </antipattern>
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token>
@@ -30438,6 +30666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie waren nicht nur unbeliebt, weil sie den Krieg nach Kambodscha getragen hatten, sondern auch weil sie für viele ein Symbol für die Fremdbestimmung darstellten.</example>
                 <example>Drei Tage nachdem er es getan hatte, bereute er es schon.</example>
                 <example>Wir kamen, drei Tage nachdem wir aufgebrochen waren, in Rom an.</example>
+                <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -30496,7 +30725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" skip="-1">da|als|wie|bis|wer|wo|wohin|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" >
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                         <exception>sog</exception>
                        </token>
@@ -30530,13 +30759,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <token regexp="yes" skip="-1">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" >
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                        </token>
                     <token></token>
@@ -30573,13 +30802,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <token regexp="yes" skip="-1">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" >
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                        </token>
                     <token></token>
@@ -30618,7 +30847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
@@ -30644,24 +30873,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
                     <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen</token>
                     <token skip="-1" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes">
-                        <exception postag="SUB:.*|ADJ:.*|PA1:.*|PA2:.*" postag_regexp="yes"/>
+                        <exception postag="SUB:.*|ADJ:.*|PA[12]:.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <pattern>
                     <marker>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|VER:MOD:.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:MOD:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                         <exception>bitte</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                         <exception regexp="yes" scope="next">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
                        </token>
                     <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" >
-                        <exception postag="VER:INF:.*|VER:MOD:INF.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                         <exception>bitte</exception>
                         <exception>sog</exception>
@@ -30683,7 +30912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KOMMA_VOR_RELATIVSATZ" name="Fehlendes Komma vor Relativsatz">
             <rule>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dem|den
@@ -30692,11 +30921,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">der|die|das|dem|den </token>
@@ -30706,11 +30935,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dem|den
@@ -30720,18 +30949,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*|ADJ:.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">der|die|das|dem|den</token>
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -30739,7 +30968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -30758,34 +30987,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3]:.*" postag_regexp="yes" regexp="yes" inflected="yes">&verbendirekterede;</token>
                     <token postag="ART:.*|PRO:.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="PRO:PER:(NOM|AKK):...:(ALG|FEM|MAS).*" postag_regexp="yes"/>
+                    <token>das</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>All</token>
+                    <token>das</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1">
                         <exception scope="next" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <marker>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="previous" regexp="yes">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token skip="-1" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:(INF|EIZ):.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:(INF|EIZ):.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Fügen Sie vor '\3' ein Komma ein, falls damit ein Relativsatz beginnt.</message>
                 <suggestion>\2, <match no="3" include_skipped="all"/> \4</suggestion>
                 <example correction="Auto, das am Straßenrand steht" type="incorrect">Das <marker>Auto das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
                 <example>Das <marker>Auto, das am Straßenrand steht</marker>, parkt im Halteverbot.</example>
+                <example>Vielleicht werde ich das nicht tun können, aber ich werde es zumindest versuchen.</example>
+                <example>Wann du das isst, wird Tom sauer sein.</example>
+                <example>Die einzige Person, die uns das sagen kann, was wir wissen müssen, ist Tom.</example>
+                <example>All das mag seltsam klingen, aber es ist wahr.</example>
                 <example>Die Entscheidung der acht Richter sei einstimmig gewesen, sagte die legendäre Sprecherin Erika Mustermann.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dem|den
@@ -30794,11 +31036,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">der|die|das|dem|den </token>
@@ -30808,11 +31050,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dem|den
@@ -30822,25 +31064,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">der|die|das|dem|den</token>
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -30848,17 +31090,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <marker>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                     <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -30869,7 +31111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30879,11 +31121,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30894,11 +31136,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30906,18 +31148,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes"/>
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes"/>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token skip="-1" postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token postag="VER:(INF|EIZ):.*" postag_regexp="yes"/>
                     <token regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">nachdem</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token postag="PA2:.*" postag_regexp="yes"/>
+                    <token regexp="yes">hatten?</token>
+                    <token postag="PKT"/>
                 </antipattern>
                 <pattern>
                     <token skip="-1">
@@ -30925,28 +31176,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <marker>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token skip="-1" postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:(INF|EIZ):.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:(INF|EIZ):.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Sollten Sie hier ein Komma vor '\3 \4' einfügen (Relativsatz)?</message>
                 <suggestion>\2, \3 <match no="4" include_skipped="all"/> \5</suggestion>
                 <example correction="Auto, in dem der Mann sitzt" type="incorrect">Das <marker>Auto in dem der Mann sitzt</marker>, parkt im Halteverbot.</example>
                 <example>Das <marker>Auto, in dem der Mann sitzt</marker>, parkt im Halteverbot.</example>
+                <example>Nachdem also der <marker>Sklavenhandel mit den Sachsen ein Ende gefunden hatte</marker>, gerieten immer mehr andere Stämme ins Visier.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30956,15 +31208,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30975,11 +31227,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
@@ -30987,23 +31239,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <pattern>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <marker>
-                    <token postag="SUB:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="previous">da|weil|obwohl|ob|obgleich|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|sobald|solange|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes" case_sensitive="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31018,7 +31270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31030,7 +31282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31042,7 +31294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31073,7 +31325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31093,7 +31345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31101,7 +31353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31121,7 +31373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31143,7 +31395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31189,7 +31441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31207,7 +31459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31217,7 +31469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31225,7 +31477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31245,7 +31497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31267,7 +31519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31307,7 +31559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31323,7 +31575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31335,7 +31587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31347,7 +31599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31385,7 +31637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31403,7 +31655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31413,7 +31665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31421,7 +31673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31441,7 +31693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31463,7 +31715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31498,7 +31750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -31516,7 +31768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31526,7 +31778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31534,7 +31786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
                 </antipattern>
@@ -31554,7 +31806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31576,7 +31828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                 </antipattern>
                 <antipattern>
@@ -31601,7 +31853,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
