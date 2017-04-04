@@ -6,7 +6,7 @@
 German grammar and typo rules for LanguageTool.
 See resource/de/tagset.txt for the meaning of the POS tags.
 
-Copyright © 2001–2015 Markus Brenneis, Daniel Naber, Jan Schreiber
+Copyright © 2001–2017 Markus Brenneis, Daniel Naber, Jan Schreiber
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -10041,7 +10041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="WEIBLICHE_-INNEN" name="'weibliche Benutzerin' etc.">
-            <!-- TODO 'Magd', 'Hexe' etc. -->
+            <!-- TODO 'Magd', 'Hexe', 'Schwester', 'Tante' etc. -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>weibliche</token>
@@ -10559,6 +10559,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&redundanz;</short>
                 <example correction="EVN">Das sind <marker>EVN-Nachweise</marker>.</example>
                 <example>Das ist ein <marker>EVN</marker>.</example>
+            </rule>
+        </rulegroup>
+	  <!-- Redundante Komposita ohne Bindestrich -->
+        <rulegroup id="Trommelrevolver" name="Verdoppelung bei Komposita: 'Trommelrevolver (Revolver)' etc.">
+            <rule>
+                <regexp>Trommelrevolver[ns]?</regexp>
+                <message>Redundantes Kompositum: Ein Revolver (von engl. 'to revolve' [drehen]) zeichnet sich gerade dadurch aus, dass er im Unterschied zur Pistole über eine drehbare Trommel als Munitionskammer verfügt. Ersetzen durch <suggestion><match no="1" regexp_replace="R" regexp_match="^Trommelr"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Revolver</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Revolver">Sie richtete einen kleinkalibrigen <marker>Trommelrevolver</marker> auf mich.</example>
+                <example correction="Revolvern">Mit gezogenen <marker>Trommelrevolvern</marker> stürmten sie das Gebäude.</example>
+            </rule>
+            <rule>
+                <regexp>Gratisgeschenk(s|en?)?</regexp>
+                <message>Redundantes Kompositum: Ein Geschenk ist immer umsonst. Ersetzen durch <suggestion><match no="1" regexp_replace="G" regexp_match="^Gratisg"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Geschenk</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Geschenk">Ein <marker>Gratisgeschenk</marker> für Sie, Herr Schreiber!</example>
+                <example>Es gab gratis Geschenke.</example>
+            </rule>
+            <rule>
+                <regexp>Internetblogs?</regexp>
+                <message>Redundantes Kompositum: Das Wort 'Blog' kommt von engl. 'web log' [svw. Web-Tagebuch]). Ersetzen durch <suggestion><match no="1" regexp_replace="B" regexp_match="^Internetb"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Blog</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Blog">Ich habe mich in meinem <marker>Internetblog</marker> darüber ausgelassen.</example>
+            </rule>
+            <rule>
+                <regexp>Altveteran(en)?</regexp>
+                <message>Redundantes Kompositum: Das Wort 'Veteran' kommt von lat. 'vetus' [alt, altgedient]). Ersetzen durch <suggestion><match no="1" regexp_replace="V" regexp_match="^Altv"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Veteran</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Veteran">Swen B., ein <marker>Altveteran</marker> der Duisburger Punk-Szene.</example>
+            </rule>
+            <rule>
+                <regexp>Fußpedal(s|en?)?</regexp>
+                <message>Redundantes Kompositum: Ein Pedal (von lat. 'pedalis' [zum Fuß gehörig]) ist ein Fußhebel. Ersetzen durch <suggestion><match no="1" regexp_replace="P" regexp_match="^Fußp"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Pedal</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Pedal">Sie trat auf das <marker>Fußpedal</marker>.</example>
+                <example correction="Pedale">Die <marker>Fußpedale</marker> waren defekt.</example>
+            </rule>
+            <rule>
+                <regexp>Assekuranzversicherung(en)?</regexp>
+                <message>Redundantes Kompositum: <suggestion><match no="1" regexp_replace="V" regexp_match="^Assekuranzv"/></suggestion> ist ein anderes Wort für <suggestion>Assekuranz</suggestion>.</message>
+                <url>https://de.wiktionary.org/wiki/Assekuranz</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Versicherung">Die <marker>Assekuranzversicherung</marker> wollte nicht zahlen.</example>
+            </rule>
+            <rule>
+                <regexp>Haarfrisur(en)?</regexp>
+                <message>Redundantes Kompositum: <suggestion><match no="1" regexp_replace="F" regexp_match="^Haarf"/></suggestion> ist ein anderes Wort für <suggestion>Haarschnitt</suggestion> bzw. (veraltend) 'Haartracht'.</message>
+                <url>https://de.wiktionary.org/wiki/Frisur</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Frisuren">Die <marker>Haarfrisuren</marker> der Stars waren das Hauptthema.</example>
+            </rule>
+            <rule>
+                <regexp>Gesichtsmimik</regexp>
+                <message>Redundantes Kompositum: 'Mimik' ist ein anderes Wort für 'Gesichtsausdruck'. Ersetzen durch <suggestion>Gesichtsausdruck</suggestion> oder <suggestion>Mimik</suggestion>?</message>
+                <url>https://www.openthesaurus.de/synonyme/Mimik</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Gesichtsausdruck|Mimik"><marker>Gesichtsmimik</marker> und Gestik dieses Mannes sprechen Bände.</example>
             </rule>
         </rulegroup>
     </category>
