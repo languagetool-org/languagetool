@@ -62,6 +62,10 @@ Please see https://www.languagetool.org/issues/ if you experience problems.
 To use the stand-alone version, double click on the `languagetool.jar` file
 or call `java -jar languagetool.jar` from the command line.
 
+When using Java 9, start LanguageTool using `java --add-modules java.xml.bind -jar languagetool.jar`.
+Without that parameter, you'd get an `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`
+error.
+
 ### Command-line version
 
 To check plain text files from the command line, use
