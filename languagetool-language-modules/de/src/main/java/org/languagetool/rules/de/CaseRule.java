@@ -396,11 +396,12 @@ public class CaseRule extends Rule {
     "St",   // Paris St. Germain
     "Stereotyp",
     "Störe",
-    "Tausend",   // je nach Kontext groß (TODO) 
+    "Tausend",   // je nach Kontext groß (TODO)
     "Toter",
     "tun",   // "Sie müssen das tun"
-    "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
-    "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+    "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen"
+    "Unentschieden",
+    "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes"
     "Verantwortlicher",
     "Verlass",
     "Verwandter",
