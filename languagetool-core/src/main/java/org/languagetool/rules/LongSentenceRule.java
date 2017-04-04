@@ -34,22 +34,25 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
+  private static final Pattern DEFAULT_NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
   private static final boolean DEFAULT_INACTIVE = false;
 
   private final int maxWords;
+  private final Pattern nonWordRegex;
 
   /**
    * @param defaultActive allows default granularity
+   * @param nonWordRegex characters not to be considered as words
    * @since 3.7
    */
-  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, Pattern nonWordPattern, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }
     maxWords = maxSentenceLength;
+    nonWordRegex = nonWordPattern;
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -57,18 +60,35 @@ public class LongSentenceRule extends Rule {
   }
 
   /**
+   * @param defaultActive allows default granularity
+   * @since 3.7
+   */
+  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
+    this(messages, maxSentenceLength, DEFAULT_NON_WORD_REGEX, defaultActive);
+  }
+
+  /**
+   * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
+   * @param nonWordRegex characters not to be considered as words
+   * @since 3.8
+   */
+  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, Pattern nonWordRegex) {
+    this(messages, maxSentenceLength, nonWordRegex, DEFAULT_INACTIVE);
+  }
+
+  /**
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
    * @since 2.4
    */
   public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
-    this(messages, maxSentenceLength, DEFAULT_INACTIVE);
+    this(messages, maxSentenceLength, DEFAULT_NON_WORD_REGEX, DEFAULT_INACTIVE);
   }
 
   /**
    * Creates a rule with the default maximum sentence length (40 words).
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_MAX_WORDS, DEFAULT_INACTIVE);
+    this(messages, DEFAULT_MAX_WORDS, DEFAULT_NON_WORD_REGEX, DEFAULT_INACTIVE);
   }
 
   @Override
@@ -94,7 +114,7 @@ public class LongSentenceRule extends Rule {
       for (AnalyzedTokenReadings aToken : tokens) {
         String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
+        if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !nonWordRegex.matcher(token).matches()) {
           numWords++;
         }
       }
@@ -104,11 +124,6 @@ public class LongSentenceRule extends Rule {
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
-    // nothing here
   }
 
 }
