@@ -13809,6 +13809,57 @@ USA
                 <example correction="left-hand">You'll see the bank on the <marker>left hand</marker> side of the hospital.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DASH_RULE" name='Hyphen, n-dash and m-dash'>
+            <!-- Created by Tiago F. Santos, 2017-01-23 -->
+            <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
+            <url>https://en.wikipedia.org/wiki/Dash#Em_dash</url>
+            <rule>
+                <pattern>
+                    <token postag='SENT_START'/>
+                    <token min='0' regexp='yes'>["«»“”]</token>
+                    <marker>
+                        <token regexp='yes'>-|–</token>
+                   </marker>
+                </pattern>
+                <message>In dialogues and enumerations you must use an m-dash.</message>
+                <suggestion>—</suggestion>
+                <short>Use an m-dash.</short>
+                <example correction='—'><marker>-</marker> What is that, mother?</example>
+                <example correction='—'>« <marker>-</marker> What is that, mother?</example>
+                <example>— It's your birthday present, my daughter.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>-|–</token>
+                    <token regexp='yes'>\d+;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes" regexp='yes'>-|–</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>If you do not want to join two words, you must use an m-dash.</message>
+                <suggestion>—</suggestion>
+                <short>Use an m-dash.</short>
+                <example correction='—'>In these educational establishments there were enrollments <marker>-</marker> mostly from elementary school — and a total of teachers.</example>
+                <example correction='—'>Institute Ricci de Macau <marker>-</marker> Association of cultural promotion of the Company of Jesus in Macau</example>
+                <example>In the Midwest and Northwest portion are higher elevations, reaching 500 meters above sea level, highlighting Serra do Tumucumaque and Sierra Lombarda.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+|;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>-|—</token>
+                    <token regexp='yes'>\d+|;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                </pattern>
+                <message>If you want to indicate a period of time, you must use an n-dash (half-dash).</message>
+                <suggestion>\1 – \3</suggestion>
+                <suggestion>\1–\3</suggestion>
+                <short>Use an n-dash.</short>
+                <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — writer and university teacher.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
