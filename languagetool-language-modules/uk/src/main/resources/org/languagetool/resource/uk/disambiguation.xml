@@ -143,10 +143,21 @@
       </and>
     </pattern>
     <disambig action="remove" postag=".*:rare.*"/>
-    <example type="ambiguous" 
+    <example type="ambiguous"
         inputform="Можна[можна/predic,можний/adj:f:v_kly:rare,можний/adj:f:v_naz:rare]" 
         outputform="Можна[можна/predic]"><marker>Можна</marker> поломати ногу.</example>
     <example type="untouched">Можний дядько.</example>
+  </rule>
+
+  <rule name="Тих (займенник - не дієслово)" id="DIS_TYH">
+    <pattern>
+      <token>тих</token>
+    </pattern>
+    <disambig action="remove" postag="verb:imperf:past:m"/>
+    <example type="ambiguous" 
+        inputform="тих[тихнути/verb:imperf:past:m,той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
+        outputform="тих[той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
+        >До <marker>тих</marker> людей.</example>
   </rule>
 
   <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
