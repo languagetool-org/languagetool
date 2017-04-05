@@ -145,9 +145,6 @@ public class PortugueseWordTokenizer implements Tokenizer {
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
       
-      // token = token.replace(LEFT_BRACE_SUBST, '(');
-      // token = token.replace(RIGHT_BRACE_SUBST, ')');
-
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
 
@@ -162,12 +159,5 @@ public class PortugueseWordTokenizer implements Tokenizer {
 
     return tokenList;
   }
-
-  // private static String cleanup(String text) {
-    // text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
-    // text = text.replace('\u2011', '-'); we handle \u2013 in tagger so we can base our rule on it
-
-    // return text;
-  // } TODO Remove after regression testing
 
 }

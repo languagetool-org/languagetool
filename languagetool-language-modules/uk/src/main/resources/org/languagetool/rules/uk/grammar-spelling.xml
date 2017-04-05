@@ -258,7 +258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
         </antipattern>
         <antipattern>
-          <token regexp="yes">номер.*|нумерац.*|[/№]</token>
+          <token regexp="yes">номер.*|буд\.|нумерац.*|[/№]</token>
           <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
         </antipattern>
         <antipattern>
@@ -280,7 +280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Відсутній дефіс або пробіл між числом і словом</message>
+        <message>Відсутній дефіс або пробіл між числом і словом (або пропущена кома після назви вулиці)</message>
         <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1 $2"/></suggestion>
         <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1-$2"/></suggestion>
         <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
@@ -291,6 +291,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
         <example>Естафета 4х100 м.</example>
         <example>Грушевського, 9а</example>
+        <example>Грушевського, буд. 9а</example>
         <example>14,7оС</example>
         <example>та ж вулиця, номер 8ж</example>
         <example>автобусом № 441, 41к</example>
