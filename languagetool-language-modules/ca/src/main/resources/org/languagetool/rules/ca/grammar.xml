@@ -16542,7 +16542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="DA0MS0|AQ0[MC]S0" postag_regexp="yes"/></token>
+                    <token><exception postag="DA0MS0|AQ0[MC]S0" postag_regexp="yes"/><exception>cert</exception></token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">respecte<exception postag="complement.*" postag_regexp="yes"/></token>
                     </marker>
@@ -18524,7 +18524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>extra</token>
                     <token min="0">-</token>
                     <or>
-                        <token postag="A.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes"><exception regexp="yes">mensual|trimestral|quadrimestral|semestral|anual</exception></token>
                         <token postag="RG" regexp="yes">.+ment</token>
                         <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">radi|versió</token>
                     </or>
@@ -18535,6 +18535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="extraradi">Viu a l'<marker>extra-radi</marker></example>
                 <example correction="extrajudicialment"><marker>extra judicialment</marker></example>
                 <example>Cal cremar les calories extra.</example>
+                <example>Va cobrar l'extra semestral.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36159,7 +36160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
             <rule>
                 <pattern>
-                    <token postag="D..[MC]S.|SPS00|PX3MS0C0" postag_regexp="yes"/>
+                    <token postag="D..[MC]S.|SPS00|PX.MS...|DP3CSP" postag_regexp="yes"/>
                     <!-- <exception postag="N.*|RG|V.[NMSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|únic</exception> -->
                     <marker>
                         <token>descontent</token>
@@ -36175,6 +36176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="descontentament|insatisfacció|disgust|malestar">el <marker>descontent</marker> amb Mussolini era tal </example>
                 <example correction="descontentament|insatisfacció|disgust|malestar">En una situació de <marker>descontent</marker>.</example>
                 <example correction="descontentament|insatisfacció|disgust|malestar">Van mostrar el seu <marker>descontent</marker>.</example>
+                <example correction="descontentament|insatisfacció|disgust|malestar">El meu <marker>descontent</marker> és total.</example>
                 <example>Era un home descontent.</example>
                 <example>Es trobava molt descontent.</example>
                 <example>Se sentia descontent.</example>
@@ -43007,6 +43009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La democràcia directa via referèndum.</example>
                 <example>Crea constantment associacions ciutadanes.</example>
                 <example>En el seu quaranta aniversari.</example>
+                <example>Que almenys preste atenció al que fem.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
