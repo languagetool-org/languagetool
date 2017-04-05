@@ -4117,100 +4117,37 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag="VMN0000"></token>
       </pattern>
-      <message>Substitua por <suggestion>de aí</suggestion>.</message>
+      <message>Será que quis dizer <suggestion>de aí</suggestion>?</message>
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
     </rule>
 
-
   <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
+      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <short>Use a contração</short>
-
-    <!--          Tiago F. Santos Rules Start         ****START**** -->
-    <!-- ********************************************************** -->
-    <!--               Created on 2016-10-31                        -->
-    <!--  Rule group made semi automatically with Wikipedia lists
-                    and tokenizer spreadsheet from the forum        -->
-    <!--	  TODO Write better examples for all these rules    -->
+    <!--     Created by Tiago F. Santos, on 2016-10-31  ****START**** -->
     <rule id='CONTRACAO_À' name='A + a'>
       <pattern>
           <token>a</token>
-          <token>a</token>
+          <token regexp='yes'>as?|aquel[ae]s?|aquilo</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>à</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion><match no='2' regexp_match='^a(.*)' regexp_replace='à$1'/></suggestion>?</message>
       <example correction='à'><marker>a a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀQUELA' name='A + aquela'>
-      <pattern>
-          <token>a</token>
-          <token>aquela</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>àquela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='àquela'><marker>a aquela</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀQUELAS' name='A + aquelas'>
-      <pattern>
-          <token>a</token>
-          <token>aquelas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>àquelas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='àquelas'><marker>a aquelas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀQUELE' name='A + aquele'>
-      <pattern>
-          <token>a</token>
-          <token>aquele</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>àquele</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='àquele'><marker>a aquele</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀQUELES' name='A + aqueles'>
-      <pattern>
-          <token>a</token>
-          <token>aqueles</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>àqueles</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='àqueles'><marker>a aqueles</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀQUILO' name='A + aquilo'>
-      <pattern>
-          <token>a</token>
-          <token>aquilo</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>àquilo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='àquilo'><marker>a aquilo</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_ÀS' name='A + as'>
-      <pattern>
-          <token>a</token>
-          <token>as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>às</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='às'><marker>a as</marker>.</example>
     </rule>
     <rule id='CONTRACAO_ADIANTE' name='A + diante'>
       <pattern>
           <token>a</token>
-          <token>diante</token>
+          <token regexp='yes'>os?|diante</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>adiante</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>a\2</suggestion>?</message>
       <example correction='adiante'><marker>a diante</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_AO' name='A + o'>
-      <pattern>
-          <token>a</token>
-          <token>o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>ao</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='ao'><marker>a o</marker>.</example>
+      <example correction='aos'><marker>a os</marker>.</example>
     </rule>
     <rule id='CONTRACAO_AONDE' name='A + onde'>
       <pattern>
@@ -4219,1409 +4156,367 @@ title="Easy editing stylesheet" ?>
           <token>onde</token>
         </marker>
           <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token negate_pos='yes' postag='V.+' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer <suggestion>aonde</suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='aonde'><marker>a onde</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_AOS' name='A + os'>
-      <pattern>
-          <token>a</token>
-          <token>os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>aos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='aos'><marker>a os</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DA' name='De + a'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">a</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>da</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='da'><marker>de a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DACOLÁ' name='De + acolá'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">acolá</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dacolá</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='dacolá'><marker>de acolá</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAÍ' name='De + aí'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aí</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daí</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daí'><marker>de aí</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DALI' name='De + ali'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">ali</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dali</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='dali'><marker>de ali</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUELA' name='De + aquela'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aquela</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daquela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daquela'><marker>de aquela</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUELAS' name='De + aquelas'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aquelas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daquelas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daquelas'><marker>de aquelas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUELE' name='De + aquele'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aquele</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daquele</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daquele'><marker>de aquele</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUELES' name='De + aqueles'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aqueles</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daqueles</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daqueles'><marker>de aqueles</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUI' name='De + aqui'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aqui</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daqui</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daqui'><marker>de aqui</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAQUILO' name='De + aquilo'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">aquilo</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>daquilo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='daquilo'><marker>de aquilo</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DAS' name='De + as'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>das</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='das'><marker>de as</marker>.</example>
-    </rule>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
           <token>de</token>
-          <token case_sensitive="yes">ela</token>
+          <token case_sensitive="yes">ele</token>
           <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
           <token postag='V.N.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">ela</token>
+          <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>dela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>d\2</suggestion>?</message>
       <example correction='dela'><marker>de ela</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DELAS' name='De + elas'>
-      <antipattern>
-          <token>de</token>
-          <token case_sensitive="yes">elas</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">elas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>delas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='delas'><marker>de elas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DELE' name='De + ele'>
-      <antipattern>
-          <token>de</token>
-          <token case_sensitive="yes">ele</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">ele</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dele</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='dele'><marker>de ele</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DELES' name='De + eles'>
-      <antipattern>
-          <token>de</token>
-          <token case_sensitive="yes">eles</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">eles</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>deles</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='deles'><marker>de eles</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DENTRE' name='De + entre'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">entre</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dentre</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='dentre'><marker>de entre</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESSA' name='De + essa'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">essa</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dessa</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='dessa'><marker>de essa</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESSAS' name='De + essas'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">essas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>dessas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='dessas'><marker>de essas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESSE' name='De + esse'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">esse</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>desse</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='desse'><marker>de esse</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESSES' name='De + esses'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">esses</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>desses</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='desses'><marker>de esses</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESTA' name='De + esta'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">esta</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>desta</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='desta'><marker>de esta</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESTAS' name='De + estas'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">estas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>destas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='destas'><marker>de estas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESTE' name='De + este'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">este</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>deste</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='deste'><marker>de este</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DESTES' name='De + estes'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">estes</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>destes</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='destes'><marker>de estes</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DISSO' name='De + isso'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">isso</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>disso</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='disso'><marker>de isso</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DISTO' name='De + isto'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">isto</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>disto</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='disto'><marker>de isto</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_DO' name='De + o'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>do</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='do'><marker>de o</marker>.</example>
     </rule>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <pattern>
         <marker>
           <token>de</token>
           <token case_sensitive="yes">onde</token>
-        </marker>
+       </marker>
           <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token min='0' negate_pos='yes' postag='V.+' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer <suggestion>donde</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='donde'><marker>de onde</marker>.</example>
+       <example correction='donde'><marker>de onde</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_DOS' name='De + os'>
+    <rule default='on' id='CONTRACAO_DACOLÁ' name='De + artigos'>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">os</token>
+          <token case_sensitive="yes" regexp='yes'>acolá|aí|ali|aquel[ae]s?|aqui(lo)?|es[st][ae]s?|entre|is[st]o</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>dos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>d\2</suggestion>?</message>
+      <example correction='dacolá'><marker>de acolá</marker>.</example>
+      <example correction='daí'><marker>de aí</marker>.</example>
+      <example correction='daquela'><marker>de aquela</marker>.</example>
+      <example correction='daquelas'><marker>de aquelas</marker>.</example>
+      <example correction='daquele'><marker>de aquele</marker>.</example>
+      <example correction='daqueles'><marker>de aqueles</marker>.</example>
+      <example correction='daqui'><marker>de aqui</marker>.</example>
+      <example correction='daquilo'><marker>de aquilo</marker>.</example>
+      <example correction='dentre'><marker>de entre</marker>.</example>
+      <example correction='dessa'><marker>de essa</marker>.</example>
+      <example correction='dessas'><marker>de essas</marker>.</example>
+      <example correction='desse'><marker>de esse</marker>.</example>
+      <example correction='desses'><marker>de esses</marker>.</example>
+      <example correction='desta'><marker>de esta</marker>.</example>
+      <example correction='destas'><marker>de estas</marker>.</example>
+      <example correction='deste'><marker>de este</marker>.</example>
+      <example correction='destes'><marker>de estes</marker>.</example>
+      <example correction='disso'><marker>de isso</marker>.</example>
+      <example correction='disto'><marker>de isto</marker>.</example>
+    </rule>
+    <rule default='off' id='CONTRACAO_DA' name='De + artigos'>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?|outrem|outr[ao]s?</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>d\2</suggestion>?</message>
+      <example correction='da'><marker>de a</marker>.</example>
+      <example correction='das'><marker>de as</marker>.</example>
+      <example correction='do'><marker>de o</marker>.</example>
       <example correction='dos'><marker>de os</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DOUTRA' name='De + outra'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outra</token>
-      </pattern>
-      <message>Pode dizer <suggestion>doutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='doutra'><marker>de outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DOUTRAS' name='De + outras'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>doutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='doutras'><marker>de outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DOUTREM' name='De + outrem'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outrem</token>
-      </pattern>
-      <message>Pode dizer <suggestion>doutrem</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='doutrem'><marker>de outrem</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DOUTRO' name='De + outro'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>doutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='doutro'><marker>de outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DOUTROS' name='De + outros'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>doutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='doutros'><marker>de outros</marker>.</example>
     </rule>
-    <rule default='off' id='CONTRACAO_DUM' name='De + um'>
-
-      <pattern>
-        <marker>
+    <rule default='off' id='CONTRACAO_DUM' name='De + um/uns'>
+      <antipattern>
           <token>de</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='(V.+)' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode dizer <suggestion>dum</suggestion>.</message>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DUMA' name='De + uma'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>duma</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DUMAS' name='De + umas'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>dumas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DUNS' name='De + uns'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>duns</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='duns'><marker>de uns</marker> rios.</example>
-    </rule>
-    <rule id='CONTRACAO_NA' name='Em + a'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">a</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>na</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='na'><marker>em a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAQUELA' name='Em + aquela'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">aquela</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>naquela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='naquela'><marker>em aquela</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAQUELAS' name='Em + aquelas'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">aquelas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>naquelas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='naquelas'><marker>em aquelas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAQUELE' name='Em + aquele'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">aquele</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>naquele</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='naquele'><marker>em aquele</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAQUELES' name='Em + aqueles'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">aqueles</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>naqueles</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='naqueles'><marker>em aqueles</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAQUILO' name='Em + aquilo'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">aquilo</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>naquilo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='naquilo'><marker>em aquilo</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NAS' name='Em + as'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='nas'><marker>em as</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NELA' name='Em + ela'>
-      <antipattern>
-          <token>em</token>
-          <token case_sensitive="yes">ela</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">ela</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='nela'><marker>em ela</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NELAS' name='Em + elas'>
-      <antipattern>
-          <token>em</token>
-          <token case_sensitive="yes">elas</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">elas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nelas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
-      <example correction='nelas'><marker>em elas</marker>.</example>
     </rule>
     <rule id='CONTRACAO_NELE' name='Em + ele'>
       <antipattern>
           <token>em</token>
-          <token case_sensitive="yes">ele</token>
+          <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
           <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
           <token postag='V.N.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes">ele</token>
+          <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>nele</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
+      <example correction='nela'><marker>em ela</marker>.</example>
       <example correction='nele'><marker>em ele</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NELES' name='Em + eles'>
-      <antipattern>
-          <token>em</token>
-          <token case_sensitive="yes">eles</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">eles</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>neles</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='neles'><marker>em eles</marker>.</example>
+      <example correction='nelas'><marker>em elas</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_NESSA' name='Em + essa'>
+    <rule id='CONTRACAO_NA' name='Em + a'>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes">essa</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|entre|is[st]o|onde</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>nessa</suggestion>?</message>
+      <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <example correction='na'><marker>em a</marker>.</example>
+      <example correction='naquela'><marker>em aquela</marker>.</example>
+      <example correction='naquelas'><marker>em aquelas</marker>.</example>
+      <example correction='naquele'><marker>em aquele</marker>.</example>
+      <example correction='naqueles'><marker>em aqueles</marker>.</example>
+      <example correction='naquilo'><marker>em aquilo</marker>.</example>
+      <example correction='nas'><marker>em as</marker>.</example>
       <example correction='nessa'><marker>em essa</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESSAS' name='Em + essas'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">essas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nessas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nessas'><marker>em essas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESSE' name='Em + esse'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">esse</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nesse</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nesse'><marker>em esse</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESSES' name='Em + esses'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">esses</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nesses</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nesses'><marker>em esses</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESTA' name='Em + esta'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">esta</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nesta</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nesta'><marker>em esta</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESTAS' name='Em + estas'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">estas</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nestas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nestas'><marker>em estas</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESTE' name='Em + este'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">este</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>neste</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='neste'><marker>em este</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NESTES' name='Em + estes'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">estes</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nestes</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nestes'><marker>em estes</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NISSO' name='Em + isso'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">isso</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nisso</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nisso'><marker>em isso</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NISTO' name='Em + isto'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">isto</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nisto</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nisto'><marker>em isto</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NO' name='Em + o'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>no</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='no'><marker>em o</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_NOS' name='Em + os'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>nos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='nos'><marker>em os</marker>.</example>
     </rule>
-    <rule default='off' id='CONTRACAO_NOUTRA' name='Em + outra'>
+    <rule default='off' id='CONTRACAO_NOUTRO' name='Em + outro/outrem'>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes">outra</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?|outrem</token>
       </pattern>
-      <message>Pode dizer <suggestion>noutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='noutra'><marker>em outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NOUTRAS' name='Em + outras'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>noutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='noutras'><marker>em outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NOUTREM' name='Em + outrem'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">outrem</token>
-      </pattern>
-      <message>Pode dizer <suggestion>noutrem</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>n\2</suggestion>.</message>
       <example correction='noutrem'><marker>em outrem</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NOUTRO' name='Em + outro'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>noutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <example correction='noutra'><marker>em outra</marker>.</example>
+      <example correction='noutras'><marker>em outras</marker>.</example>
       <example correction='noutro'><marker>em outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NOUTROS' name='Em + outros'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>noutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='noutros'><marker>em outros</marker>.</example>
     </rule>
-    <rule default='off' id='CONTRACAO_NUM' name='Em + um'>
-      <pattern>
-        <marker>
+    <rule default='off' id='CONTRACAO_NUM' name='Em + um/uns'>
+      <antipattern>
           <token>em</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='(V.+)' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode dizer <suggestion>num</suggestion>.</message>
+      <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='num'><marker>em um</marker> belo dia.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NUMA' name='Em + uma'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>numa</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NUMAS' name='Em + umas'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>numas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
+      <example correction='nuns'><marker>em uns</marker> rios.</example>
     </rule>
-    <rule default='off' id='CONTRACAO_NUMS' name='Em + uns'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.+)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode dizer <suggestion>nums</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='nums'><marker>em uns</marker> rios.</example>
-    </rule>
-    <rule id='CONTRACAO_LHA' name='Lhe + a' default='off'>
+    <rule id='CONTRACAO_LHA' name='Lhe + artigo' default='off'>
       <pattern>
           <token>lhe</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>lha</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>lh\2</suggestion>?</message>
       <example correction='lha'><marker>lhe a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_LHO' name='Lhe + o' default='off'>
-      <pattern>
-          <token>lhe</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>lho</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='lho'><marker>lhe o</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_LHAS' name='Lhes + a' default='off'>
+    <rule id='CONTRACAO_LHAS' name='Lhes + artigo' default='off'>
       <pattern>
           <token>lhes</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>lhas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>lh\2s</suggestion>?</message>
       <example correction='lhas'><marker>lhes a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_LHOS' name='Lhes + o' default='off'>
-      <pattern>
-          <token>lhes</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>lhos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='lhos'><marker>lhes o</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_MA' name='Me + a' default='off'>
+    <rule id='CONTRACAO_MA' name='Me + artigo' default='off'>
       <pattern>
           <token>me</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>ma</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>m\2</suggestion>?</message>
       <example correction='ma'><marker>me a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_MAS' name='Me + as' default='off'>
-      <pattern>
-          <token>me</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>mas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='mas'><marker>me as</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_MO' name='Me + o' default='off'>
-      <pattern>
-          <token>me</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>mo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='mo'><marker>me o</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_MOS' name='Me + os' default='off'>
-      <pattern>
-          <token>me</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>mos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='mos'><marker>me os</marker>.</example>
     </rule>
-
-    <!-- NOS A no-la				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
     <rule id='CONTRACAO_NO-LA' name='Nos + a' default='off'>
       <pattern>
           <token>nos</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>no-la</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>no-l\2</suggestion>?</message>
       <example correction='no-la'><marker>nos a</marker>.</example>
-    </rule>
-
-    <!-- NOS AS no-las				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_NO-LAS' name='Nos + as' default='off'>
-      <pattern>
-          <token>nos</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>no-las</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='no-las'><marker>nos as</marker>.</example>
-    </rule>
-
-    <!-- NOS O no-lo				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_NO-LO' name='Nos + o' default='off'>
-      <pattern>
-          <token>nos</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>no-lo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='no-lo'><marker>nos o</marker>.</example>
-    </rule>
-
-    <!-- NOS OS no-los				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_NO-LOS' name='Nos + os' default='off'>
-      <pattern>
-          <token>nos</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>no-los</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='no-los'><marker>nos os</marker>.</example>
     </rule>
     <rule id='CONTRACAO_PELA' name='Por + a'>
       <pattern>
           <token regexp='yes'>por|per</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>pela</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>pel\2</suggestion>?</message>
       <example correction='pela'><marker>por a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_PELAS' name='Por + as'>
-      <pattern>
-          <token regexp='yes'>por|per</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>pelas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='pelas'><marker>por as</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_PELO' name='Por + o'>
-      <pattern>
-          <token regexp='yes'>por|per</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>pelo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='pelo'><marker>por o</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_PELOS' name='Por + os'>
-      <pattern>
-          <token regexp='yes'>por|per</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>pelos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='pelos'><marker>por os</marker>.</example>
     </rule>
     <rule id='CONTRACAO_TA' name='Te + a' default='off'>
       <pattern>
           <token>te</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>ta</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>t\2</suggestion>?</message>
       <example correction='ta'><marker>te a</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_TAS' name='Te + as' default='off'>
-      <pattern>
-          <token>te</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>tas</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='tas'><marker>te as</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_TO' name='Te + o' default='off'>
-      <pattern>
-          <token>te</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>to</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='to'><marker>te o</marker>.</example>
-    </rule>
-    <rule id='CONTRACAO_TOS' name='Te + os' default='off'>
-      <pattern>
-          <token>te</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>tos</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='tos'><marker>te os</marker>.</example>
     </rule>
-
-    <!-- VOS A vo-la				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
     <rule id='CONTRACAO_VO-LA' name='Vos + a' default='off'>
       <pattern>
           <token>vos</token>
-          <token case_sensitive="yes">a</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
       </pattern>
-      <message>Será que quis dizer <suggestion>vo-la</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+      <message>Será que quis dizer <suggestion>vo-l\2</suggestion>?</message>
       <example correction='vo-la'><marker>vos a</marker>.</example>
-    </rule>
-
-    <!-- VOS AS vo-las				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_VO-LAS' name='Vos + as' default='off'>
-      <pattern>
-          <token>vos</token>
-          <token case_sensitive="yes">as</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>vo-las</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='vo-las'><marker>vos as</marker>.</example>
-    </rule>
-
-    <!-- VOS O vo-lo				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_VO-LO' name='Vos + o' default='off'>
-      <pattern>
-          <token>vos</token>
-          <token case_sensitive="yes">o</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>vo-lo</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='vo-lo'><marker>vos o</marker>.</example>
-    </rule>
-
-    <!-- VOS OS vo-los				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule id='CONTRACAO_VO-LOS' name='Vos + os' default='off'>
-      <pattern>
-          <token>vos</token>
-          <token case_sensitive="yes">os</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>vo-los</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='vo-los'><marker>vos os</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_AQUELOUTRA' name='Aquela + outra'>
-      <pattern>
-          <token>aquela</token>
-          <token case_sensitive="yes">outra</token>
-      </pattern>
-      <message>Pode dizer <suggestion>aqueloutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='aqueloutra'><marker>aquela outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ÀQUELOUTRA' name='Àquela + outra'>
-      <pattern>
-          <token>àquela</token>
-          <token case_sensitive="yes">outra</token>
-      </pattern>
-      <message>Pode dizer <suggestion>àqueloutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='àqueloutra'><marker>àquela outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_AQUELOUTRAS' name='Aquelas + outras'>
-      <pattern>
-          <token>aquelas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>aqueloutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='aqueloutras'><marker>aquelas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ÀQUELOUTRAS' name='àquelas + outras'>
-      <pattern>
-          <token>àquelas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>àqueloutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='àqueloutras'><marker>àquelas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_AQUELOUTRO' name='Aquele + outro'>
-      <pattern>
-          <token>aquele</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>aqueloutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='aqueloutro'><marker>aquele outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ÀQUELOUTRO' name='Àquele + outro'>
-      <pattern>
-          <token>àquele</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>àqueloutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='àqueloutro'><marker>àquele outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_AQUELOUTROS' name='Aqueles outros'>
-      <pattern>
-          <token>aqueles</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>aqueloutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='aqueloutros'><marker>aqueles outros</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ÀQUELOUTROS' name='Àqueles + outros'>
-      <pattern>
-          <token>àqueles</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>àqueloutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='àqueloutros'><marker>àqueles outros</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DAQUELOUTRA' name='Daquela + outra'>
-      <pattern>
-          <token>daquela</token>
-          <token case_sensitive="yes">outra</token>
-      </pattern>
-      <message>Pode dizer <suggestion>daqueloutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='daqueloutra'><marker>daquela outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DAQUELOUTRAS' name='Daquelas + outras'>
-      <pattern>
-          <token>daquelas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>daqueloutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='daqueloutras'><marker>daquelas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DAQUELOUTRO' name='Daquele + outro'>
-      <pattern>
-          <token>daquele</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>daqueloutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='daqueloutro'><marker>daquele outro</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_DALGUM' name='De + algum'>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">algum</token>
+          <token case_sensitive="yes" regexp='yes'>alguma?s?|alguns</token>
       </pattern>
-      <message>Pode dizer <suggestion>dalgum</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dalgum'><marker>de algum</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DALGUMA' name='De + alguma'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">alguma</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dalguma</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+
       <example correction='dalguma'><marker>de alguma</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DALGUMAS' name='De + algumas'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">algumas</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dalgumas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dalgumas'><marker>de algumas</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DALGUNS' name='De + alguns'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">alguns</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dalguns</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dalguns'><marker>de alguns</marker>.</example>
     </rule>
-    <rule default='off' id='CONTRACAO_DAQUELOUTROS' name='Dequeles + outros'>
+    <rule default='off' id='CONTRACAO_AQUELOUTRA' name='Aquela + outra'>
       <pattern>
-          <token>dequeles</token>
-          <token case_sensitive="yes">outros</token>
+          <token regexp='yes'>d?[aà]quel[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>daqueloutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <example correction='daqueloutros'><marker>dequeles outros</marker>.</example>
+      <message>Pode dizer <suggestion><match no='1' regexp_match='(.+?)quel.+' regexp_replace='$1quel'/>\2</suggestion>.</message>
+      <example correction='aqueloutra'><marker>aquela outra</marker>.</example>
+      <example correction='àqueloutra'><marker>àquela outra</marker>.</example>
+      <example correction='aqueloutras'><marker>aquelas outras</marker>.</example>
+      <example correction='àqueloutras'><marker>àquelas outras</marker>.</example>
+      <example correction='aqueloutro'><marker>aquele outro</marker>.</example>
+      <example correction='àqueloutro'><marker>àquele outro</marker>.</example>
+      <example correction='aqueloutros'><marker>aqueles outros</marker>.</example>
+      <example correction='àqueloutros'><marker>àqueles outros</marker>.</example>
+      <example correction='daqueloutra'><marker>daquela outra</marker>.</example>
+      <example correction='daqueloutras'><marker>daquelas outras</marker>.</example>
+      <example correction='daqueloutro'><marker>daquele outro</marker>.</example>
+      <example correction='daqueloutros'><marker>daqueles outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_DESSOUTRA' name='Dessa + outra'>
       <pattern>
-          <token>dessa</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>dess[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>dessoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>dess\2</suggestion>.</message>
       <example correction='dessoutra'><marker>dessa outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESSOUTRAS' name='Dessas + outras'>
-      <pattern>
-          <token>dessas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dessoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dessoutras'><marker>dessas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESSOUTRO' name='Desse + outro'>
-      <pattern>
-          <token>desse</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dessoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dessoutro'><marker>desse outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESSOUTROS' name='Desses + outros'>
-      <pattern>
-          <token>desses</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>dessoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dessoutros'><marker>desses outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_DESTOUTRA' name='Desta + outra'>
       <pattern>
-          <token>desta</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>dest[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>destoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>dest\2</suggestion>.</message>
       <example correction='destoutra'><marker>desta outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESTOUTRAS' name='Destas + outras'>
-      <pattern>
-          <token>destas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>destoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='destoutras'><marker>destas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESTOUTRO' name='Deste + outro'>
-      <pattern>
-          <token>deste</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>destoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='destoutro'><marker>deste outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_DESTOUTROS' name='Destes + outros'>
-      <pattern>
-          <token>destes</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>destoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='destoutros'><marker>destes outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_NALGUM' name='Em + algum'>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes">algum</token>
+          <token case_sensitive="yes" regexp='yes'>alguma?s?|alguns</token>
       </pattern>
-      <message>Pode dizer <suggestion>nalgum</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>n\2</suggestion>.</message>
       <example correction='nalgum'><marker>em algum</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NALGUMA' name='Em + alguma'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">alguma</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nalguma</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nalguma'><marker>em alguma</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NALGUMAS' name='Em + algumas'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">algumas</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nalgumas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nalgumas'><marker>em algumas</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NALGUNS' name='Em + alguns'>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes">alguns</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nalguns</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nalguns'><marker>em alguns</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_ESSOUTRA' name='Essa + outra'>
       <pattern>
-          <token>essa</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>ess[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>essoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>ess\2</suggestion>.</message>
       <example correction='essoutra'><marker>essa outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESSOUTRAS' name='Essas + outras'>
-      <pattern>
-          <token>essas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>essoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='essoutras'><marker>essas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESSOUTRO' name='Esse + outro'>
-      <pattern>
-          <token>esse</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>essoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='essoutro'><marker>esse outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESSOUTROS' name='Esses + outros'>
-      <pattern>
-          <token>esses</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>essoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='essoutros'><marker>esses outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_ESTOUTRA' name='Esta + outra'>
       <pattern>
-          <token>esta</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>est[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>estoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>est\2</suggestion>.</message>
       <example correction='estoutra'><marker>esta outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESTOUTRAS' name='Estas + outras'>
-      <pattern>
-          <token>estas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>estoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='estoutras'><marker>estas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESTOUTRO' name='Este + outro'>
-      <pattern>
-          <token>este</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>estoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='estoutro'><marker>este outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_ESTOUTROS' name='Estes + outros'>
-      <pattern>
-          <token>estes</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>estoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='estoutros'><marker>estes outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_NAQUELOUTRA' name='Naquela + outra'>
       <pattern>
-          <token>naquela</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>naquel[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>naqueloutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>naquel\2</suggestion>.</message>
       <example correction='naqueloutra'><marker>naquela outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NAQUELOUTRAS' name='Naquelas + outras'>
-      <pattern>
-          <token>naquelas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>naqueloutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='naqueloutras'><marker>naquelas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NAQUELOUTRO' name='Naquele + outro'>
-      <pattern>
-          <token>naquele</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>naqueloutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='naqueloutro'><marker>naquele outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NAQUELOUTROS' name='Naqueles + outros'>
-      <pattern>
-          <token>naqueles</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>naqueloutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='naqueloutros'><marker>naqueles outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_NESSOUTRA' name='Nessa + outra'>
       <pattern>
-          <token>nessa</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>ness[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>nessoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>ness\2</suggestion>.</message>
       <example correction='nessoutra'><marker>nessa outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESSOUTRAS' name='Nessas + outras'>
-      <pattern>
-          <token>nessas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nessoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nessoutras'><marker>nessas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESSOUTRO' name='Nesse + outro'>
-      <pattern>
-          <token>nesse</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nessoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nessoutro'><marker>nesse outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESSOUTROS' name='Nesses + outros'>
-      <pattern>
-          <token>nesses</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nessoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nessoutros'><marker>nesses outros</marker>.</example>
     </rule>
     <rule default='off' id='CONTRACAO_NESTOUTRA' name='Nesta + outra'>
       <pattern>
-          <token>nesta</token>
-          <token case_sensitive="yes">outra</token>
+          <token regexp='yes'>nest[ae]s?</token>
+          <token case_sensitive="yes" regexp='yes'>outr[ao]s?</token>
       </pattern>
-      <message>Pode dizer <suggestion>nestoutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <message>Pode dizer <suggestion>nest\2</suggestion>.</message>
       <example correction='nestoutra'><marker>nesta outra</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESTOUTRAS' name='Nestas + outras'>
-      <pattern>
-          <token>nestas</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nestoutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nestoutras'><marker>nestas outras</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESTOUTRO' name='Neste + outro'>
-      <pattern>
-          <token>neste</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nestoutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nestoutro'><marker>neste outro</marker>.</example>
-    </rule>
-    <rule default='off' id='CONTRACAO_NESTOUTROS' name='Nestes + outros'>
-      <pattern>
-          <token>nestes</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode dizer <suggestion>nestoutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='nestoutros'><marker>nestes outros</marker>.</example>
     </rule>
-
   </rulegroup>
     <!--          Tiago F. Santos Rules Ending          ****END**** -->
     <!-- ********************************************************** -->
