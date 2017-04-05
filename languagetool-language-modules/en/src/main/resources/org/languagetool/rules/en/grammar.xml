@@ -13860,6 +13860,22 @@ USA
                 <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — writer and university teacher.</example>
             </rule>
         </rulegroup>
+    <rule id="ENUMERATION_AND_DASHES" name="Enumerations with dashes: 1.2.-">
+            <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
+      <pattern>
+          <token postag='SENT_START'/>
+          <token regexp="yes">\d+(\.\d+)?</token>
+          <token>.</token>
+          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+      </pattern>
+      <message>Dashes are unnecessary in enumerations.</message>
+        <suggestion>\2.</suggestion>
+      <example correction="1."><marker>1.-</marker> Introduction</example>
+      <example correction="1."><marker>1.--</marker> Introduction</example>
+      <example correction="1.3."><marker>1.3.—</marker> Introduction</example>
+      <example>50-30</example>
+      <example>...with a rock...—, I believe that...</example>
+    </rule>
     </category>
 
     <!-- ====================================================================== -->
