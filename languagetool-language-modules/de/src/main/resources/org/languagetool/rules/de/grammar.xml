@@ -7491,14 +7491,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>eben</token>
                     <token>so</token>
                 </marker>
+		    <!-- Jan: TODO: verallgemeinern -->
                 <token regexp="yes">(gern|gut|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
             </pattern>
-            <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= genauso, gleichermaßen, in der gleichen Weise)?</message>
+            <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= <suggestion>genauso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
             <url>https://www.duden.de/rechtschreibung/ebenso</url>
             <short>&getrennt;.</short>
-            <example correction="ebenso">Wir hätten <marker>eben so</marker> gut in der Uni bleiben können.</example>
+            <example correction="ebenso|genauso">Wir hätten <marker>eben so</marker> gut in der Uni bleiben können.</example>
             <example>Wir hätten die Aufgabe <marker>eben</marker> so oder so lösen können.</example>
         </rule>
+        <rule id="GENAU_SO" name="'genau so (genauso)'">
+            <pattern>
+                <marker>
+                    <token>genau</token>
+                    <token>so</token>
+                </marker>
+                <token postag="ADJ:.+" postag_regexp="yes"/>
+            </pattern>
+            <message>&getrennt;: Meinten Sie <suggestion>genauso</suggestion> als Adverb (= <suggestion>ebenso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
+            <url>https://www.duden.de/rechtschreibung/genauso</url>
+            <short>&getrennt;.</short>
+            <example correction="genauso|ebenso">Wir hätten <marker>genau so</marker> gut in der Uni bleiben können.</example>
+		<example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt.</example>
+        </rule>
+        <!-- Jan, April 2017: Alter Versuch: „die Karten werden genau so verteilt, dass jeder Spieler“ ist ein Beispielsatz im Duden
+        <rule id="GENAU_SO" name="'genau so (genauso)">
+            <pattern>
+                <token>genau</token>
+                <token>so</token>
+            </pattern>
+            <message><suggestion>genauso</suggestion> wird als ein Wort geschrieben.</message>
+            <short>&getrennt;.</short>
+            <example>Und <marker>genauso</marker> soll es sein.</example>
+            <example type="incorrect">Und <marker>genau so</marker> soll es sein.</example>
+        </rule>-->
         <rule id="LOG_IN" name="'Log in (Log-in)'">
             <pattern>
                 <marker>
@@ -8460,17 +8486,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="durcheinander">Sie brachte alles <marker>durch einander</marker>.</example>
         </rule>
-<!--    „die Karten werden genau so verteilt, dass jeder Spieler“ ist ein Beispielsatz im Duden
-        <rule id="GENAU_SO" name="'genau so (genauso)">
-            <pattern>
-                <token>genau</token>
-                <token>so</token>
-            </pattern>
-            <message><suggestion>genauso</suggestion> wird als ein Wort geschrieben.</message>
-            <short>&getrennt;.</short>
-            <example>Und <marker>genauso</marker> soll es sein.</example>
-            <example type="incorrect">Und <marker>genau so</marker> soll es sein.</example>
-        </rule>-->
         <rule id="DIENSTAG_ABEND" name="'Dienstag abend (Dienstagabend)">
             <pattern>
                 <token regexp="yes">&wochentage;</token>
