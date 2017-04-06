@@ -59,7 +59,9 @@ public class Arabic extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"", "DZ", "SA", "TN", "EG"};
+    return new String[]{"", "AE", "BH", "EG", "IN", "IQ", "JQ", "JO", 
+    						"KW", "LB", "LY", "MA", "OM", "QA", "SA", "SD", 
+    						"SY", "TN", "YE"};
   }
   
   @Override
@@ -89,8 +91,8 @@ public class Arabic extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Taha Zerrouki"),
-            new Contributor("Sohaib Afifi"),
+            new Contributor("Taha Zerrouki", "http://tahadz.com"),
+            new Contributor("Sohaib Afifi", "http://sohaibafifi.com"),
             new Contributor("Imen Kali"),
             new Contributor("Karima Tchoketch"),
     };
