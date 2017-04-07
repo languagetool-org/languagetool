@@ -3374,12 +3374,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>,</token>
                     <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
-                    <token regexp="yes">попало|угодно|нужно</token>
+                    <token regexp="yes">попало|угодно</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion> \2 \3</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example>Работа была сделана как попало.</example>
                 <example correction=" как попало">Работа была сделана<marker>, как попало</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VB:.*"></token>
+                    <token>,</token>
+                    <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
+                    <token regexp="yes">нужно</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Они воспринимают это как сигнал к тому, что нужно начать говорить.</example>
+                <example correction="достать что нужно"><marker>достать, что нужно</marker></example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...»">
