@@ -1768,6 +1768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>zur</token>
+                    <token min="0">letzten</token>
                     <token>Ruhe</token>
                     <marker>
                         <token>gebetet</token>
@@ -1775,21 +1776,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
                 <example correction="gebettet">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
-                <example>Dort wurde häufig <marker>gebetet</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>zur</token>
-                    <token>letzten</token>
-                    <token>Ruhe</token>
-                    <marker>
-                        <token>gebetet</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
                 <example correction="gebettet">Dort wurde er zur letzten Ruhe <marker>gebetet</marker>.</example>
-                <example>Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
-                <example>Dort wurde für ihn <marker>gebetet</marker>.</example>
+                <example>Dort wurde häufig <marker>gebetet</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="AUF_ROSEN_GEBETET" name="'auf Rosen gebetet (gebettet)'">
@@ -7491,7 +7479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>eben</token>
                     <token>so</token>
                 </marker>
-		    <!-- Jan: TODO: verallgemeinern -->
+		    <!-- Jan: TODO: evt. verallgemeinern -->
                 <token regexp="yes">(gern|gut|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= <suggestion>genauso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
@@ -7512,19 +7500,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.duden.de/rechtschreibung/genauso</url>
             <short>&getrennt;.</short>
             <example correction="genauso|ebenso">Wir hätten <marker>genau so</marker> gut in der Uni bleiben können.</example>
-		<example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt.</example>
+		<example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
         </rule>
-        <!-- Jan, April 2017: Alter Versuch: „die Karten werden genau so verteilt, dass jeder Spieler“ ist ein Beispielsatz im Duden
-        <rule id="GENAU_SO" name="'genau so (genauso)">
-            <pattern>
-                <token>genau</token>
-                <token>so</token>
-            </pattern>
-            <message><suggestion>genauso</suggestion> wird als ein Wort geschrieben.</message>
-            <short>&getrennt;.</short>
-            <example>Und <marker>genauso</marker> soll es sein.</example>
-            <example type="incorrect">Und <marker>genau so</marker> soll es sein.</example>
-        </rule>-->
         <rule id="LOG_IN" name="'Log in (Log-in)'">
             <pattern>
                 <marker>
@@ -13103,6 +13080,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Ehe">Der Schutz von <marker>ehe</marker> und Familie ist im Grundgesetz verankert.</example>
             </rule>
             <rule>
+                <pattern case_sensitive="yes">
+                    <token>Bund</token>
+                    <token>der</token>
+                    <marker>
+                        <token>ehe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ehe">Wir sind den Bund der <marker>ehe</marker> eingegangen.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <!-- TODO: generalize? -->
                     <token regexp="yes">aus|in</token>
@@ -13880,17 +13869,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Kreisen">Wie aus gewöhnlich gut unterrichteten <marker>kreisen</marker> verlautete …</example>
         </rule>
-        <rule id="WUNDE_SUBST" name="'eine offene wunde (Wunde)' etc.">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">(blutende|offene|chronische|eiternde|eitrige|klaffende|heilende|verheilte|vernarbte|schmerzende|schwärende|seelische|tiefe)n?</token>
-                <marker>
-                    <token regexp="yes">wunden?</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example correction="Wunden">Das sind offene <marker>wunden</marker>.</example>
-        </rule>
+        <rulegroup id="WUNDE_SUBST" name="'eine offene wunde (Wunde)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(blutende|offene|chronische|eiternde|eitrige|klaffende|heilende|verheilte|vernarbte|schmerzende|schwärende|seelische|tiefe)n?</token>
+                    <marker>
+                        <token regexp="yes">wunden?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Wunden">Das sind offene <marker>wunden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Salz</token>
+                    <token>in</token>
+                    <token>die</token>
+                    <marker>
+                        <token regexp="yes">wunden?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Wunde">Und du streust noch Salz in die <marker>wunde</marker>, du Trampel!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHNUPFEN_SUBST" name="'ich habe schnupfen (Schnupfen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -14242,6 +14246,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Berge">Ich könnte <marker>berge</marker> versetzen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>über</token>
+                    <token>alle</token>
+                    <marker>
+                        <token case_sensitive="yes">berge</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Berge">Da waren die Schurken schon längst über alle <marker>berge</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="AUSSAGE_SUBST" name="'laut aussage (Aussage)'">
@@ -15427,6 +15443,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das neue <marker>Gerät</marker> war noch nicht einsatzbereit.</example>
             </rule>
         </rulegroup>
+        <rule id="AUF_DIE_SCHLICHE" name="'auf die schliche (Schliche) kommen'">
+            <pattern case_sensitive="yes">
+                <token postag="PRO:PER:DAT:.+" postag_regexp="yes"/>
+                <token regexp="yes" min="0">nicht|nie(mals)?</token>
+                <token>auf</token>
+                <token>die</token>
+                <marker>
+                    <token>schliche</token>
+                </marker>
+            </pattern>
+            <message>&inwend;'jmdm. auf die Schliche kommen' wird <suggestion>Schliche</suggestion> großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <!-- TODO: <example correction="Schliche">Ihm ist wohl jemand auf die <marker>schliche</marker> gekommen.</example> -->
+            <example correction="Schliche">Die Polizei kam ihnen auf die <marker>schliche</marker>.</example>
+            <example correction="Schliche">Die kommen uns niemals auf die <marker>schliche</marker>!</example>
+        </rule>
+        <rule id="DEN_KUERZEREN_ZIEHEN" name="'den kürzeren (Kürzeren) ziehen'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[dD]en</token>
+                <marker>
+                    <token>kürzeren</token>
+                </marker>
+                <token inflected="yes">ziehen</token>
+            </pattern>
+            <message>&inwend;'den Kürzeren ziehen' (metaphorisch im Sinne von 'das Nachsehen haben', 'unterliegen') wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+		<url>https://de.wiktionary.org/wiki/den_K%C3%BCrzeren_ziehen</url>
+            <short>&prgk;.</short>
+            <example correction="Kürzeren">Da haben wir wohl den <marker>kürzeren</marker> gezogen.</example>
+        </rule>
+        <rule id="NACH_DEM_RECHTEN_SEHEN" name="'nach dem rechten (Rechten) sehen'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[nN]ach</token>
+                <token>dem</token>
+                <marker>
+                    <token>rechten</token>
+                </marker>
+                <token inflected="yes">sehen</token>
+            </pattern>
+            <message>&inwend;'nach dem Rechten sehen' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Rechten">Wir sollten dort mal nach dem <marker>rechten</marker> sehen.</example>
+        </rule>
+        <rule id="IN_GEORDNETEN_BAHNEN" name="'in geordneten bahnen (Bahnen)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[iI]n</token>
+                <token>geordneten</token>
+                <marker>
+                    <token>bahnen</token>
+                </marker>
+            </pattern>
+            <message>&inwend;'in geordneten Bahnen' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> als Substantiv verwendet und muss großgeschrieben werden.</message>
+            <short>&prgk;.</short>
+            <example correction="Bahnen">Alles verläuft wieder in geordneten <marker>bahnen</marker>.</example>
+        </rule>
+        <rule id="IN_DIE_ENGE_TREIBEN" name="'jemanden in die enge (Enge) treiben'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[iI]n</token>
+                <token>die</token>
+                <marker>
+                    <token>enge</token>
+                </marker>
+                <token inflected="yes">treiben</token>
+            </pattern>
+            <message>&inwend;'jemanden in die Enge treiben' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
+		<url>https://de.wiktionary.org/wiki/Enge</url>
+            <short>&prgk;.</short>
+            <example correction="Enge">Die haben uns ganz schön in die <marker>enge</marker> getrieben.</example>
+        </rule>
+        <rule id="MITTEN_IM_NIRGENDWO" name="'mitten im nirgendwo (Nirgendwo)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[mM]itten</token>
+                <token>im</token>
+                <marker>
+                    <token regexp="yes">nichts|nirgendwo</token>
+                </marker>
+            </pattern>
+            <message>&inwend;'mitten im <match no="3" case_conversion="startupper"/>' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Nichts">Wir saßen mitten im <marker>nichts</marker> fest, ohne Benzin, ohne Proviant, ohne Munition.</example>
+            <example correction="Nirgendwo">Wir hockten ohne Auto mitten im <marker>nirgendwo</marker>.</example>
+        </rule>
         <rule id="DER_LETZTE_SCHREI" name="'der letzte schrei (Schrei)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]er</token>
@@ -15615,6 +15712,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Schale">Nüsse ohne <marker>schale</marker>.</example>
             <example correction="Sahne">Erdbeeren mit <marker>sahne</marker>.</example>
         </rule>
+        <rulegroup id="UEBEL_SUBST" name="'das kleinere übel (Übel)'">
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <token>kleinere</token>
+                    <marker>
+                        <token case_sensitive="yes">übel</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Übel">Sie wählten das kleinere <marker>übel</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <token>notwendiges</token>
+                    <marker>
+                        <token case_sensitive="yes">übel</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Übel">Das ist leider ein notwendiges <marker>übel</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SINNE_SUBST" name="'mir schwinden die sinne (Sinne)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -20639,7 +20762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ENDE_SUBST" name="'ende (Ende)'">
             <rule>
                 <pattern>
-                    <token regexp="yes">ohne|am|zu|zum|gegen</token>
+                    <token regexp="yes">ohne|am|zum?|gegen</token>
                     <token postag="ADJ:DAT:SIN:NEU:.+" postag_regexp="yes" min="0"/>
                     <marker>
                         <token case_sensitive="yes">ende</token>
@@ -20648,7 +20771,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Ende">Unsere Fahrt ist zu <marker>ende</marker>.</example>
+                <example correction="Ende">Sie stand am hinteren <marker>ende</marker> des Raumes.</example>
                 <example correction="Ende">Der Preis liegt am oberen <marker>ende</marker> der Skala.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <token>einem</token>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token min="0" max="2"/>
+			  <token min="0">bis</token>
+                    <token>zum</token>
+                    <token>anderen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ende">Wir fuhren von einem <marker>ende</marker> der Stadt zum anderen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -22889,6 +23029,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Arm">Sie hat mich in den <marker>arm</marker> genommen.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">arm</token>
+                        <token>in</token>
+                        <token>arm</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Arm in Arm</suggestion> wird 'Arm' i.d.R. als Substantiv gebraucht und muss deshalb großgeschrieben werden.</message>
+                <short>&prgk;.</short>
+                <example correction="Arm in Arm">Wir gingen <marker>arm in Arm</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>arm</token>
+                        <token>in</token>
+                        <token case_sensitive="yes">arm</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Arm in Arm</suggestion> wird 'Arm' i.d.R. als Substantiv gebraucht und muss deshalb großgeschrieben werden.</message>
+                <short>&prgk;.</short>
+                <example correction="Arm in Arm">Wir gingen <marker>Arm in arm</marker>.</example>
+            </rule>
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
@@ -24464,6 +24628,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Ruhe">Ihn bringt so leicht nichts aus der <marker>ruhe</marker>.</example>
                 <example>Er ließ sich nicht aus der <marker>Ruhe</marker> bringen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>ruhe</token>
+                    </marker>
+			  <token regexp="yes" inflected="yes">bewahren|einkehren|haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ruhe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ruhe">Wir sollten <marker>ruhe</marker> bewahren.</example>
+                <example correction="Ruhe">Ich wollte nur meine <marker>ruhe</marker> haben.</example>
+                <example correction="Ruhe">Wann wird dort endlich <marker>ruhe</marker> einkehren?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
