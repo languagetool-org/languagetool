@@ -45,7 +45,7 @@ class OldSpellingData {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       Language german = Languages.getLanguageForShortCode("de");
-      String message = "Diese Variante war nur in der alten Rechtschreibung korrekt.";
+      String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
       String shortMessage = "alte Rechtschreibung";
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();

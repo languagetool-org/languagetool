@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class OldSpellingRule extends Rule {
 
-  private static final String DESC = "Findet Varianten, die nur in der alten Rechtschreibung gültig waren";
+  private static final String DESC = "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
 
   private final static OldSpellingData data = new OldSpellingData(DESC);
 
