@@ -75,7 +75,11 @@ public class PatternTokenBuilder {
     return this;
   }
   
-  /** @since 3.8 */
+  /**
+   * Also match inflected forms of the given word - note this will only work when the
+   * given token actually is a baseform.
+   * @since 3.8 
+   */
   public PatternTokenBuilder matchInflectedForms() {
     matchInflectedForms = true;
     return this;
