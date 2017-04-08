@@ -15459,6 +15459,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Schliche">Die Polizei kam ihnen auf die <marker>schliche</marker>.</example>
             <example correction="Schliche">Die kommen uns niemals auf die <marker>schliche</marker>!</example>
         </rule>
+        <rule id="RECHTE_VORBEHALTEN" name="'Alle rechte (Rechte) vorbehalten'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[aA]lle</token>
+                <marker>
+                    <token>rechte</token>
+                </marker>
+                <token inflected="yes">vorbehalten</token>
+            </pattern>
+            <message>&inwend;'Alle Rechte vorbehalten' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Rechte">Alle <marker>rechte</marker> vorbehalten.</example>
+        </rule>
         <rule id="DEN_KUERZEREN_ZIEHEN" name="'den kürzeren (Kürzeren) ziehen'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]en</token>
@@ -17200,6 +17212,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Zeit">Keine <marker>zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]on</token>
+                    <token regexp="yes">[zZ]eit</token>
+                    <token>zu</token>
+                    <marker>
+                        <token>zeit</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zeit">Von Zeit zu <marker>zeit</marker> habe ich Lust dazu.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]on</token>
+                    <marker>
+                        <token>zeit</token>
+                    </marker>
+                    <token>zu</token>
+                    <token regexp="yes">[zZ]eit</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zeit">Von <marker>zeit</marker> zu Zeit habe ich Lust dazu.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19093,6 +19131,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Sorge">Keine <marker>sorge</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>außer</token>
+                    <token regexp="yes">sich|mir</token>
+                    <token>vor</token>
+                    <marker>
+                        <token>sorge</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Sorge">Ich war außer mir vor <marker>sorge</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token min="0" max="3"/>
+                    <token>andere</token>
+                    <marker>
+                        <token>sorgen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Sorgen">Ich habe im Moment ganz andere <marker>sorgen</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>andere</token>
+                    <marker>
+                        <token>sorgen</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Sorgen">Er hat sich nicht beteiligt, weil er gerade andere <marker>sorgen</marker> hatte.</example>
+                <example correction="Sorgen">Er schien andere <marker>sorgen</marker> zu haben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MONTAGS" name="'Montags/montags etc.'">
@@ -21584,6 +21662,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]ie</token>
+                    <marker>
+                        <token>stunde</token>
+                    </marker>
+                    <token regexp="yes">de[sr]</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Stunde">Das ist die <marker>stunde</marker> der Patrioten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">tage|stunden</token>
                     </marker>
@@ -23331,6 +23421,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&prgk;: <suggestion>Wohl</suggestion> wird in der Wendung 'zu jmds. Wohl' (im Sinne von 'zu jmds. Besten') großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Wohl">Es ist zum <marker>wohl</marker> der Bevölkerung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WOHL_UND_WEHE" name="'das wohl und wehe (Wohl und Wehe)'">
+            <url>https://de.wiktionary.org/wiki/Wohl_und_Wehe</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as|&meindein;</token>
+                    <token regexp="yes">[wW]ohl</token>
+                    <token>und</token>
+                    <marker>
+                        <token>wehe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wehe</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example correction="Wehe">Das entscheidet über das wohl und <marker>wehe</marker> der Partei.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as|&meindein;</token>
+                    <marker>
+                        <token>wohl</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">[wW]ehe</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wohl</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example correction="Wohl">Das entscheidet womöglich über das <marker>wohl</marker> und Wehe der Partei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_LEBEN" name="'im/am leben (Leben)'">
