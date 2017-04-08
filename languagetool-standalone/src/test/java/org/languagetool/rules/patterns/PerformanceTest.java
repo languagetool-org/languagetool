@@ -29,6 +29,8 @@ import java.io.IOException;
  * Check performance per sentence. Not a unit test, for interactive use only.
  */
 final class PerformanceTest {
+  
+  private static final long RUNS = 1;
 
   private PerformanceTest() {
   }
@@ -48,11 +50,17 @@ final class PerformanceTest {
     System.out.printf("Check time on first run: " + runTime1 + "ms = %.1fms per sentence\n", timePerSentence1);
 
     System.out.println("Checking text...");
-    long startTime2 = System.currentTimeMillis();
-    langTool.check(text);
-    long runTime2 = System.currentTimeMillis() - startTime2;
-    float timePerSentence2 = (float)runTime2 / sentenceCount;
-    System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
+    long totalTime = 0;
+    for (int i = 0; i < RUNS; i++) {
+      long startTime2 = System.currentTimeMillis();
+      langTool.check(text);
+      long runTime2 = System.currentTimeMillis() - startTime2;
+      float timePerSentence2 = (float)runTime2 / sentenceCount;
+      System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
+      totalTime += timePerSentence2;
+    }
+    float avg = totalTime / (float)RUNS;
+    System.out.printf("Average time per sentence = %.1fms\n", avg);
   }
 
   public static void main(String[] args) throws IOException {

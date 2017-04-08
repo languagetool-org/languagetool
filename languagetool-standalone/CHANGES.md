@@ -2,13 +2,15 @@
 
 ## 3.8-SNAPSHOT (release planned for 2017-06-27)
 
-* ...
+#### German
+  * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
+    also has a message explaining the user that `Kuß` is an old spelling
 
 #### HTTP API
- * The deprecated AfterTheDeadline mode has been removed
+  * The deprecated AfterTheDeadline mode has been removed
 
 #### Java API
- * Some deprecated methods and classes have been removed.
+  * Some deprecated methods and classes have been removed.
 
 
 ## 3.7 (2017-03-27)
