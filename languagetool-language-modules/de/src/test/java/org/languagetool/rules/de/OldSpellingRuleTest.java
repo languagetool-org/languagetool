@@ -44,6 +44,18 @@ public class OldSpellingRuleTest {
     AnalyzedSentence sentence2 = lt.getAnalyzedSentence("Das Corpus delicti");
     assertThat(rule.match(sentence2).length, is(1));
     assertThat(rule.match(sentence2)[0].getSuggestedReplacements().toString(), is("[Corpus Delicti]"));
+
+    // inflected forms should work, too (as long as the inflection database still contains the old variants):
+    AnalyzedSentence sentence3 = lt.getAnalyzedSentence("In Rußlands Weiten");
+    assertThat(rule.match(sentence3).length, is(1));
+    assertThat(rule.match(sentence3)[0].getSuggestedReplacements().toString(), is("[Russlands]"));
+
+    AnalyzedSentence sentence4 = lt.getAnalyzedSentence("Hot pants");
+    assertThat(rule.match(sentence4).length, is(1));
+    assertThat(rule.match(sentence4)[0].getSuggestedReplacements().toString(), is("[Hotpants]"));
+
+    assertThat(rule.match(lt.getAnalyzedSentence("In Russland")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("In Russlands Weiten")).length, is(0));
   }
 
 }

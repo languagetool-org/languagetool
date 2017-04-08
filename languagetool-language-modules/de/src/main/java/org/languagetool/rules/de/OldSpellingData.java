@@ -60,7 +60,7 @@ class OldSpellingData {
         String newSpelling = parts[1];
         List<PatternToken> patternTokens = getTokens(oldSpelling);
         PatternRule rule = new PatternRule("OLD_SPELLING_INTERNAL", german, patternTokens, ruleDesc, message, shortMessage);
-        spellingRules.add(new OldSpellingRuleWithSuggestion(rule, newSpelling));
+        spellingRules.add(new OldSpellingRuleWithSuggestion(rule, oldSpelling, newSpelling));
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -73,7 +73,7 @@ class OldSpellingData {
     String[] newSpellingTokens = oldSpelling.split(" ");
     List<PatternToken> patternTokens = new ArrayList<>();
     for (String part : newSpellingTokens) {
-      PatternToken token = builder.csToken(part).build();
+      PatternToken token = builder.csToken(part).matchInflectedForms().build();
       patternTokens.add(token);
     }
     return patternTokens;

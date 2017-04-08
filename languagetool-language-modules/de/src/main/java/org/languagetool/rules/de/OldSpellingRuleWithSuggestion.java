@@ -20,17 +20,21 @@ package org.languagetool.rules.de;
 
 import org.languagetool.rules.Rule;
 
+import java.util.Objects;
+
 /**
  * @since 3.8
  */
 class OldSpellingRuleWithSuggestion {
 
   Rule rule;
-  String suggestion;
+  String oldSpelling;
+  String newSpelling;
 
-  OldSpellingRuleWithSuggestion(Rule rule, String suggestion) {
-    this.rule = rule;
-    this.suggestion = suggestion;
+  OldSpellingRuleWithSuggestion(Rule rule, String oldSpelling, String newSpelling) {
+    this.rule = Objects.requireNonNull(rule);
+    this.oldSpelling = Objects.requireNonNull(oldSpelling);
+    this.newSpelling = Objects.requireNonNull(newSpelling);
   }
 
 }

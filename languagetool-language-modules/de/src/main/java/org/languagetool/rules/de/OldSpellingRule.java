@@ -54,10 +54,13 @@ public class OldSpellingRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    for (OldSpellingRuleWithSuggestion rule : data.get()) {
-      RuleMatch[] matches = rule.rule.match(sentence);
+    for (OldSpellingRuleWithSuggestion ruleWithSuggestion : data.get()) {
+      Rule rule = ruleWithSuggestion.rule;
+      RuleMatch[] matches = rule.match(sentence);
       if (matches.length > 0) {
-        matches[0].setSuggestedReplacement(rule.suggestion);
+        RuleMatch match = matches[0];
+        String matchedText = sentence.getText().substring(match.getFromPos(), match.getToPos());
+        match.setSuggestedReplacement(matchedText.replace(ruleWithSuggestion.oldSpelling, ruleWithSuggestion.newSpelling));
         ruleMatches.addAll(Arrays.asList(matches));
       }
     }
