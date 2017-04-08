@@ -19,12 +19,14 @@
 package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +60,7 @@ class OldSpellingData {
         }
         String oldSpelling = parts[0];
         String newSpelling = parts[1];
-        List<PatternToken> patternTokens = getTokens(oldSpelling);
+        List<PatternToken> patternTokens = getTokens(oldSpelling, german);
         PatternRule rule = new PatternRule("OLD_SPELLING_INTERNAL", german, patternTokens, ruleDesc, message, shortMessage);
         spellingRules.add(new OldSpellingRuleWithSuggestion(rule, oldSpelling, newSpelling));
       }
@@ -68,15 +70,32 @@ class OldSpellingData {
   }
 
   @NotNull
-  private List<PatternToken> getTokens(String oldSpelling) {
+  private List<PatternToken> getTokens(String oldSpelling, Language lang) {
     PatternTokenBuilder builder = new PatternTokenBuilder();
     String[] newSpellingTokens = oldSpelling.split(" ");
     List<PatternToken> patternTokens = new ArrayList<>();
     for (String part : newSpellingTokens) {
-      PatternToken token = builder.csToken(part).matchInflectedForms().build();
+      PatternToken token;
+      if (isBaseform(oldSpelling, lang)) {
+        token = builder.csToken(part).matchInflectedForms().build();
+      } else {
+        token = builder.csToken(part).build();
+      }
       patternTokens.add(token);
     }
     return patternTokens;
+  }
+
+  private boolean isBaseform(String term, Language lang) {
+    try {
+      AnalyzedTokenReadings lookup = ((GermanTagger) lang.getTagger()).lookup(term);
+      if (lookup != null) {
+        return lookup.hasLemma(term);
+      }
+      return false;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public List<OldSpellingRuleWithSuggestion> get() {

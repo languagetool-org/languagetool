@@ -54,6 +54,10 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(sentence4).length, is(1));
     assertThat(rule.match(sentence4)[0].getSuggestedReplacements().toString(), is("[Hotpants]"));
 
+    AnalyzedSentence sentence5 = lt.getAnalyzedSentence("Ich muß los");
+    assertThat(rule.match(sentence5).length, is(1));
+    assertThat(rule.match(sentence5)[0].getSuggestedReplacements().toString(), is("[muss]"));
+
     assertThat(rule.match(lt.getAnalyzedSentence("In Russland")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("In Russlands Weiten")).length, is(0));
   }
