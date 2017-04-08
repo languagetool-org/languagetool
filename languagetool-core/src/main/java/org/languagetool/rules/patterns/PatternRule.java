@@ -62,8 +62,8 @@ public class PatternRule extends AbstractPatternRule {
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg) {
     super(id, description, language, patternTokens, false);
-    this.message = message;
-    this.shortMessage = shortMessage;
+    this.message = Objects.requireNonNull(message);
+    this.shortMessage = Objects.requireNonNull(shortMessage);
     this.elementNo = new ArrayList<>();
     this.suggestionsOutMsg = Objects.requireNonNull(suggestionsOutMsg);
     String prevName = "";
