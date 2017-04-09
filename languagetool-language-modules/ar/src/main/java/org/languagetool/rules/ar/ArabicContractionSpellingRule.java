@@ -34,56 +34,56 @@ import org.languagetool.rules.*;
  */
 public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
 
-	public static final String CONTRACTION_SPELLING_RULE = "AR_CONTRACTION_SPELLING";
+  public static final String CONTRACTION_SPELLING_RULE = "AR_CONTRACTION_SPELLING";
 
-	private static final Map<String, List<String>> wrongWords = load("/ar/contractions.txt");
-	private static final Locale AR_LOCALE = new Locale("ar");
+  private static final Map<String, List<String>> wrongWords = load("/ar/contractions.txt");
+  private static final Locale AR_LOCALE = new Locale("ar");
 
-	@Override
-	protected Map<String, List<String>> getWrongWords() {
-		return wrongWords;
-	}
+  @Override
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
+  }
 
-	public ArabicContractionSpellingRule(ResourceBundle messages) throws IOException {
-		super(messages);
-		super.setCategory(Categories.TYPOS.getCategory(messages));
-		setLocQualityIssueType(ITSIssueType.Misspelling);
-	}
+  public ArabicContractionSpellingRule(ResourceBundle messages) throws IOException {
+    super(messages);
+    super.setCategory(Categories.TYPOS.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
 
-	@Override
-	public final String getId() {
-		return CONTRACTION_SPELLING_RULE;
-	}
+  @Override
+  public final String getId() {
+    return CONTRACTION_SPELLING_RULE;
+  }
 
-	@Override
-	public String getDescription() {
-		return "Spelling of Arabic contractions";
-	}
+  @Override
+  public String getDescription() {
+    return "Spelling of Arabic contractions";
+  }
 
-	@Override
-	public String getShort() {
-		// TODO : change to messages.getString
-		return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a";
-	}
+  @Override
+  public String getShort() {
+    // TODO : change to messages.getString
+    return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a";
+  }
 
-	@Override
-	public boolean isDictionaryBasedSpellingRule() {
-		return false;
-	}
+  @Override
+  public boolean isDictionaryBasedSpellingRule() {
+    return false;
+  }
 
-	@Override
-	public String getMessage(String tokenStr, List<String> replacements) {
-		return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a \u0645\u062d\u062a\u0645\u0644";
-	}
+  @Override
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a \u0645\u062d\u062a\u0645\u0644";
+  }
 
-	@Override
-	public boolean isCaseSensitive() {
-		return false;
-	}
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
 
-	@Override
-	public Locale getLocale() {
-		return AR_LOCALE;
-	}
+  @Override
+  public Locale getLocale() {
+    return AR_LOCALE;
+  }
 
 }
