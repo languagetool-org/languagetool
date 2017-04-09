@@ -15443,6 +15443,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das neue <marker>Gerät</marker> war noch nicht einsatzbereit.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KEIN_ZUTRITT" name="'kein zutritt (Zutritt) für Erwachsene'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">kein(en)?</token>
+                    <marker>
+                        <token case_sensitive="yes">zutritt</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Zutritt</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zutritt">Lehrer haben hier keinen <marker>zutritt</marker>!</example>
+                <example correction="Zutritt">Kein <marker>zutritt</marker>!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STUFE_SUBST" name="'Vorsicht stufe (Stufe)!'">
+            <rule>
+                <pattern>
+                    <token>Vorsicht</token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token case_sensitive="yes">stufe</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Stufe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example>Zur Vorsicht <marker>stufe</marker> ich das Dokument als streng vertraulich ein.</example>
+                <example correction="Stufe">Vorsicht <marker>stufe</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token regexp="yes">einer|dieser|derselben</token>
+                    <marker>
+                        <token case_sensitive="yes">stufe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Stufe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Stufe">Das steht moralisch auf derselben <marker>stufe</marker> wie Krieg.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUF_DIE_SCHLICHE" name="'auf die schliche (Schliche) kommen'">
             <pattern case_sensitive="yes">
                 <token postag="PRO:PER:DAT:.+" postag_regexp="yes"/>
@@ -22995,7 +23037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl)em</token>
+                    <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl|welch)em</token>
                     <marker>
                         <token>zustand</token>
                     </marker>
