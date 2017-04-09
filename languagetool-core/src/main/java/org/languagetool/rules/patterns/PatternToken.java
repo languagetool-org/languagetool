@@ -389,7 +389,7 @@ public class PatternToken implements Cloneable {
    * @param token {@link AnalyzedToken} to match against.
    * @return True if matches.
    */
-  boolean isStringTokenMatched(AnalyzedToken token) {
+  private boolean isStringTokenMatched(AnalyzedToken token) {
     String testToken = getTestToken(token);
     if (stringRegExp) {
       Matcher m = pattern.matcher(testToken);
@@ -533,7 +533,7 @@ public class PatternToken implements Cloneable {
     return compiledPatternToken;
   }
 
-  void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
+  private void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
     MatchState matchState = tokenReference.createState(synth, token);
     if (StringTools.isEmpty(referenceString)) {
       referenceString = stringToken;

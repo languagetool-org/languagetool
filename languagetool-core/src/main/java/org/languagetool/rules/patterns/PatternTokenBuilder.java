@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.util.Objects;
+
 /**
  * Helper to build {@link PatternToken}s.
  * @since 3.1
@@ -35,7 +37,7 @@ public class PatternTokenBuilder {
    * Add a case-insensitive token. 
    */
   public PatternTokenBuilder token(String token) {
-    this.token = token;
+    this.token = Objects.requireNonNull(token);
     return this;
   }
 
@@ -44,13 +46,13 @@ public class PatternTokenBuilder {
    * @since 3.3 
    */
   public PatternTokenBuilder csToken(String token) {
-    this.token = token;
+    this.token = Objects.requireNonNull(token);
     caseSensitive = true;
     return this;
   }
 
   public PatternTokenBuilder tokenRegex(String token) {
-    this.token = token;
+    this.token = Objects.requireNonNull(token);
     regexp = true;
     return this;
   }
@@ -64,7 +66,7 @@ public class PatternTokenBuilder {
   }
 
   private PatternTokenBuilder pos(String posTag, boolean regexp) {
-    this.posTag = posTag;
+    this.posTag = Objects.requireNonNull(posTag);
     this.regexp = regexp;
     return this;
   }
