@@ -43,21 +43,13 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("خطوة", tokens, position) /*&& posIsIn(tokens, position - 2, "PRP")*/) {
+    if (wordRepetitionOf("خطوة", tokens, position)) {
       return true;   // "نفذت التعليمات خطوة خطوة."
     }
-
-    return false;
-  }
-
-  private boolean posIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
-    if (position >= 0 && position < tokens.length) {
-      for (String posTag : posTags) {
-        if (tokens[position].hasPartialPosTag(posTag)) {
-          return true;
-        }
-      }
+    if (wordRepetitionOf("رويدا", tokens, position)) {
+      return true;
     }
+
     return false;
   }
 

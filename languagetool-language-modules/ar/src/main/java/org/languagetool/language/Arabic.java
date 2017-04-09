@@ -59,7 +59,9 @@ public class Arabic extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"", "DZ", "SA", "TN", "EG"};
+    return new String[]{"", "AE", "BH", "EG", "IN", "IQ", "JQ", "JO", 
+    						"KW", "LB", "LY", "MA", "OM", "QA", "SA", "SD", 
+    						"SY", "TN", "YE"};
   }
   
   @Override

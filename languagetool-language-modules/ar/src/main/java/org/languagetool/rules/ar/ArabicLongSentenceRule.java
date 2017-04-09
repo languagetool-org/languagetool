@@ -1,5 +1,4 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2017 Sohaib Afifi, Taha Zerrouki
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,15 +24,15 @@ import org.languagetool.rules.LongSentenceRule;
 
 public class ArabicLongSentenceRule extends LongSentenceRule {
 
-	private static final Pattern NON_WORD_REGEX = Pattern.compile("[،؟؛.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[،؟؛.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
 
-	public ArabicLongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
-		super(messages, maxSentenceLength, NON_WORD_REGEX);
-	}
+  public ArabicLongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
+    super(messages, maxSentenceLength, NON_WORD_REGEX);
+  }
 
-	@Override
-	public final String getId() {
-		return "ARABIC_TOO_LONG_SENTENCE";
-	}
+  @Override
+  public final String getId() {
+    return "ARABIC_TOO_LONG_SENTENCE";
+  }
 
 }
