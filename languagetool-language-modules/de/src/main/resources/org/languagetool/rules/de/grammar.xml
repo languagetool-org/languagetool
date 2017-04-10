@@ -12986,18 +12986,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Absage">Wir erteilten ihm eine klare <marker>absage</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MIETE_SUBST" name="'miete (Miete) zahlen' etc.">
+        <rulegroup id="MIETE_SUBST" name="'miete (Miete) zahlen, flöte (Flöte) spielen' etc.">
+	  <!-- Jan: TODO: Kann wahrscheinlich stark verallgemeinert werden -->
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token>miete</token>
+                        <token regexp="yes">miete|flöte|schlampe|hure|trompete|posaune|geige|pauke|pfeife|pumpe|feile|bremse|winde|schleife|wand</token>
                     </marker>
                     <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
-                <message>&subanfang;<suggestion>Miete</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example>Er hat die <marker>Miete</marker> überwiesen.</example>
                 <example correction="Miete">Er hat keine <marker>miete</marker> gezahlt.</example>
+                <example correction="Flöte">Du kannst überhaupt nicht <marker>flöte</marker> spielen.</example>
+                <example correction="Pumpe">Er hat die <marker>pumpe</marker> repariert.</example>
+                <example correction="Geige">Die <marker>geige</marker> erklang.</example>
+                <example correction="Trompete">Ich möchte <marker>trompete</marker> spielen können.</example>
+                <example correction="Schlampe">Diese blöde <marker>schlampe</marker> geht mir auf die Nerven.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WACHE_SUBST" name="'wache (Wache) halten' etc.">
@@ -13093,7 +13099,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <!-- TODO: generalize? -->
                     <token regexp="yes">aus|in</token>
                     <token regexp="yes">erster|zweiter</token>
                     <marker>
@@ -13109,6 +13114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
+                    <token min="0">allen</token>
                     <marker>
                         <token>ehren</token>
                     </marker>
@@ -14065,19 +14071,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Knoten">Ich werde <marker>knoten</marker> knüpfen.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="GEIGE_SUBST" name="'geige (Geige) spielen' etc.">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">(trompete|posaune|geige)n?</token>
-                    </marker>
-                    <token inflected="yes" regexp="yes">spielen|erklingen</token>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Geige">Ich werde <marker>geige</marker> spielen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FISCHE_SUBST" name="'fische (Fische) fangen' etc.">
