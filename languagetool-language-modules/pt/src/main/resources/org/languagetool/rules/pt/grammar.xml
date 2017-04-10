@@ -1241,13 +1241,14 @@ title="Easy editing stylesheet" ?>
     <!--       Created by Tiago F. Santos, 25-01-2017          -->
     <rule>
       <pattern>
-          <token>mau</token>
+          <token regexp='yes'>m(á|au)s?</token>
           <token postag_regexp='yes' postag='V.P.+'/>
       </pattern>
       <message>Confusão do adjetivo com o advérbio. Mau é adjetivo (tal como bom) e mal é advérbio (tal como bem).</message>
         <suggestion>mal \2</suggestion>
       <short>Confusão do adjetivo com o advérbio.</short>
       <example correction='mal servido'>Eu fui <marker>mau servido</marker>.</example>
+      <example correction='mal servida'>Ela foi <marker>má servida</marker>.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1267,7 +1268,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token>mau</token>
+          <token regexp='yes'>m(á|au)s?</token>
           <token min='0'>-</token>
           <token regexp='yes'>(acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|estar|executad|habituad|humorad|informad|intencionad|limp)[ao]s?</token>
       </pattern>
@@ -1275,6 +1276,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>mal-\3</suggestion>
       <example correction='mal-acondicionado'>Estragou-se por estava <marker>mau-acondicionado</marker>.</example>
       <example correction='mal-aconselhados'>Foram <marker>mau aconselhados</marker>.</example>
+      <example correction='mal-educadas'>Que mulheres tão <marker>más-educadas</marker>.</example>
     </rule>
     <rule>
       <pattern>
