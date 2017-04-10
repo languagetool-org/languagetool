@@ -19,8 +19,10 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.ArabicCommaWhitespaceRule;
+import org.languagetool.rules.ar.ArabicConfusionProbabilityRule;
 import org.languagetool.rules.ar.ArabicContractionSpellingRule;
 import org.languagetool.rules.ar.ArabicDoublePunctuationRule;
 import org.languagetool.rules.ar.ArabicLongSentenceRule;
@@ -115,5 +117,10 @@ public class Arabic extends Language {
         new ArabicContractionSpellingRule(messages)
     );
   }
-
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new ArabicConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
 }
