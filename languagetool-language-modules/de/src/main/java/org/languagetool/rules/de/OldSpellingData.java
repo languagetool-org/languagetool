@@ -76,7 +76,7 @@ class OldSpellingData {
     List<PatternToken> patternTokens = new ArrayList<>();
     for (String part : newSpellingTokens) {
       PatternToken token;
-      if (isBaseform(oldSpelling, lang)) {
+      if (false && isBaseform(oldSpelling, lang)) {   // TODO: "Schlüsse" is otherwise considered incorrect
         token = builder.csToken(part).matchInflectedForms().build();
       } else {
         token = builder.csToken(part).build();
