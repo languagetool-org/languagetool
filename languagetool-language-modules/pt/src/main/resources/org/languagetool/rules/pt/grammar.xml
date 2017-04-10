@@ -14489,5 +14489,43 @@ TODO Write better examples
       <example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
     </rule>
   </rulegroup>
+  
+  <rulegroup id="TRAZEDORES_DA_JUSTIÇA" name="Erro de tradução: 'justiceiro(s)'">
+    <short>Erro de tradução.</short>
+    <rule>
+      <pattern>
+          <token>trazedores</token>
+		  <token regexp="yes">de|da</token>
+          <token>justiça</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>justiceiros</suggestion>
+      <example correction="justiceiros">Os terroristas julgam ser <marker>trazedores da justiça</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>trazedor</token>
+		  <token regexp="yes">de|da</token>
+          <token>justiça</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>justiceiro</suggestion>
+      <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
+    </rule>
+  </rulegroup>
+    
+    <rule id="UM_TAMANHO_SERVE_PARA_TODOS" name="Erro de tradução: 'tamanho único'">
+      <pattern>
+          <token>um</token>
+		  <token>tamanho</token>
+		  <token regexp="yes">serve|dá</token>
+		  <token>para</token>
+		  <token>todos</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>tamanho único</suggestion>
+      <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
+    </rule>  
+  
  </category>
 </rules>
