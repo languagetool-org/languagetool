@@ -62,6 +62,7 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("In Russlands Weiten")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Schlüsse")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("in Schloß Holte")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Asse")).length, is(0));
   }
 
 }
