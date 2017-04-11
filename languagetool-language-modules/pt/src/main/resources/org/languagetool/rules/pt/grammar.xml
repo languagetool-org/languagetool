@@ -743,7 +743,7 @@ title="Easy editing stylesheet" ?>
       <example type="correct">Cão e gato são animais.</example>
     </rule>
 
-  <rule id='A_MAIORIA_SINGULAR' name='Concordância verbal: A maioria + plural'>
+    <rule id='A_MAIORIA_SINGULAR' name='Concordância verbal: A maioria + plural'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-04-10      -->
       <pattern>
           <token>a</token>
@@ -2215,7 +2215,7 @@ title="Easy editing stylesheet" ?>
       <example correction="o">Temos de curar <marker>a</marker> herpes.</example>
     </rule>
 
-  <!--<rulegroup id="DET_MAS_FEM_O_A" name="Erros de concordância de género específicos"> TODO Covered with general agreement rules with new disambiguation mechanism. Remove after release.
+    <!--<rulegroup id="DET_MAS_FEM_O_A" name="Erros de concordância de género específicos"> TODO Covered with general agreement rules with new disambiguation mechanism. Remove after release.
       <short>Erro de concordância de género</short>
      DET_MAS_FEM words that use "a" instead of "o" 
     <rule>
@@ -4176,12 +4176,12 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>de</token>
           <token case_sensitive="yes">onde</token>
-       </marker>
+        </marker>
           <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'></token>
           <token min='0' negate_pos='yes' postag='V.+' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer <suggestion>donde</suggestion>?</message>
-       <example correction='donde'><marker>de onde</marker>.</example>
+      <example correction='donde'><marker>de onde</marker>.</example>
     </rule>
     <rule default='on' id='CONTRACAO_DACOLÁ' name='De + artigos'>
       <pattern>
@@ -5105,16 +5105,16 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
 
   <rulegroup id="MÃE_E_PAI" name="pais">
-    <short>Redundância no neutro.</short>
+      <short>Redundância no neutro.</short>
     <rule>
       <pattern>
           <token>a</token>
           <token>minha</token>
-		  <token>mãe</token>
-		  <token>e</token>
-		  <token>o</token>
-		  <token>meu</token>
-		  <token>pai</token>
+          <token>mãe</token>
+          <token>e</token>
+          <token>o</token>
+          <token>meu</token>
+          <token>pai</token>
       </pattern>
       <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
       <example correction="os meus pais">Quero <marker>a minha mãe e o meu pai</marker>.</example>
@@ -5123,9 +5123,9 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <pattern>
           <token>a</token>
           <token>minha</token>
-		  <token>mãe</token>
-		  <token>e</token>
-		  <token>pai</token>
+          <token>mãe</token>
+          <token>e</token>
+          <token>pai</token>
       </pattern>
       <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
       <example correction="os meus pais">Quero <marker>a minha mãe e pai</marker>.</example>
@@ -5134,11 +5134,11 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <pattern>
           <token>à</token>
           <token>minha</token>
-		  <token>mãe</token>
-		  <token>e</token>
-		  <token>ao</token>
-		  <token>meu</token>
-		  <token>pai</token>
+          <token>mãe</token>
+          <token>e</token>
+          <token>ao</token>
+          <token>meu</token>
+          <token>pai</token>
       </pattern>
       <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
       <example correction="aos meus pais">Obrigado <marker>à minha mãe e ao meu pai</marker>.</example>
@@ -5147,9 +5147,9 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <pattern>
           <token>à</token>
           <token>minha</token>
-		  <token>mãe</token>
-		  <token>e</token>
-		  <token>pai</token>
+          <token>mãe</token>
+          <token>e</token>
+          <token>pai</token>
       </pattern>
       <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
       <example correction="aos meus pais">Obrigado <marker>à minha mãe e pai</marker>.</example>
@@ -5822,598 +5822,598 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='viúva'><marker>viúva do falecido</marker></example>
     </rule>
- <rule id='PL_1_AO' name='ao seu critério pessoal'>
-    <pattern>
-		<token>ao</token>
-		<token>seu</token>
-		<token>critério</token>
-		<token>pessoal</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1 \2 \3</suggestion>
-	<example correction='ao seu critério'><marker>ao seu critério pessoal</marker>.</example>
- </rule>
- <rule id='PL_2_ABERTURA' name='abertura inaugural'>
-    <pattern>
-		<token regexp='yes'>aberturas?</token>
-		<token regexp='yes'>inaugur(al|ais)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='abertura'><marker>abertura inaugural</marker>.</example>
- </rule>
- <rule id='PL_3_ABUSAR' name='abusar demais'>
-    <pattern>
-		<token inflected='yes'>abusar</token>
-		<token>demais</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='abusar'><marker>abusar demais</marker>.</example>
- </rule>
- <rule id='PL_4_AMANHECER' name='amanhecer do dia'>
-    <pattern>
-		<token inflected='yes'>amanhecer</token>
-		<token regexp='yes'>d[eo]</token>
-		<token>dia</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='amanhecer'><marker>amanhecer do dia</marker>.</example>
- </rule>
- <rule id='PL_5_ANEXAR' name='anexar junto'>
-    <pattern>
-		<token inflected='yes'>anexar</token>
-		<token>junto</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='anexar'><marker>anexar junto</marker>.</example>
- </rule>
- <rule id='PL_7_BILATERAL' name='bilateral entre os dois'>
-    <pattern>
-		<token inflected='yes'>bilateral</token>
-		<token>entre</token>
-		<token regexp='yes'>[ao]s</token>
-		<token>dois</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='bilateral'><marker>bilateral entre os dois</marker>.</example>
- </rule>
- <rule id='PL_8_CANJA' name='canja de galinha'>
-    <pattern>
-		<token regexp='yes'>canjas?</token>
-		<token>de</token>
-		<token>galinha</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='canja'><marker>canja de galinha</marker>.</example>
- </rule>
- <rule id='PL_9_CARDUME' name='cardume de peixe'>
-    <pattern>
-		<token regexp='yes'>cardumes?</token>
-		<token>de</token>
-		<token regexp='yes'>peixes?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='cardume'><marker>cardume de peixe</marker>.</example>
- </rule>
- <rule id='PL_10_CERTEZA' name='certeza absoluta'>
-    <pattern>
-		<token regexp='yes'>certezas?</token>
-		<token regexp='yes'>absolutas?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='certeza'><marker>certeza absoluta</marker>.</example>
- </rule>
- <rule id='PL_11_COMPARECER' name='comparecer em pessoa'>
-    <pattern>
-		<token inflected='yes'>comparecer</token>
-		<token>em</token>
-		<token>pessoa</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='comparecer'><marker>comparecer em pessoa</marker>.</example>
- </rule>
- <rule id='PL_12_CONSENSO' name='consenso geral'>
-    <pattern>
-		<token inflected='yes'>consenso</token>
-		<token>geral</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='consenso'><marker>consenso geral</marker>.</example>
- </rule>
- <rule id='PL_13_CONTINUAR' name='continuar a permanecer'>
-    <pattern>
-		<token inflected='yes'>continuar</token>
-		<token min='0'>a</token>
-		<token inflected='yes'>permanecer</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\3</suggestion>
-	<example correction='permanecer'><marker>continuar a permanecer</marker>.</example>
- </rule>
- <rule id='PL_14_CRIAR' name='criar um novo'>
-    <pattern>
-		<token inflected='yes'>criar</token>
-		<token>um</token>
-		<token>novo</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='criar'><marker>criar um novo</marker>.</example>
- </rule>
- <rule id='PL_15_CURSAR' name='cursar um curso'>
-    <pattern>
-		<token inflected='yes'>cursar</token>
-		<token>um</token>
-		<token>curso</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='cursar'><marker>cursar um curso</marker>.</example>
- </rule>
- <rule id='PL_16_DE' name='de jeito maneira'>
-    <pattern>
-		<token>de</token>
-		<token>jeito</token>
-		<token>maneira</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>de forma alguma</suggestion>
-	<example correction='de forma alguma'><marker>de jeito maneira</marker>.</example>
- </rule>
- <rule id='PL_17_DEFICIT' name='deficit negativo'>
-    <pattern>
-		<token regexp='yes'>deficits?</token>
-		<token regexp='yes'>negativos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='deficit'><marker>deficit negativo</marker>.</example>
- </rule>
- <rule id='PL_18_DEFUNTO' name='defunto morto'>
-    <pattern>
-		<token regexp='yes'>defunt[ao]s?</token>
-		<token regexp='yes'>mort[ao]s?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-	  <suggestion>\1</suggestion>
-	  <suggestion>\2</suggestion>
-	<example correction='defunto|morto'><marker>defunto morto</marker>.</example>
- </rule>
- <rule id='PL_19_DETALHES' name='detalhes minuciosos'>
-    <pattern>
-		<token regexp='yes'>detalhes?</token>
-		<token regexp='yes'>minuciosos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='detalhes'><marker>detalhes minuciosos</marker>.</example>
- </rule>
- <rule id='PL_20_EMPRÉSTIMO' name='empréstimo temporário'>
-    <pattern>
-		<token regexp='yes'>empréstimos?</token>
-		<token regexp='yes'>temporários?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='empréstimo'><marker>empréstimo temporário</marker>.</example>
- </rule>
- <rule id='PL_21_ENCARAR' name='encarar cara a cara'>
-    <pattern>
-		<token inflected='yes'>encarar</token>
-		<token>cara</token>
-		<token>a</token>
-		<token>cara</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='encarar'><marker>encarar cara a cara</marker>.</example>
- </rule>
- <rule id='PL_22_ENFRENTAR' name='enfrentar de frente'>
-    <pattern>
-		<token inflected='yes'>enfrentar</token>
-		<token>de</token>
-		<token>frente</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='enfrentar'><marker>enfrentar de frente</marker>.</example>
- </rule>
- <rule id='PL_23_ENXAME' name='enxame de abelha'>
-    <pattern>
-		<token regexp='yes'>enxames?</token>
-		<token>de</token>
-		<token regexp='yes'>abelhas?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='enxame'><marker>enxame de abelha</marker>.</example>
- </rule>
- <rule id='PL_24_ERÁRIO' name='erário público'>
-    <pattern>
-		<token regexp='yes'>erários?</token>
-		<token regexp='yes'>públicos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='erário'><marker>erário público</marker>.</example>
- </rule>
- <rule id='PL_25_ESCOLHA' name='escolha opcional'>
-    <pattern>
-		<token regexp='yes'>escolhas?</token>
-		<token regexp='yes'>opciona(l|is)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='escolha'><marker>escolha opcional</marker>.</example>
- </rule>
- <rule id='PL_26_ESTRELA' name='estrela no céu'>
-    <pattern>
-		<token inflected='yes'>estrela</token>
-		<token regexp='yes'>[nd]o</token>
-		<token>céu</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='estrela'><marker>estrela no céu</marker>.</example>
- </rule>
- <rule id='PL_27_EXPRESSAMENTE' name='expressamente proibido'>
-    <pattern>
-		<token>expressamente</token>
-		<token regexp='yes'>proibid[ao]s?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\2</suggestion>
-	<example correction='proibido'><marker>expressamente proibido</marker>.</example>
- </rule>
- <rule id='PL_28_EXULTAR' name='exultar de alegria'>
-    <pattern>
-		<token inflected='yes'>exultar</token>
-		<token>de</token>
-		<token>alegria</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='exultar'><marker>exultar de alegria</marker>.</example>
- </rule>
- <rule id='PL_29_FATO' name='fato real'>
-    <pattern>
-		<token regexp='yes'>fac?tos?</token>
-		<token regexp='yes'>rea(l|is)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='facto'><marker>facto real</marker>.</example>
- </rule>
- <rule id='PL_30_FUGIR' name='fugir para outro lugar'>
-    <pattern>
-		<token inflected='yes'>fugir</token>
-		<token>para</token>
-		<token>outro</token>
-		<token regexp='yes'>lugar|lado</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='fugir'><marker>fugir para outro lugar</marker>.</example>
- </rule>
- <rule id='PL_31_GOTEIRAS' name='goteiras no teto'>
-    <pattern>
-		<token regexp='yes'>goteiras?</token>
-		<token>no</token>
-		<token regexp='yes'>tec?to</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='goteiras'><marker>goteiras no teto</marker>.</example>
- </rule>
- <rule id='PL_32_HABITAT' name='habitat natural'>
-    <pattern>
-		<token regexp='yes'>habitats?</token>
-		<token regexp='yes'>natura(l|is)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='habitat'><marker>habitat natural</marker>.</example>
- </rule>
- <rule id='PL_33_INDIVIDUALIDADE' name='individualidade de cada um'>
-    <pattern>
-		<token regexp='yes'>individual(idade)?</token>
-		<token>de</token>
-		<token>cada</token>
-		<token regexp='yes'>uma?|pessoa|indivíduo</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='individualidade'><marker>individualidade de cada um</marker>.</example>
- </rule>
- <rule id='PL_34_JUNTAMENTE' name='juntamente com'>
-    <pattern>
-		<token inflected='yes'>juntamente</token>
-		<token>com</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='juntamente'><marker>juntamente com</marker>.</example>
- </rule>
- <rule id='PL_35_LIVRE' name='livre escolha'>
-    <pattern>
-		<token inflected='yes'>livre</token>
-		<token>escolha</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='livre'><marker>livre escolha</marker>.</example>
- </rule>
- <rule id='PL_36_METADES' name='metades iguais'>
-    <pattern>
-		<token regexp='yes'>metades?</token>
-		<token regexp='yes'>igua(l|is)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='metades'><marker>metades iguais</marker>.</example>
- </rule>
- <rule id='PL_37_MONOCULTURA' name='monocultura exclusiva'>
-    <pattern>
-		<token regexp='yes'>monoculturas?</token>
-		<token regexp='yes'>exclusivas?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='monocultura'><marker>monocultura exclusiva</marker>.</example>
- </rule>
- <rule id='PL_38_MULTIDÃO' name='multidão de pessoa'>
-    <pattern>
-		<token regexp='yes'>multid(ão|ões)</token>
-		<token>de</token>
-		<token regexp='yes'>pessoas?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='multidão'><marker>multidão de pessoa</marker>.</example>
- </rule>
- <rule id='PL_39_OPINIÃO' name='opinião individual'>
-    <pattern>
-		<token regexp='yes'>opini(ão|ões)</token>
-		<token regexp='yes'>individu(al|ais)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='opinião'><marker>opinião individual</marker>.</example>
- </rule>
- <rule id='PL_40_ORGANIZAR' name='organizar uma torcida organizada'>
-    <pattern>
-		<token inflected='yes'>organizar</token>
-		<token regexp='yes'>u[mn]a?s?</token>
-		<token regexp='yes'>(torcida|jogo|partida)s?</token>
-		<token regexp='yes'>organizad[ao]s?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='organizar'><marker>organizar uma torcida organizada</marker>.</example>
- </rule>
- <rule id='PL_41_PLANEADA' name='planeada antecipadamente'>
-    <pattern>
-		<token regexp='yes'>planead[ao]s?</token>
-		<token>antecipadamente</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='planeada'><marker>planeada antecipadamente</marker>.</example>
- </rule>
- <rule id='PL_42_PLANEADA' name='planeada com antecedência'>
-    <pattern>
-		<token regexp='yes'>planead[ao]s?</token>
-		<token>com</token>
-		<token>antecedência</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='planeada'><marker>planeada com antecedência</marker>.</example>
- </rule>
- <rule id='PL_43_PLANO' name='plano para o futuro'>
-    <pattern>
-		<token inflected='yes'>plano</token>
-		<token>para</token>
-		<token>o</token>
-		<token>futuro</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='plano'><marker>plano para o futuro</marker>.</example>
- </rule>
- <rule id='PL_44_PLEBISCITO' name='plebiscito popular'>
-    <pattern>
-		<token inflected='yes'>plebiscito</token>
-		<token>popular</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='plebiscito'><marker>plebiscito popular</marker>.</example>
- </rule>
- <rule id='PL_45_POSSIVELMENTE' name='possivelmente poderá ocorrer'>
-    <pattern>
-		<token>possivelmente</token>
-		<token inflected='yes'>poder</token>
-		<token>ocorrer</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\2 \3</suggestion>
-	<example correction='poderá ocorrer'><marker>possivelmente poderá ocorrer</marker>.</example>
- </rule>
- <rule id='PL_46_PREVER' name='prever de antemão'>
-    <pattern>
-		<token inflected='yes'>prever</token>
-		<token>de</token>
-		<token>antemão</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='prever'><marker>prever de antemão</marker>.</example>
- </rule>
- <rule id='PL_47_PROJETAR' name='projetar para o futuro'>
-    <pattern>
-		<token inflected='yes'>projetar</token>
-		<token>para</token>
-		<token>o</token>
-		<token>futuro</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='projetar'><marker>projetar para o futuro</marker>.</example>
- </rule>
- <rule id='PL_48_PROPRIEDADES' name='propriedades características'>
-    <pattern>
-		<token regexp='yes'>propriedades?</token>
-		<token regexp='yes'>características?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='propriedades'><marker>propriedades características</marker>.</example>
- </rule>
- <rule id='PL_49_RAZÃO' name='razão ser porque'>
-    <pattern>
-		<token inflected='yes'>razão</token>
-		<token>ser</token>
-		<token>porque</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\3</suggestion>
-	<example correction='porque'><marker>razão ser porque</marker>.</example>
- </rule>
- <rule id='PL_50_REPETIR' name='repetir de novo'>
-    <pattern>
-		<token inflected='yes'>repetir</token>
-		<token>de</token>
-		<token>novo</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='repetir'><marker>repetir de novo</marker>.</example>
- </rule>
- <rule id='PL_51_RETORNAR' name='retornar de novo'>
-    <pattern>
-		<token inflected='yes'>retornar</token>
-		<token>de</token>
-		<token>novo</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='retornar'><marker>retornar de novo</marker>.</example>
- </rule>
- <rule id='PL_52_SEGREDO' name='segredo secreto'>
-    <pattern>
-		<token regexp='yes'>segredos?</token>
-		<token regexp='yes'>secretos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='segredo'><marker>segredo secreto</marker>.</example>
- </rule>
- <rule id='PL_53_SINTOMAS' name='sintomas indicativos'>
-    <pattern>
-		<token regexp='yes'>sintomas?</token>
-		<token regexp='yes'>indicativos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='sintomas'><marker>sintomas indicativos</marker>.</example>
- </rule>
- <rule id='PL_54_SONHAR' name='sonhar um sonho'>
-    <pattern>
-		<token inflected='yes'>sonhar</token>
-		<token>um</token>
-		<token>sonho</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='sonhar'><marker>sonhar um sonho</marker>.</example>
- </rule>
- <rule id='PL_55_SORRISO' name='sorriso nos lábios'>
-    <pattern>
-		<token inflected='yes'>sorriso</token>
-		<token>nos</token>
-		<token>lábios</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='sorriso'><marker>sorriso nos lábios</marker>.</example>
- </rule>
- <rule id='PL_56_SUPERAVIT' name='superavit positivo'>
-    <pattern>
-		<token regexp='yes'>superavits?</token>
-		<token regexp='yes'>positivos?</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='superavit'><marker>superavit positivo</marker>.</example>
- </rule>
- <rule id='PL_57_SUSSURRAR' name='sussurrar baixinho'>
-    <pattern>
-		<token inflected='yes'>sussurrar</token>
-		<token regexp='yes'>baix(o|inho)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='sussurrar'><marker>sussurrar baixinho</marker>.</example>
- </rule>
- <rule id='PL_58_TRILATERAL' name='trilateral entre três'>
-    <pattern>
-		<token inflected='yes'>trilateral</token>
-		<token>entre</token>
-		<token>três</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='trilateral'><marker>trilateral entre três</marker>.</example>
- </rule>
- <rule id='PL_59_ÚLTIMA' name='última versão definitiva'>
-    <pattern>
-		<token inflected='yes'>última</token>
-		<token>versão</token>
-		<token>definitiva</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\2 \3</suggestion>
-	<example correction='versão definitiva'><marker>última versão definitiva</marker>.</example>
- </rule>
- <rule id='PL_60_UNÂNIME' name='unânime de todos'>
-    <pattern>
-		<token>unânime</token>
-		<token regexp='yes'>de|por</token>
-		<token>todos</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='unânime'><marker>unânime de todos</marker>.</example>
- </rule>
- <rule id='PL_61_VEREADOR' name='vereador municipal'>
-    <pattern>
-		<token regexp='yes'>vereador[ea]?s?</token>
-		<token regexp='yes'>municip(al|ais)</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='vereador'><marker>vereador municipal</marker>.</example>
- </rule>
- <rule id='PL_63_VIVER' name='viver a vida'>
-    <pattern>
-		<token inflected='yes'>viver</token>
-		<token>a</token>
-		<token>vida</token>
-    </pattern>
-	<message>Pleonasmo. Substitua por:</message>
-               <suggestion>\1</suggestion>
-	<example correction='viver'><marker>viver a vida</marker>.</example>
- </rule>
+    <rule id='PL_1_AO' name='ao seu critério pessoal'>
+      <pattern>
+          <token>ao</token>
+          <token>seu</token>
+          <token>critério</token>
+          <token>pessoal</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2 \3</suggestion>
+      <example correction='ao seu critério'><marker>ao seu critério pessoal</marker>.</example>
+    </rule>
+    <rule id='PL_2_ABERTURA' name='abertura inaugural'>
+      <pattern>
+          <token regexp='yes'>aberturas?</token>
+          <token regexp='yes'>inaugur(al|ais)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='abertura'><marker>abertura inaugural</marker>.</example>
+    </rule>
+    <rule id='PL_3_ABUSAR' name='abusar demais'>
+      <pattern>
+          <token inflected='yes'>abusar</token>
+          <token>demais</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='abusar'><marker>abusar demais</marker>.</example>
+    </rule>
+    <rule id='PL_4_AMANHECER' name='amanhecer do dia'>
+      <pattern>
+          <token inflected='yes'>amanhecer</token>
+          <token regexp='yes'>d[eo]</token>
+          <token>dia</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='amanhecer'><marker>amanhecer do dia</marker>.</example>
+    </rule>
+    <rule id='PL_5_ANEXAR' name='anexar junto'>
+      <pattern>
+          <token inflected='yes'>anexar</token>
+          <token>junto</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='anexar'><marker>anexar junto</marker>.</example>
+    </rule>
+    <rule id='PL_7_BILATERAL' name='bilateral entre os dois'>
+      <pattern>
+          <token inflected='yes'>bilateral</token>
+          <token>entre</token>
+          <token regexp='yes'>[ao]s</token>
+          <token>dois</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='bilateral'><marker>bilateral entre os dois</marker>.</example>
+    </rule>
+    <rule id='PL_8_CANJA' name='canja de galinha'>
+      <pattern>
+          <token regexp='yes'>canjas?</token>
+          <token>de</token>
+          <token>galinha</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='canja'><marker>canja de galinha</marker>.</example>
+    </rule>
+    <rule id='PL_9_CARDUME' name='cardume de peixe'>
+      <pattern>
+          <token regexp='yes'>cardumes?</token>
+          <token>de</token>
+          <token regexp='yes'>peixes?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='cardume'><marker>cardume de peixe</marker>.</example>
+    </rule>
+    <rule id='PL_10_CERTEZA' name='certeza absoluta'>
+      <pattern>
+          <token regexp='yes'>certezas?</token>
+          <token regexp='yes'>absolutas?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='certeza'><marker>certeza absoluta</marker>.</example>
+    </rule>
+    <rule id='PL_11_COMPARECER' name='comparecer em pessoa'>
+      <pattern>
+          <token inflected='yes'>comparecer</token>
+          <token>em</token>
+          <token>pessoa</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='comparecer'><marker>comparecer em pessoa</marker>.</example>
+    </rule>
+    <rule id='PL_12_CONSENSO' name='consenso geral'>
+      <pattern>
+          <token inflected='yes'>consenso</token>
+          <token>geral</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='consenso'><marker>consenso geral</marker>.</example>
+    </rule>
+    <rule id='PL_13_CONTINUAR' name='continuar a permanecer'>
+      <pattern>
+          <token inflected='yes'>continuar</token>
+          <token min='0'>a</token>
+          <token inflected='yes'>permanecer</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\3</suggestion>
+      <example correction='permanecer'><marker>continuar a permanecer</marker>.</example>
+    </rule>
+    <rule id='PL_14_CRIAR' name='criar um novo'>
+      <pattern>
+          <token inflected='yes'>criar</token>
+          <token>um</token>
+          <token>novo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='criar'><marker>criar um novo</marker>.</example>
+    </rule>
+    <rule id='PL_15_CURSAR' name='cursar um curso'>
+      <pattern>
+          <token inflected='yes'>cursar</token>
+          <token>um</token>
+          <token>curso</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='cursar'><marker>cursar um curso</marker>.</example>
+    </rule>
+    <rule id='PL_16_DE' name='de jeito maneira'>
+      <pattern>
+          <token>de</token>
+          <token>jeito</token>
+          <token>maneira</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>de forma alguma</suggestion>
+      <example correction='de forma alguma'><marker>de jeito maneira</marker>.</example>
+    </rule>
+    <rule id='PL_17_DEFICIT' name='deficit negativo'>
+      <pattern>
+          <token regexp='yes'>deficits?</token>
+          <token regexp='yes'>negativos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='deficit'><marker>deficit negativo</marker>.</example>
+    </rule>
+    <rule id='PL_18_DEFUNTO' name='defunto morto'>
+      <pattern>
+          <token regexp='yes'>defunt[ao]s?</token>
+          <token regexp='yes'>mort[ao]s?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+      <example correction='defunto|morto'><marker>defunto morto</marker>.</example>
+    </rule>
+    <rule id='PL_19_DETALHES' name='detalhes minuciosos'>
+      <pattern>
+          <token regexp='yes'>detalhes?</token>
+          <token regexp='yes'>minuciosos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='detalhes'><marker>detalhes minuciosos</marker>.</example>
+    </rule>
+    <rule id='PL_20_EMPRÉSTIMO' name='empréstimo temporário'>
+      <pattern>
+          <token regexp='yes'>empréstimos?</token>
+          <token regexp='yes'>temporários?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='empréstimo'><marker>empréstimo temporário</marker>.</example>
+    </rule>
+    <rule id='PL_21_ENCARAR' name='encarar cara a cara'>
+      <pattern>
+          <token inflected='yes'>encarar</token>
+          <token>cara</token>
+          <token>a</token>
+          <token>cara</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='encarar'><marker>encarar cara a cara</marker>.</example>
+    </rule>
+    <rule id='PL_22_ENFRENTAR' name='enfrentar de frente'>
+      <pattern>
+          <token inflected='yes'>enfrentar</token>
+          <token>de</token>
+          <token>frente</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='enfrentar'><marker>enfrentar de frente</marker>.</example>
+    </rule>
+    <rule id='PL_23_ENXAME' name='enxame de abelha'>
+      <pattern>
+          <token regexp='yes'>enxames?</token>
+          <token>de</token>
+          <token regexp='yes'>abelhas?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='enxame'><marker>enxame de abelha</marker>.</example>
+    </rule>
+    <rule id='PL_24_ERÁRIO' name='erário público'>
+      <pattern>
+          <token regexp='yes'>erários?</token>
+          <token regexp='yes'>públicos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='erário'><marker>erário público</marker>.</example>
+    </rule>
+    <rule id='PL_25_ESCOLHA' name='escolha opcional'>
+      <pattern>
+          <token regexp='yes'>escolhas?</token>
+          <token regexp='yes'>opciona(l|is)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='escolha'><marker>escolha opcional</marker>.</example>
+    </rule>
+    <rule id='PL_26_ESTRELA' name='estrela no céu'>
+      <pattern>
+          <token inflected='yes'>estrela</token>
+          <token regexp='yes'>[nd]o</token>
+          <token>céu</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='estrela'><marker>estrela no céu</marker>.</example>
+    </rule>
+    <rule id='PL_27_EXPRESSAMENTE' name='expressamente proibido'>
+      <pattern>
+          <token>expressamente</token>
+          <token regexp='yes'>proibid[ao]s?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2</suggestion>
+      <example correction='proibido'><marker>expressamente proibido</marker>.</example>
+    </rule>
+    <rule id='PL_28_EXULTAR' name='exultar de alegria'>
+      <pattern>
+          <token inflected='yes'>exultar</token>
+          <token>de</token>
+          <token>alegria</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='exultar'><marker>exultar de alegria</marker>.</example>
+    </rule>
+    <rule id='PL_29_FATO' name='fato real'>
+      <pattern>
+          <token regexp='yes'>fac?tos?</token>
+          <token regexp='yes'>rea(l|is)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='facto'><marker>facto real</marker>.</example>
+    </rule>
+    <rule id='PL_30_FUGIR' name='fugir para outro lugar'>
+      <pattern>
+          <token inflected='yes'>fugir</token>
+          <token>para</token>
+          <token>outro</token>
+          <token regexp='yes'>lugar|lado</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='fugir'><marker>fugir para outro lugar</marker>.</example>
+    </rule>
+    <rule id='PL_31_GOTEIRAS' name='goteiras no teto'>
+      <pattern>
+          <token regexp='yes'>goteiras?</token>
+          <token>no</token>
+          <token regexp='yes'>tec?to</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='goteiras'><marker>goteiras no teto</marker>.</example>
+    </rule>
+    <rule id='PL_32_HABITAT' name='habitat natural'>
+      <pattern>
+          <token regexp='yes'>habitats?</token>
+          <token regexp='yes'>natura(l|is)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='habitat'><marker>habitat natural</marker>.</example>
+    </rule>
+    <rule id='PL_33_INDIVIDUALIDADE' name='individualidade de cada um'>
+      <pattern>
+          <token regexp='yes'>individual(idade)?</token>
+          <token>de</token>
+          <token>cada</token>
+          <token regexp='yes'>uma?|pessoa|indivíduo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='individualidade'><marker>individualidade de cada um</marker>.</example>
+    </rule>
+    <rule id='PL_34_JUNTAMENTE' name='juntamente com'>
+      <pattern>
+          <token inflected='yes'>juntamente</token>
+          <token>com</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='juntamente'><marker>juntamente com</marker>.</example>
+    </rule>
+    <rule id='PL_35_LIVRE' name='livre escolha'>
+      <pattern>
+          <token inflected='yes'>livre</token>
+          <token>escolha</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='livre'><marker>livre escolha</marker>.</example>
+    </rule>
+    <rule id='PL_36_METADES' name='metades iguais'>
+      <pattern>
+          <token regexp='yes'>metades?</token>
+          <token regexp='yes'>igua(l|is)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='metades'><marker>metades iguais</marker>.</example>
+    </rule>
+    <rule id='PL_37_MONOCULTURA' name='monocultura exclusiva'>
+      <pattern>
+          <token regexp='yes'>monoculturas?</token>
+          <token regexp='yes'>exclusivas?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='monocultura'><marker>monocultura exclusiva</marker>.</example>
+    </rule>
+    <rule id='PL_38_MULTIDÃO' name='multidão de pessoa'>
+      <pattern>
+          <token regexp='yes'>multid(ão|ões)</token>
+          <token>de</token>
+          <token regexp='yes'>pessoas?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='multidão'><marker>multidão de pessoa</marker>.</example>
+    </rule>
+    <rule id='PL_39_OPINIÃO' name='opinião individual'>
+      <pattern>
+          <token regexp='yes'>opini(ão|ões)</token>
+          <token regexp='yes'>individu(al|ais)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='opinião'><marker>opinião individual</marker>.</example>
+    </rule>
+    <rule id='PL_40_ORGANIZAR' name='organizar uma torcida organizada'>
+      <pattern>
+          <token inflected='yes'>organizar</token>
+          <token regexp='yes'>u[mn]a?s?</token>
+          <token regexp='yes'>(torcida|jogo|partida)s?</token>
+          <token regexp='yes'>organizad[ao]s?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='organizar'><marker>organizar uma torcida organizada</marker>.</example>
+    </rule>
+    <rule id='PL_41_PLANEADA' name='planeada antecipadamente'>
+      <pattern>
+          <token regexp='yes'>planead[ao]s?</token>
+          <token>antecipadamente</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='planeada'><marker>planeada antecipadamente</marker>.</example>
+    </rule>
+    <rule id='PL_42_PLANEADA' name='planeada com antecedência'>
+      <pattern>
+          <token regexp='yes'>planead[ao]s?</token>
+          <token>com</token>
+          <token>antecedência</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='planeada'><marker>planeada com antecedência</marker>.</example>
+    </rule>
+    <rule id='PL_43_PLANO' name='plano para o futuro'>
+      <pattern>
+          <token inflected='yes'>plano</token>
+          <token>para</token>
+          <token>o</token>
+          <token>futuro</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='plano'><marker>plano para o futuro</marker>.</example>
+    </rule>
+    <rule id='PL_44_PLEBISCITO' name='plebiscito popular'>
+      <pattern>
+          <token inflected='yes'>plebiscito</token>
+          <token>popular</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='plebiscito'><marker>plebiscito popular</marker>.</example>
+    </rule>
+    <rule id='PL_45_POSSIVELMENTE' name='possivelmente poderá ocorrer'>
+      <pattern>
+          <token>possivelmente</token>
+          <token inflected='yes'>poder</token>
+          <token>ocorrer</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2 \3</suggestion>
+      <example correction='poderá ocorrer'><marker>possivelmente poderá ocorrer</marker>.</example>
+    </rule>
+    <rule id='PL_46_PREVER' name='prever de antemão'>
+      <pattern>
+          <token inflected='yes'>prever</token>
+          <token>de</token>
+          <token>antemão</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='prever'><marker>prever de antemão</marker>.</example>
+    </rule>
+    <rule id='PL_47_PROJETAR' name='projetar para o futuro'>
+      <pattern>
+          <token inflected='yes'>projetar</token>
+          <token>para</token>
+          <token>o</token>
+          <token>futuro</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='projetar'><marker>projetar para o futuro</marker>.</example>
+    </rule>
+    <rule id='PL_48_PROPRIEDADES' name='propriedades características'>
+      <pattern>
+          <token regexp='yes'>propriedades?</token>
+          <token regexp='yes'>características?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='propriedades'><marker>propriedades características</marker>.</example>
+    </rule>
+    <rule id='PL_49_RAZÃO' name='razão ser porque'>
+      <pattern>
+          <token inflected='yes'>razão</token>
+          <token>ser</token>
+          <token>porque</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\3</suggestion>
+      <example correction='porque'><marker>razão ser porque</marker>.</example>
+    </rule>
+    <rule id='PL_50_REPETIR' name='repetir de novo'>
+      <pattern>
+          <token inflected='yes'>repetir</token>
+          <token>de</token>
+          <token>novo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='repetir'><marker>repetir de novo</marker>.</example>
+    </rule>
+    <rule id='PL_51_RETORNAR' name='retornar de novo'>
+      <pattern>
+          <token inflected='yes'>retornar</token>
+          <token>de</token>
+          <token>novo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='retornar'><marker>retornar de novo</marker>.</example>
+    </rule>
+    <rule id='PL_52_SEGREDO' name='segredo secreto'>
+      <pattern>
+          <token regexp='yes'>segredos?</token>
+          <token regexp='yes'>secretos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='segredo'><marker>segredo secreto</marker>.</example>
+    </rule>
+    <rule id='PL_53_SINTOMAS' name='sintomas indicativos'>
+      <pattern>
+          <token regexp='yes'>sintomas?</token>
+          <token regexp='yes'>indicativos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='sintomas'><marker>sintomas indicativos</marker>.</example>
+    </rule>
+    <rule id='PL_54_SONHAR' name='sonhar um sonho'>
+      <pattern>
+          <token inflected='yes'>sonhar</token>
+          <token>um</token>
+          <token>sonho</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='sonhar'><marker>sonhar um sonho</marker>.</example>
+    </rule>
+    <rule id='PL_55_SORRISO' name='sorriso nos lábios'>
+      <pattern>
+          <token inflected='yes'>sorriso</token>
+          <token>nos</token>
+          <token>lábios</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='sorriso'><marker>sorriso nos lábios</marker>.</example>
+    </rule>
+    <rule id='PL_56_SUPERAVIT' name='superavit positivo'>
+      <pattern>
+          <token regexp='yes'>superavits?</token>
+          <token regexp='yes'>positivos?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='superavit'><marker>superavit positivo</marker>.</example>
+    </rule>
+    <rule id='PL_57_SUSSURRAR' name='sussurrar baixinho'>
+      <pattern>
+          <token inflected='yes'>sussurrar</token>
+          <token regexp='yes'>baix(o|inho)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='sussurrar'><marker>sussurrar baixinho</marker>.</example>
+    </rule>
+    <rule id='PL_58_TRILATERAL' name='trilateral entre três'>
+      <pattern>
+          <token inflected='yes'>trilateral</token>
+          <token>entre</token>
+          <token>três</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='trilateral'><marker>trilateral entre três</marker>.</example>
+    </rule>
+    <rule id='PL_59_ÚLTIMA' name='última versão definitiva'>
+      <pattern>
+          <token inflected='yes'>última</token>
+          <token>versão</token>
+          <token>definitiva</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2 \3</suggestion>
+      <example correction='versão definitiva'><marker>última versão definitiva</marker>.</example>
+    </rule>
+    <rule id='PL_60_UNÂNIME' name='unânime de todos'>
+      <pattern>
+          <token>unânime</token>
+          <token regexp='yes'>de|por</token>
+          <token>todos</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='unânime'><marker>unânime de todos</marker>.</example>
+    </rule>
+    <rule id='PL_61_VEREADOR' name='vereador municipal'>
+      <pattern>
+          <token regexp='yes'>vereador[ea]?s?</token>
+          <token regexp='yes'>municip(al|ais)</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='vereador'><marker>vereador municipal</marker>.</example>
+    </rule>
+    <rule id='PL_63_VIVER' name='viver a vida'>
+      <pattern>
+          <token inflected='yes'>viver</token>
+          <token>a</token>
+          <token>vida</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='viver'><marker>viver a vida</marker>.</example>
+    </rule>
 
   </rulegroup>
 
@@ -14813,12 +14813,12 @@ TODO Write better examples
     <!-- CAMINHAR CAMINHOS percorrer caminhos -->
     <rule id="CAMINHAR_CAMINHOS" name="percorrer caminhos">
       <pattern>
-		<marker>
+        <marker>
           <token inflected='yes'>caminhar</token>
-		</marker>
+        </marker>
           <token>caminhos</token>
       </pattern>
-	  <message>Substitua por <suggestion><match no='1' postag='V.+'>percorrer</match></suggestion>.</message>
+      <message>Substitua por <suggestion><match no='1' postag='V.+'>percorrer</match></suggestion>.</message>
       <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
     </rule>  
   
@@ -15028,7 +15028,7 @@ TODO Write better examples
     </rule>
 
   <rulegroup id="MEDICINA_TRADICIONAL_CHINESA" name="Erro de tradução: 'medicina tradicional Chinesa'">
-    <short>Erro de tradução.</short>
+      <short>Erro de tradução.</short>
     <rule>
       <pattern>
           <token>medicina</token>
@@ -15052,7 +15052,7 @@ TODO Write better examples
   </rulegroup>
 
   <rulegroup id="PEQUENO_INTESTINO" name="Erro de tradução: 'intestino delgado'">
-    <short>Erro de tradução.</short>
+      <short>Erro de tradução.</short>
     <rule>
       <pattern>
           <token>pequeno</token>
@@ -15074,11 +15074,11 @@ TODO Write better examples
   </rulegroup>
   
   <rulegroup id="TRAZEDORES_DA_JUSTIÇA" name="Erro de tradução: 'justiceiro(s)'">
-    <short>Erro de tradução.</short>
+      <short>Erro de tradução.</short>
     <rule>
       <pattern>
           <token>trazedores</token>
-		  <token regexp="yes">de|da</token>
+          <token regexp="yes">de|da</token>
           <token>justiça</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
@@ -15088,7 +15088,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token>trazedor</token>
-		  <token regexp="yes">de|da</token>
+          <token regexp="yes">de|da</token>
           <token>justiça</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
@@ -15100,10 +15100,10 @@ TODO Write better examples
     <rule id="UM_TAMANHO_SERVE_PARA_TODOS" name="Erro de tradução: 'tamanho único'">
       <pattern>
           <token>um</token>
-		  <token>tamanho</token>
-		  <token regexp="yes">serve|dá</token>
-		  <token>para</token>
-		  <token>todos</token>
+          <token>tamanho</token>
+          <token regexp="yes">serve|dá</token>
+          <token>para</token>
+          <token>todos</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
         <suggestion>tamanho único</suggestion>
