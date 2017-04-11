@@ -247,7 +247,6 @@ public class CaseRule extends Rule {
     "Beschäftigter",
     "Beschäftigte",
     "Beschäftigten",
-    "Üblichen",
     "Bekannter",
     "Bekannte",
     "Tel",  // Tel. = Telefon
@@ -314,6 +313,7 @@ public class CaseRule extends Rule {
     "besonderes",   // je nach Kontext groß (TODO): "etwas Besonderes" 
     "Biss",
     "De",    // "De Morgan" etc
+    "Diesseits", // "im Diesseits"
     "Dr",
     "Durcheinander",
     "Eindrücke",
@@ -392,6 +392,7 @@ public class CaseRule extends Rule {
     "Schwärme",
     "Schwarzes",    // Schwarzes Brett
     "Sie",
+    "Skype",
     "Spitz",
     "St",   // Paris St. Germain
     "Stereotyp",
@@ -952,9 +953,13 @@ public class CaseRule extends Rule {
     // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
-      // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
       if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
-        return true;
+        if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK")) {
+          // skip to avoid a false true for, e.g. "Die Zahl ging auf Über 1.000 zurück."
+          // but not for "Er versuchte, Neues zu wagen."
+        } else {
+          return true;
+        }
       }
     }
 

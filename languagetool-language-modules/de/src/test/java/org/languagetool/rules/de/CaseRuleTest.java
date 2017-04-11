@@ -105,6 +105,7 @@ public class CaseRuleTest {
     assertGood("Es gab Überlebende.");
 
     assertBad("Er ist Groß.");
+    assertBad("Die Zahl ging auf Über 1.000 zurück.");
     assertBad("Er sammelt Große und kleine Tassen.");
     assertBad("Er sammelt Große, mittlere und kleine Tassen.");
     assertBad("Dann will sie mit London Über das Referendum verhandeln.");
