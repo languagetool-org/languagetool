@@ -13800,8 +13800,8 @@ TODO Write better examples
  </category>
 
  <category id="REGISTERED_BRANDS" name="Regras de Marcas e Termos Registados">
-    <!-- Localized from French grammar.xml byt Tiago F. Santos, 30-01-2017 -->
-    <rule id="UBUNTU" name="Ubuntu-16.10 → Ubuntu-16.10">
+    <!-- Localized from French grammar.xml by Tiago F. Santos, 30-01-2017 -->
+    <rule id="UBUNTU" name="Nome de Produto: Ubuntu-16.10 → Ubuntu-16.10">
       <pattern>
           <token regexp="yes">([klx]|ed)?ubuntu</token>
           <token>-</token>
@@ -13810,7 +13810,7 @@ TODO Write better examples
       <message>Pretende dizer <suggestion>\1\2<match no='3' regexp_match='(\d\d)\.(\d)' regexp_replace='$1\.0$2'/></suggestion>?</message>
       <example correction="xubuntu-12.04">Instalei o <marker>xubuntu-12.4</marker>.</example>
     </rule>
-    <rule id="X86" name="X86 → x86">
+    <rule id="X86" name="Nome de Produto: X86 → x86">
       <pattern>
           <token case_sensitive="yes" regexp="yes">X86(?:[-_]64)?</token>
       </pattern>
@@ -13818,7 +13818,7 @@ TODO Write better examples
       <example correction="x86">Necessita do conjunto de instruções <marker>X86</marker>.</example>
       <example correction="x86_64">Processador <marker>X86_64</marker>.</example>
     </rule>
-    <rule id="SQLITE" name="SQLite">
+    <rule id="SQLITE" name="Nome de Produto: SQLite">
       <pattern>
           <token>sql</token>
           <token>-</token>
@@ -13828,7 +13828,7 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/SQLite</url>
       <example correction="SQLite">O Android utiliza <marker>SQL-lite</marker>.</example>
     </rule>
-  <rulegroup id="OPENGL" name="OpenGL">
+  <rulegroup id="OPENGL" name="Nome de Produto: OpenGL">
       <url>https://pt.wikipedia.org/wiki/OpenGL</url>
     <rule>
       <pattern>
@@ -13847,7 +13847,7 @@ TODO Write better examples
       <example correction="OpenGL">A biblioteca <marker>opengl</marker>.</example>
     </rule>
   </rulegroup>
-  <rulegroup id="OPENCL" name="OpenGL">
+  <rulegroup id="OPENCL" name="Nome de Produto: OpenGL">
       <url>https://pt.wikipedia.org/wiki/OpenCL</url>
     <rule>
       <pattern>
@@ -13865,7 +13865,7 @@ TODO Write better examples
       <example correction="OpenCL"><marker>OpenCl</marker>.</example>
     </rule>
   </rulegroup>
-    <rule id="WINDOWS" name="Window → Windows">
+    <rule id="WINDOWS" name="Nome de Produto: Window → Windows">
       <pattern>
         <marker><token>Window</token></marker>
           <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
@@ -13874,7 +13874,7 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Windows</url>
       <example correction="Windows"><marker>Window</marker> Vista bloqueia o tempo todo.</example>
     </rule>
-    <rule id="X_WINDOW" name="X Window">
+    <rule id="X_WINDOW" name="Nome de Produto: X Window">
       <pattern>
           <token case_sensitive="yes">X</token>
           <token>Windows</token>
@@ -13883,7 +13883,7 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/X_Toolkit</url>
       <example correction="X Window">Foi o MIT que publicou a primeira versão do <marker>X Windows</marker> em junho de 1984.</example>
     </rule>
-  <rulegroup id="POST-IT" name="Post-it">
+  <rulegroup id="POST-IT" name="Nome de Produto: Post-it">
     <rule>
       <pattern>
           <token regexp="yes">posts?</token>
@@ -13905,7 +13905,7 @@ TODO Write better examples
       <example correction="papel adesivo"><marker>post it</marker></example>
     </rule>
   </rulegroup>
-    <rule id="KLEENEX" name="Kleenex">
+    <rule id="KLEENEX" name="Nome de Produto: Kleenex">
       <pattern>
           <token>kleenex</token>
       </pattern>
@@ -13914,7 +13914,7 @@ TODO Write better examples
         <suggestion>lenço de papel</suggestion>
       <example correction="lenço|lenço de papel"><marker>kleenex</marker></example>
     </rule>
-    <rule id="X_ACTO" name="X-Acto">
+    <rule id="X_ACTO" name="Nome de Produto: X-Acto">
       <pattern>
           <token>x</token>
           <token min='0' regexp='yes'>[-‑‐]</token>
@@ -13925,6 +13925,38 @@ TODO Write better examples
       <example correction="decapador"><marker>x-acto</marker></example>
     </rule>
     <!--  End of French grammar.xml adaptation  -->
+    <!-- Localized from German grammar.xml by Tiago F. Santos, 11-04-2017 -->
+    <rule id="LIBREOFFICE" name="Nome de produto: 'Libre Office (LibreOffice)'">
+      <pattern>
+          <token>Libre</token>
+          <token min='0'>-</token>
+          <token>Office</token>
+      </pattern>
+      <message>Pretende referir-se ao programa <suggestion>LibreOffice</suggestion>?</message>
+      <short>Possível erro no nome do produto.</short>
+      <example correction="LibreOffice"><marker>Libre Office</marker> é um programa libre.</example>
+      <example correction="LibreOffice"><marker>Libre-Office</marker> é um programa libre.</example>
+    </rule>
+  <rulegroup id="OPEN_STREET_MAP" name="'Open Street Map (OpenStreetMap)'">
+      <url>https://www.openstreetmap.org/</url>
+      <short>Possível erro no nome do produto.</short>
+    <rule>
+      <regexp>Open (Street Maps?|Streetmaps?)</regexp>
+      <message>Pretende referir-se ao programa de mapas gratuito <suggestion>OpenStreetMap</suggestion>?</message>
+      <example>O <marker>openstreetmap.org</marker> é uma programa de mapas livre e gratuito.</example>
+      <example correction="OpenStreetMap">O <marker>Open Street Map</marker> é uma programa de mapas livre e gratuito.</example>
+      <example correction="OpenStreetMap">O <marker>Open Streetmaps</marker> é uma programa de mapas livre e gratuito.</example>
+    </rule>
+  </rulegroup>
+    <rule id="MP_3" name="'MP-3 (MP3)' etc.">
+      <regexp case_sensitive='yes'>[mM][pP]\-3|Mp3</regexp>
+      <message>Substitua por <suggestion><match no="0" regexp_match=".*3(.*)" regexp_replace="MP3$1"/></suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/MP3</url>
+      <example correction="MP3">Tenho um novo <marker>MP-3</marker>-Player.</example>
+      <example correction="MP3"><marker>Mp3</marker> é uma formato de ficheiros.</example>
+      <example correction="MP3"><marker>Mp-3</marker> é uma formato de ficheiros.</example>
+    </rule>
+    <!--  End of German grammar.xml adaptation  -->
  </category>
 
  <category id="SEMANTICS" name="Semântica" type="inconsistency">
