@@ -136,6 +136,10 @@ public class AgreementRule extends Rule {
     Arrays.asList(
         new PatternTokenBuilder().token("mehrere").build(), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
         new PatternTokenBuilder().pos("SUB:NOM:SIN:FEM:ADJ").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("allen").build(),
+        new PatternTokenBuilder().token("Besitz").build()
     )
   );
 

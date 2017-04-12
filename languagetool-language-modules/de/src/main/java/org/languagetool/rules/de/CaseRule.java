@@ -133,6 +133,14 @@ public class CaseRule extends Rule {
         pos("PKT")
     ),
     Arrays.asList(
+        // um ihren eigenen Glauben an das Gute, Wahre und Schöne zu stärken.
+        token("das"),
+        posRegex("SUB:.*"),
+        token(","),
+        regex("[A-Z][a-z]+"),
+        token("und")
+    ),
+    Arrays.asList(
       token("Treu"),
       token("und"),
       token("Glauben")
@@ -398,6 +406,7 @@ public class CaseRule extends Rule {
     "Stereotyp",
     "Störe",
     "Tausend",   // je nach Kontext groß (TODO)
+    "Tischende",
     "Toter",
     "tun",   // "Sie müssen das tun"
     "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen"
