@@ -14398,6 +14398,18 @@ TODO Write better examples
       <example>A reunião poderá ser às 15h00.</example>
     </rule>
 
+    <rule id="IR_AS_FUTURE_AUXILIARY" name="IR (Futuro/Condicional) + Infinitivo">
+    <!--    Created by Tiago F. Santos, 2017-04-12     -->
+      <pattern>
+          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes'>ir</token>
+          <token postag='VMN0000'/>
+      </pattern>
+      <message>Nesta situação deve conjugar o segundo verbo.</message>
+        <suggestion>\2<match no='1' regexp_match='ir(.+)' regexp_replace='$1'/></suggestion>
+      <example correction="chegará">Ele <marker>irá chegar</marker> a tempo.</example>
+      <example correction="chegaria">Ele sabia que <marker>iria chegar</marker> atrasado.</example>
+    </rule>
+
     <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
     <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
       <pattern>
