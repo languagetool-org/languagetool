@@ -1310,6 +1310,12 @@ title="Easy editing stylesheet" ?>
       <example>Fomos às compras, e viemos com o carro cheio</example>
     </rule>
     <rule>
+      <antipattern>
+          <token inflected='yes' regexp='yes'>dar|declarar</token>
+          <token regexp='yes'>guerra|vida</token>
+          <token>à</token>
+          <token regexp='yes'>guerra|vida</token>
+      </antipattern>
       <pattern>
           <token><exception postag='SENT_START'/></token>
           <token>à</token>
@@ -5269,7 +5275,6 @@ tokenizer spreadsheet in the forum	     -->
     <!--	  TODO Write better examples for all these rules	    -->
       <url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
       <short>Pleonasmo.</short>
-    <!-- CEGO DO OLHOS cego                                   -->
     <rule id="PL_CEGO" name="Cego">
       <pattern>
           <token inflected='yes'>cego</token>
@@ -5279,7 +5284,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='cego'><marker>cego dos olhos</marker></example>
     </rule>
-    <!-- BATER PALMAS COM AS MÃOS bater palmas                   -->
     <rule id="PL_PALMAS" name="Bater palmas">
       <pattern>
           <token inflected='yes'>bater</token>
@@ -5291,7 +5295,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
     </rule>
-    <!-- CLIMATOLOGIA climatologia                               -->
     <rule id="PL_CLIMATOLOGIA" name="Climatologia">
       <pattern>
           <token inflected='yes'>climatologia</token>
@@ -5300,7 +5303,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='climatologia'><marker>climatologia geográfica</marker></example>
     </rule>
-    <!-- DE CHAPÉU NA CABEÇA de chapéu                           -->
     <rule id="PL_CHAPEU" name="De chapéu">
       <pattern>
           <token>de</token>
@@ -5311,7 +5313,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
     </rule>
-    <!-- MALUCO DA CABEÇA maluco                                 -->
     <rule id="PL_MALUCO" name="Maluco">
       <pattern>
           <token inflected='yes'>maluco</token>
@@ -5321,7 +5322,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='maluco'><marker>maluco da cabeça</marker></example>
     </rule>
-    <!-- SUBIR PARA CIMA subir                                   -->
     <rule id="PL_SUBIR" name="Subir para cima">
       <pattern>
           <token inflected='yes'>subir</token>
@@ -5331,7 +5331,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='subir'><marker>subir para cima</marker></example>
     </rule>
-    <!-- DESCER PARA BAIXO  descer                               -->
     <rule id="PL_DESCER" name="Descer para baixo">
       <pattern>
           <token inflected='yes'>descer</token>
@@ -5341,7 +5340,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='descer'><marker>descer para baixo</marker></example>
     </rule>
-    <!-- ENTRAR PARA DENTRO  entrar                              -->
     <rule id="PL_ENTRAR" name="Entrar para dentro">
       <pattern>
           <token inflected='yes'>entrar</token>
@@ -5351,7 +5349,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='entrar'><marker>entrar para dentro</marker></example>
     </rule>
-    <!-- SAIR PARA FORA  sair                                    -->
     <rule id="PL_SAIR" name="Sair para fora">
       <pattern>
           <token inflected='yes'>sair</token>
@@ -5361,7 +5358,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='sair'><marker>sair para fora</marker></example>
     </rule>
-    <!-- UNANIMIDADE DE TODOS  unanimidade                       -->
     <rule id="PL_UNANIMIDADE" name="Unanimidade de todos">
       <pattern>
           <token inflected='yes'>unanimidade</token>
@@ -5371,7 +5367,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='unanimidade'><marker>unanimidade de todos</marker></example>
     </rule>
-    <!-- ACABAMENTO FINAL  acabamento                            -->
     <rule id="PL_ACABAMENTO" name="Acabamento final">
       <pattern>
           <token inflected='yes'>acabamento</token>
@@ -5380,7 +5375,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='acabamento'><marker>acabamento final</marker></example>
     </rule>
-    <!-- AMANHECER O DIA  amanhecer                              -->
     <rule id="PL_AMANHECER" name="Amanhecer o dia">
       <pattern>
           <token inflected='yes'>amanhecer</token>
@@ -5390,7 +5384,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='amanhecer'><marker>amanhecer o dia</marker></example>
     </rule>
-    <!-- SURPRESA INESPERADA  surpresa                           -->
     <rule id="PL_SURPRESA" name="Surpresa inesperada">
       <pattern>
           <token inflected='yes'>surpresa</token>
@@ -5399,7 +5392,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='surpresa'><marker>surpresa inesperada</marker></example>
     </rule>
-    <!-- CONVIVER JUNTOS  conviver                               -->
     <rule id="PL_CONVIVER" name="Conviver juntos">
       <pattern>
           <token inflected='yes'>conviver</token>
@@ -5408,7 +5400,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='conviver'><marker>conviver juntos</marker></example>
     </rule>
-    <!-- DECAPITAR A CABEÇA  decapitar                           -->
     <rule id="PL_DECAPITAR" name="Decapitar a cabeça">
       <pattern>
           <token inflected='yes'>decapitar</token>
@@ -5418,7 +5409,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='decapitar'><marker>decapitar a cabeça</marker></example>
     </rule>
-    <!-- ENCARAR DE FRENTE  encarar                              -->
     <rule id="PL_ENCARAR" name="Encarar de frente">
       <pattern>
           <token inflected='yes'>encarar</token>
@@ -5428,7 +5418,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='encarar'><marker>encarar de frente</marker></example>
     </rule>
-    <!-- GRITAR ALTO  gritar                                     -->
     <rule id="PL_GRITAR" name="Gritar alto">
       <pattern>
           <token inflected='yes'>gritar</token>
@@ -5437,7 +5426,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='gritar'><marker>gritar alto</marker></example>
     </rule>
-    <!-- SUSSURAR BAIXO  sussurar                                -->
     <rule id="PL_SUSSURAR" name="Sussurar baixo">
       <pattern>
           <token inflected='yes'>sussurar</token>
@@ -5446,7 +5434,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='sussurar'><marker>sussurar baixo</marker></example>
     </rule>
-    <!-- CERTEZA ABSOLUTA  certeza                               -->
     <rule id="PL_CERTEZA" name="Certeza absoluta">
       <pattern>
           <token inflected='yes'>certeza</token>
@@ -5455,7 +5442,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='certeza'><marker>certeza absoluta</marker></example>
     </rule>
-    <!-- CHEIRAR COM O NARIZ  cheirar                            -->
     <rule id="PL_CHEIRAR" name="Cheirar com o nariz">
       <pattern>
           <token inflected='yes'>cheirar</token>
@@ -5466,7 +5452,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='cheirar'><marker>cheirar com o nariz</marker></example>
     </rule>
-    <!-- ELO DE LIGAÇÃO  elo                                     -->
     <rule id="PL_ELO" name="Elo de ligação">
       <pattern>
           <token inflected='yes'>elo</token>
@@ -5476,7 +5461,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='elo'><marker>elo de ligação</marker></example>
     </rule>
-    <!-- DUPLA DE DOIS  dupla                                    -->
     <rule id="PL_DUPLA" name="Dupla de dois">
       <pattern>
           <token inflected='yes'>dupla</token>
@@ -5486,7 +5470,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='dupla'><marker>dupla de dois</marker></example>
     </rule>
-    <!-- VERDADE VERDADEIRA  verdade                             -->
     <rule id="PL_VERDADE" name="Verdade verdadeira">
       <pattern>
           <token inflected='yes'>verdade</token>
@@ -5495,7 +5478,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='verdade'><marker>verdade verdadeira</marker></example>
     </rule>
-    <!-- OLHAR COM OS OLHOS  olhar                               -->
     <rule id="PL_OLHAR" name="Olhar com os olhos">
       <pattern>
           <token inflected='yes'>olhar</token>
@@ -5506,7 +5488,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='olhar'><marker>olhar com os olhos</marker></example>
     </rule>
-    <!-- LAMBER COM A LÍNGUA  lamber                             -->
     <rule id="PL_LAMBER" name="Lamber com a língua">
       <pattern>
           <token inflected='yes'>lamber</token>
@@ -5517,7 +5498,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='lamber'><marker>lamber com a língua</marker></example>
     </rule>
-    <!-- ISTO É UM FATO REAL  isto                               -->
     <rule id="PL_ISTO" name="Isto é um fato real">
       <pattern>
           <token>isto</token>
@@ -5529,7 +5509,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1 \2 \3 \4</suggestion>.</message>
       <example correction='isto é um facto'><marker>isto é um facto real</marker></example>
     </rule>
-    <!-- MULTIDÃO DE PESSOAS (GENTE)  multidão                   -->
     <rule id="PL_MULTIDÃO" name="Multidão de pessoas (gente)">
       <pattern>
           <token inflected='yes'>multidão</token>
@@ -5539,7 +5518,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='multidão'><marker>multidão de pessoas</marker></example>
     </rule>
-    <!-- MORDER COM OS DENTES  morder                            -->
     <rule id="PL_MORDER" name="Morder com os dentes">
       <pattern>
           <token inflected='yes'>morder</token>
@@ -5550,7 +5528,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='morder'><marker>morder com os dentes</marker></example>
     </rule>
-    <!-- ESTREIA PELA PRIMEIRA VEZ  estreia                      -->
     <rule id="PL_ESTREIA" name="Estreia pela primeira vez">
       <pattern>
           <token inflected='yes'>estrear</token>
@@ -5561,7 +5538,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='estreia'><marker>estreia pela primeira vez</marker></example>
     </rule>
-    <!-- PANORAMA GERAL  panorama                                -->
     <rule id="PL_PANORAMA" name="Panorama geral">
       <pattern>
           <token inflected='yes'>panorama</token>
@@ -5570,7 +5546,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='panorama'><marker>panorama geral</marker></example>
     </rule>
-    <!-- PREFIRO MAIS  prefiro                                   -->
     <rule id="PL_PREFIRO" name="Prefiro mais">
       <pattern>
           <token inflected='yes'>preferir</token>
@@ -5579,7 +5554,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='prefiro'><marker>prefiro mais</marker></example>
     </rule>
-    <!-- MAIS MELHOR  mais                                       -->
     <rule id="PL_MAIS" name="Mais melhor">
       <pattern>
           <token inflected='yes'>mais</token>
@@ -5588,7 +5562,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='mais'><marker>mais melhor</marker></example>
     </rule>
-    <!-- GANHAR DE GRAÇA  ganhar                                 -->
     <rule id="PL_GANHAR" name="Ganhar de graça">
       <pattern>
           <token inflected='yes'>ganhar</token>
@@ -5598,16 +5571,16 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='ganhar'><marker>ganhar de graça</marker></example>
     </rule>
-    <!-- CRIAR NOVAS  criar                                      -->
     <rule id="PL_CRIAR" name="Criar novas">
       <pattern>
           <token inflected='yes'>criar</token>
-          <token>novas</token>
+          <token min='0' regexp='yes'>u[nm]a?s?</token>
+          <token regexp='yes'>nov[ao]s?</token>
       </pattern>
-      <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
-      <example correction='criar'><marker>criar novas</marker></example>
+      <message>Pleonasmo. Substitua por <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>.</message>
+      <example correction='criou '><marker>criou novas</marker></example>
+      <example correction='criar um'><marker>criar um novo</marker></example>
     </rule>
-    <!-- PRÓPRIA AUTOBIOGRAFIA  própria                          -->
     <rule id="PL_PRÓPRIA" name="Própria autobiografia">
       <pattern>
           <token regexp='yes'>próprias?</token>
@@ -5616,7 +5589,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\2</suggestion>.</message>
       <example correction='autobiografia'><marker>própria autobiografia</marker></example>
     </rule>
-    <!-- PAÍSES DO MUNDO  países                                 -->
     <rule id="PL_PAÍSES" name="Países do mundo">
       <pattern>
           <token inflected='yes'>país</token>
@@ -5626,7 +5598,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='países'><marker>países do mundo</marker></example>
     </rule>
-    <!-- VIÚVO DA FALECIDA  viúvo                                -->
     <rule id="PL_VIÚVO" name="Viúvo da falecida">
       <pattern>
           <token inflected='yes'>viúvo</token>
@@ -5636,7 +5607,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='viúva'><marker>viúva da falecida</marker></example>
     </rule>
-    <!-- FACTO VERÍDICO  facto                                   -->
     <rule id="PL_FACTO" name="Facto verídico">
       <pattern>
           <token inflected='yes' regexp='yes'>fato|facto</token>
@@ -5645,7 +5615,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='fato'><marker>fato verídico</marker></example>
     </rule>
-    <!-- ALMIRANTE DA MARINHA  almirante                         -->
     <rule id="PL_ALMIRANTE" name="Almirante da marinha">
       <pattern>
           <token inflected='yes'>almirante</token>
@@ -5655,7 +5624,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='almirante'><marker>almirante da marinha</marker></example>
     </rule>
-    <!-- DEMENTE MENTAL  demente                                 -->
     <rule id="PL_DEMENTE" name="Demente mental">
       <pattern>
           <token inflected='yes'>demente</token>
@@ -5664,7 +5632,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='demente'><marker>demente mental</marker></example>
     </rule>
-    <!-- SUBIR PARA SUICIDOU(-SE) A SI MESMO  suicidou(-se)      -->
     <rule id="PL_SUICIDOU" name="Suicidar(-se) a si mesmo">
       <pattern>
           <token inflected='yes' regexp='yes'>suicidar|suicidou</token>
@@ -5677,7 +5644,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/></suggestion>.</message>
       <example correction='suicidou-se'><marker>suicidou-se a si mesmo</marker></example>
     </rule>
-    <!-- COMER COM A BOCA  comer                                 -->
     <rule id="PL_COMER" name="Comer com a boca">
       <pattern>
           <token inflected='yes'>comer</token>
@@ -5688,7 +5654,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='comer'><marker>comer com a boca</marker></example>
     </rule>
-    <!-- ANDAR OS PÉS  andar                                     -->
     <rule id="PL_ANDAR" name="Andar os pés">
       <pattern>
           <token inflected='yes'>andar</token>
@@ -5699,7 +5664,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='andar'><marker>andar os pés</marker></example>
     </rule>
-    <!-- ADIAR PARA DEPOIS  adiar                                -->
     <rule id="PL_ADIAR" name="Adiar para depois">
       <pattern>
           <token inflected='yes'>adiar</token>
@@ -5709,7 +5673,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='adiar'><marker>adiar para depois</marker></example>
     </rule>
-    <!-- 24 HORAS POR DIA  24                                    -->
     <rule id="PL_24" name="24 horas por dia">
       <pattern>
           <token>24</token>
@@ -5720,7 +5683,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1 \2</suggestion>.</message>
       <example correction='24 horas'><marker>24 horas por dia</marker></example>
     </rule>
-    <!-- COMPARECER PESSOALMENTE  comparecer                     -->
     <rule id="PL_COMPARECER" name="Comparecer pessoalmente">
       <pattern>
           <token inflected='yes'>comparecer</token>
@@ -5729,7 +5691,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='comparecer'><marker>comparecer pessoalmente</marker></example>
     </rule>
-    <!-- CONCLUSÃO FINAL  conclusão                              -->
     <rule id="PL_CONCLUSÃO" name="Conclusão final">
       <pattern>
           <token inflected='yes'>conclusão</token>
@@ -5738,7 +5699,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='conclusão'><marker>conclusão final</marker></example>
     </rule>
-    <!-- MAR SALGADO  mar                                        -->
     <rule id="PL_MAR" name="Mar salgado">
       <pattern>
           <token inflected='yes'>mar</token>
@@ -5747,7 +5707,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='mar'><marker>mar salgado</marker></example>
     </rule>
-    <!-- SURDO DO OUVIDO  surdo                                  -->
     <rule id="PL_SURDO" name="Surdo do ouvido">
       <pattern>
           <token regexp='yes'>surdos?</token>
@@ -5757,7 +5716,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='surdo'><marker>surdo do ouvido</marker></example>
     </rule>
-    <!-- ARDER EM CHAMAS  arder                                  -->
     <rule id="PL_ARDER" name="Arder em chamas">
       <pattern>
           <token inflected='yes'>arder</token>
@@ -5767,7 +5725,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='arder'><marker>arder em chamas</marker></example>
     </rule>
-    <!-- ÁGUA MOLHADA  água                                      -->
     <rule id="PL_ÁGUA" name="água molhada">
       <pattern>
           <token regexp='yes'>águas?</token>
@@ -5776,7 +5733,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='água'><marker>água molhada</marker></example>
     </rule>
-    <!-- PÁSSAROS ALADOS  pássaros                               -->
     <rule id="PL_PÁSSAROS" name="Pássaros alados">
       <pattern>
           <token inflected='yes'>pássaro</token>
@@ -5785,7 +5741,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='pássaros'><marker>pássaros alados</marker></example>
     </rule>
-
     <rule id="PL_MONOPOLIO" name="Monopólio exclusivo">
       <pattern>
           <token inflected='yes'>monopólio</token>
@@ -5794,7 +5749,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por <suggestion>\1</suggestion>.</message>
       <example correction='monopólio'><marker>monopólio exclusivo</marker></example>
     </rule>
-
     <rule id="PL_NAO_HAVER_MAIS" name="Já não há mais">
       <pattern>
           <token>já</token>
@@ -5872,10 +5826,10 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='PL_7_BILATERAL' name='bilateral entre os dois'>
       <pattern>
-          <token inflected='yes'>bilateral</token>
+          <token regexp='yes'>bilater(al|ais)</token>
           <token>entre</token>
-          <token regexp='yes'>[ao]s</token>
-          <token>dois</token>
+          <token min='0' regexp='yes'>[ao]s</token>
+          <token regexp='yes'>dois|duas</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
@@ -5938,16 +5892,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\3</suggestion>
       <example correction='permanecer'><marker>continuar a permanecer</marker>.</example>
-    </rule>
-    <rule id='PL_14_CRIAR' name='criar um novo'>
-      <pattern>
-          <token inflected='yes'>criar</token>
-          <token>um</token>
-          <token>novo</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-        <suggestion>\1</suggestion>
-      <example correction='criar'><marker>criar um novo</marker>.</example>
     </rule>
     <rule id='PL_15_CURSAR' name='cursar um curso'>
       <pattern>
@@ -6140,8 +6084,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>com</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
-        <suggestion>\1</suggestion>
-      <example correction='juntamente'><marker>juntamente com</marker>.</example>
+        <suggestion>\2</suggestion>
+      <example correction='com'><marker>juntamente com</marker>.</example>
     </rule>
     <rule id='PL_35_LIVRE' name='livre escolha'>
       <pattern>
@@ -6202,7 +6146,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='PL_41_PLANEADA' name='planeada antecipadamente'>
       <pattern>
-          <token regexp='yes'>planead[ao]s?</token>
+          <token regexp='yes'>plane.+</token>
           <token>antecipadamente</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
@@ -6211,7 +6155,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='PL_42_PLANEADA' name='planeada com antecedência'>
       <pattern>
-          <token regexp='yes'>planead[ao]s?</token>
+          <token regexp='yes'>plane.+</token>
           <token>com</token>
           <token>antecedência</token>
       </pattern>
@@ -6261,8 +6205,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='PL_47_PROJETAR' name='projetar para o futuro'>
       <pattern>
-          <token inflected='yes'>projetar</token>
-          <token>para</token>
+          <token regexp='yes' inflected='yes'>projec?tar|projec?tos?</token>
+          <token min='0'>para</token>
           <token>o</token>
           <token>futuro</token>
       </pattern>
@@ -6281,8 +6225,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='PL_49_RAZÃO' name='razão ser porque'>
       <pattern>
-          <token inflected='yes'>razão</token>
-          <token>ser</token>
+          <token regexp='yes'>raz(ão|ões)</token>
+          <token inflected='yes'>ser</token>
           <token>porque</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
@@ -6414,7 +6358,6 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>\1</suggestion>
       <example correction='viver'><marker>viver a vida</marker>.</example>
     </rule>
-
   </rulegroup>
 
  </category>
@@ -13227,7 +13170,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <token min='0' regexp='yes'>["«»“”]</token>
+          <token min='0' regexp='yes'>["'«»“”]</token>
         <marker>
           <token regexp='yes'>-|–</token>
         </marker>
@@ -15133,7 +15076,7 @@ TODO Write better examples
       <pattern>
           <token>um</token>
           <token>tamanho</token>
-          <token regexp="yes">serve|dá</token>
+          <token regexp="yes" inflected='yes'>servir|dar</token>
           <token>para</token>
           <token>todos</token>
       </pattern>
