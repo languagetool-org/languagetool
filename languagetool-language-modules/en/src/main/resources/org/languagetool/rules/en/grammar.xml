@@ -13879,13 +13879,13 @@ USA
       <example>50-30</example>
       <example>...with a rock...—, I believe that...</example>
     </rule>
-    <rule id="NO_COMMA_WITH_INDIRECT_QUESTION" name="no comma before indirect question">
+    <rule id="NO_COMMA_BEFORE_INDIRECT_QUESTION" name="no comma before indirect question">
         <pattern>
-            <token inflected="yes" regexp="yes">ask|wonder</token>
+            <token inflected="yes" regexp="yes">ask|wonder|know</token>
             <token min="0"/>
             <marker>
                 <token>,</token>
-                <token regexp="yes">which|where|what|wh[oy]|whether</token>
+                <token regexp="yes">which|where|what|wh[oy]|whether|if|whose</token>
             </marker>
             <token><exception postag="VB.*" postag_regexp="yes"/></token>
         </pattern>
@@ -13911,9 +13911,9 @@ USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Blue|blue|Blu|blu</token>
-                    <token regexp="yes">Ray|ray</token>
-                    <token regexp="yes">disc|disk</token>
+                    <token regexp="yes">[Bb]lue?</token>
+                    <token regexp="yes">[rR]ay</token>
+                    <token regexp="yes">dis[kc]</token>
                 </pattern>
                 <message>Did you mean <suggestion>Blu-ray disc</suggestion>?</message>
                 <short>Possible typo</short>
