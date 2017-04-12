@@ -12975,6 +12975,28 @@ TODO Write better examples
       <example correction='a matrícula'><marker>a matricula</marker>.</example>
       <example correction='as matrículas'><marker>as matriculas</marker>.</example>
     </rule>
+    <rule id='PARONIMA_CAPITULO_603' name='O + capitulo'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+          <token min='0' postag='A.+' postag_regexp='yes'></token>
+          <token regexp='yes'>capitulos?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> capítulo<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction='o capítulo'><marker>o capitulo</marker>.</example>
+      <example correction='os capítulos'><marker>os capitulos</marker>.</example>
+    </rule>
+    <rule id='PARONIMA_NUMERO_604' name='O + numero'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+          <token min='0' postag='A.+' postag_regexp='yes'></token>
+          <token regexp='yes'>numeros?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> número<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction='o número'><marker>o numero</marker>.</example>
+      <example correction='os números'><marker>os numeros</marker>.</example>
+    </rule>
   </rulegroup>
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
