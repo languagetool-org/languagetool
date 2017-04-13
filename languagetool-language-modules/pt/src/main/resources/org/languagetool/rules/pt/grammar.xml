@@ -5914,11 +5914,13 @@ tokenizer spreadsheet in the forum	     -->
       <pattern>
           <token regexp='yes'>d?[eo]s?</token>
           <token regexp='yes'>dias?</token>
+          <token min='0' postag_regexp='yes' postag='R.'/>
           <token regexp='yes' inflected='yes'>amanhecer|entardecer</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
-        <suggestion>\3</suggestion>
+        <suggestion><match no='3' include_skipped='all'/> \5</suggestion>
       <example correction='entardecera'><marker>o dia entardecera</marker>.</example>
+      <example correction='não entardecera'><marker>o dia não entardecera</marker>.</example>
     </rule>
     <rule id='PL_5_ANEXAR' name='anexar junto'>
       <pattern>
@@ -13083,6 +13085,29 @@ TODO Write better examples
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> número<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='o número'><marker>o numero</marker>.</example>
       <example correction='os números'><marker>os numeros</marker>.</example>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id='MESTRE_MESTRA' name='Confusão: mestre -> mestra'>
+    <!-- Created by Tiago F. Santos, 2017-04-13, based on LightProof rule -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>(abelha|amostra|arte|bateria|boa|chave|coluna|divina|galeria|ideia|lição|linha|madre|mola|obra|parede|própria|rainha|senha|suprema|unha|velha|viga)s?|lições</token>
+          <token>-</token>
+          <token regexp='yes'>mestres?</token>
+      </pattern>
+      <message>Confusão de termos.</message>
+        <suggestion>\1\2<match no='3' regexp_match='mestre(s?)' regexp_replace='mestra$1' include_skipped='all'/></suggestion>
+      <example correction='chave-mestra'><marker>chave-mestre</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(abelha|amostra|arte|bateria|boa|chave|coluna|divina|galeria|ideia|lição|linha|madre|mola|obra|parede|própria|rainha|senha|suprema|unha|velha|viga)s?|lições</token>
+          <token regexp='yes'>mestres?</token>
+      </pattern>
+      <message>Confusão de termos.</message>
+        <suggestion>\1 <match no='2' regexp_match='mestre(s?)' regexp_replace='mestra$1' include_skipped='all'/></suggestion>
+      <example correction='vigas mestras'><marker>vigas mestres</marker>.</example>
     </rule>
   </rulegroup>
     <!--          Tiago F. Santos Rules End             ****END**** -->
