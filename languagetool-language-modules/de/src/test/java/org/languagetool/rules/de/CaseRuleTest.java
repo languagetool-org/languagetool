@@ -209,6 +209,7 @@ public class CaseRuleTest {
     assertGood("Das dabei Erlernte und Erlebte ist sehr nützlich.");
     assertBad("Das dabei erlernte und Erlebte Wissen ist sehr nützlich.");
     assertGood("Ein Kapitän verlässt als Letzter das sinkende Schiff.");
+    assertBad("Diese Regelung wurde als Überholt bezeichnet.");
     assertBad("Die Dolmetscherin und Der Vorleser gehen spazieren.");
     assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
     assertGood("Das Gebäude des Auswärtigen Amts.");
