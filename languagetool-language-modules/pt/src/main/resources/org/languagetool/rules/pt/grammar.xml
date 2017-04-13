@@ -827,7 +827,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id="NON_IMPERSONAL_VERBS" name="Verbos não-impessoais: existir, bastar, faltar, etc.">
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-02-27 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-02-27 -->
     <rule>
       <pattern>
           <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar
@@ -893,7 +893,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id="PRONOMIAL_COLOCATIONS_NEGATIONS" name='Colocações pronomiais: próclises por negações'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-11 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-11 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <rule>
       <pattern>
@@ -13899,8 +13899,8 @@ TODO Write better examples
       </pattern>
       <message>Pretende referir-se ao programa <suggestion>LibreOffice</suggestion>?</message>
       <short>Possível erro no nome do produto.</short>
-      <example correction="LibreOffice"><marker>Libre Office</marker> é um programa libre.</example>
-      <example correction="LibreOffice"><marker>Libre-Office</marker> é um programa libre.</example>
+      <example correction="LibreOffice"><marker>Libre Office</marker> é um programa livre.</example>
+      <example correction="LibreOffice"><marker>Libre-Office</marker> é um programa livre.</example>
     </rule>
   <rulegroup id="OPEN_STREET_MAP" name="'Open Street Map (OpenStreetMap)'">
       <url>https://www.openstreetmap.org/</url>
@@ -14400,7 +14400,7 @@ TODO Write better examples
   </rulegroup>
 
     <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos' default='off'> <!-- TODO re-enable when pseudo-chunker is implemented -->
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
       <pattern>
           <token postag_regexp='yes' postag='V.+'>
             <exception postag_regexp='yes' postag='(C|R).+'/></token>
@@ -14420,20 +14420,22 @@ TODO Write better examples
       <example>A reunião poderá ser às 15h00.</example>
     </rule>
 
-    <rule id="IR_AS_FUTURE_AUXILIARY" name="IR (Futuro/Condicional) + Infinitivo">
+    <rule id="IR_AS_FUTURE_AUXILIARY" name="IR (Futuro/Condicional) + Infinitivo" default='off'>
     <!--    Created by Tiago F. Santos, 2017-04-12     -->
       <pattern>
           <token postag_regexp='yes' postag='V..[CF].+' inflected='yes'>ir</token>
           <token postag='VMN0000'/>
       </pattern>
-      <message>Nesta situação deve conjugar o segundo verbo.</message>
+      <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
         <suggestion>\2<match no='1' regexp_match='ir(.+)' regexp_replace='$1'/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-verbo-ir-como-auxiliar-de-si-proprio/5679</url>
+      <short>Possível gerundismo.</short>
       <example correction="chegará">Ele <marker>irá chegar</marker> a tempo.</example>
       <example correction="chegaria">Ele sabia que <marker>iria chegar</marker> atrasado.</example>
     </rule>
 
     <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
       <pattern>
     <!--  Do not include 'estar' in order to limit positives
                 TODO Make this a percentage based rule [java?]          -->
@@ -14448,7 +14450,7 @@ TODO Write better examples
     </rule>
 
   <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Evitar a Passiva (todas a formas)' type='style' default='off'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
     <!-- 			Synthetic Passive Voice			-->
     <rule>
       <pattern>
