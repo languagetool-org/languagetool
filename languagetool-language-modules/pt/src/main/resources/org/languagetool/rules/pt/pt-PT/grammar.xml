@@ -102,6 +102,8 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal</short>
     <rule>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
@@ -109,8 +111,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
           <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\1-\2-\3</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2-\3</suggestion>
       <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
     </rule>
   </rulegroup>
@@ -118,6 +120,8 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
     <!-- 		Brazilian Portuguese has some inverted colocations  -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal</short>
     <rule>
       <antipattern>
           <token>de</token>
@@ -165,10 +169,9 @@ title="Easy editing stylesheet" ?>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message>
+      <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1-\2 \3</suggestion>
         <suggestion>\1 \3-\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <example correction='vou-te dar|vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>
@@ -222,9 +225,8 @@ title="Easy editing stylesheet" ?>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message>
+      <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
       <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
       <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
@@ -243,21 +245,98 @@ title="Easy editing stylesheet" ?>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\1-\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='dar-me'>Isto vai <marker>dar me</marker> muitas dores de cabeça.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n?[ao]s?|vos</token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
           <token postag='V.+' postag_regexp='yes'>
             <!--<exception regexp='yes'>como|para|casa|nada</exception>--></token>
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\1 \3-\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-\2</suggestion>
       <example correction='Eu convido-o'><marker>Eu o convido</marker> para a inauguração.</example>
       <example correction='Ele esmera-se'><marker>Ele se esmera</marker> na apresentação.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+      </pattern>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+      <example correction='Nós convidamo-lo'><marker>Nós o convidamos</marker> para a inauguração.</example>
+      <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
+      <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+      </pattern>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-n\2</suggestion>
+      <example correction='Eles convidaram-no'><marker>Eles o convidaram</marker> para a inauguração.</example>
+      <example>De forma alguma <marker>eles o convidaram</marker> para a inauguração.</example>
+      <example correction='Ela põe-nas'><marker>Ela as põe</marker> na mesa.</example>
     </rule>
   </rulegroup>
 
@@ -701,7 +780,8 @@ title="Easy editing stylesheet" ?>
             <exception postag='C.|R.|S.+' postag_regexp='yes'/>
           </token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='vice-diretor'>Tem uma reunião marcada com o <marker>vice diretor</marker>.</example>
     </rule>
     <rule>
@@ -713,7 +793,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>açu|guaçu|mirim</token>
     <!-- These suffixes are used in Brazilian Portuguese -->
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='Escuteiro-Mirim'>Manual do  <marker>Escuteiro Mirim</marker></example>
     </rule>
     <rule>
@@ -725,7 +806,8 @@ title="Easy editing stylesheet" ?>
             <exception postag='C.|R.|S.+' postag_regexp='yes'/>
           </token>
       </pattern>
-      <message>Palavra provavelmente hifenizada. Pretende dizer </message><suggestion>\1-\2</suggestion>
+      <message>Palavra provavelmente hifenizada. Pretende dizer </message>
+        <suggestion>\1-\2</suggestion>
       <example correction='co-herdada'>A análise do ADN mostrou uma mutação <marker>co herdada</marker> por todos os membros da família afetados.</example>
 <!--	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>-->
       <example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
@@ -739,7 +821,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes' case_sensitive="yes">[^hrs].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
+        <suggestion>\1\3</suggestion>
       <example correction='codependência'>Vivem em regime de <marker>co-dependência</marker>.</example>
     </rule>
     <rule>
@@ -748,7 +831,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>-|–|—</token>
           <token/>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1 \3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
+        <suggestion>\1 \3</suggestion>
       <example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
     </rule>
     <rule>
@@ -759,7 +843,8 @@ title="Easy editing stylesheet" ?>
             <exception postag='C.|R.|S.+' postag_regexp='yes'/>
           </token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='infra-acústico'>O som foi produzido no espetro <marker>infra acústico</marker>.</example>
     </rule>
     <rule>
@@ -768,7 +853,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
     </rule>
     <rule>
@@ -777,7 +863,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
       </pattern>
-      <message>Neste contexto deve unir as palavras.</message><suggestion>\1\3</suggestion>
+      <message>Neste contexto deve unir as palavras.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='extraterrestre'>A rocha encontrada é de origem <marker>extra terrestre</marker>.</example>
     </rule>
     <rule>
@@ -786,7 +873,8 @@ title="Easy editing stylesheet" ?>
     <!-- ante|entre|sobre are better dealt by PortugueseCompoundRule.java -->
           <token regexp='yes'>e.+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='tele-educação'>Os filhos tiveram que recorrer à <marker>tele educação</marker>.</example>
     </rule>
     <rule>
@@ -795,7 +883,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>[^ehrs].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='televisão'>Nem tudo o que aparece na <marker>tele-visão</marker> é verdade.</example>
     </rule>
     <rule>
@@ -803,7 +892,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
           <token regexp='yes'>i.+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='anti-intelectuais'>Tive que superar atitudes <marker>anti intelectuais</marker> antes de conseguir apresentar o trabalho.</example>
     </rule>
     <rule>
@@ -812,7 +902,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>[^ihrs].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
     </rule>
     <rule>
@@ -820,7 +911,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
           <token regexp='yes'>o.+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='micro-ondas'>Aquece 10 minutos no <marker>micro ondas</marker> altos.</example>
     </rule>
     <rule>
@@ -829,7 +921,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
     </rule>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
@@ -839,7 +932,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>r.+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1r\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1r\3</suggestion>
       <example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
     </rule>
     <rule>
@@ -848,7 +942,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>s.+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1s\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1s\3</suggestion>
       <example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
     </rule>
     <rule>
@@ -856,7 +951,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>hiper|inter|super</token>
           <token regexp='yes'>r.+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='super-resistente'>Estamos a desenvolver um liga <marker>super resistente</marker>.</example>
     </rule>
     <rule>
@@ -865,7 +961,8 @@ title="Easy editing stylesheet" ?>
     <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
           <token regexp='yes' case_sensitive="yes">[br].+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
 <!--	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>-->
       <example correction='sub-reino'>No <marker>sub reino</marker> dos Eumetazoa podemos encontrar...</example>
     </rule>
@@ -876,7 +973,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
 <!--	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>-->
       <example correction='subnível'>Em caso de emergência, saia pelo <marker>sub nível</marker> 1.</example>
     </rule>
@@ -885,7 +983,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>circum|pan</token>
           <token regexp='yes'>[mnaeiouh].+</token>
       </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='Circum-navegação'><marker>Circum navegação</marker> é uma viagem marítima em torno de um lugar.</example>
     </rule>
     <rule>
@@ -894,7 +993,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>-</token>
           <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
       </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
       <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
     </rule>
   </rulegroup>
@@ -906,7 +1006,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>-|–|—</token>
           <token>de</token>
       </pattern>
-      <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message><suggestion>\1 \3</suggestion>
+      <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message>
+        <suggestion>\1 \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
       <example correction='Hás de'><marker>Hás-de</marker> comprar uma casa.</example>
       <example correction='Hei de'><marker>Hei-de</marker> ir ao Congo.</example>
