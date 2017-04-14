@@ -33,7 +33,7 @@ public class EnglishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getCategoryString() {
-    return "Easily confused words";
+    return "Commonly Confused Words";
   }
   
   @Override
@@ -43,7 +43,7 @@ public class EnglishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "confused words (proscribe/prescribe, heroine/heroin etc.)";
+    return "commonly confused words (proscribe/prescribe, heroine/heroin etc.)";
   }
   
   @Override
