@@ -12393,6 +12393,16 @@ USA
             <example>This is the book that <marker>inspired me</marker> to write my own novel.</example>
             <example type="triggers_error">I was <marker>inspired with</marker> the desire to write a novel.</example>
         </rule>
+        <rule id="MISSING_NOUN" name="Missing noun: 'The is the'">
+            <pattern>
+                <marker><token>the</token></marker>
+                <token inflected="yes">be</token>
+                <token regexp="yes">the|an?</token>
+            </pattern>
+            <message>Please check whether a word is missing between '\1' and '\2' or whether '\1' is the correct determiner.</message>
+            <example correction=""><marker>The</marker> is the best day of my life.</example>
+            <example correction=""><marker>The</marker> are the best.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -14495,7 +14505,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">is|was|be|were|are|been|s|re</token>
+                    <token inflected="yes">be</token>
                     <marker>
                         <token>to</token>
                     </marker>
@@ -14529,6 +14539,17 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>, too</suggestion>?</message>
                 <example correction=", too">But you can use it for other things<marker>, to</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token>way</token>
+                    <marker><token>to</token></marker>
+                    <token postag="JJ"/>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">This price is way <marker>to</marker> high.</example>
+                <example correction="too">It's way <marker>to</marker> early to celebrate.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
@@ -14828,6 +14849,21 @@ USA
                 <message>Did you mean <suggestion>hear</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="hear">I can <marker>here</marker> you!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="JJ|VBN"/>
+                    <token>to</token>
+                    <marker>
+                        <token>here</token>
+                    </marker>
+                    <token regexp="yes">this|that</token>
+                </pattern>
+                <message>Did you mean <suggestion>hear</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="hear">Glad to <marker>here</marker> that!</example>
+                <example correction="hear">She was surprised to <marker>here</marker> that!</example>
+                <example>I live pretty close to here.</example>
             </rule>
             <rule>
                 <pattern>
