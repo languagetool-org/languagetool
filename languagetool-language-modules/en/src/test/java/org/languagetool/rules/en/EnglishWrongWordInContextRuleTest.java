@@ -29,6 +29,11 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("Name one country that does not proscribe theft.");
     assertBad("Name one country that does not prescribe theft.");
     assertEquals("prescribed", rule.match(langTool.getAnalyzedSentence("I have proscribed you a course antibiotics."))[0].getSuggestedReplacements().get(0));
+    // herion/heroine
+    assertBad("We know that heroine is highly addictive.");
+    assertGood("He wrote about his addiction to heroin.");
+    assertGood("A heroine is the principal female character in a novel.");
+    assertBad("A heroin is the principal female character in a novel.");
   }
 
   private void assertGood(String sentence) throws IOException {
