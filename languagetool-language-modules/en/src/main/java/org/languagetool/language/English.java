@@ -201,4 +201,12 @@ public class English extends Language implements AutoCloseable {
       languageModel.close();
     }
   }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "CONFUSION_RULE": return -10;
+    }
+    return 0;
+  }
 }
