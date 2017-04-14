@@ -178,7 +178,8 @@ public class English extends Language implements AutoCloseable {
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
         new CompoundRule(messages),
-        new ContractionSpellingRule(messages)
+        new ContractionSpellingRule(messages),
+        new EnglishWrongWordInContextRule(messages)
     );
   }
 
