@@ -333,6 +333,7 @@ public class CaseRule extends Rule {
     "Fraß",
     "Für",      // "das Für und Wider"
     "Genüge",
+    "Gefallen", // Gefallen finden
     "Gläubiger",
     "Goldener",    // Goldener Schnitt
     "Guten",    // das Kap der Guten Hoffnung
