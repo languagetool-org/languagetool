@@ -42,7 +42,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + ",.;()[]{}<>!?:/|\\\"«»„”“`´‘‛′…¿¡\t\n\r\uE100\uE101\uE102\uE110";
+        + ",.;()[]{}<>!?:/|\\\"«»„”“…¿¡\t\n\r\uE100\uE101\uE102\uE110";
 
 
   // for handling exceptions
@@ -260,8 +260,13 @@ public class UkrainianWordTokenizer implements Tokenizer {
   }
 
   private static String cleanup(String text) {
-    text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
-    text = text.replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
+    text = text
+        .replace('\u2019', '\'')
+        .replace('\u02BC', '\'')
+        .replace('\u2018', '\'')
+        .replace('`', '\'')
+        .replace('´',  '\'')
+        .replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
 
     return text;
   }
