@@ -242,7 +242,7 @@ public class AgreementRuleTest {
     //assertBad("Es ist das Haus dem Mann.");
     //assertBad("Das interessiert der Männer.");
     //assertBad("Das interessiert der Mann.");
-    //assertBad("Das gehört den Mann.");
+    //assertBad("Das gehört den Mann."); // detected by DEN_DEM
     //assertBad("Es sind der Frau.");
   }
 
