@@ -685,6 +685,7 @@ public class CaseRule extends Rule {
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
+      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
       if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
         // "Man müsse Überlegen, wie man das Problem löst."
         boolean isPotentialError = i > 1 && i < tokens.length - 3
@@ -693,6 +694,11 @@ public class CaseRule extends Rule {
                                    && tokens[i-1].hasPartialPosTag("VER:MOD:")
                                    && !tokens[i-1].hasLemma("mögen")
                                    && !tokens[i+3].getToken().equals("zum");
+        isPotentialError |= i > 1 && tokens[i-1] != null
+                                  && hasPartialTag(tokens[i-1], "SUB", "EIG")
+                                  && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF")
+                                  && lowercaseReadings != null
+                                  && lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
         if (!isPotentialError) {
           continue;
         }
@@ -703,7 +709,6 @@ public class CaseRule extends Rule {
     	// "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
         continue;  
       }
-      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
         continue;
       }

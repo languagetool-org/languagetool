@@ -117,6 +117,7 @@ public class CaseRuleTest {
     assertBad("Unser warten wird sich lohnen.");
     assertBad("Tom kann mit fast Allem umgehen.");
     assertBad("Dabei Übersah er sie.");
+    assertBad("Der Brief wird am Mittwoch in Brüssel Übergeben.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
