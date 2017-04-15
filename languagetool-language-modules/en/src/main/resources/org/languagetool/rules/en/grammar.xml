@@ -16039,6 +16039,29 @@ USA
             <short>Possible typo</short>
             <example correction="of">Increase ease <marker>off</marker> use.</example>
         </rule>
+        <rule id="EASE_EASY" name="ease (easy)">
+            <pattern>
+                <token><exception>with</exception></token>
+                <token regexp="yes">quite|pretty</token>
+                <marker>
+                    <token>ease</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>easy</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="easy">This looks pretty <marker>ease</marker> to me.</example>
+        </rule>
+        <rule id="ADMIN_ADMIT" name="admin (admit)">
+            <pattern>
+                <token>must</token>
+                <marker>
+                    <token>admin</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>admit</suggestion> (=confess)?</message>
+            <short>Possible typo</short>
+            <example correction="admit">I must <marker>admin</marker> that my code is not perfect.</example>
+        </rule>
         <rulegroup id="NOT_AD_ALL" name="not ad (at) all">
             <rule>
                 <pattern>
@@ -16574,6 +16597,33 @@ USA
             <example>The <marker>root</marker> of the problem is the unnecessary complexity of the rules.</example>
             <example type="triggers_error">'The Route of the Problem' is a music track (http://runescape.wikia.com/wiki/The_Route_of_the_Problem).</example>
         </rule>
+        <rulegroup id="COMPLAINS_COMPLAINS" name="complains (complaints)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">been|were|are|re|of</token>
+                    <marker>
+                        <token>complains</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>complaints</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="complaints">I do ot understand why there are <marker>complains</marker> from our community.</example>
+                <example correction="complaints">They received a number of <marker>complains</marker> from customers.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|y?our|their|my</token>
+                    <token regexp="yes">biggest|common|criminal|formal|official|written|only|legal|initial|main</token>
+                    <marker>
+                        <token>complain</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>complaint</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="complaint">This is our biggest <marker>complain</marker>.</example>
+                <example correction="complaint">Shortness of breath was a common <marker>complain</marker> among the patients.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
