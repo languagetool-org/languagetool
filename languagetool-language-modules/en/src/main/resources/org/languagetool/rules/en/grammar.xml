@@ -10493,6 +10493,12 @@ USA
                     <token>you</token>
                     <token>is</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>you</token>
+                    <token/>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
@@ -10500,14 +10506,16 @@ USA
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
+                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">You <marker>works</marker> here.</example>
+                <example correction="am|are|aren">You <marker>is</marker> a good engineer.</example>
                 <example>You <marker>make</marker> a lot of mistakes.</example>
                 <example>One of you thinks that this is possible.</example>
                 <example>Be sure the man nearest you is awake.</example>
                 <example>You guys remember that.</example>
                 <example>How many times do I have to tell you he isn't here?</example>
                 <example>What I have told you is true.</example>
+                <example>Scatter, you chickens!</example>
             </rule>
             <rule>
                 <pattern>
