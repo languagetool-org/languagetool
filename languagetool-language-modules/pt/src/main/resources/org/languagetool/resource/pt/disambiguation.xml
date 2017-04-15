@@ -51,7 +51,7 @@
           <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
       </pattern>
-      <disambig action="filterall"/>
+      <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras" name="nome proprio 3 palavras">
       <pattern>
@@ -61,7 +61,7 @@
         </marker>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
       </pattern>
-      <disambig action="add"><wd lemma="NP" pos="NP00000"/></disambig>
+      <disambig action="add"><wd lemma="NP" pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio4palavras" name="nome proprio 4 palavras">
       <pattern>
@@ -72,7 +72,7 @@
         </marker>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
       </pattern>
-      <disambig action="add"><wd lemma="NP" pos="NP00000"/><wd lemma="NP" pos="NP00000"/></disambig>
+      <disambig action="add"><wd lemma="NP" pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras_filtra" name="nome proprio 3 palavras">
       <pattern>
@@ -80,7 +80,7 @@
           <token postag="NP00000"/>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
       </pattern>
-      <disambig action="filterall"/>
+      <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio4palavras-filtra" name="nome proprio 4 palavras">
       <pattern>
@@ -89,7 +89,7 @@
           <token postag="NP00000"/>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
       </pattern>
-      <disambig action="filterall"/>
+      <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
   </rulegroup>
   <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">
@@ -101,7 +101,7 @@
           <token postag="&lt;/NCFS000&gt;"/>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="NCFS000"/><wd pos="AQ0FS0"/></disambig>
+      <disambig action="replace"><wd pos="NCFS000_"/><wd pos="AQ0FS0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -110,7 +110,7 @@
           <token postag="&lt;/NCMS000&gt;"/>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="NCMS000"/><wd pos="AQ0MS0"/></disambig>
+      <disambig action="replace"><wd pos="NCMS000_"/><wd pos="AQ0MS0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -119,7 +119,7 @@
           <token postag="&lt;/NCMN000&gt;"/>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/></disambig>
+      <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -129,7 +129,7 @@
           <token postag="&lt;/NCMN000&gt;"/>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/><wd pos="AQ0MN0"/></disambig>
+      <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/><wd pos="AQ0MN0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -138,7 +138,7 @@
           <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <disambig action="filterall"></disambig>
+      <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -148,7 +148,7 @@
           <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <disambig action="filterall"></disambig>
+      <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -782,7 +782,7 @@
 
     <!-- XXX Ignore Spelling Rules XXX -->
 
-    <rule name="ab initio" id="ab_initio">
+<!--    <rule name="ab initio" id="ab_initio">
       <pattern>
           <token>ab</token>
           <token regexp='yes'>initio|intestato|ovo</token>
@@ -4655,7 +4655,7 @@
           <token>iniuria</token>
       </pattern>
       <disambig action="ignore_spelling"/>
-    </rule>
+    </rule>-->
     <rule name="en vogue" id="EN_VOGUE">
       <pattern>
           <token>en</token>
@@ -5212,21 +5212,12 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-  <rulegroup name="Ignore all multiwords" id="SPECIES_SPELLING_RULE">
-    <rule name="Tag all multiwords 2" id="SPECIES_SPELLING_RULE_1">
-      <pattern>
-          <token postag="&lt;NS.+&gt;" postag_regexp="yes"/>
-          <token postag="&lt;/NS.+&gt;" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="add"><wd pos="_SPECIES_"/><wd pos="_SPECIES_"/></disambig>
-    </rule>
     <rule name="Ignore all multiwords" id="MULTIWORD_SPELLING_IGNORE_RULE">
       <pattern>
         <marker>
-          <token postag="_SPECIES_"/>
+          <token postag_regexp="yes" postag=".+_"/>
         </marker>
       </pattern>
-      <disambig action="immunize"/>
+      <disambig action="ignore_spelling"/>
     </rule>
-  </rulegroup>
 </rules>
