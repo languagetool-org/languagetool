@@ -12109,6 +12109,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>schöne</marker> Wochenende.</example>
             <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
         </rule>
+        <rule id="DER_BESTE" name="der beste (Beste) sein">
+            <pattern case_sensitive="yes">
+                <token skip="3" postag="SENT_START"/>
+                <token regexp="yes">der|die|das</token>
+                <marker>
+                   <token>beste</token>
+                </marker>
+                <token min="0">zu</token>
+                <token>sein</token>
+            </pattern>
+            <message>Wenn sich 'beste' nicht auf ein anderes Substantiv bezieht, wird es in diesem Zusammenhang großgeschrieben.</message>
+            <suggestion>Beste</suggestion>
+            <short>&prgk;.</short>
+            <example correction="Beste">Er will immer der <marker>beste</marker> sein.</example>
+            <example correction="Beste">Um die <marker>beste</marker> zu sein,musst du hart arbeiten.</example>
+            <example>Eine dieser Lösungen muss die <marker>beste</marker> sein.</example>
+            <example>Von allen Voschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
+        </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
             <pattern>
                 <token postag="ART:DEF:.*|PRO:POS:NOM:.*|PRO:PER:GEN:.*" postag_regexp="yes"/>
