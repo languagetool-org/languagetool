@@ -2487,6 +2487,14 @@ USA
                 <example correction="its odorless handshake">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
                 <example>I appreciate its odorless handshake by the fifth time.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker><token>its</token></marker>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="s" regexp_replace=""/>'s</suggestion>?</message>
+                <example correction="it's">Yes, <marker>its</marker> that simple.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WED_WE_D" name="wed (we'd)">
             <rule>
@@ -4393,6 +4401,18 @@ USA
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> its</suggestion>?</message>
             <example correction="He's its"><marker>He's it's</marker> primary caretaker.</example>
+        </rule>
+        <rule id="YOUR_YOU" name="your (you)">
+            <pattern>
+                <token>have</token>
+                <marker><token>your</token></marker>
+                <token min="0">ever</token>
+                <token postag="VBN"></token>
+            </pattern>
+            <message>Did you mean <suggestion>you</suggestion>?</message>
+            <example correction="you">Have <marker>your</marker> seen my sister?</example>
+            <example correction="you">Have <marker>your</marker> ever come across an animal like this?</example>
+            <example>Can I have <marker>your</marker> full name?</example>
         </rule>
         <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
             <rule>
