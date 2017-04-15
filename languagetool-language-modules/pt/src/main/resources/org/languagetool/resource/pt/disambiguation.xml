@@ -134,8 +134,8 @@
     <rule>
       <pattern>
         <marker>
-          <token postag="&lt;_GN_.*" postag_regexp="yes"/>
-          <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
+          <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
         </marker>
       </pattern>
       <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
@@ -143,20 +143,20 @@
     <rule>
       <pattern>
         <marker>
-          <token postag="&lt;_GN_.*" postag_regexp="yes"/>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
           <token/>
-          <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+          <token postag="&lt;/(_GN_|L_)_.*" postag_regexp="yes"/>
         </marker>
       </pattern>
       <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag="&lt;_GN_.*" postag_regexp="yes"/>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
         <marker>
           <token/>
         </marker>
-          <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
+          <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="_GN_"/></disambig>
     </rule>
@@ -170,7 +170,7 @@
         </marker>
           <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
       </pattern>
-      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -180,7 +180,7 @@
         </marker>
           <token regexp="yes">\p{Lu}.+</token>
       </pattern>
-      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -191,7 +191,7 @@
           <token regexp="yes">den|der</token>
           <token regexp="yes">\p{Lu}.+</token>
       </pattern>
-      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
     </rule>
   </rulegroup>
     <rule id="DA_VINCI" name="da Vinci">
@@ -202,7 +202,7 @@
         </marker>
           <token regexp="yes">(?-i)Cividale|Morte|Costa|Lingua|Língua|Gagliano|Palestrina|Perugia|Silva|Cunha|Gama|Viadana|Vinci</token>
       </pattern>
-      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+      <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
     </rule>
 
     <!-- Si : Pronoun or Musical note				-->
