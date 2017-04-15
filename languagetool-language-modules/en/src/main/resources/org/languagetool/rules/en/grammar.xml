@@ -2495,6 +2495,20 @@ USA
                 <message>Did you mean <suggestion><match no="1" regexp_match="s" regexp_replace=""/>'s</suggestion>?</message>
                 <example correction="it's">Yes, <marker>its</marker> that simple.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>It</token>
+                        <token regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                    <token/>
+                    <token>is</token>
+                </pattern>
+                <message>Did you mean <suggestion>\2s</suggestion>?</message>
+                <example correction="Its"><marker>It's</marker> door is too small.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WED_WE_D" name="wed (we'd)">
             <rule>
@@ -14387,17 +14401,31 @@ USA
                 <example correction="extent">To the <marker>extend</marker> permitted by law</example>
             </rule>
         </rulegroup>
-        <rule id="THEIR_IS" name="their (there) is/are">
-            <pattern>
-                <marker>
-                    <token>their</token>
-                </marker>
-                <token regexp="yes">is|are|a</token>
-            </pattern>
-            <message>Did you mean <suggestion>there</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="there">He noticed that <marker>their</marker> is a new test.</example>
-        </rule>
+        <rulegroup id="THEIR_IS" name="their (there) is/are">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token regexp="yes">is|are|a</token>
+                </pattern>
+                <message>Did you mean <suggestion>there</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="there">He noticed that <marker>their</marker> is a new test.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token regexp="yes">might|could|should</token>
+                    <token>be</token>
+                </pattern>
+                <message>Did you mean <suggestion>there</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="there">Yes, <marker>their</marker> might be a better approach.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOTHER-IN-LOW" name="mother-in-low (mother-in-law)">
             <rule>
                 <pattern>
@@ -16077,6 +16105,7 @@ USA
                 <marker>
                     <token>admin</token>
                 </marker>
+                <token>that</token>
             </pattern>
             <message>Did you mean <suggestion>admit</suggestion> (=confess)?</message>
             <short>Possible typo</short>
