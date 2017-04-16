@@ -145,6 +145,21 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().tokenRegex("die|den|[md]einen?").build(),
         new PatternTokenBuilder().token("Top").build(),
         new PatternTokenBuilder().tokenRegex("\\d+").build()
+    ),
+    Arrays.asList( //"Unter diesen rief das großen Unmut hervor."
+        new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
+        new PatternTokenBuilder().pos("ZUS").build(),
+        new PatternTokenBuilder().pos("SENT_END").build()
+    ),
+    Arrays.asList( // "Bei mir löste das Panik aus."
+        new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
+        new PatternTokenBuilder().pos("ZUS").build(),
+        new PatternTokenBuilder().pos("SENT_END").build()
     )
   );
 

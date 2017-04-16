@@ -231,6 +231,8 @@ public class AgreementRuleTest {
     assertGood("Ich gebe dir das kleine Kaninchen.");
     assertGood("Die Top 3 der Umfrage");
     assertGood("Dein Vorschlag befindet sich unter meinen Top 5.");
+    assertGood("Unter diesen rief das großen Unmut hervor.");
+    assertGood("Bei mir löste das Panik aus.");
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
