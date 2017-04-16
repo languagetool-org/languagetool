@@ -2643,6 +2643,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(N.|A..).([SP]).*" postag_regexp="yes" postag_replace="DP3C$2P">son</match> \2</suggestion>
                 <example correction="llurs perspectives">Des de <marker>llur perspectives</marker>.</example>
             </rule>
+            <rule id="FI" name="*la/el fi (finalitat)">
+                <pattern>
+                    <token>amb</token>
+                    <marker>
+                        <token>la</token>
+                        <token>fi</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de "finalitat, propòsit" és masculí.</message>
+                <suggestion>el fi</suggestion>
+                <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
@@ -25301,6 +25315,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DOGV" name="Diari oficial de la *Comunitat/Generalitat Valenciana">
+            <pattern>
+                <token>Diari</token>
+                <token>Oficial</token>
+                <token>de</token>
+                <token>la</token>
+                <token>Comunitat</token>
+                <token>Valenciana</token>
+            </pattern>
+            <message>El nom oficial actual és diferent.</message>
+            <suggestion>Diari Oficial de la Generalitat Valenciana</suggestion>
+            <example correction="Diari Oficial de la Generalitat Valenciana"><marker>Diari Oficial de la Comunitat Valenciana</marker>.</example>
+        </rule>
+        <rule id="AIXI_MATEIXA" name="així mateixa">
+            <pattern>
+                <marker>
+                    <token>així</token>
+                    <token>mateixa</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>així mateix</suggestion>
+            <suggestion>a si mateixa</suggestion>
+            <example correction="així mateix|a si mateixa">La Bíblia s'interpreta <marker>així mateixa</marker>.</example>
+        </rule>
         <rule id="BUC_INSIGNIA" name="*buc/vaixell/nau">
             <pattern>
                 <token inflected="yes">buc</token>
