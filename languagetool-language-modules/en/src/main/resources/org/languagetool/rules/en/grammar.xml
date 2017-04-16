@@ -5599,11 +5599,15 @@ USA
         <!-- in anyway::word=in any way -->
         <rule id="IN_ANYWAY" name="in anyway (any way)">
             <pattern>
-                <token>in</token>
-                <token>anyway</token>
+                <token><exception inflected="yes" regexp="yes">go|walk|run</exception></token>
+                <marker>
+                    <token>in</token>
+                    <token>anyway</token>
+                </marker>
             </pattern>
             <message>Did you mean <suggestion>in any way</suggestion>?</message>
             <example correction="in any way">Make sure you get the plans, <marker>in anyway</marker> possible.</example>
+            <example>But I went <marker>in anyway</marker>.</example>
         </rule>
         <!-- incase of::word=in case of -->
         <rule id="INCASE_OF" name="incase (in case) of">
@@ -17892,14 +17896,14 @@ USA
                     <token>of</token>
                     <token>the</token>
                 </marker>
-                <token><exception postag="JJS"/></token>
+                <token><exception postag="JJS"/><exception>most</exception></token>
             </pattern>
             <message>Consider using <suggestion>some</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="Some"><marker>Some of the</marker> parks are in the area.</example>
             <example>She is going to buy some parks.</example>
             <example>She is going all or some of the parks.</example>
-            <example>An expert is someone who knows some of the worst mistakes that can be made in his field.</example>
+            <example>He is putting out some of the most inspired music of his life.</example>
         </rule>
         <rule id="TRY_AND" name="try and (try to)">
             <antipattern>
