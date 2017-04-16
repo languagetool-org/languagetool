@@ -46,7 +46,7 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("I have prescribed you a course of antibiotics.");
     assertGood("Name one country that does not proscribe theft.");
     assertBad("Name one country that does not prescribe theft.");
-    assertEquals("prescribed", rule.match(langTool.getAnalyzedSentence("I have proscribed you a course antibiotics."))[0].getSuggestedReplacements().get(0));
+    assertEquals("prescribed", rule.match(langTool.getAnalyzedSentence("I have proscribed you a course of antibiotics."))[0].getSuggestedReplacements().get(0));
     // herion/heroine
     assertBad("We know that heroine is highly addictive.");
     assertGood("He wrote about his addiction to heroin.");

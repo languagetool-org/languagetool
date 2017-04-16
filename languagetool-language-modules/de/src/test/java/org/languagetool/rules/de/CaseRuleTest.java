@@ -233,6 +233,7 @@ public class CaseRuleTest {
     assertBad("Das sagen haben hier viele.");
     assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
     assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
+    assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
   }
 
   private void assertGood(String input) throws IOException {

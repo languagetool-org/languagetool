@@ -137,7 +137,7 @@ public class CaseRule extends Rule {
         token("das"),
         posRegex("SUB:.*"),
         token(","),
-        regex("[A-Z][a-z]+"),
+        regex("[A-ZÄÖÜ][a-zäöü]+"),
         regex("und|oder")
     ),
     Arrays.asList(
@@ -227,13 +227,13 @@ public class CaseRule extends Rule {
   }
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
-      "viel", "nichts", "wenig", "zuviel" ));
+      "viel", "nichts", "wenig", "zuviel"));
 
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
-      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie" ));
+      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"));
 
   private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
-      "einer", "eines", "der", "des", "dieser", "dieses" ));
+      "einer", "eines", "der", "des", "dieser", "dieses"));
 
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
@@ -703,10 +703,10 @@ public class CaseRule extends Rule {
                                    && !tokens[i-1].hasLemma("mögen")
                                    && !tokens[i+3].getToken().equals("zum");
         isPotentialError |= i > 1 && tokens[i-1] != null
-                                  && hasPartialTag(tokens[i-1], "SUB", "EIG")
-                                  && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF")
                                   && lowercaseReadings != null
-                                  && lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
+                                  && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF")
+                                  && lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER")
+                                  && hasPartialTag(tokens[i-1], "SUB", "EIG");
         if (!isPotentialError) {
           continue;
         }
