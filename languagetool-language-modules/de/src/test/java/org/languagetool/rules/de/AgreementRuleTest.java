@@ -230,6 +230,7 @@ public class AgreementRuleTest {
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
     assertGood("Die Top 3 der Umfrage");
+    assertGood("Dein Vorschlag befindet sich unter meinen Top 5.");
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
