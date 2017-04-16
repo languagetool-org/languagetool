@@ -52,6 +52,16 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("He wrote about his addiction to heroin.");
     assertGood("A heroine is the principal female character in a novel.");
     assertBad("A heroin is the principal female character in a novel.");
+    // bizarre/bazaar
+    assertBad("What a bazaar behavior!");
+    assertGood("I bought these books at the church bazaar.");
+    assertGood("She has a bizarre haircut.");
+    assertBad("The Saturday morning bizarre is worth seeing even if you buy nothing.");
+    // bridal/bridle
+    assertBad("The bridle party waited on the lawn.");
+    assertGood("Forgo the champagne treatment a bridal boutique often provides.");
+    assertGood("He sat there holding his horse by the bridle.");
+    assertBad("Each rider used his own bridal.");
   }
 
   private void assertGood(String sentence) throws IOException {
