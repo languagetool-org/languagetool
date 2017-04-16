@@ -138,7 +138,7 @@ public class CaseRule extends Rule {
         posRegex("SUB:.*"),
         token(","),
         regex("[A-Z][a-z]+"),
-        token("und")
+        regex("und|oder")
     ),
     Arrays.asList(
       token("Treu"),
@@ -177,6 +177,13 @@ public class CaseRule extends Rule {
         // "... wie ich das prüfen würde."
         posRegex("VER:INF.*"),
         posRegex("VER:AUX:.:(SIN|PLU)(:KJ2)?")
+    ),
+    Arrays.asList(
+       // "... etwas Interessantes und Spannendes suchte"
+       pos("ADV:MOD"),
+       regex("[A-ZÄÖÜ].*es"),
+       regex("und|oder|,"),
+       regex("[A-ZÄÖÜ].*es")
     )
   );
 
