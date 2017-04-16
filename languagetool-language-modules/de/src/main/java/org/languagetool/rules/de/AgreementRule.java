@@ -140,6 +140,11 @@ public class AgreementRule extends Rule {
     Arrays.asList(
         new PatternTokenBuilder().token("allen").build(),
         new PatternTokenBuilder().token("Besitz").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().tokenRegex("die|den").build(),
+        new PatternTokenBuilder().token("Top").build(),
+        new PatternTokenBuilder().tokenRegex("\\d+").build()
     )
   );
 
