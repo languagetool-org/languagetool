@@ -217,6 +217,46 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
+    <!-- Tal : Pronoun or Adverb				-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
+  <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com tal">
+    <rule>
+      <pattern>
+          <token>tal</token>
+      </pattern>
+      <disambig action="remove" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>tal</token>
+        </marker>
+          <token min='0'>e</token>
+          <token regexp="yes">como|qual</token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token>como</token>
+        <marker>
+          <token>tal</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token>não</token>
+          <token>há</token>
+        <marker>
+          <token>tal</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+  </rulegroup>
+
     <!-- D_R_N : Det + Advérbio + Nome				-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="D_R_N" name="Det + Adv + Nom">
