@@ -25315,6 +25315,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ESPAI_TEMPORAL" name="espai-temporal">
+            <pattern>
+                <token regexp="yes">espai|esp[aà]cio</token>
+                <token>-</token>
+                <token regexp="yes">temporals?</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>espacio\3</suggestion>
+            <example correction="espaciotemporals">En les coordenades <marker>espai-temporals</marker>.</example>
+        </rule>
         <rule id="DOGV" name="Diari oficial de la *Comunitat/Generalitat Valenciana">
             <pattern>
                 <token>Diari</token>
