@@ -7306,7 +7306,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Нужно, чтобы мы готовились к худшему.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
-   
+
+        <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:INF:"></exception></token>
+                <token>и</token>
+                <marker>
+                    <token postag="VB:INF:" postag_regexp="yes" ></token>
+                </marker>
+            </pattern>
+            <message>Оба глагола должны быть в личной форме: <suggestion><match no="3"  regexp_match="(.*)ть" regexp_replace="$1т"></match></suggestion></message>
+
+            <short>Глагол должен быть в в личной форме.</short>
+            <example>Она сидит и кормит ребёнка.</example>
+            <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
+        </rule>
+        
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
