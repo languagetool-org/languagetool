@@ -713,6 +713,34 @@ title="Easy editing stylesheet" ?>
       <example type="correct">Eles e elas passeiam na praia.</example>
       <example type="correct">Eu e elas vamos ao parque</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='D...P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+          <token max="3" postag_regexp='yes' postag='(N..|A...)P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)P.+'/></token>
+          <token min="0" max="2" postag='CS.|R.+' postag_regexp='yes'/>
+          <token postag='VM[CIS].([12]P0|[123]S0)' postag_regexp='yes'>
+            <exception postag='VM[CIS].3P0' postag_regexp='yes'></exception></token>
+      </pattern>
+      <message>Erro de concordância verbal.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Os médicos saíram'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+          <token max="3" postag_regexp='yes' postag='(N..|A...)S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)S.+'/></token>
+          <token min="0" max="2" postag='CS.|R.+' postag_regexp='yes'/>
+          <token postag='VM[CIS].([123]P0|[12]S0)' postag_regexp='yes'>
+            <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception></token>
+      </pattern>
+      <message>Erro de concordância verbal.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+      <example correction='O médico novo saiu|O médico novo saíra'><marker>O médico novo saíram</marker> sem saber como dar a notícia.</example>
+    </rule>
   </rulegroup>
 
     <!-- General verbal concordance errors - They + Verb -->
