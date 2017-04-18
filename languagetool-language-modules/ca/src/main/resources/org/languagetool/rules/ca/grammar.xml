@@ -16466,6 +16466,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <suggestion>Àfrica</suggestion>
                  <example correction="Àfrica">No he estat mai a l'<marker>Africa</marker></example>
             </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="1">dit</token>
+                        <token>i</token>
+                        <token>redit</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token>redit<exception scope="previous" inflected="yes" regexp="yes">haver|ser</exception> </token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>rèdit</suggestion>?</message>
+                <example correction="rèdit">Han tret molt de <marker>redit</marker>.</example>
+                <example>Ho he dit i redit mil voltes.</example>
+                <example>Aquí és redit.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
