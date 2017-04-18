@@ -3386,7 +3386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VB:.*"></token>
                     <token>,</token>
                     <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
-                    <token regexp="yes">нужно</token>
+                    <token>нужно</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
@@ -7310,13 +7310,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
             <pattern>
                 <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
-                <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:INF:"></exception></token>
+                <token postag="VB:Real:.*:P3" postag_regexp="yes" ><exception postag="VB:INF:"></exception></token>
                 <token>и</token>
                 <marker>
-                    <token postag="VB:INF:" postag_regexp="yes" ></token>
+                    <token postag="VB:INF:" ></token>
                 </marker>
+                <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception></token>
             </pattern>
-            <message>Оба глагола должны быть в личной форме: <suggestion><match no="3"  regexp_match="(.*)ть" regexp_replace="$1т"></match></suggestion></message>
+            <message>Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:"  postag_replace="VB:Real:Sin:P3"></match></suggestion></message>
 
             <short>Глагол должен быть в в личной форме.</short>
             <example>Она сидит и кормит ребёнка.</example>
