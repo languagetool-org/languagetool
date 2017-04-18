@@ -1117,18 +1117,82 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="POR_QUE_PORQUE" name="Confusão: 'Por que' com 'Porque' ">
+  <rulegroup id="POR_QUE_PORQUE" name="Confusão: 'Por que', 'Por quê' e 'Porque' ">
     <!--    Created by Tiago F. Santos, 2017-02-27     -->
+    <short>Possível confusão de termos</short>
+    <rule>
       <pattern>
-        <marker>
           <token>porque</token>
-        </marker>
           <token regexp='yes'>raz(ão|ões)|motivos?|causas?</token>
       </pattern>
-      <message>Sempre que possa substituir por expressões equivalentes a "pelo qual", deve utilizar <suggestion>por que</suggestion>.</message>
+      <message>Sempre que possa substituir por expressões equivalentes a "pelo qual", deve utilizar <suggestion>por que \2</suggestion>.</message>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/pelourinho/falta-apurar-e-nao-faltam-apurar--por-que-vs-porque/309</url>
-      <example correction="Por que"><marker>Porque</marker> motivo tem uma atitude tão indiferente?</example>
+      <example correction="Por que motivo"><marker>Porque motivo</marker> tem uma atitude tão indiferente?</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>porque</token>
+          <token regexp='yes'>[\.\?!;]</token>
+      </pattern>
+      <message>Possível confusão de termos. Pretende dizer:</message>
+        <suggestion>porquê\2</suggestion>
+        <suggestion>por quê\2</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="Porquê?|Por quê?"><marker>Porque?</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>por</token>
+          <token>que</token>
+          <token regexp='yes'>[\.\?!;]</token>
+      </pattern>
+      <message>Possível confusão de termos. Pretende dizer:</message>
+        <suggestion>porquê\3</suggestion>
+        <suggestion>por quê\3</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="porquê?|por quê?">Fizeste isso <marker>por que?</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>o</token>
+          <token>porque</token>
+          <token regexp='yes'>d(a|e|o|isso|este|esta|ess[ea]|isto|aquilo|aquela|aquele)s?</token>
+      </pattern>
+      <message>Confusão de termos. Pretende dizer:</message>
+        <suggestion>\1 porquê \3</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="o porquê dessa">Preciso de saber <marker>o porque dessa</marker> decisão.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>o</token>
+          <token>por</token>
+          <token regexp='yes'>qu[eê]</token>
+          <token regexp='yes'>d(a|e|o|isso|este|esta|ess[ea]|isto|aquilo|aquela|aquele)s?</token>
+      </pattern>
+      <message>Confusão de termos. Pretende dizer:</message>
+        <suggestion>\1 porquê \4</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="o porquê dessa">Preciso de saber <marker>o por quê dessa</marker> decisão.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>até</token>
+          <token>por</token>
+          <token regexp='yes'>qu[eê]</token>
+        </marker>
+        <or>
+          <token postag_regexp='yes' postag='D.+'/>
+          <token>,</token>
+        </or>
+      </pattern>
+      <message>Confusão de termos. Pretende dizer:</message>
+        <suggestion>\1 porque</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="até porque">Não é bem assim, <marker>até por que</marker> uma reparação deste tipo não é dispendiosa.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
     <!--    Created by Tiago F. Santos, 2017-03-12     -->
