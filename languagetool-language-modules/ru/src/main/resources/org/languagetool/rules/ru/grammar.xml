@@ -3386,7 +3386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VB:.*"></token>
                     <token>,</token>
                     <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
-                    <token regexp="yes">нужно</token>
+                    <token>нужно</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
@@ -7315,6 +7315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token postag="VB:INF:" postag_regexp="yes" ></token>
                 </marker>
+                <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception></token>
             </pattern>
             <message>Оба глагола должны быть в личной форме: <suggestion><match no="3"  regexp_match="(.*)ть" regexp_replace="$1т"></match></suggestion></message>
 
