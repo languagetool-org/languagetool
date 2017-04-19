@@ -7405,7 +7405,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">per</token>
                 </marker>
             </antipattern>
-            <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
+            <rule>
                 <pattern>
                     <token inflected='yes' skip='3' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
                     <marker>
@@ -7414,12 +7414,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='V.N.*' postag_regexp='yes'></token>
                 </pattern>
                 <message>Cal usar la preposició <suggestion>per a</suggestion>.</message>
-                <short>Preposicions</short>
                 <example correction="per a">Els ganivets serveixen <marker>per</marker> tallar</example>
                 <example correction="per a">Aprofitem l'avinentesa <marker>per</marker> desitjar-vos bon estiu.</example>
                 <example>Serveixen per a tallar.</example>
                 <example>Són usats per l'aristocràcia.</example>
                 <example>cal treballar per cagirar la situació</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>punt</token>
+                    <marker>
+                        <token>per</token>
+                    </marker>
+                    <token postag='V.N.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Cal usar la preposició <suggestion>per a</suggestion>.</message>
+                <example correction="per a">Estan a punt <marker>per</marker> començar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
@@ -7507,6 +7518,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Foren preparats pels investigadors.</example>
                 <example>Són usats per l'aristocràcia.</example>
                 <example>Han estat usats per l'aristocràcia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>punt</token>
+                    <marker>
+                        <token>pe</token>
+                        <token regexp='yes'>ls?</token>
+                    </marker>
+                </pattern>
+                <message>Preposició probablement incorrecta.</message>
+                <suggestion>per a\4</suggestion>
+                <example correction="per al">Tot a punt <marker>pel</marker> festival.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>punt</token>
+                    <marker>
+                        <token>per</token>
+                    </marker>
+                    <token><exception>a</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Preposició probablement incorrecta.</message>
+                <suggestion>per a</suggestion>
+                <example correction="per a">Tot a punt <marker>per</marker> l'inici.</example>
             </rule>
             <!-- <rule id="S_USA_PER" name="s'usa per/per a">
                 <pattern>
