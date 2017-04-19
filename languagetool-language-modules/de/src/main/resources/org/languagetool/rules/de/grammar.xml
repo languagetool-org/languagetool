@@ -25655,6 +25655,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rulegroup id="ALS_SOLCHES" name="'dem Haus als solches (solchem)' etc.">
+            <url>https://de.wiktionary.org/wiki/solch</url>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <token postag="SUB:(NOM|AKK):SIN:NEU" postag_regexp="yes"/>
+                    <marker>
+                        <token>als</token>
+                        <token regexp="yes">solche[mnr]?</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'das … <suggestion>als solches</suggestion>' wird das Pronomen in der Regel in Numerus, Kasus und Genus übereinstimmend mit dem zugehörigen Substantiv verwendet. Wenn sich das Pronomen '<match no="4"/>' hier nicht auf das Substantiv '<match no="2"/>' bezieht, ignorieren Sie diesen Hinweis bitte.</message>
+                <short>Möglicher Kongruenzfehler</short>
+                <example correction="als solches">Das Haus <marker>als solche</marker> gefällt mir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>der</token>
+                    <token postag="SUB:NOM:SIN:MAS|SUB:DAT:SIN:FEM|SUB:GEN:PLU:" postag_regexp="yes"/>
+                    <marker>
+                        <token>als</token>
+                        <token regexp="yes">solche[mns]?</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'der … <suggestion>als solcher</suggestion>' wird das Pronomen in der Regel in Numerus, Kasus und Genus übereinstimmend mit dem zugehörigen Substantiv verwendet. Wenn sich das Pronomen '<match no="4"/>' hier nicht auf das Substantiv '<match no="2"/>' bezieht, ignorieren Sie diesen Hinweis bitte.</message>
+                <short>Möglicher Kongruenzfehler</short>
+                <example correction="als solcher">Der Mann <marker>als solches</marker> ist bekanntlich unersetzlich.</example>
+                <example correction="als solcher">Der Person <marker>als solche</marker> stehen unveräußerliche Rechte zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>die</token>
+                    <token postag="SUB:(NOM|AKK):(SIN:FEM|PLU:.+)" postag_regexp="yes"/>
+                    <marker>
+                        <token>als</token>
+                        <token regexp="yes">solche[mnrs]</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'die … <suggestion>als solche</suggestion>' wird das Pronomen in der Regel in Numerus, Kasus und Genus übereinstimmend mit dem zugehörigen Substantiv verwendet. Wenn sich das Pronomen '<match no="4"/>' hier nicht auf das Substantiv '<match no="2"/>' bezieht, ignorieren Sie diesen Hinweis bitte.</message>
+                <short>Möglicher Kongruenzfehler</short>
+                <example correction="als solche">Die Personen <marker>als solchen</marker> haben gewisse unveräußerliche Rechte.</example>
+                <example correction="als solche">Die Person <marker>als solches</marker> hat gewisse unveräußerliche Rechte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dem|im|am|zum|vom|diesem</token>
+                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
+                    <marker>
+                        <token>als</token>
+                        <token regexp="yes">solche[nrs]?</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'dem … <suggestion>als solchem</suggestion>' wird das Pronomen in der Regel in Numerus, Kasus und Genus übereinstimmend mit dem zugehörigen Substantiv verwendet. Wenn sich das Pronomen '<match no="4"/>' hier nicht auf das Substantiv '<match no="2"/>' bezieht, ignorieren Sie diesen Hinweis bitte.</message>
+                <short>Möglicher Kongruenzfehler</short>
+                <example correction="als solchem">Dem Menschen <marker>als solchen</marker> stehen gewisse unveräußerliche Rechte zu.</example>
+                <example correction="als solchem">Zum Thema <marker>als solches</marker> wollte sie sich nicht äußern.</example>
+                <example correction="als solchem">Dem Subjekt <marker>als solches</marker> stehen gewisse unveräußerliche Rechte zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>den</token>
+                    <token postag="SUB:DAT:PLU:.+|SUB:AKK:SIN:MAS" postag_regexp="yes"/>
+                    <marker>
+                        <token>als</token>
+                        <token regexp="yes">solche[mrs]?</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'den … <suggestion>als solchen</suggestion>' wird das Pronomen in der Regel in Numerus, Kasus und Genus übereinstimmend mit dem zugehörigen Substantiv verwendet. Wenn sich das Pronomen '<match no="4"/>' hier nicht auf das Substantiv '<match no="2"/>' bezieht, ignorieren Sie diesen Hinweis bitte.</message>
+                <short>Möglicher Kongruenzfehler</short>
+                <example correction="als solchen">Den Menschen <marker>als solche</marker> stehen gewisse unveräußerliche Rechte zu.</example>
+                <example correction="als solchen">Den Menschen <marker>als solches</marker> finde ich immer wieder staunenswert.</example>
+            </rule>
+        </rulegroup>
         <rule id="DIESEM_EINEM" name="diesem einem (einen)">
             <pattern>
                 <token>diesem</token>
