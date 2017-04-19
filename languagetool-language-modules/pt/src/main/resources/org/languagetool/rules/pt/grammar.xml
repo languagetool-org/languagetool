@@ -883,17 +883,6 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="TER_CHEGO" name="Confusão: TER + Chego">
-    <!--    Created by Tiago F. Santos, 2017-02-27     -->
-      <pattern>
-          <token inflected='yes'>ter</token>
-          <token>chego</token>
-      </pattern>
-      <message>Confusão de palavras</message>
-        <suggestion>\1 chegado</suggestion>
-      <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
-    </rule>
-
     <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS" name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
@@ -1234,6 +1223,28 @@ title="Easy editing stylesheet" ?>
       <message>Confusão de palavras.</message>
         <suggestion>\1 \2 a ver</suggestion>
       <example correction='tem nada a ver'>Não <marker>tem nada haver</marker> com isso.</example>
+    </rule>
+
+    <rule id="TER_CHEGO" name="Confusão: TER + Chego">
+    <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>chego</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion>\1 chegado</suggestion>
+      <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
+    </rule>
+
+    <rule id="A_FORA" name="Confusão: A + fora">
+    <!--    Created by Tiago F. Santos, 2017-04-19     -->
+      <pattern>
+          <token>a</token>
+          <token regexp='yes'>foras?</token>
+      </pattern>
+      <message>Confusão de palavras</message>
+        <suggestion>a\2</suggestion>
+      <example correction="afora">Pegou na mochila e foi pela estrada <marker>a fora</marker>.</example>
     </rule>
 
   <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
@@ -13203,6 +13214,7 @@ TODO Write better examples
       <example correction='vigas mestras'><marker>vigas mestres</marker>.</example>
     </rule>
   </rulegroup>
+
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
 
