@@ -721,9 +721,11 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
           <token max="3" postag_regexp='yes' postag='(N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)P.+'/></token>
-          <token min="0" max="2" postag='CS.|R.+' postag_regexp='yes'/>
+          <token min="0" max="2" postag='(C|R).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(C|R).+'/></token>
           <token postag='VM[CIS].([12]P|[123]S).' postag_regexp='yes'>
-            <exception postag='VM[CIS].3P0' postag_regexp='yes'></exception></token>
+            <exception postag='VM[CIS].3P0' postag_regexp='yes'></exception>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Erro de concordância verbal.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
@@ -735,9 +737,11 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
           <token max="3" postag_regexp='yes' postag='(N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)S.+'/></token>
-          <token min="0" max="2" postag='CS.|R.+' postag_regexp='yes'/>
+          <token min="0" max="2" postag='(C|R).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(C|R).+'/></token>
           <token postag='VM[CIS].([123]P|[12]S).' postag_regexp='yes'>
-            <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception></token>
+            <exception postag='VM[CIS].3S0' postag_regexp='yes'></exception>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Erro de concordância verbal.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
@@ -5026,11 +5030,11 @@ title="Easy editing stylesheet" ?>
     <!-- XXX If the user finds this rule too intrusive, they will disable it and
 use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
-          <token regexp='yes'>dia|passo|tempos?</token>
+          <token regexp='yes'>cara|dia|face|frente|passo|porta|tempos?|terra|t[éê]te</token>
           <token min='0'>-</token>
-          <token regexp='yes'>ao?</token>
+          <token regexp='yes'>[àa]o?</token>
           <token min='0'>-</token>
-          <token regexp='yes'>dia|passo|tempos?</token>
+          <token regexp='yes'>cara|dia|face|frente|passo|porta|tempos?|terra|t[éê]te</token>
       </antipattern>
       <antipattern>
           <token>de</token>
@@ -5131,14 +5135,29 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
     <rule>
       <antipattern>
-          <token>passo</token>
+          <token>cara</token>
           <token>a</token>
-          <token>passo</token>
+          <token>cara</token>
       </antipattern>
       <antipattern>
           <token>dia</token>
           <token>a</token>
           <token>dia</token>
+      </antipattern>
+      <antipattern>
+          <token>face</token>
+          <token>a</token>
+          <token>face</token>
+      </antipattern>
+      <antipattern>
+          <token>passo</token>
+          <token>a</token>
+          <token>passo</token>
+      </antipattern>
+      <antipattern>
+          <token>terra</token>
+          <token>a</token>
+          <token>terra</token>
       </antipattern>
       <pattern>
           <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
@@ -5153,6 +5172,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
       <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
       <example>...integrar o dia a dia a partir do...</example>
+      <example>Vamos pensar em soluções terra-a-terra.</example>
     </rule>
   </rulegroup>
 
