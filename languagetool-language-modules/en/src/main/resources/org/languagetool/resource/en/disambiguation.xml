@@ -3308,6 +3308,18 @@
 		<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">The years 1812 and 1813 <marker>saw</marker> him in Germany and France again</example>
 	</rule>
 
+	<!-- Proper nouns as a prerequisite for the poor man's entity recognizer -->
+
+	<rule id="MOS_TECHNOLOGY" name="MOS Technology">
+		<pattern case_sensitive="yes">
+			<token>MOS</token>
+			<token>Technology</token>
+		</pattern>
+		<disambig action="add"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+		<example type="untouched">MOS technology is used to...</example>
+		<example type="ambiguous" inputform="MOS[MOS]" outputform="MOS[MOS/NNP]"><marker>MOS</marker> Technology was formed in 1969 (https://en.wikipedia.org/wiki/MOS_Technology_6502).</example>
+	</rule>
+
 	<!--  poor man's entity recognizer to recognize numbers contained in proper names -->
 	
 	<rule id="NNP_CD" name="Apollo 11">
