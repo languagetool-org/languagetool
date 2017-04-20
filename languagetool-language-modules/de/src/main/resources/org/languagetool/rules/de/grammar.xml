@@ -13030,6 +13030,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schmiere">Er hat immer <marker>schmiere</marker> gestanden, während ich dem Nachbarn die Äpfel klaute.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HUELLE_UND_FUELLE" name="'in hülle (Hülle) und fülle (Fülle)'">
+            <url>https://de.wiktionary.org/wiki/in_H%C3%BClle_und_F%C3%BClle</url>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>hülle</token>
+                    <token>und</token>
+                    <marker>
+                        <token case_sensitive="yes">fülle</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Fülle</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Fülle">Es gab Essen in hülle und <marker>fülle</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">hülle</token>
+                    </marker>
+                    <token>und</token>
+                    <token>fülle</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Hülle</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Hülle">Es gab Essen in <marker>hülle</marker> und fülle.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PAUKEN_UND_TROMPETEN" name="'mit pauken (Pauken) und trompeten (Trompeten)'">
             <url>https://de.wiktionary.org/wiki/mit_Pauken_und_Trompeten</url>
             <rule>
