@@ -3320,6 +3320,17 @@
 		<example type="ambiguous" inputform="MOS[MOS]" outputform="MOS[MOS/NNP]"><marker>MOS</marker> Technology was formed in 1969 (https://en.wikipedia.org/wiki/MOS_Technology_6502).</example>
 	</rule>
 
+	<rule id="MOS_6502" name="MOS 6502">
+		<pattern case_sensitive="yes">
+			<marker>
+				<token>MOS</token>
+			</marker>
+			<token>6502</token>
+		</pattern>
+		<disambig action="add"><wd pos="NNP"/></disambig><!-- Add 'NNP' only to 'MOS'. The entity recogniser will add 'NNP' to '6502' -->
+		<example type="ambiguous" inputform="MOS[MOS]" outputform="MOS[MOS/NNP]">Figure 1 shows a <marker>MOS</marker> 6502 processor in a DIP-40 plastic package.</example>
+	</rule>
+
 	<!--  poor man's entity recognizer to recognize numbers contained in proper names -->
 	
 	<rule id="NNP_CD" name="Apollo 11">
