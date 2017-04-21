@@ -8975,6 +8975,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rotzusehen">Statt <marker>rot zu sehen</marker>, zähle erst bis zehn.</example>
            </rule>
         </rulegroup>
+        <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">ab|auf|ein|los|unter|vor</token>
+                        <token regexp="yes" inflected="yes">geben|halten|sagen|schreiben</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie ein Form des Verbs '\1<match no="2" postag="VER:INF:NON"/>' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="absagst">Falls du <marker>ab sagst</marker>, werden sie dich töten.</example>
+                <example correction="unterschrieben">Er hat den Vertrag gestgern <marker>unter schrieben</marker>.</example>
+                <example correction="unterhalten">Wir haben uns gut <marker>unter halten</marker></example>
+                <example correction="vorgebend">Seine Unschuld <marker>vor gebend</marker> wurde er freigesprochen.</example>
+                <example>Was sollte ich eurer Meinung nach schreiben?</example>
+                <example>Tom und Maria haben viele ihrer Lieder zusammen geschrieben.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -25574,6 +25593,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Wir wollen Aussagen, dass du der Täter bist, nicht glauben.</example>
             <example>Das alles sind Indizien, dass du der Täter warst.</example>
         </rule>
+        <rulegroup id="EIN_UND_ALLES" name="Großschreibung 'Ein und Alles'">
+            <rule>
+                <pattern>
+                    <marker>
+                    <token case_sensitive="yes">ein</token>
+                    </marker>
+                    <token>und</token>
+                    <token>alles</token>
+                </pattern>
+                <message>&inwend;'das/mein/dein <suggestion>Ein</suggestion> und Alles' werden 'Ein' und 'Alles' großgeschrieben.</message>
+                <example correction="Ein">Sie ist mein <marker>ein</marker> und Alles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <token>und</token>
+                    <marker>
+                    <token case_sensitive="yes">alles</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'das/mein/dein Ein und <suggestion>Alles</suggestion>' werden 'Ein' und 'Alles' großgeschrieben.</message>
+                <example correction="Alles">Sie ist mein Ein und <marker>alles</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
