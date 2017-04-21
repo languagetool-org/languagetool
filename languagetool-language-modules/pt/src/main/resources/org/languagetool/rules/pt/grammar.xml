@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
  Copyright © 2012-2017 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2017 Matheus Poletto
- Copyright © 2016-2017 Tiago F. Santos
+ Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
@@ -6571,6 +6571,33 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
       <example correction='viver'><marker>viver a vida</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
+    <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+      </pattern>
+      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\3</suggestion>
+      <example correction='mas|contudo'>Este é um caminho promissor <marker>mas, contudo</marker> ainda há um grande caminho a percorrer.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+          <token min='0'>,</token>
+          <token>no</token>
+          <token>entanto</token>
+      </pattern>
+      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\3 \4</suggestion>
+      <example correction='mas|no entanto'>Este é um caminho promissor <marker>mas no entanto</marker> ainda há um grande caminho a percorrer.</example>
     </rule>
   </rulegroup>
 
@@ -13238,12 +13265,14 @@ TODO Write better examples
 
   <rulegroup id='CENSO_SENSO' name='Confusão: senso -> censo'>
     <!-- Created by Tiago F. Santos, 2017-04-19, based on LightProof rule -->
+      <url>https://pt.wiktionary.org/wiki/senso</url>
+      <short>Confusão de termos.</short>
     <rule>
       <pattern>
           <token regexp='yes'>sensos?</token>
           <token regexp='yes'>demográficos?|escolar(es)?|(estadu|nacion)(al|ais)|\d{1,3}</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Confusão de termos. Senso refere-se aos sentidos ou a um juízo.</message>
         <suggestion><match no='1' regexp_match='senso(s?)' regexp_replace='censo$1' include_skipped='all'/> \2</suggestion>
       <example correction='censos demográficos'>Os <marker>sensos demográficos</marker> têm particular interesse para a coordenação dos governos.</example>
     </rule>
@@ -13252,7 +13281,7 @@ TODO Write better examples
           <token regexp='yes'>últimos?</token>
           <token regexp='yes'>sensos?</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Confusão de termos. Senso refere-se aos sentidos.</message>
         <suggestion>\1 <match no='2' regexp_match='senso(s?)' regexp_replace='censo$1' include_skipped='all'/></suggestion>
       <example correction='último censo'>O <marker>último senso</marker> foi bem sucedido.</example>
     </rule>
@@ -13261,7 +13290,7 @@ TODO Write better examples
           <token regexp='yes'>bom|mau</token>
           <token>censo</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Confusão de termos. Um censo é uma recolha de dados.</message>
         <suggestion>\1 <match no='2' regexp_match='censo(s?)' regexp_replace='senso$1' include_skipped='all'/></suggestion>
       <example correction='bom senso'>É uma questão de <marker>bom censo</marker>.</example>
     </rule>
@@ -13270,11 +13299,25 @@ TODO Write better examples
           <token>censo</token>
           <token regexp='yes'>com[uú]m</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Confusão de termos. Um censo é uma recolha de dados.</message>
         <suggestion><match no='1' regexp_match='censo(s?)' regexp_replace='senso$1' include_skipped='all'/> \2</suggestion>
       <example correction='senso comum'>Hoje em dia, <marker>censo comum</marker> é um conceito muito vago.</example>
     </rule>
   </rulegroup>
+
+    <rule id='PERCA_PERDA' name='Confusão: perca -> perda'>
+    <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
+      <pattern>
+          <token regexp='yes'>percas?</token>
+          <token>de</token>
+          <token regexp='yes'>([0-9,\.]+?%|alguém|aparelho|conexão|dados|gordura|mandato|memória|peso|potência|safra|senha|sina(l|is)|tempo|vaga|volume)s?</token>
+      </pattern>
+      <message>Confusão de termos. Perca é utilizado para se referir a um peixe ou a uma forma verbal do verbo perder.</message>
+        <suggestion><match no='1' regexp_match='perca(s?)' regexp_replace='perda$1' include_skipped='all'/> \2 \3</suggestion>
+      <url>https://pt.wiktionary.org/wiki/perca</url>
+      <short>Confusão de termos.</short>
+      <example correction='perdas de 0,5%'>Certo tipo de depósitos tem <marker>percas de 0,5%</marker> ao ano.</example>
+    </rule>
 
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
