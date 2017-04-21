@@ -171,8 +171,10 @@ public class AgreementRuleTest {
     assertGood("Darf ich Ihren Füller für ein paar Minuten ausleihen?");
     assertGood("Bringen Sie diesen Gepäckaufkleber an Ihrem Gepäck an.");
     assertGood("Extras, die den Wert Ihres Autos erhöhen.");
+    assertGood("Er hat einen 34-jährigen Sohn.");
 
     // incorrect sentences:
+    assertBad("Er hat eine 34-jährigen Sohn.");
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
     assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
     assertBad("Es sind die Haus.", "das Haus", "dem Haus", "die Häuser");
