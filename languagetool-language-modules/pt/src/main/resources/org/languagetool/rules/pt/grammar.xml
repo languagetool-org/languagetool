@@ -1380,6 +1380,21 @@ title="Easy editing stylesheet" ?>
       <example correction='maus conselhos'>Ignora os <marker>mal conselhos</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>eu</token>
+          <token>mal</token>
+          <token>cheiro</token>
+      </antipattern>
+      <pattern>
+          <token>mal</token>
+          <token>cheiro</token>
+      </pattern>
+      <message>Confusão do advérbio com o adjetivo. Mau é adjetivo (tal como bom), mal é advérbio (tal como bem).</message>
+        <suggestion><match no='2' postag_regexp='yes' postag='(N.|A..)(..).+' postag_replace='AQ0$20'>mau</match> \2</suggestion>
+      <short>Confusão do adjetivo com o advérbio.</short>
+      <example correction='mau cheiro'>Que <marker>mal cheiro</marker>.</example>
+    </rule>
+    <rule>
       <pattern>
           <token regexp='yes'>m(á|au)s?</token>
           <token min='0'>-</token>
