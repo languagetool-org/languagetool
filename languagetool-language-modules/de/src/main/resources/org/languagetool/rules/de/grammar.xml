@@ -25603,6 +25603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>alles</token>
                 </pattern>
                 <message>&inwend;'das/mein/dein <suggestion>Ein</suggestion> und Alles' werden 'Ein' und 'Alles' großgeschrieben.</message>
+                <short>&prgk;.</short>
                 <example correction="Ein">Sie ist mein <marker>ein</marker> und Alles.</example>
             </rule>
             <rule>
@@ -25614,9 +25615,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>&inwend;'das/mein/dein Ein und <suggestion>Alles</suggestion>' werden 'Ein' und 'Alles' großgeschrieben.</message>
+                <short>&prgk;.</short>
                 <example correction="Alles">Sie ist mein Ein und <marker>alles</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="DAS_ETWAS" name="das gewisse etwas (Etwas)">
+            <pattern>
+                <token regexp="yes">das|ein</token>
+                <token postag="ADJ:AKK:SIN:.*" postag_regexp="yes"/>
+                <marker><token case_sensitive="yes">etwas</token></marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Etwas</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example correction="Etwas">Sie hat das gewisse <marker>etwas</marker>.
+            </example><example correction="Etwas">Unter dem Sitz klebt ein grünes <marker>etwas</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
