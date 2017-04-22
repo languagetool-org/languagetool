@@ -166,6 +166,7 @@ public class GermanSpellerRuleTest {
     assertTrue(ruleGermany.doIgnoreWord("Secondhandware"));             // from spelling.txt formed compound
     assertTrue(ruleGermany.doIgnoreWord("Feynmandiagramme"));           // from spelling.txt formed compound
     assertTrue(ruleGermany.doIgnoreWord("Helizitätsoperator"));         // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Wodkaherstellung"));
     assertFalse(ruleGermany.doIgnoreWord("Helizitätso"));               // from spelling.txt formed compound (second part is too short)
     assertFalse(ruleGermany.doIgnoreWord("Feynmand"));                  // from spelling.txt formed compound (second part is too short)
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
