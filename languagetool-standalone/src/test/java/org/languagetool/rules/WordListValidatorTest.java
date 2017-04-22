@@ -79,11 +79,14 @@ public class WordListValidatorTest {
 
   private void validateWords(List<String> words, String spellingFileName) {
     for (String word : words) {
-      if (VALID_WORDS.contains(word)) {
-        // okay
-      } else if (!VALID_CHARS.matcher(word).matches()) {
-        fail("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
-             " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
+      String[] parts = word.split(" ");
+      for (String part : parts) {
+        if (VALID_WORDS.contains(part)) {
+          // okay
+        } else if (!VALID_CHARS.matcher(part).matches()) {
+          fail("Word '" + part + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
+               " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
+        }
       }
     }
   }

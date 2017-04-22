@@ -147,7 +147,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       line = origLine;
     }
-    wordsToBeIgnored.addAll(expandLine(line));
+    List<String> words = expandLine(line);
+    for (String word : words) {
+      super.addIgnoreWords(word, wordsToBeIgnored);
+    }
   }
 
   @Override

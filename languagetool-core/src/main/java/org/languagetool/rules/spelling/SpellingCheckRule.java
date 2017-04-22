@@ -275,7 +275,23 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9
    */
   protected void addIgnoreWords(String line, Set<String> wordsToBeIgnored) {
-    wordsToBeIgnored.add(line);
+    // if line consists of several words (separated by " "), a DisambiguationPatternRule
+    // will be created where each words serves as a case-sensitive and non-inflected PatternToken
+    // so that the entire multi-word entry is ignored by the spell checker
+    if (line.contains(" ")) {
+      String[] tokens = line.split(" ");
+      List<PatternToken> patternTokens = new ArrayList<>(tokens.length);
+      for(String token : tokens) {
+        if (token.isEmpty()) {
+          throw new RuntimeException("No repeated spaces expected in '" + line + "'");
+        }
+        patternTokens.add(new PatternToken(token, true, false, false));
+      }
+      antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
+        patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
+    } else {
+      wordsToBeIgnored.add(line);
+    }
   }
 
   /**
