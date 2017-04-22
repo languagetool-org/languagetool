@@ -46,7 +46,7 @@ public class DashRule extends AbstractDashRule {
     super("/pl/compounds.txt",
         "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", lang);
   }
-  
+
   @Override
   public String getDescription() {
     return "Sprawdza, czy wyrazy pisane z łącznikiem zapisano z myślnikami (np. „Lądek — Zdrój” zamiast „Lądek-Zdrój”).";

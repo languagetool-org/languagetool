@@ -34,7 +34,12 @@ public class EnglishDashRule extends AbstractDashRule {
     super("/en/compounds.txt",
         "A dash was used instead of a hyphen. Did you mean: ", lang);
   }
-  
+
+  @Override
+  public String getId() {
+    return "EN_DASH_RULE";
+  }
+
   @Override
   public String getDescription() {
     return "Checks if hyphenated words were spelled with dashes (e.g., 'T — shirt' instead 'T-shirt').";
