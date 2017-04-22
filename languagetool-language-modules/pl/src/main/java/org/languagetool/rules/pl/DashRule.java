@@ -19,22 +19,10 @@
 
 package org.languagetool.rules.pl;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternToken;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
