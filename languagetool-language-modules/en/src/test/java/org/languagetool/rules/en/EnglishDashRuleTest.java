@@ -16,13 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pl;
+package org.languagetool.rules.en;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.Polish;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -32,29 +33,27 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class DashRuleTest {
+public class EnglishDashRuleTest {
 
   JLanguageTool langTool;
   Rule rule;
 
   @Before
   public void setUp() throws Exception {
-    Language lang = new Polish();
+    Language lang = new AmericanEnglish();
     langTool = new JLanguageTool(lang);
-    rule = new DashRule(lang);
+    rule = new EnglishDashRule(lang);
   }
 
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    check(0, "Nie róbmy nic na łapu-capu.");
-    check(0, "Jedzmy kogel-mogel.");
-    check(0, "To jest ładna nota — bene, bene — odpowiedział Józek."); // not really a real mistake
+    check(0, "This is my T-shirt.");
+    check(0, "This is water-proof.");
     // incorrect sentences:
-    check(1, "bim – bom", new String[]{"bim-bom"});
-    check(1, "Papua–Nowa Gwinea", new String[]{"Papua-Nowa"});
-    check(1, "Papua — Nowa Gwinea", new String[]{"Papua-Nowa"});
-    check(1, "Aix — en — Provence", new String[]{"Aix-en-Provence"});
+    check(1, "T – shirt", new String[]{"T-shirt"});
+    check(1, "three–way street", new String[]{"three-way"});
+    check(1, "surface — to — surface", new String[]{"surface-to-surface"});
   }
 
   public void check(int expectedErrors, String text) throws IOException {
