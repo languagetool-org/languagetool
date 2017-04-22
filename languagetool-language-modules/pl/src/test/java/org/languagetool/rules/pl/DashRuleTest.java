@@ -34,8 +34,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class DashRuleTest {
 
-  JLanguageTool langTool;
-  Rule rule;
+  private JLanguageTool langTool;
+  private Rule rule;
 
   @Before
   public void setUp() throws Exception {
@@ -57,7 +57,7 @@ public class DashRuleTest {
     check(1, "Aix — en — Provence", new String[]{"Aix-en-Provence"});
   }
 
-  public void check(int expectedErrors, String text) throws IOException {
+  private void check(int expectedErrors, String text) throws IOException {
     check(expectedErrors, text, null);
   }
 
@@ -67,7 +67,7 @@ public class DashRuleTest {
    * @param text the text to check
    * @param expSuggestions the expected suggestions
    */
-  public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
+  private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
     assertNotNull("Please initialize langTool!", langTool);
     assertNotNull("Please initialize 'rule'!", rule);
     RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));

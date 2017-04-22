@@ -56,7 +56,7 @@ public class EnglishDashRuleTest {
     check(1, "surface — to — surface", new String[]{"surface-to-surface"});
   }
 
-  public void check(int expectedErrors, String text) throws IOException {
+  private void check(int expectedErrors, String text) throws IOException {
     check(expectedErrors, text, null);
   }
 
@@ -66,7 +66,7 @@ public class EnglishDashRuleTest {
    * @param text the text to check
    * @param expSuggestions the expected suggestions
    */
-  public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
+  private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
     assertNotNull("Please initialize langTool!", langTool);
     assertNotNull("Please initialize 'rule'!", rule);
     RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
