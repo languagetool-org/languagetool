@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -41,6 +41,18 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="AS_FOLLOW_AS_FOLLOWS" name="'as follow' (as follows)">
+         <pattern>
+          <marker>
+          <token>as</token>
+          <token>follow</token>
+          </marker>
+          <token regexp='yes'>[\.:,—\-–]</token>
+         </pattern>
+         <message>Did you mean <suggestion>as follows</suggestion>?</message>
+         <short>Possible typo</short>
+         <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>         
+        </rule>
         <rulegroup id="MISS_VERB" name="miss use (misuse)">
             <rule>
                 <pattern>
@@ -12763,7 +12775,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">a|an|the</token>
-                        <token postag="DT" regexp="yes">a|an|the</token>
+                        <token postag="DT" regexp="yes">a|an|the|each</token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
                 </pattern>
