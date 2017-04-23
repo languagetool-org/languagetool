@@ -781,13 +781,13 @@
       <pattern>
           <token regexp="yes">[1234567890]+</token>
       </pattern>
-      <disambig postag="Z0CN"/>
+      <disambig postag="Z0CN0"/>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
       </pattern>
-      <disambig postag="Z0CN"/>
+      <disambig postag="Z0CN0"/>
     </rule>
     <rule>
       <pattern>
@@ -795,7 +795,7 @@
           <token min='0' regexp='yes'>e|-</token>
           <token regexp="yes">&numero_por_extenso_MS;|&numero_por_extenso_MP;</token>
       </pattern>
-      <disambig action="add"><wd pos="Z0CP"/><wd pos="Z0CP"/><wd pos="Z0CP"/></disambig>
+      <disambig action="add"><wd pos="Z0CP0"/><wd pos="Z0CP0"/><wd pos="Z0CP0"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -803,7 +803,7 @@
           <token min='0' regexp='yes'>e|-</token>
           <token regexp="yes">&numero_por_extenso_MS;|&numero_por_extenso_MP;|&numero_por_extenso_FS;|&numero_por_extenso_FP;</token>
       </pattern>
-      <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+      <disambig action="add"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -811,47 +811,59 @@
           <token min='0' regexp='yes'>e|-</token>
           <token regexp="yes">&numero_por_extenso_FS;|&numero_por_extenso_FP;</token>
       </pattern>
-      <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+      <disambig action="add"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">&numero_por_extenso_MP;</token>
           <token min='0' regexp='yes'>e|-</token>
-          <token postag='Z0FP'/>
+          <token postag='Z0FP0'/>
       </pattern>
-      <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+      <disambig action="add"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag='Z0FP'/>
+          <token postag='Z0FP0'/>
           <token min='0' regexp='yes'>e|-</token>
           <token regexp="yes">&numero_por_extenso_MP;</token>
       </pattern>
-      <disambig action="add"><wd pos="Z0FP"/><wd pos="Z0FP"/><wd pos="Z0FP"/></disambig>
+      <disambig action="add"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">&numero_por_extenso_MP;<exception regexp='yes'>uma?</exception></token>
+          <token regexp="yes">&numero_por_extenso_MP;<exception regexp='yes'>uma?|dois|(mi|bi|tri|quadri)lh?iões</exception></token>
       </pattern>
-      <disambig action="add"><wd pos="Z0CP"/></disambig>
+      <disambig action="add"><wd pos="Z0CP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">dois|(mi|bi|tri|quadri)lh?iões</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0MP0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">&numero_por_extenso_FP;<exception regexp='yes'>uma?</exception></token>
       </pattern>
-      <disambig action="add"><wd pos="Z0FP"/></disambig>
+      <disambig action="add"><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">&numero_por_extenso_MS;<exception regexp='yes'>uma?</exception></token>
+          <token regexp="yes">&numero_por_extenso_MS;<exception regexp='yes'>uma?|dois|(mi|bi|tri|quadri)lh?ião</exception></token>
       </pattern>
-      <disambig action="add"><wd pos="Z0CS"/></disambig>
+      <disambig action="add"><wd pos="Z0CS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(mi|bi|tri|quadri)lh?ião</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0MN0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">&numero_por_extenso_FS;<exception regexp='yes'>uma?</exception></token>
       </pattern>
-      <disambig action="add"><wd pos="Z0FS"/></disambig>
+      <disambig action="add"><wd pos="Z0FS0"/></disambig>
     </rule>
   </rulegroup>
 
@@ -861,7 +873,7 @@
       <pattern>
           <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
       </pattern>
-      <disambig postag="ZRCN"/>
+      <disambig postag="ZRCN0"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">

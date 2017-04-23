@@ -119,8 +119,8 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>e|ser|são|termo|nome|reino</exception></token>
-          <token min='0' postag='A..CS.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
+          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
           <token postag='(N.|A..)F.+' postag_regexp='yes'>
             <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>uma|mas</exception>
@@ -129,7 +129,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
       <example correction='uma omelete|um (omelete)'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
@@ -144,10 +144,10 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
-          <token min='0' postag='A..CS.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
-          <token postag='(N.|A..|DP.)F.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
+          <token postag='(N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(N.|A..|DP.|Z.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -165,8 +165,8 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MP.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]P.+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>termos|nomes</exception></token>
-          <token min='0' postag='A..CP.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CP.+'/></token>
+          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CP.+'/></token>
           <token postag='(N.|A..)F.+' postag_regexp='yes'>
             <exception postag='(N.|A..)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>uma|mas</exception>
@@ -175,7 +175,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
       <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte...</example>
       <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erradas.</example>
@@ -190,9 +190,9 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
-          <token min='0' postag='A..CP.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CP.+'/></token>
-          <token postag='(N.|A..|DP.)F.+' postag_regexp='yes'>
+          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CP.+'/></token>
+          <token postag='(N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
             <exception postag='(N.|A..|DP.)[CM].+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>uma|mas</exception>
           </token>
@@ -215,17 +215,17 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade|rua|ilha|lei|copa</exception></token>
-          <token min='0' postag='A..CS.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
-          <token postag='(N.|A..)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
+          <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Um boi|Uma vaca'><marker>Uma boi</marker> está no pasto.</example>
       <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Uma vaca está no pasto.</example>
@@ -237,16 +237,16 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
-          <token min='0' postag='A..CS.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CS.+'/></token>
-          <token postag='(N.|A..|DP.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
+          <token postag='(N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(N.|A..|DP.|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Alguma vaca'><marker>Alguma boi</marker> está no pasto.</example>
     </rule>
     <rule>
@@ -256,17 +256,17 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FP.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]P.+|VM[CSI].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>e|mas|palavras|letras|ruas|ilhas</exception></token>
-          <token min='0' postag='A..CP.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CP.+'/></token>
-          <token postag='(N.|A..)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CP.+'/></token>
+          <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(N.|A..|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
@@ -278,16 +278,16 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
-          <token min='0' postag='A..CP.+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..)CP.+'/></token>
-          <token postag='(N.|A..|DP.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
+          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CP.+'/></token>
+          <token postag='(N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(N.|A..|DP.|Z.)[CF].+|VM[CSIG].+|C.|R.|SPS00' postag_regexp='yes'></exception>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>e|-</token>
       </pattern>
       <message>Erro de concordância de género.</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction='Algumas vacas'><marker>Algumas bois</marker> estão no pasto.</example>
     </rule>
   </rulegroup>
@@ -891,7 +891,7 @@ title="Easy editing stylesheet" ?>
     <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS" name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
-          <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(m|ão|õe)$</token>
+          <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(m|ão|õe)$</token>
           <token regexp='yes' spacebefore='no'>-|–|—</token>
           <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
@@ -905,12 +905,12 @@ title="Easy editing stylesheet" ?>
     <rule id="PRONOMIAL_COLOCATIONS_ADJUSTMENT_LOS" name='Colocações pronomiais: ênclise com o infinitivo (lo, la, los, las)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
-          <token postag_regexp='yes' postag='V.+' regexp='yes'>.*(r|s|z)$</token>
+          <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(r|s|z)$</token>
           <token regexp='yes' spacebefore='no'>-|–|—</token>
           <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
       <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
-        <suggestion><match no='1' regexp_match='(.*)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
+        <suggestion><match no='1' regexp_match='(.+)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
       <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
       <example>Ele teve-a como perdida.</example>
@@ -4947,7 +4947,7 @@ title="Easy editing stylesheet" ?>
     <rule id="PUNCTUATION_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
-          <token postag='Z0CN'/>
+          <token postag_regexp='yes' postag='Z.+'/>
         <marker>
           <token regexp="yes">&unidades_de_medida;</token>
           <token>.</token>
