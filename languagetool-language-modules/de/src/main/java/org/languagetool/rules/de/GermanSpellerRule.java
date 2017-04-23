@@ -236,7 +236,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
  */
 private boolean ignoreCompound(String word) {
     boolean isIgnoredCompound = false;
-    for(int i = 2; i < word.length() - 2; i++) {
+    for (int i = 2; i < word.length() - 2; i++) {
       String part1 = word.substring(0, i);
       if(!hunspellDict.misspelled(part1) &&
          !ENDINGS_NEEDING_FUGENS.matcher(part1).matches() &&
