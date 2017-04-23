@@ -2,9 +2,15 @@
 
 ## 3.8-SNAPSHOT (release planned for 2017-06-27)
 
+#### English
+  * added and improved rules
+
 #### German
   * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
     also has a message explaining the user that `Kuß` is an old spelling
+
+#### Polish
+   * added rules
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
