@@ -384,8 +384,10 @@ public class CaseRule extends Rule {
     "Mrs",
     "Nachfrage",
     "Nachts",   // "des Nachts", "eines Nachts"
+    "Nachspann",
     "Nähte",
     "Nähten",
+    "Narkoseverfahren",
     "Neuem",
     "Nr",
     "Nutze",   // zu Nutze
@@ -435,6 +437,7 @@ public class CaseRule extends Rule {
     "Zeche",
     "Zusage",
     "Zwinge",
+    "Zirkusrund",
     "Tertiär",  // geologischer Zeitabschnitt
 
     "Erster",   // "er wurde Erster im Langlauf"
