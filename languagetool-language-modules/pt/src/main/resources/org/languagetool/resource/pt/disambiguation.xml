@@ -883,6 +883,19 @@
     </rule>
   </rulegroup>
 
+    <rule id="A_RANGE" name="Range">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z.+'/>
+        <marker>
+          <token>a</token>
+        </marker>
+          <token postag_regexp="yes" postag='Z.+'/>
+      </pattern>
+      <disambig postag="SP000"/>
+    </rule>
+
   <rulegroup id="ROMAN_NUMBER" name="roman number">
     <!-- 		l18n from french and catalan disambiguation.xml by Tiago F. Santos		-->
     <rule>
@@ -902,7 +915,8 @@
     <rule>
       <pattern case_sensitive="yes">
         <marker>
-          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)</token>
+          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)
+            <exception>li</exception></token>
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
