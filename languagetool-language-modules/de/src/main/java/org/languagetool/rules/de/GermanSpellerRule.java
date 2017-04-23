@@ -226,7 +226,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound || ignoreCompound(words.get(idx));
+    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound /*|| ignoreCompound(words.get(idx))*/;
   }
 
   /**
