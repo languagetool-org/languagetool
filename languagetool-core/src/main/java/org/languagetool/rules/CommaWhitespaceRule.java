@@ -172,9 +172,4 @@ public class CommaWhitespaceRule extends Rule {
     return false;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

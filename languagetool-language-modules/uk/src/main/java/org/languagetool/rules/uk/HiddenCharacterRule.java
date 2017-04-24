@@ -90,8 +90,4 @@ public class HiddenCharacterRule extends Rule {
     return potentialRuleMatch;
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

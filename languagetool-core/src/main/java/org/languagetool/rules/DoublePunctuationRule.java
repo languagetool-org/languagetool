@@ -110,9 +110,4 @@ public class DoublePunctuationRule extends Rule {
     return messages.getString("two_commas");
   }
   
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

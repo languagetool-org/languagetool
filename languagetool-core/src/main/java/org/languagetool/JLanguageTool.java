@@ -64,7 +64,7 @@ import java.util.regex.Pattern;
 public class JLanguageTool {
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "3.7-SNAPSHOT";
+  public static final String VERSION = "3.8-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
 
@@ -392,19 +392,6 @@ public class JLanguageTool {
 
   /**
    * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
-   * @param categoryName the name of the category to disable - no error will be thrown if the id does not exist
-   * @deprecated use {@link #disableCategory(CategoryId)} instead (deprecated since 3.3)
-   */
-  public void disableCategory(String categoryName) {
-    for(Rule rule : getAllRules()) {
-      if(rule.getCategory().getName().equals(categoryName)) {
-        disableCategory(rule.getCategory().getId());
-      }
-    }
-  }
-
-  /**
-   * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
    * @param id the id of the category to disable - no error will be thrown if the id does not exist
    * @since 3.3
    * @see #enableRuleCategory(CategoryId) 
@@ -549,13 +536,6 @@ public class JLanguageTool {
     List<Rule> allRules = getAllRules();
     if (printStream != null) {
       printIfVerbose(allRules.size() + " rules activated for language " + language);
-    }
-    // Some rules have an internal state so they can do checks over sentence
-    // boundaries. These need to be reset so the checks don't suddenly
-    // work on different texts with the same data. However, it could be useful
-    // to keep the state information if we're checking a continuous text.    
-    for (Rule rule : allRules) {
-      rule.reset();
     }
 
     unknownWords = new HashSet<>();
@@ -843,7 +823,7 @@ public class JLanguageTool {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
-      if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
+      if (ignoredCharacterRegex.matcher(tokens.get(i)).find()) {
         ignoredCharsTokens.put(i, tokens.get(i));
         tokens.set(i, ignoredCharacterRegex.matcher(tokens.get(i)).replaceAll(""));
       }
@@ -859,7 +839,7 @@ public class JLanguageTool {
    */
   public Map<CategoryId, Category> getCategories() {
     Map<CategoryId, Category> map = new HashMap<>();
-    for(Rule rule : getAllRules()) {
+    for (Rule rule : getAllRules()) {
       map.put(rule.getCategory().getId(), rule.getCategory());
     }
     return map;

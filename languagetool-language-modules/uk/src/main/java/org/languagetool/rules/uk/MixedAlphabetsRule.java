@@ -158,10 +158,6 @@ public class MixedAlphabetsRule extends Rule {
     return potentialRuleMatch;
   }
 
-  @Override
-  public void reset() {
-  }
-
   private static final Map<Character, Character> toLatMap = new HashMap<>();
   private static final Map<Character, Character> toCyrMap = new HashMap<>();
   private static final String cyrChars = "аеіїкморстухАВЕІКМНОРСТУХ";

@@ -31,7 +31,7 @@ public final class IncorrectExample extends ExampleSentence {
   private final List<String> corrections;
 
   public IncorrectExample(String example) {
-    this(example, Collections.<String>emptyList());
+    this(example, Collections.emptyList());
   }
 
   /**

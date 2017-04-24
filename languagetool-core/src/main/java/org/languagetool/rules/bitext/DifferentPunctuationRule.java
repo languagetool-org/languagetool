@@ -68,8 +68,4 @@ public class DifferentPunctuationRule extends BitextRule {
     return new RuleMatch[0];
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

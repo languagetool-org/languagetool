@@ -66,7 +66,6 @@ public class ErrorSentenceTest {
     @Override public String getId() { return "FAKE-RULE-FOR-FILTER"; }
     @Override public String getDescription() { return "<none>"; }
     @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }
-    @Override public void reset() {}
   }
 
 }

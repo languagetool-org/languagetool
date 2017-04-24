@@ -38,7 +38,7 @@ import org.languagetool.tools.StringTools;
  *   
  * @author Jaume Ortolà i Font
  */
-public class ReflexiveVerbsRule extends CatalanRule {
+public class ReflexiveVerbsRule extends Rule {
 
   /**
    * Patterns
@@ -977,8 +977,4 @@ public class ReflexiveVerbsRule extends CatalanRule {
        || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI));      
   }
   
-  @Override
-  public void reset() {
-    // nothing
-  }
 }

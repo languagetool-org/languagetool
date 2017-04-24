@@ -122,7 +122,7 @@ public class Polish extends Language {
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages),
         new SimpleReplaceRule(messages),
-        new DashRule()
+        new DashRule(this)
         );
   }
 

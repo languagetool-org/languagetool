@@ -1,6 +1,34 @@
 # LanguageTool Change Log
 
-## 3.7 (release planned for 2017-03-27)
+## 3.8-SNAPSHOT (release planned for 2017-06-27)
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
+    also has a message explaining the user that `Kuß` is an old spelling
+
+#### Polish
+   * added rules
+
+#### HTTP API
+  * The deprecated AfterTheDeadline mode has been removed
+
+#### Java API
+  * Some deprecated methods and classes have been removed.
+
+#### Internal
+  * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
+    line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
+    and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
+    the spell checker)
+
+## 3.7 (2017-03-27)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -15,6 +43,7 @@
 
 #### German
   * added and improved rules
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
@@ -33,11 +62,11 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
     - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
-    - semantics: wrong words in the context, url validator and date checker improvements
+    - semantics: wrong words in the context (22 confusion pairs), url validator and date checker improvements
     - registered brands category added
     - translation errors category added
   * false friends support added:
@@ -54,6 +83,17 @@
 
 #### Russian
   * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
+
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
+
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
 
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
@@ -80,9 +120,6 @@
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)

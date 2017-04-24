@@ -48,6 +48,7 @@ import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -296,7 +297,7 @@ public class Main extends WeakBase implements XJobExecutor,
         // copy as the config thread may access this as well
         List<String> list = new ArrayList<>(disabledCategories);
         for (String categoryName : list) {
-          langTool.disableCategory(categoryName);
+          langTool.disableCategory(new CategoryId(categoryName));
         }
       }
       Set<String> enabledRuleIds = config.getEnabledRuleIds();

@@ -99,19 +99,6 @@ public abstract class Rule {
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
   /**
-   * If a rule keeps its state over more than the check of one sentence, this
-   * must be implemented so the internal state is reset. It will be called
-   * before a new text is going to be checked.
-   * @deprecated will be removed in a future version - if your rule implements
-   *   this method and actually does work there, your rule should extend
-   *   {@link TextLevelRule} instead, it will give you all sentences of the text
-   *   at once so there's no need to keep cross-sentence status in member variables
-   *   (deprecated since LT 3.7)
-   */
-  @Deprecated
-  public abstract void reset();
-
-  /**
    * Overwrite this to avoid false alarms by ignoring these patterns -
    * note that your {@link #match(AnalyzedSentence)} method needs to
    * call {@link #getSentenceWithImmunization} for this to be used

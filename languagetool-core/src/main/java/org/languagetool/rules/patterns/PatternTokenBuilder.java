@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.Experimental;
+import java.util.Objects;
 
 /**
  * Helper to build {@link PatternToken}s.
@@ -26,13 +26,18 @@ import org.languagetool.Experimental;
  */
 public class PatternTokenBuilder {
 
-  private PatternToken token;
+  private String token;
+  private String posTag;
+  private boolean matchInflectedForms = false;
+  private boolean caseSensitive;
+  private boolean regexp;
+  private boolean negation;
 
   /**
    * Add a case-insensitive token. 
    */
   public PatternTokenBuilder token(String token) {
-    this.token = new PatternToken(token, false, false, false);
+    this.token = Objects.requireNonNull(token);
     return this;
   }
 
@@ -41,12 +46,14 @@ public class PatternTokenBuilder {
    * @since 3.3 
    */
   public PatternTokenBuilder csToken(String token) {
-    this.token = new PatternToken(token, true, false, false);
+    this.token = Objects.requireNonNull(token);
+    caseSensitive = true;
     return this;
   }
 
   public PatternTokenBuilder tokenRegex(String token) {
-    this.token = new PatternToken(token, false, true, false);
+    this.token = Objects.requireNonNull(token);
+    regexp = true;
     return this;
   }
 
@@ -58,19 +65,36 @@ public class PatternTokenBuilder {
     return pos(posTag, true);
   }
 
-  private PatternTokenBuilder pos(String posTag, boolean regex) {
-    token = new PatternToken(null, false, false, false);
-    token.setPosToken(new PatternToken.PosToken(posTag, regex, false));
+  private PatternTokenBuilder pos(String posTag, boolean regexp) {
+    this.posTag = Objects.requireNonNull(posTag);
+    this.regexp = regexp;
     return this;
   }
 
   /** @since 3.3 */
   public PatternTokenBuilder negate() {
-    token.setNegation(true);
+    this.negation = true;
+    return this;
+  }
+  
+  /**
+   * Also match inflected forms of the given word - note this will only work when the
+   * given token actually is a baseform.
+   * @since 3.8 
+   */
+  public PatternTokenBuilder matchInflectedForms() {
+    matchInflectedForms = true;
     return this;
   }
   
   public PatternToken build() {
-    return token;
+    if (posTag != null) {
+      PatternToken patternToken = new PatternToken(null, false, false, false);
+      patternToken.setPosToken(new PatternToken.PosToken(posTag, regexp, false));
+      patternToken.setNegation(negation);
+      return patternToken;
+    } else {
+      return new PatternToken(token, caseSensitive, regexp, matchInflectedForms);
+    }
   }
 }

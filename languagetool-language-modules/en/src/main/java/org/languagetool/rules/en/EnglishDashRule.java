@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2016 Marcin Miłkowski (http://www.languagetool.org)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,15 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 package org.languagetool.rules.en;
 
-import org.languagetool.rules.Rule;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractDashRule;
+
+import java.io.IOException;
 
 /**
- * Abstract base class for rules for the English language.
- * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
+ * Check for compounds written with dashes instead of hyphens.
+ * @since 3.8
  */
-@Deprecated
-public abstract class EnglishRule extends Rule {
+public class EnglishDashRule extends AbstractDashRule {
+
+  public EnglishDashRule(Language lang) throws IOException {
+    super("/en/compounds.txt",
+        "A dash was used instead of a hyphen. Did you mean: ", lang);
+  }
+
+  @Override
+  public String getId() {
+    return "EN_DASH_RULE";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Checks if hyphenated words were spelled with dashes (e.g., 'T — shirt' instead 'T-shirt').";
+  }
 
 }
