@@ -3308,14 +3308,14 @@
 		<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">The years 1812 and 1813 <marker>saw</marker> him in Germany and France again</example>
 	</rule>
 
-	<!-- Proper nouns as a prerequisite for the poor man's entity recognizer -->
+	<!-- Proper nouns as a prerequisite for the poor man's entity recognizer. Refer also to the proper nouns just before the rulegroup IGNORE_SPELLING_OF_NNP. -->
 
 	<rule id="MOS_TECHNOLOGY" name="MOS Technology">
 		<pattern case_sensitive="yes">
 			<token>MOS</token>
 			<token>Technology</token>
 		</pattern>
-		<disambig action="add"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+		<disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
 		<example type="untouched">MOS technology is used to...</example>
 		<example type="ambiguous" inputform="MOS[MOS]" outputform="MOS[MOS/NNP]"><marker>MOS</marker> Technology was formed in 1969 (https://en.wikipedia.org/wiki/MOS_Technology_6502).</example>
 	</rule>
@@ -4167,30 +4167,31 @@
       <disambig action="immunize"/>
     </rule>
 
-    <rule name="Immunize 'World Wide Web'" id="WORLD_WIDE_WEB">
-      <pattern>
-        <token>World</token>
-        <token>Wide</token>
-        <token>Web</token>
+    <rule name="Proper noun: Alpha Centauri" id="ALPHA_CENTAURI">
+      <pattern case_sensitive="yes">
+        <token>Alpha</token>
+        <token>Centauri</token>
       </pattern>
-      <disambig action="immunize"/>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
-    <rule name="Immunize 'Hong Kong'" id="HONG_KONG">
-      <pattern>
-        <token>Hong</token>
-        <token>Kong</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    <rule name="Ignore spelling of NNP (mid and end sentence)" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
+    <rule name="Proper noun: Moulin Rouge" id="MOULIN_ROUGE">
       <pattern case_sensitive="yes">
-        <token regexp="yes">[A-Za-z]+</token>
-        <marker>
-          <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
-        </marker>
+        <token>Moulin</token>
+        <token>Rouge</token>
       </pattern>
-      <disambig action="ignore_spelling"/>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule name="Proper noun: Taj Mahal" id="TAJ_MAHAL">
+      <pattern case_sensitive="yes">
+        <token>Taj</token>
+        <token>Mahal</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rulegroup name="Ignore spelling of most NNP" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
 <!-- For action="ignore_spelling", it is not possible to use example sentences that testrules validates.
 Find. The hoopes are defective.
 Find. Hoopes, loops, and other types of coil are used in this test.
@@ -4206,35 +4207,30 @@ Ignore spelling. "Ah, this is my idiot son Takashi."
 Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
 Ignore spelling. "Does he live with a princess?" asked Gerda.
 Ignore spelling. Is the average Dalek dangerous?
+Ignore spelling. Visit these on your next vacation. Taj Mahal, Moulin Rouge, and Hong Kong.
 False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
 False positive. Zelda told me to tell you to go away.
 False positive. Geez is a Semitic language that was spoken in Ethiopia.
 False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
 False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
 -->
-    </rule>
 
-    <rule name="Ignore spelling of 'Alpha Centauri'" id="ALPHA_CENTAURI">
-      <pattern case_sensitive="yes">
-        <token>Alpha</token>
-        <token>Centauri</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
+      <rule name="NNP (mid and end sentence)" id="NNP_MID_END_SENTENCE">
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Za-z]+</token>
+          <marker>
+            <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
+          </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+      </rule>
+      <rule name="NNP (2-word in any location)" id="NNP_TWO_WORD">
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Za-z]+<exception negate_pos="yes" postag="NNP"/></token><!-- Is only NNP -->
+          <token postag="NNP" regexp="yes">[A-Z][a-z]+<exception negate_pos="yes" postag="NNP"/></token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+      </rule>
+    </rulegroup>
 
-    <rule name="Ignore spelling of 'Taj Mahal'" id="TAJ_MAHAL">
-      <pattern case_sensitive="yes">
-        <token>Taj</token>
-        <token>Mahal</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="Ignore spelling of 'Moulin Rouge'" id="MOULIN_ROUGE">
-      <pattern case_sensitive="yes">
-        <token>Moulin</token>
-        <token>Rouge</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
 </rules>
