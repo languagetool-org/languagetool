@@ -8982,15 +8982,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>gehts</token>
                 </antipattern>
                 <antipattern>
-                    <token>los</token>
+                    <token skip="-1">von</token>
+                    <token regexp="yes">an|ab|auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>und</token>
+                    <token>ab</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">los|auf</token>
                     <token>geht</token>
-                    <token regexp="yes">['´]</token>
+                    <token regexp="yes">['´’]</token>
                     <token>s</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">ab|auf|ein|los|unter|vor</token>
-                        <token regexp="yes" inflected="yes">bringen|ge[bh]en|halten|lassen|sagen|schlagen|schreiben</token>
+                        <token regexp="yes">ab|auf|los|unter|vor</token>
+                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+<exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception><exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|vor|über|um|zwischen|ver).*|gleich|frisch|null|bestimmte</exception></token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:NON"/>' meinten, wird diese zusammengeschrieben.</message>
@@ -9008,6 +9026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das habe ich von Anfang an gesagt.</example>
                 <example>Los gehts!.</example>
                 <example>Los geht's!.</example>
+                <example>Er ist nach wie vor beschäftigt.</example>
             </rule>
         </rulegroup>
     </category>
