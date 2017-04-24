@@ -81,7 +81,7 @@ public class Portuguese extends Language implements AutoCloseable {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
             new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
-            new Contributor("Tiago F. Santos (3.6+)", "tiagofsantos81@sapo.pt")
+            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81")
     };
   }
 

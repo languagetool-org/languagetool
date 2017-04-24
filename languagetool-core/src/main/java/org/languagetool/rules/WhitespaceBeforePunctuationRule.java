@@ -104,9 +104,4 @@ public class WhitespaceBeforePunctuationRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

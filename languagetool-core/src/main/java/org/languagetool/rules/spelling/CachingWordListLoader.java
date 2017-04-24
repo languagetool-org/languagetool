@@ -21,6 +21,7 @@ package org.languagetool.rules.spelling;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 
@@ -59,8 +60,8 @@ public class CachingWordListLoader {
         if (line.startsWith("#")) {
           continue;
         }
-        if (line.contains(" ")) {
-          throw new RuntimeException("No space expected in " + filePath + ": '" + line + "'");
+        if (line.trim().length() < line.length()) {
+          throw new RuntimeException("No leading or trailing space expected in " + filePath + ": '" + line + "'");
         }
         result.add(line);
       }

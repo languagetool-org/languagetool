@@ -2990,19 +2990,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Збори не відбулися тому, що прийшло мало людей.</example>
     </rule>
 
-    <rule id="DO_CYH_PIR" name="До цих пір">
-      <pattern>
-        <token>до</token>
-        <token>цих</token>
-        <token>пір</token>
-      </pattern>
-      <message>Правильно: <suggestion>досі</suggestion></message>
-      <suggestion>дотепер</suggestion>
-      <suggestion>до цього часу</suggestion>
-      <suggestion>по цей час</suggestion>
-      <example correction="досі|дотепер|до цього часу|по цей час">Чому економіці <marker>до цих пір</marker> не вистачає кредитів?</example>
-      <example>Чому економіці досі не вистачає кредитів?</example>
-    </rule>
+    <rulegroup id="DO_CYH_PIR" name="До цих пір">
+      <rule>
+        <pattern>
+          <token>до</token>
+          <token>цих</token>
+          <token>пір</token>
+        </pattern>
+        <message>Правильно: <suggestion>досі</suggestion></message>
+        <suggestion>дотепер</suggestion>
+        <suggestion>до цього часу</suggestion>
+        <suggestion>по цей час</suggestion>
+        <example correction="досі|дотепер|до цього часу|по цей час">Чому економіці <marker>до цих пір</marker> не вистачає кредитів?</example>
+        <example>Чому економіці досі не вистачає кредитів?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>з</token>
+          <token regexp="yes">цих|тих</token>
+          <token>пір</token>
+        </pattern>
+        <message>Правильно: <suggestion>з того часу</suggestion></message>
+        <suggestion>відтоді</suggestion>
+        <suggestion>відколи</suggestion>
+        <suggestion>з тої пори</suggestion>
+        <example correction="з того часу|відтоді|відколи|з тої пори">А <marker>з тих пір</marker> і працюю</example>
+      </rule>
+    </rulegroup>
 
     <rule id="SPRAVA_V_TOMU" name="Справа в тому">
       <pattern>
@@ -3056,8 +3070,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Правильно: <suggestion>попри</suggestion>, <suggestion>дарма що</suggestion>, <suggestion>всупереч</suggestion>, <suggestion>наперекір</suggestion>, <suggestion>хоч</suggestion>, <suggestion>не зважаючи на</suggestion>, <suggestion>не вважаючи на</suggestion></message>
-      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
-      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на">Вони бігли туди <marker>незважаючи на</marker> сильну зливу.</example>
+      <suggestion>незалежно від</suggestion>
+      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на|незалежно від">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
+      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на|незалежно від">Вони бігли туди <marker>незважаючи на</marker> сильну зливу.</example>
       <example>Гра тривала попри сильну зливу.</example>
       <example>Вони бігли туди не зважаючи на сильну зливу.</example>
     </rule>
@@ -4161,6 +4176,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>продовжувати мішати поки не зійде</example>
       </rule>
     </rulegroup>
+
+<!-- багато фальшивих спрацьовувань: Однак це був тільки початок. Наступна вимога президента...
+    <rulegroup id="NASTUPNY" name="Наступний і такий">
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <marker>
+              <token inflected="yes">наступний</token>
+            </marker>
+            <token inflected="yes" regexp="yes">умова|вимога</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion>такий</suggestion></message>
+        <example correction="такий">всім <marker>наступні</marker> умови</example>
+        <example>наступного дня</example>
+      </rule>
+    </rulegroup>
+-->
 
     <rule id="SYLICONOVA_DOLYNA" name="Силіконова долина">
       <pattern>

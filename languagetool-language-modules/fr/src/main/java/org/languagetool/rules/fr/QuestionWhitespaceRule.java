@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -38,7 +39,7 @@ import org.languagetool.tools.StringTools;
  *
  * @author Marcin Miłkowski
  */
-public class QuestionWhitespaceRule extends FrenchRule {
+public class QuestionWhitespaceRule extends Rule {
 
   // Pattern used to avoid false positive when signaling missing
   // space before and after colon ':' in URL with common schemes.
@@ -173,11 +174,6 @@ public class QuestionWhitespaceRule extends FrenchRule {
     }
 
     return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

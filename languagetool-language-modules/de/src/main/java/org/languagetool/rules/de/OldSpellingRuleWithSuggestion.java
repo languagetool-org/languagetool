@@ -1,5 +1,5 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,17 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-package org.languagetool.rules.fr;
+package org.languagetool.rules.de;
 
 import org.languagetool.rules.Rule;
 
+import java.util.Objects;
+
 /**
- * Abstract base class for French rules.
- * 
- * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
+ * @since 3.8
  */
-@Deprecated
-public abstract class FrenchRule extends Rule {
-  
+class OldSpellingRuleWithSuggestion {
+
+  Rule rule;
+  String oldSpelling;
+  String newSpelling;
+
+  OldSpellingRuleWithSuggestion(Rule rule, String oldSpelling, String newSpelling) {
+    this.rule = Objects.requireNonNull(rule);
+    this.oldSpelling = Objects.requireNonNull(oldSpelling);
+    this.newSpelling = Objects.requireNonNull(newSpelling);
+  }
+
 }

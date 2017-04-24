@@ -93,8 +93,6 @@ public class RuleMatchesAsJsonSerializerTest {
     public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
       throw new RuntimeException("not implemented");
     }
-    @Override
-    public void reset() {}
   }
 
 }

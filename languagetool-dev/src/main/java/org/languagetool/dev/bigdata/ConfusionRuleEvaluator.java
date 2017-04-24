@@ -104,6 +104,10 @@ class ConfusionRuleEvaluator {
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
     List<Sentence> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
+    //if (allTokenSentences.size() < 20 || allHomophoneSentences.size() < 20) {
+    //  System.out.println("Skipping " + token + " / " + homophoneToken);
+    //  return null;
+    //}
     evaluate(allTokenSentences, true, token, homophoneToken, evalFactors);
     evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);
     evaluate(allHomophoneSentences, false, token, homophoneToken, evalFactors);

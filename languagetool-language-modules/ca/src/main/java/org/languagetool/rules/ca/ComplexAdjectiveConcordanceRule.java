@@ -37,7 +37,7 @@ import org.languagetool.rules.*;
  * 
  * @author Jaume Ortolà i Font
  */
-public class ComplexAdjectiveConcordanceRule extends CatalanRule {
+public class ComplexAdjectiveConcordanceRule extends Rule {
 
   /**
    * Patterns
@@ -555,11 +555,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private boolean matchRegexp(String s, Pattern pattern) {
     final Matcher m = pattern.matcher(s);
     return m.matches();
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

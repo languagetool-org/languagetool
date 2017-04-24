@@ -212,8 +212,4 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     this.checkLemmas = checkLemmas;
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

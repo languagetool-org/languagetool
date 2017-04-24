@@ -222,18 +222,14 @@ public abstract class WrongWordInContextRule extends Rule {
       return ignoreCase + "\\b(" + str + ")\\b";
     }
     
-    public void setWord(int i, String word) {
+    void setWord(int i, String word) {
       words[i] = Pattern.compile(addBoundaries(word));
     }
     
-    public void setContext(int i, String context) {
+    void setContext(int i, String context) {
       contexts[i] = Pattern.compile(addBoundaries(context));
     }
     
-  }
-
-  @Override
-  public void reset() {
   }
 
 }
