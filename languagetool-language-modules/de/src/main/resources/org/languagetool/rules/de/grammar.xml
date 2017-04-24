@@ -9020,7 +9020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
-                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|er|vor|über|um|zer|zwischen|ver|zurück|weiter).*|null|genügend</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|vor|über|um|zer|zwischen|ver|zurück|weiter).*|null|genügend</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -25683,6 +25683,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Etwas">Sie hat das gewisse <marker>etwas</marker>.
             </example><example correction="Etwas">Unter dem Sitz klebt ein grünes <marker>etwas</marker>.</example>
         </rule>
+        <rulegroup id="JA_NEIN" name="mit ja (Ja)">
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token min="0">einem</token>
+                    <token min="0" postag="(ADJ|PA2):DAT:SIN:.*" postag_regexp="yes"/>
+                    <marker>
+                    <token case_sensitive="yes" regexp="yes">ja|nein</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ja">Sie beantwortete die Frage mit <marker>ja</marker>.</example>
+                <example correction="Ja">Sie beantwortete die Frage mit einem <marker>ja</marker>.</example>
+                <example correction="Nein">Sie beantwortete die Frage mit einem klaren <marker>nein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token min="0">einem</token>
+                    <token min="0" postag="(ADJ|PA2):DAT:SIN:.*" postag_regexp="yes"/>
+                    <token regexp="yes">ja|nein</token>
+                    <token>oder</token>
+                    <marker>
+                    <token case_sensitive="yes" regexp="yes">ja|nein</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="6" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ja">Die Frage lässt sich nur mit Nein oder <marker>ja</marker> beantworten.</example>
+                <example correction="Ja">Die Frage lässt sich nur mit einem Nein oder <marker>ja</marker> beantworten.</example>
+                <example correction="Ja">Die Frage lässt sich nur mit einem entschiedenem Nein oder <marker>ja</marker> beantworten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <token postag="(ADJ|PA2):NOM:SIN:NEU:.*" postag_regexp="yes"/>
+                    <token min="0">und</token>
+                    <token min="0" postag="(ADJ|PA2):NOM:SIN:NEU:.*" postag_regexp="yes"/>
+                    <marker>
+                    <token case_sensitive="yes" regexp="yes">ja|nein</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="5" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ja">Ein einfaches <marker>ja</marker> hätte genügt.</example>
+                <example correction="Nein">Man vernahm ein lautes und deutliches <marker>nein</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
