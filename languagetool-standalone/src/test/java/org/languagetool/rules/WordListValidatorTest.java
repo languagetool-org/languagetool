@@ -79,14 +79,13 @@ public class WordListValidatorTest {
 
   private void validateWords(List<String> words, String spellingFileName) {
     for (String word : words) {
-      String[] parts = word.split(" ");
-      for (String part : parts) {
-        if (VALID_WORDS.contains(part)) {
-          // okay
-        } else if (!VALID_CHARS.matcher(part).matches()) {
-          fail("Word '" + part + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
-               " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
-        }
+      if (VALID_WORDS.contains(word)) {
+        // okay
+      } else if (word.contains(" ")) {
+        // since version 3.8 multi-word entries are allowed 'spelling.txt' (= getSpellingFileName()) -- ignore them
+      } else if (!VALID_CHARS.matcher(word).matches()) {
+        fail("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
+             " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
       }
     }
   }

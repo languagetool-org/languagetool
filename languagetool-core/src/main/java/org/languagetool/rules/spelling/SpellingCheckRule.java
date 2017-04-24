@@ -279,11 +279,11 @@ public abstract class SpellingCheckRule extends Rule {
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker
     if (line.contains(" ")) {
-      String[] tokens = line.split(" ");
-      List<PatternToken> patternTokens = new ArrayList<>(tokens.length);
+      List<String> tokens = language.getWordTokenizer().tokenize(line);
+      List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
       for(String token : tokens) {
-        if (token.isEmpty()) {
-          throw new RuntimeException("No repeated spaces expected in '" + line + "'");
+        if (token.trim().isEmpty()) {
+          continue;
         }
         patternTokens.add(new PatternToken(token, true, false, false));
       }
