@@ -8976,14 +8976,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
-            <rule>
+              <rule>
                 <antipattern>
-                    <token>los</token>
-                    <token>gehts</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">von</token>
-                    <token regexp="yes">an|ab|auf</token>
+                    <token skip="-1" regexp="yes">vo[mn]</token>
+                    <token regexp="yes">an|ab|au[fs]|weg</token>
                 </antipattern>
                 <antipattern>
                     <token>nach</token>
@@ -8991,13 +8987,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>vor</token>
                 </antipattern>
                 <antipattern>
+                    <token postag="ADV:MOD"/>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
                     <token inflected="yes">hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>hör</token>
                     <token>auf</token>
                 </antipattern>
                 <antipattern>
                     <token>auf</token>
                     <token>und</token>
                     <token>ab</token>
+                </antipattern>
+                <antipattern>
+                    <token>ab</token>
+                    <token>und</token>
+                    <token>an</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">los|auf</token>
@@ -9007,12 +9016,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">ab|auf|los|unter|vor</token>
-                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+<exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception><exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|vor|über|um|zwischen|ver).*|gleich|frisch|null|bestimmte</exception></token>
+                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg</token>
+                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
+                            <exception postag="ADJ:.*" postag_regexp="yes"/>
+                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|er|vor|über|um|zer|zwischen|ver|zurück|weiter).*|null|genügend</exception>
+                        </token>
                     </marker>
                 </pattern>
-                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:NON"/>' meinten, wird diese zusammengeschrieben.</message>
+                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:.*" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
+                <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
                 <short>&getrennt;.</short>
                 <example correction="absagst">Falls du <marker>ab sagst</marker>, werden sie dich töten.</example>
                 <example correction="unterschrieben">Er hat den Vertrag gestern <marker>unter schrieben</marker>.</example>
@@ -9024,9 +9038,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vorbringe">Wenn ich gute Argumente <marker>vor bringe</marker>, wird er mir helfen.</example>
                 <example correction="losgingen">Als sie <marker>los gingen</marker>, merkten sie, dass etwas nicht stimmte.</example>
                 <example>Das habe ich von Anfang an gesagt.</example>
-                <example>Los gehts!.</example>
-                <example>Los geht's!.</example>
+                <example>Los geht's!</example>
                 <example>Er ist nach wie vor beschäftigt.</example>
+                <example>Die meiste Angst hat der Mensch vor erdachten Gefahren.</example>
+                <example>Den ganzen Tag über freuten sie sich.</example>
+                <example>ie Welt braucht mehr an demütigen Genies.</example>
+                <example>Die einzige Frage ist nun, wie wir an genügend Geld kommen</example>
             </rule>
         </rulegroup>
     </category>
