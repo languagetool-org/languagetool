@@ -3763,6 +3763,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="truca a">Puigdemont <marker>truca</marker> Rajoy.</example>
                 <example>Vaig trucar la moto</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|la</token>
+                    </marker>
+                    <token min="0" inflected="yes">anar</token>
+                    <token inflected="yes" skip="20">permetre</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement cal usar el pronom <suggestion>li</suggestion></message>
+                <example correction="li">No <marker>el</marker> va permetre fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l'</token>
+                        <token inflected="yes">haver</token>
+                    </marker>
+                    <token inflected="yes" skip="20">permetre</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement cal usar el pronom "li"</message>
+                <suggestion>li \2</suggestion>
+                <example correction="li ha">No <marker>l'ha</marker> permès de fer-ho.</example>
+            </rule>
             <!-- <rule>
                 <pattern>
                 <token skip="1">què</token>
