@@ -24273,9 +24273,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ROMANS_E" name="*XVè/XV">
             <pattern>
                 <marker>
-                    <token regexp="yes">[XICV]+è<exception postag="[VNAS].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">[XICV]+è<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="before" regexp="yes">aux?|du</exception></token>
                 </marker>
-                <token><exception>siècle</exception></token>
+                <token><exception regexp="yes">siècles?</exception></token>
             </pattern>
             <message>Els ordinals romans no necessiten la terminació -è.</message>
             <suggestion><match no="1" regexp_match="([XICV]+)è" regexp_replace="$1"/></suggestion>
