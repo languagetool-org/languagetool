@@ -1625,12 +1625,14 @@
                     <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
                 </and>
             </marker>
+            <token><exception postag="JJ"/></token>
         </pattern>
         <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
     </rule>
+
     <rule name="a/an/each + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
         <pattern>
             <token regexp="yes">an?|each</token>
@@ -2080,9 +2082,11 @@
             <marker>
                 <token postag="VBN"/>
             </marker>
-            <token postag="JJ"/>
+            <token postag_regexp="yes" postag="JJ|NNS?"/>
         </pattern>
         <disambig postag="JJ"/>
+        <example type="ambiguous" inputform="known[know/VBN,known/NN]" outputform="known[known/JJ]">This is the <marker>known</marker> good solution.</example>
+        <example type="ambiguous" inputform="broken[break/VBN]" outputform="broken[break/JJ]">The <marker>broken</marker> window is dangerous.</example>
     </rule>
 
     <!-- known written works -->
