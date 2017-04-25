@@ -1851,6 +1851,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mir">Insbesondere das Synonym-Wörterbuch gefällt <marker>mit</marker> gut.</example>
                 <example correction="mir">Insbesondere das Synonym-Wörterbuch gefällt <marker>mit</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mit</token>
+                    </marker>
+                    <token regexp="yes">bitte|schon</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>mir</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="mir">Sag <marker>mit</marker> bitte, wie du heißt.</example>
+                <example correction="mir">Sie fallen <marker>mit</marker> schon länger auf.</example>
+            </rule>
         </rulegroup>
         <rule id="ER_EINZIGE" name="'er (der) einzige'">
             <pattern>
@@ -9044,6 +9056,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Den ganzen Tag über freuten sie sich.</example>
                 <example>ie Welt braucht mehr an demütigen Genies.</example>
                 <example>Die einzige Frage ist nun, wie wir an genügend Geld kommen</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ANHAND" name="an hand (anhand)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                        <token>hand</token>
+                    </marker>
+                    <token postag=".*:GEN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1hand</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Anhand"><marker>An hand</marker> dieses Beispiels zeigte er es.</example>
+                <example>Er war verletzt an <marker>an Hand</marker> und Arm.</example>
             </rule>
         </rulegroup>
     </category>
