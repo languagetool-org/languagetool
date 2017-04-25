@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -18818,8 +18818,13 @@ USA
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
         <rule id="PROFANITY" name="Profanity">
+            <antipattern>
+                <token regexp="yes">spic|spick</token>
+                <token>and</token>
+                <token>span</token>
+            </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">shit|piss|fuck|cunt|cocksucker|motherfucker|tits|fart|turd|twat</token>
+                <token inflected="yes" regexp="yes">cocksucker|coon|cunt|dago|fart|fuck|motherfucker|nigger|piss|shit|spic|spick|spik|tits|turd|twat</token>
             </pattern>
             <message>This word is considered offensive.</message>
             <url>https://en.wikipedia.org/wiki/Profanity</url>
