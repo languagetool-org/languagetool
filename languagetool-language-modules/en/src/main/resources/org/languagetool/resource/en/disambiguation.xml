@@ -2278,6 +2278,27 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="BY_RB" name="by + rb → rb">
+        <pattern>
+            <token>by</token>
+            <marker>
+                <token postag="RB"/>
+            </marker>
+        </pattern>
+        <disambig postag="RB"/>
+        <example type="ambiguous" outputform="then[then/RB]" inputform="then[then/JJ,then/NN,then/RB]">It should be safe by <marker>then</marker>.</example>
+        <example type="untouched">For now they are having fun and learning all they can by <marker>playing</marker> with neighbors and friends.</example>
+        <example type="untouched">I'll by flying.</example>
+    </rule>
+    <rule id="by_chance_morning" name="by chance / morning ->NN">
+        <pattern>
+            <token>by</token>
+            <marker>
+                <token regexp="yes" postag="NN.*" postag_regexp="yes">chance|morning</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"/></token>
@@ -3783,8 +3804,23 @@
           <example type="untouched">We need to better the lot of the suburban commuter.</example>
           <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[well/RBR]">Later, you shall know it <marker>better</marker>.</example>
         </rule>
-                        
-        <rule id="FREE_OF_CHARGE" name="free of charge">
+
+
+        <rule id="BY_VBG" name="by + vbg → vbg">
+            <pattern>
+                <token>by<exception scope="previous" regexp="yes">ll|will|shall</exception></token>
+                <marker>
+                    <token postag="VBG"/>
+                </marker>
+            </pattern>
+            <disambig postag="VBG"/>
+            <example type="untouched">It should be safe by then.</example>
+            <example type="ambiguous" inputform="playing[play/VBG,playing/JJ,playing/NN:UN]" outputform="playing[play/VBG]">For now they are having fun and learning all they can by <marker>playing</marker> with neighbors and friends.</example>
+            <example type="untouched">I'll by flying.</example>
+        </rule>
+    
+
+    <rule id="FREE_OF_CHARGE" name="free of charge">
           <pattern>
             <marker><token>free</token></marker>
             <token>of</token>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -52,6 +52,19 @@ USA
          <message>Did you mean <suggestion>as follows</suggestion>?</message>
          <short>Possible typo</short>
          <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>         
+        </rule>
+        <rule id="BY_PASSIVE_PARTICIPLE_BE" name="'by' + passive participle (be)">
+         <pattern>
+          <token postag='MD'></token>
+          <marker>
+          <token>by</token>
+          </marker>
+          <token postag='JJ.?|VBN' postag_regexp='yes'><exception postag='DT'></exception><exception>morning</exception></token>
+         </pattern>
+         <message>Did you mean <suggestion>be</suggestion>?</message>
+         <short>Possible typo</short>
+         <example correction='be'>This can <marker>by</marker> consistent  with usability constraints.</example>
+         <example>George isn't going to lose any votes that he already lost by trying to ban gay marriage, but Kerry might by supporting it.</example>
         </rule>
         <rulegroup id="MISS_VERB" name="miss use (misuse)">
             <rule>
