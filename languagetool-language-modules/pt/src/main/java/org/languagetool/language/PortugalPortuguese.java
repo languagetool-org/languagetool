@@ -19,13 +19,14 @@
 package org.languagetool.language;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PortugalPortugueseReplaceRule;
+import org.languagetool.rules.pt.PortugueseAgreementReplaceRule;
 
 public class PortugalPortuguese extends Portuguese {
 
@@ -41,11 +42,18 @@ public class PortugalPortuguese extends Portuguese {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
-    rules.add(new PostReformPortugueseCompoundRule(messages));
-    rules.add(new PortugalPortugueseReplaceRule(messages));
-    return rules;
+    return Arrays.asList(
+            new PostReformPortugueseCompoundRule(messages),
+            new PortugalPortugueseReplaceRule(messages),
+            new PortugueseAgreementReplaceRule(messages)
+    );
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "PORTUGUESE_OLD_SPELLING_INTERNAL": return -9;
+    }
+    return 0;
+  }
 }
