@@ -3769,7 +3769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">el|la</token>
                     </marker>
                     <token min="0" inflected="yes">anar</token>
-                    <token inflected="yes" skip="20">permetre</token>
+                    <token inflected="yes" skip="10">permetre</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal usar el pronom <suggestion>li</suggestion></message>
@@ -3781,7 +3781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>l'</token>
                         <token inflected="yes">haver</token>
                     </marker>
-                    <token inflected="yes" skip="20">permetre</token>
+                    <token inflected="yes" skip="10">permetre</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal usar el pronom "li"</message>
@@ -24271,15 +24271,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY" name="Z) Errors de tipografia i puntuació" type="typographical">
         <rule id="ROMANS_E" name="*XVè/XV">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">[XICV]+è</token>
+                    <token regexp="yes">siècles?</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">[XICV]+è<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="before" regexp="yes">aux?|du</exception></token>
+                    <token regexp="yes">[XICV]+è<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
                 </marker>
-                <token><exception regexp="yes">siècles?</exception></token>
             </pattern>
             <message>Els ordinals romans no necessiten la terminació -è.</message>
             <suggestion><match no="1" regexp_match="([XICV]+)è" regexp_replace="$1"/></suggestion>
             <example correction="XI"><marker>XIè</marker> seminari.</example>
+            <example>Le XXè siècle</example>
         </rule>
         <rule id="EVITA_APOSTROF_DECIMALS" name="Evita l'apòstrof per a indicar nombres decimals">
             <pattern>
