@@ -9073,6 +9073,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er war verletzt an <marker>an Hand</marker> und Arm.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AUSGESCHRIEBENE_ZAHLEN" name="zwei hundert (zweihundert)">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">von|aus|mal</exception></token>
+                    <marker>
+                        <token postag="ZAL"/>
+                        <token postag="ZAL"/>
+                    </marker>
+                </pattern>
+                <message>Zahlen bis zu einer Million wernde, wenn man sie ausschreibt, zusammengeschrieben.</message>
+                <suggestion>\2\3</suggestion>
+                <short>Möglicher Tippfehler</short>
+                <example correction="sechshundert">Er besitzt <marker>sechs hundert</marker> Briefmarken.</example>
+                <example>Du weißt, dass zwei mal <marker>zwei vier</marker> ist.</example>
+                <example>Wenn du von <marker>zehn vier</marker> wegnimmst, dann hast du sechs.</example>
+                <example>Dass die Wurzel aus <marker>vier zwei</marker> ist, weiß ich.</example>
+                <example>4.000.519 = vier Millionen fünfhundertneunzehn</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
