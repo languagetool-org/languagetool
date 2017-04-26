@@ -20444,6 +20444,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Zu recht</marker> kleinen Stücken ist das verarbeitet worden.</example>
                 <example correction="zu Recht|berechtigterweise|zurecht">Ich denke, dass sie <marker>zu recht</marker> sehr sauer ist.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">im|für|mit|ohne|nach</token>
+                    <marker>
+                        <token case_sensitive="yes">recht</token>
+                    </marker>
+                    <token postag="(SUB|KON):.+|PKT" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Recht</suggestion>&subende;</message>
+                <url>http://www.duden.de/rechtschreibung/Recht</url>
+                <short>&prgk;</short>
+                <example correction="Recht">Er ist im <marker>recht</marker>.</example>
+                <example correction="Recht">Frauen waren im Mittelalter Menschen ohne <marker>recht</marker> und Schutz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token case_sensitive="yes">rechts</token>
+                    </marker>
+                    <token>wegen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Rechts</suggestion>&subende;</message>
+                <url>http://www.duden.de/rechtschreibung/Recht</url>
+                <short>&prgk;</short>
+                <example correction="Rechts">Er ist von <marker>rechts</marker> wegen ein freier Bürger.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="RECHT_ADJ" name="'Recht (recht)' etc.">
             <url>http://www.duden.de/rechtschreibung/recht</url>
