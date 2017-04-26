@@ -4542,7 +4542,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Don't split at e.g. "d. h." -->
 <rule break="no">
-<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|«|\)|\]|\}]?\s</beforebreak>
+<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|“|«|\)|\]|\}]?\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4574,18 +4574,18 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Don't split [.?!] when they're quoted -->
 <rule break="no">
-<beforebreak>['"][\.!?…]['"]\s</beforebreak>
+<beforebreak>['"„][\.!?…]['"“]\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Don't break after quote unless there's a capital letter
          e.g.: "That's right!" he said. -->
 <rule break="no">
-<beforebreak>["']\s</beforebreak>
+<beforebreak>["'“]\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- e.g. "Das ist . so." - assume one sentence. -->
 <rule break="no">
-<beforebreak>\s([\.!?]{1,3}|…)['|"|«|\)|\]|\}]?\s</beforebreak>
+<beforebreak>\s([\.!?]{1,3}|…)['|"|“|«|\)|\]|\}]?\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Numbers, dates e.g. "3.10. datiert" -->
@@ -4679,11 +4679,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Break rules -->
 <rule break="yes">
-<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<beforebreak>[\.!?…][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"\p{Pe}\u00BB\u201D]?</beforebreak>
+<beforebreak>[\.!?…]['"“\p{Pe}\u00BB\u201D]?</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
