@@ -578,6 +578,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>В.Кукольником, П.Подієм, І.Орлом</example>
     </rule>
 
+    <rule id="DASH_STREET" name="-стріт/-стрит">
+      <pattern>
+        <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс]тр[иі]т</token>
+      </pattern>
+      <message>Чинний правопис передбачає -стрит, однак в мовній практиці поширений також варіант -стріт, адже укр. літера і ближча до англ. звуку [i:] в слові street</message>
+      <example correction=""><marker>Бейкер-стріт</marker>.</example>
+      <example correction=""><marker>Бейкер-стрит</marker>.</example>
+    </rule>
+
+    <rule id="DASH_CITY" name="-ситі/-сіті">
+      <pattern>
+        <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс][иі]ті</token>
+      </pattern>
+      <message>Чинний правопис передбачає -сіті, однак в мовній практиці поширений також варіант -ситі, адже укр. літера и ближча до англ. звуку [ɪ] в слові city</message>
+      <example correction=""><marker>Канзас-Сіті</marker>.</example>
+      <example correction=""><marker>Канзас-Ситі</marker>.</example>
+    </rule>
+
+    <rule id="DASH_RIVER" name="-ривер/-рівер">
+      <pattern>
+        <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Рр]івер</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐ].*-[Рр])[иі](вер)" regexp_replace="$1и$2"/></suggestion></message>
+      <example correction="Іст-Ривер"><marker>Іст-Рівер</marker>.</example>
+    </rule>
+
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
     без пробіла: ДСТУ 3582-13 (2013) http://lib.npu.edu.ua/full_txt/DSTU_3582_2013.pdf
