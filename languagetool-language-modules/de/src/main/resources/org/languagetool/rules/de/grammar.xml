@@ -9028,7 +9028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg</token>
+                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
@@ -20473,6 +20473,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startlower"/></suggestion>&adjende;</message>
                 <short>&prgk;.</short>
                 <example correction="recht">Es soll mir <marker>Recht</marker> sein.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">sein|geschehen</token>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <token min="0">nicht</token>
+                    <token postag="ADJ:PRD:GRU" min="0"/>
+                    <marker>
+                        <token>Recht</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="5" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <short>&prgk;.</short>
+                <example correction="recht">Es war uns ganz <marker>Recht</marker>, dass er absagte.</example>
+                <example correction="recht">Es war uns nicht <marker>Recht</marker>, dass er absagte.</example>
+                <example correction="recht">Es war uns nicht wirklich <marker>Recht</marker>, dass er absagte.</example>
+                <example correction="recht">Es geschah ihm <marker>Recht</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">nichts|alles</token>
+                    <marker>
+                        <token>Recht</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <short>&prgk;.</short>
+                <example correction="recht">Man kann ihr nichts <marker>Recht</marker> machen.</example>
+                <example correction="recht">Wir versuchten, ihm alles <marker>Recht</marker> zu machen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Recht</token>
+                    </marker>
+                    <token>und</token>
+                    <token>billig</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <short>&prgk;.</short>
+                <example correction="recht">Das ist nur <marker>Recht</marker> und billig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">der|die|das|am|zur</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Rechten?</token>
+                    </marker>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <short>&prgk;.</short>
+                <example correction="rechte">Das ist weder der <marker>Rechte</marker> Ort noch die die rechte Zeit.</example>
+                <example correction="rechten">Du erfährst es zur <marker>Rechten</marker> Zeit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LAUFE_SUBST" name="'im laufe (Laufe) des Tages'">
