@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PortugalPortugueseReplaceRule;
+import org.languagetool.rules.pt.PortugueseAgreementReplaceRule;
 
 public class PortugalPortuguese extends Portuguese {
 
@@ -45,7 +46,15 @@ public class PortugalPortuguese extends Portuguese {
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
     rules.add(new PortugalPortugueseReplaceRule(messages));
+    rules.add(new PortugueseAgreementReplaceRule(messages));
     return rules;
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "PORTUGUESE_OLD_SPELLING_INTERNAL": return -9;
+    }
+    return 0;
+  }
 }

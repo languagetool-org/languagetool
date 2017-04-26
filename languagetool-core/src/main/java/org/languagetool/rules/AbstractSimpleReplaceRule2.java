@@ -200,8 +200,4 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

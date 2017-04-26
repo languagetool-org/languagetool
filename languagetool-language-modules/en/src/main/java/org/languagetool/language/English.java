@@ -178,7 +178,9 @@ public class English extends Language implements AutoCloseable {
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
         new CompoundRule(messages),
-        new ContractionSpellingRule(messages)
+        new ContractionSpellingRule(messages),
+        new EnglishWrongWordInContextRule(messages),
+        new EnglishDashRule(this)
     );
   }
 
@@ -199,5 +201,13 @@ public class English extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "CONFUSION_RULE": return -10;
+    }
+    return 0;
   }
 }

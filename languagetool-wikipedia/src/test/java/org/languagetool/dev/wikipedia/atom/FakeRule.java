@@ -47,7 +47,4 @@ class FakeRule extends Rule {
     throw new RuntimeException("not implemented");
   }
   
-  @Override
-  public void reset() {}
-
 }

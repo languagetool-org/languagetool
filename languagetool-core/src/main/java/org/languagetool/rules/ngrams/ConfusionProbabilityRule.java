@@ -150,10 +150,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
   }
   
-  @Override
-  public void reset() {
-  }
-
   /** @deprecated used only for tests */
   public void setConfusionSet(ConfusionSet set) {
     wordToSets.clear();

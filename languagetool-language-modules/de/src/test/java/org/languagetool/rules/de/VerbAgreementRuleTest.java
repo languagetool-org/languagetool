@@ -200,7 +200,10 @@ public class VerbAgreementRuleTest {
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals(0, rule.match(lt.analyzeText(s)).length);
+    RuleMatch[] matches = rule.match(lt.analyzeText(s));
+    if (matches.length != 0) {
+      fail("Got > 0 matches for '" + s + "': " + Arrays.toString(matches));
+    }
   }
 
   private void assertBad(String s, int n) throws IOException {

@@ -250,10 +250,6 @@ public class NgramProbabilityRule extends Rule {
     return "Assume errors for phrases (ngrams) that occur rarely in a reference index";
   }
 
-  @Override
-  public void reset() {
-  }
-
   protected Tokenizer getGoogleStyleWordTokenizer() {
     return language.getWordTokenizer();
   }

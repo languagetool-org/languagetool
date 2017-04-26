@@ -19,106 +19,25 @@
 
 package org.languagetool.rules.pl;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractDashRule;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Another use of the compounds file -- check for compounds written with
- * dashes instead of hyphens (for example, Rabka — Zdrój). Not sure if this is generalizable for other
- * languages than Polish.
+ * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
  * @since 3.6
  */
-public class DashRule extends Rule {
+public class DashRule extends AbstractDashRule {
 
-  private final List<PatternRule> dashRules;
-
-  public DashRule() throws IOException {
-    dashRules = new ArrayList<>();
-    loadCompoundFile("/pl/compounds.txt");
-  }
-
-  @Override
-  public String getId() {
-    return "DASH_RULE";
+  public DashRule(Language lang) throws IOException {
+    super("/pl/compounds.txt",
+        "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", lang);
   }
 
   @Override
   public String getDescription() {
     return "Sprawdza, czy wyrazy pisane z łącznikiem zapisano z myślnikami (np. „Lądek — Zdrój” zamiast „Lądek-Zdrój”).";
-  }
-
-  @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> matches = new ArrayList<>();
-    for (PatternRule dashRule : dashRules) {
-      for (RuleMatch ruleMatch : dashRule.match(sentence)) {
-        RuleMatch rm = new RuleMatch
-            (this, ruleMatch.getFromPos(), ruleMatch.getToPos(), ruleMatch.getMessage(),
-                ruleMatch.getShortMessage(), false, "");
-        matches.add(rm);
-      }
-    }
-    return matches.toArray(new RuleMatch[matches.size()]);
-  }
-
-  @Override
-  public void reset() {
-  }
-
-  private void loadCompoundFile(String path) throws IOException {
-    try (
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        InputStreamReader reader = new InputStreamReader(stream, "utf-8");
-        BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      int counter = 0;
-      while ((line = br.readLine()) != null) {
-        counter++;
-        if (line.isEmpty() || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        if (line.endsWith("+")) {
-          continue; // skip non-hyphenated suggestions
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-        }
-
-        List<PatternToken> tokList = new ArrayList<PatternToken>();
-        String[] tokens = line.split("-");
-        int tokenCounter = 0;
-        for (String token : tokens) {
-          tokenCounter++;
-            // token
-          tokList.add(new PatternToken(token, true, false, false));
-          if (tokenCounter < tokens.length) {
-            // add dash
-            tokList.add(new PatternToken("[—–]", false, true, false));
-          }
-        }
-        PatternRule dashRule = new PatternRule
-            ("DASH_RULE" + counter, Languages.getLanguageForName("Polish"), tokList,
-                "", "Błędne użycie myślnika zamiast myślnika. " +
-                "Poprawnie: <suggestion>"+line.replaceAll("[–—]", "-")+"</suggestion>.", line.replaceAll("[–—]", "-"));
-        dashRules.add(dashRule);
-      }
-    }
-  }
-
-  private String removeLastCharacter(String str) {
-    return str.substring(0, str.length() - 1);
   }
 
 }

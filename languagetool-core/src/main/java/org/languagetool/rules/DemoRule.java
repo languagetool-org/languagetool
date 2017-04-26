@@ -82,9 +82,4 @@ public class DemoRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-    // if we had some internal state kept in member variables, we would need to reset them here
-  }
-
 }

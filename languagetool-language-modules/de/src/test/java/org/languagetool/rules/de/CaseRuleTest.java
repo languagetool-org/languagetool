@@ -99,7 +99,15 @@ public class CaseRuleTest {
     assertGood("Joachim Sauer lobte Johannes Rau.");
     assertGood("Im Falle des Menschen ist dessen wirkendes Wollen gegeben.");
     assertGood("Szenario: 1) Zwei Galaxien verschmelzen."); // should be accepted by isNumbering
+    assertGood("Existieren Außerirdische im Universum?");
+    assertGood("Tom vollbringt Außerordentliches.");
+    assertGood("Er führt Böses im Schilde.");
+    assertGood("Es gab Überlebende.");
 
+    assertBad("Er ist Groß.");
+    assertBad("Die Zahl ging auf Über 1.000 zurück.");
+    assertBad("Er sammelt Große und kleine Tassen.");
+    assertBad("Er sammelt Große, mittlere und kleine Tassen.");
     assertBad("Dann will sie mit London Über das Referendum verhandeln.");
     assertBad("Sie kann sich täglich Über vieles freuen.");
     assertBad("Der Vater (51) Fuhr nach Rom.");
@@ -109,6 +117,7 @@ public class CaseRuleTest {
     assertBad("Unser warten wird sich lohnen.");
     assertBad("Tom kann mit fast Allem umgehen.");
     assertBad("Dabei Übersah er sie.");
+    assertBad("Der Brief wird am Mittwoch in Brüssel Übergeben.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
@@ -201,13 +210,13 @@ public class CaseRuleTest {
     assertGood("Das dabei Erlernte und Erlebte ist sehr nützlich.");
     assertBad("Das dabei erlernte und Erlebte Wissen ist sehr nützlich.");
     assertGood("Ein Kapitän verlässt als Letzter das sinkende Schiff.");
+    assertBad("Diese Regelung wurde als Überholt bezeichnet.");
     assertBad("Die Dolmetscherin und Der Vorleser gehen spazieren.");
     assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
     assertGood("Das Gebäude des Auswärtigen Amts.");
     assertGood("Das Gebäude des Auswärtigen Amtes.");
     assertGood("   Im Folgenden beschreibe ich das Haus."); // triggers WHITESPACE_RULE, but should not trigger CASE_RULE (see github #258)
-    assertGood("\"Im Folgenden beschreibe ich das Haus.\""); //triggers TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN, but should not trigger CASE_RULE 
-    //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
+    assertGood("\"Im Folgenden beschreibe ich das Haus.\""); //triggers TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN, but should not trigger CASE_RULE
     assertGood("Gestern habe ich 10 Spieße gegessen.");
     assertGood("Die Verurteilten wurden mit dem Fallbeil enthauptet.");
     assertGood("Den Begnadigten kam ihre Reue zugute.");
@@ -224,6 +233,7 @@ public class CaseRuleTest {
     assertBad("Das sagen haben hier viele.");
     assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
     assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
+    assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
   }
 
   private void assertGood(String input) throws IOException {

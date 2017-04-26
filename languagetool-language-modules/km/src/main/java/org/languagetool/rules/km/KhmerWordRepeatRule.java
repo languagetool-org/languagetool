@@ -99,9 +99,4 @@ public class KhmerWordRepeatRule extends Rule {
     return false;
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

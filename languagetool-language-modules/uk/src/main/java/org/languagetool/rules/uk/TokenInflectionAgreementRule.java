@@ -325,8 +325,4 @@ public class TokenInflectionAgreementRule extends Rule {
     return StringUtils.join(list, ", ");
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

@@ -1,6 +1,34 @@
 # LanguageTool Change Log
 
-## 3.7 (release planned for 2017-03-27)
+## 3.8-SNAPSHOT (release planned for 2017-06-27)
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
+    also has a message explaining the user that `Kuß` is an old spelling
+
+#### Polish
+   * added rules
+
+#### HTTP API
+  * The deprecated AfterTheDeadline mode has been removed
+
+#### Java API
+  * Some deprecated methods and classes have been removed.
+
+#### Internal
+  * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
+    line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
+    and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
+    the spell checker)
+
+## 3.7 (2017-03-27)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -64,6 +92,9 @@
   * Many new rules (barbarism, punctuations, and grammar)
   * Improved dynamic tagging for compound words
 
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
+
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
     Michał Janik (issue #404)
@@ -89,9 +120,6 @@
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)

@@ -43,7 +43,7 @@ import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
  * 
  * @author Daniel Naber
  */
-public class AvsAnRule extends EnglishRule {
+public class AvsAnRule extends Rule {
 
   enum Determiner {
     A, AN, A_OR_AN, UNKNOWN
@@ -176,11 +176,6 @@ public class AvsAnRule extends EnglishRule {
   private boolean isVowel(char c) {
     char lc = Character.toLowerCase(c);
     return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

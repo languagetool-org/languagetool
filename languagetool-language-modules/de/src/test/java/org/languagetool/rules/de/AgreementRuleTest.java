@@ -171,8 +171,10 @@ public class AgreementRuleTest {
     assertGood("Darf ich Ihren Füller für ein paar Minuten ausleihen?");
     assertGood("Bringen Sie diesen Gepäckaufkleber an Ihrem Gepäck an.");
     assertGood("Extras, die den Wert Ihres Autos erhöhen.");
+    assertGood("Er hat einen 34-jährigen Sohn.");
 
     // incorrect sentences:
+    assertBad("Er hat eine 34-jährigen Sohn.");
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
     assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
     assertBad("Es sind die Haus.", "das Haus", "dem Haus", "die Häuser");
@@ -229,6 +231,10 @@ public class AgreementRuleTest {
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
+    assertGood("Die Top 3 der Umfrage");
+    assertGood("Dein Vorschlag befindet sich unter meinen Top 5.");
+    assertGood("Unter diesen rief das großen Unmut hervor.");
+    assertGood("Bei mir löste das Panik aus.");
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
@@ -242,7 +248,7 @@ public class AgreementRuleTest {
     //assertBad("Es ist das Haus dem Mann.");
     //assertBad("Das interessiert der Männer.");
     //assertBad("Das interessiert der Mann.");
-    //assertBad("Das gehört den Mann.");
+    //assertBad("Das gehört den Mann."); // detected by DEN_DEM
     //assertBad("Es sind der Frau.");
   }
 
