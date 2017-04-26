@@ -51,6 +51,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    // setDefaultOff();
     addExamplePair(Example.wrong("<marker>abstracto</marker>"),
                    Example.fixed("<marker>abstrato</marker>"));
   }
@@ -67,12 +68,12 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getShort() {
-    return "Forma do Acordo Ortográfico de 45";
+    return "Forma do Acordo Ortográfico de 45.";
   }
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é uma forma do antigo Acordo Ortográfico. No novo acordo ortográfico, a palavra escreve-se: "
+    return tokenStr + " é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
         + String.join(", ", replacements) + ".";
   }
 
