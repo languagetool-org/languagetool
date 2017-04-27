@@ -58,6 +58,7 @@ public class CaseRule extends Rule {
 
   private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
+  private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
 
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -820,7 +821,8 @@ public class CaseRule extends Rule {
   }
 
   private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token, AnalyzedTokenReadings lowercaseReadings) {
-    if (Character.isUpperCase(token.charAt(0)) &&
+    boolean isUpperFirst = Character.isUpperCase(token.charAt(0));
+	if (isUpperFirst &&
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
@@ -840,10 +842,26 @@ public class CaseRule extends Rule {
         !isExceptionPhrase(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       addRuleMatch(ruleMatches, UPPERCASE_MESSAGE, tokens[i], fixedWord);
+    } else if (isUpperFirst && i != 0 && tokens[i-1].getToken().equals(":") &&
+      !hasPartialTag(tokens[i], "SUB", "EIG", "UNKNOWN") && !isVerbFollowing(i, tokens, lowercaseReadings)) {
+      String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
+      addRuleMatch(ruleMatches, COLON_MESSAGE, tokens[i], fixedWord);
     }
   }
 
-  private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
+  private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens,
+		AnalyzedTokenReadings lowercaseReadings) {
+	AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
+	System.arraycopy(tokens, i, subarray, 0, subarray.length);
+	if (lowercaseReadings != null) {
+	  subarray[0] = lowercaseReadings;
+	}
+	// capitalization after ":" requires an independent clause to follow
+	// if there is not a single verb, the tokens cannot be part of an independent clause
+	return getTokensWithPartialPosTag(subarray, "VER").length != 0;
+}
+
+private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
     RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
     ruleMatch.setSuggestedReplacement(fixedWord);
     ruleMatches.add(ruleMatch);

@@ -177,9 +177,8 @@ public class CaseRuleTest {
     // used to trigger error because of "abbreviation"
     assertGood("Sie fällt auf durch ihre hilfsbereite Art. Zudem zeigt sie soziale Kompetenz.");
     
-    // TODO: nach dem Doppelpunkt wird derzeit nicht auf groß/klein getestet:
     assertGood("Das ist es: kein Satz.");
-    assertGood("Das ist es: Kein Satz.");
+    assertBad("Das ist es: Kein Satz.");
 
     assertGood("Das wirklich Wichtige ist dies:");
     assertGood("Das wirklich wichtige Verfahren ist dies:");
@@ -295,7 +294,7 @@ public class CaseRuleTest {
   public void testPhraseExceptions() throws IOException {
     // correct sentences:
     assertGood("Das gilt ohne Wenn und Aber.");
-    assertGood("ohne Wenn und Aber");
+    assertGood("Ohne Wenn und Aber");
     assertGood("Das gilt ohne Wenn und Aber bla blubb.");
     // as long as phrase exception isn't complete, there's no error:
     assertGood("Das gilt ohne wenn");
