@@ -33,6 +33,14 @@
           <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
         </rule>
 
+        <rule name="remove NNP: lowercase hoopes" id="REMOVE_NNP_FOR_LOWERCASE_HOOPES"><!-- Cannot use removed.txt to remove the POS -->
+          <pattern case_sensitive="yes">
+            <token>hoopes</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NNP"/></disambig>
+          <example type="ambiguous" inputform="hoopes[Hoopes/NNP]" outputform="hoopes[hoopes]">These <marker>hoopes</marker> are large.</example>
+        </rule>
+
     <rule id="CD" name="Tag numbers">
       <pattern>
         <token regexp="yes">\d+</token>
@@ -4232,7 +4240,13 @@
     </rule>
 
     <rulegroup name="Ignore spelling of most NNP" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
-<!-- For action="ignore_spelling", it is not possible to use example sentences that testrules validates.
+<!--
+This rulegroup prevents incorrect spelling warnings for some proper nouns. Proper nouns such as 'Hoopes' must not be in spelling.txt, because that will prevent the spell checker from finding misspelled 'Hoops'. (Proper nouns such as 'Drupal' can be in spelling.txt, because it very unlikely to be a misspelled standard English word.)
+
+Two-word proper nouns could be in spelling.txt. But, also they should have the postag NNP, so give them the postag, as an alternative to only ignoring the spelling.
+
+For action="ignore_spelling", it is not possible to use example sentences that testrules validates. Test the rule with these sentences:
+
 Find. The hoopes are defective.
 Find. Hoopes, loops, and other types of coil are used in this test.
 Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
@@ -4252,22 +4266,23 @@ False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic
 False positive. Zelda told me to tell you to go away.
 False positive. Geez is a Semitic language that was spoken in Ethiopia.
 False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
+False positive. This rule finds Jérôme, because it is not an NNP.
 False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
 -->
 
       <rule name="NNP (mid and end sentence)" id="NNP_MID_END_SENTENCE">
         <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z]+</token>
+          <token regexp="yes">[A-Za-z]+</token><!-- Alphabetic characters only. Refer to the 'Get these items' example. -->
           <marker>
-            <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
+            <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token><!-- Permit words with circumflex and other marks. Although the characters are not standard English, if the word has postag NNP, it is not a spelling error. A word that has a non-standard English character is not likely to be a misspelling of a standard English word. -->
           </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
       </rule>
       <rule name="NNP (2-word in any location)" id="NNP_TWO_WORD">
         <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z]+<exception negate_pos="yes" postag="NNP"/></token><!-- Is only NNP -->
-          <token postag="NNP" regexp="yes">[A-Z][a-z]+<exception negate_pos="yes" postag="NNP"/></token>
+          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
+          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
       </rule>
