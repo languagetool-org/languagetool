@@ -69,7 +69,10 @@ public class Irish extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Jim O'Regan") };
+    return new Contributor[] {
+      new Contributor("Jim O'Regan"),
+      new Contributor("Emily Barnes")
+    };
   }
 
   @Override
