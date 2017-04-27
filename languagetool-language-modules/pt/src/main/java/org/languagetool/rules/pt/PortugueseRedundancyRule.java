@@ -50,10 +50,10 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   public PortugueseRedundancyRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("<marker>quente como uma fornalha</marker>"),
-                   Example.fixed("<marker>quente</marker>"));
+    addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
+                   Example.fixed("<marker>duna</marker>"));
   }
 
   @Override
