@@ -395,4 +395,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
      </category>
+    <category id="FOGHRAIOCHTA" name="Phonetic errors: all" type="misspelling">
+        <rulegroup id="SAMH_SABH" name="sámh/sábh">
+            <rule id="CODAIL_SABH" name="codail sábh">
+                <pattern>
+                    <token inflected='yes' postag='(?:C[UMC]:)?Verb:.*' postag_regexp="yes">codail</token>
+                    <marker>
+                        <token>sábh</token>
+                    </marker>
+                </pattern>
+                <message>An “sámh” a bhí i gceist agat?</message>
+            </rule>
+            <rule id="CODLADH_SABH" name="codladh sábh">
+                <pattern>
+                    <token inflected='yes' postag='Noun:.*' regexp="yes" postag_regexp="yes">codladh|saol</token>
+                    <marker>
+                        <token>sábh</token>
+                    </marker>
+                </pattern>
+                <message>An “sámh” a bhí i gceist agat?</message>
+            </rule>
+            <rule id="GO_SABH" name="go sábh">
+                <pattern>
+                    <token>go</token>
+                    <marker>
+                        <token>sábh</token>
+                    </marker>
+                </pattern>
+                <message>An “sámh” a bhí i gceist agat?</message>
+            </rule>
+        </rulegroup>
+        <rulegroup id="REACHTUIL_RACHTUIL" name="reachtúil/rachtúil">
+            <rule id="ORDU_RACHTUIL" name="ordú rachtúil">
+                <pattern>
+                    <token inflected='yes' postag='Noun:.*' regexp="yes" postag_regexp="yes">cruinniú|tomhas|míle|cuideachta|dualgas</token>
+                    <marker>
+                        <token inflected='yes'>rachtúil</token>
+                    </marker>
+                </pattern>
+                <message>An “reachtúil” a bhí i gceist agat?</message>
+            </rule>
+            <rule id="GAIRE_REACHTUIL" name="gáire reachtúil">
+                <pattern>
+                    <token inflected='yes' postag='Noun:.*' postag_regexp="yes">gáire</token>
+                    <marker>
+                        <token inflected='yes'>reachtúil</token>
+                    </marker>
+                </pattern>
+                <message>An “rachtúil” a bhí i gceist agat?</message>
+            </rule>
+            <rule id="GO_REACHTUIL" name="go reachtúil">
+                <pattern>
+                    <token>go</token>
+                    <marker>
+                        <token inflected='yes'>reachtúil</token>
+                    </marker>
+                </pattern>
+                <message>An “rachtúil” a bhí i gceist agat?</message>
+            </rule>
+        </rulegroup>
+     </category>
 </rules>
