@@ -195,6 +195,8 @@ public class Portuguese extends Language implements AutoCloseable {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
       case "PT_MULTI_REPLACE":          return -5;
       case "PT_PT_SIMPLE_REPLACE":      return -6;
+      case "PT_REDUNDANCY_REPLACE":     return -7;
+      case "PT_CLICHE_REPLACE":         return -8;
       case "HUNSPELL_RULE":             return -10;
       case "CRASE_CONFUSION":           return -15;
       case "FINAL_STOPS":               return -25;
