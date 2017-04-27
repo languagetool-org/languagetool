@@ -842,11 +842,11 @@ public class CaseRule extends Rule {
         !isExceptionPhrase(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       addRuleMatch(ruleMatches, UPPERCASE_MESSAGE, tokens[i], fixedWord);
-    } else if (isUpperFirst && i != 0 && tokens[i-1].getToken().equals(":") &&
+    } /*else if (isUpperFirst && i != 0 && tokens[i-1].getToken().equals(":") &&
       !hasPartialTag(tokens[i], "SUB", "EIG", "UNKNOWN") && !isVerbFollowing(i, tokens, lowercaseReadings)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       addRuleMatch(ruleMatches, COLON_MESSAGE, tokens[i], fixedWord);
-    }
+    }*/
   }
 
   private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens,
