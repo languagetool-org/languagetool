@@ -160,6 +160,10 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
         new PatternTokenBuilder().pos("SENT_END").build()
+    ),
+    Arrays.asList( // "Bei mir löste das Panik aus."
+        new PatternTokenBuilder().token("Außenring").build(),
+        new PatternTokenBuilder().token("Autobahn").build()
     )
   );
 
