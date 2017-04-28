@@ -26,6 +26,9 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * @since 2.6
@@ -52,6 +55,15 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Palavras compostas, por exemplo 'CD-ROM' em vez de 'CD ROM'";
+  }
+
+  @Override
+  public URL getUrl() {
+    try {
+      return new URL("https://pt.wikipedia.org/wiki/Lista_das_alterações_previstas_pelo_acordo_ortográfico_de_1990");
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

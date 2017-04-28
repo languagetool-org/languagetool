@@ -53,6 +53,7 @@ public class PortugalPortuguese extends Portuguese {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      case "PT_COMPOUNDS_POST_REFORM":         return  1;
       case "PORTUGUESE_OLD_SPELLING_INTERNAL": return -9;
     }
     return 0;

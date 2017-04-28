@@ -29,6 +29,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead.
@@ -74,6 +77,15 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " é um estrangeirismo. Em Português é mais comum usar: "
         + String.join(", ", replacements) + ".";
+  }
+
+  @Override
+  public URL getUrl() {
+    try {
+      return new URL("https://pt.wikipedia.org/wiki/Estrangeirismo");
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
