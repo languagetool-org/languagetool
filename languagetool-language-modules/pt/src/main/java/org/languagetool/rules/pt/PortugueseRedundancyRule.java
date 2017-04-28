@@ -27,7 +27,6 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -37,13 +36,13 @@ import java.net.URL;
  * <code>/ro/replace.txt</code>.
  *
  * @author Tiago F. Santos 
- * @since 3.6
+ * @since 3.8
  */
-public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
+public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PORTUGUESE_CLICHE_RULE = "PT_CLICHE_REPLACE";
+  public static final String PT_REDUNDANCY_REPLACE = "PT_REDUNDANCY_REPLACE";
 
-  private static final String FILE_NAME = "/pt/cliches.txt";
+  private static final String FILE_NAME = "/pt/redundancies.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
@@ -51,32 +50,32 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public PortugueseClicheRule(ResourceBundle messages) throws IOException {
+  public PortugueseRedundancyRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("<marker>quente como uma fornalha</marker>"),
-                   Example.fixed("<marker>quente</marker>"));
+    addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
+                   Example.fixed("<marker>duna</marker>"));
   }
 
   @Override
   public final String getId() {
-    return PORTUGUESE_CLICHE_RULE;
+    return PT_REDUNDANCY_REPLACE;
   }
 
   @Override
   public String getDescription() {
-    return "Frases-feitas e expressões idiomáticas.";
+    return "Pleonasmos e redundâncias.";
   }
 
   @Override
   public String getShort() {
-    return "Frase-feita";
+    return "Pleonasmo";
   }
 
   @Override
   public String getSuggestion() {
-    return " é uma frase-feita. É preferível dizer ";
+    return " é um pleonasmo. É preferível dizer ";
   }
 
   @Override
@@ -87,7 +86,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
   @Override
   public URL getUrl() {
     try {
-      return new URL("https://pt.wikipedia.org/wiki/Clichê");
+      return new URL("https://pt.wikipedia.org/wiki/Pleonasmo");
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }

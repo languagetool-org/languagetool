@@ -767,9 +767,10 @@ title="Easy editing stylesheet" ?>
           <token postag="V...3.+" postag_regexp='yes'/>
       </pattern>
       <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
-        <suggestion>\3</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
       <short>Tratamento inapropriado</short>
       <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
+      <example correction="Não tenha"><marker>Você não tenha</marker> atenção, não…</example>
     </rule>
     <rule>
       <antipattern>
@@ -1125,10 +1126,11 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>Soluções <marker>terra a terra</marker> têm resistência.</example>
     </rule>
 
-    <rule id='HAVER_DE' name='AO90: Haver + de'>
+  <rulegroup id='HAVER_DE' name='AO90: Haver + de'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-07 -->
+    <rule>
       <pattern>
-          <token regexp='yes'>hei|hás|há|hão</token>
+          <token regexp='yes'>heis?|hás?|hão</token>
           <token regexp='yes'>-|–|—</token>
           <token>de</token>
       </pattern>
@@ -1138,6 +1140,24 @@ title="Easy editing stylesheet" ?>
       <example correction='Hás de'><marker>Hás-de</marker> comprar uma casa.</example>
       <example correction='Hei de'><marker>Hei-de</marker> ir ao Congo.</example>
     </rule>
+    <rule>
+      <antipattern>
+          <token>ás</token>
+          <token>de</token>
+          <token regexp='yes'>ouros|copas|espadas|paus|trunfos?</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eis?|[àá]s?|ão</token>
+          <token min='0' regexp='yes'>-|–|—</token>
+          <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
+        <suggestion>h<match no='1' case_conversion='alllower'/> \3</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
+      <example correction='Hás de'><marker>Ás-de</marker> comprar uma casa.</example>
+      <example>All In na blind com Ás de Copas e Ás de Ouros.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-25 -->

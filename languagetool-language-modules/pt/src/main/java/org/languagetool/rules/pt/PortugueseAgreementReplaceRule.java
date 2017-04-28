@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -75,6 +77,15 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
         + String.join(", ", replacements) + ".";
+  }
+
+  @Override
+  public URL getUrl() {
+    try {
+      return new URL("https://pt.wikipedia.org/wiki/Lista_das_alterações_previstas_pelo_acordo_ortográfico_de_1990");
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
