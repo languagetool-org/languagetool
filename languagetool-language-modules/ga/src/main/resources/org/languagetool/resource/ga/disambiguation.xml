@@ -343,6 +343,26 @@
         </pattern>
         <disambig action="add"><wd pos="Num:Dig:Ord"></wd></disambig>
     </rule>
+    <rulegroup id="DE_SHIOR" name="de shíor">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token>shíor</token>
+            </pattern>
+            <disambig action="filter" postag="Prep:Simp" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>de</token>
+                <marker>
+                    <token>shíor</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="Subst:Noun:Sg:Len">síor</wd></disambig>
+        </rule>
+    </rulegroup>
 <!--
     <rule id="VI" name="VI">
         <pattern>
