@@ -217,7 +217,7 @@ public class CaseRule extends Rule {
   private static final Set<String> sentenceStartExceptions = new HashSet<>();
   static {
     sentenceStartExceptions.add("(");
-    sentenceStartExceptions.add(":");
+    //sentenceStartExceptions.add(":");
     sentenceStartExceptions.add("\"");
     sentenceStartExceptions.add("'");
     sentenceStartExceptions.add("„");
@@ -690,7 +690,7 @@ public class CaseRule extends Rule {
         if (isPrevProbablyRelativePronoun(tokens, i)) {
           continue;
         }
-        if (prevTokenIsDas && getTokensWithPartialPosTag(tokens, "VER").length == 1) {
+        if (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1) {
           // ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
           continue;
         }
@@ -733,8 +733,8 @@ public class CaseRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private AnalyzedTokenReadings[] getTokensWithPartialPosTag(AnalyzedTokenReadings[] tokens, String partialPosTag) {
-    return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).toArray(size -> new AnalyzedTokenReadings[size]);
+  private int getTokensWithPartialPosTagCount(AnalyzedTokenReadings[] tokens, String partialPosTag) {
+    return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).mapToInt(e -> 1).sum();
   }
 
   @Override
@@ -841,16 +841,21 @@ public class CaseRule extends Rule {
         !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &&
         !isExceptionPhrase(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
+      if (":".equals(tokens[i - 1].getToken())) {
+        AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
+        System.arraycopy(tokens, 0, subarray, 0, i);
+        if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPartialPosTagCount(subarray, "VER") == 0) {
+          // no error
+        } else {
+          addRuleMatch(ruleMatches, COLON_MESSAGE, tokens[i], fixedWord);
+        }
+        return;
+      }
       addRuleMatch(ruleMatches, UPPERCASE_MESSAGE, tokens[i], fixedWord);
-    } /*else if (isUpperFirst && i != 0 && tokens[i-1].getToken().equals(":") &&
-      !hasPartialTag(tokens[i], "SUB", "EIG", "UNKNOWN") && !isVerbFollowing(i, tokens, lowercaseReadings)) {
-      String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
-      addRuleMatch(ruleMatches, COLON_MESSAGE, tokens[i], fixedWord);
-    }*/
+    }
   }
 
-  private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens,
-		AnalyzedTokenReadings lowercaseReadings) {
+  private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
 	AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
 	System.arraycopy(tokens, i, subarray, 0, subarray.length);
 	if (lowercaseReadings != null) {
@@ -858,7 +863,7 @@ public class CaseRule extends Rule {
 	}
 	// capitalization after ":" requires an independent clause to follow
 	// if there is not a single verb, the tokens cannot be part of an independent clause
-	return getTokensWithPartialPosTag(subarray, "VER").length != 0;
+	return getTokensWithPartialPosTagCount(subarray, "VER") != 0;
 }
 
 private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {

@@ -178,7 +178,11 @@ public class CaseRuleTest {
     assertGood("Sie fällt auf durch ihre hilfsbereite Art. Zudem zeigt sie soziale Kompetenz.");
     
     assertGood("Das ist es: kein Satz.");
-    //assertBad("Das ist es: Kein Satz.");
+    assertGood("Werner Dahlheim: Die Antike.");
+    assertGood("1993: Der talentierte Mr. Ripley");
+    assertGood("Ian Kershaw: Der Hitler-Mythos: Führerkult und Volksmeinung.");
+    assertBad("Das ist es: Kein Satz.");
+    assertBad("Wen magst du lieber: Die Giants oder die Dragons?");
 
     assertGood("Das wirklich Wichtige ist dies:");
     assertGood("Das wirklich wichtige Verfahren ist dies:");
