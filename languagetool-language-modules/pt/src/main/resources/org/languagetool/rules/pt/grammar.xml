@@ -5055,6 +5055,25 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id="INTERJECTIONS_PUNTUATION" name="Pontuar interjeições: Olá!">
+    <!--  Created by Tiago F. Santos, 2017-04-28      -->
+      <pattern>
+          <token postag='I'>
+            <exception negate_pos='yes' postag='I'/></token>
+          <token>
+            <exception postag='I'/>
+            <exception regexp='yes'>[\!\?]</exception></token>
+      </pattern>
+      <message>As interjeições devem ser finalizadas com pontos de exclamação ou interrogação.</message>
+        <suggestion>\1!</suggestion>
+        <suggestion>\1?</suggestion>
+        <suggestion>\1!?</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Interjei%C3%A7%C3%A3o</url>
+      <example correction="Oi!|Oi?|Oi!?"><marker>Oi.</marker> Como vais?.</example>
+      <example correction="logo!|logo?|logo!?">Até <marker>logo.</marker></example>
+      <example>Agradecido, mas não rendido.</example>
+    </rule>
+
  </category>
 
  <category id='REPETITIONS' name='Repetições' type='duplication'>

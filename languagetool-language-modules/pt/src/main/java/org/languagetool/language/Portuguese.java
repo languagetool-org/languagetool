@@ -193,6 +193,7 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "INTERJECTIONS_PUNTUATION":  return  5;
       case "PT_MULTI_REPLACE":          return -5;
       case "PT_PT_SIMPLE_REPLACE":      return -6;
       case "PT_REDUNDANCY_REPLACE":     return -7;
