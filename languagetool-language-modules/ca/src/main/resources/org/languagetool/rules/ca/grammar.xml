@@ -34477,7 +34477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].*</token>
                     <marker>
                         <token regexp="yes">lliura|lliures</token>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
@@ -34486,9 +34486,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Incorrecte si equival a <suggestion>des<match no="2"/> \3</suggestion>.</message>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alliberar</match> \3</suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estalviar</match></suggestion>
-                <short>Possible error</short>
                 <example correction="deslliures de|alliberes de|estalvies">Et <marker>lliures de</marker>l podriment.</example>
                 <example>Els va deixar lliures de fer el que volguessin</example>
+                <example>En veure's lliures de tot lligam.</example>
             </rule>
         </rulegroup>
         <rule id="GEMA_GEMMA" name="gema/gemma">
