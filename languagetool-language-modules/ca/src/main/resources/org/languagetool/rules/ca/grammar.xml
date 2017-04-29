@@ -10029,25 +10029,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token postag="P[RT].*|CS" postag_regexp="yes" skip="10"/>
-                    <token>volgués</token>
+                    <token regexp="yes">volgués|volguera</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
                     <token postag="P[RT].*|CS" postag_regexp="yes" skip="10"/>
-                    <token skip="10">volgués</token>
-                    <token>volgués</token>
+                    <token skip="10" regexp="yes">volgués|volguera</token>
+                    <token regexp="yes">volgués|volguera</token>
                 </marker>
             </antipattern>
             <pattern>
                 <marker>
-                    <token>volgués</token>
+                    <token regexp="yes">volgués|volguera</token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
             <message>Possible error de traducció automàtica.</message>
             <suggestion>voldria</suggestion>
             <example correction="Voldria"><marker>Volgués</marker> intervenir a favor de l'acusat.</example>
+            <example correction="voldria">Allí <marker>volguera</marker> veure'ls jo.</example>
             <example>Qualsevol heroi que volgués combatre.</example>
             <example>Qualsevol heroi que volgués combatre i després volgués córrer.</example>
         </rule>
@@ -34495,7 +34496,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="NC.*" postag_regexp="yes" regexp="yes">gem(a|es)</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral)? "Gema" és acceptable en gastronomia (= pastís de rovell d'ou)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral)? "Gema" és acceptable en gastronomia (= pastís de rovell d'ou).</message>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">rovell</match></suggestion>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">palpís</match></suggestion>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">tou</match></suggestion>
