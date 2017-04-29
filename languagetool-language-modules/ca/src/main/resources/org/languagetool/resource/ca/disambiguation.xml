@@ -6224,6 +6224,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^AV].*"/>
     </rule>
+    <rule id="corrent_pendent_noms2" name="corrent/pendent no adjectius darrere d'adjectiu">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <token postag="D[^R].*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent</token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="[^AV].*"/>
+    </rule>
     <rule id="corrent_pendent_adjectius" name="corrent/pendent adjectius darrere de nom">
         <pattern>
             <unify>
