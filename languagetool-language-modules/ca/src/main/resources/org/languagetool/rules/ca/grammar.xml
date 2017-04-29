@@ -9201,17 +9201,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="D'ençà de|D'ençà que|De llavors ençà|D'aleshores ençà|Des d'aleshores|Des de"><marker>D'ençà</marker>, no ha fet res de bo.</example>
             <example>D'ençà de llavors, no ha fet res de bo.</example>
         </rule>
-        <rule id="AMB_QUE" name="amb que">
-            <pattern>
-                <token>amb</token>
-                <token>que</token>
-            </pattern>
-            <message>Potser volíeu dir <suggestion>amb què</suggestion> o <suggestion>que</suggestion>.</message>
-            <url>http://esadir.cat/entrades/fitxa/node/prepcaiguda</url>
-            <short>Expressió incorrecta</short>
-            <example correction="amb què|que">L'escrupolositat <marker>amb que</marker> pintava.</example>
-            <example>L'escrupolositat <marker>amb què</marker> pintava.</example>
-        </rule>
+        <rulegroup id="AMB_QUE" name="amb que">
+            <antipattern>
+                <marker>
+                    <token>què</token>
+                    <token>?</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>amb</token>
+                        <token regexp="yes">què|que</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>que</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/prepcaiguda</url>
+                <example correction="que">Somiava <marker>amb què</marker> tot s'acabaria aviat.</example>
+                <example>La marca amb què era conegut pintava.</example>
+                <example>Has somiat amb què?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <token>que</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>amb què</suggestion>
+                <suggestion>que</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/prepcaiguda</url>
+                <example correction="amb què|que">L'escrupolositat <marker>amb que</marker> pintava.</example>
+                <example>L'escrupolositat <marker>amb què</marker> pintava.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_QUE" name="en que/en què...">
             <antipattern>
                 <marker>
