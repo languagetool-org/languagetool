@@ -4055,9 +4055,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VENIR_GERUNDI" name="*venim dient/anem dient/hem dit">
             <antipattern>
-                <token inflected="yes">anar</token>
-                <token>i</token>
-                <token inflected="yes">venir</token>
+                <marker>
+                    <token inflected="yes">anar</token>
+                    <token>i</token>
+                    <token inflected="yes">venir</token>
+		</marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">volant|parlant|xerrant|xarrant|conversant|corrent</token>
+                </marker>
             </antipattern>
             <rule>
                 <pattern>
@@ -4072,6 +4079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hem dit.</example>
                 <example>Venia cantant ben content.</example>
                 <example>suprimiré el tramvia i vindré caminant.</example>
+                <example>Venien volant</example>
             </rule>
             <rule>
                 <pattern>
