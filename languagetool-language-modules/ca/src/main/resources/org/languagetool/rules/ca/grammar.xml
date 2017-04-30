@@ -9697,6 +9697,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Proveu de fer"><marker>Proveu a fer</marker>-ho.</example>
             <example>No n'hi ha cap prova a la Bíblia.</example>
         </rule>
+        <rule id="PER_ENTRE" name="*per entre">
+            <antipattern>
+                <marker>
+                    <token>entre</token>
+                    <token postag="DN.*" postag_regexp="yes"></token>
+                    <token>i</token>
+                    <token postag="DN.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>per</token>
+                <token>entre</token>
+            </pattern>
+            <message>Combinació de preposicions probablement incorrecta.</message>
+            <suggestion>entre</suggestion>
+            <example correction="entre">Van passar <marker>per entre</marker> la gentada.</example>
+            <example>És parlat per entre 15 i 22 milions de persones</example>
+            <example>separats per entre dotze i quinze milions d'anys</example>
+        </rule>
     </category>
     <category id="NUMERALS" name="Numerals" type="misspelling">
         <rule id="UN_U" name="un/u (ordinal)" type="grammar">
@@ -28782,7 +28801,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>totes</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>a totes</suggestion>?</message>
+            <message>Construcció incorrecta.</message>
+            <suggestion>a totes</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/anarapertotes</url>
             <short>Expressió incorrecta</short>
             <example correction="a totes">anàvem <marker>a per totes</marker></example>
@@ -28797,7 +28817,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token><exception>totes</exception></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
+            <message>Construcció incorrecta.</message>
+            <url>http://esadir.cat/entrades/fitxa/node/anar_a_per</url>
+            <suggestion>per</suggestion>
             <suggestion>darrere</suggestion>
             <suggestion>a aconseguir</suggestion>
             <suggestion>cercant</suggestion>
