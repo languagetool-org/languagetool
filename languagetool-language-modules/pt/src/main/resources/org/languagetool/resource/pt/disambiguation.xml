@@ -247,22 +247,18 @@
     </rule>
     <rule>
       <pattern>
-        <marker>
           <token postag="&lt;I&gt;"/>
           <token postag="&lt;/I&gt;"/>
-        </marker>
       </pattern>
-      <disambig action="replace"><wd pos="I"/><wd pos="I"/></disambig>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <marker>
           <token postag="&lt;I&gt;"/>
           <token/>
           <token postag="&lt;/I&gt;"/>
-        </marker>
       </pattern>
-      <disambig action="replace"><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -271,7 +267,7 @@
           <token/>
           <token postag="&lt;/I&gt;"/>
       </pattern>
-      <disambig action="replace"><wd pos="I"/><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -303,6 +299,16 @@
       <disambig action="replace"><wd pos="_GN_"/></disambig>
     </rule>
   </rulegroup>
+    <rule id="INTERJECTION" name="Interjeição">
+      <pattern>
+        <marker>
+          <token postag="I"/>
+          <token postag="I"/>
+        </marker>
+          <token regexp="yes">[.,;:!?…]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
   <rulegroup id="VAN_GOGH" name="van Gogh">
     <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
     <rule>
