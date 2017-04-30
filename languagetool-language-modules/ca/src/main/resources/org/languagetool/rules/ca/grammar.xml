@@ -221,7 +221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EXIGEIX_ACCENTUACIO_GENERAL" name="Exigeix accentuació general (cafè, sotmès, conèixer, tèrbol)">
             <rule>
                 <pattern>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">bamileké|bamilekés|ciré|cirés|confés|cuixé|exprés|faisandé|faisandés|foxé|foxés|fulé|fulés|inconfés|maixé|mandé|mandés|obsés|otopamé|otopamés|perlé|perlés|profés|revés|moarés?</exception></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">bamileké|bamilekés|ciré|cirés|confés|cuixé|exprés|faisandé|faisandés|foxé|foxés|fulé|fulés|inconfés|maixé|mandé|mandés|obsés|otopamé|otopamés|perlé|perlés|profés|revés|moarés?|jaqués</exception></token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion>
@@ -10850,11 +10850,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="REVERENT_REVEREND" name="revrent/reverend">
             <pattern>
-                <token>reverent<exception scope="previous" postag="N.[MC]S.*" postag_regexp="yes"/></token>
+                <token>reverent<exception scope="previous" postag="N.[MCF]S.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>reverend</suggestion> (digne de reverència) en comptes de "reverent" (que mostra reverència)?</message>
             <example correction="reverend">El <marker>reverent</marker> mestre Martí.</example>
             <example>Un silenci reverent.</example>
+            <example>En actitud reverent.</example>
         </rule>
         <rule id="SEMBLAT_SEMBLANT" name="semblat/semblant">
             <pattern>
@@ -40359,12 +40360,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">bonic</match></suggestion>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">vistós</match></suggestion>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">maco</match></suggestion>
+            <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
             <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">fatxenda</match></suggestion>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">provocador</match></suggestion>
             <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">proxeneta</match></suggestion>
             <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCM$1000">macarró</match></suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/xulo</url>
-            <example correction="bonic|vistós|maco|fatxenda|provocador|proxeneta|macarró">Era molt <marker>xulo</marker>!</example>
+            <example correction="bonic|vistós|maco|ben parit|fatxenda|provocador|proxeneta|macarró">Era molt <marker>xulo</marker>!</example>
         </rule>
         <rule id="XULISSIM" name="xulíssim">
             <pattern>
@@ -40375,8 +40377,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">vistós</match></suggestion>
             <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">maco</match></suggestion>
             <suggestion><match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQA$1">maquíssim</match></suggestion>
+            <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/xulo</url>
-            <example correction="molt boniques|molt vistoses|molt maques|maquíssimes">Eren <marker>xulíssimes</marker>!</example>
+            <example correction="molt boniques|molt vistoses|molt maques|maquíssimes|ben parides">Eren <marker>xulíssimes</marker>!</example>
         </rule>
         <rule id="MONISSIM" name="moníssim">
             <pattern>
@@ -43225,6 +43228,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Crea constantment associacions ciutadanes.</example>
                 <example>En el seu quaranta aniversari.</example>
                 <example>Que almenys preste atenció al que fem.</example>
+                <example>La despesa corrent és alta.</example>
+                <example>Una altra pràctica corrent.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
