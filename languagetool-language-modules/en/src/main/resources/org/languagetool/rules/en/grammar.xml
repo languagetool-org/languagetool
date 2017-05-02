@@ -3089,15 +3089,36 @@ USA
             <example correction="could've eaten">We <marker>could've ate</marker> the chicken.</example>
         </rule>
         <!-- an|in|for|the|to every day::word=\0 everyday::pivots=\1 \2,everyday -->
-        <rule id="ANINFOR_EVERY_DAY" name="an every day (everyday)">
-            <pattern>
-                <token regexp="yes">an|in|for|the|to</token>
-                <token>every</token>
-                <token>day</token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"/> everyday</suggestion>?</message>
-            <example correction="for everyday">They like to look <marker>for every day</marker> occurrences.</example>
-        </rule>
+        <rulegroup id="ANINFOR_EVERY_DAY" name="an every day (everyday)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an|the</token>
+                    <token>every</token>
+                    <token>day</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1"/> everyday</suggestion>?</message>
+                <example correction="an everyday">You shouldn’t wear <marker>an every day</marker> outfit to the wedding.</example>
+                <example>Check in every day!</example>
+                <example>Once you make a commitment, you do what you have to every day.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag="JJ"/>
+                    <marker>
+                        <token regexp="yes">for|in|to</token>
+                        <token>every</token>
+                        <token>day</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3"/> everyday</suggestion>?</message>
+                <example correction="for everyday">These shoes are great <marker>for every day</marker> wear.</example>
+                <example correction="to everyday">He used a language so formal that it was unintelligible <marker>to every day</marker> people.</example>
+                <example>Check in every day!</example>
+                <example>Once you make a commitment, you do what you have to every day.</example>
+            </rule>
+        </rulegroup>
         <!-- all ways::word=always -->
         <rule id="ALL_WAYS" name="all ways (always)">
             <pattern>
