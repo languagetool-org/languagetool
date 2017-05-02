@@ -3103,20 +3103,20 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">be</token>
-                    <token postag="JJ"/>
                     <marker>
                         <token regexp="yes">for|in|to</token>
                         <token>every</token>
                         <token>day</token>
                     </marker>
-                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token><exception regexp="yes">\.|\?|!|and|or|\(|,|is|are|in|o[fn]|by|with|for|at|from|about|during|after|until|except|before</exception></token>
                 </pattern>
-                <message>Did you mean <suggestion><match no="3"/> everyday</suggestion>?</message>
+                <message>Did you mean <suggestion><match no="1"/> everyday</suggestion>?</message>
                 <example correction="for everyday">These shoes are great <marker>for every day</marker> wear.</example>
                 <example correction="to everyday">He used a language so formal that it was unintelligible <marker>to every day</marker> people.</example>
                 <example>Check in every day!</example>
                 <example>Once you make a commitment, you do what you have to every day.</example>
+                <example>It's great they can experience what I'm up to every day and see what my lifestyle is.</example>
+                <example>The war was in everybody's mind for every day of the five years that it encompassed.</example>
             </rule>
         </rulegroup>
         <!-- all ways::word=always -->
