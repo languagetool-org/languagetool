@@ -65,7 +65,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "1. Pleonasmos, redundâncias e prolixidades";
+    return "1. Pleonasmos e redundâncias";
   }
 
   @Override
