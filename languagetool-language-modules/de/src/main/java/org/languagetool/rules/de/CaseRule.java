@@ -643,6 +643,7 @@ public class CaseRule extends Rule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     
     boolean prevTokenIsDas = false;
+    boolean isPrecededByModalOrAuxiliary = false;
     for (int i = 0; i < tokens.length; i++) {
       //Note: defaulting to the first analysis is only save if we only query for sentence start
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
@@ -660,6 +661,9 @@ public class CaseRule extends Rule {
       }
       AnalyzedTokenReadings analyzedToken = tokens[i];
       String token = analyzedToken.getToken();
+      if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
+        isPrecededByModalOrAuxiliary = true;
+      }
 
       markLowerCaseNounErrors(ruleMatches, tokens, i, analyzedToken);
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
@@ -705,11 +709,17 @@ public class CaseRule extends Rule {
                                    && tokens[i-1].hasPartialPosTag("VER:MOD:")
                                    && !tokens[i-1].hasLemma("mögen")
                                    && !tokens[i+3].getToken().equals("zum");
-        isPotentialError |= i > 1 && tokens[i-1] != null
-                                  && lowercaseReadings != null
-                                  && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF")
-                                  && lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER")
-                                  && hasPartialTag(tokens[i-1], "SUB", "EIG");
+        if (i > 1 && tokens[i-1] != null && lowercaseReadings != null 
+            && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF") && hasPartialTag(tokens[i-1], "SUB", "EIG")) {
+          // "Der Brief wird morgen Übergeben."
+          isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
+          // "Er lässt das Arktisbohrverbot Überprüfen."
+          isPotentialError |= (i >= tokens.length - 2 || ",".equals(tokens[i+1].getToken()))
+                              && isPrecededByModalOrAuxiliary
+                              && token.startsWith("Über")
+                              && lowercaseReadings.hasPartialPosTag("VER:INF:");
+        }
+
         if (!isPotentialError) {
           continue;
         }
