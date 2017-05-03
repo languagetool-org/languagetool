@@ -449,7 +449,48 @@
             <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
         </rule>
     </rulegroup>
-
+    <rulegroup id="CLOCHAN_AN_AIFIR" name="clochán an aifir">
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">clochán</token>
+                </marker>
+                <token>an</token>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="remove" postag="Noun:Masc:Gen:Weak:Pl.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">clochán</token>
+                </marker>
+                <token>an</token>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="remove" postag="Noun:Masc:Com:Sg:DefArt" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">clochán</token>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="filter" postag="Art:Sg:Def" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">clochán</token>
+                <token>an</token>
+                <marker>
+                    <token>aifir</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="Noun:Masc:Pl:Gen">aifir</wd></disambig>
+        </rule>
+    </rulegroup>
     <!--
     <rulegroup id="AN_DA" name="an dá">
         <rule>
