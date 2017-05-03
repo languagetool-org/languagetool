@@ -16432,13 +16432,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(prim|secund|solid|parlament)ari(a|es)</token>
+                    <token regexp="yes">(prim|secund|solid|parlament|maquin)ari(a|es)</token>
                 </pattern>
                 <message>Si és un adjectiu cal accentuar. Correcte si és del verb "<match no="1" regexp_match="(?iu)(prim|secund|parlament|solid).*" regexp_replace="$1ar" case_conversion="alllower"/>".</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*)a(ri.*)" regexp_replace="$1à$2" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)a(ri.*)" regexp_replace="$1à$2"/></suggestion>
                 <example correction="secundàries">Les eleccions primàries i <marker>secundaries</marker>.</example>
-                <example correction="secundària">Escola Primària i <marker>Secundaria</marker>.</example>
+                <example correction="Secundària">Escola Primària i <marker>Secundaria</marker>.</example>
                 <example correction="solidària">responsabilitat <marker>solidaria</marker>.</example>
+                <example correction="Maquinària"><marker>Maquinaria</marker> pesant.</example>
                 <example>que el rei Pere secundaria els seus moviments guerrers</example>
             </rule>
             <rule>
@@ -25501,6 +25502,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_PENES_SI" name="*a penes si/a penes">
+            <pattern>
+                <token>a</token>
+                <token>penes</token>
+                <token>si</token>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion>a penes</suggestion>
+            <example correction="a penes">Aquesta <marker>a penes si</marker> compta.</example>
+        </rule>
         <rule id="ESPAI_TEMPORAL" name="espai-temporal">
             <pattern>
                 <token regexp="yes">espai|esp[aà]cio</token>
@@ -38141,9 +38152,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> la mà</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> diàleg</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> consens</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> la mà</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/estendre_la_ma</url>
-            <example correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens"><marker>Estenen la mà</marker>.</example>
-            <example>Ofereixen diàleg.</example>
+            <example correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens|Paren la mà"><marker>Estenen la mà</marker>.</example>
         </rule>
         <rule id="MAREJAR_LA_PERDIU" name="marejar la perdiu">
             <pattern>
@@ -39056,6 +39067,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A mesura que eixiu, pagueu.</example>
         </rule>
         <rulegroup id="A_NIVELL" name="*a nivell de">
+            <antipattern>
+                <marker>
+                    <token>pas</token>
+                    <token>a</token>
+                    <token>nivell</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
