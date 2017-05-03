@@ -247,6 +247,30 @@
     </rule>
     <rule>
       <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
         <marker>
           <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
           <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
@@ -275,6 +299,16 @@
       <disambig action="replace"><wd pos="_GN_"/></disambig>
     </rule>
   </rulegroup>
+    <rule id="INTERJECTION" name="Interjeição">
+      <pattern>
+        <marker>
+          <token postag="I"/>
+          <token postag="I"/>
+        </marker>
+          <token regexp="yes">[.,;:!?…]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
   <rulegroup id="VAN_GOGH" name="van Gogh">
     <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
     <rule>
@@ -1529,7 +1563,9 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Ignore all multiwords" id="SPELLING_IGNORE_RULE">
+
+  <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
+    <rule>
       <pattern>
         <marker>
           <token postag_regexp="yes" postag=".+_"/>
@@ -1537,4 +1573,23 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="I"/>
+        </marker>
+          <token regexp='yes'>[\!\?]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="I"/>
+        </marker>
+          <token postag_regexp="yes" postag="I"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
 </rules>

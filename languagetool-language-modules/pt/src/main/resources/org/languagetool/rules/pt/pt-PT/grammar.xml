@@ -1128,6 +1128,7 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='HAVER_DE' name='AO90: Haver + de'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-07 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
     <rule>
       <pattern>
           <token regexp='yes'>heis?|hás?|hão</token>
@@ -1136,26 +1137,44 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message>
         <suggestion>\1 \3</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
       <example correction='Hás de'><marker>Hás-de</marker> comprar uma casa.</example>
       <example correction='Hei de'><marker>Hei-de</marker> ir ao Congo.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>às?</token>
+          <token>de</token>
+          <token regexp='yes'>uma?|uns</token>
+      </antipattern>
       <antipattern>
           <token>ás</token>
           <token>de</token>
           <token regexp='yes'>ouros|copas|espadas|paus|trunfos?</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>eis?|[àá]s?|ão</token>
+          <token negate='yes'>-</token>
+        <marker>
+          <token regexp='yes'>eis?|ás?|ão</token>
           <token min='0' regexp='yes'>-|–|—</token>
+          <token>de</token>
+        </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
+        <suggestion>h<match no='2' case_conversion='alllower'/> \4</suggestion>
+      <example correction='Hás de'><marker>Ás-de</marker> comprar uma casa.</example>
+      <example>All In na blind com Ás de Copas e Ás de Ouros.</example>
+      <example>Os espanhóis realizaram outra expedição similar à de Orellana.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>às?</token>
+          <token regexp='yes'>-|–|—</token>
           <token>de</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
-        <suggestion>h<match no='1' case_conversion='alllower'/> \3</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
-      <example correction='Hás de'><marker>Ás-de</marker> comprar uma casa.</example>
-      <example>All In na blind com Ás de Copas e Ás de Ouros.</example>
+        <suggestion>há<match no='1' regexp_match='.(s?)' regexp_replace='$1'/> \3</suggestion>
+      <example correction='Hás de'><marker>Às-de</marker> comprar uma casa.</example>
+      <example>Os espanhóis realizaram outra expedição similar à de Orellana.</example>
     </rule>
   </rulegroup>
 

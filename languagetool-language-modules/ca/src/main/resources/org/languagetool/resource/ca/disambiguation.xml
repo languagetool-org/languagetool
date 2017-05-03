@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa">
+    <!ENTITY nom_o_verb "forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa">
     <!ENTITY nom_seguitde_nompropi "copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -2477,7 +2477,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="improbable_verb_balear" name="verb balear improbable">
             <pattern>
                 <marker>
-                    <token postag="VMIP1S0B" regexp="yes">pis|xiv|plaç</token>
+                    <token postag="VMIP1S0B" regexp="yes">pis|xiv|plaç|estàs</token>
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="VMIP1S0B"></wd></disambig>
@@ -4551,6 +4551,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="genere"/>
                     <feature id="nombre"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_o_verb;</token>
+                    </marker>
+                </unify>
+                <token postag="SPS00"/>
+                <token>què</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">queixa|termini</token>
@@ -5201,7 +5216,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
                 </and>
             </marker>
@@ -5268,6 +5283,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="NC.*"></disambig>
+    </rule>
+    <rule id="mitja_dotzena" name="mitja dotzena">
+        <pattern>
+            <marker>
+                <token postag="A.*" postag_regexp="yes">mitja</token>
+                <token postag="N.*" postag_regexp="yes">dotzena</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="AdjInv" name="adjectius invariants només darrere de nom">
         <!-- relacionat amb Grups Nominals. Abans o després? La part nort i la sud-->
@@ -6220,6 +6244,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent|germà|partit|empresa</token>
                 </marker>
                 <token postag="AQ.*|V.P.*|NPCN000" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="[^AV].*"/>
+    </rule>
+    <rule id="corrent_pendent_noms2" name="corrent/pendent no adjectius darrere d'adjectiu">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <token postag="D[^R].*" postag_regexp="yes"/>
+                <token inflected="yes">suau</token><!--<exception postag="N.*" postag_regexp="yes"/></token>-->
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent</token>
+                </marker>
             </unify>
         </pattern>
         <disambig action="filter" postag="[^AV].*"/>

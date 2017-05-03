@@ -151,6 +151,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule2(messages),
             new PortugueseClicheRule(messages),
             new PortugueseRedundancyRule(messages),
+            new PortugueseWordynessRule(messages),
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
@@ -193,15 +194,17 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
-      case "PT_MULTI_REPLACE":          return -5;
-      case "PT_PT_SIMPLE_REPLACE":      return -6;
-      case "PT_REDUNDANCY_REPLACE":     return -7;
-      case "PT_CLICHE_REPLACE":         return -8;
-      case "HUNSPELL_RULE":             return -10;
-      case "CRASE_CONFUSION":           return -15;
-      case "FINAL_STOPS":               return -25;
-      case "T-V_DISTINCTION":           return -40;
-      case "T-V_DISTINCTION_ALL":       return -41;
+      case "INTERJECTIONS_PUNTUATION":  return  5;
+      case "PT_MULTI_REPLACE":          return -10;
+      case "PT_PT_SIMPLE_REPLACE":      return -11;
+      case "PT_REDUNDANCY_REPLACE":     return -12;
+      case "PT_WORDYNESS_REPLACE":      return -13;
+      case "PT_CLICHE_REPLACE":         return -17;
+      case "HUNSPELL_RULE":             return -20;
+      case "CRASE_CONFUSION":           return -25;
+      case "FINAL_STOPS":               return -35;
+      case "T-V_DISTINCTION":           return -50;
+      case "T-V_DISTINCTION_ALL":       return -51;
       case "REPEATED_WORDS":            return -90;
       case "REPEATED_WORDS_3X":         return -91;
       case "WIKIPEDIA_COMMON_ERRORS":   return -100;

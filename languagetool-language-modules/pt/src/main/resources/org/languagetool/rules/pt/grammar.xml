@@ -2181,19 +2181,28 @@ title="Easy editing stylesheet" ?>
       <short>Erro de capitalização</short>
     <rule>
       <pattern case_sensitive="yes">
-          <token regexp="yes">[KDCNF][gmlsJNWCVSFTH][23²³]?</token>
+          <token postag_regexp='yes' postag='Z.+' skip='3'/>
+        <marker>
+          <token regexp="yes">[KDCNF][gmlsJNWCVSFTH][23²³]?
+            <exception>DJ</exception></token>
+        </marker>
       </pattern>
       <message>Unidades do Sistema Internacional iguais ou inferiores a "kilo" são escritas com minúsculas.</message>
-        <suggestion><match no="1" case_conversion="startlower"/></suggestion>
+        <suggestion><match no="2" case_conversion="startlower"/></suggestion>
       <example correction="km">A 30 <marker>Km</marker> de distância.</example>
+      <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km²</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
       <example correction="kW">120 <marker>KW</marker> de potência</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
-          <token regexp="yes">[yzptg][gmlsJNWCVSFTH][23²³]?</token>
+          <token postag_regexp='yes' postag='Z.+' skip='3'/>
+        <marker>
+          <token regexp="yes">[yzptg][gmlsJNWCVSFTH][23²³]?
+            <exception>pH</exception></token>
+        </marker>
       </pattern>
       <message>Unidades do Sistema Internacional superiores a "kilo" são escritas com minúsculas.</message>
-        <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="2" case_conversion="startupper"/></suggestion>
       <example correction="TJ">Estimaram-se forças de 30 <marker>tJ</marker> por m².</example>
       <example correction="GW">120 <marker>gW</marker> de potência</example>
     </rule>
@@ -5046,6 +5055,46 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id="INTERJECTIONS_PUNTUATION" name="Pontuar interjeições: Olá!">
+    <!--  Created by Tiago F. Santos, 2017-04-28      -->
+    <rule>
+      <pattern>
+          <token postag='I'>
+            <exception negate_pos='yes' postag='I'/></token>
+          <token postag='_PUNCT'>
+            <exception regexp='yes'>[\!\?]</exception></token>
+      </pattern>
+      <message>As interjeições devem ser finalizadas com pontos de exclamação ou interrogação.</message>
+        <suggestion>\1!</suggestion>
+        <suggestion>\1?</suggestion>
+        <suggestion>\1!?</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Interjei%C3%A7%C3%A3o</url>
+      <example correction="Oi!|Oi?|Oi!?"><marker>Oi.</marker> Como vais?.</example>
+      <example correction="logo!|logo?|logo!?">Até <marker>logo.</marker></example>
+      <example correction="Ah!|Ah?|Ah!?"><marker>Ah,</marker> quando eles se encontrarão novamente?</example>
+      <example>Agradecido, mas não rendido.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag='I'>
+            <exception negate_pos='yes' postag='I'/></token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='I|_PUNCT'/></token>
+      </pattern>
+      <message>As interjeições devem ser finalizadas com pontos de exclamação ou interrogação.</message>
+        <suggestion>\1!</suggestion>
+        <suggestion>\1?</suggestion>
+        <suggestion>\1!?</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Interjei%C3%A7%C3%A3o</url>
+      <example correction="Oi!|Oi?|Oi!?"><marker>Oi</marker> tudo bem?.</example>
+      <example correction="Apre!|Apre?|Apre!?"><marker>Apre</marker> dizes tu.</example>
+      <example>Agradecido, mas não rendido.</example>
+      <example>Ano de Nosso Senhor Jesus Cristo</example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id='REPETITIONS' name='Repetições' type='duplication'>
@@ -5544,7 +5593,7 @@ tokenizer spreadsheet in the forum	     -->
       <pattern>
           <token inflected='yes'>unanimidade</token>
           <token>de</token>
-          <token>todos</token>
+          <token regexp='yes'>tod[ao]s?</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
@@ -5647,8 +5696,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id="PL_CERTEZA" name="Certeza absoluta">
       <pattern>
-          <token inflected='yes'>certeza</token>
-          <token>absoluta</token>
+          <token regexp='yes'>certezas?</token>
+          <token regexp='yes'>absolutas?</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
@@ -5656,7 +5705,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id="PL_CERTEZA_2" name="Certeza absoluta">
       <pattern>
-          <token>absoluta</token>
+          <token regexp='yes'>absolutas?</token>
           <token regexp='yes'>certezas?</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
@@ -14261,7 +14310,7 @@ TODO Write better examples
       <example correction="LibreOffice"><marker>Libre Office</marker> é um programa livre.</example>
       <example correction="LibreOffice"><marker>Libre-Office</marker> é um programa livre.</example>
     </rule>
-  <rulegroup id="OPEN_STREET_MAP" name="'Open Street Map (OpenStreetMap)'">
+  <rulegroup id="OPEN_STREET_MAP" name="Nome de Produto: Open Street Map (OpenStreetMap)">
       <url>https://www.openstreetmap.org/</url>
       <short>Possível erro no nome do produto.</short>
     <rule>
@@ -14272,13 +14321,21 @@ TODO Write better examples
       <example correction="OpenStreetMap">O <marker>Open Streetmaps</marker> é uma programa de mapas livre e gratuito.</example>
     </rule>
   </rulegroup>
-    <rule id="MP_3" name="'MP-3 (MP3)' etc.">
+    <rule id="MP_3" name="Nome de Produto: MP-3 (MP3)">
       <regexp case_sensitive='yes'>[mM][pP]\-3|Mp3</regexp>
       <message>Substitua por <suggestion><match no="0" regexp_match=".*3(.*)" regexp_replace="MP3$1"/></suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/MP3</url>
       <example correction="MP3">Tenho um novo <marker>MP-3</marker>-Player.</example>
       <example correction="MP3"><marker>Mp3</marker> é uma formato de ficheiros.</example>
       <example correction="MP3"><marker>Mp-3</marker> é uma formato de ficheiros.</example>
+    </rule>
+    <rule id="BLUE_RAY" name="Nome de Produto: 'Blue Ray (Blu-ray)'">
+      <regexp>Blue[ -](Ray|Rai|Rei)</regexp>
+      <message>Pretende referir-se ao disco <suggestion>Blu-ray</suggestion>?</message>
+      <short>Possível erro no nome do produto.</short>
+      <example>Isto é um disco <marker>Blu ray</marker>.</example>
+      <example correction="Blu-ray">Isto é um disco <marker>Blue ray</marker>.</example>
+      <example correction="Blu-ray">Isto é um disco <marker>Blue-ray</marker> Disc.</example>
     </rule>
     <!--  End of German grammar.xml adaptation  -->
  </category>

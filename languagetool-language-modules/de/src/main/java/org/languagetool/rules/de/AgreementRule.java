@@ -86,7 +86,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("das|die").build(),
+      new PatternTokenBuilder().tokenRegex("das|die|der").build(),
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
@@ -160,6 +160,10 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
         new PatternTokenBuilder().pos("SENT_END").build()
+    ),
+    Arrays.asList( // "Bei mir löste das Panik aus."
+        new PatternTokenBuilder().token("Außenring").build(),
+        new PatternTokenBuilder().token("Autobahn").build()
     )
   );
 

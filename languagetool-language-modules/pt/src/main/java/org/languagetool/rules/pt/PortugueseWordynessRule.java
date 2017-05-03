@@ -31,18 +31,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * A rule that matches redundant expression. 
- * Portuguese implementations. Loads the list of words from
- * <code>/pt/redundancies.txt</code>.
+ * A rule that matches wordy expressions. 
+ * Portuguese implementation. Loads the list of words from
+ * <code>/pt/wordiness.txt</code>.
  *
  * @author Tiago F. Santos 
  * @since 3.8
  */
-public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
+public class PortugueseWordynessRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PT_REDUNDANCY_REPLACE = "PT_REDUNDANCY_REPLACE";
+  public static final String PT_WORDYNESS_REPLACE = "PT_WORDYNESS_REPLACE";
 
-  private static final String FILE_NAME = "/pt/redundancies.txt";
+  private static final String FILE_NAME = "/pt/wordiness.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
@@ -50,32 +50,32 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public PortugueseRedundancyRule(ResourceBundle messages) throws IOException {
+  public PortugueseWordynessRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
-                   Example.fixed("<marker>duna</marker>"));
+    addExamplePair(Example.wrong("<marker>Raramente é o caso em que acontece</marker> isto."),
+                   Example.fixed("<marker>Raramente acontece</marker> isto."));
   }
 
   @Override
   public final String getId() {
-    return PT_REDUNDANCY_REPLACE;
+    return PT_WORDYNESS_REPLACE;
   }
 
   @Override
   public String getDescription() {
-    return "1. Pleonasmos e redundâncias";
+    return "2. Expressões prolixas";
   }
 
   @Override
   public String getShort() {
-    return "Pleonasmo";
+    return "Expressão prolixa";
   }
 
   @Override
   public String getSuggestion() {
-    return " é um pleonasmo. É preferível dizer ";
+    return " é uma expressão desnecessariamente complexa. É preferível dizer ";
   }
 
   @Override
@@ -86,7 +86,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
   @Override
   public URL getUrl() {
     try {
-      return new URL("https://pt.wikipedia.org/wiki/Pleonasmo");
+      return new URL("https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo");
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
