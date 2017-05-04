@@ -52,11 +52,13 @@ while(<EARR>) {
     my @arr = split/ /;
     my $first = shift @arr;
     my $rest = join(' ', @arr);
-    if (!exists $earr{$first}) {
-        my $tmpa = [];
-        $earr{$first} = $tmpa;
+    if(!exists $filt{$first}) {
+        if (!exists $earr{$first}) {
+            my $tmpa = [];
+            $earr{$first} = $tmpa;
+        }
+        push(@{$earr{$first}}, $rest);
     }
-    push(@{$earr{$first}}, $rest);
 }
 
 while(<EILE>) {
@@ -64,11 +66,13 @@ while(<EILE>) {
     my @arr = split/ /;
     my $first = shift @arr;
     my $rest = join(' ', @arr);
-    if (!exists $earr{$first}) {
-        my $tmpa = [];
-        $eile{$first} = $tmpa;
+    if(!exists $filt{$first}) {
+        if (!exists $earr{$first}) {
+            my $tmpa = [];
+            $eile{$first} = $tmpa;
+        }
+        push(@{$eile{$first}}, $rest);
     }
-    push(@{$eile{$first}}, $rest);
 }
 
 for my $kear (keys %earr) {
