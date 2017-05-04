@@ -51,7 +51,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
-    <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
+    <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
     <!ENTITY expressions_durada "estona|poc|temps|moment|instant|període">
@@ -25503,6 +25503,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
         <rule id="A_PENES_SI" name="*a penes si/a penes">
+            <antipattern>
+                <marker>
+                    <token skip="5">no<exception scopen="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token>a</token>
+                    <token>penes</token>
+                    <token>si</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <token>penes</token>
@@ -25511,6 +25519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Construcció incorrecta.</message>
             <suggestion>a penes</suggestion>
             <example correction="a penes">Aquesta <marker>a penes si</marker> compta.</example>
+            <example>No podia dir a penes si realment era així.</example>
         </rule>
         <rule id="ESPAI_TEMPORAL" name="espai-temporal">
             <pattern>
@@ -34703,7 +34712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&noms_ABAIXAR_APUJAR;<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
                 </pattern>
-                <message>Quan significa "passar a un nivell més alt", 'pujar' és intransitiu (La marea ha pujat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern apuja els imposts).</message>
+                <message>Quan significa "passar a un nivell més alt", 'pujar' és intransitiu (La marea ha pujat). Com a verb transitiu, cal usar: <suggestion>a<match no="1" case_conversion="alllower"/></suggestion> (El govern apuja els imposts).</message>
                 <url>http://esadir.cat/entrades/fitxa/id/1442</url>
                 <short>Possible error</short>
                 <example correction="apujar">Llavors varen <marker>pujar</marker> els impostos.</example>
