@@ -5,7 +5,8 @@ use strict;
 use utf8;
 use FindBin qw($RealBin);
 
-open(PLACES, '<', "$RealBin/placenames.txt") or die "$RealBin/placenames.txt: $!\n";
+open(PLACES, '<', "$RealBin/placenames.txt") or die "placenames.txt: $!\n";
+open(PEOPLE, '<', "$RealBin/people.txt") or die "people.txt: $!\n";
 open(REPL, '<', "$RealBin/../../rules/ga/replace.txt") or die "replace.txt: $!\n";
 open(EARR, '<', "$RealBin/earraidi-ga.bs") or die "earraidi-ga.bs: $!\n";
 open(EILE, '<', "$RealBin/eile-ga.bs") or die "eile-ga.bs: $!\n";
@@ -13,6 +14,7 @@ open(OEILE, '>', "$RealBin/eile.txt") or die "eile.txt: $!\n";
 open(OEARR, '>', "$RealBin/earraidi.txt") or die "earraidi.txt: $!\n";
 binmode(STDOUT, ":utf8");
 binmode(PLACES, ":utf8");
+binmode(PEOPLE, ":utf8");
 binmode(REPL, ":utf8");
 binmode(EARR, ":utf8");
 binmode(EILE, ":utf8");
@@ -24,6 +26,18 @@ my %earr = ();
 my %eile = ();
 
 while(<PLACES>) {
+    chomp;
+    my ($l, $r) = split/=/;
+    for my $in (split/\|/, $l) {
+        for my $out (split/\|/, $r) {
+            my $arr = [];
+            push(@$arr, $out);
+            $filt{$in} = $arr;
+        }
+    }
+}
+
+while(<PEOPLE>) {
     chomp;
     my ($l, $r) = split/=/;
     for my $in (split/\|/, $l) {
