@@ -293,7 +293,7 @@ public class AgreementRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
-      boolean ignore = couldBeRelativeClause(tokens, i);
+      boolean ignore = couldBeRelativeOrDependentClause(tokens, i);
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))
@@ -388,7 +388,7 @@ public class AgreementRule extends Rule {
   }
 
   // TODO: improve this so it only returns true for real relative clauses
-  private boolean couldBeRelativeClause(AnalyzedTokenReadings[] tokens, int pos) {
+  private boolean couldBeRelativeOrDependentClause(AnalyzedTokenReadings[] tokens, int pos) {
     boolean comma;
     boolean relPronoun;
     if (pos >= 1) {
@@ -402,13 +402,14 @@ public class AgreementRule extends Rule {
     }
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
+      // or: "Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ."
       comma = tokens[pos-2].getToken().equals(",");
       if(comma) {
         String term1 = tokens[pos-1].getToken();
         String term2 = tokens[pos].getToken();
         boolean prep = PREPOSITIONS.contains(term1);
         relPronoun = REL_PRONOUN.contains(term2);
-        return prep && relPronoun;
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && term2.matches("(dies|jen)e[rmns]?"));
       }
     }
     return false;

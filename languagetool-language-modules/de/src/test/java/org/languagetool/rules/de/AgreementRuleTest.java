@@ -172,6 +172,7 @@ public class AgreementRuleTest {
     assertGood("Bringen Sie diesen Gepäckaufkleber an Ihrem Gepäck an.");
     assertGood("Extras, die den Wert Ihres Autos erhöhen.");
     assertGood("Er hat einen 34-jährigen Sohn.");
+    assertGood("Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ.");
 
     // incorrect sentences:
     assertBad("Er hat eine 34-jährigen Sohn.");
