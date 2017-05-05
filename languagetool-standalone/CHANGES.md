@@ -15,7 +15,7 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: general agreement rules, contractions, pronomial colocations, compounding, and paronyms detection
+    - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
     - style: wordy expressions detection added and significant paronym detection improvements
     - punctuation: significant improvements
     - typography: number and mathematical symbol formating, and international system standards
@@ -24,7 +24,7 @@
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
-  * spellchecking exceptions for common Latim, English and French expressions, species scientific names, and famous personalities
+  * spell checking exceptions for common Latin, English and French expressions, species scientific names, and famous personalities
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
