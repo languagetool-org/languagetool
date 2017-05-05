@@ -34,10 +34,10 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
-            "This word is normally spelled with hyphen.",
-            "This word is normally spelled as one.",
-            "This expression is normally spelled as one or with hyphen.",
-            "Hyphenation problem");
+            "Litrítear an focal seo le fleiscín de ghnáth.",
+            "Litrítear an focal seo mar fhocal amháin de ghnáth.",
+            "Litrítear an nath seo mar fhocal amháin nó le fleiscín.",
+            "Fadhb leis an bhfleiscíniú");
     addExamplePair(Example.wrong("Tá tú i do chónaí i <marker>mBaile-Átha-Cliath</marker>."),
                    Example.fixed("Tá tú i do chónaí i <marker>mBaile Átha Cliath</marker>."));
   }
@@ -49,7 +49,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
+    return "Focail fhleiscínithe, e.g., Moltar 'ró-úsáid' seachas 'róúsáid'";
   }
 
   @Override
