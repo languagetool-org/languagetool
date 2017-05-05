@@ -6161,6 +6161,18 @@ USA
             <example>This tastes pretty good to me.</example>
         </rule>
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
+            <antipattern>
+                <token>of</token>
+                <token postag="JJR?" postag_regexp="yes" min="0"/>
+                <token>people</token>
+            </antipattern>
+            <antipattern>
+                <token>of</token>
+                <token postag="JJR?" postag_regexp="yes"/>
+                <token regexp="yes">,|and|or</token>
+                <token postag="JJR?" postag_regexp="yes"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people</token>
                 <marker>
@@ -6170,6 +6182,7 @@ USA
             <message>If 'people' is plural here, don't use the third-person singular verb.</message>
             <suggestion><match no="2" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
             <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
+            <example>As the number of older, wealthier people grows, so does the number of people eager to prey on them.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
@@ -6975,7 +6988,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
+                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
                 <token regexp="yes" case_sensitive="yes">[Ii]t</token>
                 <token min="0" max="1" postag="RB"/>
                 <marker>
@@ -7004,6 +7017,7 @@ USA
             <example>Embrace life whether it be a moment or, an eternity.</example>
             <example>But he insisted that it be housed in a special museum.</example>
             <example>Many other components beside it determine how much cooling you'll get.</example>
+            <example>How had it come to this?</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
