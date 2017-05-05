@@ -4684,7 +4684,7 @@ title="Easy editing stylesheet" ?>
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
   <rulegroup id="COMMA_1" name="Vírgula antes conjunção">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-    <rule>
+    <!-- <rule>
       <pattern>
         <marker>
           <token>ou</token>
@@ -4695,7 +4695,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Usar vírgula: <suggestion>\1 \3,</suggestion></message>
       <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
-    </rule>
+    </rule>-->
     <rule>
       <pattern>
         <marker>
@@ -4706,6 +4706,7 @@ title="Easy editing stylesheet" ?>
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
       <example correction="chocolate,">Eu adoro <marker>chocolate</marker> mas faz engordar.</example>
     </rule>
+    <!--
     <rule>
       <pattern>
         <marker>
@@ -4717,6 +4718,7 @@ title="Easy editing stylesheet" ?>
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
       <example correction="chocolate,">Eu adoro <marker>chocolate</marker> no entanto faz engordar.</example>
     </rule>
+    -->
     <rule>
       <pattern>
         <marker>
@@ -4767,66 +4769,385 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <!-- Common punctuation errors - Verb + Conjunction  -->
+  <rulegroup id="VERB_COMMA_CONJUNCTION" name="Locuções entre vírgulas: portanto, por exemplo, na verdade">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
-  <rulegroup id="VERB_COMMA_CONJUNCTION" name="Verbo, Conjugação, ...">
+    <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
+      <url>https://pt.wikipedia.org/wiki/V%C3%ADrgula</url>
+      <short>Separe com vírgulas</short>
     <rule>
       <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
         <marker>
-          <token postag='V.+' postag_regexp='yes'></token>
-          <token regexp="yes">pois|porém|portanto|contudo</token>
-          <token min='0'>,</token>
-        </marker>
-          <token></token>
-      </pattern>
-      <message>Separe por vírgulas: <suggestion>\1, \2,</suggestion></message>
-      <url>http://www.lpeu.com.br/q/v73qc</url>
-      <example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <marker>
-          <token postag='V.+' postag_regexp='yes'></token>
-          <token>,</token>
-          <token regexp="yes">pois|porém|portanto|contudo</token>
-        </marker>
-          <token negate='yes'>,</token>
-      </pattern>
-      <message>Separe por vírgulas: <suggestion>\1, \3,</suggestion></message>
-      <url>http://www.lpeu.com.br/q/v73qc</url>
-      <example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas, portanto</marker> que não posso sair.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <marker>
-          <token postag='V.+' postag_regexp='yes'></token>
-          <token>não</token>
-          <token>obstante</token>
-          <token min='0'>,</token>
-        </marker>
-          <token></token>
-      </pattern>
-      <message>Separe por vírgulas: <suggestion>\1, \2 \3,</suggestion></message>
-      <url>http://www.lpeu.com.br/q/v73qc</url>
-      <example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas não obstante</marker> que não posso sair.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <marker>
-          <token postag='V.+' postag_regexp='yes'></token>
-          <token>,</token>
           <token>não</token>
           <token>obstante</token>
         </marker>
-          <token negate='yes'>,</token>
       </pattern>
-      <message>Separe por vírgulas: <suggestion>\1, \3 \4,</suggestion></message>
-      <url>http://www.lpeu.com.br/q/v73qc</url>
-      <example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas, não obstante</marker> que não posso sair.</example>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", não obstante">Foi feito com distinção <marker>não obstante</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>a</token>
+          <token>saber</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", a saber">Foi feito com distinção <marker>a saber</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag_regexp='yes' postag='SENT_START|_PUNCT'/></token>
+        <marker>
+          <token>por</token>
+          <token>exemplo</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", por exemplo">Consideremos <marker>por exemplo</marker>, que não está bem feito.</example>
+      <example>Por exemplo, hoje é sexta-feira.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>por</token>
+          <token>outro</token>
+          <token>lado</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3 \4</suggestion>
+      <example correction=", por outro lado">Foi feito com distinção <marker>por outro lado</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>por</token>
+          <token>assim</token>
+          <token>dizer</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3 \4</suggestion>
+      <example correction=", por assim dizer">Foi feito com distinção <marker>por assim dizer</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>na</token>
+          <token>verdade</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", na verdade">Foi feito com distinção mas <marker>na verdade</marker>, que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>no</token>
+          <token>entanto</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", no entanto">Foi feito com distinção mas <marker>no entanto</marker>, que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>além</token>
+          <token>disso</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", além disso">Foi feito com distinção e <marker>além disso</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>aliás</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2</suggestion>
+      <example correction=", aliás">Foi feito com distinção e <marker>aliás</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>ou</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>seja|melhor|antes</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \4</suggestion>
+      <example correction=", ou seja">Foi feito com distinção <marker>ou seja</marker>, está bem feito.</example>
+      <example correction=", ou melhor">Foi feito com distinção <marker>ou melhor</marker>, que não está bem feito.</example>
+      <example correction=", ou antes">Foi feito com distinção <marker>ou antes</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>a</token>
+          <token>meu</token>
+          <token>ver</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3 \4</suggestion>
+      <example correction=", a meu ver">Foi feito com distinção <marker>a meu ver</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>com</token>
+          <token>efeito</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2 \3</suggestion>
+      <example correction=", com efeito">Foi feito com distinção <marker>com efeito</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
+          <token>outrossim</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>, \2</suggestion>
+      <example correction=", outrossim">Foi feito com distinção <marker>outrossim</marker>, que está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+          <token regexp="yes">pois|porém|portanto|contudo</token>
+      </pattern>
+      <message>Esta conjunção deve ser separada por vírgulas e não deve ser utilizada no ínicio de uma frase.</message>
+        <suggestion>\1, \2</suggestion>
+      <example correction="digas, portanto">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
+      <example correction="distinção, portanto">Foi feito com <marker>distinção portanto</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>não</token>
+          <token>obstante</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="não obstante,">Foi feito com distinção, <marker>não obstante</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token>saber</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="a saber,">Foi feito com distinção, <marker>a saber</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token>exemplo</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="por exemplo,">Consideremos, <marker>por exemplo</marker> que não está bem feito.</example>
+      <example>Por exemplo, hoje é sexta-feira.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token>outro</token>
+          <token>lado</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2 \3,</suggestion>
+      <example correction="por outro lado,">Foi feito com distinção, <marker>por outro lado</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token>assim</token>
+          <token>dizer</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2 \3,</suggestion>
+      <example correction="por assim dizer,">Foi feito com distinção, <marker>por assim dizer</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>na</token>
+          <token>verdade</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="na verdade,">Foi feito com distinção mas, <marker>na verdade</marker> que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>no</token>
+          <token>entanto</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="no entanto,">Foi feito com distinção mas, <marker>no entanto</marker> que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>além</token>
+          <token>disso</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="além disso,">Foi feito com distinção e, <marker>além disso</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>aliás</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1,</suggestion>
+      <example correction="aliás,">Foi feito com distinção e, <marker>aliás</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>ou</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>seja|melhor|antes</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \3,</suggestion>
+      <example correction="ou seja,">Foi feito com distinção, <marker>ou seja</marker> está bem feito.</example>
+      <example correction="ou melhor,">Foi feito com distinção, <marker>ou melhor</marker> que não está bem feito.</example>
+      <example correction="ou antes,">Foi feito com distinção, <marker>ou antes</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token>meu</token>
+          <token>ver</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2 \3,</suggestion>
+      <example correction="a meu ver,">Foi feito com distinção, <marker>a meu ver</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>com</token>
+          <token>efeito</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="com efeito,">Foi feito com distinção, <marker>com efeito</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>outrossim</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1,</suggestion>
+      <example correction="outrossim,">Foi feito com distinção, <marker>outrossim</marker> que está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">pois|porém|portanto|contudo</token>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1, \2</suggestion>
+      <example correction="portanto, que">Terminei a prova com antecedência, não me digas <marker>portanto que</marker> não posso sair.</example>
+      <example correction="portanto, está">Foi feito com distinção, <marker>portanto está</marker> bem feito.</example>
     </rule>
   </rulegroup>
 
     <rule id="FINAL_STOPS" name="Pontuação final em falta" default='on'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, -->
       <antipattern>
         <marker>
           <token regexp="yes">[.!?]</token>
