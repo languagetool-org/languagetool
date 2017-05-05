@@ -328,6 +328,15 @@
         </pattern>
         <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
     </rule>
+    <rule id="IS_DEFART" name="is defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
+                <token postag=".*:DefArt" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="NOT_DEFART" name="not defart">
         <pattern>
             <token negate_pos="yes" postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|Art:Sg:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
