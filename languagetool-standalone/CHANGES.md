@@ -13,6 +13,19 @@
 #### Polish
    * added rules
 
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
+    - style: wordy expressions detection added and significant redundant expressions detection improvements
+    - punctuation: significant improvements
+- typography: international system standards, number and mathematical symbol formatting
+    - [pt-PT] AO90: identify words with changed spelling
+  * disambiguation improvements
+  * false friends support added
+    - Portuguese to Catalan (26 new pairs)
+    - Portuguese to Spanish (7 new pairs)
+  * spell checking exceptions for common Latin, English and French expressions, species scientific names, and famous personalities
+
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
 
