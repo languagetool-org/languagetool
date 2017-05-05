@@ -16,9 +16,9 @@
 #### Portuguese
   * added and improved grammar and style rules, including:
     - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
-    - style: wordy expressions detection added and significant paronym detection improvements
+    - style: wordy expressions detection added and significant redundant expressions detection improvements
     - punctuation: significant improvements
-    - typography: number and mathematical symbol formating, and international system standards
+- typography: international system standards, number and mathematical symbol formatting
     - [pt-PT] AO90: identify words with changed spelling
   * disambiguation improvements
   * false friends support added
