@@ -220,7 +220,6 @@ public class CaseRule extends Rule {
     sentenceStartExceptions.add("\"");
     sentenceStartExceptions.add("'");
     sentenceStartExceptions.add("„");
-    //sentenceStartExceptions.add("“");
     sentenceStartExceptions.add("«");
     sentenceStartExceptions.add("»");
     sentenceStartExceptions.add(".");
@@ -797,35 +796,44 @@ public class CaseRule extends Rule {
   }
 
   private boolean isSalutation(String token) {
-    return token.equals("Herr") || token.equals("Herrn") || token.equals("Frau");
+    if (token.length() == 4) {
+      return "Herr".equals(token) || "Frau".equals(token);
+    } else if (token.length() == 5) {
+      return "Herrn".equals(token);
+    }
+    return false;
   }
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
-    // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-    try {
-      AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
-      if (allReadings != null) {
-        for (AnalyzedToken reading : allReadings) {
-          String posTag = reading.getPOSTag();
-          if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
-            return true;
+    if (readings !=  null) {
+      // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
+      try {
+        AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
+        if (allReadings != null) {
+          for (AnalyzedToken reading : allReadings) {
+            String posTag = reading.getPOSTag();
+            if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+              return true;
+            }
           }
         }
+      } catch (IOException e) {
+        throw new RuntimeException("Could not lookup " + readings.getToken(), e);
       }
-    } catch (IOException e) {
-      throw new RuntimeException("Could not lookup " + readings.getToken(), e);
     }
     return false;
   }
 
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalOrReflexivePronoun) {
-    if (prevTokenIsDas && !nextTokenIsPersonalOrReflexivePronoun) {
-      // e.g. essen -> Essen
-      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
-              && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
-        String fixedWord = StringTools.uppercaseFirstChar(tokenReadings.getToken());
-        addRuleMatch(ruleMatches, LOWERCASE_MESSAGE, tokenReadings, fixedWord);
-      }
+    // e.g. essen -> Essen
+    if (prevTokenIsDas &&
+        !nextTokenIsPersonalOrReflexivePronoun &&
+        Character.isLowerCase(token.charAt(0)) &&
+        !substVerbenExceptions.contains(token) &&
+        tokenReadings.hasPartialPosTag("VER:INF") &&
+        !tokenReadings.isIgnoredBySpeller() &&
+        !tokenReadings.isImmunized()) {
+      addRuleMatch(ruleMatches, LOWERCASE_MESSAGE, tokenReadings, StringTools.uppercaseFirstChar(tokenReadings.getToken()));
     }
   }
 
@@ -999,7 +1007,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
         && !(isPrecededByVerb && lowercaseReadings != null && hasPartialTag(lowercaseReadings, "ADJ:", "PA") && nextReadings != null &&
              !nextReadings.getToken().equals("und") && !nextReadings.getToken().equals("oder") && !nextReadings.getToken().equals(","))
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
-        && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && nextReadings != null && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
+        && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (!hasPartialTag(prevPrevToken, "ART", "PRP", "ZAL")) {
@@ -1029,8 +1037,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
                             languages.contains(StringUtils.removeEnd(token, "en"));   // z.B. "im Japanischen"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
-    return maybeLanguage && ((nextReadings != null && !hasNounReading(nextReadings)) ||
-                             (prevToken != null && prevToken.getToken().equals("auf")));
+    return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().equals("auf")));
   }
 
   private boolean isProbablyCity(int i, AnalyzedTokenReadings[] tokens, String token) {

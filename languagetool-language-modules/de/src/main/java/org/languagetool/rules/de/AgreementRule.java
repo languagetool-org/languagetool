@@ -379,9 +379,8 @@ public class AgreementRule extends Rule {
     boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
     String token = tokens[pos].getToken();
-    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && token.equalsIgnoreCase("allem")) {
-      relevantPronoun = false;
-    } else if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase())) {
+    if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase()) ||
+        (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && token.equalsIgnoreCase("allem"))) {
       relevantPronoun = false;
     }
     return relevantPronoun;
