@@ -44220,5 +44220,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="desè|desé">Ha arribat el <marker>dècim</marker> decret llei.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">vares|vàrem|vàreu|varen</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)v[aà]re(.*)" regexp_replace="va$1"></match></suggestion>.</message>
+                <example correction="Vas"><marker>Vares</marker> cantar bé.</example>
+                <example correction="vam">No <marker>vàrem</marker> cantar malament.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Usem preferentment les formes en -r de l'imperfet de subjuntiu.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"></match></suggestion>
+                <example correction="cantara"><marker>cantàs</marker></example>
+                <example correction="cantaren"><marker>cantassin</marker></example>
+                <example correction="foren"><marker>fossen</marker></example>
+                <example correction="fóra">Ens va agradar que <marker>fos</marker> tan bonic.</example>
+                <exmaple>Han portat alumini fos.</exmaple>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
+
