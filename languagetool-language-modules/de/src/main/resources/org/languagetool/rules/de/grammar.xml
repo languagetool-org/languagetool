@@ -12514,6 +12514,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EIN_KLEINES_NOMEN" name="ein klopfen (Klopfen) etc.">
             <antipattern>
+                <token postag="VER:MOD:.*" postag_regexp="yes" skip="-1"/>
+                <token>ein</token>
+                <token postag="ADJ:AKK:SIN:NEU:GRU:SOL"/>
+                <token postag="VER:INF:SFT"/>
+                <token postag="PKT"/>
+            </antipattern>
+            <antipattern>
                 <token>ein</token>
                 <token>sieben</token>
             </antipattern>
@@ -12528,6 +12535,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Klopfen">Ein <marker>klopfen</marker> erfüllte den Raum.</example>
             <example correction="Klopfen">Ein starkes <marker>klopfen</marker> erfüllte den Raum.</example>
             <example>Ein sieben Jahre alter Junge.</example>
+            <example>Lass mich dir ein neues kaufen!</example>
+            <example>Sie sollten ein neues kaufen.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
