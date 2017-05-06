@@ -9356,6 +9356,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="abgerundeten">Die <marker>runden</marker> Ecken sind hübsch.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NOBELPREISGEWINNER" name="Nobelpreisträger statt Nobelpreisgewinnder">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Nobelpreisgewinn.*</token>
+                </pattern>
+                <message>&unstimmig; Nobelpreise werden von einem Komitee verliehen.</message>
+                <suggestion><match no="1" regexp_match="gewinn" regexp_replace="träg"/></suggestion>
+                <example correction="Nobelpreisträger">Alljährlich treffen sich in Lindau viele <marker>Nobelpreisgewinner</marker>.</example>
+                <example correction="Nobelpreisträgertagung">Die Lindauer <marker>Nobelpreisgewinnertagung</marker> findet jährlich statt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
                 <!-- Zeitung "der freitag" -->
@@ -15508,6 +15519,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>Zentrale</marker> des Vereins ist in Hamburg.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token>die</token>
+                    <token>mithilfe</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
                     <marker>
@@ -15520,6 +15536,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Aussage">Die <marker>aussage</marker> dieser Person ist falsch.</example>
                 <example>Die <marker>Zentrale</marker> der Vereinigung ist in Hamburg.</example>
+                <example>Die Mediathek enthält verschiedene Dossiers, die <marker>mithilfe</marker> der Forschung der Preisträger in deren Wissenschaftsgebiete einführen.
+Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
