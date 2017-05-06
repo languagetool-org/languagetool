@@ -432,6 +432,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>An “brách” a bhí i gceist agat?</message>
         </rule>
+        <rule id="TAR_EIS" name="tar eis">
+            <pattern>
+                <token>tar</token>
+                <marker>
+                    <token>eis</token>
+                 </marker>
+            </pattern>
+            <message>An “éis” a bhí i gceist agat?</message>
+        </rule>
+        <rulegroup id="CEAD_MILE_FAILTE" name="céad míle fáilte">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>cead</token>
+                    </marker>
+                    <token regexp="yes">m[ií]le</token>
+                    <token regexp="yes">f[aá]ilte</token>
+                </pattern>
+                <message>An “céad” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">c[eé]ad</token>
+                    <marker>
+                        <token>mile</token>
+                    </marker>
+                    <token regexp="yes">f[aá]ilte</token>
+                </pattern>
+                <message>An “míle” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">c[eé]ad</token>
+                    <token regexp="yes">m[ií]le</token>
+                    <marker>
+                        <token>failte</token>
+                    </marker>
+                </pattern>
+                <message>An “fáilte” a bhí i gceist agat?</message>
+            </rule>
+        </rulegroup>
      </category>
     <category id="FOGHRAIOCHTA" name="Phonetic errors: all" type="misspelling">
         <rulegroup id="SAMH_SABH" name="sámh/sábh">
@@ -492,14 +533,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>An “rachtúil” a bhí i gceist agat?</message>
             </rule>
         </rulegroup>
-        <rule id="TAR_EIS" name="tar eis">
-            <pattern>
-                <token>tar</token>
-                <marker>
-                    <token>eis</token>
-                 </marker>
-            </pattern>
-            <message>An “éis” a bhí i gceist agat?</message>
-        </rule>
      </category>
 </rules>
