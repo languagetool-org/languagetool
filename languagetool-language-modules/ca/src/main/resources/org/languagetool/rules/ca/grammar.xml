@@ -44122,4 +44122,103 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="CRITERIS_ADMINISTRACIO_VALENCIANA" name="Criteris de l'Administració Valenciana" default="off" type="locale-violation">
+        <rule id="EVITA_AQUEIX_EIXE" name="Evita els demostratius 'aqueix/eixe'">
+            <pattern>
+                <token postag="DD.*" postag_regexp="yes" inflected="yes" regexp="yes">aqueix|eixe</token>
+            </pattern>
+            <message>Usem preferentment la forma <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>.</message>
+            <example correction="Aquest"><marker>Eixe</marker> home</example>
+            <example correction="Aquests"><marker>Aqueixos</marker> homes</example>
+            <example>és formada per eixos longitudinals</example>
+        </rule>
+        <rulegroup id="NUMERALS_VALENCIANS" name="numerals valencians: huit, dèsset, díhuit, dènou">
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADVN].*" inflected="yes">vuit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)v(.*)" regexp_replace="h$1"></match></suggestion>.</message>
+                <example correction="Huit-centes"><marker>Vuit-centes</marker> coses</example>
+                <example correction="huitanta-tres">De <marker>vuitanta-tres</marker> maneres</example>
+                <example correction="huitanta-quatrena">En la <marker>vuitanta-quatrena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">divuit.+</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)div(.*)" regexp_replace="dih$1"></match></suggestion>.</message>
+                <example correction="dihuitena">En la <marker>divuitena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">disset.+</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)disset(.*)" regexp_replace="desset$1"></match></suggestion>.</message>
+                <example correction="dessetena">En la <marker>dissetena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">d[ie](sset|nou)s?</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)d[ie](.*)" regexp_replace="dè$1"></match></suggestion>.</message>
+                <example correction="dèssets">Han eixit tres <marker>dissets</marker>.</example>
+                <example correction="dènous">Han eixit tres <marker>dinous</marker>.</example>
+                <example correction="dènou">Han eixit un <marker>denou</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">divuits?</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)div(.*)" regexp_replace="díh$1"></match></suggestion>.</message>
+                <example correction="díhuits">Han eixit tres <marker>divuits</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ORDINALS_FORMALS" name="Ordinals: cinqué, sisé...">
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes" inflected="yes">quint</token>
+                </pattern>
+                <message>Usem preferentment la forma en -é/-ena.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">cinquè</match></suggestion>
+                <example correction="cinquena">Ha arribat en la <marker>quinta</marker> posició.</example>
+                <example correction="cinquè|cinqué">Ha arribat el <marker>quint</marker> decret llei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes" inflected="yes">sext</token>
+                </pattern>
+                <message>Usem preferentment la forma en -é/-ena.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">sisè</match></suggestion>
+                <example correction="sisena">Ha arribat en la <marker>sexta</marker> posició.</example>
+                <example correction="sisè|sisé">Ha arribat el <marker>sext</marker> decret llei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes" inflected="yes">sèptim</token>
+                </pattern>
+                <message>Usem preferentment la forma en -é/-ena.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">setè</match></suggestion>
+                <example correction="setena">Ha arribat en la <marker>sèptima</marker> posició.</example>
+                <example correction="setè|seté">Ha arribat el <marker>sèptim</marker> decret llei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes" inflected="yes">octau</token>
+                </pattern>
+                <message>Usem preferentment la forma en -é/-ena.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">huitè</match></suggestion>
+                <example correction="huitena">Ha arribat en la <marker>octava</marker> posició.</example>
+                <example correction="huitè|huité">Ha arribat el <marker>octau</marker> decret llei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes" inflected="yes">dècim</token>
+                </pattern>
+                <message>Usem preferentment la forma en -é/-ena.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">desè</match></suggestion>
+                <example correction="desena">Ha arribat en la <marker>dècima</marker> posició.</example>
+                <example correction="desè|desé">Ha arribat el <marker>dècim</marker> decret llei.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
