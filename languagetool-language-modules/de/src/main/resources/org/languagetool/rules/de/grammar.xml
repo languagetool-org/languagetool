@@ -9356,6 +9356,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="abgerundeten">Die <marker>runden</marker> Ecken sind hübsch.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NOBELPREISGEWINNER" name="'Nobelpreisträger' statt 'Nobelpreisgewinner'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Nobelpreisgewinn.*</token>
+                </pattern>
+                <message>&unstimmig; Nobelpreise werden von einem Komitee verliehen.</message>
+                <suggestion><match no="1" regexp_match="gewinn" regexp_replace="träg"/></suggestion>
+                <example correction="Nobelpreisträger">Alljährlich treffen sich in Lindau viele <marker>Nobelpreisgewinner</marker>.</example>
+                <example correction="Nobelpreisträgertagung">Die Lindauer <marker>Nobelpreisgewinnertagung</marker> findet jährlich statt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
                 <!-- Zeitung "der freitag" -->
@@ -12514,6 +12525,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EIN_KLEINES_NOMEN" name="ein klopfen (Klopfen) etc.">
             <antipattern>
+                <token postag="VER:MOD:.*" postag_regexp="yes" skip="-1"/>
+                <token>ein</token>
+                <token postag="ADJ:AKK:SIN:NEU:GRU:SOL"/>
+                <token postag="VER:INF:SFT"/>
+                <token postag="PKT"/>
+            </antipattern>
+            <antipattern>
                 <token>ein</token>
                 <token>sieben</token>
             </antipattern>
@@ -12528,6 +12546,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Klopfen">Ein <marker>klopfen</marker> erfüllte den Raum.</example>
             <example correction="Klopfen">Ein starkes <marker>klopfen</marker> erfüllte den Raum.</example>
             <example>Ein sieben Jahre alter Junge.</example>
+            <example>Lass mich dir ein neues kaufen!</example>
+            <example>Sie sollten ein neues kaufen.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
@@ -15499,6 +15519,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>Zentrale</marker> des Vereins ist in Hamburg.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token>die</token>
+                    <token>mithilfe</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
                     <marker>
@@ -15511,6 +15536,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Aussage">Die <marker>aussage</marker> dieser Person ist falsch.</example>
                 <example>Die <marker>Zentrale</marker> der Vereinigung ist in Hamburg.</example>
+                <example>Die Mediathek enthält verschiedene Dossiers, die <marker>mithilfe</marker> der Forschung der Preisträger in deren Wissenschaftsgebiete einführen.
+Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -26765,6 +26792,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Jedes mögliche Wort</marker> enthält nur genau ein „a“.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUBJECT_VERB_AGREEMENT" name="fehlende Übereinstimmung zwischen Subjekt und Prädikat">
+            <rule>
+                <antipattern>
+                    <token postag="SUB:NOM:PLU:..." postag_regexp="yes"></token>
+                    <token postag="VER:.*:SIN:.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="(SUB|PRO):.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Die</token>
+                    <token postag="ADJ:NOM:PLU:.*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token postag="SUB:NOM:PLU:..." postag_regexp="yes"><exception postag="SUB:NOM:SIN:..." postag_regexp="yes"/></token>
+                        <token postag="VER:.*:SIN:.*" postag_regexp="yes" skip="-1"/>
+                    </marker>
+                </pattern>
+                <message>Prüfen Sie die grammatikalische Übereinstimmung von '\2 \3' und '\4'.</message>
+                <example correction="">Die <marker>Schüler soll</marker> nicht überfordert werden.</example>
+                <example correction="">Die <marker>Frauen wurde</marker> nicht gefragt.</example>
+                <example correction="">Die meisten <marker>Frauen wurde</marker> nicht gefragt.</example>
+                <example>Die Zusammenhänge veranschaulicht Grafik 1.</example>
+                <example>Die Zusammenhänge veranschaulicht die folgende Grafik.</example>
+                <example>Die Leiter ist aus Metall.</example>
+                <example>Die Einnahmen bewahrst am besten du auf.</example>
+                <example>Die Einnahmen bewahrt man am besten sicher auf.</example>
+            </rule>
+        </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
             <pattern>
                 <token regexp="yes" skip="-1">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
@@ -26825,6 +26879,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
             <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
         </rule>
+        <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ (mit, bei, von)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mit|bei|von|nahe|nebst|samt|mitsamt</token>
+                    <marker><token regexp="yes">[mds]?eine</token></marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>\2m</suggestion> oder <suggestion>\2r</suggestion></message>
+                <example correction="einem|einer">Er ging mit <marker>eine</marker> Stock in der Hand los.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>mit</token>
+                    <token regexp="yes">das|die</token>
+                </antipattern>
+                <antipattern>
+                    <token>bei</token>
+                    <token>die</token>
+                    <token>Fische</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">mit|bei|von|nahe|nebst|samt|mitsamt</token>
+                    <marker><token regexp="yes">die|das</token></marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>der</suggestion></message>
+                <example correction="dem|den|der">Es ist nur gerecht, wenn er bei <marker>die</marker> Prüfung durchfällt.</example>
+                <example>Butter bei die Fische!</example>
+                <example>Das ist mit das Dümmste, was ich je gehört habe.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
             <rule>
@@ -28250,6 +28334,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="aus dem Nichts entstanden|aus der Luft gegriffen">Die Vorwürfe sind doch nicht einfach <marker>aus der Luft entstanden</marker>.</example>
         </rule>
+        <rulegroup id="NACH_HAUSE" name="zu (nach) Hause kommen">
+             <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">fahren|kommen|gehen</token>
+                    <marker>
+                        <token postag="ZUS"><exception>nach</exception></token>
+                    </marker>
+                    <token>Hause</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>nach</suggestion>.</message>
+                <example correction="nach">Er fuhr <marker>zu</marker> Hause.</example>
+                <example correction="nach">Er fuhr <marker>mit</marker> Hause.</example>
+                <example correction="nach">Er fuhr <marker>auf</marker> Hause.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="ZUS"><exception>nach</exception></token>
+                    </marker>
+                    <token>Hause</token>
+                    <token regexp="yes">gefahren|gekommen|gegangen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>nach</suggestion>.</message>
+                <example correction="nach">Er ist <marker>zu</marker> Hause gefahren.</example>
+                <example correction="nach">Er ist <marker>zu</marker> Hause gekommen.</example>
+                <example correction="nach">Er ist <marker>auf</marker> Hause gegangen.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->

@@ -6161,15 +6161,33 @@ USA
             <example>This tastes pretty good to me.</example>
         </rule>
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
+            <antipattern>
+                <token>of</token>
+                <token postag="DT" min="0" max="2"/>
+                <token postag="JJR?" postag_regexp="yes" min="0"/>
+                <token>people</token>
+            </antipattern>
+            <antipattern>
+                <token>of</token>
+                <token postag="JJR?" postag_regexp="yes"/>
+                <token regexp="yes">,|and|or</token>
+                <token postag="JJR?" postag_regexp="yes"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people</token>
+                <token min="0">who</token>
                 <marker>
                     <token postag="VBZ"/>
                 </marker>
             </pattern>
             <message>If 'people' is plural here, don't use the third-person singular verb.</message>
-            <suggestion><match no="2" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
+            <suggestion><match no="3" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
             <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
+            <example correction='have'>We are looking for people who <marker>has</marker> expertise in this area.</example>
+            <example>As the number of older, wealthier people grows, so does the number of people eager to prey on them.</example>
+            <example>I'm one of those people who has trouble sitting still.</example>
+            <example>I'm one of the many people who has trouble sitting still.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
@@ -6937,6 +6955,41 @@ USA
                 <example>But do I have to go there?</example>
             </rule>
         </rulegroup>
+        <rule id="DO_VBZ" name="do you sings (sing)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" regexp="yes">wh(at|ere)</token>
+                <token regexp="yes">Do|Does|did</token>
+                <token postag="P?RP|NN.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="VB[DZ]" postag_regexp="yes">
+                        <exception regexp="yes">kids|guys</exception>
+                        <exception postag="VB"/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Consider using the base form <suggestion><match no="5" postag="VB"/></suggestion>.</message>
+            <example correction="try">Do you <marker>tried</marker> this?</example>
+            <example correction="mean">What does manipulations <marker>means</marker>?</example>
+            <example>Does it <marker>hurt</marker>?</example>
+            <example>Do all <marker>plants</marker> carry out photosynthesis?</example>
+            <example>Will Durant wrote an article.</example>
+        </rule>
+        <rule id="MD_BE_NON_VBP" name="could/should/must be does (done)">
+            <pattern>
+                <token postag="MD"/>
+                <token>be</token>
+                <marker>
+                    <token postag="VB[GPZ]?" postag_regexp="yes">
+                        <exception postag_regexp="yes" postag="VB[GN]|JJ[RS]?|UH|IN|RP|NN.*"/>
+                        <exception regexp="yes">is|was</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Consider using the past participle <suggestion><match no="3" postag="VBN"/></suggestion>?</message>
+            <example correction="replaced">This part must be <marker>replaces</marker> with caution.</example>
+            <example>You must be kidding!</example>
+        </rule>
         <rule id="DOES_NP_VBZ" name="'does' ... 3rd person verb (base verb)">
             <pattern>
                 <token>does</token>
@@ -6961,7 +7014,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
+                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
                 <token regexp="yes" case_sensitive="yes">[Ii]t</token>
                 <token min="0" max="1" postag="RB"/>
                 <marker>
@@ -6990,6 +7043,7 @@ USA
             <example>Embrace life whether it be a moment or, an eternity.</example>
             <example>But he insisted that it be housed in a special museum.</example>
             <example>Many other components beside it determine how much cooling you'll get.</example>
+            <example>How had it come to this?</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
@@ -16624,22 +16678,24 @@ USA
                     <marker>
                         <token>said</token>
                     </marker>
-                    <token regexp="yes">me|him|her</token>
+                    <token regexp="yes">me|him</token>
                 </pattern>
                 <message>'Say' cannot be followed by a direct personal object. Did you mean <suggestion>told</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="told">He <marker>said</marker> me the truth.</example>
+                <example>She said her daughter continues to see a psychologist.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>says</token>
                     </marker>
-                    <token regexp="yes">me|him|her</token>
+                    <token regexp="yes">me|him</token>
                 </pattern>
                 <message>'Say' cannot be followed by a direct personal object. Did you mean <suggestion>tells</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="tells">He <marker>says</marker> me the truth.</example>
+                <example>She says her youngest daughter continues to see a psychologist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EVERYDAY_EVERY_DAY" name="everyday (every day)">

@@ -211,8 +211,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> sorted1 = sortByReplacements(misspelling, suggestions);
-    List<String> sorted2 = sortByCase(misspelling, sorted1);
-    return sorted2;
+    return sortByCase(misspelling, sorted1);
   }
 
   @Override
@@ -226,24 +225,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound /*|| ignoreCompound(words.get(idx))*/;
-  }
-
-  /**
-   * For example, "Wodkaherstellung" should be accepted as "Wodka" and "Herstellung" are correct words
-   * @param word to check
-   * @return true if <code>word</code> is a compound consisting of two words accepted by hunspellDict.
-   */
-  private boolean ignoreCompound(String word) {
-    for (int i = 2; i < word.length() - 2; i++) {
-      String part1 = word.substring(0, i);
-      if (!hunspellDict.misspelled(part1) &&
-         !ENDINGS_NEEDING_FUGENS.matcher(part1).matches() &&
-         !hunspellDict.misspelled(StringUtils.capitalize(word.substring(i, word.length())))) {
-        return true;
-      }
-    }
-    return false;
+    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound;
   }
 
   @Override
