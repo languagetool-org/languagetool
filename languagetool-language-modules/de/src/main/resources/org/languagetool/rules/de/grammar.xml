@@ -26879,6 +26879,30 @@ Andere Projekte</example>
             <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
             <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
         </rule>
+        <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ (mit, bei, von)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mit|bei|von|nahe|nebst|samt|mitsamt</token>
+                    <marker><token regexp="yes">[mds]?eine</token></marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>\2m</suggestion> oder <suggestion>\2r</suggestion></message>
+                <example correction="einem|einer">Er ging mit <marker>eine</marker> Stock in der Hand los.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>bei</token>
+                    <token>die</token>
+                    <token>Fische</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">mit|bei|von|nahe|nebst|samt|mitsamt</token>
+                    <marker><token regexp="yes">die|das</token></marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>der</suggestion></message>
+                <example correction="dem|den|der">Es ist nur gerecht, wenn er bei <marker>die</marker> Prüfung durchfällt.</example>
+                <example>Butter bei die Fische!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
             <rule>
