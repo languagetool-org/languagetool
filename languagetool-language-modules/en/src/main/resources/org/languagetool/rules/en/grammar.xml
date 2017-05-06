@@ -6953,16 +6953,22 @@ USA
         <rule id="DO_VBZ" name="do you sings (sing)">
             <pattern>
                 <token postag="SENT_START"/>
-                <token min="0">what</token>
-                <token regexp="yes">Do|Does|Will</token>
+                <token min="0" regexp="yes">wh(at|ere)</token>
+                <token regexp="yes">Do|Does|did</token>
                 <token postag="P?RP|NN.*" postag_regexp="yes"/>
-                <marker><token postag="VB[DZ]" postag_regexp="yes"><exception postag="VB"></exception></token></marker>
+                <marker>
+                    <token postag="VB[DZ]" postag_regexp="yes">
+                        <exception regexp="yes">kids|guys</exception>
+                        <exception postag="VB"/>
+                    </token>
+                </marker>
             </pattern>
-            <message>Consider using the infinitive form <suggestion><match no="5" postag="VB"/></suggestion>.</message>
+            <message>Consider using the base form <suggestion><match no="5" postag="VB"/></suggestion>.</message>
             <example correction="try">Do you <marker>tried</marker> this?</example>
             <example correction="mean">What does manipulations <marker>means</marker>?</example>
             <example>Does it <marker>hurt</marker>?</example>
             <example>Do all <marker>plants</marker> carry out photosynthesis?</example>
+            <example>Will Durant wrote an article.</example>
         </rule>
         <rule id="DOES_NP_VBZ" name="'does' ... 3rd person verb (base verb)">
             <pattern>
