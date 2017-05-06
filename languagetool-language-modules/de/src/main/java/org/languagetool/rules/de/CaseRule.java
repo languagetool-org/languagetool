@@ -234,6 +234,9 @@ public class CaseRule extends Rule {
   private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
       "einer", "eines", "der", "des", "dieser", "dieses"));
 
+  private static final Set<String> DAS_VERB_EXCEPTIONS = new HashSet<>(Arrays.asList(
+      "nur", "sogar", "auch", "die", "alle", "viele", "zu"));
+
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -650,9 +653,7 @@ public class CaseRule extends Rule {
         continue;
       }
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
-        if (nounIndicators.contains(tokens[1].getToken().toLowerCase())) {
-          prevTokenIsDas = true;
-        }
+        prevTokenIsDas = nounIndicators.contains(tokens[1].getToken().toLowerCase());
         continue;
       }
       if (i > 0 && isSalutation(tokens[i-1].getToken())) {   // e.g. "Frau Stieg" could be a name, ignore
@@ -660,9 +661,6 @@ public class CaseRule extends Rule {
       }
       AnalyzedTokenReadings analyzedToken = tokens[i];
       String token = analyzedToken.getToken();
-      if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
-        isPrecededByModalOrAuxiliary = true;
-      }
 
       markLowerCaseNounErrors(ruleMatches, tokens, i, analyzedToken);
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
@@ -677,14 +675,10 @@ public class CaseRule extends Rule {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
             continue;
           }
-          if (prevTokenIsDas && (nextToken.getToken().equals("nur") || nextToken.getToken().equals("sogar") ||
-                nextToken.getToken().equals("auch") || nextToken.getToken().equals("die") || nextToken.getToken().equals("alle") ||
-                nextToken.getToken().equals("viele") ||nextToken.getToken().equals("zu"))) {
-            // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
-            continue;
-          }
-          if (prevTokenIsDas && isFollowedByRelativeOrSubordinateClause(i, tokens)) {
+          if (prevTokenIsDas
+              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) || isFollowedByRelativeOrSubordinateClause(i, tokens))) {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
+            // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
             continue;
           }
@@ -699,27 +693,12 @@ public class CaseRule extends Rule {
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
+      if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
+        isPrecededByModalOrAuxiliary = true;
+      }
       AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
-      if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
-        // "Man müsse Überlegen, wie man das Problem löst."
-        boolean isPotentialError = i > 1 && i < tokens.length - 3
-                                   && tokens[i+1].getToken().equals(",")
-                                   && INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken())
-                                   && tokens[i-1].hasPartialPosTag("VER:MOD:")
-                                   && !tokens[i-1].hasLemma("mögen")
-                                   && !tokens[i+3].getToken().equals("zum");
-        if (i > 1 && tokens[i-1] != null && lowercaseReadings != null 
-            && analyzedToken.hasPosTag("SUB:NOM:SIN:NEU:INF") && hasPartialTag(tokens[i-1], "SUB", "EIG")) {
-          // "Der Brief wird morgen Übergeben."
-          isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
-          // "Er lässt das Arktisbohrverbot Überprüfen."
-          isPotentialError |= (i >= tokens.length - 2 || ",".equals(tokens[i+1].getToken()))
-                              && isPrecededByModalOrAuxiliary
-                              && token.startsWith("Über")
-                              && lowercaseReadings.hasPartialPosTag("VER:INF:");
-        }
-
-        if (!isPotentialError) {
+      if (hasNounReading(analyzedToken)) { // it's the spell checker's task to check that nouns are uppercase
+        if (!isPotentialUpperCaseError(i, tokens, lowercaseReadings, isPrecededByModalOrAuxiliary)) {
           continue;
         }
       } else if (analyzedToken.hasPartialPosTag("SUB:") &&
@@ -743,6 +722,33 @@ public class CaseRule extends Rule {
 
   private int getTokensWithPartialPosTagCount(AnalyzedTokenReadings[] tokens, String partialPosTag) {
     return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).mapToInt(e -> 1).sum();
+  }
+
+  private boolean isPotentialUpperCaseError (int pos, AnalyzedTokenReadings[] tokens,
+      AnalyzedTokenReadings lowercaseReadings, boolean isPrecededByModalOrAuxiliary) {
+    if (pos <= 1) {
+      return false;
+    }
+    // find error in: "Man müsse Überlegen, wie man das Problem löst."
+    boolean isPotentialError = pos < tokens.length - 3
+        && tokens[pos+1].getToken().equals(",")
+        && INTERROGATIVE_PARTICLES.contains(tokens[pos+2].getToken())
+        && tokens[pos-1].hasPartialPosTag("VER:MOD:")
+        && !tokens[pos-1].hasLemma("mögen")
+        && !tokens[pos+3].getToken().equals("zum");
+    if (!isPotentialError &&
+        lowercaseReadings != null
+        && tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF")
+        && hasPartialTag(tokens[pos-1], "SUB", "EIG")) {
+      // find error in: "Der Brief wird morgen Übergeben."
+      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
+      // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
+      isPotentialError |= (pos >= tokens.length - 2 || ",".equals(tokens[pos+1].getToken()))
+        && isPrecededByModalOrAuxiliary
+        && tokens[pos].getToken().startsWith("Über")
+        && lowercaseReadings.hasPartialPosTag("VER:INF:");
+      }
+    return isPotentialError;
   }
 
   @Override
