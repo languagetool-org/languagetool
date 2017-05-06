@@ -6163,6 +6163,7 @@ USA
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
             <antipattern>
                 <token>of</token>
+                <token postag="DT" min="0" max="2"/>
                 <token postag="JJR?" postag_regexp="yes" min="0"/>
                 <token>people</token>
             </antipattern>
@@ -6175,14 +6176,18 @@ USA
             </antipattern>
             <pattern>
                 <token>people</token>
+                <token min="0">who</token>
                 <marker>
                     <token postag="VBZ"/>
                 </marker>
             </pattern>
             <message>If 'people' is plural here, don't use the third-person singular verb.</message>
-            <suggestion><match no="2" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
+            <suggestion><match no="3" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
             <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
+            <example correction='have'>We are looking for people who <marker>has</marker> expertise in this area.</example>
             <example>As the number of older, wealthier people grows, so does the number of people eager to prey on them.</example>
+            <example>I'm one of those people who has trouble sitting still.</example>
+            <example>I'm one of the many people who has trouble sitting still.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
@@ -6969,6 +6974,21 @@ USA
             <example>Does it <marker>hurt</marker>?</example>
             <example>Do all <marker>plants</marker> carry out photosynthesis?</example>
             <example>Will Durant wrote an article.</example>
+        </rule>
+        <rule id="MD_BE_NON_VBP" name="could/should/must be does (done)">
+            <pattern>
+                <token postag="MD"/>
+                <token>be</token>
+                <marker>
+                    <token postag="VB[GPZ]?" postag_regexp="yes">
+                        <exception postag_regexp="yes" postag="VB[GN]|JJ[RS]?|UH|IN|RP|NN.*"/>
+                        <exception regexp="yes">is|was</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Consider using the past participle <suggestion><match no="3" postag="VBN"/></suggestion>?</message>
+            <example correction="replaced">This part must be <marker>replaces</marker> with caution.</example>
+            <example>You must be kidding!</example>
         </rule>
         <rule id="DOES_NP_VBZ" name="'does' ... 3rd person verb (base verb)">
             <pattern>
