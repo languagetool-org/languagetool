@@ -4057,7 +4057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">anar</token>
                     <token>i</token>
                     <token inflected="yes">venir</token>
-		</marker>
+        </marker>
             </antipattern>
             <antipattern>
                 <marker>
@@ -25513,6 +25513,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="SEGONS_L_INDICAT" name="segons *l'indicat/indica">
+            <rule>
+                <pattern>
+                    <token>segons</token>
+                    <token regexp="yes">allò|l'</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir</token>
+                    <token>en</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>segons <match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+                <suggestion>segons s'<match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/> en</suggestion>
+                <example correction="Segons indica|Segons s'indica en"><marker>Segons l'indicat en</marker> l'article .</example>
+                <example correction="Segons estableix|Segons s'estableix en"><marker>Segons allò establit en</marker> l'article .</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>segons</token>
+                    <token regexp="yes">allò|el</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">preveure|determinar|disposar</token>
+                    <token>en</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>segons <match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+                <suggestion>segons es <match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/> en</suggestion>
+                <example correction="Segons preveu|Segons es preveu en"><marker>Segons allò previst en</marker> l'article .</example>
+                <example correction="Segons determina|Segons es determina en"><marker>Segons el determinat en</marker> l'article .</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token regexp="yes">a|amb</token>
+                    <token regexp="yes">allò|l'</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir</token>
+                    <token>en</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>d'acord amb el que <match no="5" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+                <suggestion>d'acord amb el que s'<match no="5" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/> en</suggestion>
+                <example correction="D'acord amb el que indica|D'acord amb el que s'indica en"><marker>D'acord a l'indicat en</marker> l'article .</example>
+                <example correction="D'acord amb el que estableix|D'acord amb el que s'estableix en"><marker>D'acord amb allò establit en</marker> l'article .</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token regexp="yes">a|amb</token>
+                    <token regexp="yes">allò|el|l</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">preveure|determinar|disposar</token>
+                    <token>en</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>d'acord amb el que <match no="5" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+                <suggestion>d'acord amb el que es <match no="5" postag="V.P.*" postag_regexp="yes" postag_replace="VMIP3S00"/> en</suggestion>
+                <example correction="D'acord amb el que preveu|D'acord amb el que es preveu en"><marker>D'acord amb allò previst en</marker> l'article .</example>
+                <example correction="D'acord amb el que determina|D'acord amb el que es determina en"><marker>D'acord al determinat en</marker> l'article .</example>
+            </rule>
+        </rulegroup>
         <rule id="A_PENES_SI" name="*a penes si/a penes">
             <antipattern>
                 <marker>
@@ -43631,11 +43689,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EXIGEIX_PLURALS_SCOS" name="Exigeix plurals en -scos: textos, boscos..." default="off">
             <pattern>
                 <and>
-                    <token regexp="yes">.+(sc|sp|st|xt)s<exception regexp="yes">.*(tist|cist|blast|plast)s|aquests</exception></token>
+                    <token regexp="yes">.+(sc|sp|st|xt)s<exception regexp="yes">.*(tist|cist|blast|plast)s|aquests|tests</exception></token>
                     <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
                 </and>
             </pattern>
-            <message>Useu plural en -os</message>
+            <message>Useu plural en -os.</message>
             <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1os"/></suggestion>.
             <example correction="boscos">Els <marker>boscs</marker></example>
             <example correction="pretextos">Els seus <marker>pretexts</marker></example>
