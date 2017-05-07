@@ -42193,7 +42193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">.*[tv]enirs?</token>
             </pattern>
-            <message>Useu la terminació en -indre.</message>
+            <message>Usem preferentment la terminació -indre.</message>
             <suggestion><match no="1" regexp_match="(.*[tv])enir(s?)" regexp_replace="$1indre$2" /></suggestion>
             <example correction="esdevindre">No heu d'<marker>esdevenir</marker> mandrosos.</example>
             <example correction="vindre">No heu de <marker>venir</marker> de seguida.</example>
@@ -42202,7 +42202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="V.N.*" postag_regexp="yes" regexp="yes">(preva|va|ca|do)ler</token>
             </pattern>
-            <message>Useu la terminació -ldre.</message>
+            <message>Usem preferentment la terminació -ldre.</message>
             <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1dre" /></suggestion>
             <example correction="valdre">Deu <marker>valer</marker> molt</example>
             <example correction="prevaldre">Ha de <marker>prevaler</marker> el seny.</example>
@@ -44243,6 +44243,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="foren"><marker>fossen</marker></example>
                 <example correction="fóra">Ens va agradar que <marker>fos</marker> tan bonic.</example>
                 <exmaple>Han portat alumini fos.</exmaple>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(acomplert|complert|desomplert|establert|incomplert|omplert|preestablert|reblert|recomplert|reomplert|restablert|suplert)s?</token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(s?)" regexp_replace="$1it$2"/></suggestion>.</message>
+                <example correction="acomplit"><marker>acomplert</marker></example>
+                <example correction="reomplits"><marker>reomplerts</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(acomplert|complert|desomplert|establert|incomplert|omplert|preestablert|reblert|recomplert|reomplert|restablert|suplert)(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1id$2"></match></suggestion>.</message>
+                <example correction="acomplida"><marker>acomplerta</marker></example>
+                <example correction="reomplides"><marker>reomplertes</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">soferts?</token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(s?)" regexp_replace="$1rit$2"/></suggestion>.</message>
+                <example correction="sofrit"><marker>sofert</marker></example>
+                <example correction="sofrits"><marker>soferts</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">sofert(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1rid$2"></match></suggestion>.</message>
+                <example correction="sofrida"><marker>soferta</marker></example>
+                <example correction="sofrides"><marker>sofertes</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">oferts?</token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(s?)" regexp_replace="$1erit$2"/></suggestion>.</message>
+                <example correction="oferit"><marker>ofert</marker></example>
+                <example correction="oferits"><marker>oferts</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ofert(a|es)<exception postag="_GN_F.|NCF.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
+                <example correction="oferida">L'han <marker>oferta</marker></example>
+                <example correction="oferides">Les han <marker>ofertes</marker></example>
+                <example>Hem rebut una oferta interessant.</example>
+                <example>Van arribar moltes ofertes.</example>
+                <example>Van arribar ofertes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ofert(a|es)<exception postag="_GN_F." postag_regexp="yes"/></token>
+                    </marker>
+                    <token inflected="yes">per</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
+                <example correction="Oferida"><marker>Oferta</marker> per l'associació</example>
             </rule>
         </rulegroup>
     </category>
