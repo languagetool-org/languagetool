@@ -38194,11 +38194,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">cartró</token>
             </pattern>
             <message>Forma secundària.</message>
-            <suggestion><match no="1" regexp_match="(.*[Cc]art)r(.*)" regexp_replace="$1$2"/></suggestion>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">cartó</match></suggestion>
             <short>Forma preferible</short>
             <example correction="cartons"><marker>cartrons</marker></example>
             <example correction="cartó"><marker>cartró</marker></example>
             <example>cartó</example>
+        </rule>
+        <rule id="MURTRA" name="murtra / murta">
+            <pattern>
+                <token inflected="yes">murtra</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">murta</match></suggestion>
+            <example correction="murta"><marker>murtra</marker></example>
+            <example correction="murtes"><marker>murtres</marker></example>
         </rule>
         <rule id="FRISSAR" name="frissar/frisar">
             <pattern>
@@ -44429,11 +44438,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La part contraent.</example>
         </rule>
         <rulegroup id="A_L_ABRIL_DE_1994" name="expressions de temps: *a l'abril/l'abril de 1994">
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=78</url>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">a|per<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
-                        <token regexp="yes">l'</token>
+                        <token>l'</token>
                         <token regexp="yes">abril|agost|octubre</token>
                     </marker>
                     <token>de</token>
@@ -44450,7 +44460,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token regexp="yes">a|pe<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
-                        <token spacebefore="no" regexp="yes">l</token>
+                        <token spacebefore="no">l</token>
                         <token regexp="yes">&mesos_any;</token>
                     </marker>
                     <token>de</token>
@@ -44461,6 +44471,115 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el \3</suggestion>
                 <example correction="el novembre">Va passar <marker>al novembre</marker> de 1997.</example>
                 <example>Del juny al novembre de 1999.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LEXIC_VAL" name="Preferències lèxiques valencianes: vetlar, traure, arrancar, redó...">
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=88</url>
+            <rule id="TLL_TL" name="Eixigeix formes -tl- en comptes de -tll-">
+                <pattern>
+                    <token regexp="yes" inflected="yes">ametlla|batlle|bitlla|butlla|guatlla|motlle|vetlla|vetllar|desvetllar</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -tl-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.+)tll(.*)" regexp_replace="$1tl$2"></match></suggestion>
+                <example correction="desvetlaren">Em <marker>desvetllaren</marker>.</example>
+            </rule>
+            <rule id="REDO" name="Eixigeix 'redó' en comptes de 'rodó'">
+                <pattern>
+                    <token regexp="yes" inflected="yes">rodó|arrodonir|rodonesa|rodolar|rodolí|rodonet</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -e-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)rod(.+)" regexp_replace="$1red$2"></match></suggestion>
+                <example correction="arredoniren">Ho <marker>arrodoniren</marker>.</example>
+                <example correction="redones">Eren <marker>rodones</marker>.</example>
+                <example correction="redolant">Caigueren <marker>rodolant</marker>.</example>
+            </rule>
+            <rule id="CEMENTERI" name="Eixigeix 'cementeri'">
+                <pattern>
+                    <token inflected="yes">cementiri</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">cementeri</match></suggestion>.</message>
+                <example correction="cementeris">Els <marker>cementiris</marker> municipals.</example>
+            </rule>
+            <rule id="TRAURE" name="Eixigeix 'traure, jaure' en comptes de 'treure, jeure'">
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*(tr|j)eure</token>
+                        <token postag="V.N.*|VM[IS]P.*|VMM.*" postag_regexp="yes" regexp="yes">.*(tr|j)e.*</token>
+                    </and>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*(tr|j))e(.+)" regexp_replace="$1a$3"></match></suggestion>
+                <example correction="abstraure">Es va <marker>abstreure</marker>.</example>
+                <example correction="ajaure">Es va <marker>ajeure</marker>.</example>
+                <example correction="traguen">Quan el <marker>treguen</marker>.</example>
+                <example correction="jau">Ara <marker>jeu</marker>.</example>
+            </rule>
+            <rule id="XARRAR" name="Eixigeix 'xarrar' en comptes de 'xerrar'">
+                <pattern>
+                    <token inflected="yes" regexp="yes">xerrar|xerrada|xerrador|xerraire|xerradissa|xerradeta|xerrameca|xerrotejar</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)xe(.+)" regexp_replace="xa$1"/></suggestion>
+                <example correction="xarraven">No <marker>xerraven</marker> gaire</example>
+                <example correction="xarrador">Era molt <marker>xerrador</marker>.</example>
+            </rule>
+            <rule id="NAIXER" name="Eixigeix 'nàixer' en comptes de 'néixer'">
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">(re|sobre)?néixer</token>
+                        <token postag="V.N.*|VM[IS]P.*|VMM.*" postag_regexp="yes" regexp="yes">.*neix.*</token>
+                    </and>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)neix(.*)" regexp_replace="$1naix$2"></match></suggestion>
+                <example correction="renaix">Llavors <marker>reneix</marker>.</example>
+                <example correction="Naixen"><marker>Neixen</marker> a l'abril.</example>
+            </rule>
+            <rule id="NAIXER2" name="Eixigeix 'nàixer' en comptes de 'néixer' (infinitiu)">
+                <pattern>
+                    <token regexp="yes">(re|sobre)?néixer</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)néixer" regexp_replace="$1nàixer"/></suggestion>
+                <example correction="renàixer">Va <marker>renéixer</marker> ahir.</example>
+            </rule>
+            <rule id="ARRANCAR" name="Eixigeix 'arrancar' en comptes de 'arrencar'">
+                <pattern>
+                    <token inflected="yes" regexp="yes">arrenc.*</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)arren(.*)" regexp_replace="arran$1"></match></suggestion>
+                <example correction="arrancada">L'<marker>arrencada</marker>.</example>
+                <example correction="arrancaqueixals">L'<marker>arrencaqueixals</marker>.</example>
+                <example correction="arrancaren">Llavors <marker>arrencaren</marker> a córrer.</example>
+            </rule>
+            <rule id="NADAR" name="Eixigeix 'nadar' en comptes de 'nedar'">
+                <pattern>
+                    <token inflected="yes" regexp="yes">(sobre)?nedar|(ex)?nedador|nedada|nedant</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ned(.*)" regexp_replace="$1nad$2"></match></suggestion>
+                <example correction="nada">Corre, salta i <marker>neda</marker>.</example>
+                <example correction="nadar">Anem a <marker>nedar</marker>.</example>
+                <example correction="nadadores">Són <marker>nedadores</marker> professionals.</example>
+            </rule>
+            <rule id="LLANCAR" name="Eixigeix 'llançar' en comptes de 'llençar'">
+                <pattern>
+                    <token inflected="yes">llençar</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">llançar</match></suggestion>
+                <example correction="llança">Corre, salta i <marker>llença</marker>.</example>
+                <example correction="llançar">Anem a <marker>llençar</marker>-ho tot.</example>
+            </rule>
+            <rule id="AMERAR" name="Eixigeix 'amerar' en comptes de 'amarar'">
+                <pattern>
+                    <token inflected="yes">amarar</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -e-.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">amerar</match></suggestion>
+                <example correction="Amerat"><marker>Amarat</marker> de suor.</example>
+                <example correction="ameraren">L'<marker>amararen</marker>.</example>
             </rule>
         </rulegroup>
     </category>
