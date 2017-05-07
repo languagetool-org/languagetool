@@ -284,6 +284,33 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="FEAR_GILL" name="fear gill">
+        <pattern>
+            <marker>
+                <token postag="Noun:.*" postag_regexp="yes" regexp="yes">fear|cluiche|ticéad|bean|bradaí</token>
+                <token postag="Noun:Masc:Gen:Sg">gill</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CLOG_DUISITHE" name="clog dúisithe">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">clog</token>
+                <token postag="Verbal:Adj">dúisithe</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="POLL_GAOITHE" name="poll gaoithe">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">poll</token>
+                <token postag="Noun:Fem:Gen:Sg" regexp="yes">anála|gaoithe</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="LE_CUNAMH_DE" name="le cúnamh Dé">
         <pattern>
             <marker>
@@ -351,7 +378,7 @@
             <marker>
                 <token negate_pos="yes" postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|Art:Sg:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
             </marker>
-            <token postag=".*:Adj.*" postag_regexp="yes" negate="yes" regexp="yes">droch|sean|príomh|fíor|iontach|dearg|leath|corr|gnáth|mór</token>
+            <token postag=".*Adj.*" postag_regexp="yes" negate="yes" regexp="yes">droch|sean|príomh|fíor|iontach|dearg|leath|corr|gnáth|mór</token>
         </pattern>
         <disambig action="remove" postag=".*Art.*"/>
     </rule>
