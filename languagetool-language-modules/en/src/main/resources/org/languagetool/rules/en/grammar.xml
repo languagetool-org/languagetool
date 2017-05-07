@@ -1466,13 +1466,14 @@ USA
         </rule>
         <rule id="VARY_VERY" name="vary (very)">
             <pattern>
-                <token inflected="yes">be</token>
+                <token inflected="yes" regexp="yes">be|of</token>
                 <marker><token>vary</token></marker>
                 <token postag="JJ"/>
             </pattern>
             <message>Did you mean <suggestion>very</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="very">They were <marker>vary</marker> happy.</example>
+            <example correction="very">A lot of <marker>vary</marker> happy people live in this town.</example>
         </rule>
         <rule id="WEATHER_WHETHER" name="weather (whether)">
             <pattern>
@@ -1482,6 +1483,16 @@ USA
             <message>Did you mean <suggestion>whether</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="whether">She asked <marker>weather</marker> he knew her.</example>
+        </rule>
+        <rule id="SEE_SEA" name="see (sea)">
+            <pattern>
+                <token>at</token>
+                <marker><token>see</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>sea</suggestion> or <suggestion>seeing</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="sea|seeing">We have spent the first night at <marker>see</marker>.</example>
+            <example correction="sea|seeing">The lion roared in anger at <marker>see</marker> the hyenas approaching to rob him of his food.</example>
         </rule>
         <rule id="I_IF" name="I (if)">
             <pattern>
@@ -12708,17 +12719,31 @@ USA
             <example>She had difficulty communicating in French <marker>despite</marker> all her years of study.</example>
             <example>She had difficulty communicating in French <marker>in spite of</marker> all her years of study.</example>
         </rule>
-        <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
-            <pattern>
-                <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                <token regexp="yes">’|'</token>
-                <token>t</token>
-                <token>not</token>
-            </pattern>
-            <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3</suggestion>?</message>
-            <short>Negation after negation</short>
-            <example correction="shouldn't">You <marker>shouldn't not</marker> do it!</example>
-        </rule>
+        <rulegroup id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">’|'|´</token>
+                    <token>t</token>
+                    <token>not</token>
+                </pattern>
+                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3</suggestion>?</message>
+                <short>Negation after negation</short>
+                <example correction="shouldn't">You <marker>shouldn't not</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">’|'|´</token>
+                    <token>t</token>
+                    <token>have</token>
+                    <token>not</token>
+                </pattern>
+                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3 \4</suggestion>?</message>
+                <short>Negation after negation</short>
+                <example correction="shouldn't have">You <marker>shouldn't have not</marker> done it!</example>
+            </rule>
+        </rulegroup>
         <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
             <pattern>
                 <marker>
@@ -19013,6 +19038,77 @@ USA
             <example>Einstein published an article in 'Physikalische Zeitschrift' that proposed the <marker>possibility</marker> of stimulated emission, the physical process that makes possible the maser and the laser.</example>
             <example>There is a <marker>possible possibility</marker> that errors exist.</example>
         </rule>
+        <rulegroup id="CAPITALIZATION" name="capitalize proper names, geographic terms, historic episodes...">
+            <url>http://www.grammarbook.com/punctuation/capital.asp</url>
+            <!-- rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">(nort|west|east|south)(ern)?</token>
+                    </marker>
+                    <token regexp="yes">Africa|America|Asia|Australia|Europe|California|Korea</token>
+                </pattern>
+                <message>Capitalize specific, well-defined geographical regions.</message>
+                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+                <example correction="South">It happened in <marker>south</marker> America.</example>
+                <example>Go <marker>south</marker> three blocks and then turn left.</example>
+                <example>The <marker>west</marker> coast of Scotland is rainy this time of year.</example>
+            </rule -->
+            <!--rule>
+                <regexp case_sensitive="yes">((nort|south) America|Africa)|((eastern|western) (Germany|Europe))</regexp>
+                <suggestion><match no="1" regexp_match="^[a-z]" regexp_replace="[A-Z]"/></suggestion>
+                <message>Capitalize specific, well-defined geographical regions.</message>
+                <example correction="">It happened in <marker>south</marker> America.</example>
+            </rule-->
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token>s</token>
+                    <token>Day</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token>s</token>
+                    <token>day</token>
+                </pattern>
+                <message>Capitalize holidays.</message>
+                <suggestion><match no="1" case_conversion="startupper"/>\2s Day</suggestion>
+                <example correction="Valentine's Day">What did you do on <marker>Valentine's day</marker> last year?</example>
+                <example>What are your plans for <marker>President's Day</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>World</token>
+                    <token>War</token>
+                    <token regexp="yes">[I12]I?</token>
+                </antipattern>
+                <pattern>
+                    <token>World</token>
+                    <token>War</token>
+                    <token regexp="yes">[I12]I?</token>
+                </pattern>
+                <message>Capitalize specific historic events, episodes, and eras.</message>
+                <suggestion>World War \3</suggestion>
+                <example correction="World War II">How many people died in <marker>world war II</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Middle</token>
+                    <token>Ages</token>
+                </antipattern>
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>Middle</token>
+                        <token>Ages</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize specific historic events, episodes, and eras.</message>
+                <suggestion>Middle Ages</suggestion>
+                <example correction="Middle Ages">The <marker>middle ages</marker> is one of the three major periods in the most enduring scheme for analysing European history.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
