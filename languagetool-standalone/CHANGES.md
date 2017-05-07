@@ -12,6 +12,7 @@
 
 #### Polish
    * added rules
+   * added some common typos
 
 #### Portuguese
   * added and improved grammar and style rules, including:
