@@ -44199,7 +44199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">quint</token>
                 </pattern>
-                <message>Usem preferentment la forma en -é/-ena.</message>
+                <message>Si és un ordinal, usem preferentment la forma en -é/-ena.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">cinquè</match></suggestion>
                 <example correction="cinquena">Ha arribat en la <marker>quinta</marker> posició.</example>
                 <example correction="cinquè|cinqué">Ha arribat el <marker>quint</marker> decret llei.</example>
@@ -44208,7 +44208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">sext</token>
                 </pattern>
-                <message>Usem preferentment la forma en -é/-ena.</message>
+                <message>Si és un ordinal, usem preferentment la forma en -é/-ena.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">sisè</match></suggestion>
                 <example correction="sisena">Ha arribat en la <marker>sexta</marker> posició.</example>
                 <example correction="sisè|sisé">Ha arribat el <marker>sext</marker> decret llei.</example>
@@ -44217,7 +44217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">sèptim</token>
                 </pattern>
-                <message>Usem preferentment la forma en -é/-ena.</message>
+                <message>Si és un ordinal, usem preferentment la forma en -é/-ena.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">setè</match></suggestion>
                 <example correction="setena">Ha arribat en la <marker>sèptima</marker> posició.</example>
                 <example correction="setè|seté">Ha arribat el <marker>sèptim</marker> decret llei.</example>
@@ -44226,7 +44226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">octau</token>
                 </pattern>
-                <message>Usem preferentment la forma en -é/-ena.</message>
+                <message>Si és un ordinal, usem preferentment la forma en -é/-ena.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">huitè</match></suggestion>
                 <example correction="huitena">Ha arribat en la <marker>octava</marker> posició.</example>
                 <example correction="huitè|huité">Ha arribat el <marker>octau</marker> decret llei.</example>
@@ -44235,13 +44235,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">dècim</token>
                 </pattern>
-                <message>Usem preferentment la forma en -é/-ena.</message>
+                <message>Si és un ordinal, usem preferentment la forma en -é/-ena.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">desè</match></suggestion>
                 <example correction="desena">Ha arribat en la <marker>dècima</marker> posició.</example>
                 <example correction="desè|desé">Ha arribat el <marker>dècim</marker> decret llei.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara, sent">
+        <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara, sent, sàpia">
+            <rule>
+                <pattern>
+                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Usem preferentment les formes en -r de l'imperfet de subjuntiu.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"></match></suggestion>
+                <example correction="cantara"><marker>cantàs</marker></example>
+                <example correction="cantaren"><marker>cantassin</marker></example>
+                <example correction="foren"><marker>fossen</marker></example>
+                <example correction="fóra">Ens va agradar que <marker>fos</marker> tan bonic.</example>
+                <exmaple>Han portat alumini fos.</exmaple>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -44307,18 +44319,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PARTICIPIS_IT" name="exigeix participis -it: establit">
-            <rule>
-                <pattern>
-                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Usem preferentment les formes en -r de l'imperfet de subjuntiu.</message>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"></match></suggestion>
-                <example correction="cantara"><marker>cantàs</marker></example>
-                <example correction="cantaren"><marker>cantassin</marker></example>
-                <example correction="foren"><marker>fossen</marker></example>
-                <example correction="fóra">Ens va agradar que <marker>fos</marker> tan bonic.</example>
-                <exmaple>Han portat alumini fos.</exmaple>
-            </rule>
             <rule>
                 <pattern>
                     <marker>
