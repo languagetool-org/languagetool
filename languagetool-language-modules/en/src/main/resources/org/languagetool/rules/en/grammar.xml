@@ -19040,25 +19040,16 @@ USA
         </rule>
         <rulegroup id="CAPITALIZATION" name="capitalize proper names, geographic terms, historic episodes...">
             <url>http://www.grammarbook.com/punctuation/capital.asp</url>
-            <!-- rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">(nort|west|east|south)(ern)?</token>
-                    </marker>
-                    <token regexp="yes">Africa|America|Asia|Australia|Europe|California|Korea</token>
-                </pattern>
-                <message>Capitalize specific, well-defined geographical regions.</message>
-                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
-                <example correction="South">It happened in <marker>south</marker> America.</example>
+            <rule>
+                <regexp case_sensitive="yes">((north|south) (Atlantic|America|Africa|Korea))|((east|west)(ern)? (Germany|Europe))|(grand [cC]anyon)|(mount Everest)|(the Hague)</regexp>
+                <message>Capitalize specific, well-defined geographical regions: <suggestion><match no="1" regexp_match="(^.)" regexp_replace="$1"  case_conversion="startupper"/></suggestion></message>
+                <example correction="The Hague">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the Hague</marker>.</example>
+                <example correction="South America">She lived several years in <marker>south America</marker>.</example>
+                <example correction="East Germany">With the reunification of West and <marker>east Germany</marker>, the Federal Republic of Germany became known simply as 'Germany'.</example>
+                <example>The term NATO stands for the <marker>North Atlantic</marker> Treaty Organization.</example>
                 <example>Go <marker>south</marker> three blocks and then turn left.</example>
                 <example>The <marker>west</marker> coast of Scotland is rainy this time of year.</example>
-            </rule -->
-            <!--rule>
-                <regexp case_sensitive="yes">((nort|south) America|Africa)|((eastern|western) (Germany|Europe))</regexp>
-                <suggestion><match no="1" regexp_match="^[a-z]" regexp_replace="[A-Z]"/></suggestion>
-                <message>Capitalize specific, well-defined geographical regions.</message>
-                <example correction="">It happened in <marker>south</marker> America.</example>
-            </rule-->
+            </rule>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
