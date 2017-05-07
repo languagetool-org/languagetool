@@ -17412,13 +17412,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[ld]'</token>
-                    <token regexp="yes" case_sensitive="yes">[QWTYPDGJKZXCVB][A-Z]+<exception>XI</exception></token>
+                    <token regexp="yes" case_sensitive="yes">[QWTYPDGJKZCVB][A-Z]+</token>
                 </pattern>
                 <message>Probablement no s'apostrofa.</message>
                 <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
                 <example correction=""><marker>l'BBC</marker></example>
                 <example>l'NBA</example>
                 <example>Va participar en l'XI Congrés.</example>
+                <example>Informació en l'XTEC.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
@@ -44311,7 +44312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="oferides">Les han <marker>ofertes</marker></example>
                 <example>Hem rebut una oferta interessant.</example>
                 <example>Van arribar moltes ofertes.</example>
-                <example>Van arribar ofertes.</example>
+                <example>Van arribar ofertes de tot arreu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44324,6 +44325,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Oferida"><marker>Oferta</marker> per l'associació</example>
             </rule>
         </rulegroup>
+        <rule id="VERBS_I_ANTIHIATICA" name="Exigeix verbs amb i antihiàtica: caiem, veient...">
+            <pattern>
+                <marker>
+                    <token postag="VMG0000V|VMIP[12]P0V|VMM02P0V" postag_regexp="yes" regexp="yes">.*[ae](ent|e[mu])<exception postag="[AN].*|VMSP[12]P00" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Usem preferentment la forma amb i antihiàtica.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*[ae])(ent|e[mu])" regexp_replace="$1i$2"></match></suggestion>
+            <example correction="caient">Van <marker>caent</marker></example>
+            <example correction="veient">Anem <marker>veent</marker></example>
+            <example correction="contraient">Que s'anaren <marker>contraent</marker></example>
+            <example correction="caieu">Sempre <marker>caeu</marker></example>
+            <example correction="creiem">No <marker>creem</marker> que siga així.</example>
+            <example correction="Creieu"><marker>Creeu</marker> que vindrà?</example>
+            <example correction="Jaiem"><marker>Jaem</marker> ací.</example>
+            <example correction="Seieu"><marker>Seeu</marker> ací.</example>
+            <example correction="veieu">Ho <marker>veeu</marker>?</example>
+            <example correction="Traieu"><marker>Traeu</marker>-ho d'ací.</example>
+            <example>No creem problemes on no n'hi ha.</example>
+            <example>Res més plaent que viatjar.</example>
+            <example>es va fer més i més complaent </example>
+            <example>El contraent.</example>
+            <example>La part contraent.</example>
+        </rule>
     </category>
 </rules>
 
