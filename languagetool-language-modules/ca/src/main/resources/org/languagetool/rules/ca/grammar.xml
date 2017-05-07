@@ -41161,7 +41161,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>ací</suggestion>
             <suggestion>aquí</suggestion>
             <example correction="ací|aquí"><marker>ahí</marker></example>
-            <example>ací</example>
         </rule>
     </category>
     <category id="WORDS_NOT_ACCEPTED_BY_ALL" name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
@@ -44137,6 +44136,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Aquests"><marker>Aqueixos</marker> homes</example>
             <example>és formada per eixos longitudinals</example>
         </rule>
+        <rulegroup id="HUI" name="Exigeix 'hui'">
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>avui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>de hui</suggestion>.</message>
+                <example correction="de hui">És el diari <marker>d'avui</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>avui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>hui</suggestion>.</message>
+                <example correction="Hui"><marker>Avui</marker> és un gran dia.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NUMERALS_VALENCIANS" name="numerals valencians: huit, dèsset, díhuit, dènou">
             <rule>
                 <pattern>
