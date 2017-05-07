@@ -19041,7 +19041,7 @@ USA
         <rulegroup id="CAPITALIZATION" name="capitalize proper names, geographic terms, historic episodes...">
             <url>http://www.grammarbook.com/punctuation/capital.asp</url>
             <rule>
-                <regexp case_sensitive="yes">((north|south) (Atlantic|America|Africa|Korea))|((east|west)(ern)? (Germany|Europe))|(grand [cC]anyon)|(mount Everest)|(the Hague)</regexp>
+                <regexp case_sensitive="yes">((north|south) (Atlantic|American?|African?|Korean?))|((east|west)(ern)? (Germany?|Europe))|(grand [cC]anyon)|(mount Everest)|(the Hague)</regexp>
                 <message>Capitalize specific, well-defined geographical regions: <suggestion><match no="1" regexp_match="(^.)" regexp_replace="$1"  case_conversion="startupper"/></suggestion></message>
                 <example correction="The Hague">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the Hague</marker>.</example>
                 <example correction="South America">She lived several years in <marker>south America</marker>.</example>
@@ -19098,6 +19098,38 @@ USA
                 <message>Capitalize specific historic events, episodes, and eras.</message>
                 <suggestion>Middle Ages</suggestion>
                 <example correction="Middle Ages">The <marker>middle ages</marker> is one of the three major periods in the most enduring scheme for analysing European history.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Cape</token>
+                    <token>of</token>
+                    <token>Good</token>
+                    <token>Hope</token>
+                </antipattern>
+                <pattern>
+                    <token>Cape</token>
+                    <token>of</token>
+                    <token>Good</token>
+                    <token>Hope</token>
+                </pattern>
+                <message>Capitalize specific, well-defined geographical places.</message>
+                <suggestion>Cape of Good Hope</suggestion>
+                <example correction="Cape of Good Hope">The <marker>cape of good hope</marker> is a rocky headland on the Atlantic coast of the Cape Peninsula, South Africa.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Cape</token>
+                    <token regexp="yes">Cod|Town</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>Cape</token>
+                    <token regexp="yes">Cod|Town</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize specific, well-defined geographical places.</message>
+                <suggestion>Cape <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="Cape Cod">Since 1914, <marker>cape cod</marker> has been separated from the mainland by the Cape Cod Canal.</example>
             </rule>
         </rulegroup>
     </category>
