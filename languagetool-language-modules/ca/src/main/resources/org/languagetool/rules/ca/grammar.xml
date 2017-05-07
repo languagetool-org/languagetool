@@ -75,7 +75,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "deixat|llargs?|bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPLA|Spartak?|XML|UNICEF">
+    <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPLA|Spartak?|XML|UNICEF|statu|scherzos?|ftalats?|snacks?|Stradivarius">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
@@ -17357,7 +17357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token/>
+                    <token regexp="yes">a|de</token>
                     <token spacebefore="no">l</token>
                     <token regexp="yes">&sigles_apostrofen;</token>
                 </pattern>
@@ -17365,6 +17365,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 l'\3</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
                 <example correction="de l'FBI"><marker>del FBI</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">&sigles_apostrofen;</token>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>per l'\3</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction="per l'FBI"><marker>pel FBI</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -17973,16 +17984,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la Haia"><marker>l'Haia</marker></example>
                 <example>la Haia</example>
             </rule>
-            <rule id="EL_STATU" name="Exigeix: l'statu quo, l'scherzo">
-                <pattern>
-                    <token>el</token>
-                    <token regexp="yes">statu|scherzo|ftalat|snack|Stradivarius</token>
-                </pattern>
-                <message>Apostrofació dubotsa.</message>
-                <suggestion>l'<match no="2"/></suggestion>
-                <example correction="l'statu"><marker>el statu</marker> quo</example>
-                <example>l'statu quo</example>
-            </rule>
+            <!-- statu|scherzo|ftalat|snack|Stradivarius: afegit a sigles_apostrofen -->
             <rule id="LA_SCHOLA" name="Exigeix: la schola">
                 <pattern>
                     <token>l'</token>
@@ -44234,6 +44236,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vas"><marker>Vares</marker> cantar bé.</example>
                 <example correction="vam">No <marker>vàrem</marker> cantar malament.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PARTICIPIS_IT" name="exigeix participis -it: establit">
             <rule>
                 <pattern>
                     <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
