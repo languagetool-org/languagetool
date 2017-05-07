@@ -44385,7 +44385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">ofert(a|es)<exception postag="_GN_F.|NCF.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
+                <message>Si és un participi, usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
                 <example correction="oferida">L'han <marker>oferta</marker></example>
                 <example correction="oferides">Les han <marker>ofertes</marker></example>
                 <example>Hem rebut una oferta interessant.</example>
@@ -44399,7 +44399,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes">per</token>
                 </pattern>
-                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
+                <message>Si és un participi, usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)ert(a|es)" regexp_replace="$1erid$2"></match></suggestion>.</message>
                 <example correction="Oferida"><marker>Oferta</marker> per l'associació</example>
             </rule>
         </rulegroup>
@@ -44428,6 +44428,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El contraent.</example>
             <example>La part contraent.</example>
         </rule>
+        <rulegroup id="A_L_ABRIL_DE_1994" name="expressions de temps: *a l'abril/l'abril de 1994">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|per<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
+                        <token regexp="yes">l'</token>
+                        <token regexp="yes">abril|agost|octubre</token>
+                    </marker>
+                    <token>de</token>
+                    <token min="0" spacebefore="no">l</token>
+                    <token regexp="yes">[0-9]{4}</token>
+                </pattern>
+                <message>És preferible la construcció sense preposició.</message>
+                <suggestion>\2\3</suggestion>
+                <example correction="l'abril">Va passar <marker>a l'abril</marker> de 1997.</example>
+                <example>De juny a l'abril de 1999.</example>
+                <example>Fins a l'abril de 1999.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|pe<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
+                        <token spacebefore="no" regexp="yes">l</token>
+                        <token regexp="yes">&mesos_any;</token>
+                    </marker>
+                    <token>de</token>
+                    <token min="0" spacebefore="no">l</token>
+                    <token regexp="yes">[0-9]{4}</token>
+                </pattern>
+                <message>És preferible la construcció sense preposició.</message>
+                <suggestion>el \3</suggestion>
+                <example correction="el novembre">Va passar <marker>al novembre</marker> de 1997.</example>
+                <example>Del juny al novembre de 1999.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
 
