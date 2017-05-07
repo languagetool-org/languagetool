@@ -44225,7 +44225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="desè|desé">Ha arribat el <marker>dècim</marker> decret llei.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara">
+        <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara, sent">
             <rule>
                 <pattern>
                     <marker>
@@ -44247,6 +44247,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sàpies">Quan ho <marker>sàpigues</marker></example>
                 <example correction="sapieu">Quan ho <marker>sapigueu</marker></example>
                 <example correction="capiem">Que hi <marker>capiguem</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                     <token>essent</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>sent</suggestion>.</message>
+                <example correction="sent">Continua <marker>essent</marker> el millor.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SER_ESSER" name="Exigeix ser (verb) / ésser (nom)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ésser<exception postag="_GN_MS"/></token>
+                    </marker>
+                </pattern>
+                <message>Si és infinitiu, usem preferentment la forma <suggestion>ser</suggestion>.</message>
+                <example correction="ser">Hem d'<marker>ésser</marker> coherents.</example>
+                <example correction="ser">Un ésser digne d'<marker>ésser</marker> escoltat.</example>
+                <example>És natural en un ésser viu.</example>
+                <example>un ésser digne de ser escoltat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="_GN_MS">ser</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, usem preferentment la forma <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">ésser</match></suggestion>.</message>
+                <example correction="ésser">És natural en un <marker>ser</marker> viu.</example>
+                <example correction="ésser">un <marker>ser</marker> digne de ser escoltat.</example>
+                <example>Hem de ser coherents.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sers</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, usem preferentment la forma <suggestion>éssers</suggestion>.</message>
+                <example correction="éssers">Són <marker>sers</marker> vius.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PARTICIPIS_IT" name="exigeix participis -it: establit">
