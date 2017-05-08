@@ -75,8 +75,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "deixat|llargs?|bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPLA|Spartak?|XML|UNICEF|statu|scherzos?|ftalats?|snacks?|Stradivarius">
+    <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
+    <!ENTITY apostrofen_ela "Sporting|statu|scherzos?|ftalats?|snacks?|Stradivarius">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
@@ -18024,6 +18025,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>l'altitud augmenta d'W a E</example>
                 <example>Propostes d'R+D+I.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token regexp="yes">&apostrofen_ela;</token>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match=".?([lL]).?" regexp_replace="$1'"/>\2</suggestion>
+                <example correction="l'Stradivarius"><marker>el Stradivarius</marker></example>
+                <example correction="l'statu"><marker>el statu</marker> quo</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">&apostrofen_ela;</token>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>\1 l'\3</suggestion>
+                <example correction="de l'statu"><marker>del statu</marker> quo</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">&apostrofen_ela;</token>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>per l'\3</suggestion>
+                <example correction="Per l'statu"><marker>Pel statu</marker> quo</example>
+            </rule>
         </rulegroup>
     </category>
     <category id="SPELLING" name="Errors ortogràfics" type="misspelling">
@@ -25524,7 +25555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>segons</token>
                     <token regexp="yes">allò|l'</token>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir|assenyalar|afirmar</token>
                     <token>en</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
@@ -38203,6 +38234,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>cartó</example>
         </rule>
         <rule id="MURTRA" name="murtra / murta">
+            <antipattern>
+                <marker>
+                    <token>Sant</token>
+                    <token>Jeroni</token>
+                    <token>de</token>
+                    <token>la</token>
+                    <token>Murtra</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">murtra</token>
             </pattern>
@@ -38210,6 +38250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">murta</match></suggestion>
             <example correction="murta"><marker>murtra</marker></example>
             <example correction="murtes"><marker>murtres</marker></example>
+            <example>Sant Jeroni de la Murtra a Badalona.</example>
         </rule>
         <rule id="FRISSAR" name="frissar/frisar">
             <pattern>
