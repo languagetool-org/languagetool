@@ -19041,14 +19041,15 @@ USA
         <rulegroup id="CAPITALIZATION" name="capitalize proper names, geographic terms, historic episodes...">
             <url>http://www.grammarbook.com/punctuation/capital.asp</url>
             <rule>
-                <regexp case_sensitive="yes">((north|south) (Atlantic|American?|African?|Korean?))|((east|west)(ern)? (Germany?|Europe))|(grand [cC]anyon)|(mount Everest)|(the Hague)</regexp>
+                <regexp case_sensitive="yes">\s\b(((north|south) (Atlantic|American?|African?|Korean?))|((east|west)(ern)? (Germany?|Europe))|(grand [cC]anyon)|(mount Everest))\b</regexp>
                 <message>Capitalize specific, well-defined geographical regions: <suggestion><match no="1" regexp_match="(^.)" regexp_replace="$1"  case_conversion="startupper"/></suggestion></message>
-                <example correction="The Hague">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the Hague</marker>.</example>
-                <example correction="South America">She lived several years in <marker>south America</marker>.</example>
-                <example correction="East Germany">With the reunification of West and <marker>east Germany</marker>, the Federal Republic of Germany became known simply as 'Germany'.</example>
+                <example correction=" South America">She lived several years in<marker> south America</marker>.</example>
+                <example correction=" East Germany">With the reunification of West and<marker> east Germany</marker>, the Federal Republic of Germany became known simply as 'Germany'.</example>
                 <example>The term NATO stands for the <marker>North Atlantic</marker> Treaty Organization.</example>
                 <example>Go <marker>south</marker> three blocks and then turn left.</example>
                 <example>The <marker>west</marker> coast of Scotland is rainy this time of year.</example>
+                <example>Albania is a country in Southeastern Europe.</example>
+                <example>The British Isles and north-western Europe.</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -19130,6 +19131,18 @@ USA
                 <message>Capitalize specific, well-defined geographical places.</message>
                 <suggestion>Cape <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="Cape Cod">Since 1914, <marker>cape cod</marker> has been separated from the mainland by the Cape Cod Canal.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">the</token>
+                    </marker>
+                    <token>Hague</token>
+                    <token><exception regexp="yes">congress|meeting</exception></token>
+                </pattern>
+                <message>Capitalize <suggestion>The</suggestion>, if it refers to 'The Hague' (city on the western coast of the Netherlands)</message>
+                <example correction="The">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the</marker>  Hague.</example>
+                <example>When did <marker>the Hague</marker> Congress thake place?.</example>
             </rule>
         </rulegroup>
     </category>
