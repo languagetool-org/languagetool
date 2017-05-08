@@ -185,7 +185,20 @@ public class CaseRule extends Rule {
        regex("[A-ZÄÖÜ].*es"),
        regex("und|oder|,"),
        regex("[A-ZÄÖÜ].*es")
-    )
+    ),
+    Arrays.asList(
+       // "... bringt Interessierte und Experten zusammen"
+       posRegex("VER:.*[1-3]:.*"),
+       posRegex("SUB:AKK:.*:ADJ"),
+       regex("und|oder|,"),
+       posRegex("SUB:AKK:.*:(NEU|FEM|MAS)|ART:.*")
+    ),
+    Arrays.asList(
+        // "... Lesben, Schwule und ..."
+        posRegex("SUB:AKK:.*:(NEU|FEM|MAS)"),
+        regex("und|oder|,"),
+        posRegex("SUB:AKK:.*:ADJ")
+     )
   );
 
   private static PatternToken token(String token) {
