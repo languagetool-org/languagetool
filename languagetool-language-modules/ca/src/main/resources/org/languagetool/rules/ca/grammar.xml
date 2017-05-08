@@ -45471,6 +45471,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Villanueva de Viver"><marker>Vilanova de la Reina</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="PRE_IEC2017" name="Exigeix l'ortografia prèvia a la reforma IEC 2017">
+            <rule>
+                <pattern>
+                    <token postag="[NVA].*" postag_regexp="yes" regexp="yes">erradi.*</token>
+                </pattern>
+                <message>Useu l'ortografia de l'AVL.</message>
+                <suggestion><match no="1" regexp_match="(?iu)erradi(.*)" regexp_replace="eradi$1"/></suggestion>
+                <example correction="Eradicaren"><marker>Erradicaren</marker> els problemes.</example>
+                <example correction="eradicació">L'<marker>erradicació</marker> total.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">correceptor|corredempció|corredemptor|correferent|correferència|corregent|corregnant|corregnar|corregulació|corregulador|corregència|correligionari|correpressor|corresponsabilitat|corresponsabilització|corresponsabilitzar|corresponsable</token>
+                </pattern>
+                <message>Useu l'ortografia de l'AVL.</message>
+                <suggestion><match no="1" regexp_match="(?iu)corre(.*)" regexp_replace="core$1"/></suggestion>
+                <example correction="coresponsabilització"><marker>corresponsabilització</marker></example>
+                <example correction="coresponsabilitzen">Es <marker>corresponsabilitzen</marker>.</example>
+                <example correction="coreligionàries"><marker>correligionàries</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="IEC2017" name="Ortografia IEC2017" default="on">
+        <rulegroup id="ORTO_IEC2017" name="Exigeix l'ortografia IEC 2017 (excepte diacrítics)">
+            <rule>
+                <pattern>
+                    <token postag="[NVA].*" postag_regexp="yes" regexp="yes">eradi.*</token>
+                </pattern>
+                <message>Useu l'ortografia de l'IEC (2017).</message>
+                <suggestion><match no="1" regexp_match="(?iu)eradi(.*)" regexp_replace="erradi$1"/></suggestion>
+                <example correction="Erradicaren"><marker>Eradicaren</marker> els problemes.</example>
+                <example correction="erradicació">L'<marker>eradicació</marker> total.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">coreceptor|coredempció|coredemptor|coreferent|coreferència|coregent|coregnant|coregnar|coregulació|coregulador|coregència|coreligionari|corepressor|coresponsabilitat|coresponsabilització|coresponsabilitzar|coresponsable</token>
+                </pattern>
+                <message>Useu l'ortografia de l'IEC (2017).</message>
+                <suggestion><match no="1" regexp_match="(?iu)core(.*)" regexp_replace="corre$1"/></suggestion>
+                <example correction="corresponsabilització"><marker>coresponsabilització</marker></example>
+                <example correction="corresponsabilitzen">Es <marker>coresponsabilitzen</marker>.</example>
+                <example correction="correligionàries"><marker>coreligionàries</marker></example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
 
