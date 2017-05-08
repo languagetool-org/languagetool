@@ -15097,31 +15097,27 @@ TODO Write better examples
   <rulegroup id='BARBARISMS' name='Estrageirismos sem tradução'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-02-09      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/estrangeirismos-em-italico-ou-entre-aspas/7785</url>
-    <rule>
+      <short>Estrangeirismo</short>
       <antipattern>
           <token regexp='yes'>["“]</token>
-          <token regexp='yes'>&barbarismos;</token>
+          <token regexp='yes'>(&barbarismos;)s?</token>
           <token regexp='yes'>["”]</token>
       </antipattern>
+    <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>&barbarismos;</token>
+          <token regexp='yes'>(&barbarismos;)s?</token>
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>“\1”</suggestion>
       <example correction='“software”'>O <marker>software</marker> de código aberto tem várias vantagens.</example>
+      <example correction='“softwares”'>Os <marker>softwares</marker> de código aberto tem várias vantagens.</example>
       <example>Ainda estão a debater se adquirem ou não acesso à Internet.</example>
       <example>O "software" de código aberto tem várias vantagens.</example>
     </rule>
     <rule>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-02-09      -->
-      <antipattern>
-          <token regexp='yes'>["“]</token>
-          <token regexp='yes'>&barbarismos;</token>
-          <token regexp='yes'>["”]</token>
-      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp='yes'>&barbarismos;</token>
+          <token regexp='yes'>(&barbarismos;)s?</token>
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>“\2”</suggestion>
