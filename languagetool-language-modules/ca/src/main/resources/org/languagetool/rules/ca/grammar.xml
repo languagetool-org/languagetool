@@ -44616,12 +44616,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=42</url>
             <rule>
                 <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">vuit.+-vuit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)vuit(.*)-vuit(.*)" regexp_replace="huit$1-huit$2"></match></suggestion>.</message>
+                <example correction="Huitanta-huit"><marker>Vuitanta-vuit</marker> coses</example>
+                <example correction="huitanta-huitena">En la <marker>vuitanta-vuitena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes" postag_regexp="yes" postag="[ADVN].*" inflected="yes">vuit.*</token>
                 </pattern>
                 <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)v(.*)" regexp_replace="h$1"></match></suggestion>.</message>
                 <example correction="Huit-centes"><marker>Vuit-centes</marker> coses</example>
                 <example correction="huitanta-tres">De <marker>vuitanta-tres</marker> maneres</example>
                 <example correction="huitanta-quatrena">En la <marker>vuitanta-quatrena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">.+-vuit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)-vuit(.*)" regexp_replace="$1-huit$2"></match></suggestion>.</message>
+                <example correction="Cinquanta-huit"><marker>Cinquanta-vuit</marker> coses</example>
+                <example correction="trenta-huitena">En la <marker>trenta-vuitena</marker> posició.</example>
             </rule>
             <rule>
                 <pattern>
@@ -45031,6 +45047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MUNICIPIS_OFICIAL" name="Exigeix el nom oficial dels municipis valencians">
+            <url>http://www.presidencia.gva.es/va/web/civis/registro_entidades_locales</url>
             <rule>
                 <pattern>
                     <token postag="NP..G0V" postag_regexp="yes"/>
