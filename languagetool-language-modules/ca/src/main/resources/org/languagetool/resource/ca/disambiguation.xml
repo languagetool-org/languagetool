@@ -1873,6 +1873,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="N.*" />
         </rule>
     </rulegroup>
+    <rulegroup id="excepcions_nomspropis" name="excepcions a noms propis">
+        <rule>
+            <pattern>
+                <token postag="D...P." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NPCSG0V">Dolors</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NPCSG0V"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..FP." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NPCSG0V">Barraques</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NPCSG0V"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..FP." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NPCSG0V">Figueres</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NPCSG0V"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="Nom_propi" name="noms propis">
         <rule>
             <pattern>
