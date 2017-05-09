@@ -194,10 +194,9 @@ public class CaseRule extends Rule {
        posRegex("SUB:AKK:.*:(NEU|FEM|MAS)|ART:.*")
     ),
     Arrays.asList(
-        // "... Lesben, Schwule und ..."
-        posRegex("SUB:AKK:.*:(NEU|FEM|MAS)"),
-        regex("und|oder|,"),
-        posRegex("SUB:AKK:.*:ADJ")
+        // "Das südöstlich von Berlin gelegene"
+        regex("(süd|nord|ost|west).*lich"),
+        token("von")
      )
   );
 
