@@ -575,6 +575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MUNICIPIS_VALENCIA" name="Exigeix el nom valencià (no oficial) dels municipis valencians" default="on">
+            <!-- Es podrien separar els que són de zona castellanoparlant i els que no-->
             <rule>
                 <pattern>
                     <token postag="NP..G0O" postag_regexp="yes"/>
@@ -584,6 +585,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Énguera"><marker>Enguera</marker></example>
                 <example correction="Ademús"><marker>Ademuz</marker></example>
                 <example correction="Nàquera"><marker>Náquera</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Rincón</token><token>de</token><token>Ademuz</token>
+                </pattern>
+                <message>Useu el nom valencià (no oficial).</message>
+                <suggestion>Racó d'Ademús</suggestion>
+                <example correction="Racó d'Ademús"><marker>Rincón de Ademuz</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Aras</token><token>de</token><token>Alpuente</token>
+                </pattern>
+                <message>Useu el nom valencià (no oficial).</message>
+                <suggestion>Ares d'Alpont</suggestion>
+                <suggestion>Ares dels Oms</suggestion>
+                <example correction="Ares d'Alpont|Ares dels Oms"><marker>Aras de Alpunete</marker></example>
             </rule>
             <rule>
                 <pattern>
