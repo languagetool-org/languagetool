@@ -2167,6 +2167,7 @@ title="Easy editing stylesheet" ?>
  <category id='CASING' name='Capitalização' type='grammar'>
 
     <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios' default='off'>
+    <!--  Created by Tiago F. Santos, 2017-02-XX      -->
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='NP.+' regexp='yes'>\p{Ll}+
             <exception negate_pos='yes' postag_regexp='yes' postag='NP.+'/></token>
@@ -2176,6 +2177,68 @@ title="Easy editing stylesheet" ?>
       <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
       <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
     </rule>
+
+  <rulegroup id="COMPOUND_PROPER_NOUNS_CASING" name="Capitalizar nomes próprios compostos...">
+    <!--  Localized from English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
+      <url>https://pt.wikipedia.org/wiki/Caixa_alta_e_caixa_baixa</url>
+      <short>Erro de capitalização</short>
+    <rule>
+      <regexp>(?-i)\s\b(((norte|sul)( d[eao]s?)? (Atlântico|América|American[oa]s?|África|African[ao]s?|Coreia|Corean[ao]s?))|((sud|nord)?(centro|l?este|oeste)( d[eao]s?)? (Alemanha|Europa|(grand [cC]anyon)|(monte Everest))))\b</regexp>
+      <message>Capitalize nomes de regiões geográficas: <suggestion><match no="1" regexp_match="( .+)" regexp_replace="$1" case_conversion="startupper"/></suggestion></message>
+      <example correction=" Sul da América">Ela viveu vários anos no<marker> sul da América</marker>.</example>
+      <example correction=" Leste da Alemanha">Com a reunificação do<marker> leste da Alemanha</marker> com o Oeste, a Républica Federal da Alemanha tornou-se apenas conhecida como 'Alemanha'.</example>
+      <example correction=" Sudoeste da Europa">Albânia é um país do<marker> sudoeste da Europa</marker>.</example>
+      <example>O termo OTAN é um acrónimo para Organização do Tratado do <marker>Atlântico Norte</marker>.</example>
+      <example>Siga para <marker>sul</marker> três blocos e depois, vire à esquerda.</example>
+      <example>As ilhas Britânicas e o noroeste da Europe.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' case_sensitive="yes">Atlântico|América|[aA]merican[oa]s?|África|[aA]frican[ao]s?|Alemanha|[Aa]lemão?s?|Coreia|Corean[ao]s?|Europa|[Ee]uropeus?</token>
+          <token regexp='yes' min='0'>d[eo]?</token>
+          <token regexp='yes' case_sensitive="yes">central|norte|sul|[ol]?este</token>
+      </pattern>
+      <message>Capitalize specific, well-defined geographical regions: <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no="3" include_skipped='all' case_conversion="startupper"/></suggestion></message>
+      <example correction="América do Sul">Ela viveu vários anos na <marker>América do sul</marker>.</example>
+      <example correction="Alemanha de Leste">Com a reunificação da <marker>Alemanha de leste</marker> e Oeste, a Républica Federal da Alemanha tornou-se apenas conhecida como 'Alemanha'.</example>
+      <example>O termo OTAN é um acrónimo para Organização do Tratado do <marker>Atlântico Norte</marker>.</example>
+      <example>Siga para <marker>sul</marker> três blocos e depois, vire à esquerda.</example>
+      <example>Albânia é um país do Sudoeste da Europa.</example>
+      <example>As ilhas Britânicas e o noroeste da Europe.</example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive="yes">
+          <token>Dia</token>
+          <token regexp="yes">d[eao]s?</token>
+          <token min='0' regexp="yes">São|Saint</token>
+          <token regexp="yes">Valentim|Namorados|Mãe|Pai|Patrick</token>
+      </antipattern>
+      <pattern>
+          <token>Dia</token>
+          <token regexp="yes">d[eao]s?</token>
+          <token min='0' regexp="yes">São|Saint</token>
+          <token regexp="yes">Valentim|Namorados|Mãe|Pai|Patrick</token>
+      </pattern>
+      <message>Capitalize os feriados.</message>
+        <suggestion><match no="1" include_skipped='all' case_conversion="startupper"/> \2 <match no="3" include_skipped='all' case_conversion="startupper"/> <match no="4" include_skipped='all' case_conversion="startupper"/></suggestion>
+      <example correction="Dia dos Namorados">O que fizeste no <marker>dia dos namorados</marker> o ano passado?</example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive="yes">
+          <token regexp="yes">Primeira|Segunda</token>
+          <token>Guerra</token>
+          <token>Mundial</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Primeira|Segunda</token>
+          <token>Guerra</token>
+          <token>Mundial</token>
+      </pattern>
+      <message>Capitalize eventos ou épocas históricas.</message>
+        <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>
+      <example correction="Segunda Guerra Mundial">Quantas pessoas morreram na <marker>segunda guerra mundial</marker>?</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="SI_UNITS_CASE" name="Unidades do Sistema Internacional: *Km/km">
     <!--  Based on Catalan KILO_LOWERCASE rule, by Tiago F. Santos, 2017-02-27      -->
