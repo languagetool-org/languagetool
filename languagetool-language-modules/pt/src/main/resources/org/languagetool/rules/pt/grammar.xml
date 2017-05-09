@@ -2183,22 +2183,24 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Caixa_alta_e_caixa_baixa</url>
       <short>Erro de capitalização</short>
     <rule>
-      <regexp>(?-i)\s\b(((norte|sul)( d[eao]s?)? (Atlântico|América|American[oa]s?|África|African[ao]s?|Coreia|Corean[ao]s?))|((sud|nord)?(centro|l?este|oeste)( d[eao]s?)? (Alemanha|Europa|(grand [cC]anyon)|(monte Everest))))\b</regexp>
+      <regexp>(?-i)\s\b(((norte|sul)( d[eao]s?)? (Atlântico|América|American[oa]s?|África|African[ao]s?|Alemanha|Portugal|Espanha|França|Coreia|Corean[ao]s?))|((sud|nord)?(centro|l?este|oeste)( d[eao]s?)? (Alemanha|Portugal|Espanha|França|Europa|(grand [cC]anyon)|(monte Everest))))\b</regexp>
       <message>Capitalize nomes de regiões geográficas: <suggestion><match no="1" regexp_match="( .+)" regexp_replace="$1" case_conversion="startupper"/></suggestion></message>
       <example correction=" Sul da América">Ela viveu vários anos no<marker> sul da América</marker>.</example>
       <example correction=" Leste da Alemanha">Com a reunificação do<marker> leste da Alemanha</marker> com o Oeste, a Républica Federal da Alemanha tornou-se apenas conhecida como 'Alemanha'.</example>
       <example correction=" Sudoeste da Europa">Albânia é um país do<marker> sudoeste da Europa</marker>.</example>
+      <example correction=" Norte de Portugal">O<marker> norte de Portugal</marker> está mais empobrecido.</example>
       <example>O termo OTAN é um acrónimo para Organização do Tratado do <marker>Atlântico Norte</marker>.</example>
       <example>Siga para <marker>sul</marker> três blocos e depois, vire à esquerda.</example>
       <example>As ilhas Britânicas e o noroeste da Europe.</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes' case_sensitive="yes">Atlântico|América|[aA]merican[oa]s?|África|[aA]frican[ao]s?|Alemanha|[Aa]lemão?s?|Coreia|Corean[ao]s?|Europa|[Ee]uropeus?</token>
+          <token regexp='yes' case_sensitive="yes">Atlântico|América|[aA]merican[oa]s?|África|[aA]frican[ao]s?|Alemanha|[Aa]lemão?s?|Carolina|Dakota|Coreia|Corean[ao]s?|Europa|[Ee]uropeus?</token>
           <token regexp='yes' min='0'>d[eo]?</token>
           <token regexp='yes' case_sensitive="yes">central|norte|sul|[ol]?este</token>
       </pattern>
-      <message>Capitalize specific, well-defined geographical regions: <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no="3" include_skipped='all' case_conversion="startupper"/></suggestion></message>
+      <message>Capitalize nomes de regiões geográficas.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no="3" include_skipped='all' case_conversion="startupper"/></suggestion>
       <example correction="América do Sul">Ela viveu vários anos na <marker>América do sul</marker>.</example>
       <example correction="Alemanha de Leste">Com a reunificação da <marker>Alemanha de leste</marker> e Oeste, a Républica Federal da Alemanha tornou-se apenas conhecida como 'Alemanha'.</example>
       <example>O termo OTAN é um acrónimo para Organização do Tratado do <marker>Atlântico Norte</marker>.</example>
@@ -15304,18 +15306,27 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <!--          Style rules from English grammar.xml      - START-->
-    <rule default="off" id="SENT_START_NUM" name="Número no inicio da frase">
+    <rule default="on" id="SENT_START_NUM" name="Número no inicio da frase">
+    <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
       <pattern>
+        <marker>
           <token postag="SENT_START"/>
           <token regexp="yes">\d+</token>
+        </marker>
+          <token negate_pos='yes' postag_regexp='yes' postag='_PUNCT|Z.+'/>
       </pattern>
       <message>Números no inicio de frases devem ser escritos por extenso.</message>
       <short>Número no inicio da frase</short>
       <example correction=""><marker>12</marker> meses no ano.</example>
       <example>Doze meses no ano.</example>
+      <example>Mil vezes! Já o disse 1000 vezes!</example>
+      <example><marker>1.-</marker> Introdução</example>
+      <example><marker>1.--</marker> Introdução</example>
+      <example><marker>1.3.—</marker> Introdução</example>
+      <example>50-30</example>
     </rule>
 
+    <!--          Style rules from English grammar.xml      - START-->
     <rule id="E_NO_COMECO" name="Frase começa com 'E', 'Mas' ou 'Ou'">
       <pattern>
           <token postag='SENT_START'/>
