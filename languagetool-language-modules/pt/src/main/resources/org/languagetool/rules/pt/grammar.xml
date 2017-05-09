@@ -1158,7 +1158,7 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id="POR_QUE_PORQUE" name="Confusão: 'Por que', 'Por quê' e 'Porque' ">
     <!--    Created by Tiago F. Santos, 2017-02-27     -->
-    <short>Possível confusão de termos</short>
+      <short>Possível confusão de termos</short>
     <rule>
       <pattern>
           <token>porque</token>
@@ -2176,7 +2176,7 @@ title="Easy editing stylesheet" ?>
       <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
       <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
     </rule>
-    
+
   <rulegroup id="SI_UNITS_CASE" name="Unidades do Sistema Internacional: *Km/km">
     <!--  Based on Catalan KILO_LOWERCASE rule, by Tiago F. Santos, 2017-02-27      -->
       <url>https://pt.wikipedia.org/wiki/Prefixos_do_Sistema_Internacional_de_Unidades</url>
@@ -5195,7 +5195,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
     <!-- Localized from German grammar.xml -->
-        <regexp>e\. ?t\. ?c\.</regexp>
+      <regexp>e\. ?t\. ?c\.</regexp>
       <message>Pretende dizer <suggestion>etc.</suggestion> (lat. et cetera)?</message>
       <example correction="etc.">Pode comer francezinhas, feijoada, quiche, <marker>e. t. c.</marker></example>
       <example correction="etc.">Pode comer francezinhas, feijoada, quiche, <marker>e.t.c.</marker></example>
@@ -5278,7 +5278,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
     <rule>
-        <regexp>[.][.][.][.]</regexp>
+      <regexp>[.][.][.][.]</regexp>
       <message>Pontuação duplicada</message>
         <suggestion>…</suggestion>
       <example correction='…'>A situação financeira era estável<marker>....</marker></example>
@@ -13791,7 +13791,7 @@ TODO Write better examples
       <example correction='×'>h = 6.626 <marker>x</marker> 10⁻³⁴ J.s</example>
     </rule>
     <rule>
-          <regexp>([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)x([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <regexp>([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)x([\d\.⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
       <message>Prefira o símbolo de multiplicação.</message>
         <suggestion>\1×\2</suggestion>
       <example correction='2.998×10⁸'>c=<marker>2.998x10⁸</marker> m/s</example>
@@ -14707,7 +14707,7 @@ TODO Write better examples
     <!-- Localized from french grammar.xml by Tiago F. Santos, 30-01-2017 -->
       <url>https://pt.wikipedia.org/wiki/URL</url>
     <rule>
-        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|(?&lt;=\s))(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
+      <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|(?&lt;=\s))(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
       <message>Provavelmente tem de colocar www antes do URL.</message>
       <example correction="">Carregue em <marker>wwww.google.com</marker>.</example>
       <example>Carregue em <marker>www.google.com</marker>.</example>
@@ -14715,26 +14715,26 @@ TODO Write better examples
       <example>Carregue em <marker>http://www.google.com</marker>.</example>
     </rule>
     <rule>
-        <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
+      <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
       <message>Deve colocar barras oblíquas antes do URL.</message>
       <example correction="">Carregue em <marker>http:/www.google.com</marker>.</example>
       <example correction="">Carregue em <marker>http:www.google.com</marker>.</example>
       <example>Carregue em <marker>http://www.google.com</marker>.</example>
     </rule>
     <rule>
-        <regexp type="exact">\b(?:https?|ftps?|telnet)///?[a-z]\S+\b</regexp>
+      <regexp type="exact">\b(?:https?|ftps?|telnet)///?[a-z]\S+\b</regexp>
       <message>Deve colocar dois pontos depois do tipo de protocolo.</message>
       <example correction="">Carregue em <marker>http//www.google.com</marker>.</example>
       <example>Carregue em <marker>http://www.google.com</marker>.</example>
     </rule>
     <rule>
-        <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
+      <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
       <message>Os protocolos mailto: e news: não devem ser seguidos por barras oblíquas //.</message>
       <example correction=""><marker>mailto://john.doe.com</marker>.</example>
       <example><marker>mailto:john.doe.com</marker>.</example>
     </rule>
     <rule>
-        <regexp type="exact">\b(?:https?|ftps?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
+      <regexp type="exact">\b(?:https?|ftps?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
       <message>O URL contém o caratére inválido \1 segundo RFC 1738. Os caratéres especiais podem ser codificados com % seguido de dois números hexadecimais.</message>
       <url>http://www.ietf.org/rfc/rfc1738.txt</url>
       <example correction="">Carregue em <marker>http://foobar.com/%foo.html</marker></example>
@@ -15371,11 +15371,11 @@ TODO Write better examples
     <rule id="ENQUANTO_POSSA_SER" name="Expressão: Enquanto puder ser">
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
-        <token>enquanto</token>
+          <token>enquanto</token>
         <marker>
           <token>possa</token>
         </marker>		  
-        <token>ser</token>		  
+          <token>ser</token>
       </pattern>
       <message>Substitua por <suggestion>puder</suggestion>.</message>
       <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
