@@ -551,7 +551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
                     </marker>
-                    <token>é</token>
+                    <token regexp="yes">[ée]</token>
                 </pattern>
                 <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
             </rule>
@@ -561,7 +561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
                     </marker>
-                    <token>í</token>
+                    <token regexp="yes">[íi]</token>
                 </pattern>
                 <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1"/>” a bhí i gceist agat?</message>
             </rule>
@@ -569,11 +569,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ag</token>
                     <marker>
-                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpstaeiouáéíóú].*</token>
                     </marker>
                     <token>iad</token>
                 </pattern>
                 <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                    <token regexp="yes">m[ée]</token>
+                </pattern>
+                <message>An “do mo <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                    <token regexp="yes">th?[úu]</token>
+                </pattern>
+                <message>An “do do <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[^bcdfgmpstaeiouáéíóú].*</token>
+                    </marker>
+                    <token>iad|[ée]|[íi]</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpstaeiouáéíóú].*</token>
+                    </marker>
+                    <token regexp="yes">sinne?|muidne|muide?</token>
+                </pattern>
+                <message>An “dár <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+                    </marker>
+                    <token regexp="yes">[ée]</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+                    </marker>
+                    <token regexp="yes">[íi]</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:hPref"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpstaeiouáéíóú].*</token>
+                    </marker>
+                    <token regexp="yes">sibh</token>
+                </pattern>
+                <message>An “do bhúr <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
             </rule>
         </rulegroup>
     </category>
