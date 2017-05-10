@@ -543,4 +543,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
      </category>
+    <category id="VN" name="Verbal" type="grammar">
+        <rulegroup id="AG_DEANAMH_E" name="ag déanamh é">
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                    <token>é</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                    <token>í</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1"/>” a bhí i gceist agat?</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ag</token>
+                    <marker>
+                        <token postag='Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                    <token>iad</token>
+                </pattern>
+                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
