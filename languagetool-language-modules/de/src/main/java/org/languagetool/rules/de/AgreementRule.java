@@ -164,6 +164,11 @@ public class AgreementRule extends Rule {
     Arrays.asList( // "Bei mir löste das Panik aus."
         new PatternTokenBuilder().token("Außenring").build(),
         new PatternTokenBuilder().token("Autobahn").build()
+    ),
+    Arrays.asList( // "Das Holocaust Memorial Museum."
+        new PatternTokenBuilder().posRegex("ART:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build(),
+        new PatternTokenBuilder().pos("UNKNOWN").build()
     )
   );
 
