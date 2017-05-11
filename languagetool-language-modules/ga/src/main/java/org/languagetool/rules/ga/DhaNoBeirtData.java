@@ -46,7 +46,7 @@ final class DhaNoBeirtData {
     numbers.put("ceathair", "ceathrar");
     numbers.put("cúig", "cúigear");
     numbers.put("sé", "seisear");
-    numbers.put("seacht", seachtar");
+    numbers.put("seacht", "seachtar");
     numbers.put("ocht", "ochtar");
     numbers.put("naoi", "naonúr");
     numbers.put("deich", "deichniúr");
