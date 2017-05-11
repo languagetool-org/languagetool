@@ -33,6 +33,7 @@ public class PreReformPortugueseDashRule extends AbstractDashRule {
   public PreReformPortugueseDashRule(Language lang) throws IOException {
     super("/pt/pre-reform-compounds.txt",
         "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", lang);
+    setDefaultOff(); // Slows down start up time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/2
   }
 
   @Override
