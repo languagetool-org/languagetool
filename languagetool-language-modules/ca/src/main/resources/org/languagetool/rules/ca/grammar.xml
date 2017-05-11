@@ -23214,7 +23214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -44739,7 +44739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FORMES_VERBALS_PREFERIBLES" name="formes verbals preferibles: vam, cantara, sent, sàpia">
             <rule>
                 <pattern>
-                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Usem preferentment les formes en -r- de l'imperfet de subjuntiu.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"></match></suggestion>
@@ -44748,7 +44748,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cantaren"><marker>cantassin</marker></example>
                 <example correction="foren"><marker>fossen</marker></example>
                 <example correction="fóra">Ens va agradar que <marker>fos</marker> tan bonic.</example>
-                <exmaple>Han portat alumini fos.</exmaple>
+                <example>Han portat alumini fos.</example>
+                <example>amb un grau d’execució comprés entre el 80 % i el 100 %.</example>
+                <example>Programa d’Estabilitat remés pel Govern en funcions</example>
+                <example>al cap de sis mesos d’haver-se comés</example>
             </rule>
             <rule>
                 <pattern>
@@ -45067,6 +45070,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MUNICIPIS_OFICIAL" name="Exigeix el nom oficial dels municipis valencians">
             <url>http://www.presidencia.gva.es/va/web/civis/registro_entidades_locales</url>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">Alt|riu</token>
+                        <token>Millars</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="NP..G0V" postag_regexp="yes"/>
                 </pattern>
@@ -45077,9 +45086,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Dolores">Ajuntament de <marker>Dolors</marker></example>
                 <example correction="Barracas">Ajuntament de <marker>Barraques</marker></example>
                 <example correction="Higueras">Ajuntament de <marker>Figueres</marker></example>
+                <example correction="Millares">Ajuntament de <marker>Millars</marker></example>
                 <example>Mare de Déu dels Dolors.</example>
                 <example>El Mas de les Figueres.</example>
                 <example>El coll de les Barraques.</example>
+                <example>Alt Millars i riu Millars</example>
             </rule>
             <rule>
                 <pattern>
