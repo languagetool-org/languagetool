@@ -4286,6 +4286,15 @@ False negative. Make sure that there are no Hoopes or Loops in the rope. [The re
         </pattern>
         <disambig action="ignore_spelling"/>
       </rule>
+
+      <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
+          <pattern>
+              <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
+          </pattern>
+          <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                  args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
+        <disambig action="ignore_spelling"/>
+      </rule>
     </rulegroup>
 
 </rules>
