@@ -196,19 +196,23 @@ public class Portuguese extends Language implements AutoCloseable {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
       case "INTERJECTIONS_PUNTUATION":  return  5;
+      case "PROFANITY":                 return -1;
       case "PT_MULTI_REPLACE":          return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
       case "PT_WORDYNESS_REPLACE":      return -13;
       case "PT_CLICHE_REPLACE":         return -17;
-      case "HUNSPELL_RULE":             return -20;
-      case "CRASE_CONFUSION":           return -25;
-      case "FINAL_STOPS":               return -35;
-      case "T-V_DISTINCTION":           return -50;
-      case "T-V_DISTINCTION_ALL":       return -51;
-      case "REPEATED_WORDS":            return -90;
-      case "REPEATED_WORDS_3X":         return -91;
-      case "WIKIPEDIA_COMMON_ERRORS":   return -100;
+      case "CHILDISH_LANGUAGE":         return -25;
+      case "ARCHAISMS":                 return -26;
+      case "INFORMALITIES":             return -27;
+      case "HUNSPELL_RULE":             return -40;
+      case "CRASE_CONFUSION":           return -45;
+      case "FINAL_STOPS":               return -55;
+      case "T-V_DISTINCTION":           return -70;
+      case "T-V_DISTINCTION_ALL":       return -71;
+      case "REPEATED_WORDS":            return -110;
+      case "REPEATED_WORDS_3X":         return -111;
+      case "WIKIPEDIA_COMMON_ERRORS":   return -200;
       case "TOO_LONG_SENTENCE":         return -1000;
     }
     return 0;
