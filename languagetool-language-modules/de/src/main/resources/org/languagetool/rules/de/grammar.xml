@@ -9022,6 +9022,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </antipattern>
                 <antipattern>
+                    <token>weit</token>
+                    <token>weg</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">los|auf</token>
                     <token>geht</token>
                     <token regexp="yes">['´’]</token>
@@ -9029,10 +9033,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen</token>
+                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
-                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
-                            <exception postag="ADJ:.*" postag_regexp="yes"/>
+                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen</exception>
+                            <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
                         </token>
                     </marker>
@@ -9057,6 +9061,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Den ganzen Tag über freuten sie sich.</example>
                 <example>ie Welt braucht mehr an demütigen Genies.</example>
                 <example>Die einzige Frage ist nun, wie wir an genügend Geld kommen</example>
+                <example>Von weit weg hörte man ein leises Wimmern.</example>
+                <example>Sie fing an fernzusehen.</example>
+            </rule>
+              <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">vo[mn]</token>
+                    <token regexp="yes">an|ab|au[fs]|weg</token>
+                </antipattern>
+                <antipattern>
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADV:MOD"/>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>hör</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>und</token>
+                    <token>ab</token>
+                </antipattern>
+                <antipattern>
+                    <token>ab</token>
+                    <token>und</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">los|auf</token>
+                    <token>geht</token>
+                    <token regexp="yes">['´’]</token>
+                    <token>s</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne</token>
+                        <token>zu</token>
+                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
+                            <exception postag="ADJ:.*" postag_regexp="yes"/>
+                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1\3' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2\3</suggestion>
+                <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
+                <short>&getrennt;.</short>
+                <example correction="unterzugehen">Er hat nicht vor <marker>unter zu gehen</marker>.</example>
+                <example>Zu allem Übel fing es an zu schneien.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANHAND" name="an hand (anhand)">
@@ -9372,7 +9434,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <regexp>\b((Lichtjahre? (alt(e[rsmn]?)?|(ge)?dauer[tn].*|später))|(dauer[nt].* (noch|ein|viele)?[ ]?(Lichtjahre?)))\b</regexp>
                 <message>Ein Lichtjahr ist keine Zeiteinheit, sondern eine Längeneinheit.</message>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
-                <!--<example correction="">Wie viele Meter hat ein Lichtjahr?</example>-->
                 <example correction="">Unser Unversium ist viele <marker>Lichtjahre alt</marker>.</example>
             </rule>
         </rulegroup>
@@ -12562,13 +12623,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>ein</token>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">drittel|viertel|fünftel|sechstel|siebtel|achtel|neuntel|zehntel|elftel|zwölftel</token>
+                    <token case_sensitive="yes" regexp="yes">(drit|vier|fünf|sechs|sieb|ach|neun|zehn|elf|zwölf|hunderts|tausends)tel</token>
                 </marker>
                 <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier als Substantiv benutzt zu werden und wird dann großgeschrieben.</message>
             <example correction="Fünftel">Ein <marker>fünftel</marker> vom Ganzen</example>
             <example>Es kostet eine <marker>drittel</marker> Million.</example>
+        </rule>
+        <rule id="EIN_NTEL_EINHEIT" name="ein Fünftel (fünftel) Liter">
+            <pattern>
+                <token regexp="yes">ein(e[ns]?)?</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">(Drit|Vier|Fünf|Sechs|Sieb|Ach|Neun|Zehn|Elf|Zwölf|Hunderts|Tausends)tel</token>
+                </marker>
+                <token regexp="yes">.*(gramm|liter|sekunde)|Glas</token>
+            </pattern>
+            <message>Das Zahlwort <suggestion><match no="2" case_conversion="startlower"/></suggestion> wird kleingeschrieben, wenn es sich auf '\3' bezieht.</message>
+            <url>https://www.korrekturen.de/regelwerk/gross-_und_kleinschreibung2-1b.shtml</url>
+            <example correction="tausendstel">Ein <marker>Tausendstel</marker> Liter Blut genügt, um die DNA zu ermitteln.</example>
+            <example>Die Sonde hat eine Länge von nur einem <marker>Zehntel</marker> Millimeter.</example>
         </rule>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
