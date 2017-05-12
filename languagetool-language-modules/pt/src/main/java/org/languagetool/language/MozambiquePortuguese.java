@@ -47,7 +47,7 @@ public class MozambiquePortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PreReformPortugueseCompoundRule(messages));
-    rules.add(new PreReformPortugueseDashRule(this));
+    rules.add(new PreReformPortugueseDashRule());
     return rules;
   }
 

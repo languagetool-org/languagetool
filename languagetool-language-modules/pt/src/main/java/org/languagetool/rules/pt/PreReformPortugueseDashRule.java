@@ -19,10 +19,12 @@
 
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
@@ -30,9 +32,11 @@ import java.io.IOException;
  */
 public class PreReformPortugueseDashRule extends AbstractDashRule {
 
-  public PreReformPortugueseDashRule(Language lang) throws IOException {
-    super("/pt/pre-reform-compounds.txt",
-        "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", lang);
+  private static final List<PatternRule> dashRules = loadCompoundFile("/pt/pre-reform-compounds.txt",
+                    "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", Languages.getLanguageForShortCode("pt-PT"));
+  
+  public PreReformPortugueseDashRule() throws IOException {
+    super(dashRules);
     setDefaultOff(); // Slows down checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/2
   }
 

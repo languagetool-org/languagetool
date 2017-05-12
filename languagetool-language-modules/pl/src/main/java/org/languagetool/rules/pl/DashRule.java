@@ -19,10 +19,12 @@
 
 package org.languagetool.rules.pl;
 
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
@@ -30,9 +32,11 @@ import java.io.IOException;
  */
 public class DashRule extends AbstractDashRule {
 
-  public DashRule(Language lang) throws IOException {
-    super("/pl/compounds.txt",
-        "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", lang);
+  private static final List<PatternRule> dashRules = loadCompoundFile("/pl/compounds.txt",
+          "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", Languages.getLanguageForShortCode("pl"));
+
+  public DashRule() throws IOException {
+    super(dashRules);
   }
 
   @Override
