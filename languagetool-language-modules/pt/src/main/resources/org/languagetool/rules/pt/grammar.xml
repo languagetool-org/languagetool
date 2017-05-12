@@ -15239,12 +15239,16 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='AQC.+|N.....D'/>
-          <!-- TODO Improve tagger so that it recognizes better aumentatives and diminutives -->
+          <token postag_regexp='yes' postag='AQC.+|N.....[AD]'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='AQC.+|N.....[AD]'/>
+            <exception regexp='yes'>sozinh[ao]s?|finit[ao]s?|capita</exception></token>
+          <!-- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
       <example type="incorrect">O peixe era <marker>grandinho</marker>, mas não bati nenhum recorde.</example>
       <example type="correct">O peixe era <marker>muito grande</marker>, mas não bati nenhum recorde.</example>
+      <example type="correct">água límpida da nascente brota entre as pedras e <marker>caminha</marker> por entre as árvores que agradecem.</example>
+      <example type="correct">Ele sustentou <marker>sozinho</marker> três crianças. por entre as árvores que agradecem.</example>
     </rule>
   </rulegroup>
 
