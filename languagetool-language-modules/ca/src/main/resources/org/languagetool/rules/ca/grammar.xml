@@ -36098,7 +36098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="5">fallar</token>
+                        <token inflected="yes" skip="5">fallar<exception postag="_GN_F." postag_regexp="yes"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">&context_FALLAR;</token>
                 </pattern>
@@ -36113,13 +36113,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">decidir</match></suggestion>
                 <short>Possible error</short>
                 <example correction="dictaminar|dictar|pronunciar|sentenciar|adjudicar|concedir|atorgar|decidir">Diu que vol <marker>fallar</marker> sentència avui.</example>
-                <example>Va dictar sentència ahir.</example>
+                <example>Possibles fallades en el procés.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="5">&context_FALLAR;</token>
                     <marker>
-                        <token inflected="yes">fallar</token>
+                        <token inflected="yes">fallar<exception postag="_GN_F." postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Possible castellanisme.</message>
@@ -36134,7 +36134,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible error</short>
                 <example correction="dictaminar|dictar|pronunciar|sentenciar|adjudicar|concedir|atorgar|decidir">El jutge va <marker>fallar</marker> així.</example>
                 <example correction="dictaminaren|dictaren|pronunciaren|sentenciaren|adjudicaren|concediren|atorgaren|decidiren">Els jutges <marker>fallaren</marker> en favor d'Ermessenda</example>
-                <example>La sentència fou dictada ahir.</example>
+                <example>En el procés s'han trobat moltes fallades.</example>
+
             </rule>
         </rulegroup>
         <rulegroup id="COLGAR_PENJAR" name="colgar / penjar">
@@ -44176,7 +44177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EXIGEIX_PLURALS_SCOS" name="Exigeix plurals en -scos: textos, boscos..." default="off">
             <pattern>
                 <and>
-                    <token regexp="yes">.+(sc|sp|st|xt)s<exception regexp="yes">.*(tist|cist|blast|plast)s|aquests|tests</exception></token>
+                    <token regexp="yes">.+(sc|sp|st|xt)s<exception regexp="yes">.*(tist|cist|blast|plast)s|aquests|tests|forests</exception></token>
                     <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
                 </and>
             </pattern>
@@ -44185,6 +44186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="boscos">Els <marker>boscs</marker></example>
             <example correction="pretextos">Els seus <marker>pretexts</marker></example>
             <example>Aquests són els caliptoblasts</example>
+            <example>Forests veïnals</example>
         </rule>
         <rulegroup id="EXIGEIX_PLURALS_IGS" name="Exigeix plurals en -igs: desigs, assaigs..." default="off">
             <rule>
