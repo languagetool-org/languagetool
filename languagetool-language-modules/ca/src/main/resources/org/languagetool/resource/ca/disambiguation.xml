@@ -4787,6 +4787,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="fins_nom" name="fins nom">
+        <pattern>
+            <token postag="D..MP.|V.P..PM." postag_regexp="yes"/>
+            <token min="0" postag="A..[CM]P." postag_regexp="yes"/>
+            <marker>
+                <token>fins</token>
+            </marker>
+            <token>a</token>
+            <token>què</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rule id="fins_preposicio" name="fins preposició">
         <pattern>
             <marker>

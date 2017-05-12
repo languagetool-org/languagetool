@@ -3084,13 +3084,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
+        <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
                 <unify>
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <marker>
                         <token postag="NC.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">corrent|pendent</token>
+                    </marker>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes"/>
                         <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">corrent|pendent</token>
                     </marker>
                 </unify>
@@ -3138,6 +3149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de concordança</short>
                 <example correction="">L'ampla <marker>corrent</marker>.</example>
                 <example>L'ample pendent</example>
+                <example>Tindre qüestió litigiosa pendent.</example>
                 <!-- la notació algèbrica corrent.  -->
             </rule>
         </rulegroup>
@@ -8974,6 +8986,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="FINS_A" name="Revisa: «fins/fins a»">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>fins</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>fins</token>
@@ -8997,6 +9016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fins a"><marker>Fins</marker> l'últim dia.</example>
                 <example>No arribarà fins l'endemà.</example>
                 <example>No arribarà fins a l'endemà.</example>
+                <example>Tenen com a fins la promoció i la publicitat.</example>
             </rule>
             <rule id="FINS_A_BARCELONA" name="fins *(a) Barcelona">
                 <pattern>
@@ -9812,6 +9832,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tenia por de què?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token postag="_GN_MP">fins</token>
+                        <token>a</token>
+                        <token>què</token>
+                        <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>fins</token>
                     <token>a</token>
@@ -9821,7 +9850,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>fins que</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
                 <example correction="fins que">No serà <marker>fins a que</marker> vindran.</example>
-                <example>Fins que arribin.</example>
+                <example>Els fins a què es poden destinar.</example>
+                <example>Determinats fins a què es poden destinar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30983,7 +31013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="A_L_ENTORN_DE" name="a l'entorn de">
             <rule>
                 <pattern>
-                    <token><exception>tot</exception></token>
+                    <token><exception regexp="yes">tot|fins|cap</exception></token>
                     <marker>
                         <token>a</token>
                         <token>l'</token>
@@ -42999,7 +43029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="PRES_SUBJ_EN_CONDICIONALS" name="Present de subjuntiu en frases condicionals: *si conegueu">
                 <pattern>
                     <token><exception regexp="yes">en|entre|seu|per</exception></token>
-                    <token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">mateix|que</exception></token>
+                    <token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">mateix|que|quan</exception></token>
                     <marker>
                         <token postag="V.SP.*" postag_regexp="yes"><exception postag="VSSI.*|V.IP.*|_GN_.*" postag_regexp="yes"/></token>
                     </marker>
