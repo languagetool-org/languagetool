@@ -36,6 +36,7 @@ import java.util.List;
 /**
  * Another use of the compounds file -- check for compounds written with
  * dashes instead of hyphens (for example, Rabka — Zdrój).
+ * NOTE: this slows down checking a lot when used with large compound lists
  * @since 3.8
  */
 public abstract class AbstractDashRule extends Rule {
