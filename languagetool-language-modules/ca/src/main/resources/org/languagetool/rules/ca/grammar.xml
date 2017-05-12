@@ -5745,6 +5745,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Devien ser|Haurien de ser"><marker>Deurien ser</marker> les tres.</example>
         </rule>
         <rulegroup id="DEURE_DE_INFINITIU" name="deure de + infinitiu">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
+                    <token>deure</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="VM.*" postag_regexp="yes" inflected="yes">deure<exception postag="_GN_MS"/></token>
@@ -5759,6 +5765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El deure de pregar l'obtenció de llicència</example>
                 <example>té més deure de tenir cura</example>
                 <example>el més mínim deure de col·laborar</example>
+                <example>Deure d'informar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7341,7 +7348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AQ0CN0">número</exception></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AQ0CN0">número</exception><exception>apartat</exception></token>
                     <marker>
                         <token>u</token>
                     </marker>
@@ -7352,6 +7359,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="o">inútil <marker>u</marker> ignorant.</example>
                 <example>inútil o ignorant</example>
                 <example>El més jove número u mundial.</example>
+                <example>En l'apartat u precedent.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -11155,7 +11163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="_PUNCT.*|SENTSTART" postag_regexp="yes"></token>
+                    <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"></token>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
                     </marker>
@@ -17535,24 +17543,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DUES_PREPOSICIONS" name="Dues preposicions: a amb">
-            <!--<antipattern>
+            <antipattern> <!-- xiquet/a amb -->
                 <marker>
-                <token regexp="yes">fins|cap|per</token>
-                <token>a</token>
+                    <token spacebefore="no" regexp="yes">/|\.</token>
+                    <token spacebefore="no">a</token>
                 </marker>
-                </antipattern>
-                <antipattern>
+            </antipattern>
+            <antipattern>
                 <marker>
-                <token regexp="yes">des|més|menys|prop|dins|fora|dintre|cap|via</token>
-                <token regexp="yes">de|d'</token>
+                    <token>la</token>
+                    <token>lletra</token>
+                    <token>a</token>
                 </marker>
-                </antipattern>
-                <antipattern>
-                <marker>
-                <token>a</token>
-                <token regexp="yes">dins|dintre|fora|davant|darrere|dalt|baix|damunt|sobre</token>
-                </marker>
-                </antipattern>-->
+            </antipattern>
             <antipattern>
                 <marker>
                     <token>d'</token>
@@ -17565,42 +17568,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{Lu}.*</token>
                 </marker>
             </antipattern>
-            <!--<rule>
-                <pattern>
-                <marker>
-                <token postag="SPS00"><exception postag="N.*|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
-                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="N.*|_GN_.*|_possible_nompropi|.*NP.*" postag_regexp="yes"/></token>
-                </marker>
-                /*<token postag="D[^AI].*" postag_regexp="yes"></token>*/
-                </pattern>
-                <message>Construcció probablement incorrecta.</message>
-                <example correction=""><marker>en d'</marker>aquesta ocasió.</example>
-                <example correction=""><marker>en de</marker> cinc a trenta minuts.</example>
-                <example>El primer cap de setmana.</example>
-                <example>eliminació de la a en les paraules esdrúixoles</example>
-                <example>per transmetre a d'altres les nostres idees</example>
-                <example correction="">Pensava que <marker>a amb</marker> ell me'n sortiria.</example>
-                <example correction=""><marker>Per pe</marker>l que fa a ell, se'n sortirà.</example>
-                <example>Pensava que amb ell sí.</example>
-                <example>Li ho van donar a en Pere.</example>
-                <example>Per a ell sí.</example>
-                <example>Vitamina A en forma de</example>
-                <example>per transmetre a d'altres les nostres idees</example>
-                <example correction="">Anaven <marker>a en</marker> ell.</example>
-                <example>va ser introduït a Europa per en Minoru Mochizuki</example>
-                <example>Eliminació de la a en les paraules esdrúixoles</example>
-                <example correction="">hem tingut <marker>per d'</marker>equips amb Windows.</example>
-                <example>per a d'altres les nostres idees</example>
-                <example correction="">Una altra manera <marker>de d'</marker>analitzar .</example>
-                <example>No volia res més que mirar i mirar i mirar.</example>
-                <example>la política nacionalista de De Gaulle</example>
-                <example>la política nacionalista de de Gaulle</example>
-                <example correction="">que volíem deixar enrere <marker>amb a</marker>l procés</example>
-                <example correction="">Deixem-ho <marker>en a</marker> una part.</example>
-                <example>que volíem deixar enrere amb el procés</example>
-                <example>amb A. Moncunill.</example>
-                <example>Amb a penes tres anys.</example>
-                </rule>-->
             <rule id="AMB_EN_AMB_EL" name="amb *en/el">
                 <pattern>
                     <token>amb</token>
@@ -21605,6 +21572,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ES</token>
                 </marker>
             </antipattern>
+            <antipattern> <!-- doblets masculí/femení: xiquets/es-->
+                <marker>
+                    <token postag="[DAN].*" postag_regexp="yes" regexp="yes">.+s</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">es</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -21669,6 +21643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>es mig situava</example>
                 <example>És així es digui com es digui.</example>
                 <example>Quan algú es casa li donem l'enhorabona.</example>
+                <example>Associacions de consumidors/es i tota la resta.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24670,7 +24645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
         <rule id="LES_CORTS" name="*Les Corts/les Corts">
             <pattern case_sensitive="yes">
-                <token><exception postag="SENT_START"/><exception>:</exception></token>
+                <token><exception postag="SENT_START|_PUNCT" postag_regexp="yes"/><exception regexp="yes">[:-]</exception></token>
                 <marker>
                     <token>Les</token>
                     <token>Corts</token>
@@ -24680,6 +24655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" case_conversion="alllower"/> Corts</suggestion>
             <example correction="les Corts">És diputatat a <marker>Les Corts</marker> valencianes.</example>
             <example>Les Corts valencianes.</example>
+            <example>-Les Corts.</example>
         </rule>
         <rule id="CARRER_MAJUSCULA" name="Carrer/carrer de">
             <antipattern>
@@ -38113,7 +38089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>acordes</token>
                     </marker>
                 </pattern>
-                <message>'Acordes' no és adjectiu.</message>
+                <message>'Acordes' no és adjectiu. Correcte si és del verb 'acordar'.</message>
                 <suggestion>concordes</suggestion>
                 <suggestion>coincidents</suggestion>
                 <suggestion>d'acord</suggestion>
@@ -38122,6 +38098,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>gestos concordes</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="6" regexp="yes">quan|que</token>
+                        <token>acorde</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="N..[SN].*|_GN_.S" postag_regexp="yes"></token>
                     <marker>
@@ -38129,7 +38111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="V.N.*|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>'Acorde' no és adjectiu.</message>
+                <message>'Acordes' no és adjectiu. Correcte si és del verb 'acordar'.</message>
                 <suggestion>concorde</suggestion>
                 <suggestion>coincident</suggestion>
                 <suggestion>d'acord</suggestion>
@@ -38138,8 +38120,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>gest concorde</example>
                 <example>que el ple acorde constituir</example>
                 <example>que el ple acorde:</example>
-                <!-- <example>que el Parlament acorde la reprovacó del president.</example>
-                    <example>que el Ple acorde amb posterioritat</example> -->
+                <example>Quan una empresa de serveis d’inversió acorde la seua dissolució.</example>
+                <example>que el Parlament acorde la reprovacó del president.</example>
+                <example>que el Ple acorde amb posterioritat</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEPENENT" name="*depenent/dependent">
