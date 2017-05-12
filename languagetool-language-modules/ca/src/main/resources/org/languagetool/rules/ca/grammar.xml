@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
+    <!ENTITY exceptions_pronom_en "norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
@@ -19230,6 +19231,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&lt;NP.*" postag_regexp="yes" regexp="yes">Els?</token>
                 </marker>
             </antipattern>
+            <antipattern> <!--doblets de gènere: el xiquet/a que-->
+                <marker>
+                    <token postag="[AN].*MS.*" postag_regexp="yes"/>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">a</token>
+                </marker>
+            </antipattern>
             <rule>
                 <antipattern>
                     <marker>
@@ -19286,8 +19294,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>el<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>al</suggestion>.</message>
-                <short>Error gramatical</short>
                 <example correction="al"><marker>a el</marker> camí</example>
+                <example>tornar al xiquet/a el que ha dit</example>
             </rule>
             <rule>
                 <pattern>
@@ -19295,7 +19303,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>els<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>als</suggestion>.</message>
-                <short>Error gramatical</short>
                 <example correction="als"><marker>a els</marker> camins</example>
             </rule>
             <rule>
@@ -23253,7 +23260,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">&exceptions_pronom_en;</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -23276,7 +23283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">nota|tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">&exceptions_pronom_en;</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token>,</token>
@@ -44081,6 +44088,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>com</token>
                     <token>a</token>
                     <token postag="V.G.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern> <!--doblets de gènere: el xiquet/a que-->
+                <marker>
+                    <token postag="[AN].*MS.*" postag_regexp="yes"/>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">a</token>
                 </marker>
             </antipattern>
             <rule>
