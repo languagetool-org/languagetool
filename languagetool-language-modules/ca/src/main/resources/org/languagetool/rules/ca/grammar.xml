@@ -1878,6 +1878,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"></token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="SPS00"/>
+                    <token regexp="yes">si|jo|tu|ell|ella|nosaltres|vosaltres|ells|elles</token>
+                    <token inflected="yes">mateix</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -1904,6 +1911,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la poesia, de forta base realista,</example>
                 <example>una nova i sòlida base rural</example>
                 <example>resistí encara nou mesos</example>
+                <example>Plantar i talar arbres.</example>
+                <example>Quan afecte òrgans interiors.</example>
+                <example>per si mateix arxius històrics</example>
             </rule>
             <rule>
                 <pattern>
@@ -13708,6 +13718,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">['`´‘’]</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START|CC|SPS00|_PUNCT.*" postag_regexp="yes"/>
+                    <token>l</token>
+                    <token spacebefore="no">)</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token spacebefore="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d|/</exception></token>
@@ -17551,8 +17568,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>la</token>
-                    <token>lletra</token>
+                    <token regexp="yes">la|el|l'</token>
+                    <token regexp="yes">lletra|apartat|subapartat</token>
                     <token>a</token>
                 </marker>
             </antipattern>
