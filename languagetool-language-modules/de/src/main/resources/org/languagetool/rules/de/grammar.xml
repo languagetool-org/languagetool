@@ -9033,7 +9033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne</token>
+                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
@@ -9064,7 +9064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Von weit weg hörte man ein leises Wimmern.</example>
                 <example>Sie fing an fernzusehen.</example>
             </rule>
-              <rule>
+            <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
                     <token regexp="yes">an|ab|au[fs]|weg</token>
@@ -9102,9 +9102,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">['´’]</token>
                     <token>s</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">halten</token>
+                    <token>inne</token>
+                    <token>zu</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne</token>
+                        <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token>zu</token>
                         <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
@@ -9119,6 +9124,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="unterzugehen">Er hat nicht vor <marker>unter zu gehen</marker>.</example>
                 <example>Zu allem Übel fing es an zu schneien.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MASSREGELN" name="maß regeln (maßregeln)">
+                <rule>
+                <pattern>
+                    <marker>
+                        <token>maß</token>
+                        <token inflected="yes">regeln</token>
+                    </marker>
+                </pattern>
+                <message>Formen des Verbs 'maßregeln' ('gemaßregelt') werden zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="maßregelte">Ich <marker>maß regelte</marker> sie sofort.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHLAFWANDELN" name="schlaf (wandeln)">
+                <rule>
+                <pattern>
+                    <marker>
+                        <token>schlaf</token>
+                        <token inflected="yes">wandeln</token>
+                    </marker>
+                </pattern>
+                <message>Formen des Verbs 'schlafwandeln' ('geschlafwandelt') werden zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="schlafwandelte">Ich <marker>schlaf wandelte</marker> als Kind.</example>
+                <example correction="Schlafwandeln">Beim <marker>Schlaf wandeln</marker> verletzte sie sich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANHAND" name="an hand (anhand)">
@@ -25997,6 +26029,33 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Ja">Ein einfaches <marker>ja</marker> hätte genügt.</example>
                 <example correction="Nein">Man vernahm ein lautes und deutliches <marker>nein</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_ANRATEN" name="auf anraten (Anraten)">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                    <token case_sensitive="yes">anraten</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'auf jemandes <suggestion>Anraten</suggestion>' wird 'Anraten' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Anraten">Auf <marker>anraten</marker> meines Arztes treibe ich mehr Sport.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SOLL" name="sein soll (Soll) erfüllen">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">soll</token>
+                    </marker>
+                    <token regexp="yes" min="0">nicht|zu</token>
+                    <token inflected="yes">erfüllen</token>
+                </pattern>
+                <message>&inwend;'das <suggestion>Soll</suggestion> erfüllen' wird 'Soll' als Substantiv gebraucht und großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Soll">Sein hat ihr <marker>soll</marker> erfüllt.</example>
             </rule>
         </rulegroup>
     </category>
