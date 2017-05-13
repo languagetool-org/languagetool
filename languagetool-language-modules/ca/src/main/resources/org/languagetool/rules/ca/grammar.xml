@@ -26018,6 +26018,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1</suggestion>
             <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
         </rule>
+        <rulegroup id="SUPERINDEXS" name="superíndexs en unitats: m2/m²">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(m|c|d|h|k)?m2</token>
+                </pattern>
+                <message>Si és una unitat, cal escriure un superíndex.</message>
+                <suggestion><match no="1" regexp_match="(.*)2" regexp_replace="$1²"/></suggestion>
+                <example correction="km²"><marker>km2</marker></example>
+                <example>KM2</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(m|c|d|h|k)?m3</token>
+                </pattern>
+                <message>Si és una unitat, cal escriure un superíndex.</message>
+                <suggestion><match no="1" regexp_match="(.*)3" regexp_replace="$1³"/></suggestion>
+                <example correction="km³"><marker>km3</marker></example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
         <rulegroup id="SEGONS_L_INDICAT" name="segons *l'indicat/indica">
