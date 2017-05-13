@@ -4811,7 +4811,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Falta un participi, el pronom 'hi' o la preposició 'de'.</message>
                 <suggestion>hi <match no="2"/></suggestion>
-                <short>Falta algun element</short>
                 <example correction="hi hagués">si no <marker>hagués</marker> mor tan jove.</example>
                 <example correction="hi hagués">si no <marker>hagués</marker> fatalment mor tan jove.</example>
                 <example correction="hi ha">No <marker>ha</marker> gairebé ningú.</example>
@@ -4838,6 +4837,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ho havia o no ho havia assumit?</example>
                 <example>Havia o no dit això.</example>
                 <example>que anys ha degué ésser conegut</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>hi</token>
+                        <token postag="VA.*" postag_regexp="yes"/>
+                        <token>haver</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="VAN00000">haver<exception postag="_perfet|_obligacio|_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception regexp="yes">esment|-hi</exception></token>
+                </pattern>
+                <message>Falta un participi, la preposició 'de' o el pronom 'hi'.</message>
+                <example correction="">Quan el vam <marker>haver</marker> pràcticament esgotant.</example>
+                <example correction="">Es va <marker>haver</marker> d'aturat.</example>
+                <example>Quan el vam haver pràcticament esgotat.</example>
+                <example>Hi va haver mala sort.</example>
+                <exmaple>Va haver-hi mala sort.</exmaple>
             </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
