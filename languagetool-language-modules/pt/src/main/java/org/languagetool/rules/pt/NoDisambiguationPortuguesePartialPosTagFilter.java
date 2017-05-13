@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A {@link PartialPosTagFilter} for English that does not run the disambiguator.
+ * A {@link PartialPosTagFilter} for Portuguese that does not run the disambiguator.
  * @since 3.8
  * @see PortuguesePartialPosTagFilter
  */
