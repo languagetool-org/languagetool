@@ -2247,7 +2247,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[KDCNF][gmlsJNWCVSFTH][23²³]?
+          <token regexp="yes">[KHDCNF][gmlsJNWCVSFTH](\^)?[23²³]?
             <exception>DJ</exception></token>
         </marker>
       </pattern>
@@ -2255,13 +2255,14 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" case_conversion="startlower"/></suggestion>
       <example correction="km">A 30 <marker>Km</marker> de distância.</example>
       <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km²</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
+      <example correction="km^2">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
       <example correction="kW">120 <marker>KW</marker> de potência</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[yzptg][gmlsJNWCVSFTH][23²³]?
+          <token regexp="yes">[yzptg][gmlsJNWCVSFTH](\^)?[23²³]?
             <exception>pH</exception></token>
         </marker>
       </pattern>
@@ -13846,45 +13847,49 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[kdcnfYZPTG]?[gmlsJNWCVSFTH]2</token>
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?2</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+)2' regexp_replace='$1²'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)2' regexp_replace='$1²'/></suggestion>
       <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km2</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
+      <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[kdcnfYZPTG]?[gmlsJNWCVSFTH]3</token>
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?3</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+)3' regexp_replace='$1³'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)3' regexp_replace='$1³'/></suggestion>
       <example correction="m³">A banheira tinha 2 <marker>m3</marker>.</example>
+      <example correction="m³">A banheira tinha 2 <marker>m^3</marker>.</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
           <token>/</token>
         <marker>
-          <token regexp="yes">[kdcnfYZPTG]?[gmlsJNWCVSFTH]2</token>
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?2</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+)2' regexp_replace='$1²'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)2' regexp_replace='$1²'/></suggestion>
       <example correction="s²">g = 9,8 m/<marker>s2</marker></example>
+      <example correction="s²">g = 9,8 m/<marker>s^2</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
           <token>/</token>
         <marker>
-          <token regexp="yes">[kdcnfYZPTG]?[gmlsJNWCVSFTH]3</token>
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?3</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+)3' regexp_replace='$1³'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)3' regexp_replace='$1³'/></suggestion>
       <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm3</marker>.</example>
+      <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm^3</marker>.</example>
     </rule>
   </rulegroup>
 
