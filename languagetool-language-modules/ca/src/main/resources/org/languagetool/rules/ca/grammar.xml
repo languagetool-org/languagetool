@@ -18588,12 +18588,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <marker>
-                        <token regexp="yes">[.?!•\*]</token>
+                        <token postag="SENT_START"/>
+                        <token regexp="yes">[•\*]</token>
                         <token/>
                     </marker>
                 </antipattern>
                 <antipattern>
                     <marker>
+                        <token postag="SENT_START"/>
                         <token regexp="yes">[\("'«“‘]</token>
                         <token spacebefore="no"/>
                     </marker>
@@ -18623,6 +18625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" case_conversion="alllower"/></suggestion>
                 <example correction="patís">Se n'ha anat a <marker>Patís</marker>.</example>
                 <example correction="vulgui">Digui el que <marker>Vulgui</marker>.</example>
+                <example correction="musique">estudis (<marker>Musique</marker> de Russie)</example>
                 <example>La senyora Reis Pérez diu que sí.</example>
                 <example>El Front Nacional de Le Pen</example>
                 <example>Vam anar a Cal Xato.</example>
@@ -18633,6 +18636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>* Triem una solució.</example>
                 <example>• Triem una solució.</example>
                 <example>a) Tinga facultats per a operar.</example>
+                <example>més hebraïtzant que Regne de Déu</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: *anyadir, *arrepentir">
