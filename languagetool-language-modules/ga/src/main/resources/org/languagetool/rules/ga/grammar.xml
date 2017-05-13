@@ -730,7 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>mur</token>
                 </match>
-                <token postag="Noun:.*" postag_regexp="yes"></token>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>bhur</suggestion></message>
         </rule>
@@ -757,7 +757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">n?gh?naithe</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(n?gh?)aithe" regexp_replace="$1nó"></match></suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(n?gh?)aithe" regexp_replace="$1nó"/></match></suggestion></message>
         </rule>
         <rule id="NA_NDATHACHA" name="na ndathacha">
             <pattern>
@@ -2790,8 +2790,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>roimhe</token>
                     <token>an</token>
-                    <token>ECLIPSED</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*:Ecl" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
         </rule>
@@ -2800,8 +2800,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>roimhe</token>
                     <token>an</token>
-                    <token>UNLENITEDBCFGMP</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">bhf|[bcfgmp][^h']</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
         </rule>
@@ -2810,8 +2810,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>roimhe</token>
                     <token>an</token>
-                    <token>INITIALVOWEL</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
         </rule>
@@ -2820,8 +2820,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>roimhe</token>
                     <token>an</token>
-                    <token>INITIALS</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">s[lnraeiouáéíóúh].*</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
         </rule>
@@ -2830,8 +2830,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>roimhe</token>
                     <token>an</token>
-                    <token>LENITED</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*:Len" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
         </rule>
@@ -2844,11 +2844,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>an mogh</suggestion></message>
         </rule>
-        <rule id="AR_D?TUS" name="ar d?tús">
+        <rule id="AR_TUS" name="ar tús">
             <pattern>
                 <match>
                     <token>ar</token>
-                    <token regexp="yes">d?túi?s</token>
+                    <token regexp="yes">dtúis|túi?s</token>
                 </match>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ar dtús</suggestion></message>
@@ -2897,7 +2897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>críoch</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>bailchríoch</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(m?bh?)ail" regexp_replace="$1ailchríoch"/></suggestion></message>
         </rule>
         <rule id="NUAIR_BHEAS" name="nuair bhéas">
             <pattern>
@@ -2955,21 +2955,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MBUN|BHUN|BUN_OS_CIONN" name="mbun|bhun|bun os cionn">
             <pattern>
                 <match>
-                    <token regexp="yes">mbun|bhun|bun</token>
+                    <token regexp="yes">m?bh?un</token>
                     <token>os cionn</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>bunoscionn</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(m?bh?)un" regexp_replace="$1unoscionn"/></suggestion></message>
         </rule>
-        <rule id="MBUN|BHUN|BUN_OS_TOLL" name="mbun|bhun|bun os toll">
+        <rule id="BUN_OS_TOLL" name="mbun|bhun|bun os toll">
             <pattern>
                 <match>
-                    <token regexp="yes">mbun|bhun|bun</token>
+                    <token regexp="yes">m?bh?un</token>
                     <token>os</token>
                     <token>toll</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>bunoscionn</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(m?bh?)un" regexp_replace="$1unoscionn"/></suggestion></message>
         </rule>
         <rule id="CE_MEID" name="cé méid">
             <pattern>
@@ -2996,7 +2996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>caisil</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>cornán caisil</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(g?ch?)arnán" regexp_replace="$1ornán"/> caisil</suggestion></message>
         </rule>
         <rule id="OS_CEANN" name="os ceann">
             <pattern>
@@ -3032,7 +3032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">ch?earna</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>ceithre chearn</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(g?ch?)eithre" regexp_replace="$1eithre"/> chearn</suggestion></message>
         </rule>
         <rule id="I_GCIONN" name="i gcionn">
             <pattern>
@@ -3097,7 +3097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mara</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>cuán mara</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(g?ch?)uan" regexp_replace="$1uán"/> mara</suggestion></message>
         </rule>
         <rule id="DA_MEID" name="dá méid">
             <pattern>
@@ -3115,7 +3115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mullóg</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>dallamullóg</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(dh?)alla" regexp_replace="$1allamullóg"/></suggestion></message>
         </rule>
         <rule id="DALL_NA_MULLOG" name="dall na mullóg">
             <pattern>
@@ -3125,7 +3125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mullóg</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>dallamullóg</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(n?dh?)all" regexp_replace="$1allamullóg"/></suggestion></message>
         </rule>
         <rule id="RUAN_ALLA" name="ruán alla">
             <pattern>
@@ -3151,7 +3151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">dh?athannaí</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>dathanna</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(dh?)athannaí" regexp_replace="$1athanna"/></suggestion></message>
         </rule>
         <rule id="SNA" name="sna">
             <pattern>
@@ -3173,8 +3173,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <match>
                     <token>dhá</token>
-                    <token>ECLIPSED</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Verb:.*:Ecl" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>dá</suggestion></message>
         </rule>
@@ -3285,7 +3285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>fíona</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>fóifíneach</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(fh?)uath" regexp_replace="$1óifíneach"/></suggestion></message>
         </rule>
         <rule id="FUARLACH_CROI" name="fuarlach croí">
             <pattern>
@@ -3294,7 +3294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>croí</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>fuadach croí</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(fh?)uarlach" regexp_replace="$1uadach"/> croí</suggestion></message>
         </rule>
         <rule id="BA_GHAISTE" name="ba ghaiste">
             <pattern>
@@ -3318,8 +3318,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <match>
                     <token>ghá</token>
-                    <token>LENITED</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*:Len" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
         </rule>
@@ -3327,8 +3327,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <match>
                     <token>ghá</token>
-                    <token>ECLIPSED</token>
                 </match>
+                <token postag="(?:C[UMC]:)?Noun:.*:Ecl" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
         </rule>
@@ -3345,8 +3345,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <match>
                     <token>ghá</token>
-                    <token regexp="yes">ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</token>
                 </match>
+                <token regexp="yes">ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
         </rule>
@@ -3392,7 +3392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">mh?éad</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>méid, mhéid</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(mh?)éad" regexp_replace="$1éid"/></suggestion></message>
         </rule>
         <rule id="NA_TONNA" name="na tonna">
             <pattern>
@@ -3464,7 +3464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">gh?aiste</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>gasta</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(gh?)aiste" regexp_replace="$1asta"/></suggestion></message>
         </rule>
         <rule id="NIOS_GAISTE" name="níos gaiste">
             <pattern>
@@ -3500,7 +3500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ráca</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>pléaráca</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(b?ph?)lé" regexp_replace="$1léaráca"/></suggestion></message>
         </rule>
         <rule id="PLE_SEAM" name="plé seam">
             <pattern>
@@ -3509,7 +3509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>seam</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>pléiseam</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(b?ph?)lé" regexp_replace="$1léiseam"/></suggestion></message>
         </rule>
         <rule id="SAIL_CHUACH" name="sail chuach">
             <pattern>
@@ -3518,7 +3518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>chuach</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>sailchuach</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(sh?)ail" regexp_replace="$1ailchuach"/></suggestion></message>
         </rule>
         <rule id="SAIL_CHUAICHE" name="sail chuaiche">
             <pattern>
@@ -3527,7 +3527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>chuaiche</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>sailchuach</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(sh?)ail" regexp_replace="$1ailchuach"/></suggestion></message>
         </rule>
         <rule id="NA_SAMHAILTEACHA" name="na samhailteacha">
             <pattern>
@@ -3554,7 +3554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>salúin</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>sú talún</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1"/> talún</suggestion></message>
         </rule>
         <rule id="THEARMAINN_CHATHRACH" name="Thearmainn Chathrach">
             <pattern>
@@ -3572,7 +3572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aoil</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>tiníl</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(d?th?)ine" regexp_replace="$1iníl"/></suggestion></message>
         </rule>
         <rule id="TONNA_AP" name="tonna AP">
             <pattern>
@@ -3599,7 +3599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>buí</token>
                 </match>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>tuilleamaí</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(d?th?)uilleamh" regexp_replace="$1uilleamaí"/></suggestion></message>
         </rule>
         <rule id="IN_UMHAL" name="in umhal">
             <pattern>
@@ -3625,7 +3625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>i gcóir</token>
                 </match>
                 <token postag="Art:.*" postag_regexp="yes"></token>
-                <token postag="Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
+                <token postag="(?:C[UMC]:)?Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>i gcomhair</suggestion></message>
         </rule>
@@ -3634,7 +3634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <match>
                     <token>i gcóir</token>
                 </match>
-                <token postag="Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
+                <token postag="(?:C[UMC]:)?Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>i gcomhair</suggestion></message>
         </rule>
