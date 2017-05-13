@@ -8989,6 +8989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
+              <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
               <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
@@ -9022,6 +9023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </antipattern>
                 <antipattern>
+                    <token>von</token>
                     <token>weit</token>
                     <token>weg</token>
                 </antipattern>
@@ -9032,6 +9034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>s</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
+                    <token><exception>;</exception><exception>:</exception></token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
@@ -9041,9 +9044,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:.*" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
-                <suggestion>\1\2</suggestion>
-                <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
+                <message>Falls Sie eine Form des Verbs '\2<match no="3" postag="VER:INF:.*" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\2\3</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="absagst">Falls du <marker>ab sagst</marker>, werden sie dich töten.</example>
                 <example correction="unterschrieben">Er hat den Vertrag gestern <marker>unter schrieben</marker>.</example>
@@ -9063,6 +9065,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die einzige Frage ist nun, wie wir an genügend Geld kommen</example>
                 <example>Von weit weg hörte man ein leises Wimmern.</example>
                 <example>Sie fing an fernzusehen.</example>
+                <example>Das ist Unsinn; hinzu kommt, dass es gelogen ist.</example>
+                <example>Hinzu kommt, dass es gelogen ist.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9120,7 +9124,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Falls Sie eine Form des Verbs '\1\3' meinten, wird diese zusammengeschrieben.</message>
                 <suggestion>\1\2\3</suggestion>
-                <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
                 <short>&getrennt;.</short>
                 <example correction="unterzugehen">Er hat nicht vor <marker>unter zu gehen</marker>.</example>
                 <example>Zu allem Übel fing es an zu schneien.</example>
@@ -12676,6 +12679,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tausendstel">Ein <marker>Tausendstel</marker> Liter Blut genügt, um die DNA zu ermitteln.</example>
             <example>Die Sonde hat eine Länge von nur einem <marker>Zehntel</marker> Millimeter.</example>
         </rule>
+        <rulegroup id="KARDINALZAHLEN" name="Kleinschreibung von Kardinalzahlen: um Vier (vier)">
+            <url>http://www.canoo.net/services/GermanSpelling/Reform/grossklein/grundzahlen.jsp</url>
+            <rule>
+                <antipattern><!-- movie titles-->
+                    <token regexp="yes">zwei|vier</token>
+                    <token regexp="yes">glorreiche|Fäuste|himm.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">diese|jene|wir|ihr|durch|vo[nr]|um|nach|mit|bis|unter|über|gegen|an|wegen|plus|minus|mal|als|in</token>
+                    <token min="0">die</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">(Ein|Zwei|Zwan|Dreiß?|Vier|Fünf|Sechs?|Sieb|Acht|Neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
+                    </marker>
+                </pattern>
+                <message>Zahlen unter einer Million werden in der Regel kleingeschrieben.</message>
+                <suggestion><match no="3" case_conversion="startlower"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="drei">Diese <marker>Drei</marker> kommen mir bekannt vor.</example>
+                <example correction="fünf">Sie rief um <marker>Fünf</marker> an.</example>
+                <example correction="zwanzig">Wir waren an die <marker>Zwanzig</marker>.</example>
+                <example correction="acht">Er sollte die Summe durch <marker>Acht</marker> teilen.</example>
+                <example correction="drei">Dieser Kandidat konnte nicht bis <marker>Drei</marker> zählen.</example>
+                <example correction="fünf">Wir <marker>Fünf</marker> gehören zusammen.</example>
+                <example correction="achtzig">Der Mensch über <marker>Achtzig</marker> schätzt die Gesundheit besonders.</example>
+                <example correction="siebenhundertdreiundzwanzig">Er schuldet mir mehr als <marker>Siebenhundertdreiundzwanzig</marker> Euro.</example>
+                <example>Eine Vier im Zeugnis ist nicht schlimm.</example>
+                <example>Fünfzehn Männer stürmten die Bank</example>
+                <example>Zwei plus drei ist fünf.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
                 <pattern>
