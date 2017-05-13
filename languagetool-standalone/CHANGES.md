@@ -2,6 +2,10 @@
 
 ## 3.8-SNAPSHOT (release planned for 2017-06-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary and rules for official names of Valencian municipalities
+
 #### English
   * added and improved rules
 
