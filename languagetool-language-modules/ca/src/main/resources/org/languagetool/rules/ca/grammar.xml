@@ -30386,6 +30386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>per</token>
                         <token>a</token>
                     </marker>
+                    <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Redundància.</message>
@@ -30405,6 +30406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>com</token>
                         <token>per</token>
                     </marker>
+                    <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Redundància.</message>
@@ -44871,13 +44873,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">humà|viu|vivent</token>
                 </pattern>
-                <message>Si és nom, usem preferentment la forma <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">ésser</match></suggestion>.</message>
+                <message>Si és nom, usem preferentment la forma <suggestion>ésser</suggestion>.</message>
                 <example correction="ésser">És natural en un <marker>ser</marker> viu.</example>
-                <example correction="ésser">un <marker>ser</marker> digne de ser escoltat.</example>
                 <example>Hem de ser coherents.</example>
                 <example>Podrà no ser aplicable.</example>
                 <exmaple>Ser incompetent.</exmaple>
                 <example>ser capaç de sentir empatia</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>un</token>
+                    <marker>
+                        <token postag="_GN_MS">ser</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, usem preferentment la forma <suggestion>ésser</suggestion>.</message>
+                <example correction="ésser">un <marker>ser</marker> digne de ser escoltat.</example>
             </rule>
             <rule>
                 <pattern>
