@@ -12687,7 +12687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">glorreiche|Fäuste|himm.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">diese|jene|wir|ihr|durch|vo[nr]|um|nach|mit|bis|unter|über|gegen|an|wegen|plus|minus|mal|als|in</token>
+                    <token regexp="yes">diese|jene|wir|ihr|durch|vo[nr]|um|nach|mit|bis|unter|über|gegen|an|wegen|plus|minus|mal|als|in|ist|sind|war(en)?</token>
                     <token min="0">die</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">(Ein|Zwei|Zwan|Dreiß?|Vier|Fünf|Sechs?|Sieb|Acht|Neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
@@ -12707,6 +12707,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eine Vier im Zeugnis ist nicht schlimm.</example>
                 <example>Fünfzehn Männer stürmten die Bank</example>
                 <example>Zwei plus drei ist fünf.</example>
+                <example>Er setzte alles auf die Vier.</example>
+                <example>Er würfelt eine Sechs.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
@@ -13112,6 +13114,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="besuche">Ich <marker>Besuche</marker> momentan die katholische Grundschule in Kaarst.</example>
 <!--                 <example correction="besuche">Ich <marker>Besuche</marker> eine Schule in Neuss.</example> -->
                 <example>So hasste ich <marker>Besuche</marker> bei meinen Großeltern.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IM_AUS" name="im aus (Aus)">
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token postag="SENT_END|PKT|VER:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Aus">Der Ball landete im <marker>aus</marker>.</example>
+                <example correction="Aus">Weil der Ball im <marker>aus</marker> landete, verlor er das Spiel.</example>
+                <example>Im aus vielen Erzählungen bekannten Atlantis soll ein Schatz liegen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_KLAREN" name="'im klaren (Klaren)'">
@@ -18220,7 +18238,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token regexp="yes">glauben|wissen|sinne|sterben</token>
+                        <token regexp="yes">glauben|wissen|sinne|sterben|diesseits|jenseits</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -18714,24 +18732,15 @@ Andere Projekte</example>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf</token>
                 <marker>
-                    <token regexp="yes">verlangen|bitten|nachfrage|anfrage</token>
+                    <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+            <message>Das substantvierte Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
+            <url>https://www.korrekturen.de/regelwerk/gross-_und_kleinschreibung2-2.shtml</url>
             <short>&prgk;.</short>
             <example correction="Verlangen">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
             <example>Auf <marker>Verlangen</marker> der Verteidigerin wurde die Verhandlung unterbrochen.</example>
-        </rule>
-        <rule id="AUF_WIEDERSEHEN" name="'auf wiedersehen (Wiedersehen)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]uf</token>
-                <marker>
-                    <token>wiedersehen</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie die Abschiedsformel '\1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>'?</message>
-            <short>&prgk;.</short>
-            <example correction="Wiedersehen">Auf <marker>wiedersehen</marker>!</example>
+            <example correction="Anraten">Auf <marker>anraten</marker> meines Arztes treibe ich mehr Sport.</example>
         </rule>
         <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
           http://www.duden.de/rechtschreibung/deutsch
@@ -25946,9 +25955,19 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="IN_WEISS" name="in + 'Farbe' ('in Weiß')">
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+                <token>in</token>
+                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+                <token postag="SUB:.*|UNKNOWN"  postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp="yes">in|Farbe</token>
-                <marker><token case_sensitive="yes" regexp="yes">weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token></marker>
+                <marker><token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token></marker>
             </pattern>
             <message>In dieser Wendung scheint der Farbname als Substantiv gebraucht zu werden und ist deshalb großzuschreiben ('ein Traum in Weiß', 'die Farbe Lila').</message>
             <suggestion><match case_conversion="startupper" no="2"/></suggestion>
@@ -25956,6 +25975,8 @@ Andere Projekte</example>
             <short>&prgk;.</short>
             <example correction="Weiß">Sie heiratet in <marker>weiß</marker>.</example>
             <example correction="Rot">Die Farbe <marker>rot</marker> steht für die Liebe.</example>
+            <example>Das Wetter ist mal wieder grau in grau.</example>
+            <example>Heute sah ich eine Frau in rosa Crocs und in lila Socken.</example>
         </rule>
         <rule id="VERB_VOR_NEBENSATZ" name="Verb + ',' + Nebensatz">
             <pattern>
@@ -26064,19 +26085,6 @@ Andere Projekte</example>
                 <example correction="Nein">Man vernahm ein lautes und deutliches <marker>nein</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AUF_ANRATEN" name="auf anraten (Anraten)">
-            <rule>
-                <pattern>
-                    <token>auf</token>
-                    <marker>
-                    <token case_sensitive="yes">anraten</token>
-                    </marker>
-                </pattern>
-                <message>&inwend;'auf jemandes <suggestion>Anraten</suggestion>' wird 'Anraten' großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="Anraten">Auf <marker>anraten</marker> meines Arztes treibe ich mehr Sport.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="SOLL" name="sein soll (Soll) erfüllen">
             <rule>
                 <pattern>
@@ -26089,6 +26097,24 @@ Andere Projekte</example>
                 <message>&inwend;'das <suggestion>Soll</suggestion> erfüllen' wird 'Soll' als Substantiv gebraucht und großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Soll">Sein hat ihr <marker>soll</marker> erfüllt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHWARZ_AUF_WEISS" name="Schwarz auf Weiß (schwarz auf weiß)">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>schwarz</token>
+                    <token>auf</token>
+                    <token>weiß</token>
+                </antipattern>
+                <pattern>
+                    <token>schwarz<exception scope="previous" postag="SENT_START|PKT" postag_regexp="yes"/></token>
+                    <token>auf</token>
+                    <token>weiß</token>
+                </pattern>
+                <message>inwend;<suggestion><match no="1" case_conversion="startlower"/> auf weiß</suggestion> werden die Farbadjektive kleingeschrieben.</message>
+                <short>prgk;.</short>
+                <example correction="schwarz auf weiß">Es steht hier <marker>Schwarz auf Weiß</marker>.</example>
+                <example><marker>Schwarz auf weiß</marker> steht es hier.</example>
             </rule>
         </rulegroup>
     </category>
