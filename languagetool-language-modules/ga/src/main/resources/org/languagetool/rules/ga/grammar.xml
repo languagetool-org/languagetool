@@ -3698,4 +3698,97 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>tar éis</suggestion></message>
         </rule>
     </category>
+    <category id="GRAMADOIR_INPHRASE" name="San abairtín" type="nonstandard">
+        <rule id="DEARA" name="deara">
+            <antipattern>
+                <token>faoi</token>
+                <token>deara</token>
+            </antipattern>
+            <pattern>
+                <match>
+                    <token>n?dh?eara</token>
+                </match>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>faoi deara</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="MHARACH" name="mhárach">
+            <antipattern>
+                <token>arna</token>
+                <token>mhárach</token>
+            </antipattern>
+            <pattern>
+                <match>
+                    <token>mhárach</token>
+                </match>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>arna mhárach</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="CEATHAIR" name="ceathair">
+            <antipattern>
+                <token>a</token>
+                <token>ceathair</token>
+            </antipattern>
+            <antipattern>
+                <token>faoi</token>
+                <token>cheathair</token>
+            </antipattern>
+            <pattern>
+                <match>
+                    <token>g?ch?eathair</token>
+                </match>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>a ceathair, faoi cheathair</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="CERBH" name="cérbh">
+            <antipattern>
+                <token>cérbh</token>
+                <token regexp="yes">é|í|iad</token>
+            </antipattern>
+            <pattern>
+                <match>
+                    <token>cérbh</token>
+                </match>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>cérbh é, cérbh í, cérbh iad</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="I_GCOMHAR" name="i gcomhar">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcomhar</token>
+                </match>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhar le</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="I_GCOMHAR_S" name="i gcomhar S">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcomhar</token>
+                </match>
+                <token postag="Prep.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhar le</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="I_GCOMHAR_D" name="i gcomhar D">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcomhar</token>
+                </match>
+                <token postag="(Det:Poss|Prep).*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhar le</suggestion> de ghnáth</message>
+        </rule>
+        <rule id="I_GCOMHAR_O" name="i gcomhar O">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcomhar</token>
+                </match>
+                <token postag="Prop.Prep.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhar le</suggestion> de ghnáth</message>
+        </rule>
+    </category>
 </rules>
