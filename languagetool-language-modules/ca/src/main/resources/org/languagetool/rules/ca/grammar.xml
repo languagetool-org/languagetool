@@ -607,6 +607,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>Fuente</token><token>la</token><token>Reina</token>
+                </pattern>
+                <message>Useu el nom valencià (no oficial).</message>
+                <suggestion>la Font de la Reina</suggestion>
+                <example correction="La Font de la Reina"><marker>Fuente la Reina</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Granja<exception scope="previous">la</exception></token><token>de</token><token>Rocamora</token>
+                </pattern>
+                <message>Useu el nom valencià (no oficial).</message>
+                <suggestion>la Granja de Rocamora</suggestion>
+                <example correction="La Granja de Rocamora"><marker>Granja de Rocamora</marker></example>
+                <example>la Granja de Rocamora</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>Higueruelas</token>
                 </pattern>
                 <message>Useu el nom valencià (no oficial) del municipi.</message>
@@ -778,8 +795,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Villar</token><token>de</token><token>l</token><token>Arzobispo</token>
                 </pattern>
                 <message>Useu el nom valencià (no oficial) del municipi.</message>
-                <suggestion>el Vilar</suggestion>
-                <example correction="El Vilar"><marker>Villar del Arzobispo</marker></example>
+                <suggestion>el Villar</suggestion>
+                <example correction="El Villar"><marker>Villar del Arzobispo</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -15217,7 +15234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="SAN_SANT" name="san_sant">
             <pattern>
                 <marker>
-                    <token>san</token>
+                    <token>san<exception postag=".*NP.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego</exception></token>
             </pattern>
@@ -15227,6 +15244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>sant Joan</example>
             <example>San Dalmazzo</example>
             <example>a San Antonio</example>
+            <example>San Rafael del Río</example>
         </rule>
         <rule id="ALLIOLI" name="allioli">
             <antipattern>
@@ -26058,6 +26076,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DOLORES" name="Dolores (municipi) / Dolors">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">ajuntament|poble|alcalde|regidor</token>
+                    <token>de</token>
+                    <token>Dolores</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>Dolores</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Dolors</suggestion>. Dolores és un municipi valencià.</message>
+            <example correction="Dolors">La Mare de Déu dels <marker>Dolores</marker></example>
+            <example>Ajuntament de Dolores.</example>
+        </rule>
         <rulegroup id="SEGONS_L_INDICAT" name="segons *l'indicat/indica">
             <rule>
                 <pattern>
@@ -45200,7 +45233,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(NP..G0)V" postag_regexp="yes" postag_replace="$1O"/></suggestion>
                 <example correction="Enguera"><marker>Énguera</marker></example>
                 <example correction="Ademuz"><marker>Ademús</marker></example>
-                <example correction="Dolores">Ajuntament de <marker>Dolors</marker></example>
                 <example correction="Barracas">Ajuntament de <marker>Barraques</marker></example>
                 <example correction="Higueras">Ajuntament de <marker>Figueres</marker></example>
                 <example correction="Millares">Ajuntament de <marker>Millars</marker></example>
@@ -45243,12 +45275,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>la</token><token>Granja</token><token>de</token><token>Rocamora</token>
+                </pattern>
+                <message>Useu el nom oficial del municipi valencià.</message>
+                <suggestion>Granja de Rocamora</suggestion>
+                <example correction="Granja de Rocamora"><marker>la Granja de Rocamora</marker></example>
+            </rule>
+            <!--És "Torrebaixa"<rule>
+                <pattern>
                     <token>Torre</token><token>Baixa</token>
                 </pattern>
                 <message>Useu el nom oficial del municipi valencià.</message>
                 <suggestion>Torrebaja</suggestion>
                 <example correction="Torrebaja"><marker>Torre Baixa</marker></example>
-            </rule>
+            </rule>-->
             <rule>
                 <pattern>
                     <token>Alcosser</token><token>de</token><token>Planes</token>
@@ -45386,12 +45426,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Ráfol de Salem"><marker>el Ràfol de Salem</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>Villar</token><token>de</token><token>l</token><token>Arzobispo</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes">el</token><token>Vilar</token>
+                    <token inflected="yes">el</token><token>Villar</token>
                 </pattern>
                 <message>Useu el nom oficial del municipi valencià.</message>
                 <suggestion>Villar del Arzobispo</suggestion>
-                <example correction="Villar del Arzobispo">de<marker>l Vilar</marker></example>
+                <example correction="Villar del Arzobispo">de<marker>l Villar</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -45483,11 +45528,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token min="0" inflected="yes">el</token>
                     <token>Pilar</token><token>de</token><token>la</token><token>Foradada</token>
                 </pattern>
                 <message>Useu el nom oficial del municipi valencià.</message>
                 <suggestion>Pilar de la Horadada</suggestion>
                 <example correction="Pilar de la Horadada"><marker>Pilar de la Foradada</marker></example>
+                <example correction="Pilar de la Horadada">de<marker>l Pilar de la Foradada</marker></example>
             </rule>
             <rule>
                 <antipattern>
