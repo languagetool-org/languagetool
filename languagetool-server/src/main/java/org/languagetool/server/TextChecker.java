@@ -257,15 +257,14 @@ abstract class TextChecker {
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }
+    if (config.getRulesConfigFile() != null) {
+      configureFromRulesFile(lt, lang);
+    } else {
+      configureFromGUI(lt, lang);
+    }
     if (params.useQuerySettings) {
       Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
               new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);
-    } else {
-      if (config.getRulesConfigFile() != null) {
-        configureFromRulesFile(lt, lang);
-      } else {
-        configureFromGUI(lt, lang);
-      }
     }
     return lt;
   }
