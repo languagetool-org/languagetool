@@ -5916,28 +5916,47 @@ USA
 <!-- TODO. --><example>The company is expanding <marker>too dozens</marker> of new locations.</example>
         </rule>
         <rule id="TH_THORIUM" name="Th (The/thorium)">
+            <antipattern case_sensitive="yes">
+                <token>(</token>
+                <token spacebefore="no">Th</token>
+                <token spacebefore="no">)</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z][a-z]</token><!-- For 2-letter chemical symbols -->
+                <token spacebefore="no">,</token>
+                <token>Th</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes">[A-Z][a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Th</token>
+                <token skip="-1"/>
+                <token>thorium</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">thorium</token>
+                <token case_sensitive="yes">Th</token>
+            </antipattern>
             <pattern case_sensitive="yes"><!-- The spelling rules find errors with lower-case 'th'. -->
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>Th</token>
-                </marker>
-                <token><exception postag="MD"/><exception regexp="yes">is|was|has|had</exception></token>
+                <token>Th</token>
             </pattern>
             <message>Make sure that 'Th' is the chemical symbol for thorium, and not a typing error. Did you mean <suggestion>The</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="The" type="incorrect"><marker>Th</marker> water is hot. </example>
             <example correction="The" type="incorrect"><marker>Th</marker> usually busy train was remarkably empty today.</example>
-            <example type="correct"><marker>Th</marker> is the chemical symbol for thorium.</example>
-            <example type="correct"><marker>Th</marker> was found in the sample.</example>
-            <example type="correct"><marker>Th</marker> must not...</example>
-            <example type="correct">The chemical symbol for thorium is <marker>Th</marker>.</example>
+            <example correction="The" type="incorrect">... but if <marker>Th</marker> water is hot, stop the test.</example>
+            <example correction="The" type="incorrect"><marker>Th</marker> is in my handbag. [Missing noun.]</example>
+            <example correction="The" type="incorrect"><marker>Th</marker> thorium was contaminated.</example>
             <example type="correct">Thorium (<marker>Th</marker>) has the atomic number 90.</example>
-            <example type="correct">... but thorium (<marker>Th</marker>) and the related ...</example>
-            <example type="correct">These elements (Al, Cd, <marker>Th</marker>) are ...</example>
             <example type="correct">... but elements such as Al, <marker>Th</marker>, Mg and Nb are ...</example>
+            <example type="correct">... but thorium (<marker>Th</marker>) and the related ...</example>
+            <example type="correct"><marker>Th</marker> is the chemical symbol for thorium.</example>
+            <example type="correct">The chemical symbol for Thorium is <marker>Th</marker>.</example>
+<!-- False negative --><example type="correct"><marker>Th</marker> contaminated thorium caused a problem.</example>
+            <example type="triggers_error">These elements (Al, Cd, <marker>Th</marker>) are ...</example>
+            <example type="triggers_error"><marker>Th</marker> was found in the sample.</example>
+            <example type="triggers_error"><marker>Th</marker> must not...</example>
             <example type="triggers_error"><marker>Th</marker> usually produces 220Ra and actinium as the principal decay products.</example>
-<!-- TODO. --><example type="correct">... but if <marker>Th</marker> water is hot, stop the test.</example>
-<!-- TODO. --><example type="correct"><marker>Th</marker> is in my handbag. [Missing noun.]</example>
     </rule>
 
 
