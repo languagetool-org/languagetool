@@ -24,25 +24,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 
 <!DOCTYPE rules [
-        <!ENTITY nbsp " ">
+        <!ENTITY nbsp " ">
         <!ENTITY apost "['`’]">
         ]>
 <rules lang="ga" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <category id="TEST" name="Test" type="typographical">
-        <rulegroup id="TESTRULES" name="Test rules">
-            <rule id="FEAR_NOT_FEARR" name="fear not fearr">
-                <pattern>
-                    <token inflected='yes' postag='(?:C[UMC]:)?Verb:.*' postag_regexp="yes"></token>
-                    <token>an</token>
-                    <marker>
-                        <token>fearr</token>
-                    </marker>
-                </pattern>
-                <message>An “fear” a bhí i gceist agat?</message>
-                <example correction='fear'>bhí an <marker>fearr</marker> ann</example>
-                <example>bhí an fear ann</example>
-            </rule>
-        </rulegroup>
+    <category id="SYNTAX" name="syntactical errors" type="grammar">
         <rulegroup id="CONTRACTIONS" name="Contractions">
             <rule id="LE_ME_LIOM" name="le + mé = liom">
                 <pattern>
@@ -381,7 +367,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="FADA" name="Fada" type="typographical">
+    <category id="TYPOS" name="Typos" type="misspelling">
+        <rule id="FEAR_NOT_FEARR" name="fear not fearr">
+            <pattern>
+                <token inflected='yes' postag='(?:C[UMC]:)?Verb:.*' postag_regexp="yes"></token>
+                <token>an</token>
+                <marker>
+                    <token>fearr</token>
+                </marker>
+            </pattern>
+            <message>An “fear” a bhí i gceist agat?</message>
+            <example correction='fear'>bhí an <marker>fearr</marker> ann</example>
+            <example>bhí an fear ann</example>
+        </rule>
+    </category>
+    <category id="FADA" name="Fada" type="misspelling">
         <rulegroup id="STARAI" name="staraí/stáraí">
             <rule id="SCOLAIRE_AGUS_STARAI" name="scoláire agus staraí">
                 <pattern>
@@ -543,7 +543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
      </category>
-    <category id="VN" name="Verbal" type="grammar">
+     <category id="VN" name="Verbal" type="grammar">
         <rulegroup id="AG_DEANAMH_E" name="ag déanamh é">
             <rule>
                 <pattern>
@@ -553,7 +553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[ée]</token>
                 </pattern>
-                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -563,7 +563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[íi]</token>
                 </pattern>
-                <message>An “á <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -573,7 +573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>iad</token>
                 </pattern>
-                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -583,7 +583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">m[ée]</token>
                 </pattern>
-                <message>An “do mo <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do mo <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -593,7 +593,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">m[ée]</token>
                 </pattern>
-                <message>An “do m&apos;<match no="2"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do m&apos;<match no="2"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -603,7 +603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">m[ée]</token>
                 </pattern>
-                <message>An “do mo <match no="2"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do mo <match no="2"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -613,7 +613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">th?[úu]</token>
                 </pattern>
-                <message>An “do do <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do do <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -623,7 +623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">th?[úu]</token>
                 </pattern>
-                <message>An “do d&apos;<match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do d&apos;<match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -633,7 +633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">th?[úu]</token>
                 </pattern>
-                <message>An “do do <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do do <match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -643,7 +643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>iad|[ée]|[íi]</token>
                 </pattern>
-                <message>An “á <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -653,7 +653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">sinne?|muidne|muide?</token>
                 </pattern>
-                <message>An “dár <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “dár <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -663,7 +663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">sinne?|muidne|muide?</token>
                 </pattern>
-                <message>An “dár <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “dár <match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -673,7 +673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[ée]</token>
                 </pattern>
-                <message>An “á <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" />” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -683,7 +683,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[íi]</token>
                 </pattern>
-                <message>An “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:hPref"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:hPref"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -693,7 +693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">sibh</token>
                 </pattern>
-                <message>An “do bhúr <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do bhúr <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Ecl"/>” a scríobh.</message>
             </rule>
             <rule>
                 <pattern>
@@ -703,8 +703,3002 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">sibh</token>
                 </pattern>
-                <message>An “do bhúr <match no="2" />” a bhí i gceist agat?</message>
+                <message>Ba chóir duit “do bhúr <match no="2" />” a scríobh.</message>
             </rule>
         </rulegroup>
+    </category>
+    <category id="GRAMADOIR_CAIGHDEAN" name="Foirm neamhchaighdeánach" type="nonstandard">
+        <rule id="AG_MARBHADH" name="ag marbhadh">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>marbhadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag marú’</message>
+        </rule>
+        <rule id="MARBHADH" name="marbhadh">
+            <pattern>
+                <match>
+                    <token>marbhadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘maraíodh’</message>
+        </rule>
+        <rule id="MUR_N" name="mur N">
+            <pattern>
+                <match>
+                    <token>mur</token>
+                </match>
+                <token postag="Noun:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘bhur’</message>
+        </rule>
+        <rule id="MUR" name="mur">
+            <pattern>
+                <match>
+                    <token>mur</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘mura’</message>
+        </rule>
+        <rule id="NA_GNAITHE" name="na gnaithe">
+            <pattern>
+                <match>
+                    <token>na</token>
+                    <token regexp="yes">n?gh?naithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na gnóthaí’</message>
+        </rule>
+        <rule id="GHNAITHE" name="ghnaithe">
+            <pattern>
+                <match>
+                    <token>ghnaithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ghnó’</message>
+        </rule>
+        <rule id="N?GNAITHE" name="n?gnaithe">
+            <pattern>
+                <match>
+                    <token regexp="yes">n?gnaithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gnó’</message>
+        </rule>
+        <rule id="NA_NDATHACHA" name="na ndathacha">
+            <pattern>
+                <match>
+                    <token>na</token>
+                    <token>ndathacha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na ndaitheacha’</message>
+        </rule>
+        <rule id="ADHAMHARC" name="adh'amharc">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>dh</token>
+                    <token>&apos;</token>
+                    <token>amharc</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag amharc’</message>
+        </rule>
+        <rule id="ADHOL" name="adh'ól">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>dh</token>
+                    <token>&apos;</token>
+                    <token>ól</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag ól’</message>
+        </rule>
+        <rule id="I_MBARACH" name="i mbárach">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>mbárach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘amárach’</message>
+        </rule>
+        <rule id="I_MBARAIGH" name="i mbáraigh">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>mbáraigh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘amárach’</message>
+        </rule>
+        <rule id="DA_RIRIBH" name="dá ríribh">
+            <pattern>
+                <match>
+                    <token>dá</token>
+                    <token>ríribh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dáiríre’</message>
+        </rule>
+        <rule id="IN_ALLOD" name="in allód">
+            <pattern>
+                <match>
+                    <token>in</token>
+                    <token>allód</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anallód’</message>
+        </rule>
+        <rule id="I_N-ALLOD" name="i n-allód">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>n-allód</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anallód’</message>
+        </rule>
+        <rule id="SAN_ALLOD" name="san allód">
+            <pattern>
+                <match>
+                    <token>san</token>
+                    <token>allód</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anallód’</message>
+        </rule>
+        <rule id="D[EO]_N-A" name="d[eo] n-a">
+            <pattern>
+                <match>
+                    <token>d[eo]</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dá’</message>
+        </rule>
+        <rule id="TRI_N-A" name="trí n-a">
+            <pattern>
+                <match>
+                    <token>trí</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘trína’</message>
+        </rule>
+        <rule id="O_N-A" name="ó n-a">
+            <pattern>
+                <match>
+                    <token>ó</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘óna’</message>
+        </rule>
+        <rule id="LE_N-A" name="le n-a">
+            <pattern>
+                <match>
+                    <token>le</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘lena’</message>
+        </rule>
+        <rule id="I_N-A" name="i n-a">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="FA_N-A" name="fá n-a">
+            <pattern>
+                <match>
+                    <token>fá</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoina’</message>
+        </rule>
+        <rule id="FAOI_N-A" name="faoi n-a">
+            <pattern>
+                <match>
+                    <token>faoi</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoina’</message>
+        </rule>
+        <rule id="N-A" name="n-a">
+            <pattern>
+                <match>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a’</message>
+        </rule>
+        <rule id="A" name="'á">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>á</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="A_BITH" name="a' bith">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                    <token>bith</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar bith’</message>
+        </rule>
+        <rule id="A_MHAITHE" name="a' mhaithe">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                    <token>mhaithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar mhaithe’</message>
+        </rule>
+        <rule id="A_CHOR" name="a' chor">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                    <token>chor</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar chor’</message>
+        </rule>
+        <rule id="A_UNMUTATEDVNISH" name="a' UNMUTATEDVNISH">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                    <token>UNMUTATEDVNISH</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag’</message>
+        </rule>
+        <rule id="A_CEANNACH" name="a' ceannach">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                    <token regexp="yes">ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag’</message>
+        </rule>
+        <rule id="A" name="a'">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an’</message>
+        </rule>
+        <rule id="AB" name="ab'">
+            <pattern>
+                <match>
+                    <token>ab</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ab’</message>
+        </rule>
+        <rule id="AC" name="'ac">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ac</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Mac’</message>
+        </rule>
+        <rule id="ACH" name="'ach">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gach’</message>
+        </rule>
+        <rule id="ACHAN" name="'acha'n">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>acha</token>
+                    <token>&apos;</token>
+                    <token>n</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gach aon’</message>
+        </rule>
+        <rule id="AO" name="ao'">
+            <pattern>
+                <match>
+                    <token>ao</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aon’</message>
+        </rule>
+        <rule id="N?AR" name="'n?ár">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>n?ár</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘inár’</message>
+        </rule>
+        <rule id="AR_NDOIGH" name="'ar ndóigh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                    <token regexp="yes">ndóighe?</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="AR_MHAITHE" name="'ar mhaithe">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                    <token>mhaithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar mhaithe’</message>
+        </rule>
+        <rule id="AR_NDIAIDH" name="'ar ndiaidh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                    <token>ndiaidh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘inár ndiaidh’</message>
+        </rule>
+        <rule id="AR" name="'ar">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘inar’</message>
+        </rule>
+        <rule id="ARB" name="arb'">
+            <pattern>
+                <match>
+                    <token>arb</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘arb’</message>
+        </rule>
+        <rule id="ARBH" name="arbh'">
+            <pattern>
+                <match>
+                    <token>arbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘arbh’</message>
+        </rule>
+        <rule id="ARS" name="ars'">
+            <pattern>
+                <match>
+                    <token>ars</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘arsa’</message>
+        </rule>
+        <rule id="ATHAIR" name="'athair">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>athair</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a athair’</message>
+        </rule>
+        <rule id="ATHAIR" name="'Athair">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>Athair</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a Athair’</message>
+        </rule>
+        <rule id="BHAINT" name="'bhaint">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhaint</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bhaint’</message>
+        </rule>
+        <rule id="BHEITH" name="'bheith">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bheith</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bheith’</message>
+        </rule>
+        <rule id="BHFUIL" name="'bhfuil">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhfuil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an bhfuil’</message>
+        </rule>
+        <rule id="BHI" name="'bhí">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhí</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bhí’</message>
+        </rule>
+        <rule id="BHIODH" name="'bhíodh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhíodh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bhíodh’</message>
+        </rule>
+        <rule id="BHIONN" name="'bhíonn">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhíonn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bhíonn’</message>
+        </rule>
+        <rule id="BHLIADHNA" name="'bhliadhna">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhliadhna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de bhlianta’</message>
+        </rule>
+        <rule id="BHUR" name="'bhur">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhur</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘in bhur’</message>
+        </rule>
+        <rule id="BHUS" name="'bhus">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>bhus</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘abhus’</message>
+        </rule>
+        <rule id="BRATH" name="'brath">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>brath</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag brath’</message>
+        </rule>
+        <rule id="CAINNT" name="'cainnt">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>cainnt</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag caint’</message>
+        </rule>
+        <rule id="CERBH" name="cérbh'">
+            <pattern>
+                <match>
+                    <token>cérbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cérbh’</message>
+        </rule>
+        <rule id="CHAON" name="'chaon">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chaon</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gach aon’</message>
+        </rule>
+        <rule id="LECHEILE" name="le'chéile">
+            <pattern>
+                <match>
+                    <token>le</token>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chéile</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘lena chéile’</message>
+        </rule>
+        <rule id="OCHEILE" name="ó'chéile">
+            <pattern>
+                <match>
+                    <token>ó</token>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chéile</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘óna chéile’</message>
+        </rule>
+        <rule id="CHEILE" name="'chéile">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chéile</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a chéile’</message>
+        </rule>
+        <rule id="CHOIS" name="'chois">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chois</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de chois’</message>
+        </rule>
+        <rule id="CHOMHAIR" name="'chomhair">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chomhair</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘chóir’</message>
+        </rule>
+        <rule id="CHOR" name="'chor">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chor</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar chor’</message>
+        </rule>
+        <rule id="CHUILE" name="'chuile">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chuile</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gach uile’</message>
+        </rule>
+        <rule id="CHUR" name="'chur">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>chur</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a chur’</message>
+        </rule>
+        <rule id="DARAB" name="darab'">
+            <pattern>
+                <match>
+                    <token>darab</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘darb’</message>
+        </rule>
+        <rule id="D[AA]RBH" name="d[áa]rbh'">
+            <pattern>
+                <match>
+                    <token>d[áa]rbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘darbh’</message>
+        </rule>
+        <rule id="DEAR" name="dear'">
+            <pattern>
+                <match>
+                    <token>dear</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘deara’</message>
+        </rule>
+        <rule id="DED" name="ded'">
+            <pattern>
+                <match>
+                    <token>ded</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de do’</message>
+        </rule>
+        <rule id="DEIR" name="'deir">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>deir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a deir’</message>
+        </rule>
+        <rule id="DEM" name="dem'">
+            <pattern>
+                <match>
+                    <token>dem</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de mo’</message>
+        </rule>
+        <rule id="DHATH" name="'dhath">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dhath</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a dhath’</message>
+        </rule>
+        <rule id="DHIA" name="'Dhia">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>Dhia</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a Dhia’</message>
+        </rule>
+        <rule id="DHIOGHBHAIL" name="'dhíoghbháil">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dhíoghbháil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de dhíobháil’</message>
+        </rule>
+        <rule id="DIR" name="'dir">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘idir’</message>
+        </rule>
+        <rule id="DHITH" name="'dhith">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dhith</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de dhíth’</message>
+        </rule>
+        <rule id="DHUINE" name="'dhuine">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dhuine</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a dhuine’</message>
+        </rule>
+        <rule id="DTAINI" name="dtaini'">
+            <pattern>
+                <match>
+                    <token>dtaini</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dtáinig’</message>
+        </rule>
+        <rule id="DTE[AA]RN" name="dte[áa]rn'">
+            <pattern>
+                <match>
+                    <token>dte[áa]rn</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ndearna’</message>
+        </rule>
+        <rule id="NDE[AA]RN" name="nde[áa]rn'">
+            <pattern>
+                <match>
+                    <token>nde[áa]rn</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ndearna’</message>
+        </rule>
+        <rule id="[DT]HE[AA]RN" name="[dt]he[áa]rn'">
+            <pattern>
+                <match>
+                    <token>[dt]he[áa]rn</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dhearna’</message>
+        </rule>
+        <rule id="DO" name="'do">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>do</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i do’</message>
+        </rule>
+        <rule id="DOB" name="dob'">
+            <pattern>
+                <match>
+                    <token>dob</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ba’</message>
+        </rule>
+        <rule id="DOD" name="dod'">
+            <pattern>
+                <match>
+                    <token>dod</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘do do’</message>
+        </rule>
+        <rule id="DOM" name="dom'">
+            <pattern>
+                <match>
+                    <token>dom</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘do mo’</message>
+        </rule>
+        <rule id="DUL" name="'dul">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>dul</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag dul’</message>
+        </rule>
+        <rule id="E_CHLOG" name="'e chlog">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>e</token>
+                    <token>chlog</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a chlog’</message>
+        </rule>
+        <rule id="E" name="'e">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>e</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de’</message>
+        </rule>
+        <rule id="F[AA]GHAIL" name="'f[aá]gháil">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>f[aá]gháil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag fáil’</message>
+        </rule>
+        <rule id="FHAD" name="'fhad">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>fhad</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a fhad’</message>
+        </rule>
+        <rule id="FH[AA]GHAIL" name="'fh[aá]gháil">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>fh[aá]gháil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a fháil’</message>
+        </rule>
+        <rule id="FATH" name="fáth'">
+            <pattern>
+                <match>
+                    <token>fáth</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fátha’</message>
+        </rule>
+        <rule id="FEIL" name="féil'">
+            <pattern>
+                <match>
+                    <token>féil</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Féile’</message>
+        </rule>
+        <rule id="FHEIL" name="fhéil'">
+            <pattern>
+                <match>
+                    <token>fhéil</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Fhéile’</message>
+        </rule>
+        <rule id="FICH" name="fich'">
+            <pattern>
+                <match>
+                    <token>fich</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fiche’</message>
+        </rule>
+        <rule id="FHICH" name="fhich'">
+            <pattern>
+                <match>
+                    <token>fhich</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fhiche’</message>
+        </rule>
+        <rule id="FHIOS" name="'fhios">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>fhios</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a fhios’</message>
+        </rule>
+        <rule id="G" name="'g">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>g</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag’</message>
+        </rule>
+        <rule id="GABH[AA]IL" name="'gabh[aá]il">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>gabh[aá]il</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag gabháil’</message>
+        </rule>
+        <rule id="GAM" name="'gam">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>gam</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘agam’</message>
+        </rule>
+        <rule id="GHA" name="'ghá">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ghá</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="GHABHAIL" name="'ghabháil">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ghabháil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a ghabháil’</message>
+        </rule>
+        <rule id="GHEALL" name="'gheall">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>gheall</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de gheall’</message>
+        </rule>
+        <rule id="GURAB" name="gurab'">
+            <pattern>
+                <match>
+                    <token>gurab</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gurab’</message>
+        </rule>
+        <rule id="GURB" name="gurb'">
+            <pattern>
+                <match>
+                    <token>gurb</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gurb’</message>
+        </rule>
+        <rule id="GURBH" name="gurbh'">
+            <pattern>
+                <match>
+                    <token>gurbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gurbh’</message>
+        </rule>
+        <rule id="GUS" name="'gus">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>gus</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘agus’</message>
+        </rule>
+        <rule id="IC" name="'ic">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ic</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Mic’</message>
+        </rule>
+        <rule id="ID" name="id'">
+            <pattern>
+                <match>
+                    <token>id</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i do’</message>
+        </rule>
+        <rule id="IM" name="im'">
+            <pattern>
+                <match>
+                    <token>im</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i mo’</message>
+        </rule>
+        <rule id="IMIRT" name="'imirt">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>imirt</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a imirt’</message>
+        </rule>
+        <rule id="IN" name="'in">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>in</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sin’</message>
+        </rule>
+        <rule id="IN" name="in'">
+            <pattern>
+                <match>
+                    <token>in</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="INNSE" name="'innse">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>innse</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a insint’</message>
+        </rule>
+        <rule id="IONNS_AR" name="ionns' ar">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsar’</message>
+        </rule>
+        <rule id="IONNS_AIR" name="ionns' air">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>air</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsair’</message>
+        </rule>
+        <rule id="IONNS_ORM" name="ionns' orm">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>orm</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsorm’</message>
+        </rule>
+        <rule id="IONNS_ORT" name="ionns' ort">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>ort</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsort’</message>
+        </rule>
+        <rule id="IONNS_ORAINN" name="ionns' orainn">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>orainn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsorainn’</message>
+        </rule>
+        <rule id="IONNS_ORAIBH" name="ionns' oraibh">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>oraibh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsoraibh’</message>
+        </rule>
+        <rule id="IONNS_UIRTHI" name="ionns' uirthi">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>uirthi</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsuirthi’</message>
+        </rule>
+        <rule id="IONNS_ORTHA" name="ionns' ortha">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                    <token>ortha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsorthu’</message>
+        </rule>
+        <rule id="IONNS" name="ionns'">
+            <pattern>
+                <match>
+                    <token>ionns</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ionsar’</message>
+        </rule>
+        <rule id="ITHE" name="'ithe">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ithe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a ithe’</message>
+        </rule>
+        <rule id="LACH" name="lach'">
+            <pattern>
+                <match>
+                    <token>lach</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘lacha’</message>
+        </rule>
+        <rule id="LE" name="'le">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>le</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Fhéile’</message>
+        </rule>
+        <rule id="LEANBH" name="'leanbh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>leanbh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a leanbh’</message>
+        </rule>
+        <rule id="LED" name="led'">
+            <pattern>
+                <match>
+                    <token>led</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘le do’</message>
+        </rule>
+        <rule id="LEIM" name="'léim">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>léim</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de léim’</message>
+        </rule>
+        <rule id="LEM" name="lem'">
+            <pattern>
+                <match>
+                    <token>lem</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘le mo’</message>
+        </rule>
+        <rule id="LEN" name="len'">
+            <pattern>
+                <match>
+                    <token>len</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘lena’</message>
+        </rule>
+        <rule id="M" name="'m">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>m</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i mo’</message>
+        </rule>
+        <rule id="M" name="m'">
+            <pattern>
+                <match>
+                    <token>m</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘mo’</message>
+        </rule>
+        <rule id="MACH" name="'mach">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘amach’</message>
+        </rule>
+        <rule id="MHAIN" name="'mháin">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mháin</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘amháin’</message>
+        </rule>
+        <rule id="MHAITH" name="'mhaith">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mhaith</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a mhaith’</message>
+        </rule>
+        <rule id="MHORAN" name="'mhórán">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mhórán</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a mhórán’</message>
+        </rule>
+        <rule id="MO" name="'mo">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mo</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i mo’</message>
+        </rule>
+        <rule id="MUR" name="'mur">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>mur</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘in bhur’</message>
+        </rule>
+        <rule id="MUR" name="mur'">
+            <pattern>
+                <match>
+                    <token>mur</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘mura’</message>
+        </rule>
+        <rule id="M[AU]RAB" name="m[au]rab'">
+            <pattern>
+                <match>
+                    <token>m[au]rab</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘murab’</message>
+        </rule>
+        <rule id="(I|LE)N" name="(i|le)n'">
+            <pattern>
+                <match>
+                    <token regexp="yes">i|le</token>
+                    <token>n</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="N" name="'n'">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>n</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="N" name="n'">
+            <pattern>
+                <match>
+                    <token>n</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na’</message>
+        </rule>
+        <rule id="N" name="'n">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>n</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an’</message>
+        </rule>
+        <rule id="N-A" name="'n-a">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>n-a</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="NA" name="'na">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>na</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="NA" name="'ná">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ná</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ná’</message>
+        </rule>
+        <rule id="N-AR" name="'n-ár">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>n-ár</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘inár’</message>
+        </rule>
+        <rule id="NARBH" name="nárbh'">
+            <pattern>
+                <match>
+                    <token>nárbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘nárbh’</message>
+        </rule>
+        <rule id="NDAN" name="'ndán">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ndán</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i ndán’</message>
+        </rule>
+        <rule id="NDIU" name="'ndiu">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ndiu</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘inniu’</message>
+        </rule>
+        <rule id="NIAR" name="'niar">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>niar</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aniar’</message>
+        </rule>
+        <rule id="NINA" name="'nina">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nina</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ina’</message>
+        </rule>
+        <rule id="NIOS" name="'níos">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>níos</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aníos’</message>
+        </rule>
+        <rule id="NOCHT" name="'nocht">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nocht</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anocht’</message>
+        </rule>
+        <rule id="NOIR" name="'noir">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>noir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anoir’</message>
+        </rule>
+        <rule id="NOIS" name="'nois">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nois</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anois’</message>
+        </rule>
+        <rule id="NONN" name="'nonn">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nonn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anonn’</message>
+        </rule>
+        <rule id="NUAS" name="'nuas">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nuas</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anuas’</message>
+        </rule>
+        <rule id="NURAIDH" name="'nuraidh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>nuraidh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘anuraidh’</message>
+        </rule>
+        <rule id="NIORBH" name="níorbh'">
+            <pattern>
+                <match>
+                    <token>níorbh</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘níorbh’</message>
+        </rule>
+        <rule id="OIDHCH" name="oidhch'">
+            <pattern>
+                <match>
+                    <token>oidhch</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘oíche’</message>
+        </rule>
+        <rule id="OIREAD" name="'oiread">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>oiread</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘oiread’</message>
+        </rule>
+        <rule id="OL" name="'ól">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ól</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a ól’</message>
+        </rule>
+        <rule id="OM" name="óm'">
+            <pattern>
+                <match>
+                    <token>óm</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ó mo’</message>
+        </rule>
+        <rule id="ON" name="'on">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>on</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘don’</message>
+        </rule>
+        <rule id="RABH" name="'rabh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>rabh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an raibh’</message>
+        </rule>
+        <rule id="RADH" name="'rádh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>rádh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag rá’</message>
+        </rule>
+        <rule id="RE" name="'re">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>re</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘re’</message>
+        </rule>
+        <rule id="REIR" name="'réir">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>réir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aréir’</message>
+        </rule>
+        <rule id="RIAMH" name="'riamh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>riamh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘riamh’</message>
+        </rule>
+        <rule id="RITH" name="'rith">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>rith</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i rith’</message>
+        </rule>
+        <rule id="RUN" name="'rún">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>rún</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a rún’</message>
+        </rule>
+        <rule id="S" name="'s">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>s</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is’</message>
+        </rule>
+        <rule id="S" name="s'">
+            <pattern>
+                <match>
+                    <token>s</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is’</message>
+        </rule>
+        <rule id="SA" name="sa'">
+            <pattern>
+                <match>
+                    <token>sa</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sa’</message>
+        </rule>
+        <rule id="SA" name="'sa'">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sa</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sa’</message>
+        </rule>
+        <rule id="SAN" name="'san">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>san</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘san’</message>
+        </rule>
+        <rule id="SE" name="'sé">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sé</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is é’</message>
+        </rule>
+        <rule id="SEA" name="'sea">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sea</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is ea’</message>
+        </rule>
+        <rule id="SEADH" name="'seadh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>seadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is ea’</message>
+        </rule>
+        <rule id="SEARD" name="'séard">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>séard</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is éard’</message>
+        </rule>
+        <rule id="SHEISEAR" name="'sheisear">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sheisear</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘seisear’</message>
+        </rule>
+        <rule id="SI" name="'sí">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sí</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is í’</message>
+        </rule>
+        <rule id="SIAD" name="'siad">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>siad</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is iad’</message>
+        </rule>
+        <rule id="SIOMDHA" name="'siomdha">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>siomdha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is iomaí’</message>
+        </rule>
+        <rule id="SNA" name="'sna">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sna’</message>
+        </rule>
+        <rule id="STEACH" name="'steach">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>steach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘isteach’</message>
+        </rule>
+        <rule id="STIGH" name="'stigh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>stigh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘istigh’</message>
+        </rule>
+        <rule id="TA" name="'tá">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>tá</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘atá’</message>
+        </rule>
+        <rule id="TCHIM" name="'tchím">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>tchím</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a fheicim’</message>
+        </rule>
+        <rule id="TEACHT" name="'teacht">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>teacht</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag teacht’</message>
+        </rule>
+        <rule id="THABHAIRT" name="'thabhairt">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>thabhairt</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a thabhairt’</message>
+        </rule>
+        <rule id="THAINI" name="thaini'">
+            <pattern>
+                <match>
+                    <token>thaini</token>
+                    <token>&apos;</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tháinig’</message>
+        </rule>
+        <rule id="THAISGIDH" name="'thaisgidh">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>thaisgidh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a thaisce’</message>
+        </rule>
+        <rule id="UIRT" name="'úirt">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>úirt</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dúirt’</message>
+        </rule>
+        <rule id="UL" name="'ul">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>ul</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dul’</message>
+        </rule>
+        <rule id="UN" name="'un">
+            <pattern>
+                <match>
+                    <token></token>
+                    <token>&apos;</token>
+                    <token>un</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘chun’</message>
+        </rule>
+        <rule id="[1-9][0-9]*ADH" name="[1-9][0-9]*adh">
+            <pattern>
+                <match>
+                    <token>[1-9][0-9]*adh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘-ú’</message>
+        </rule>
+        <rule id="DARBAINM" name="d'arb'ainm">
+            <pattern>
+                <match>
+                    <token>d</token>
+                    <token>&apos;</token>
+                    <token>ar</token>
+                    <token>b</token>
+                    <token>&apos;</token>
+                    <token>ainm</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘darb ainm’</message>
+        </rule>
+        <rule id="BEARLA_EAGAIR" name="béarla eagair">
+            <pattern>
+                <match>
+                    <token regexp="yes">m?bh?éarla</token>
+                    <token>eagair</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘béarlagair’</message>
+        </rule>
+        <rule id="I_BHFOS" name="i bhfos">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>bhfos</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘abhus’</message>
+        </rule>
+        <rule id="CARR_MOGAIL" name="carr mogail">
+            <pattern>
+                <match>
+                    <token regexp="yes">g?ch?arr</token>
+                    <token>mogail</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘carrmhogal’</message>
+        </rule>
+        <rule id="I_BHFOS" name="i bhfos">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>bhfos</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘abhus’</message>
+        </rule>
+        <rule id="GHORTA_GHARTA" name="ghorta gharta">
+            <pattern>
+                <match>
+                    <token>ghorta</token>
+                    <token>gharta</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dhoirte dhairte’</message>
+        </rule>
+        <rule id="AG_SCAIRTIGH" name="ag scairtigh">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>scairtigh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag scairteadh’</message>
+        </rule>
+        <rule id="SMUTA_GAIRE" name="smuta gáire">
+            <pattern>
+                <match>
+                    <token>smuta</token>
+                    <token>gáire</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘smiota gáire’</message>
+        </rule>
+        <rule id="FRID" name="fríd">
+            <pattern>
+                <match>
+                    <token>fríd</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘trí, tríd’</message>
+        </rule>
+        <rule id="SHAITH_SE" name="sháith sé">
+            <pattern>
+                <match>
+                    <token>sháith</token>
+                    <token>sé</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sháigh sé’</message>
+        </rule>
+        <rule id="SHAITH_(ME|SI|SIBH|TU)" name="sháith (mé|sí|sibh|tú)">
+            <pattern>
+                <match>
+                    <token>sháith</token>
+                    <token regexp="yes">mé|sí|sibh|tú</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sháigh’</message>
+        </rule>
+        <rule id="INITIALDAPOST" name="INITIALDAPOST">
+            <pattern>
+                <match>
+                    <token>INITIALDAPOST</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag’</message>
+        </rule>
+        <rule id="AG_SNA" name="ag sna">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag na’</message>
+        </rule>
+        <rule id="AN_CRADH" name="an crádh">
+            <pattern>
+                <match>
+                    <token>an</token>
+                    <token>crádh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an crá’</message>
+        </rule>
+        <rule id="ROIMHE_AN_ECLIPSED" name="roimhe an ECLIPSED">
+            <pattern>
+                <match>
+                    <token>roimhe</token>
+                    <token>an</token>
+                    <token>ECLIPSED</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘roimh’</message>
+        </rule>
+        <rule id="ROIMHE_AN_UNLENITEDBCFGMP" name="roimhe an UNLENITEDBCFGMP">
+            <pattern>
+                <match>
+                    <token>roimhe</token>
+                    <token>an</token>
+                    <token>UNLENITEDBCFGMP</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘roimh’</message>
+        </rule>
+        <rule id="ROIMHE_AN_INITIALVOWEL" name="roimhe an INITIALVOWEL">
+            <pattern>
+                <match>
+                    <token>roimhe</token>
+                    <token>an</token>
+                    <token>INITIALVOWEL</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘roimh’</message>
+        </rule>
+        <rule id="ROIMHE_AN_INITIALS" name="roimhe an INITIALS">
+            <pattern>
+                <match>
+                    <token>roimhe</token>
+                    <token>an</token>
+                    <token>INITIALS</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘roimh’</message>
+        </rule>
+        <rule id="ROIMHE_AN_LENITED" name="roimhe an LENITED">
+            <pattern>
+                <match>
+                    <token>roimhe</token>
+                    <token>an</token>
+                    <token>LENITED</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘roimh’</message>
+        </rule>
+        <rule id="AN_MOGHA" name="an mogha">
+            <pattern>
+                <match>
+                    <token>an</token>
+                    <token>mogha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘an mogh’</message>
+        </rule>
+        <rule id="AR_D?TUS" name="ar d?tús">
+            <pattern>
+                <match>
+                    <token>ar</token>
+                    <token regexp="yes">d?túi?s</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar dtús’</message>
+        </rule>
+        <rule id="AR_NDO" name="ar ndó">
+            <pattern>
+                <match>
+                    <token>ar</token>
+                    <token>ndó</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="AR_GCUIL" name="ar gcúil">
+            <pattern>
+                <match>
+                    <token>ar</token>
+                    <token>gcúil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar gcúl’</message>
+        </rule>
+        <rule id="AR_NDOIGHE" name="ar ndóighe">
+            <pattern>
+                <match>
+                    <token>ar</token>
+                    <token>ndóighe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="SCOL_RAMHA" name="scol rámha">
+            <pattern>
+                <match>
+                    <token>scol</token>
+                    <token>rámha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ascaill rámha’</message>
+        </rule>
+        <rule id="BAIL_IS_CRIOCH" name="bail is críoch">
+            <pattern>
+                <match>
+                    <token regexp="yes">m?bh?ail</token>
+                    <token>is</token>
+                    <token>críoch</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘bailchríoch’</message>
+        </rule>
+        <rule id="NUAIR_BHEAS" name="nuair bhéas">
+            <pattern>
+                <match>
+                    <token>nuair</token>
+                    <token>bhéas</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘nuair a bheidh’</message>
+        </rule>
+        <rule id="A_BHEAS" name="a bhéas">
+            <pattern>
+                <match>
+                    <token>a</token>
+                    <token>bhéas</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bheidh’</message>
+        </rule>
+        <rule id="IS_BHEAS" name="is bhéas">
+            <pattern>
+                <match>
+                    <token>is</token>
+                    <token>bhéas</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is a bheidh’</message>
+        </rule>
+        <rule id="BHEAS_P" name="bhéas P">
+            <pattern>
+                <match>
+                    <token>bhéas</token>
+                </match>
+                <token postag="Pron.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘a bheidh’</message>
+        </rule>
+        <rule id="BEINN" name="beinn">
+            <pattern>
+                <match>
+                    <token>beinn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘binn’</message>
+        </rule>
+        <rule id="GO_BRATH" name="go bráth">
+            <pattern>
+                <match>
+                    <token>go</token>
+                    <token>bráth</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘go brách’</message>
+        </rule>
+        <rule id="MBUN|BHUN|BUN_OS_CIONN" name="mbun|bhun|bun os cionn">
+            <pattern>
+                <match>
+                    <token regexp="yes">mbun|bhun|bun</token>
+                    <token>os cionn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘bunoscionn’</message>
+        </rule>
+        <rule id="MBUN|BHUN|BUN_OS_TOLL" name="mbun|bhun|bun os toll">
+            <pattern>
+                <match>
+                    <token regexp="yes">mbun|bhun|bun</token>
+                    <token>os</token>
+                    <token>toll</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘bunoscionn’</message>
+        </rule>
+        <rule id="CE_MEID" name="cé méid">
+            <pattern>
+                <match>
+                    <token>cé</token>
+                    <token regexp="yes">mh?éid</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cé mhéad’</message>
+        </rule>
+        <rule id="CA_MEID" name="cá méid">
+            <pattern>
+                <match>
+                    <token>cá</token>
+                    <token regexp="yes">mh?éid</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cá mhéad’</message>
+        </rule>
+        <rule id="CARNAN_CAISIL" name="carnán caisil">
+            <pattern>
+                <match>
+                    <token regexp="yes">g?ch?arnán</token>
+                    <token>caisil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cornán caisil’</message>
+        </rule>
+        <rule id="OS_CEANN" name="os ceann">
+            <pattern>
+                <match>
+                    <token>os</token>
+                    <token>ceann</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘os cionn’</message>
+        </rule>
+        <rule id="I_NGACH_CEARNA" name="i ngach cearna">
+            <pattern>
+                <match>
+                    <token>i ngach</token>
+                    <token>cearna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i ngach cearn’</message>
+        </rule>
+        <rule id="GACH_CEARNA" name="gach cearna">
+            <pattern>
+                <match>
+                    <token>gach</token>
+                    <token>cearna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gach cearn’</message>
+        </rule>
+        <rule id="CEITHRE_CEARNA" name="ceithre cearna">
+            <pattern>
+                <match>
+                    <token regexp="yes">g?ch?eithre</token>
+                    <token regexp="yes">ch?earna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ceithre chearn’</message>
+        </rule>
+        <rule id="I_GCIONN" name="i gcionn">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcionn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gcion’</message>
+        </rule>
+        <rule id="I_GCIONN_AR" name="i gcionn ar">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcionn</token>
+                </match>
+                <token postag="Prep:Simp|Pron:Prep.*" postag_regexp="yes" inflected="yes">ar</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gcion’</message>
+        </rule>
+        <rule id="I_GCIONN_AR" name="i gcionn ar">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcionn</token>
+                    <token>ar</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gcion’</message>
+        </rule>
+        <rule id="I_GCIONN" name="i gcionn">
+            <pattern>
+                <match>
+                    <token>i</token>
+                    <token>gcionn</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gceann’</message>
+        </rule>
+        <rule id="AG_CLOS" name="ag clos">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>clos</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag cloisteáil’</message>
+        </rule>
+        <rule id="LE_CLOS" name="le clos">
+            <pattern>
+                <match>
+                    <token>le</token>
+                    <token>clos</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘le cloisteáil’</message>
+        </rule>
+        <rule id="CUAN_MARA" name="cuan mara">
+            <pattern>
+                <match>
+                    <token regexp="yes">g?ch?uan</token>
+                    <token>mara</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cuán mara’</message>
+        </rule>
+        <rule id="DA_MEID" name="dá méid">
+            <pattern>
+                <match>
+                    <token>dá</token>
+                    <token regexp="yes">mh?éid</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dá mhéad’</message>
+        </rule>
+        <rule id="DALLA_MULLOG" name="dalla mullóg">
+            <pattern>
+                <match>
+                    <token regexp="yes">dh?alla</token>
+                    <token>mullóg</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dallamullóg’</message>
+        </rule>
+        <rule id="DALL_NA_MULLOG" name="dall na mullóg">
+            <pattern>
+                <match>
+                    <token regexp="yes">n?dh?all</token>
+                    <token>na</token>
+                    <token>mullóg</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dallamullóg’</message>
+        </rule>
+        <rule id="RUAN_ALLA" name="ruán alla">
+            <pattern>
+                <match>
+                    <token>ruán</token>
+                    <token>alla</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘damhán alla’</message>
+        </rule>
+        <rule id="DAR_EIS" name="dar éis">
+            <pattern>
+                <match>
+                    <token>dar</token>
+                    <token>éis</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tar éis’</message>
+        </rule>
+        <rule id="DATHANNAI" name="dathannaí">
+            <pattern>
+                <match>
+                    <token regexp="yes">dh?athannaí</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dathanna’</message>
+        </rule>
+        <rule id="SNA" name="sna">
+            <pattern>
+                <match>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘de na’</message>
+        </rule>
+        <rule id="NDEAG" name="ndéag">
+            <pattern>
+                <match>
+                    <token>ndéag</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘déag’</message>
+        </rule>
+        <rule id="DHA_ECLIPSED" name="dhá ECLIPSED">
+            <pattern>
+                <match>
+                    <token>dhá</token>
+                    <token>ECLIPSED</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dá’</message>
+        </rule>
+        <rule id="DURA_DARA" name="dúra dara">
+            <pattern>
+                <match>
+                    <token>dúra</token>
+                    <token>dara</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘diúra deabhra’</message>
+        </rule>
+        <rule id="DO_SNA" name="do sna">
+            <pattern>
+                <match>
+                    <token>do</token>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘do na’</message>
+        </rule>
+        <rule id="AIRC_LUACHRA" name="airc luachra">
+            <pattern>
+                <match>
+                    <token>airc</token>
+                    <token>luachra</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘earc luachra’</message>
+        </rule>
+        <rule id="ALP_LUACHRA" name="alp luachra">
+            <pattern>
+                <match>
+                    <token>alp</token>
+                    <token>luachra</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘earc luachra’</message>
+        </rule>
+        <rule id="IS_E_RUD" name="is é rud">
+            <pattern>
+                <match>
+                    <token>is</token>
+                    <token>é</token>
+                    <token>rud</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is éard’</message>
+        </rule>
+        <rule id="FA_DHEIFRE" name="fá dheifre">
+            <pattern>
+                <match>
+                    <token>fá</token>
+                    <token>dheifre</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoi dheifir’</message>
+        </rule>
+        <rule id="FA_DEAR" name="fá dear">
+            <pattern>
+                <match>
+                    <token>fá</token>
+                    <token>dear</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoi deara’</message>
+        </rule>
+        <rule id="FA" name="fá">
+            <pattern>
+                <match>
+                    <token>fá</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoi’</message>
+        </rule>
+        <rule id="FAD_O_SHIN" name="fad ó shin">
+            <pattern>
+                <match>
+                    <token>fad</token>
+                    <token>ó shin</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fada ó shin’</message>
+        </rule>
+        <rule id="FAOI_DEAR" name="faoi dear">
+            <pattern>
+                <match>
+                    <token>faoi</token>
+                    <token>dear</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘faoi deara’</message>
+        </rule>
+        <rule id="FARADH_NA_FAILTE" name="faradh na fáilte">
+            <pattern>
+                <match>
+                    <token regexp="yes">fh?aradh</token>
+                    <token>na</token>
+                    <token>fáilte</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fearadh na fáilte’</message>
+        </rule>
+        <rule id="FUATH_FIONA" name="fuath fíona">
+            <pattern>
+                <match>
+                    <token regexp="yes">fh?uath</token>
+                    <token>fíona</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fóifíneach’</message>
+        </rule>
+        <rule id="FUARLACH_CROI" name="fuarlach croí">
+            <pattern>
+                <match>
+                    <token regexp="yes">fh?uarlach</token>
+                    <token>croí</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘fuadach croí’</message>
+        </rule>
+        <rule id="BA_GHAISTE" name="ba ghaiste">
+            <pattern>
+                <match>
+                    <token>ba</token>
+                    <token>ghaiste</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ba ghasta’</message>
+        </rule>
+        <rule id="IS_GAISTE" name="is gaiste">
+            <pattern>
+                <match>
+                    <token>is</token>
+                    <token>gaiste</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘is gasta’</message>
+        </rule>
+        <rule id="GHA_LENITED" name="ghá LENITED">
+            <pattern>
+                <match>
+                    <token>ghá</token>
+                    <token>LENITED</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="GHA_ECLIPSED" name="ghá ECLIPSED">
+            <pattern>
+                <match>
+                    <token>ghá</token>
+                    <token>ECLIPSED</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="GHA_UNMUTATEDVNISH" name="ghá UNMUTATEDVNISH">
+            <pattern>
+                <match>
+                    <token>ghá</token>
+                    <token>UNMUTATEDVNISH</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="GHA_CEANNACH" name="ghá ceannach">
+            <pattern>
+                <match>
+                    <token>ghá</token>
+                    <token regexp="yes">ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘á’</message>
+        </rule>
+        <rule id="V_GOIR" name="V goir">
+            <pattern>
+                <token postag="(?:C[UMC]:)?Verb:.*" postag_regexp="yes"></token>
+                <match>
+                    <token>goir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gair’</message>
+        </rule>
+        <rule id="AON_GHOIR" name="aon ghoir">
+            <pattern>
+                <match>
+                    <token>aon</token>
+                    <token>ghoir</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aon ghair’</message>
+        </rule>
+        <rule id="LA_COILLE" name="Lá Coille">
+            <pattern>
+                <match>
+                    <token>Lá</token>
+                    <token>Coille</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Lá Caille’</message>
+        </rule>
+        <rule id="LIOMHAN_GREINE" name="líomhán gréine">
+            <pattern>
+                <match>
+                    <token>líomhán</token>
+                    <token>gréine</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘liamhán gréine’</message>
+        </rule>
+        <rule id="MEAD" name="méad">
+            <pattern>
+                <match>
+                    <token regexp="yes">mh?éad</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘méid, mhéid’</message>
+        </rule>
+        <rule id="NA_TONNA" name="na tonna">
+            <pattern>
+                <match>
+                    <token>na</token>
+                    <token>tonna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na tonnta’</message>
+        </rule>
+        <rule id="NA_COILLEADH" name="na coilleadh">
+            <pattern>
+                <match>
+                    <token>na</token>
+                    <token>coilleadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na coille’</message>
+        </rule>
+        <rule id="ATHAIR_NIMHE" name="athair nimhe">
+            <pattern>
+                <match>
+                    <token>athair</token>
+                    <token>nimhe</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘nathair nimhe’</message>
+        </rule>
+        <rule id="AR_NEOIN" name="ar neoin">
+            <pattern>
+                <match>
+                    <token>ar</token>
+                    <token>neoin</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="DAR_NEOIN" name="dar neoin">
+            <pattern>
+                <match>
+                    <token>dar</token>
+                    <token>neoin</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="NEOIN_BHEAG" name="neoin bheag">
+            <pattern>
+                <match>
+                    <token>neoin</token>
+                    <token>bheag</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘nóin bheag’</message>
+        </rule>
+        <rule id="NI_FHUIL" name="ní fhuil">
+            <pattern>
+                <match>
+                    <token>ní</token>
+                    <token>fhuil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘níl’</message>
+        </rule>
+        <rule id="NI_GAISTE" name="ní gaiste">
+            <pattern>
+                <token regexp="yes">ní b[a']|ní</token>
+                <match>
+                    <token regexp="yes">gh?aiste</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘gasta’</message>
+        </rule>
+        <rule id="NIOS_GAISTE" name="níos gaiste">
+            <pattern>
+                <match>
+                    <token>níos</token>
+                    <token>gaiste</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘níos gasta’</message>
+        </rule>
+        <rule id="O_SNA" name="ó sna">
+            <pattern>
+                <match>
+                    <token>ó</token>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ó na’</message>
+        </rule>
+        <rule id="AG_OILEADH" name="ag oileadh">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>oileadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag oiliúint’</message>
+        </rule>
+        <rule id="PLE_RACA" name="plé ráca">
+            <pattern>
+                <match>
+                    <token regexp="yes">b?ph?lé</token>
+                    <token>ráca</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘pléaráca’</message>
+        </rule>
+        <rule id="PLE_SEAM" name="plé seam">
+            <pattern>
+                <match>
+                    <token regexp="yes">b?ph?lé</token>
+                    <token>seam</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘pléiseam’</message>
+        </rule>
+        <rule id="SAIL_CHUACH" name="sail chuach">
+            <pattern>
+                <match>
+                    <token regexp="yes">sh?ail</token>
+                    <token>chuach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sailchuach’</message>
+        </rule>
+        <rule id="SAIL_CHUAICHE" name="sail chuaiche">
+            <pattern>
+                <match>
+                    <token regexp="yes">sh?ail</token>
+                    <token>chuaiche</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sailchuach’</message>
+        </rule>
+        <rule id="NA_SAMHAILTEACHA" name="na samhailteacha">
+            <pattern>
+                <match>
+                    <token>na</token>
+                    <token>samhailteacha</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘na samhlacha’</message>
+        </rule>
+        <rule id="AG_SCRIOBHADH" name="ag scríobhadh">
+            <pattern>
+                <match>
+                    <token>ag</token>
+                    <token>scríobhadh</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ag scríobh’</message>
+        </rule>
+        <rule id="SU_SALUIN" name="sú salúin">
+            <pattern>
+                <match>
+                    <token regexp="yes">sh?ú</token>
+                    <token>salúin</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘sú talún’</message>
+        </rule>
+        <rule id="THEARMAINN_CHATHRACH" name="Thearmainn Chathrach">
+            <pattern>
+                <match>
+                    <token>Thearmainn</token>
+                    <token>Chathrach</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘Thearmann Caithreach’</message>
+        </rule>
+        <rule id="TINE_AOIL" name="tine aoil">
+            <pattern>
+                <match>
+                    <token regexp="yes">d?th?ine</token>
+                    <token>aoil</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tiníl’</message>
+        </rule>
+        <rule id="TONNA_AP" name="tonna AP">
+            <pattern>
+                <match>
+                    <token>tonna</token>
+                </match>
+                <token postag="Adj:.*Pl" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tonnta’</message>
+        </rule>
+        <rule id="TRI_SNA" name="trí sna">
+            <pattern>
+                <match>
+                    <token>trí</token>
+                    <token>sna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘trí na’</message>
+        </rule>
+        <rule id="TUILLEAMH_BUI" name="tuilleamh buí">
+            <pattern>
+                <match>
+                    <token regexp="yes">d?th?uilleamh</token>
+                    <token>buí</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tuilleamaí’</message>
+        </rule>
+        <rule id="IN_UMHAL" name="in umhal">
+            <pattern>
+                <match>
+                    <token>in</token>
+                    <token regexp="yes">umhai?l</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘in iúl’</message>
+        </rule>
+        <rule id="CIONN_AS" name="cionn as">
+            <pattern>
+                <match>
+                    <token>cionn</token>
+                    <token>as</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘cionn is’</message>
+        </rule>
+        <rule id="I_GCOIR_T_NG" name="i gcóir T NG">
+            <pattern>
+                <match>
+                    <token>i gcóir</token>
+                </match>
+                <token postag="Art:.*" postag_regexp="yes"></token>
+                <token postag="Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gcomhair’</message>
+        </rule>
+        <rule id="I_GCOIR_NG" name="i gcóir NG">
+            <pattern>
+                <match>
+                    <token>i gcóir</token>
+                </match>
+                <token postag="Noun:(Masc|Fem):Gen.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘i gcomhair’</message>
+        </rule>
+        <rule id="AR_NDOIGH" name="ár ndóigh">
+            <pattern>
+                <match>
+                    <token>ár</token>
+                    <token regexp="yes">ndóighe?</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ndóigh’</message>
+        </rule>
+        <rule id="THAR_N-AIS" name="thar n-ais">
+            <pattern>
+                <match>
+                    <token>thar</token>
+                    <token>n-ais</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘ar ais’</message>
+        </rule>
+        <rule id="DAR" name="d'ár">
+            <pattern>
+                <match>
+                    <token>d</token>
+                    <token>&apos;</token>
+                    <token>ár</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘dár’</message>
+        </rule>
+        <rule id="MAR_GCEANNA" name="mar gcéanna">
+            <pattern>
+                <match>
+                    <token>mar</token>
+                    <token>gcéanna</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘mar an gcéanna’</message>
+        </rule>
+        <rule id="AICE" name="aice">
+            <pattern>
+                <match>
+                    <token>aice</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘aici’</message>
+        </rule>
+        <rule id="THAR_EIS" name="thar éis">
+            <pattern>
+                <match>
+                    <token regexp="yes">thar|ar|in</token>
+                    <token>éis</token>
+                </match>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de ‘tar éis’</message>
+        </rule>
     </category>
 </rules>
