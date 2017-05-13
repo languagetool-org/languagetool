@@ -15767,6 +15767,126 @@ TODO Write better examples
       <example correction="#¿$?%!¡"><marker>Merda</marker>!</example>
       <example type="correct">Porra!</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>afogar</token>
+          <token>o</token>
+          <token>ganso</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>fazer sexo</suggestion>
+      <example correction='fazer sexo'><marker>afogar o ganso</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>afogar
+            <exception>afogar</exception></token>
+          <token>o</token>
+          <token>ganso</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion><match no='1' postag='V(.+)' postag_replace='V$1'>fazer</match> sexo</suggestion>
+      <example correction='fez sexo|fê sexo'><marker>afogou o ganso</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>boca</token>
+          <token>do</token>
+          <token>corpo</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>boca do corpo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>bundas?</token>
+          <token regexp='yes'>moles?</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>bunda mole</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>capô</token>
+          <token>de</token>
+          <token>fusca</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>capô de fusca</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>carne</token>
+          <token>mijada</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>carne mijada</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>comer</token>
+          <token regexp='yes'>os?</token>
+          <token regexp='yes'>rabos?|c[uú]s?</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>comer o rabo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>espíritos?</token>
+          <token>de</token>
+          <token regexp='yes'>porcos?</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>espírito de porco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>filhos?</token>
+          <token>de</token>
+          <token>rapariga</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>filho de rapariga</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>fogo</token>
+          <token>no</token>
+          <token>rabo</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>fogo no rabo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ir</token>
+          <token>aos</token>
+          <token>pés</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>ir aos pés</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>toco</token>
+          <token>de</token>
+          <token>amarrar</token>
+          <token>jegue</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction='#¿$?%!¡'><marker>toco de amarrar jegue</marker>.</example>
+    </rule>
   </rulegroup>
 
     <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos' default='off'> <!-- TODO re-enable when pseudo-chunker is implemented -->
