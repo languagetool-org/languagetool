@@ -54,7 +54,8 @@ printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
 MSWORD=`grep -c ":msword" $TMPFILE`
 printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 
-echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME" >>/home/languagetool/api/api-log.csv
+# when adding items, add only at the end so scripts don't get confused:
+echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME;$GOOGLEAPP" >>/home/languagetool/api/api-log.csv
 
 echo "" >>$OUTFILE
 echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
