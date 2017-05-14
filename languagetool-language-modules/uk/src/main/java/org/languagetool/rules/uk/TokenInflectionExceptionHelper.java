@@ -79,6 +79,17 @@ final class TokenInflectionExceptionHelper {
       return true;
     }
 
+    // абзац другий частини першої
+    if( i > 2 && i < tokens.length -1
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*&numr.*") 
+        && PosTagHelper.hasPosTag(tokens[i+1], "adj:.:v_rod.*&numr.*")
+        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("абзац", "розділ", "пункт", "частина"))
+        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("абзац", "розділ", "пункт", "частина"))
+        ) { 
+      logException();
+      return true;
+    }
+
     // лава запасних партії
     if( i > 1
         && tokens[i-1].getToken().equals("запасних")
