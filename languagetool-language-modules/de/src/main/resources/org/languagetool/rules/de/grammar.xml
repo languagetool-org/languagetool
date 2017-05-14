@@ -9038,7 +9038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
-                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen</exception>
+                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
                         </token>
@@ -16164,13 +16164,14 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
                     <marker>
-                        <token regexp="yes">bedauern|ansage</token>
+                        <token regexp="yes">bedauern|ansage|liebe</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Bedauern">Das nehme ich mit <marker>bedauern</marker> zur Kenntnis.</example>
                 <example correction="Ansage">Das war eine Blamage mit <marker>ansage</marker>.</example>
+                <example correction="Liebe">Mit <marker>liebe</marker> gebacken.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -18735,7 +18736,7 @@ Andere Projekte</example>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf</token>
                 <marker>
-                    <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen|betreiben</token>
+                    <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen|betreiben|probe</token>
                 </marker>
             </pattern>
             <message>Das substantvierte Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
@@ -18769,10 +18770,21 @@ Andere Projekte</example>
             <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
             <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
         </rule>
+        <rule id="NACH_AUSSAGE" name="nach aussage (Aussage) von">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[nN]ach</token>
+                <marker>
+                    <token>aussage</token>
+                </marker>
+            </pattern>
+            <message>Das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
+            <short>&prgk;.</short>
+            <example correction="Aussage">Nach <marker>aussage</marker> seiner Mutter ist er krank.</example>
+        </rule>
         <rulegroup id="KANN_ENGLISCH" name="'ich kann kein englisch (Englisch)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben</token>
+                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen</token>
                     <token min="0">kein</token>
                     <marker>
                         <token regexp="yes">&sprachadj1;</token>
