@@ -205,15 +205,16 @@ public class Portuguese extends Language implements AutoCloseable {
       case "CHILDISH_LANGUAGE":         return -25;
       case "ARCHAISMS":                 return -26;
       case "INFORMALITIES":             return -27;
-      case "HUNSPELL_RULE":             return -40;
-      case "CRASE_CONFUSION":           return -45;
-      case "FINAL_STOPS":               return -55;
-      case "T-V_DISTINCTION":           return -70;
-      case "T-V_DISTINCTION_ALL":       return -71;
-      case "REPEATED_WORDS":            return -110;
-      case "REPEATED_WORDS_3X":         return -111;
-      case "WIKIPEDIA_COMMON_ERRORS":   return -200;
+      case "HUNSPELL_RULE":             return -50;
+      case "CRASE_CONFUSION":           return -55;
+      case "FINAL_STOPS":               return -75;
+      case "T-V_DISTINCTION":           return -100;
+      case "T-V_DISTINCTION_ALL":       return -101;
+      case "REPEATED_WORDS":            return -210;
+      case "REPEATED_WORDS_3X":         return -211;
+      case "WIKIPEDIA_COMMON_ERRORS":   return -500;
       case "TOO_LONG_SENTENCE":         return -1000;
+      case "CACOPHONY":                 return -2000;
     }
     return 0;
   }

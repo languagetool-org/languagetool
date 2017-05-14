@@ -15956,6 +15956,108 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="CACOPHONY" name="Cacofonias ofensivas">
+      <url>https://pt.wikiquote.org/wiki/Cac%C3%B3fatos</url>
+      <short>Cacofonia</short>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*m[aã]</token>
+          <token min='0'>,</token>
+          <token regexp="yes">(ma|minha).*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example correction=""><marker>Alma minha</marker> gentil, que te partiste</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*c[aá]</token>
+          <token min='0'>,</token>
+          <token regexp="yes">ca.*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example correction=""><marker>Marca cada</marker> milha da viagem.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*pei</token>
+          <token min='0'>,</token>
+          <token regexp="yes">d[aeou].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'><marker>Topei dando</marker> nela com a vara de toca gado.</example>
+      <example type='correct'><marker>Vi-a</marker> com a vara de toca gado.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*ca</token>
+          <token min='0'>,</token>
+          <token regexp="yes">(ga|go|gue).*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>Topei dando nela com a vara de <marker>toca gado</marker>.</example>
+      <example type='correct'>Topei dando nela com a vara <marker>do gado</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*p[ou]</token>
+          <token min='0'>,</token>
+          <token regexp="yes">t[aá].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'><marker>Tipo tapioca</marker>, mas é melhor.</example>
+      <example type='correct'><marker>Parece tapioca</marker>, mas é melhor.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*mer</token>
+          <token min='0'>,</token>
+          <token regexp="yes">d[aá].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example correction="">Pode <marker>comer da</marker> travessa.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*(car|quer)</token>
+          <token min='0'>,</token>
+          <token regexp="yes">alh.+</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>O bacalhau <marker>quer alho</marker>.</example>
+      <example type='correct'>O bacalhau <marker>sabe melhor com alho</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*f[oô]</token>
+          <token min='0'>,</token>
+          <token regexp="yes">d[aáeiou].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>O <marker>garfo da</marker> esquerda é para peixe, e do direita é para carne..</example>
+      <example type='correct'>O garfo sem serrilhado é para peixe, o outro é para carne.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*mi</token>
+          <token min='0'>,</token>
+          <token regexp="yes">j[aáeou].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>Ao jantar <marker>comi javali</marker>.</example>
+      <example type='correct'>Ao jantei <marker>javali</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">.*ca</token>
+          <token min='0'>,</token>
+          <token regexp="yes">dela.*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>Tirei as palavras da <marker>boca dela</marker>.</example>
+      <example type='correct'>Tirei-lhe as palavras da <marker>boca</marker>.</example>
+    </rule>
+  </rulegroup>
+
     <rule id="MULTIPLE_VERBS_IN_A_ROW" name='Uso excessivo de verbos consecutivos' default='off'> <!-- TODO re-enable when pseudo-chunker is implemented -->
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
       <pattern>
