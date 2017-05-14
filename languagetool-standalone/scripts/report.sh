@@ -56,6 +56,7 @@ printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 
 # when adding items, add only at the end so scripts don't get confused:
 echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME;$GOOGLEAPP" >>/home/languagetool/api/api-log.csv
+cp /home/languagetool/api/api-log.csv /home/languagetool/languagetool.org/languagetool-website/www/analytics
 
 echo "" >>$OUTFILE
 echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
