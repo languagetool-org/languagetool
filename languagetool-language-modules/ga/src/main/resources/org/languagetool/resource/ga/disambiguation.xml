@@ -9,6 +9,53 @@
         ]>
 <rules lang="ga" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag=".*:Sg:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag=".*:Pl:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="strength">
+        <equivalence type="weak">
+            <token postag=".*:Weak:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="strong">
+            <token postag=".*:Strong:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="gender">
+        <equivalence type="m">
+            <token postag=".*:Masc:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="strong">
+            <token postag=".*:Fem:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="case">
+        <equivalence type="nom">
+            <token postag=".*:Com:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="gen">
+            <token postag=".*:Gen:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="voc">
+            <token postag=".*:Voc:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="pers">
+        <equivalence type="p1">
+            <token postag=".*:1P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="p2">
+            <token postag=".*:2P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="p3">
+            <token postag=".*:3P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
     <rule id="AS_SIN_AMACH" name="as sin amach">
         <pattern>
             <marker>
