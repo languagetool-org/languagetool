@@ -2633,7 +2633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>sháigh sé</suggestion></message>
         </rule>
-        <rule id="SHAITH_(ME|SI|SIBH|TU)" name="sháith (mé|sí|sibh|tú)">
+        <rule id="SHAITH_PRONOUN" name="sháith (mé|sí|sibh|tú)">
             <pattern>
                 <match>
                     <token>sháith</token>
@@ -2837,7 +2837,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>go brách</suggestion></message>
         </rule>
-        <rule id="MBUN|BHUN|BUN_OS_CIONN" name="mbun|bhun|bun os cionn">
+        <rule id="BUN_OS_CIONN" name="bun os cionn">
             <pattern>
                 <match>
                     <token regexp="yes">m?bh?un</token>
@@ -2846,7 +2846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(m?bh?)un" regexp_replace="$1unoscionn"/></suggestion></message>
         </rule>
-        <rule id="BUN_OS_TOLL" name="mbun|bhun|bun os toll">
+        <rule id="BUN_OS_TOLL" name="bun os toll">
             <pattern>
                 <match>
                     <token regexp="yes">m?bh?un</token>
@@ -5571,8 +5571,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>leanas</token>
             </antipattern>
             <antipattern>
+                <token>mar</token>
+                <token>leanas</token>
+            </antipattern>
+            <antipattern>
                 <token>seo</token>
                 <token>a</token>
+                <token>leanas</token>
+            </antipattern>
+            <antipattern>
+                <token>seo</token>
                 <token>leanas</token>
             </antipattern>
             <pattern>
