@@ -12656,15 +12656,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
-                <token>ein</token>
+                <token regexp="yes">ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf</token>
                 <marker>
                     <token case_sensitive="yes" regexp="yes">(drit|vier|fünf|sechs|sieb|ach|neun|zehn|elf|zwölf|hunderts|tausends)tel</token>
                 </marker>
-                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+|eins|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier als Substantiv benutzt zu werden und wird dann großgeschrieben.</message>
             <example correction="Fünftel">Ein <marker>fünftel</marker> vom Ganzen</example>
             <example>Es kostet eine <marker>drittel</marker> Million.</example>
+            <example correction="Zehntel">Drei <marker>zehntel</marker> des Umsatzes werden in Werbung investiert.</example>
+            <example>Es ist drei <marker>viertel</marker> acht.</example>
         </rule>
         <rule id="EIN_NTEL_EINHEIT" name="ein Fünftel (fünftel) Liter">
             <pattern>
@@ -12672,7 +12674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">(Drit|Vier|Fünf|Sechs|Sieb|Ach|Neun|Zehn|Elf|Zwölf|Hunderts|Tausends)tel</token>
                 </marker>
-                <token regexp="yes">.*(gramm|liter|sekunde)|Glas</token>
+                <token regexp="yes">.*(gramm|liter|sekunde|meter)|Glas</token>
             </pattern>
             <message>Das Zahlwort <suggestion><match no="2" case_conversion="startlower"/></suggestion> wird kleingeschrieben, wenn es sich auf '\3' bezieht.</message>
             <url>https://www.korrekturen.de/regelwerk/gross-_und_kleinschreibung2-1b.shtml</url>
@@ -16162,12 +16164,13 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
                     <marker>
-                        <token>bedauern</token>
+                        <token regexp="yes">bedauern|ansage</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Bedauern</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Bedauern">Das nehme ich mit <marker>bedauern</marker> zur Kenntnis.</example>
+                <example correction="Ansage">Das war eine Blamage mit <marker>ansage</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -18732,7 +18735,7 @@ Andere Projekte</example>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf</token>
                 <marker>
-                    <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen</token>
+                    <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen|betreiben</token>
                 </marker>
             </pattern>
             <message>Das substantvierte Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
@@ -18741,6 +18744,7 @@ Andere Projekte</example>
             <example correction="Verlangen">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
             <example>Auf <marker>Verlangen</marker> der Verteidigerin wurde die Verhandlung unterbrochen.</example>
             <example correction="Anraten">Auf <marker>anraten</marker> meines Arztes treibe ich mehr Sport.</example>
+            <example correction="Betreiben">Auf <marker>betreiben</marker> der Eltern studierte er Medizin.</example>
         </rule>
         <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
           http://www.duden.de/rechtschreibung/deutsch
