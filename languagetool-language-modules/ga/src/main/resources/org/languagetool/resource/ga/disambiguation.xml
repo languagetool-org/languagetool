@@ -3,6 +3,10 @@
     Disambiguation Rules for LanguageTool
     Copyright (C) 2016 Trinity College, Dublin
 -->
+<!DOCTYPE rules [
+        <!ENTITY nbsp " ">
+        <!ENTITY apost "['`’]">
+        ]>
 <rules lang="ga" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
     <rule id="AS_SIN_AMACH" name="as sin amach">
@@ -459,6 +463,7 @@
             </pattern>
             <disambig action="filterall"></disambig>
         </rule>
+        <!--
         <rule>
             <pattern>
                 <marker>
@@ -470,6 +475,7 @@
             </pattern>
             <disambig action="filterall"></disambig>
         </rule>
+        -->
         <rule>
             <pattern>
                 <marker>
@@ -527,6 +533,16 @@
             <disambig action="replace"><wd lemma="síor" pos="Subst:Noun:Sg:Len">shíor</wd></disambig>
         </rule>
     </rulegroup>
+    <rule id="DAOIS" name="d'aois">
+        <pattern>
+            <marker>
+                <token>d</token>
+            </marker>
+            <token>&apos;</token>
+            <token regexp="yes">aois|airgead</token>
+        </pattern>
+        <disambig action="add"><wd lemma="de" pos="Prep:Simp"></wd></disambig>
+    </rule>
 <!--
     <rule id="VI" name="VI">
         <pattern>
