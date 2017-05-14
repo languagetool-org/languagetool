@@ -4859,15 +4859,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token>hi</token>
-                        <token postag="VA.*" postag_regexp="yes"/>
+                        <token postag="V.[^N].*|SPS00" min="1" max="2" postag_regexp="yes"/>
                         <token>haver</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>haver</token>
+                        <token postag="&pronom_feble;|RG" postag_regexp="yes" min="0" max="2"/>
+                        <token postag="V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>haver</token>
+                        <token spacebefore="no" min="0">-n</token>
+                        <token spacebefore="no" inflected="yes">hi</token>
                     </marker>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token postag="VAN00000">haver<exception postag="_perfet|_obligacio|_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">esment|-hi</exception></token>
+                    <token><exception>esment</exception></token>
                 </pattern>
                 <message>Falta un participi, la preposició 'de' o el pronom 'hi'.</message>
                 <example correction="">Quan el vam <marker>haver</marker> pràcticament esgotant.</example>
@@ -4875,6 +4889,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quan el vam haver pràcticament esgotat.</example>
                 <example>Hi va haver mala sort.</example>
                 <exmaple>Va haver-hi mala sort.</exmaple>
+                <example>Hi ha d'haver un espai.</example>
+                <example>Hi pot haver material.</example>
+                <example>Ho hauries d'haver fet.</example>
+                <example>Hauria d'haver-se anomenat així.</example>
+                <example>En el cas d'haver-n'hi més d'un.</example>
             </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
