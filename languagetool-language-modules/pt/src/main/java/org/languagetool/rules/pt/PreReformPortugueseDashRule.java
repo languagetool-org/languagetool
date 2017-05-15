@@ -37,7 +37,7 @@ public class PreReformPortugueseDashRule extends AbstractDashRule {
   
   public PreReformPortugueseDashRule() throws IOException {
     super(dashRules);
-    setDefaultOff(); // Slows down checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/2
+    setDefaultOff(); // Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
   }
 
   @Override

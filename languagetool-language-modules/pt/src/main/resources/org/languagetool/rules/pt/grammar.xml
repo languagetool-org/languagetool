@@ -2247,7 +2247,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[KHDCNF][gmlsJNWCVSFTH](\^)?[23²³]?
+          <token regexp="yes">[KHDCNF][gmlsJNWCVSFTH]([\^⁻])?[23²³]?
             <exception>DJ</exception></token>
         </marker>
       </pattern>
@@ -2262,7 +2262,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[yzptg][gmlsJNWCVSFTH](\^)?[23²³]?
+          <token regexp="yes">[yzptg][gmlsJNWCVSFTH]([\^⁻])?[23²³]?
             <exception>pH</exception></token>
         </marker>
       </pattern>
@@ -13847,27 +13847,29 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?2
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?⁻?2
             <exception regexp='yes'>(TV|GT)2</exception></token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+?)((\^)?)2' regexp_replace='$1²'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)(⁻?)2' regexp_replace='$1$4²'/></suggestion>
       <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km2</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
       <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin...</example>
+      <example correction="s⁻²">g = 9,8 m.<marker>s⁻2</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?3
+          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?⁻?3
             <exception regexp='yes'>(TV|GT)3</exception></token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
-        <suggestion><match no="2" regexp_match='(.+?)((\^)?)3' regexp_replace='$1³'/></suggestion>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)(⁻?)3' regexp_replace='$1$4³'/></suggestion>
       <example correction="m³">A banheira tinha 2 <marker>m3</marker>.</example>
       <example correction="m³">A banheira tinha 2 <marker>m^3</marker>.</example>
+      <example correction="s⁻³">g.t = 9,8 m.<marker>s⁻3</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -16830,7 +16832,7 @@ TODO Write better examples
             <exception regexp="yes">Hübner|hübneriano|Müller|mülleriano|über</exception></token>
       </pattern>
       <message>O trema deixou de ser utilizado em Português com o Acordo de 1945.</message>
-      <example correction="">Foi uma brincadeira sem <marker>inconseqüente</marker>.</example>
+      <example correction="">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
     </rule>
 
   <rulegroup id="ROMAN_NUMBERS_CHECKER" name="Verificação de números romanos" type="misspelling">
