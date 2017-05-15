@@ -15317,8 +15317,8 @@ TODO Write better examples
         <suggestion></suggestion>
       <example correction=''><marker>a fim de</marker>.</example>
     </rule>
-     <rule>
-       <pattern>
+    <rule>
+      <pattern>
           <token>a</token>
           <token>gente</token>
       </pattern>
@@ -15957,6 +15957,8 @@ TODO Write better examples
   </rulegroup>
 
   <rulegroup id="CACOPHONY" name="Cacofonias ofensivas">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-14 -->
+    <!-- TODO Separate better between variants, to reduce accent related false positives -->
       <url>https://pt.wikiquote.org/wiki/Cac%C3%B3fatos</url>
       <short>Cacofonia</short>
     <rule>
@@ -15989,6 +15991,16 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive="yes">
+          <token regexp="yes">.*que</token>
+          <token min='0'>,</token>
+          <token regexp="yes">ag[aá].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example type='incorrect'>Temas <marker>que agarram</marker> a atenção.</example>
+      <example type='correct'>Temas <marker>que prendem</marker> a atenção.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
           <token regexp="yes">.*c[aá]</token>
           <token min='0'>,</token>
           <token regexp="yes">(ga|go|gue).*</token>
@@ -16018,6 +16030,15 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive="yes">
+          <token regexp="yes">.*me</token>
+          <token min='0'>,</token>
+          <token regexp="yes">h?erd[aá].*</token>
+      </pattern>
+      <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
+      <example correction="">Alguém <marker>me herda</marker> os bens.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
           <token regexp="yes">.*(car|quer)</token>
           <token min='0'>,</token>
           <token regexp="yes">alh.+</token>
@@ -16028,7 +16049,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive="yes">
-          <token regexp="yes">.*f[oô]</token>
+          <token regexp="yes">.*f[oôóu]</token>
           <token min='0'>,</token>
           <token regexp="yes">d[aáeiou].*</token>
       </pattern>
@@ -16797,7 +16818,39 @@ TODO Write better examples
       <message>Expressão não pode ser traduzida literalmente.</message>
         <suggestion>tamanho único</suggestion>
       <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
-    </rule>  
-  
+    </rule>
+ </category>
+
+ <category id="MISSPELLING" name="Erros de digitação" type="misspelling">
+
+  <rulegroup id="ROMAN_NUMBERS_CHECKER" name="Verificação de números romanos" type="misspelling">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL</exception></token>
+        </marker>
+      </pattern>
+      <message>Número romano inválido.</message>
+      <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
+      <example>Existem XXI soluções.</example>
+      <example>VI Congresso Nacional de Degustadores</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes" spacebefore="yes">[mcdxlvi]+
+            <exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception>
+            <exception postag="[RPANDV].*" postag_regexp="yes"/>
+            <exception>dvd</exception></token>
+        </marker>
+      </pattern>
+      <message>Número romano inválido.</message>
+      <example correction="">Existem <marker>xxvxxi</marker> soluções.</example>
+      <example>Existem xxi soluções.</example>
+      <example>Mil e uma noites</example>
+      <example>É mais uma obra do engenheiro civil.</example>
+    </rule>
+  </rulegroup>
  </category>
 </rules>
