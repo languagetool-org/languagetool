@@ -824,4 +824,19 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
+
+    <rule id="NOUN_ADJ" name="noun adj">
+        <pattern>
+            <unify>
+                <feature id="gender"/><feature id="case"/><feature id="number"/><feature id="strength"/>
+                <token postag="Noun.*" postag_regexp="yes"></token>
+                <token postag="Adj.*" postag_regexp="yes"></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="FIXME"
+                 outputform="bó[bó/Noun:Fem:Com:Sg] bheag[beag/Adj:Fem:Com:Sg:Len]"><marker>bó bheag</marker></example>
+        <example type="ambiguous" inputform="FIXME"
+                 outputform="bó[bó/Noun:Fem:Gen:Weak:Pl] beag[beag/Adj:Gen:Weak:Pl]"><marker>bó beag</marker></example>
+    </rule>
 </rules>
