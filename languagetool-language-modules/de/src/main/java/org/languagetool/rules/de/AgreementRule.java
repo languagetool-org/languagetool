@@ -161,9 +161,14 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().pos("ZUS").build(),
         new PatternTokenBuilder().pos("SENT_END").build()
     ),
-    Arrays.asList( // "Bei mir löste das Panik aus."
+    Arrays.asList(
         new PatternTokenBuilder().token("Außenring").build(),
         new PatternTokenBuilder().token("Autobahn").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Eurovision").build(),
+        new PatternTokenBuilder().token("Song").build(),
+        new PatternTokenBuilder().token("Contest").build()
     ),
     Arrays.asList( // "Das Holocaust Memorial Museum."
         new PatternTokenBuilder().posRegex("ART:.*").build(),
