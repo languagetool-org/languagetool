@@ -157,7 +157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">вступати|вступити|вступа(вши|ючи)|вступивши</token>
-          <token>в</token>
+          <token regexp="yes">[ву]</token>
           <token>силу</token>
         </pattern>
         <!-- TODO:
@@ -3330,7 +3330,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="руба">криза поставила його <marker>ребром</marker></example>
       <example>зі зламаним ребром</example>
     </rule>
-
     <rule id="NA_DOMU" name="На дому">
       <pattern>
         <token>на</token>
@@ -4213,6 +4212,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>силіконовому долина</example>
     </rule>
 
+    <rule id="PIDOPYTNYI_KROLYK" name="Підопитний кролик">
+      <pattern>
+        <token inflected="yes">підопитний</token>
+        <token inflected="yes">кролик</token>
+      </pattern>
+      <message>Правильно: <suggestion>піддослідний кролик</suggestion>, <suggestion>лабораторний пацюк</suggestion></message>
+      <example correction="піддослідний кролик|лабораторний пацюк">бути <marker>підопитним кроликом</marker></example>
+      <example>силіконовому долина</example>
+    </rule>
+
+    <rule id="OSTATOCHNYI_PRYNCYP" name="Остаточний принцип">
+      <pattern>
+        <token inflected="yes">остаточний</token>
+        <token inflected="yes">принцип</token>
+      </pattern>
+      <message>Правильно: <suggestion>залишковий принцип</suggestion></message>
+      <example correction="залишковий принцип">такого <marker>остаточного принципу</marker></example>
+    </rule>
+
     <rule id="LYCE_OSOBA" name="Лице і особа">
       <pattern>
         <unify>
@@ -4412,6 +4430,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+<!--
+    <rulegroup id="BUTY_PRAVYM" name="Бути правим">
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes" regexp="yes">оливковий|рослинний|соняшниковий|пальмовий|бавовняний|етеровий|ефірний|кедровий|кіпарисовий|обліпиховий|ріпаковий|рапсовий|соєвий</token>
+            <token inflected="yes">масло</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олія</suggestion></message>
+        <example correction="рослинна олія">полити <marker>рослинним маслом</marker>.</example>
+        <example correction="оливкова олія">полити <marker>оливковим маслом</marker>.</example>
+      </rule>
+    </rulegroup>
+-->
+
+    <rulegroup id="DVA_CHOBOTY" name="Два чоботи пара">
+      <rule>
+        <pattern>
+          <token regexp="yes">(оби)?два</token>
+          <token regexp="yes">чоботи|черевики</token>
+          <token regexp="yes" min="0">[—–-]</token>
+          <token>пара</token>
+        </pattern>
+        <message>Правильно: <suggestion>один одного варт (вартий)</suggestion></message>
+        <suggestion>обоє рябоє</suggestion>
+        <suggestion>зустрівся Яким з таким</suggestion>
+        <suggestion>яке їхало, таке й здибало</suggestion>
+        <suggestion>яке брело, таке й стріло</suggestion>
+        <suggestion>одно за вісімнадцять, друге без двох за двадцять</suggestion>
+        <example correction="один одного варт (вартий)|обоє рябоє|зустрівся Яким з таким|яке їхало, таке й здибало|яке брело, таке й стріло|одно за вісімнадцять, друге без двох за двадцять"><marker>два черевики — пара</marker>.</example>
+        <example correction="один одного варт (вартий)|обоє рябоє|зустрівся Яким з таким|яке їхало, таке й здибало|яке брело, таке й стріло|одно за вісімнадцять, друге без двох за двадцять"><marker>обидва чоботи пара</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
         <antipattern>
@@ -4468,6 +4523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>за умови створення</example>
         </rule>
     -->
+
   </category>
 
 </rules>
