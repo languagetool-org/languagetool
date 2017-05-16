@@ -5323,8 +5323,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='Z.+'/>
         <marker>
-          <token regexp="yes">&unidades_de_medida;
-            <exception>h</exception></token>
+          <token regexp="yes">&unidades_de_medida;</token>
           <token>.</token>
         </marker>
           <token regexp="yes">\p{Ll}.*|[,;]</token>
@@ -14114,6 +14113,34 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="DASH_SPACE_RULES" name="Travessão em enumerações" default="off">
+      <short>Erro tipográfico</short>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+|w</token>
+          <token regexp="yes">[–‒—-]</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <message>Em enumerações, deve dar um espaço depois do travessão.</message>
+        <suggestion>\2 — \4</suggestion>
+      <example correction="1 — Influência"><marker>1—Influência</marker> artística.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[–‒—-]</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Em diálogos, deve dar um espaço depois do travessão.</message>
+        <suggestion>—\3</suggestion>
+      <example correction="—Corre"><marker>— Corre</marker>! vá!</example>
+      <example>—Saltar</example>
+      <example>—Correr</example>
+      <example>—Rastejar</example>
+    </rule>
+  </rulegroup>
+
     <rule id="ENUMERATION_AND_DASHES" name="Enumerações com travessões: 1.2.-">
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
       <pattern>
@@ -14283,11 +14310,11 @@ TODO Write better examples
       <pattern>
           <token regexp="yes">\d+</token>
         <marker>
-          <token regexp="yes">(&unidades_de_medida;|h|hr)s</token>
+          <token regexp="yes">(&unidades_de_medida;)s</token>
         </marker>
       </pattern>
       <message>As abreviaturas de unidades de medida padrão não tem plural.</message>
-        <suggestion><match no='2' regexp_match='(&unidades_de_medida;|h|hr)s' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
       <example correction="kg">São 2 <marker>kgs</marker> de maças.</example>
     </rule>
 
