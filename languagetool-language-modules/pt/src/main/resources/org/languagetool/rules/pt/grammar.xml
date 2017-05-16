@@ -32,7 +32,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
-    <!ENTITY partes_do_dia "manhã|tarde|noite">
+    <!ENTITY partes_do_dia "manhã|matina|tarde|noite">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões">
-    <!ENTITY unidades_de_medida "([µnmcdhk]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
+    <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
     <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
     <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
@@ -3591,13 +3591,11 @@ title="Easy editing stylesheet" ?>
     <!-- MAIOR maiores -->
     <rule id="MAIOR" name="Maiores">
       <pattern>
-        <marker>
           <token>maior</token>
-        </marker>
           <token regexp="yes">as|os|são</token>
       </pattern>
-      <message>Substitua por <suggestion>maiores</suggestion>.</message>
-      <example correction="maiores">São <marker>maior</marker> as hipóteses.</example>
+      <message>Substitua por <suggestion>maiores \2</suggestion>.</message>
+      <example correction="maiores as">São <marker>maior as</marker> hipóteses.</example>
     </rule>
 
     <!-- MAIS BOM melhor -->
@@ -5322,7 +5320,7 @@ title="Easy editing stylesheet" ?>
 
     <rule id="PUNCTUATION_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
-      <pattern>
+      <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='Z.+'/>
         <marker>
           <token regexp="yes">&unidades_de_medida;</token>
@@ -13847,7 +13845,7 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?⁻?2
+          <token regexp="yes">([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?2
             <exception regexp='yes'>(TV|GT)2</exception></token>
         </marker>
       </pattern>
@@ -13861,7 +13859,7 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?⁻?3
+          <token regexp="yes">([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?3
             <exception regexp='yes'>(TV|GT)3</exception></token>
         </marker>
       </pattern>
@@ -13875,7 +13873,7 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token>/</token>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?2</token>
+          <token regexp="yes">([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?2</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
@@ -13887,7 +13885,7 @@ TODO Write better examples
       <pattern case_sensitive="yes">
           <token>/</token>
         <marker>
-          <token regexp="yes">[khdcmnfYZPTGM]?[gmlsJNWCVSFTH](\^)?3</token>
+          <token regexp="yes">([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?3</token>
         </marker>
       </pattern>
       <message>Os expoentes devem estar em sobrescrito.</message>
@@ -14823,6 +14821,33 @@ TODO Write better examples
         <suggestion><match no='1' regexp_match='ime(.+)' regexp_replace='eme$1'/> \2</suggestion>
       <example correction="emergiu à">...assim, ela <marker>imergiu à</marker> superfície sem qualquer esforço.</example>
     </rule>
+
+  <rulegroup id="ROMAN_NUMBERS_CHECKER" name="Verificação de números romanos" type="misspelling">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RZANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL|MIDI</exception></token>
+      </pattern>
+      <message>Número romano inválido.</message>
+      <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
+      <example>Existem XXI soluções.</example>
+      <example>VI Congresso Nacional de Degustadores</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes" spacebefore="yes">[mcdxlvi]+
+            <exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception>
+            <exception postag="[RZPANDV].*" postag_regexp="yes"/>
+            <exception>dvd</exception></token>
+      </pattern>
+      <message>Número romano inválido.</message>
+      <example correction="">Existem <marker>xxvxxi</marker> soluções.</example>
+      <example>Existem xxi soluções.</example>
+      <example>Custará mais de mil ienes.</example>
+      <example>Mil e uma noites</example>
+      <example>É mais uma obra do engenheiro civil.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="URL_VALIDATION" name="Validação de URLs">
     <!-- Localized from french grammar.xml by Tiago F. Santos, 30-01-2017 -->
@@ -15964,85 +15989,77 @@ TODO Write better examples
       <url>https://pt.wikiquote.org/wiki/Cac%C3%B3fatos</url>
       <short>Cacofonia</short>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*m[aã]</token>
-          <token min='0'>,</token>
-          <token regexp="yes">(ma|minha).*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*m[aã]</token>
+          <token regexp="yes">mas|mais|minh.+|maioria|mar.*|mou.+</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example correction=""><marker>Alma minha</marker> gentil, que te partiste</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*c[aá]</token>
+      <pattern>
+          <token regexp="yes">[a-z]*cá</token>
           <token min='0'>,</token>
-          <token regexp="yes">c[aá].*</token>
+          <token regexp="yes">c[aâã][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
-      <example correction=""><marker>Marca cada</marker> milha da viagem.</example>
+      <example correction=""><marker>Cá, cada</marker> milha da viagem.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*pei</token>
-          <token min='0'>,</token>
-          <token regexp="yes">d[aeou].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*pei</token>
+          <token regexp="yes">d[aeou][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'><marker>Topei dando</marker> nela com a vara de toca gado.</example>
       <example type='correct'><marker>Vi-a</marker> com a vara de toca gado.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*que</token>
-          <token min='0'>,</token>
-          <token regexp="yes">ag[aá].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*que</token>
+          <token regexp="yes">ag[aá][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'>Temas <marker>que agarram</marker> a atenção.</example>
       <example type='correct'>Temas <marker>que prendem</marker> a atenção.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*c[aá]</token>
-          <token min='0'>,</token>
-          <token regexp="yes">(ga|go|gue).*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*c[aá]</token>
+          <token regexp="yes">(ga|go|gue)[a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'>Topei dando nela com a vara de <marker>toca gado</marker>.</example>
       <example type='correct'>Topei dando nela com a vara <marker>do gado</marker>.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*p[ou]</token>
-          <token min='0'>,</token>
-          <token regexp="yes">t[aá].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*p[ou]</token>
+          <token regexp="yes">t[aá][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'><marker>Tipo tapioca</marker>, mas é melhor.</example>
       <example type='correct'><marker>Parece tapioca</marker>, mas é melhor.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*mer</token>
-          <token min='0'>,</token>
-          <token regexp="yes">d[aá].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*mer</token>
+          <token regexp="yes">d[aá][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example correction="">Pode <marker>comer da</marker> travessa.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*me</token>
-          <token min='0'>,</token>
-          <token regexp="yes">h?erd[aá].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*me</token>
+          <token regexp="yes">h?erd[aá][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example correction="">Alguém <marker>me herda</marker> os bens.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*(car|quer)</token>
-          <token min='0'>,</token>
+      <pattern>
+          <token regexp="yes">[a-z]*(car|quer)</token>
           <token regexp="yes">alh.+</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
@@ -16050,30 +16067,27 @@ TODO Write better examples
       <example type='correct'>O bacalhau <marker>sabe melhor com alho</marker>.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*f[oôóu]</token>
-          <token min='0'>,</token>
-          <token regexp="yes">d[aáeiou].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*f[oôóu]</token>
+          <token regexp="yes">d[aáeiou][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'>O <marker>garfo da</marker> esquerda é para peixe, e do direita é para carne.</example>
       <example type='correct'>O garfo sem serrilhado é para peixe, o outro é para carne.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*m[ei]</token>
-          <token min='0'>,</token>
-          <token regexp="yes">j[aáeou].*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*mi</token>
+          <token regexp="yes">j[aeou][a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'>Ao jantar <marker>comi javali</marker>.</example>
       <example type='correct'>Jantei <marker>javali</marker>.</example>
     </rule>
     <rule>
-      <pattern case_sensitive="yes">
-          <token regexp="yes">.*ca</token>
-          <token min='0'>,</token>
-          <token regexp="yes">dela.*</token>
+      <pattern>
+          <token regexp="yes">[a-z]*ca</token>
+          <token regexp="yes">dela[a-z]*</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example type='incorrect'>Tirei as palavras da <marker>boca dela</marker>.</example>
@@ -16823,46 +16837,18 @@ TODO Write better examples
     </rule>
  </category>
 
- <category id="MISSPELLING" name="Erros de digitação" type="misspelling">
+ <category id="MISSPELLING" name="Erros Ortográficos" type="misspelling">
 
-    <rule id="OLD_SPELLING_U" name="AO45: uso de trema" type="misspelling">
+    <rule id="OLD_SPELLING_U" name="Acordo Ortográfico de 45: ü (uso de trema)" type="misspelling">
     <!-- Created by Tiago F. Santos, 2017-05-15 -->
       <pattern>
           <token regexp="yes">.*ü.*
-            <exception regexp="yes">Hübner|hübneriano|Müller|mülleriano|über</exception></token>
+            <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*</exception></token>
       </pattern>
       <message>O trema deixou de ser utilizado em Português com o Acordo de 1945.</message>
-      <example correction="">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
+        <suggestion><match no='1' regexp_match='ü' regexp_replace='u'/></suggestion>
+      <example correction="inconsequente">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
     </rule>
 
-  <rulegroup id="ROMAN_NUMBERS_CHECKER" name="Verificação de números romanos" type="misspelling">
-    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
-    <rule>
-      <pattern case_sensitive="yes">
-        <marker>
-          <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL</exception></token>
-        </marker>
-      </pattern>
-      <message>Número romano inválido.</message>
-      <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
-      <example>Existem XXI soluções.</example>
-      <example>VI Congresso Nacional de Degustadores</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="yes">
-        <marker>
-          <token regexp="yes" spacebefore="yes">[mcdxlvi]+
-            <exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception>
-            <exception postag="[RPANDV].*" postag_regexp="yes"/>
-            <exception>dvd</exception></token>
-        </marker>
-      </pattern>
-      <message>Número romano inválido.</message>
-      <example correction="">Existem <marker>xxvxxi</marker> soluções.</example>
-      <example>Existem xxi soluções.</example>
-      <example>Mil e uma noites</example>
-      <example>É mais uma obra do engenheiro civil.</example>
-    </rule>
-  </rulegroup>
  </category>
 </rules>
