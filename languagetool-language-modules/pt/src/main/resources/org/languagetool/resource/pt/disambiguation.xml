@@ -375,6 +375,37 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
+  <rulegroup id="SER_NOUN" name="'ser' como substantivo">
+    <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="N.*" postag_regexp="yes" regexp="yes">ser|seres</token>
+        </marker>
+          <token regexp="yes">humanos?|vivos?</token>
+      </pattern>
+      <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="D..MS." postag_regexp="yes"/>
+          <token postag="NCMS000">ser</token>
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="D..MP." postag_regexp="yes"/>
+          <token postag="NCMP000">seres</token>
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com 'tal'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
     <rule>
