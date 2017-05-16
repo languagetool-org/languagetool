@@ -552,7 +552,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="1" postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
     <!--<example correction='é rosa|são rosas'>Isto <marker>é rosas</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='é trevo|são trevos'>Isto <marker>é trevos</marker>, Senhor. São trevos.</example>
-      <example>Tal Estado, ainda que proletário, somente faria permanecer antigas estruturas de dominação de uma parcela da populaç...</example>
+      <example>Tal Estado, ainda que proletário, somente faria permanecer antigas estruturas de dominação de uma parcela da populaç…</example>
       <example>Eles têm sido bons vizinhos até hoje.</example>
       <example>Nós devemos aprender a viver juntos como irmãos, ou vamos morrer juntos como tolos.</example>
     </rule>
@@ -568,9 +568,9 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="1" postag="(V....)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
     <!--<example correction='são rosas|é rosa'>Isto <marker>são rosa</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='são trevos|é trevo'>Isto <marker>são trevo</marker>, Senhor. São trevos.</example>
-      <example>Constituiu-se a Capitania Real de São José do Rio Negro pela Carta-régia de 3 de março de 17...</example>
+      <example>Constituiu-se a Capitania Real de São José do Rio Negro pela Carta-régia de 3 de março de 17…</example>
       <example>As roupas deles são bem parecidas com as dos nossos ancestrais.</example>
-      <example>Os principais rios são Paraná (o maior), Pilcomayo, Paraguai, Bermejo, Colorado...</example>
+      <example>Os principais rios são Paraná (o maior), Pilcomayo, Paraguai, Bermejo, Colorado…</example>
     </rule>
   </rulegroup>
 
@@ -1682,7 +1682,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\3</suggestion>
         <suggestion>\2, \3</suggestion>
       <example correction='o|um|o, um'>Foi <marker>o um</marker> erro de digitação.</example>
-      <example>"(...) levando-o a investigar mais longe."</example>
+      <example>"(…) levando-o a investigar mais longe."</example>
       <example>As casas antigas foram demolidas para dar espaço a um supermercado.</example>
       <example>Um a um.</example>
       <example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
@@ -1710,11 +1710,11 @@ title="Easy editing stylesheet" ?>
         <suggestion>\3</suggestion>
         <suggestion>\2, \3</suggestion>
       <example correction='dele|dela|dele, dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
-      <example>Alguns destes animais são efetivamente mortos, e outros são pos...</example>
+      <example>Alguns destes animais são efetivamente mortos, e outros são pos…</example>
       <example>Eu não quero perder as minhas ideias, mesmo que algumas delas sejam um pouco extremas.</example>
-      <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu...</example>
+      <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu…</example>
       <example>Não há novidade alguma nos meus olhos espantados.</example>
-      <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros...</example>
+      <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros…</example>
     </rule>
   </rulegroup>
 
@@ -1752,7 +1752,7 @@ title="Easy editing stylesheet" ?>
       <example>Não, não é nada longe.</example>
       <example>Não posso andar, porque estou com a perna quebrada.</example>
       <example>Cerca de mil pessoas participaram na manifestação.</example>
-      <example>Segundo: os crioulo (pessoas de descendência espanhola...</example>
+      <example>Segundo: os crioulo (pessoas de descendência espanhola…</example>
     </rule>
     <rule>
       <antipattern>
@@ -1904,7 +1904,7 @@ title="Easy editing stylesheet" ?>
       <message>Esta expressão no plural exige um segundo artigo.</message>
         <suggestion>\2 <match no='2' regexp_match='.+(..)$' regexp_replace='$1'/> \3</suggestion>
       <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
-      <example correction='todas as adversidades'>...uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação...</example>
+      <example correction='todas as adversidades'>…uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação...</example>
       <example>Por favor, fiquem todos calmos.</example>
       <example>São todos iguais?</example>
     </rule>
@@ -3561,7 +3561,7 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
       <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
       <example>Tenho de <marker>ir à praia</marker>.</example>
-      <example>O menor número registrado foi na faixa etária entre 50 a 54 anos...</example>
+      <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
     </rule>
     <rule>
       <pattern>
@@ -5323,7 +5323,8 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='Z.+'/>
         <marker>
-          <token regexp="yes">&unidades_de_medida;</token>
+          <token regexp="yes">&unidades_de_medida;
+            <exception>h</exception></token>
           <token>.</token>
         </marker>
           <token regexp="yes">\p{Ll}.*|[,;]</token>
@@ -5332,7 +5333,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2</suggestion>
       <example correction="kg">São 2 <marker>kg.</marker> de maças.</example>
       <example>C., a região foi tomada pelos Romanos que edificaram.</example>
-      <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith D...</example>
+      <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith D…</example>
       <example>"A lei e os profetas duraram até João"(cf. ; ).</example>
     </rule>
 
@@ -5492,7 +5493,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example>Não virá mais.</example>
       <example>Desconheço o significado da palavra "impossível".</example>
       <example>Proteínas são biopolímeros cujas unidades monoméricas são os aminoácidos.</example>
-      <example>...pela posse do diploma fornecido pela autoridade educacional e...</example>
+      <example>…pela posse do diploma fornecido pela autoridade educacional e…</example>
       <example>Clube de Choro do Rio de Janeiro</example>
       <example>Grupos indígenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinto Camacã.</example>
       <example>Isto são exemplos do dia a dia.</example>
@@ -5535,7 +5536,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example>Não virá mais.</example>
       <example>Desconheço o significado da palavra "impossível".</example>
       <example>Proteínas são biopolímeros cujas unidades monoméricas são os aminoácidos.</example>
-      <example>...pela posse do diploma fornecido pela autoridade educacional e...</example>
+      <example>…pela posse do diploma fornecido pela autoridade educacional e…</example>
       <example>Clube de Choro do Rio de Janeiro</example>
       <example>Grupos indígenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinto Camacã.</example>
       <example>371 575 m³ para Gás Natural Comprimido, 243 024 m³ para usuários comerciais, 120 119 m³ para</example>
@@ -5601,7 +5602,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
       <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
       <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
-      <example>...integrar o dia a dia a partir do...</example>
+      <example>…integrar o dia a dia a partir do…</example>
       <example>Vamos pensar em soluções terra-a-terra.</example>
     </rule>
   </rulegroup>
@@ -10690,9 +10691,9 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>sequencias?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> seqüência<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-      <example correction='da seqüência'><marker>da sequencia</marker>.</example>
-      <example correction='das seqüências'><marker>das sequencias</marker>.</example>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> sequência<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction='da sequência'><marker>da sequencia</marker>.</example>
+      <example correction='das sequências'><marker>das sequencias</marker>.</example>
     </rule>
     <rule id='PARONIMA_SERIA_310' name='Na seria'>
       <pattern>
@@ -14094,7 +14095,7 @@ TODO Write better examples
       <example correction="1."><marker>1.--</marker> Introdução</example>
       <example correction="1.3."><marker>1.3.—</marker> Introdução</example>
       <example>50-30</example>
-      <example>...com uma pedra...—, acho que...</example>
+      <example>…com uma pedra…—, acho que…</example>
     </rule>
 
   <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
@@ -14239,9 +14240,9 @@ TODO Write better examples
       <example correction="&#8239;°C">Faz 25<marker> º C</marker> à sombra.</example>
       <example correction="&#8239;°C">Faz 25<marker> ºC</marker> à sombra.</example>
       <example>Faz 25°.</example>
-      <example>...o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E...</example>
-      <example>...que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a...</example>
-    <!-- <example>...tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude... XXX False negative </example>-->
+      <example>…o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E…</example>
+      <example>…que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
+    <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
     </rule>
 
     <rule id="PLURAL_IN_UNITS_OF_MEASURE" name="Abreviaturas de unidades de medida">
@@ -14819,7 +14820,7 @@ TODO Write better examples
       </pattern>
       <message>Confusão de palavras</message>
         <suggestion><match no='1' regexp_match='ime(.+)' regexp_replace='eme$1'/> \2</suggestion>
-      <example correction="emergiu à">...assim, ela <marker>imergiu à</marker> superfície sem qualquer esforço.</example>
+      <example correction="emergiu à">…assim, ela <marker>imergiu à</marker> superfície sem qualquer esforço.</example>
     </rule>
 
   <rulegroup id="ROMAN_NUMBERS_CHECKER" name="Verificação de números romanos" type="misspelling">
@@ -14960,7 +14961,7 @@ TODO Write better examples
           <token spacebefore="no" min="0">l</token>
           <token regexp="yes">\d\d\d\d</token>
       </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\10 month:\7 day:\5 weekDay:\1"/>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\10 month:\7 day:\5 weekDay:\1"/>
       <message>Esta data não foi <match no="1" case_conversion="alllower" include_skipped='all'/><match no="2" include_skipped='all'/><match no="3" include_skipped='all'/>, foi {realDay}.</message>
       <example correction=""><marker>Segunda-feira, 7 de outubro de 2014</marker></example>
       <example correction=""><marker>Segunda-feira 7 de outubro 2014</marker></example>
@@ -14978,7 +14979,7 @@ TODO Write better examples
           <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
           <token regexp="yes">\d\d\d\d</token>
       </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\7 month:\6 day:\5 weekDay:\1"/>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\7 month:\6 day:\5 weekDay:\1"/>
       <message>Esta data não foi <match no="1" case_conversion="alllower" include_skipped='all'/><match no="2" include_skipped='all'/><match no="3" include_skipped='all'/>, foi {realDay}.</message>
       <example correction=""><marker>Segunda-feira, 7 out 2014</marker></example>
       <example correction=""><marker>Segunda-feira 7 out 2014</marker></example>
@@ -15991,6 +15992,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp="yes">[a-z]*m[aã]</token>
+          <token min='0'>,</token>
           <token regexp="yes">mas|mais|minh.+|maioria|mar.*|mou.+</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
@@ -16661,7 +16663,7 @@ TODO Write better examples
     <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
       <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
       <example>Esse número diminuiu para 300.000 em 1939.</example>
-      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena...</example>
+      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
     </rule>
     <rule>
       <pattern>
@@ -16675,7 +16677,7 @@ TODO Write better examples
       <example>És de <marker>9.5</marker>.</example>
       <example><marker>9349.5</marker></example>
       <example>1 999 <marker>349.56</marker></example>
-      <example>O tamanho da área urbana inteira atinge <marker>896.96</marker> km²...</example>
+      <example>O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
     </rule>
     <rule>
       <pattern>
@@ -16843,7 +16845,7 @@ TODO Write better examples
     <!-- Created by Tiago F. Santos, 2017-05-15 -->
       <pattern>
           <token regexp="yes">.*ü.*
-            <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*</exception></token>
+            <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*|Düsseldorf|München|Für</exception></token>
       </pattern>
       <message>O trema deixou de ser utilizado em Português com o Acordo de 1945.</message>
         <suggestion><match no='1' regexp_match='ü' regexp_replace='u'/></suggestion>
