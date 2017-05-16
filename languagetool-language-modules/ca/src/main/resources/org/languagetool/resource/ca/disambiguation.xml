@@ -2037,15 +2037,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NP.S.*"/>
         </rule>
     </rulegroup>
-    <rule id="esser" name="ésser: nom no verb">
-        <pattern>
-            <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
-            </marker>
-            <token regexp="yes">humà|viu</token>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="esser" name="ésser: nom no verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
+                </marker>
+                <token regexp="yes">humà|viu</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="D..MS." postag_regexp="yes"/>
+                    <token postag="NCMS000">ésser</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rule id="tret" name="tret: no preposició">
         <pattern>
             <token postag="D[AID].MS." postag_regexp="yes"/>

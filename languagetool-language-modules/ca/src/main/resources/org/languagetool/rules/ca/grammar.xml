@@ -4877,6 +4877,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token spacebefore="no" inflected="yes">hi</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">haugt|haguda|haguts|hagudes</token>
+                        <token>i</token>
+                        <token>per</token>
+                        <token>haver</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>haver</token>
+                        <token>-se</token>
+                        <token>-les</token>
+                        <token>amb</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">se|te|me|us|vos|ens|</token>
+                        <token>les</token>
+                        <token inflected="yes">haver</token>
+                        <token>d'</token>
+                        <token>haver</token>
+                        <token>amb</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="VAN00000">haver<exception postag="_perfet|_obligacio|_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
@@ -4894,6 +4920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ho hauries d'haver fet.</example>
                 <example>Hauria d'haver-se anomenat així.</example>
                 <example>En el cas d'haver-n'hi més d'un.</example>
+                <example>Te les hauràs d'haver amb ell.</example>
             </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
@@ -7689,7 +7716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|per<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
+                        <token regexp="yes">a|per<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap|som</exception></token>
                         <token>l'</token>
                         <token regexp="yes">abril|agost|octubre</token>
                     </marker>
@@ -7706,7 +7733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|pe<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap</exception></token>
+                        <token regexp="yes">a|pe<exception scope="previous" regexp="yes">&mesos_any;|[0-9]{4}|fins|cap|som</exception></token>
                         <token spacebefore="no">l</token>
                         <token regexp="yes">&mesos_any;</token>
                     </marker>
@@ -38895,6 +38922,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
         <rulegroup id="SER_ESSER" name="Exigeix ser (verb) / ésser (nom)">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>ésser</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
