@@ -14580,6 +14580,61 @@ TODO Write better examples
       <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
     </rule>
 
+  <rulegroup id="TIME_FORMAT" name="Tipografia de horas: 22.30 h -> 22:30h">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+      <short>Preferência tipográfica</short>
+    <rule>
+      <pattern>
+          <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?</token>
+      </pattern>
+      <message>Em expressões de horas, utilize dois pontos.</message>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1:$2:$3'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1&#160;h&#160;$2&#160;min&#160;$3&#160;s'/></suggestion>
+      <example correction="10:00:43|10&#160;h&#160;00&#160;min&#160;43&#160;s">Às <marker>10.00.43</marker>.</example>
+      <example correction="10:00:43,5|10&#160;h&#160;00&#160;min&#160;43,5&#160;s">Às <marker>10.00.43,5</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+          <token regexp="yes">h|horas|hrs|hs|hora</token>
+      </pattern>
+      <message>Em expressões de horas, utilize dois pontos.</message>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/>&#160;\4</suggestion>
+      <example correction="22:50&#160;h">Às <marker>22.50 h</marker>.</example>
+      <example correction="6:05&#160;h">Às <marker>6,05 h</marker>.</example>
+      <example>Às 22:30 h.</example>
+      <example>A subida demora 8, 10 hores.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token min="0">às</token>
+        <marker>
+          <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+        </marker>
+      </pattern>
+      <message>Em expressões de horas, utilize dois pontos.</message>
+        <suggestion><match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+      <example correction="10:00">Às <marker>10.00</marker>.</example>
+      <example correction="10:00">De <marker>10.00</marker> a ... </example>
+      <example correction="10:50">De ... a <marker>10.50</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" skip="2">[012]?\d[,\.][012345]\d</token>
+        </marker>
+          <token regexp="yes" inflected="yes">&partes_do_dia;</token>
+      </pattern>
+      <message>Em expressões de horas, utilize dois pontos.</message>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+      <example correction="5:00">Às <marker>5.00</marker> da manhã.</example>
+      <example correction="6:05">Às <marker>6.05</marker> da tarde.</example>
+      <example correction="6:05">Às <marker>6.05</marker> da noite.</example>
+      <example>Às 22:30 h.</example>
+    </rule>
+  </rulegroup>
+
     <rule id="APOSTROPHE_IN_DATES" name="Apóstrofe em datas">
       <pattern>
           <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
