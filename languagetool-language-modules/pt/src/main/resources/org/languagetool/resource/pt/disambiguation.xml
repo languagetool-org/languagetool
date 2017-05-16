@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-<!--
+    <!--
  Portugues Disambiguation Rules for LanguageTool
  Copyright (C) 2016 Tiago F. Santos
 -->
-<!DOCTYPE rules [
+  <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
@@ -363,9 +363,9 @@
       <disambig action="replace"><wd pos="NPCN000_"/></disambig>
     </rule>
 
+    <rule id="SPS_SI" name="Preposição + Si">
     <!-- Si : Pronoun or Musical note				-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
-    <rule id="SPS_SI" name="Preposição + Si">
       <pattern>
           <token postag="SP.+" postag_regexp="yes"/>
         <marker>
@@ -375,9 +375,8 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
-    <!-- Tal : Pronoun or Adverb				-->
+  <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com 'tal'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
-  <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com tal">
     <rule>
       <pattern>
           <token>tal</token>
@@ -433,13 +432,13 @@
     <rule id="DDN_u" name="Det + Nom + Adj">
       <pattern>
         <marker>
-        <unify>
-          <feature id="gender"/>
-          <feature id="number"/>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"/>
-        </unify>
+          </unify>
         </marker>
       </pattern>
       <disambig action="unify"/>
@@ -450,13 +449,13 @@
     <rule id="DNA" name="Det + Nom + Adj">
       <pattern>
         <marker>
-        <unify>
-          <feature id="gender"/>
-          <feature id="number"/>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"/>
           <token postag="A.+" postag_regexp="yes"/>
-        </unify>
+          </unify>
         </marker>
       </pattern>
       <disambig action="unify"/>
@@ -469,13 +468,13 @@
     <rule id="DAN" name="Det + Adj + Nom">
       <pattern>
         <marker>
-        <unify>
-          <feature id="gender"/>
-          <feature id="number"/>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"><exception postag="[DC].+" postag_regexp="yes"/><exception regexp="yes">de|são</exception></token>
-        </unify>
+          </unify>
         </marker>
       </pattern>
       <disambig action="unify"/>
@@ -591,7 +590,7 @@
 
     <!--P_V Quando está a frente de um verbo, trata-se de um pronome-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
-  <rule id="P_V" name="Pronome + Verbo">
+    <rule id="P_V" name="Pronome + Verbo">
       <pattern>
         <marker>
         <and>
@@ -643,12 +642,12 @@
     <rule id="PN" name="Pos + Nom ">
       <pattern>
         <marker>
-        <unify>
-          <feature id="gender"/>
-          <feature id="number"/>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
           <token postag="DP.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"><exception postag="C.|S.*|R.*" postag_regexp="yes"/></token>
-        </unify>
+          </unify>
         </marker>
       </pattern>
 
@@ -689,10 +688,10 @@
       <pattern>
           <token><exception regexp="yes">\p{Ps}</exception></token>
         <marker>
-                    <and>
+        <and>
           <token postag="``" spacebefore="no">&quot;</token>
           <token postag="''" spacebefore="no">&quot;</token>
-                    </and>
+        </and>
         </marker>
       </pattern>
       <disambig postag="''"/>
@@ -704,10 +703,10 @@
     <rule>
       <pattern>
         <marker>
-                    <and>
+        <and>
           <token postag="''" spacebefore="yes">&quot;</token>
           <token postag="``" spacebefore="yes">&quot;</token>
-                    </and>
+        </and>
         </marker>
       </pattern>
       <disambig postag="``"/>
@@ -719,10 +718,10 @@
       <pattern>
           <token regexp="yes">\p{Ps}</token>
         <marker>
-                    <and>
+        <and>
           <token postag="``" spacebefore="no">&quot;</token>
           <token postag="''" spacebefore="no">&quot;</token>
-                    </and>
+        </and>
         </marker>
       </pattern>
       <disambig postag="``"/>
@@ -984,7 +983,7 @@
     </rule>
   </rulegroup>
 
-<!-- FIXME Percentage number and gender agrees with the noun it refers to. Disambiguate better.
+    <!-- FIXME Percentage number and gender agrees with the noun it refers to. Disambiguate better.
     <rule id="PERCENTAGE" name="percentagens">
       <pattern>
      TODO Requires tokenizer changes
@@ -994,7 +993,7 @@
     </rule>
 -->
 
-<!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
+    <!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
     <rule id="NUMBER_DEGREE" name="número+graus">
       <pattern>
           <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEWO]?</token>
@@ -1602,4 +1601,11 @@
       <disambig action="ignore_spelling"/>
     </rule>
   </rulegroup>
+    <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS">
+    <!-- Ported from English disambiguation.xml -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)(⁻)?(¹|²|³)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
