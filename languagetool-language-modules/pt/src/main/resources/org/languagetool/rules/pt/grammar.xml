@@ -5337,6 +5337,39 @@ title="Easy editing stylesheet" ?>
       <example>"A lei e os profetas duraram até João"(cf. ; ).</example>
     </rule>
 
+  <rulegroup id="HOURS_ABREVIATION" name="Abreviatura de horas">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-16 -->
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+(hs|hrs|horas|hora)</token>
+      </pattern>
+      <message>Abreviatura de horas não tem ponto.</message>
+        <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
+      <short>Abreviatura de horas</short>
+      <example correction="15&#160;h">Às <marker>15hs</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">([012]?\d:)?[012345]?\d</token>
+          <token>h</token>
+          <token>.</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>\p{Lu}\p{Ll}*</exception></token>
+    <!-- TODO Verify possible conflict between SRX Tokenization and Multiword Chunker and change to SENT_END -->
+      </pattern>
+      <message>Se é uma indicação horária, não é pontuada.</message>
+        <suggestion>\1 h</suggestion>
+      <example correction="15 h">Às <marker>15 h.</marker> será a festa.</example>
+      <example correction="15:30 h">Às <marker>15:30 h.</marker> será a festa.</example>
+      <example correction="5:30 h">Às <marker>5:30 h.</marker> será a festa.</example>
+      <example>Chegará às 15:30 h.</example>
+      <example>Chegaram às 15 h. Eram de diferentes nacionalidades.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="DOUBLE_PUNCTUATION" name="Pontuação duplicada">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
     <rule>
