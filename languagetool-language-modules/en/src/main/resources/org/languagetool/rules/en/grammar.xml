@@ -7080,14 +7080,15 @@ USA
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <!-- Editing for PLGR-392 -->
+                    <!--<token postag="SENT_START"/>-->
+                    <!--<token postag="DT"/>-->
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
                     </marker>
                 </pattern>
-                <message>You should probably use <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
+                <message>You should probably use <suggestion><match no="2" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dogs <marker>are</marker> released.</example>
                 <example>The dog is released.</example>
@@ -11408,7 +11409,7 @@ USA
                     </marker>
                     <token postag='SENT_END' />
                 </pattern>
-                <message>“\2” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
+                <message>"\2" at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
                 <example correction=""><marker>Though</marker> the dog likes to bark.</example>
                 <example correction=""><marker>After</marker> we had dinner.</example>
