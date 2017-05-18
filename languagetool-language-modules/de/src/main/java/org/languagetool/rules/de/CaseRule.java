@@ -751,12 +751,12 @@ public class CaseRule extends Rule {
     if (!isPotentialError &&
         lowercaseReadings != null
         && tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF")
-        && hasPartialTag(tokens[pos-1], "SUB", "EIG")) {
+        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG"))) {
       // find error in: "Der Brief wird morgen Übergeben."
       isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
       isPotentialError |= (pos >= tokens.length - 2 || ",".equals(tokens[pos+1].getToken()))
-        && isPrecededByModalOrAuxiliary
+        && ("zu".equals(tokens[pos-1].getToken()) || isPrecededByModalOrAuxiliary)
         && tokens[pos].getToken().startsWith("Über")
         && lowercaseReadings.hasPartialPosTag("VER:INF:");
       }
