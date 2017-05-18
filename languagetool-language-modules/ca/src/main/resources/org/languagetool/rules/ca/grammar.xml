@@ -18242,15 +18242,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="APOSTROFACIO_MOT_DESCONEGUT" name="apostrofació de paraula desconeguda">
+            <antipattern>
+                <marker>
+                    <token>la</token>
+                    <token regexp="yes">h?[ui].*</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">de|el|l|la<exception postag="NP.*" postag_regexp="yes"/></token>
-                    <token postag="mot_foraster|UNKNOWN|_possible_nompropi" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|&sigles_no_apostrofen;</exception><exception postag="AO.*|hac_aspirada|NP.*|&gt;NP.*" postag_regexp="yes"/></token>
+                    <token postag="mot_foraster|UNKNOWN|_possible_nompropi" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|&sigles_no_apostrofen;</exception><exception postag="AO.*|hac_aspirada|N[PC].*|&gt;NP.*" postag_regexp="yes"/></token>
                 </marker>
                 <message>Probablement cal apostrofar.</message>
                 <example correction="">És <marker>de Osama</marker>.</example>
                 <example correction="">classificació <marker>de Esping</marker>-Andersen.</example>
                 <exmaple>Alcalá de Henares</exmaple>
+                <example>de la Universitat</example>
+                <example>la incubatio</example>
             </pattern>
         </rule>
         <rulegroup id="L_D_N_NO_S_APOSTROFEN" name="apostrofació: no s'apostrofen d', l', n'">
