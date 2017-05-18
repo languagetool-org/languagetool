@@ -14145,7 +14145,7 @@ TODO Write better examples
           <token regexp="yes">[–‒—-]</token>
           <token spacebefore="yes"/>
       </pattern>
-      <message>Em diálogos, deve dar um espaço depois do travessão.</message>
+      <message>Em diálogos, deve remover o espaço depois do travessão.</message>
         <suggestion>—\3</suggestion>
       <example correction="—Corre"><marker>— Corre</marker>! vá!</example>
       <example>—Saltar</example>
@@ -14648,29 +14648,25 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token min="0">às</token>
-        <marker>
+          <token regexp='yes'>às?|das?</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
-        </marker>
       </pattern>
       <message>Em expressões de horas, utilize dois pontos.</message>
-        <suggestion><match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
-      <example correction="10:00">Às <marker>10.00</marker>.</example>
-      <example correction="10:00">De <marker>10.00</marker> a ... </example>
-      <example correction="10:50">De ... a <marker>10.50</marker>.</example>
+        <suggestion>\1 <match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+      <example correction="Às 10:00"><marker>Às 10.00</marker>.</example>
+      <example correction="Da 01:00"><marker>Da 01.00</marker> às... </example>
+      <example correction="às 10:50">Das 10:00 <marker>às 10.50</marker>.</example>
     </rule>
     <rule>
       <pattern>
-        <marker>
           <token regexp="yes" skip="2">[012]?\d[,\.][012345]\d</token>
-        </marker>
           <token regexp="yes" inflected="yes">&partes_do_dia;</token>
       </pattern>
       <message>Em expressões de horas, utilize dois pontos.</message>
-        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
-      <example correction="5:00">Às <marker>5.00</marker> da manhã.</example>
-      <example correction="6:05">Às <marker>6.05</marker> da tarde.</example>
-      <example correction="6:05">Às <marker>6.05</marker> da noite.</example>
+        <suggestion><match no='1' include_skipped='all' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/> <match no='2' include_skipped='all'/></suggestion>
+      <example correction="5:00 da manhã">Às <marker>5.00 da manhã</marker>.</example>
+      <example correction="6:05 da tarde">Às <marker>6.05 da tarde</marker>.</example>
+      <example correction="6:05 da noite">Às <marker>6.05 da noite</marker>.</example>
       <example>Às 22:30 h.</example>
     </rule>
   </rulegroup>
@@ -16121,7 +16117,7 @@ TODO Write better examples
       <pattern>
           <token regexp="yes">[a-z]*m[aã]</token>
           <token min='0'>,</token>
-          <token regexp="yes">mas|mais|minh.+|maioria|mar.*|mou.+</token>
+          <token regexp="yes">(ma|mai|mala|minha|maioria)s?|mar.*|mou.+</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example correction=""><marker>Alma minha</marker> gentil, que te partiste</example>
