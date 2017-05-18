@@ -5137,6 +5137,33 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
+          <token>em</token>
+          <token regexp='yes'>geral|contrapartida</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="em geral,">Foi feito com distinção e, <marker>em geral</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>no</token>
+          <token>fundo</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>d[ao]s?</exception>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2,</suggestion>
+      <example correction="no fundo,">Foi feito com distinção e, <marker>no fundo</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
           <token>além</token>
           <token>disso</token>
         </marker>
