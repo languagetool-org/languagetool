@@ -44,8 +44,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-    <!-- BEGIN Errors/changes in POS tag dictionary-->
-    <!-- END Errors/changes in POS tag dictionary-->
+    <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
+        <rule>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <marker>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="yes" postag="[VADSC].*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception postag="NP.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="SENT_START"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes"  regexp="yes">[A-Z]</token>
+                <marker>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="yes" postag="[VADSC].*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception postag="NP.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="SENT_END"/></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
