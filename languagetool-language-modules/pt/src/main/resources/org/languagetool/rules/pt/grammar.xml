@@ -1232,6 +1232,34 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="até porque">Não é bem assim, <marker>até por que</marker> uma reparação deste tipo não é dispendiosa.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>ser|só</token>
+          <token>por</token>
+          <token regexp='yes'>qu[eê]</token>
+        </marker>
+          <token regexp='yes'>a|as|o|os|eu|não|nós|ela|elas|ele|eles</token>
+      </pattern>
+      <message>Confusão de termos. Pretende dizer:</message>
+        <suggestion>\1 porque</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="é porque">Isto <marker>é por que</marker> a atitude não agrada.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='[CR].+'/>
+          <token>por</token>
+          <token regexp='yes'>qu[eê]</token>
+        </marker>
+          <token regexp='yes'>a|as|o|os|eu|não|nós|ela|elas|ele|eles</token>
+      </pattern>
+      <message>Confusão de termos. Pretende dizer:</message>
+        <suggestion>\1 porque</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
+      <example correction="Só porque"><marker>Só por que</marker> as casas estão vazias, não quer dizer que não tenham dono.</example>
+    </rule>
   </rulegroup>
 
     <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
