@@ -33180,6 +33180,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="MALAT_MALALT" name="malat/malalt">
+            <pattern>
+                <token inflected="yes">malat</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="AQ0M$10">malalt</match></suggestion>? "Malat" és un terme de químia.</message>
+            <example correction="malalts">Els <marker>malats</marker>.</example>
+        </rule>
         <rule id="TREPAR_GRIMPAR" name="trepar/grimpar">
             <antipattern>
                 <marker>
