@@ -48,6 +48,31 @@
       </unification>
 
     <!--		multiwords.txt related			-->
+  <rulegroup id="WORKAROUND_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
+    <!-- 	Workaround retrieved from Catalan grammar.xml	-->
+    <!--  TODO Verify SENT_END conflict between SRX Tokenizer and disambiguation -->
+    <rule>
+      <pattern>
+          <token regexp="yes">[A-Z]</token>
+        <marker>
+          <token spacebefore="no">.</token>
+        </marker>
+          <token spacebefore="yes" postag="[VADSC].*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception postag="NP.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="add"><wd pos="SENT_START"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[A-Z]</token>
+        <marker>
+          <token spacebefore="no">.</token>
+        </marker>
+          <token spacebefore="yes" postag="[VADSC].*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception postag="NP.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="add"><wd pos="SENT_END"/></disambig>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="nomes_proprios_multiword" name="nomes proprios em multiwords">
     <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
     <rule id="nomeproprio2palavras_filtra" name="nome proprio 3 palavras">
@@ -406,25 +431,25 @@
       </pattern>
       <disambig action="filterall"/>
     </rule>
-         <rule>
-             <pattern>
-                 <marker>
-                    <token postag="V.+" postag_regexp="yes" regexp="yes">ser|seres</token>
-                </marker>
-                <token>-</token>
-                <token postag_regexp="yes" postag="&pronomes_nao_ambiguos;|se"/>
-            </pattern>
-            <disambig action="filter" postag="V.+"/>
-        </rule>
-         <rule>
-             <pattern>
-                <token postag_regexp="yes" postag="&pronomes_nao_ambiguos;|se"/>
-                 <marker>
-                    <token postag="V.+" postag_regexp="yes" regexp="yes">ser|seres</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.+"/>
-        </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V.+" postag_regexp="yes" regexp="yes">ser|seres</token>
+        </marker>
+          <token>-</token>
+          <token postag_regexp="yes" postag="&pronomes_nao_ambiguos;|se"/>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag="&pronomes_nao_ambiguos;|se"/>
+        <marker>
+          <token postag="V.+" postag_regexp="yes" regexp="yes">ser|seres</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
   </rulegroup>
 
   <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com 'tal'">
@@ -1655,9 +1680,9 @@
   </rulegroup>
     <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS">
     <!-- Ported from English disambiguation.xml -->
-        <pattern case_sensitive="yes">
-            <token regexp="yes">(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)(⁻)?(¹|²|³)</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)(⁻)?(¹|²|³)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
 </rules>
