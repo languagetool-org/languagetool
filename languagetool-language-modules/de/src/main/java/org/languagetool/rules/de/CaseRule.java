@@ -760,6 +760,7 @@ public class CaseRule extends Rule {
       // find error in: "Der Brief wird morgen Übergeben."
       isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
+      // find error in: "Sie bat ihn, es zu Überprüfen."
       isPotentialError |= (pos >= tokens.length - 2 || ",".equals(tokens[pos+1].getToken()))
         && ("zu".equals(tokens[pos-1].getToken()) || isPrecededByModalOrAuxiliary)
         && tokens[pos].getToken().startsWith("Über")

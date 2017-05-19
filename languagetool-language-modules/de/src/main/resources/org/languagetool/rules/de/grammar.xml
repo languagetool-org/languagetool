@@ -8992,6 +8992,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
               <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                </antipattern>
+                <antipattern>
+                    <token>;</token>
+                    <token/>
+                    <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                </antipattern>
+                <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
                     <token regexp="yes">an|ab|au[fs]|weg</token>
                 </antipattern>
@@ -9067,6 +9079,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie fing an fernzusehen.</example>
                 <example>Das ist Unsinn; hinzu kommt, dass es gelogen ist.</example>
                 <example>Hinzu kommt, dass es gelogen ist.</example>
+                <example>Denn hinzu kommt, dass es gelogen ist.</example>
+                <example>Das ist Unsinn; und hinzu kommt, dass es gelogen ist.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -31753,6 +31767,20 @@ Andere Projekte</example>
                 <message>Ein Komma vor '\2' setzen?</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction='morgen, oder' type="incorrect">Du kommst <marker>morgen oder</marker> etwa nicht?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_DASS" name="Unter der Bedingung das (, dass)">
+            <rule>
+                <regexp case_sensitive="yes">\b(l(iegt|ag) daran|[Uu]nter der bedingung|[uU]ngeachtet dessen|hat(te)? zur Folge),? das\b</regexp>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match=",? das$" regexp_replace=", dass"/></suggestion>?</message>
+                <!-- example correction="davon überzeugt, dass">Er war <marker>davon überzeugt das</marker> er gewonnen hatte.</example-->
+                <!-- example correction="davon überzeugt, dass">Er war <marker>davon überzeugt, das</marker> er gewonnen hatte.</example-->
+                <example>Er hat sie davon überzeugt, das Haus zu kaufen.</example>
+                <!--example correction="Daraus folgt, dass"><marker>Daraus folgt das</marker> er gewonnen hatte.</example-->
+                <example correction="Ungeachtet dessen, dass"><marker>Ungeachtet dessen das</marker> er krank war, musste er zur Schule.</example>
+                <!--example correction="führte dazu, dass">Dies <marker>führte dazu das</marker> er ins Krankenhaus musste.</example-->
+                <example>Sie führte dazu das Haushaltsbuch.</example>
+                <example correction="hatte zur Folge, dass">Das <marker>hatte zur Folge das</marker> er Antibiotika verschrieben bekam.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">

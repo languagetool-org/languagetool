@@ -51,7 +51,8 @@ public class WordListValidatorTest {
           "Dvořák/S",
           "cm²",
           "cm³",
-          "Erdoğan/S"
+          "Erdoğan/S",
+          "'Ndrangheta"
   ));
 
   @Test
