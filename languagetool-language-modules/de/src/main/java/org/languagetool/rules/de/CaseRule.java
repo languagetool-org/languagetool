@@ -197,7 +197,12 @@ public class CaseRule extends Rule {
         // "Das südöstlich von Berlin gelegene"
         regex("(süd|nord|ost|west).*lich"),
         token("von")
-     )
+     ),
+     Arrays.asList(
+        // "Entscheiden 42,5 Millionen Stimmberechtigte über..."
+        regex("Million(en)?"),
+        posRegex("SUB:.*:ADJ")
+     ) 
   );
 
   private static PatternToken token(String token) {
