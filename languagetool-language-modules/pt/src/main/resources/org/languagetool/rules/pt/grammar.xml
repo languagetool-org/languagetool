@@ -16918,6 +16918,31 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="ENG_ELETRICO" name="Erro de tradução: 'engenheiro elétrico'">
+    <!-- Created by Tiago F. Santos, 2017-05-19 -->
+      <short>Erro de tradução.</short>
+    <rule>
+      <pattern>
+          <token regexp='yes'>engenheir[ao]s?</token>
+          <token regexp='yes'>elétric[ao]s?</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>engenheir<match no='2' regexp_match='(elétric)(.s?)' regexp_replace='$2'/> eletrotécnic<match no='2' regexp_match='(elétric)(.s?)' regexp_replace='$2'/></suggestion>
+      <example correction="engenheiras eletrotécnicas">A proposta do <marker>engenheiro elétricas</marker> parece ser insuperável.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>eng</token>
+          <token min='0'>.</token>
+          <token regexp='yes'>elétric[ao]s?</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/> eletrotécnic<match no='3' regexp_match='(elétric)(.s?)' regexp_replace='$2'/></suggestion>
+      <short>Erro de tradução.</short>
+      <example correction="eng. eletrotécnico">A proposta do <marker>eng. elétrico</marker> parece ser insuperável.</example>
+    </rule>
+  </rulegroup>
+
     <!-- FURTO DE IDENTIDADE usurpação de identidade -->
     <rule id="FURTO_DE_IDENTIDADE" name="Usurpação de identidade">
       <pattern>
