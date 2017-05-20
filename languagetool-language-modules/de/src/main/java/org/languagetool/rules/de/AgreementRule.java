@@ -427,7 +427,9 @@ public class AgreementRule extends Rule {
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2) {
-    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
+    // TODO: remove "-".equals(token2.getToken()) after the bug fix 
+    // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
       return null;
     }
     if (token2.isImmunized()) {
