@@ -8461,7 +8461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DURCHEINANDER" name="'durcheinander' etc.">
             <pattern>
                 <marker>
-                    <token regexp="yes">an|durch|von|in|auf|zu|mit|aus|neben</token>
+                    <token regexp="yes">an|durch|von|in|au[fs]|zu|mit|neben</token>
                     <token>einander</token>
                 </marker>
             <token negate="yes" regexp="yes">(gegenüber(steh|lieg)ende|entgegengesetzte|bekämpfende|wohlgesonnene|wohlgesinnte)n?|feind(lich|selig)</token>
@@ -8535,7 +8535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
             </antipattern>
             <antipattern>
-                <token skip="3" regexp="yes">hör|hören|hört</token>
+                <token skip="3" regexp="yes">hör(en|t)?</token>
                 <token>auf</token>
                 <token>zu</token>
             </antipattern>
@@ -8935,7 +8935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">in|zu|Farbe</exception></token>
                     <marker>
                         <token>schwarz</token>
-                        <token regexp="yes">gearbeitet|gesehen|gefahren|arbeitend|fahrend|sehend</token>
+                        <token regexp="yes">ge(arbeitet|sehen|fahren)|arbeitend|fahrend|sehend</token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs 'schwarzsehen/-arbeiten/-fahren' meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
@@ -9003,7 +9003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
-                    <token regexp="yes">an|ab|au[fs]|weg</token>
+                    <token regexp="yes">a[nb]|au[fs]|weg</token>
                 </antipattern>
                 <antipattern>
                     <token>nach</token>
@@ -9083,7 +9083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
-                    <token regexp="yes">an|ab|au[fs]|weg</token>
+                    <token regexp="yes">a[nb]|au[fs]|weg</token>
                 </antipattern>
                 <antipattern>
                     <token>nach</token>
@@ -9480,8 +9480,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <regexp>\b((Lichtjahre? (alt(e[rsmn]?)?|(ge)?dauer[tn].*|später))|(dauer[nt].* (noch|ein|viele)?[ ]?(Lichtjahre?)))\b</regexp>
                 <message>Ein Lichtjahr ist keine Zeiteinheit, sondern eine Längeneinheit.</message>
+                <short>Semantischer Fehler</short>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
                 <example correction="">Unser Unversium ist viele <marker>Lichtjahre alt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DOPPELTE_TEMPERATUR" name="Temperatur vs. Temperaturdifferenz: 'halb so warm'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">doppelt|halb|(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zeun|hundert|\d+-)mal</token>
+                    <token>so</token>
+                    <token regexp="yes">warm|heiß|kalt</token>
+                </pattern>
+                <message>Diese Formulierung ergibt nur Sinn, wenn die Temperaturmessung die Kelvinskala verwendet wird.</message>
+                <url>https://de.wikipedia.org/wiki/Intervallskala</url>
+                <short>Semantischer Fehler</short>
+                <example correction="">Gestern war es <marker>doppelt so warm</marker> wie heute.</example>
+                <example correction="">Am Nordpol ist es <marker>dreimal so kalt</marker> wie in Deutschland.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
@@ -9544,7 +9559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&abgekWochentage;</token>
                     <token>.</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">\d\d?</token>
@@ -9568,7 +9583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">&monate;</token>
@@ -9593,7 +9608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">&abgekMonate;</token>
@@ -9629,7 +9644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>31</token>
                     <token>.</token>
-                    <token regexp="yes">April|Apr|Juni|Jun|September|Sep|Sept|November|Nov</token>
+                    <token regexp="yes">Apr(il)?|Juni?|Sep(t|tember)?|Nov(ember)?</token>
                 </pattern>
                 <message>Dieser Monat hat nur 30 Tage.</message>
                 <example correction="">Es geschah am <marker>31. November</marker>.</example>
@@ -9689,7 +9704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>29</token>
                     <token>.</token>
-                    <token regexp="yes">2|02|Feb|Febr</token>
+                    <token regexp="yes">2|02|Febr?</token>
                     <token>.</token>
                     <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
                         <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
@@ -9778,7 +9793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ohne</token>
                 <token>dass</token>
                 <token>es</token>
-                <token regexp="yes">kein|keine[nmr]?</token>
+                <token regexp="yes">kein(e[nmr]?)?</token>
             </pattern>
             <message>Doppelte Verneinung, oder ist hier der Artikel 'das' gemeint?</message>
             <suggestion>ohne das es \4</suggestion>
@@ -11323,7 +11338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
                     <token>in</token>
                     <marker>
-                        <token regexp="yes">der|dem</token>
+                        <token regexp="yes">de[mr]</token>
                         <token regexp="yes">gleiche.*</token>
                     </marker>
                     <token regexp="yes" skip="-1">Tag|Nacht|Monat|Jahr.*<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
@@ -11338,7 +11353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ein</token>
                     <token>und</token>
                     <marker>
-                        <token regexp="yes">der|die|das|des|dem|den</token>
+                        <token regexp="yes">d(ie|as|e[rsmn])</token>
                         <token regexp="yes">gleiche.*</token>
                     </marker>
                 </pattern>
@@ -11632,7 +11647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
-                    <token regexp="yes">raus(bekommen|gaben|geben|gebt|gefahren|gefahrenen|gegangen|gegangenen|gegeben|gegebenen|gehen|gehst|geht|gejagt|gekitzelt|geklettert|gekommen|gekriegt|gekrochen|gelassen|gelaufen|gelegt|gelesen|gelockt|gemacht|genommen|gepickt|geplatzt|geputzt|gequollen|geredet|gerissen|gerückt|gerutscht|geschaut|geschickt|geschlüpft|gesetzt|gesprudelt|gestellt|geströmt|gestürmt|gestürzt|gesucht|getragen|geworfen|geworfenen|gezerrt|gezogen|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
+                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>
@@ -12574,7 +12589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ZUR_ABBITTE_ETC" name="meiner abfahrt (Abfahrt) etc.">
             <pattern>
-                <token regexp='yes'>zur|seiner?|ihrer?|meiner?|deiner?|eurer?|unserer?</token>
+                <token regexp='yes'>zur|ihrer?|[dms]einer?|eurer?|unserer?</token>
                 <marker>
                     <token regexp="yes" case_sensitive='yes'>abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|anfahrt|anfrage|angst|anklage|anreise|anrichte|ansage|anzeige|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|beichte|beule|binde|bitte|blase|bräune|bremse|buche|bürde|bürste|decke|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ecke|ehe|ehre|eiche|eile|einfahrt|einreise|erde|fahrt|falle|falte|feile|flamme|fliege|fliese|flöte|flucht|folge|frage|fresse|geige|gemeinde|gnade|grenze|großtat|hacke|halle|härte|hast|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kante|kappe|keule|kippe|klage|klammer|klappe|klaue|klemme|klinge|klingel|kraft|krähe|kralle|kürze|kutsche|last|legende|lehre|leine|leiste|leuchte|liege|linse|liste|lüge|menge|messe|miete|mithilfe|mühe|nachfrage|nachlese|nachrede|nähe|naht|pauke|pause|perle|pfeife|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reihe|reise|reue|rille|ritze|robbe|rolle|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|salbe|säure|schanze|scharte|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|schuld|schule|schürze|schwäche|schwärze|schwebe|schwelle|sehne|seife|sonne|sorge|spalte|sparte|speise|spritze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|summe|taste|taufe|trage|träne|uniform|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wacht|wand|wärme|weide|weihe|weile|welle|wende|werft|wiege|wiese|winde|wolle|wunde|würze|zahl|zeche|zeit|zier|zufahrt|zufuhr|zusage|zwinge</token>
                 </marker>
@@ -12593,7 +12608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>gehen</token>
             </antipattern>
             <antipattern>
-                <token postag="ADJ:.*|PA2:.*|PA1:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*|PA[12]:.*" postag_regexp="yes"/>
                 <token>Essen</token>
                 <token>gehen</token>
             </antipattern>
@@ -12603,7 +12618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>gehen</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">dem|ein(em)?|dem|mit|nach|vor|zum|durch|beim?|in</token>
+                <token regexp="yes">ein(em)?|dem|mit|nach|vor|zum|durch|beim?|in</token>
                 <token>Essen</token>
                 <token>gehen</token>
             </antipattern>
@@ -13038,7 +13053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Kraft</token>
                 </marker>
-                <token regexp="yes" case_sensitive="no">meines|deines|seines|ihres|unseres|eures</token>
+                <token regexp="yes" case_sensitive="no">[dms]eines|ihres|unseres|eures</token>
                 <token regexp="yes">Amtes|Amts</token>
             </pattern>
             <message>&inwend;'kraft meines Amtes' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
@@ -13052,7 +13067,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Jan: Regel ERSTELLEN habe ich gelöscht, wird jetzt hier mit erledigt. -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]as|[Dd]em</token>
+                    <token regexp="yes">[Dd](as|em)</token>
                     <marker>
                         <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben|sein</exception></token>
                     </marker>
@@ -13071,7 +13086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]as|[Dd]em</token>
+                    <token regexp="yes">[Dd](as|em)</token>
                     <marker>
                         <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben|achten</exception></token>
                     </marker>
@@ -13594,7 +13609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ehren</token>
                     </marker>
-                    <token regexp="yes">von|des|der|(&meindein;)e[rs]</token>
+                    <token regexp="yes">von|de[sr]|(&meindein;)e[rs]</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ehren</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -14104,7 +14119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[gG]egen</token>
-                    <token regexp="yes">den|meinen|deinen|seinen|unseren|euren|ihren|dessen|deren</token>
+                    <token regexp="yes">[dms]einen|unseren|euren|ihren|de(n|ssen|ren)</token>
                     <token postag="ADJ:AKK:SIN:MAS.*" postag_regexp="yes"/>
                     <marker>
                         <token>widerstand</token>
@@ -14688,7 +14703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>aussage</token>
                 </marker>
-                <token regexp="yes">des|der|einiger|einer|eines|mancher|vieler|[iI]hrer|seiner|eurer|meiner|[dD]einer|dieser|jener</token>
+                <token regexp="yes">de[sr]|einiger|eine[rs]|mancher|vieler|[iI]hrer|eurer|[dDms]einer|dieser|jener</token>
             </pattern>
             <message>&subanfang;<suggestion>Aussage</suggestion>&subende;</message>
             <short>&prgk;.</short>
@@ -14701,7 +14716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>angaben</token>
                     </marker>
-                    <token regexp="yes">des|der|einiger|einer|eines|mancher|vieler|[iI]hrer|seiner|eurer|meiner|[dD]einer|dieser|jener</token>
+                    <token regexp="yes">de[sr]|einiger|eine[rs]|mancher|vieler|[iI]hrer|eurer|[dDms]einer|dieser|jener</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Angaben</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -32840,7 +32855,7 @@ Andere Projekte</example>
                         <exception scope="previous" postag="PRP:.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1">
-                        <exception postag="(SUB|EIG|ADJ|PA[12]|PRO:DEM|PRO:IND):.*SIN.*(FEM|MAS|NEU).*|(SUB|EIG|ADJ|PA[12]|PRO:DEM|PRO:IND):.*PLU.*|ZAL|UNKNOWN" postag_regexp="yes"/>
+                        <exception postag="(SUB|EIG|ADJ|PA[12]|PRO:(DEM|IND)):.*SIN.*(FEM|MAS|NEU).*|(SUB|EIG|ADJ|PA[12]|PRO:(DEM|IND)):.*PLU.*|ZAL|UNKNOWN" postag_regexp="yes"/>
                         <exception regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33149,7 +33164,7 @@ Andere Projekte</example>
                     <token postag="PRP:.*" postag_regexp="yes"><exception scope="previous">,</exception></token>
                     <token regexp="yes" case_sensitive="yes">die|der|dem|den|dessen|deren|denen</token>
                     <token skip="-1">
-                        <exception postag="(SUB|EIG|ADJ|PA[12]|PRO:(DEM|IND)):.*SIN.*(FEM|MAS|NEU).*|(SUB|EIG|ADJ|PA[12]|PRO:DEM|PRO:IND):.*PLU.*|ZAL|UNKNOWN" postag_regexp="yes"/>
+                        <exception postag="(SUB|EIG|ADJ|PA[12]|PRO:(DEM|IND)):.*SIN.*(FEM|MAS|NEU).*|(SUB|EIG|ADJ|PA[12]|PRO:(DEM|IND)):.*PLU.*|ZAL|UNKNOWN" postag_regexp="yes"/>
                         <exception regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
