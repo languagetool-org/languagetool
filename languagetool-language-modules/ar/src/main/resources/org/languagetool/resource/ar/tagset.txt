@@ -1,51 +1,153 @@
+Description of Arabic tag sets
+=============================
+The arabic tag sytax for grammar check is composed of 4 parts
 
-  TAGS FOR LANGUAGETOOL
-  
-  http://www.languagetool.org/
-  http://community.languagetool.org/
-  http://languagetool.wikidot.com/
-_______________________________________________________________________________
+The tag starts by word class
+for example 
+V: Verb
+N: Noun
+P: tool or partical
 
---  NOUNS AND ADJECTIVES  --
+Nouns
+======
 
-    Noun:                   N [gender] [number] | NN
-    Demonstrative           D [gender] [number] | DEM
-    
+4 parts:
+======
+* Prefix
+* Lexem
+* Suffix
+* Ecletic
 
-                [gender]    M   = masculine
-                            F   = feminine
-                            E   = epicene
+Prefix: 
+=======
+Noun prefixes :
+=============
+contains 3 parts
+W: conjonction: starts by WAW or FEH, take 3 values: W: for waw, F; for Feh, -: none.
+B: preposition: B: for Beh, K: for Kaf, L: for Lam, by default we use B, -: none.
+L: definite article, L: for AL,  -: none.
 
-                [number]    S   = singular
-                            T   = plural (two)
-                            P   = plural
-                            SP  = singular or plural
+example:
+وبالأكل =WBL
+بأكل: -B-
+والأكل: W-L
 
-    Examples:
-        NMS
-        NFP
+Lexem:
+======
+ define the attributes of word in dictionary, for example, a word can be signle in dictionary, but can have pluarl suffix which change its number.
+contains 4 parts
+- Word type:
+	N: noun,
+	V: verb,
+	P: particle
+- Word sub class:
+	M: Masdr
+	A: Adjective
+	...
+	-: not defined
+- Gender:
+	F: feminin
+	M: masculine
+	-: None
+- Number:
+	1: single
+	3: plural, in this case, plural in dictionary which means irregular pluarl (جمع تكسير)
 
-	
-	Adjective:              ADJ
+
+example:
+مدرسة: N-F1
+مدرس:N-M1
+مدراس: N-M3
+
+Suffix:Noun conjugation  :
+======
+	- Gender suffix:
+		M: masculine ( ون is a mark of masculine)
+		F: feminine (ة or ات)
+		-: none
+	- Number suffix:
+		1: single
+		2: dual
+		3: plural ( regular masculine or feminine plural)
+	- Case ( إعراب)
+		R: marfou3
+		J: Majzoum
+		N: Mansoub
+		B: Mabni
+	Person: 
+		H: 3rd person : always
+Ecletic
+======
+define the extended words added to the lexem: الضمائر المضافة
+
+	Ponoun:
+		Person: 
+			I: 1st person
+			Y: 2nd person
+			H: 3rd person
+		gender: 
+			M/F
+		Number: 1/2/3
 
 
---  GRAMMATICAL WORDS  --
+Verbs
+=====
+Prefixes + lexem + conjugation + ecletic 
+Verb prefixes :
+=============
+	W: conjonction: starts by WAW or FEH, take 3 values: W: for waw, F; for Feh, -: none.
+	S: future prefix, س+يتعلم
 
-    preposition:                    PR
+verb Lexem  :
+=============
+	Word type: V
+	verb class:
+		W: weak verb
+		Wa: ajwaf
+		Wn: naqis
+		Wm: mithal
+		D: doubled مضعّف
+	weak letter origin;
+		Y: yeh weak letter
+		W: waw weak letter
 
+	transitivity: 
+		T: transitivity/ commun, 
+		I: intransitivity
+	length: verb length 
+	3-6: indicate length
 
---  VERBS  --
+verb conjugation  :
+=============
+	tense:
+		P: past
+		F: present
+		I:  Imperative
+	voice:
+		P: passive
+		A: active
+	case:
+		R: marfou3
+		J: Majzoum
+		N: Mansoub
+		B: Mabni
+	Ponoun:
+		Person: 
+			I: 1st person
+			Y: 2nd person
+			H: 3rd person
+		gender: 
+			M/F
+		Number: 1/2/3
+Ecletic
+======
+define the extended words added to the lexem: الضمائر المضافة
 
-    Verb:		             V[tense]
-    
-    			[tense]		P = past
-    			
-	Examples : 
-		VP
-     
-    
-``    Left open double quote
-،     Comma
-''    Right close double quote
-.     Sentence-final punctuation (in LanguageTool, use SENT_END instead)
-:     Colon, semi-colon
+	Ponoun:
+		Person: 
+			I: 1st person
+			Y: 2nd person
+			H: 3rd person
+		gender: 
+			M/F
+		Number: 1/2/3
