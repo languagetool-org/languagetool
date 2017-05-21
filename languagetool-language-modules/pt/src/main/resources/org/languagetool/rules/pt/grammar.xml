@@ -13879,6 +13879,17 @@ TODO Write better examples
       <example correction='o número'><marker>o numero</marker>.</example>
       <example correction='os números'><marker>os numeros</marker>.</example>
     </rule>
+    <rule id='PARONIMA_VIAJEM_605' name='A + viajem'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
+          <token min='0' postag='A.+' postag_regexp='yes'></token>
+          <token regexp='yes'>viaje(m|ns)</token>
+      </pattern>
+      <message>Esta palavra é a ação de viajar. Se pretende referir-se ao ato de viajar, deve utilizar a forma com 'g'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='j' regexp_replace='g'/></suggestion>
+      <example correction='A viagem'><marker>A viajem</marker> com 1 500 regras, parece que ainda agora começou.</example>
+      <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
+    </rule>
   </rulegroup>
   
   <rulegroup id='MESTRE_MESTRA' name='Confusão: mestre -> mestra'>
