@@ -23224,7 +23224,7 @@ Andere Projekte</example>
         <rulegroup id="LEID_SUBST" name="'leid (LEID)'">
             <rule>
                 <pattern>
-                    <token postag="PRO:(POS|IND):.+" postag_regexp="yes"/>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"/>
                     <token min="0">ganzes</token>
                     <marker>
                         <token case_sensitive="yes">leid</token>
@@ -23232,12 +23232,11 @@ Andere Projekte</example>
                 </pattern>
                 <message>&subanfang;<suggestion>Leid</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Leid">Ihr wird kein <marker>leid</marker> geschehen.</example>
                 <example correction="Leid">Er hat ihr sein ganzes <marker>leid</marker> geklagt.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">geteiltes|halbes</token>
+                    <token regexp="yes">geteiltes|halbes|kein</token>
                     <marker>
                         <token case_sensitive="yes">leid</token>
                     </marker>
@@ -23246,6 +23245,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Leid">Geteiltes <marker>leid</marker> ist halbes Leid.</example>
                 <example correction="Leid">Geteiltes Leid ist halbes <marker>leid</marker>.</example>
+                <example correction="Leid">Ihr wurde kein <marker>leid</marker> angetan.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ERNST_SUBST" name="'ernst (Ernst)'">
