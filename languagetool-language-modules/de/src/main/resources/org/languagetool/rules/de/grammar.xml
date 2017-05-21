@@ -23235,6 +23235,18 @@ Andere Projekte</example>
                 <example correction="Leid">Ihr wird kein <marker>leid</marker> geschehen.</example>
                 <example correction="Leid">Er hat ihr sein ganzes <marker>leid</marker> geklagt.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">geteiltes|halbes</token>
+                    <marker>
+                        <token case_sensitive="yes">leid</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Leid</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Leid">Geteiltes <marker>leid</marker> ist halbes Leid.</example>
+                <example correction="Leid">Geteiltes Leid ist halbes <marker>leid</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ERNST_SUBST" name="'ernst (Ernst)'">
             <rule>
