@@ -19405,7 +19405,7 @@ USA
                     <example correction=""><marker>January, 10 – 1</marker>, 2016.</example>                    
              </rule>
         </rulegroup>
-        <rulegroup id="LIGHTYEAR" name="light-year as a unit of time">
+        <rulegroup id="LIGHTYEAR" name="Light-year as a unit of time">
             <rule>
                 <regexp>\b(light[- ]?years? ago)\b</regexp>
                 <message>A light-year is a unit of length (not of time) used to express astronomical distances.</message>
@@ -19415,6 +19415,20 @@ USA
                 <example correction="">It all seems <marker>light years ago</marker> now.</example>
                 <example correction="">It all seems <marker>lightyears ago</marker> now.</example>
                 <example>A light-year is how astronomers measure distance in space.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TWICE_AS_COLD" name="Interval scale: doubling values ('twice as hot')">
+            <rule>
+                <pattern>
+                    <token regexp="yes">twice|half|times</token>
+                    <token>as</token>
+                    <token regexp="yes">warm|hot|cold</token>
+                </pattern>
+                <message>Unless this expression refers to the Kelvin scale, it is not defined and probably makes no sense.</message>
+                <url>https://www.rasch.org/rmt/rmt214e.htm</url>
+                <short>Semantic error</short>
+                <example correction="">It's <marker>half as warm</marker> as it was yesterday.</example>
+                <example correction="">If it's zero degrees outside and it becomes <marker>twice as cold</marker> it was before, what is the temperature?</example>
             </rule>
         </rulegroup>
     </category>
