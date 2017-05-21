@@ -596,6 +596,8 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
     <!-- Created by Tiago F. Santos, 2017-05-20 -->
+    <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
+    <short>Modo verbal incorrecto</short>
     <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>negar|crer</token>
@@ -604,10 +606,10 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+'/></token>
       </pattern>
-      <message>'Negar' introduz o conjuntivo.</message>
+      <message>Este verbo introduz o conjuntivo.</message>
         <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Negas que seja'><marker>Negas que é</marker> verdade?</example>
-      <example correction='crê que seja'>O Jorge <marker>crê que é</marker> verdade.</example>
+      <example correction='crê que haja'>O Jorge <marker>crê que há</marker> alguma verdade na história.</example>
       <example correction='nega que tenha'>O Jorge <marker>nega que tem</marker> falado com ela.</example>
     </rule>
     <rule>
@@ -618,7 +620,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+'/></token>
       </pattern>
-      <message>'Negar' introduz o conjuntivo.</message>
+      <message>Hipóteses introduz o conjuntivo.</message>
         <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Ainda que seja'><marker>Ainda que é</marker> verdade?</example>
       <example correction='desde que tenha'>O Jorge nega <marker>desde que tem</marker> falado com ela.</example>
@@ -631,7 +633,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+'/></token>
       </pattern>
-      <message>'Negar' introduz o conjuntivo.</message>
+      <message>Hipóteses introduzem o conjuntivo.</message>
         <suggestion>\1 <match no='2' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Embora seja'><marker>Embora é</marker> verdade, não me agrada.</example>
     </rule>
