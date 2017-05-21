@@ -23302,7 +23302,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes">Ernst</token>
+                        <token case_sensitive="yes">Ernst<exception scope="previous">für</exception></token>
                     </marker>
                     <token min="0">zu</token>
                     <token regexp="yes">nehmen(e|er|es|den)?</token>
@@ -23312,6 +23312,7 @@ Andere Projekte</example>
                 <example correction="ernst">Genauso entscheidend war es, sie und ihre Probleme <marker>Ernst</marker> zu nehmen.</example>
                 <example correction="ernst">Die <marker>Ernst</marker> zu nehmenden Ideen sind zu prüfen.</example>
                 <example correction="ernst">Ich kann das leider nicht <marker>Ernst</marker> nehmen.</example>
+                <example>Einen Scherz für <marker>Ernst</marker> nehmen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23324,6 +23325,30 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Ernst">Er meinte das ganz im <marker>ernst</marker>!</example>
                 <example correction="Ernst">Man darf das nicht für <marker>ernst</marker> nehmen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ernst</token>
+                    </marker>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ernst</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ernst">Sie hat <marker>ernst</marker> gemacht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">machen</token>
+                    <token min="0"/>
+                    <marker>
+                        <token case_sensitive="yes">ernst</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ernst</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ernst">Sie machte <marker>ernst</marker>.</example>
+                <example correction="Ernst">Warum machte sie <marker>ernst</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup id="STOLZ_SUBST" name="'stolz (Stolz)'">
