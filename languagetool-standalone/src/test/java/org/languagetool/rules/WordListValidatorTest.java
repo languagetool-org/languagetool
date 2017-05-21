@@ -41,7 +41,8 @@ public class WordListValidatorTest {
           "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
           "Śśōżúï" +
           "·" +   // for Catalan
-          "./-]+"
+          "./-]+" + 
+          "|[khmcd]m[²³]"
   );
 
   // Words that are valid but with special characters so that we don't want to
@@ -49,8 +50,6 @@ public class WordListValidatorTest {
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Hidschāb/S",
           "Dvořák/S",
-          "cm²",
-          "cm³",
           "Erdoğan/S",
           "'Ndrangheta"
   ));
