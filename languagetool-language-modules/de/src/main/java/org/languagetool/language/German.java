@@ -251,6 +251,7 @@ public class German extends Language implements AutoCloseable {
     switch (id) {
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
     }
     return 0;
   }
