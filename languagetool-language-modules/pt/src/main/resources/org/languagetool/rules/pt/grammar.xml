@@ -594,6 +594,49 @@ title="Easy editing stylesheet" ?>
       <example correction='Quando eu vir'><marker>Quando eu ver</marker> algo errado, aviso.</example>
     </rule>
 
+  <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
+    <!-- Created by Tiago F. Santos, 2017-05-20 -->
+    <rule>
+      <pattern>
+          <token inflected='yes' regexp='yes'>negar|crer</token>
+          <token>que</token>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception postag_regexp='yes' postag='V.S.+'/></token>
+      </pattern>
+      <message>'Negar' introduz o conjuntivo.</message>
+        <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Negas que seja'><marker>Negas que é</marker> verdade?</example>
+      <example correction='crê que seja'>O Jorge <marker>crê que é</marker> verdade.</example>
+      <example correction='nega que tenha'>O Jorge <marker>nega que tem</marker> falado com ela.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ainda|antes|até|contanto|desde|mesmo|para|sem|tomara</token>
+          <token>que</token>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception postag_regexp='yes' postag='V.S.+'/></token>
+      </pattern>
+      <message>'Negar' introduz o conjuntivo.</message>
+        <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Ainda que seja'><marker>Ainda que é</marker> verdade?</example>
+      <example correction='desde que tenha'>O Jorge nega <marker>desde que tem</marker> falado com ela.</example>
+      <example correction='Tomara que seja'><marker>Tomara que é</marker> verdade.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>tomara|embora</token>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception postag_regexp='yes' postag='V.S.+'/></token>
+      </pattern>
+      <message>'Negar' introduz o conjuntivo.</message>
+        <suggestion>\1 <match no='2' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Embora seja'><marker>Embora é</marker> verdade, não me agrada.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
     <!--              General verbal concordance errors           -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
