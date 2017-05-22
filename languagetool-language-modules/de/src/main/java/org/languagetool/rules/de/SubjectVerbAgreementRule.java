@@ -70,6 +70,19 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("ist|war").build(),
       new PatternTokenBuilder().token("gemeinsam").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().pos("ZAL").build(),
+      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
+      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().posRegex("ADV:MOD|ADJ:PRD:GRU").build(),
+      new PatternTokenBuilder().pos("ZAL").build(),
+      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
+      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
     )
   );
 
