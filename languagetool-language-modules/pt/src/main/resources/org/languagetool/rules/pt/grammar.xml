@@ -597,10 +597,10 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
     <!-- Created by Tiago F. Santos, 2017-05-20 -->
     <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
-    <short>Modo verbal incorrecto</short>
+    <short>Modo verbal incorreto</short>
     <rule>
       <pattern>
-          <token inflected='yes' regexp='yes'>negar|crer</token>
+          <token inflected='yes'>negar</token>
           <token>que</token>
           <token postag_regexp='yes' postag='V.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
@@ -609,24 +609,23 @@ title="Easy editing stylesheet" ?>
       <message>Este verbo introduz o conjuntivo.</message>
         <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Negas que seja'><marker>Negas que é</marker> verdade?</example>
-      <example correction='crê que haja'>O Jorge <marker>crê que há</marker> alguma verdade na história.</example>
       <example correction='nega que tenha'>O Jorge <marker>nega que tem</marker> falado com ela.</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>ainda|antes|até|contanto|desde|mesmo|para|sem|tomara</token>
+          <token regexp='yes'>ainda|antes|até|contanto|mesmo|sem|tomara</token>
           <token>que</token>
           <token postag_regexp='yes' postag='V.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+'/></token>
       </pattern>
-      <message>Hipóteses introduz o conjuntivo.</message>
+      <message>Hipóteses introduzem o conjuntivo.</message>
         <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Ainda que seja'><marker>Ainda que é</marker> verdade?</example>
-      <example correction='desde que tenha'>O Jorge nega <marker>desde que tem</marker> falado com ela.</example>
+      <example correction='mesmo que tenha'>O Jorge nega <marker>mesmo que tem</marker> falado com ela.</example>
       <example correction='Tomara que seja'><marker>Tomara que é</marker> verdade.</example>
     </rule>
-    <rule>
+    <!--rule>
       <pattern>
           <token regexp='yes'>tomara|embora</token>
           <token postag_regexp='yes' postag='V.+'>
@@ -636,7 +635,7 @@ title="Easy editing stylesheet" ?>
       <message>Hipóteses introduzem o conjuntivo.</message>
         <suggestion>\1 <match no='2' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Embora seja'><marker>Embora é</marker> verdade, não me agrada.</example>
-    </rule>
+    </rule-->
   </rulegroup>
 
   <rulegroup id="GENERAL_VERB_AGREEMENT_ERRORS" name="Erros de concordância verbal (geral)">
@@ -4996,7 +4995,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='_PUNCT'/></token>
         <marker>
           <token>na</token>
-          <token>verdade</token>
+          <token regexp='yes'>verdade|prática</token>
         </marker>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
@@ -5182,7 +5181,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>na</token>
-          <token>verdade</token>
+          <token regexp='yes'>verdade|prática</token>
         </marker>
           <token>
             <exception postag='_PUNCT'/></token>
