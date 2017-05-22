@@ -31874,6 +31874,12 @@ Andere Projekte</example>
                 <example>Sie führte dazu das Haushaltsbuch.</example>
                 <example correction="hatte zur Folge, dass">Das <marker>hatte zur Folge das</marker> er Antibiotika verschrieben bekam.</example>
             </rule>
+            <rule>
+                <regexp case_sensitive="yes">\bdavon überzeugte? das\b</regexp>
+                <message>In diesem Ausdruck fehlt ein Komma <suggestion><match no="1" regexp_match="\b das$" regexp_replace=", das"/></suggestion>. Prüfen Sie, ob zusätzlich 'das' durch 'dass' zu ersetzen ist: <suggestion><match no="1" regexp_match="\b das$" regexp_replace=", dass"/></suggestion></message>
+                <example correction="davon überzeugt, das|davon überzeugt, dass">Er war <marker>davon überzeugt das</marker> er gewonnen hatte.</example>
+                <example correction="davon überzeugt, das|davon überzeugt, dass">Er hat sie <marker>davon überzeugt das</marker> Haus zu verkaufen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma nach Relativsatz  -->
