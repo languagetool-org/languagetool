@@ -14087,9 +14087,9 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp='yes'>\d+;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                     <token regexp='yes'>-|–</token>
-                    <token regexp='yes'>\d+;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -14106,9 +14106,9 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp='yes'>\d+|;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                     <token regexp='yes'>-|—</token>
-                    <token regexp='yes'>\d+|;&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
+                    <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                 </pattern>
                 <message>If you want to indicate a period of time, you must use an n-dash (half-dash).</message>
                 <suggestion>\1 – \3</suggestion>
@@ -14120,6 +14120,11 @@ USA
     <rule id="ENUMERATION_AND_DASHES" name="Enumerations with dashes: 1.2.-">
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
     <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
           <token regexp="yes">\d+</token>

@@ -14261,12 +14261,13 @@ TODO Write better examples
       <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
       <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
       <example>— É o seu presente de aniversário, minha filha.</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>\d+;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp='yes'>-|–</token>
-          <token regexp='yes'>\d+;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
         <marker>
@@ -14280,18 +14281,20 @@ TODO Write better examples
       <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
       <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
       <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>\d+|;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp='yes'>-|—</token>
-          <token regexp='yes'>\d+|;&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </pattern>
       <message>Se pretende indicar um período de tempo, deve utilizar meio-travessão.</message>
         <suggestion>\1 – \3</suggestion>
         <suggestion>\1–\3</suggestion>
       <short>Nesta situação deve utilizar o meio-travessão.</short>
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
     </rule>
   </rulegroup>
 
@@ -14318,6 +14321,7 @@ TODO Write better examples
       <message>Em diálogos, deve remover o espaço depois do travessão.</message>
         <suggestion>—\3</suggestion>
       <example correction="—Corre"><marker>— Corre</marker>! vá!</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
       <example>—Saltar</example>
       <example>—Correr</example>
       <example>—Rastejar</example>
@@ -14326,6 +14330,11 @@ TODO Write better examples
 
     <rule id="ENUMERATION_AND_DASHES" name="Enumerações com travessões: 1.2.-">
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
           <token regexp="yes">\d+(\.\d+)?</token>
@@ -14337,6 +14346,7 @@ TODO Write better examples
       <example correction="1."><marker>1.-</marker> Introdução</example>
       <example correction="1."><marker>1.--</marker> Introdução</example>
       <example correction="1.3."><marker>1.3.—</marker> Introdução</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
       <example>50-30</example>
       <example>…com uma pedra…—, acho que…</example>
     </rule>
