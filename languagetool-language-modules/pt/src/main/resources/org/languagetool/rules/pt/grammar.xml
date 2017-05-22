@@ -5088,6 +5088,20 @@ title="Easy editing stylesheet" ?>
           <token>
             <exception postag='_PUNCT'/></token>
         <marker>
+          <token>ao</token>
+          <token>mesmo</token>
+          <token>tempo</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>, <match no='2' case_conversion="startlower"/> \3 \4</suggestion>
+      <example correction=", ao mesmo tempo">Foi feito com distinção <marker>ao mesmo tempo</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception postag='_PUNCT'/></token>
+        <marker>
           <token>com</token>
           <token>efeito</token>
         </marker>
@@ -5272,6 +5286,20 @@ title="Easy editing stylesheet" ?>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2 \3,</suggestion>
       <example correction="a meu ver,">Foi feito com distinção, <marker>a meu ver</marker> está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>ao</token>
+          <token>mesmo</token>
+          <token>tempo</token>
+        </marker>
+          <token>
+            <exception postag='_PUNCT'/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1 \2 \3,</suggestion>
+      <example correction="ao mesmo tempo,">Foi feito com distinção, <marker>ao mesmo tempo</marker> está bem feito.</example>
     </rule>
     <rule>
       <pattern>
