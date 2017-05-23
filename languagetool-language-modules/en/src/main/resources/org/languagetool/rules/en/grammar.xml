@@ -10140,6 +10140,11 @@ USA
         </rulegroup>
         <rulegroup id="PROGRESSIVE_VERBS" name="Progressive forms of non-progressive verbs (doubt, believe, understand)">
             <rule>
+                <antipattern>
+                    <token inflected="yes">have</token>
+                    <token>been</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"/>
@@ -10153,6 +10158,11 @@ USA
                 <example correction="">The conflict <marker>is merely seeming</marker> to be over.</example>
                 <example correction="">Although you explained many times, I <marker>am not understanding</marker>.</example>
                 <example correction="">Whether you <marker>are loving</marker>, or indeed only liking, the new film...</example>
+                <example>He <marker>has been wanting</marker> very much to meet you.</example>
+                <example>You are not listening. I <marker>have been agreeing</marker> with you for the past 10 minutes.</example>
+                <example>I <marker>had been depending</marker> on having the test results by 17:00 today.</example>
+                <example>The Tigers <marker>have been deserving</marker> winners of the title.</example>
+                <example>I <marker>have been hearing</marker> good things about you.</example>
                 <example type="triggers_error">As you said many times, I <marker>am not understanding</marker>. Nor do I have tolerance, patience, or kindness.</example><!-- Adjective -->
                 <example type="triggers_error">I am very <marker>understanding</marker>, and I care very much.</example><!-- Adjective -->
                 <example type="triggers_error">The conflict is merely <marker>seeming</marker>.</example><!-- Adjective -->
