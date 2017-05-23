@@ -4924,7 +4924,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>não</token>
           <token>obstante</token>
@@ -4937,7 +4937,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>a</token>
           <token>saber</token>
@@ -4964,7 +4964,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>por</token>
           <token>outro</token>
@@ -4978,7 +4978,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>por</token>
           <token>assim</token>
@@ -4992,7 +4992,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>na</token>
           <token regexp='yes'>verdade|prática</token>
@@ -5005,7 +5005,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>no</token>
           <token>entanto</token>
@@ -5018,7 +5018,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>em</token>
           <token regexp='yes'>geral|contrapartida</token>
@@ -5043,7 +5043,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>além</token>
           <token>disso</token>
@@ -5056,7 +5056,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>ou</token>
           <token min='0'>,</token>
@@ -5072,7 +5072,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>a</token>
           <token>meu</token>
@@ -5086,7 +5086,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>ao</token>
           <token>mesmo</token>
@@ -5100,7 +5100,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
         <marker>
           <token>com</token>
           <token>efeito</token>
@@ -5113,7 +5113,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
       </pattern>
       <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
@@ -5326,6 +5326,174 @@ title="Easy editing stylesheet" ?>
       <example correction="portanto, está">Foi feito com distinção, <marker>portanto está</marker> bem feito.</example>
       <example correction="outrossim, que">Foi feito com distinção, <marker>outrossim que</marker> está bem feito.</example>
       <example correction="aliás, está">Foi feito com distinção e, <marker>aliás está</marker> bem feito.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="SENT_START_COMMA_CONJUNCTION" name="Locuções no início da frase: por exemplo, na verdade" default='off'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-05-22 -->
+    <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
+      <url>https://pt.wikipedia.org/wiki/V%C3%ADrgula</url>
+      <short>Considere unir as frases</short>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>não</token>
+          <token>obstante</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Não obstante</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>a</token>
+          <token>saber</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>A saber</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>por</token>
+          <token>exemplo</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Por exemplo</marker>, que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>por</token>
+          <token>outro</token>
+          <token>lado</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Por outro lado</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>por</token>
+          <token>assim</token>
+          <token>dizer</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Por assim dizer</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>na</token>
+          <token regexp='yes'>verdade|prática</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Na verdade</marker>, que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>no</token>
+          <token>entanto</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>No entanto</marker>, que não está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>em</token>
+          <token regexp='yes'>geral|contrapartida</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+      <example correction=""><marker>Em geral</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>além</token>
+          <token>disso</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Além disso</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>ou</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>seja|melhor|antes</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Ou seja</marker>, está bem feito.</example>
+      <example correction=""><marker>Ou melhor</marker>, que não está bem feito.</example>
+      <example correction=""><marker>Ou antes</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>a</token>
+          <token>meu</token>
+          <token>ver</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>A meu ver</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>ao</token>
+          <token>mesmo</token>
+          <token>tempo</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+      <example correction=""><marker>Ao mesmo tempo</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token>com</token>
+          <token>efeito</token>
+        </marker>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Com efeito</marker>, está bem feito.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+      </pattern>
+      <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+      <example correction=""><marker>Portanto</marker>, não posso sair.</example>
+      <example correction=""><marker>Portanto</marker>, está bem feito.</example>
+      <example correction=""><marker>Outrossim</marker>, que está bem feito.</example>
+      <example correction=""><marker>Aliás</marker>, está bem feito.</example>
     </rule>
   </rulegroup>
 
