@@ -45010,6 +45010,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="huitè|huité">Ha arribat el <marker>octau</marker> decret llei.</example>
             </rule>
             <rule>
+                <antipattern>
+                     <marker>
+                         <token postag="D[IN].*" postag_regexp="yes"/>
+                         <token postag="N.*" postag_regexp="yes" inflected="yes">dècim</token>
+                     </marker>
+                </antipattern>
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">dècim</token>
                 </pattern>
@@ -45017,6 +45023,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">desè</match></suggestion>
                 <example correction="desena">Ha arribat en la <marker>dècima</marker> posició.</example>
                 <example correction="desè|desé">Ha arribat el <marker>dècim</marker> decret llei.</example>
+                <example>L'índex ha baixat dues dècimes.</example>
+                <example>He comprat un dècim de loteria.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREFERENCIES_VERBS_VALENCIANS" name="Algunes formes verbals preferibles: vam, cantara, sent, sàpia...">
