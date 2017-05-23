@@ -9793,21 +9793,23 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="ALLOW_TO" name="'allow' + 'to' + infinitive">
-            <url>http://www.edufind.com/english/grammar/gerund_or_infinitive.php</url>
+            <url>http://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.*">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ|VBN" postag_regexp="yes"/></token>
                     <marker>
                         <token>to</token>
-                        <token postag="VBP"/>
+                        <token postag="VBP"><exception postag="NNS"/></token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, '<match no="1" postag="VB"/>' + 'to' takes an object, usually a pronoun.</message>
                 <short>Grammatical problem: use gerund</short>
                 <example correction="seeing">It allows <marker>to see</marker> better.</example>
+                <example>It allows them <marker>to see</marker> better.</example>
                 <example>They are forbidden to fly without specific orders to proceed to their targets.</example>
                 <example>He was allowed to build an ambitious garden.</example>
                 <example>General Don Carlos Buell likewise refused orders to move the Army of the Ohio against rebel forces.</example>
+                <example>That is what it tries to teach to <marker>people</marker> like me.</example>
             </rule>
             <rule>
                 <pattern>
