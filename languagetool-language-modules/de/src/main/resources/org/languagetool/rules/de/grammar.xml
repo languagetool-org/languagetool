@@ -9006,6 +9006,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">a[nb]|au[fs]|weg</token>
                 </antipattern>
                 <antipattern>
+                    <token>außen</token>
+                    <token>vor</token>
+                    <token inflected="yes">lassen</token>
+                </antipattern>
+                <antipattern>
                     <token>nach</token>
                     <token>wie</token>
                     <token>vor</token>
@@ -9079,6 +9084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hinzu kommt, dass es gelogen ist.</example>
                 <example>Denn hinzu kommt, dass es gelogen ist.</example>
                 <example>Das ist Unsinn; und hinzu kommt, dass es gelogen ist.</example>
+                <example>Ich will ihn nicht außen vor lassen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -31875,11 +31881,31 @@ Andere Projekte</example>
                 <example correction="hatte zur Folge, dass">Das <marker>hatte zur Folge das</marker> er Antibiotika verschrieben bekam.</example>
             </rule>
             <rule>
-                <regexp case_sensitive="yes">\bdavon überzeugte? das\b</regexp>
-                <message>In diesem Ausdruck fehlt ein Komma <suggestion><match no="1" regexp_match="\b das$" regexp_replace=", das"/></suggestion>. Prüfen Sie, ob zusätzlich 'das' durch 'dass' zu ersetzen ist: <suggestion><match no="1" regexp_match="\b das$" regexp_replace=", dass"/></suggestion></message>
-                <example correction="davon überzeugt, das|davon überzeugt, dass">Er war <marker>davon überzeugt das</marker> er gewonnen hatte.</example>
-                <example correction="davon überzeugt, das|davon überzeugt, dass">Er hat sie <marker>davon überzeugt das</marker> Haus zu verkaufen.</example>
-            </rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER:3:.*" postag_regexp="yes">
+                            <exception scope="previous" postag="SENT_START"/>
+                            <exception postag_regexp="yes" postag="VER:(MOD|AUX):.*"/>
+                        </token>
+                        <token>das</token>
+                    </marker>
+                    <token postag="(PRO:PER|ART):.*" postag_regexp="yes" skip="-1">
+                        <exception scope="next" regexp="yes">[,;:\"„“]</exception>
+                    </token>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hier fehlt ein Komma vor 'das'. Vermutlich ist 'das' durch 'dass' zu ersetzen: <suggestion>\1, dass</suggestion></message>
+                <example correction="beklagt, dass">Er hat <marker>beklagt das</marker> sie zu lange schläft.</example>
+                <example correction="überzeugt, dass">Er war davon <marker>überzeugt das</marker> er gewonnen hatte.</example>
+                <example correction="sagte, dass">Sie <marker>sagte das</marker> er krank sei.</example>
+                <example>Ist das ein echter Picasso?</example>
+                <example>Wenn wir uns eine Pause gönnen, wird das die Dinge nicht einfacher machen.</example>
+                <example>„Ist das ein Ferrari oder ein Lamborghini?“</example>
+                <example>Er hat sie davon überzeugt, das Haus zu kaufen.</example>
+                <example correction="folgt, dass">Daraus <marker>folgt das</marker> er gewonnen hatte.</example>
+                <example>Sie führte das Haushaltsbuch mit großer Sorgfalt.</example>
+                <example correction="beschwert, dass">Ein Urlauber hat sich sogar darüber <marker>beschwert das</marker> der Sand zu sandig war.</example>
+			</rule>
         </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma nach Relativsatz  -->
