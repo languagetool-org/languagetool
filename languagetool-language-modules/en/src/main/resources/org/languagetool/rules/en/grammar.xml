@@ -10410,7 +10410,7 @@ USA
                     <token postag="VB[DZ]" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+</token>
                 </antipattern>
                 <pattern>
-                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|who|which|whom|a|the</exception></token>
+                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|who|which|whom|a|the|neither|nor</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
                     <marker>
                         <token postag="VB[DGZ]" postag_regexp="yes">
@@ -10445,6 +10445,11 @@ USA
                 <example>Did <marker>giving</marker> him money help?</example>
                 <example>Nothing he <marker>did</marker> helped.</example>
                 <example>Latest News: Government May Sometimes <marker>Spends</marker> More Money Than It Has.</example><!-- False negative because disambiguation UPPER_NNP removes MD. -->
+                <example>Video games didn't distract him, nor did <marker>dancing</marker>.</example>
+                <example>Games won't distract her nor will <marker>dancing</marker>.</example>
+                <example>Pulling the trace high had no apparent effect, neither did <marker>pulling</marker> it low.</example>
+                <example>Talking to the bully did not stop him. And neither did <marker>hitting</marker> him.</example>
+                <example>They were both scared: neither did <marker>confronting</marker> the bully.</example><!-- False negative with emphatic 'do'. -->
             </rule>
             <rule>
                 <pattern>
