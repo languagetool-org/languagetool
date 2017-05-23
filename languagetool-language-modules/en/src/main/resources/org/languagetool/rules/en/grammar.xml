@@ -7112,6 +7112,15 @@ USA
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
+                <antipattern>
+                    <token>did</token>
+                    <token/>
+                    <token postag="JJ" min="0"/>
+                    <token/>
+                    <token postag="VBD"/>
+                    <token regexp="yes" min="0">'|‘|"|“</token>
+                    <token postag="NNP"><exception negate_pos="yes" postag="NNP"/></token>
+                </antipattern>
                 <pattern>
                     <token>did</token>
                     <!-- TODO: use chunks
@@ -7130,8 +7139,11 @@ USA
                 <example correction="work">Did the application <marker>worked</marker>?</example>
                 <example correction="work">Did the applications <marker>worked</marker>?</example>
                 <example correction="work">Did your new applications <marker>worked</marker>?</example>
-                <example>Did your applications work?</example>
+                <example correction="call">Did a man <marker>called</marker> when I was out of the office?</example>
+                <example>Did your applications <marker>work</marker>?</example>
                 <example>If it were not that I knew who it was I could have mistaken it for my Aunt so well did her clothes fit him.</example>
+                <example>Why did a record <marker>called</marker> 'Daffodil' show a poppy?</example>
+                <example>Did a man <marker>called</marker> Daffodil come here?</example>
             </rule>
             <rule>
                 <pattern>
