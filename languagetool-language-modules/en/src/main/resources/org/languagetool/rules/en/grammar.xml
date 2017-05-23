@@ -6231,6 +6231,11 @@ USA
                 <token postag="JJR?" postag_regexp="yes"/>
                 <token>people</token>
             </antipattern>
+            <antipattern>
+                <token postag="VBG"/>
+                <token postag="DT" min="0"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people</token>
                 <token min="0">who</token>
@@ -6242,9 +6247,12 @@ USA
             <suggestion><match no="3" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>
             <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
             <example correction='have'>We are looking for people who <marker>has</marker> expertise in this area.</example>
-            <example>As the number of older, wealthier people grows, so does the number of people eager to prey on them.</example>
+            <example correction='do'>Also, these people <marker>does</marker> not know the answer.</example>
+            <example>As the number of older, wealthier people <marker>grows</marker>, so does the number of people eager to prey on them.</example>
             <example>I'm one of those people who has trouble sitting still.</example>
             <example>I'm one of the many people who has trouble sitting still.</example>
+            <example>Naming these people <marker>does</marker> not imply their agreement.</example>
+            <example>Helping people <marker>is</marker> our duty.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
