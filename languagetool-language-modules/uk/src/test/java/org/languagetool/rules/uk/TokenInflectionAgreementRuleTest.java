@@ -45,7 +45,7 @@ public class TokenInflectionAgreementRuleTest {
   public void setUp() throws IOException {
     rule = new TokenInflectionAgreementRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
-//    TokenInflectionExceptionHelper.DEBUG = true;
+//    TokenInflectionAgreementRule.DEBUG = true;
   }
   
   @Test
@@ -74,6 +74,8 @@ public class TokenInflectionAgreementRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволий депутата")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволого тюльпан")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
+    
     // не працює через іменник французька (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
@@ -371,6 +373,8 @@ public class TokenInflectionAgreementRuleTest {
     assertEmptyMatch("порядок денний парламенту");
     assertEmptyMatch("зокрема статтю 6-ту закону");
     assertEmptyMatch("князівством Литовським подоляни");
+    assertEmptyMatch("абзац перший частини другої");
+    assertEmptyMatch("абзац другий частини першої");
     
     // мати рівних
     assertEmptyMatch("яких не мала рівних українка");

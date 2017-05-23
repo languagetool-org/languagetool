@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
+import org.languagetool.rules.pt.PostReformPortugueseDashRule;
 import org.languagetool.rules.pt.PortugalPortugueseReplaceRule;
 import org.languagetool.rules.pt.PortugueseAgreementReplaceRule;
 
@@ -45,6 +46,7 @@ public class PortugalPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
+    rules.add(new PostReformPortugueseDashRule());
     rules.add(new PortugalPortugueseReplaceRule(messages));
     rules.add(new PortugueseAgreementReplaceRule(messages));
     return rules;
