@@ -185,7 +185,24 @@ public class CaseRule extends Rule {
        regex("[A-ZÄÖÜ].*es"),
        regex("und|oder|,"),
        regex("[A-ZÄÖÜ].*es")
-    )
+    ),
+    Arrays.asList(
+       // "... bringt Interessierte und Experten zusammen"
+       posRegex("VER:.*[1-3]:.*"),
+       posRegex("SUB:AKK:.*:ADJ"),
+       regex("und|oder|,"),
+       posRegex("SUB:AKK:.*:(NEU|FEM|MAS)|ART:.*")
+    ),
+    Arrays.asList(
+        // "Das südöstlich von Berlin gelegene"
+        regex("(süd|nord|ost|west).*lich"),
+        token("von")
+     ),
+     Arrays.asList(
+        // "Entscheiden 42,5 Millionen Stimmberechtigte über..."
+        regex("Million(en)?"),
+        posRegex("SUB:.*:ADJ")
+     ) 
   );
 
   private static PatternToken token(String token) {
@@ -739,12 +756,13 @@ public class CaseRule extends Rule {
     if (!isPotentialError &&
         lowercaseReadings != null
         && tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF")
-        && hasPartialTag(tokens[pos-1], "SUB", "EIG")) {
+        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG"))) {
       // find error in: "Der Brief wird morgen Übergeben."
       isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
+      // find error in: "Sie bat ihn, es zu Überprüfen."
       isPotentialError |= (pos >= tokens.length - 2 || ",".equals(tokens[pos+1].getToken()))
-        && isPrecededByModalOrAuxiliary
+        && ("zu".equals(tokens[pos-1].getToken()) || isPrecededByModalOrAuxiliary)
         && tokens[pos].getToken().startsWith("Über")
         && lowercaseReadings.hasPartialPosTag("VER:INF:");
       }

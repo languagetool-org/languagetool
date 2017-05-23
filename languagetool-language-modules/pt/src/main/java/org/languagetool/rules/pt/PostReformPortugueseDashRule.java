@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.rules.pl;
+package org.languagetool.rules.pt;
 
 import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
@@ -27,21 +27,27 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
- * @since 3.6
+ * Check for compounds written with dashes instead of hyphens.
+ * @since 3.8
  */
-public class DashRule extends AbstractDashRule {
+public class PostReformPortugueseDashRule extends AbstractDashRule {
 
-  private static final List<PatternRule> dashRules = loadCompoundFile("/pl/compounds.txt",
-          "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", Languages.getLanguageForShortCode("pl"));
-
-  public DashRule() throws IOException {
+  private static final List<PatternRule> dashRules = loadCompoundFile("/pt/post-reform-compounds.txt",
+                    "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", Languages.getLanguageForShortCode("pt-PT"));
+  
+  public PostReformPortugueseDashRule() throws IOException {
     super(dashRules);
+    setDefaultOff(); // Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
+  }
+
+  @Override
+  public String getId() {
+    return "PT_POSAO_DASH_RULE";
   }
 
   @Override
   public String getDescription() {
-    return "Sprawdza, czy wyrazy pisane z łącznikiem zapisano z myślnikami (np. „Lądek — Zdrój” zamiast „Lądek-Zdrój”).";
+    return "Verifica se palavras hifenizadas foram escritas com travessões (p.ex., 'T — shirt' em vez de 'T-shirt').";
   }
 
 }

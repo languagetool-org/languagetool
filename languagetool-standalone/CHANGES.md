@@ -2,6 +2,10 @@
 
 ## 3.8-SNAPSHOT (release planned for 2017-06-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary and rules for official names of Valencian municipalities
+
 #### English
   * added and improved rules
 
@@ -12,6 +16,7 @@
 
 #### Polish
    * added rules
+   * added some common typos
 
 #### Portuguese
   * added and improved grammar and style rules, including:
@@ -37,6 +42,12 @@
     line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
     and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
     the spell checker)
+
+#### LT server
+   * When running a LT server, the enabled/disabled rules loaded from a configuration file 
+     at the startup time will be the new default rules. Previously these rules were "forgotten" 
+     when a server query used the parameters for enabling and disabling rules. Now the rules 
+     from the query will be added to the rules from the configuration file. 
 
 ## 3.7 (2017-03-27)
 

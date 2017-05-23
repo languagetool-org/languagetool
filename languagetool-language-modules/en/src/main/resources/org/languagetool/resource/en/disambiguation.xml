@@ -4286,6 +4286,22 @@ False negative. Make sure that there are no Hoopes or Loops in the rope. [The re
         </pattern>
         <disambig action="ignore_spelling"/>
       </rule>
+
+      <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
+          <pattern>
+              <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
+          </pattern>
+          <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                  args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
+        <disambig action="ignore_spelling"/>
+      </rule>
     </rulegroup>
+
+    <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS"><!-- Refer to http://physics.nist.gov/cuu/Units/units.html -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)(⁻)?(¹|²|³)</token><!-- 'ft' and 'yd' are not SI units, but the rule ignores the spelling of the correct English units of measure 'ft²' and 'yd³'. -->
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
 </rules>

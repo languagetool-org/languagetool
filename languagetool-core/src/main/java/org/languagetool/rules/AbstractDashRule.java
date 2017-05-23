@@ -22,7 +22,6 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 
@@ -32,23 +31,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Another use of the compounds file -- check for compounds written with
  * dashes instead of hyphens (for example, Rabka — Zdrój).
+ * NOTE: this slows down checking a lot when used with large compound lists
  * @since 3.8
  */
 public abstract class AbstractDashRule extends Rule {
 
   private final List<PatternRule> dashRules;
-  private final String msg;
-  private final Language lang;
 
-  public AbstractDashRule(String compoundFile, String msg, Language lang) throws IOException {
-    this.msg = msg;
-    this.lang = lang;
-    dashRules = new ArrayList<>();
-    loadCompoundFile(compoundFile);
+  public AbstractDashRule(List<PatternRule> dashRules) throws IOException {
+    this.dashRules = Objects.requireNonNull(dashRules);
   }
 
   @Override
@@ -73,7 +69,8 @@ public abstract class AbstractDashRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
-  private void loadCompoundFile(String path) throws IOException {
+  protected static List<PatternRule> loadCompoundFile(String path, String msg, Language lang) {
+    List<PatternRule> rules = new ArrayList<>();
     try (
         InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
         InputStreamReader reader = new InputStreamReader(stream, "utf-8");
@@ -91,7 +88,6 @@ public abstract class AbstractDashRule extends Rule {
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
         }
-
         List<PatternToken> tokList = new ArrayList<>();
         String[] tokens = line.split("-");
         int tokenCounter = 0;
@@ -107,12 +103,15 @@ public abstract class AbstractDashRule extends Rule {
         PatternRule dashRule = new PatternRule
             ("DASH_RULE" + counter, lang, tokList,
                 "", msg + "<suggestion>"+line.replaceAll("[–—]", "-")+"</suggestion>.", line.replaceAll("[–—]", "-"));
-        dashRules.add(dashRule);
+        rules.add(dashRule);
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+    return rules;
   }
 
-  private String removeLastCharacter(String str) {
+  private static String removeLastCharacter(String str) {
     return str.substring(0, str.length() - 1);
   }
 

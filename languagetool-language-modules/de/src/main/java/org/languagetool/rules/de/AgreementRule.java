@@ -161,9 +161,19 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().pos("ZUS").build(),
         new PatternTokenBuilder().pos("SENT_END").build()
     ),
-    Arrays.asList( // "Bei mir löste das Panik aus."
+    Arrays.asList(
         new PatternTokenBuilder().token("Außenring").build(),
         new PatternTokenBuilder().token("Autobahn").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Eurovision").build(),
+        new PatternTokenBuilder().token("Song").build(),
+        new PatternTokenBuilder().token("Contest").build()
+    ),
+    Arrays.asList( // "Das Holocaust Memorial Museum."
+        new PatternTokenBuilder().posRegex("ART:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build(),
+        new PatternTokenBuilder().pos("UNKNOWN").build()
     )
   );
 
@@ -417,7 +427,9 @@ public class AgreementRule extends Rule {
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2) {
-    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
+    // TODO: remove "-".equals(token2.getToken()) after the bug fix 
+    // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
       return null;
     }
     if (token2.isImmunized()) {

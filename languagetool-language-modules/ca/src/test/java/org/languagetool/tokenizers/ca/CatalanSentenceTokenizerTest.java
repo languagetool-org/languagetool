@@ -48,6 +48,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Us explicaré com va anar: ",
             "»La Maria va engegar el cotxe");
     testSplit("diu que va dir. ", "A mi em feia estrany.");
+    testSplit("Són del s. III dC. ", "Són importants les pintures.");
     
     // N., t.
     testSplit("Vés-te’n. ", "A mi em feia estrany.");  

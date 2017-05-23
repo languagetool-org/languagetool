@@ -88,7 +88,7 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
     int categoryPriority = language.getPriorityForId(r.getRule().getCategory()
         .getId().toString());
     int rulePriority = language.getPriorityForId(r.getRule().getId());
-    // if there is a priority defined for rule it takes precedende over category priority
+    // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {
       return rulePriority;
     } else {

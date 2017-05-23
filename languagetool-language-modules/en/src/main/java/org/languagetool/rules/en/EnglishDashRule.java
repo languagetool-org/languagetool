@@ -19,10 +19,12 @@
 
 package org.languagetool.rules.en;
 
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
@@ -30,9 +32,11 @@ import java.io.IOException;
  */
 public class EnglishDashRule extends AbstractDashRule {
 
-  public EnglishDashRule(Language lang) throws IOException {
-    super("/en/compounds.txt",
-        "A dash was used instead of a hyphen. Did you mean: ", lang);
+  private static final List<PatternRule> dashRules = loadCompoundFile("/en/compounds.txt",
+          "A dash was used instead of a hyphen. Did you mean: ", Languages.getLanguageForShortCode("en"));
+
+  public EnglishDashRule() throws IOException {
+    super(dashRules);
   }
 
   @Override

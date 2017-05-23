@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -42,7 +41,7 @@ public class EnglishDashRuleTest {
   public void setUp() throws Exception {
     Language lang = new AmericanEnglish();
     langTool = new JLanguageTool(lang);
-    rule = new EnglishDashRule(lang);
+    rule = new EnglishDashRule();
   }
 
   @Test

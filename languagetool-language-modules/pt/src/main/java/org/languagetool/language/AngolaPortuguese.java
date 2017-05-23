@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
+import org.languagetool.rules.pt.PreReformPortugueseDashRule;
 
 /**
  * @since 3.6
@@ -46,6 +47,7 @@ public class AngolaPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PreReformPortugueseCompoundRule(messages));
+    rules.add(new PreReformPortugueseDashRule());
     return rules;
   }
 

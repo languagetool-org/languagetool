@@ -2851,6 +2851,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="час пик"><marker>час-пик</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="IS_POD" name="Сложный предлог «из-под»">
+            <rule> <!-- Предлог из-под всегда употребляется с родительным падежом -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>из</token>
+                    <token>под</token>
+                  </marker>
+                    <token  postag_regexp="yes" postag="NN:.*:.*:.*:R|ADJ:.*:.*:R"></token>       
+                </pattern>
+                <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+                <url>http://kak-pishetsa.ru/kak-pravilno-pishetsya-iz-pod/</url>
+                <short>Дефис.</short>
+                <example>Кот вылез из-под стола.</example>
+                <example correction="из-под">Кот вылез <marker>из под</marker> стола.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
             <rule>
                 <pattern case_sensitive="yes">
