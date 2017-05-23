@@ -33181,6 +33181,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="SABLE_SABRE" name="sable/sabre">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token inflected="yes" regexp="yes" skip="-1">heràldic.*|escut|camper|rodella|escacat|losanjat|argent|corona|or</token>
+                    <token postag="SENT_END"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">sable</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">sabre</match></suggestion>? 'Sable' és un terme d'heràldica.</message>
+            <example correction="sabres">Lluiten amb <marker>sables</marker>.</example>
+        </rule>
         <rule id="MALAT_MALALT" name="malat/malalt">
             <pattern>
                 <token inflected="yes">malat</token>
