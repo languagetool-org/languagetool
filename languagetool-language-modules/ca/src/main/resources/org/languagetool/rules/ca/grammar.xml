@@ -8307,6 +8307,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
             <antipattern>
                 <marker>
+                    <token regexp="yes">tant|tanta|tants|tantes|de</token>
+                    <token>com</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
                     <token inflected="yes" skip="1">haver</token>
                     <token>vist</token>
                 </marker>
@@ -13617,6 +13623,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                </marker>
+            </antipattern>
+
             <pattern>
                 <token inflected="yes" regexp="yes">estar|continuar|seguir<exception>estat</exception></token>
                 <marker>
@@ -13628,6 +13641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tancat|tancant">Estava <marker>tancar</marker>.</example>
             <example>L'objectiu ha estat fer-ho bé.</example>
             <example>Mal m'estava dir-ho.</example>
+            <example>En la seua mà estava evitar-ho.</example>
         </rule>
         <rule id="A_VEURE_QUE" name="a veure *que/què">
             <pattern>
@@ -23400,8 +23414,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Combinació de pronoms febles incorrecta.</message>
                 <suggestion>li ho</suggestion>
-                <example correction="Li ho"><marker>S'ho</marker> volem donar.</example>
-                <example correction="Li ho"><marker>S'ho</marker> puc fer.</example>
+                <suggestion>us ho</suggestion>
+                <example correction="Li ho|Us ho"><marker>S'ho</marker> volem donar.</example>
+                <example correction="Li ho|Us ho"><marker>S'ho</marker> puc fer.</example>
                 <example>S'ho pot fer.</example>
                 <example>Li ho volem donar.</example>
                 <example>que ja s'ho podia estalviar</example>
