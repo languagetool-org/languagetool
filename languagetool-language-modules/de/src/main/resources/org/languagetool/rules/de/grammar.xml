@@ -20003,25 +20003,12 @@ Andere Projekte</example>
                     <marker>
                         <token>aus</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>&inwend;'vor dem Aus stehen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Aus">Der Betrieb steht vor dem <marker>aus</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">stehen</token>
-                    <token>vor</token>
-                    <token>dem</token>
-                    <marker>
-                        <token>aus</token>
-                    </marker>
-                    <token>,</token>
-                </pattern>
-                <message>&inwend;'vor dem Aus stehen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="Aus">Der Betrieb steht vor dem <marker>aus</marker>, weil er schon so lange rote Zahlen schreibt.</example>
+                <example correction="Aus">Der Betrieb steht vor dem <marker>aus</marker>, weil er rote Zahlen schreibt.</example>
                 <example>Der Betrieb steht vor dem <marker>Aus</marker>.</example>
             </rule>
             <rule>
@@ -20042,7 +20029,7 @@ Andere Projekte</example>
         <rulegroup id="NICHT_MEHR_DER_JUENGSTE" name="'nicht mehr der Jüngste' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="2">ist|bist|sind|seid|war|warst|wart|waren</token>
+                    <token inflected="yes" skip="2">sein</token>
                     <token>nicht</token>
                     <token>mehr</token>
                     <token regexp="yes">die|der</token>
@@ -20054,6 +20041,7 @@ Andere Projekte</example>
                 <message>&inwend;'er/sie ist auch nicht mehr der/die Jüngste' usw. wird <suggestion><match no="5" regexp_match="jüngste" regexp_replace="Jüngste"/></suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Jüngste">Du bist schließlich auch nicht mehr der <marker>jüngste</marker>.</example>
+                <example correction="Jüngste">Ich bin auch nicht mehr die <marker>jüngste</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -20063,7 +20051,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">jüngsten?</token>
                     </marker>
-                    <token regexp="yes">ist|bist|sind|seid|war|warst|wart|waren</token>
+                    <token inflected="yes">sein</token>
                 </pattern>
                 <message>&inwend;'er/sie ist auch nicht mehr der/die Jüngste' usw. wird <suggestion><match no="4" regexp_match="jüngste" regexp_replace="Jüngste"/></suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -20121,7 +20109,7 @@ Andere Projekte</example>
                         <token>lächeln</token>
                     </marker>
                     <token>auf</token>
-                    <token regexp="yes">den|seinen|[iI]hren|meinen|[dDs]einen|unseren|[eE]uren</token>
+                    <token regexp="yes">den|[iI]hren|[dDsm]einen|unseren|[eE]uren</token>
                     <token>Lippen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
@@ -20145,6 +20133,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">k?einen</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token>unterschied</token>
                     </marker>
@@ -20152,17 +20141,6 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Unterschied</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Unterschied">Ich sehe keinen <marker>unterschied</marker> zwischen den beiden.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">k?einen</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>unterschied</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Unterschied</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Unterschied">Ich sehe keinen großen <marker>unterschied</marker> zwischen den beiden.</example>
             </rule>
         </rulegroup>
@@ -20170,7 +20148,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[uU]nter</token>
-                    <token regexp="yes">der|die</token>
+                    <token regexp="yes">d(er|ie)</token>
                     <marker>
                         <token>dusche</token>
                     </marker>
@@ -20301,7 +20279,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">[mM]achen</token>
-                    <token regexp="yes">mir|ihm|keinen|nur|euch|dir|ihr|ihnen</token>
+                    <token regexp="yes">keinen|nur|euch|[dm]ir|ih(r|m|nen)</token>
                     <marker>
                         <token>ärger</token>
                     </marker>
@@ -20452,7 +20430,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">fallen</token>
-                    <token regexp="yes">ihm|ihr|mir|dir|ihnen|euch|uns</token>
+                    <token regexp="yes">ih(m|r|nen)|mir|dir|euch|uns</token>
                     <token>in</token>
                     <token>den</token>
                     <marker>
@@ -20570,7 +20548,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token regexp="yes">in|an|von</token>
-                    <token regexp="yes">die|der</token>
+                    <token regexp="yes">d(ie|er)</token>
                     <marker>
                         <token case_sensitive="yes">wiege</token>
                     </marker>
@@ -20662,7 +20640,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>
-                        <exception regexp="yes">damit|nicht|schon|komme|kommen|kommt|kommst|sich|uns|euch|etwas|mir|mich</exception>
+                        <exception regexp="yes">damit|nicht|schon|komm(en?|s?t)|sich|uns|euch|etwas|mi(r|ch)</exception>
                     </token>
                     <marker>
                         <token regexp="yes">[Zz]u</token>
@@ -20809,7 +20787,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">der|die|das|am|zur</token>
+                    <token regexp="yes">d(er|ie|as)|am|zur</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">Rechten?</token>
                     </marker>
@@ -20897,7 +20875,7 @@ Andere Projekte</example>
         <rule id="AUF_DER_ERDE" name="'auf der erde (Erde)' etc.">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf|[uU]nter|[iI]n</token>
-                <token regexp="yes">der|die</token>
+                <token regexp="yes">d(er|ie)</token>
                 <marker>
                     <token>erde</token>
                 </marker>
