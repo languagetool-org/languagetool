@@ -45809,6 +45809,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="coresponsabilitzen">Es <marker>corresponsabilitzen</marker>.</example>
                 <example correction="coreligionàries"><marker>correligionàries</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">.*oidal|fluidal|laical</token>
+                </pattern>
+                <message>Useu l'ortografia de l'AVL.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*o|flu|la)i([dc]als?)" regexp_replace="$1ï$2"/></suggestion>
+                <example correction="Laïcals"><marker>Laicals</marker>.</example>
+                <example correction="framboïdal">De forma <marker>framboidal</marker>.</example>
+            </rule>
         </rulegroup>
     </category>
     <category id="IEC2017" name="Ortografia IEC2017" default="on">
@@ -45831,6 +45840,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="corresponsabilització"><marker>coresponsabilització</marker></example>
                 <example correction="corresponsabilitzen">Es <marker>coresponsabilitzen</marker>.</example>
                 <example correction="correligionàries"><marker>coreligionàries</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">.*oïdal|fluïdal|laïcal</token>
+                </pattern>
+                <message>Useu l'ortografia de l'IEC (2017).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*o|flu|la)ï([dc]als?)" regexp_replace="$1i$2"/></suggestion>
+                <example correction="Laicals"><marker>Laïcals</marker>.</example>
+                <example correction="framboidal">De forma <marker>framboïdal</marker>.</example>
             </rule>
         </rulegroup>
     </category>
