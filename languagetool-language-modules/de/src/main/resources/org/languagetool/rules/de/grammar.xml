@@ -26220,9 +26220,21 @@ Andere Projekte</example>
                     <token>weiß</token>
                 </pattern>
                 <message>inwend;<suggestion><match no="1" case_conversion="startlower"/> auf weiß</suggestion> werden die Farbadjektive kleingeschrieben.</message>
-                <short>prgk;.</short>
+                <short>&prgk;.</short>
                 <example correction="schwarz auf weiß">Es steht hier <marker>Schwarz auf Weiß</marker>.</example>
                 <example><marker>Schwarz auf weiß</marker> steht es hier.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SANITAER" name="sanitär (Sanitär)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>sanitär</token></marker>
+                    <token regexp="yes">und|,</token>
+                    <token regexp="yes">Heizung|Klima|Lüftung</token>
+                </pattern>
+                <message>Wird <suggestion>Sanitär</suggestion> als Substantiv verwendet, wird es großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Sanitär">Er ist verantwortlich für die Bereiche <marker>sanitär</marker>, Heizung und Klima.</example>
             </rule>
         </rulegroup>
     </category>
