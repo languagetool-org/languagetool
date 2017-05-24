@@ -5676,12 +5676,43 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
     <rule>
       <pattern>
-          <token regexp="yes">\d+(hs|hrs|horas|hora)</token>
+          <token regexp="yes">\d+&#160;?(hs|hrs|horas|hora)</token>
+      </pattern>
+      <message>Abreviatura de horas errada.</message>
+        <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
+      <short>Erro de abreviação</short>
+      <example correction="15&#160;h">Às <marker>15hs</marker> em ponto.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+&#160;?(hs|hrs|horas|hora)</token>
+          <token>.<exception postag='SENT_END'/></token>
       </pattern>
       <message>Abreviatura de horas não tem ponto.</message>
         <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
       <short>Erro de abreviação</short>
-      <example correction="15&#160;h">Às <marker>15hs</marker>.</example>
+      <example correction="15&#160;h">Às <marker>15hs.</marker> em ponto.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+</token>
+          <token regexp="yes">hs|hrs|horas?</token>
+      </pattern>
+      <message>Abreviatura de horas errada.</message>
+        <suggestion>\1&#160;h</suggestion>
+      <short>Erro de abreviação</short>
+      <example correction="15&#160;h">Às <marker>15 hs</marker> em ponto.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+</token>
+          <token regexp="yes">hs|hrs|horas?</token>
+          <token>.<exception postag='SENT_END'/></token>
+      </pattern>
+      <message>Abreviatura de horas não tem ponto.</message>
+        <suggestion>\1&#160;h</suggestion>
+      <short>Erro de abreviação</short>
+      <example correction="15&#160;h">Às <marker>15 hs.</marker> em ponto.</example>
     </rule>
     <rule>
       <pattern>
