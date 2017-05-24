@@ -596,8 +596,8 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
     <!-- Created by Tiago F. Santos, 2017-05-20 -->
-    <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
-    <short>Modo verbal incorreto</short>
+      <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
+      <short>Modo verbal incorreto</short>
     <rule>
       <pattern>
           <token inflected='yes'>negar</token>
@@ -3033,8 +3033,8 @@ title="Easy editing stylesheet" ?>
     <rule id="BASEIA-SE_EM" name="Tem por base">
       <pattern>
           <token>baseia</token>
-		  <token>-</token>
-		  <token>se</token>
+          <token>-</token>
+          <token>se</token>
           <token>em</token>
       </pattern>
       <message>Substitua por <suggestion>tem por base</suggestion>.</message>
@@ -5700,7 +5700,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rule id="NUMBER_ABREVIATION" name="Abreviatura de número: n.º/ núm.">
+    <rule id="NUMBER_ABREVIATION" name="Abreviatura de número: n.º/ núm.">
     <!--  Created by Tiago F. Santos, 30-01-2017 -->
       <regexp>(nºs?|nr[\.ºs])\.?s?</regexp>
       <message>As abreviaturas para número são: <suggestion>n.º</suggestion> ou <suggestion>núm.</suggestion></message>
@@ -7377,6 +7377,146 @@ tokenizer spreadsheet in the forum	     -->
       <example correction='viver'><marker>viver a vida</marker>.</example>
     </rule>
   </rulegroup>
+
+  <rulegroup id='PT_CLICHE_REPLACE_2' name='Frases-feitas e expressões idiomáticas'>
+      <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Chav.C3.B5es_ou_Clich.C3.AA_.28frases-feitas.29</url>
+      <short>Frase-feita</short>
+    <rule id='CLICHE_1_ESTAR' name='estar com a bola murcha'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>a</token>
+          <token>bola</token>
+          <token>murcha</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 sem ânimo</suggestion>
+      <example correction='estar sem ânimo'><marker>estar com a bola murcha</marker>.</example>
+    </rule>
+    <rule id='CLICHE_2_ESTAR' name='estar com a cabeça nas nuvens'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>a</token>
+          <token>cabeça</token>
+          <token>nas</token>
+          <token>nuvens</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 distraído</suggestion>
+      <example correction='estar distraído'><marker>estar com a cabeça nas nuvens</marker>.</example>
+    </rule>
+    <rule id='CLICHE_3_ESTAR' name='estar com a cabeça quente'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>a</token>
+          <token>cabeça</token>
+          <token>quente</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 irritado</suggestion>
+      <example correction='estar irritado'><marker>estar com a cabeça quente</marker>.</example>
+    </rule>
+    <rule id='CLICHE_4_ESTAR' name='estar com aperto no coração'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>aperto</token>
+          <token>no</token>
+          <token>coração</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 angustiado</suggestion>
+      <example correction='estar angustiado'><marker>estar com aperto no coração</marker>.</example>
+    </rule>
+    <rule id='CLICHE_5_ESTAR' name='estar com dor de cotovelo'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>dor</token>
+          <token>de</token>
+          <token>cotovelo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 despeitado</suggestion>
+      <example correction='estar despeitado'><marker>estar com dor de cotovelo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_6_ESTAR' name='estar com a pulga atrás da orelha'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>com</token>
+          <token>a</token>
+          <token>pulga</token>
+          <token>atrás</token>
+          <token>da</token>
+          <token>orelha</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 desconfiado</suggestion>
+      <example correction='estar desconfiado'><marker>estar com a pulga atrás da orelha</marker>.</example>
+    </rule>
+    <rule id='CLICHE_7_ESTAR' name='estar feito ao bife'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>feito</token>
+          <token>ao</token>
+          <token>bife</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 em risco de ser tramado</suggestion>
+      <example correction='estar em risco de ser tramado'><marker>estar feito ao bife</marker>.</example>
+    </rule>
+    <rule id='CLICHE_8_ESTAR' name='estar fixe'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>fixe</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 bom</suggestion>
+      <example correction='estar bom'><marker>estar fixe</marker>.</example>
+    </rule>
+    <rule id='CLICHE_9_ESTAR' name='estar no bico do corvo'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>no</token>
+          <token>bico</token>
+          <token>do</token>
+          <token>corvo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 para morrer</suggestion>
+      <example correction='estar para morrer'><marker>estar no bico do corvo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_10_ESTAR' name='estar no vermelho'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>no</token>
+          <token>vermelho</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>estar no vermelho</marker>.</example>
+    </rule>
+    <rule id='CLICHE_11_ESTAR' name='estar dorido'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>dorido</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 ressacado</suggestion>
+      <example correction='estar ressacado'><marker>estar dorido</marker>.</example>
+    </rule>
+    <rule id='CLICHE_12_ESTAR' name='estar paiado'>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>paiado</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 metido em problemas</suggestion>
+      <example correction='estar metido em problemas'><marker>estar paiado</marker>.</example>
+    </rule>
+  </rulegroup>
+
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
     <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->

@@ -66,7 +66,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Frases-feitas e expressões idiomáticas.";
+    return "Frases-feitas e expressões idiomáticas";
   }
 
   @Override
