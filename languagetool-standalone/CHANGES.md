@@ -31,6 +31,9 @@
     - Portuguese to Spanish (7 new pairs)
   * spell checking exceptions for common Latin, English and French expressions, species scientific names, and famous personalities
 
+#### Slovak
+  * major rule updates by Matúš Matula
+
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
 
