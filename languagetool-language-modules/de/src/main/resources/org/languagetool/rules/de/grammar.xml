@@ -3733,6 +3733,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie eine <suggestion>Prise</suggestion>?</message>
             <example correction="Prise">Eine <marker>Priese</marker> Salz.</example>
         </rule>
+        <rule id="OCR_ERROR" name="'vor-Übergehend (vorübergehend)'">
+            <pattern>
+                <token regexp="yes">vor-Über.*</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="-Ü" regexp_replace="ü"/></suggestion>?</message>
+            <example correction="vorübergehende">Eine <marker>vor-Übergehende</marker> Störung.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
