@@ -103,6 +103,7 @@ public class CaseRuleTest {
     assertGood("Tom vollbringt Außerordentliches.");
     assertGood("Er führt Böses im Schilde.");
     assertGood("Es gab Überlebende.");
+    assertGood("'Wir werden das stoppen.'");
 
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");

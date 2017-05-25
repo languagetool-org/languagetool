@@ -539,6 +539,7 @@ public class CaseRule extends Rule {
     languages.add("Jugoslawisch");
     languages.add("Kantonesisch");
     languages.add("Katalanisch");
+    languages.add("Klingonisch");
     languages.add("Koreanisch");
     languages.add("Kroatisch");
     languages.add("Lateinisch");
@@ -693,10 +694,13 @@ public class CaseRule extends Rule {
             continue;
           }
           if (prevTokenIsDas
-              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) || isFollowedByRelativeOrSubordinateClause(i, tokens))) {
+              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) ||
+                  isFollowedByRelativeOrSubordinateClause(i, tokens)) ||
+                  (i > 1 && hasPartialTag(tokens[i-2], "VER:AUX"))) {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
+        	// avoid false alarm for "Wir werden das stoppen."
             continue;
           }
         }
