@@ -31875,12 +31875,13 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="VER:3:.*" postag_regexp="yes">
+                        <token postag="VER:3:.*|ADJ:PRD:GRU" postag_regexp="yes">
                             <exception scope="previous" postag="SENT_START"/>
                             <exception postag_regexp="yes" postag="VER:(MOD|AUX):.*"/>
                         </token>
                         <token>das</token>
                     </marker>
+                    <token postag="ADV:TMP" min="0"/>
                     <token postag="(PRO:PER|ART):.*" postag_regexp="yes" skip="-1">
                         <exception scope="next" regexp="yes">[,;:\"„“]</exception>
                     </token>
@@ -31895,6 +31896,9 @@ Andere Projekte</example>
                 <example>„Ist das ein Ferrari oder ein Lamborghini?“</example>
                 <example>Er hat sie davon überzeugt, das Haus zu kaufen.</example>
                 <example correction="folgt, dass">Daraus <marker>folgt das</marker> er gewonnen hatte.</example>
+                <example correction="sicher, dass">Ich bin mir <marker>sicher das</marker> er gewonnen hatte.</example>
+                <example correction="sicher, dass">Ich bin mir <marker>sicher das</marker> morgen die Welt untergeht.</example>
+                <example >Das ist <marker>sicher das</marker> schönste Haus der Stadt.</example>
                 <example>Sie führte das Haushaltsbuch mit großer Sorgfalt.</example>
                 <example correction="beschwert, dass">Ein Urlauber hat sich sogar darüber <marker>beschwert das</marker> der Sand zu sandig war.</example>
 			</rule>
