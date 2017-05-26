@@ -9512,6 +9512,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Am Nordpol ist es <marker>dreimal so kalt</marker> wie in Deutschland.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">heiß|kalt|warm</token>
+                    <token inflected="yes">Temperatur</token>
+                </pattern>
+                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
+                <short>Semantischer Fehler</short>
+                <example correction="">Bei <marker>warmen Temperaturen</marker> zieht es mich nach draußen.</example>
+                <example correction="">Die <marker>kältesten Temperaturen</marker> werden im Winter erreicht.</example>
+                <example>Bei Temperaturen um 25° C ist es warm.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
                 <!-- Zeitung "der freitag" -->
