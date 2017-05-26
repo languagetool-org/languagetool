@@ -5696,7 +5696,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp="yes">\d+</token>
-          <token regexp="yes">hs|hrs|horas?</token>
+          <token regexp="yes">hs|hrs</token>
       </pattern>
       <message>Abreviatura de horas errada.</message>
         <suggestion>\1&#160;h</suggestion>
@@ -5706,7 +5706,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp="yes">\d+</token>
-          <token regexp="yes">hs|hrs|horas?</token>
+          <token regexp="yes">hs|hrs</token>
           <token>.<exception postag='SENT_END'/></token>
       </pattern>
       <message>Abreviatura de horas não tem ponto.</message>
@@ -5718,8 +5718,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">([012]?\d:)?[012345]?\d</token>
           <token>h</token>
-          <token>.
-            <exception postag='SENT_END'/></token>
+          <token>.<exception postag='SENT_END'/></token>
       </pattern>
       <message>Se é uma indicação horária, não é pontuada.</message>
         <suggestion>\1 h</suggestion>
@@ -7757,9 +7756,9 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>macacos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>\1 procurar o que fazer</suggestion>
+        <suggestion><match no='1' postag='V.+'>procurar</match> o que fazer</suggestion>
         <suggestion>não se <match no='1' postag='V.+'>intrometer</match></suggestion>
-      <example correction='ir procurar o que fazer|não se intrometer'><marker>ir pentear macaco</marker>.</example>
+      <example correction='procurar o que fazer|não se intrometer'><marker>ir pentear macaco</marker>.</example>
     </rule>
     <rule id='CLICHE_22_IR' name='ir por água abaixo'>
       <pattern>
