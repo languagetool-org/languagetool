@@ -13189,6 +13189,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Der Ball rollte ins Aus.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IM_GESTERN" name="im gestern (Gestern) leben">
+            <rule>
+                <pattern>
+                    <token regexp="yes">im|das</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(vor)?gestern|heute</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">,|:|\.|\?|!|leben</token>
+                </pattern>
+                <message>&inwend;'im Gestern leben' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Gestern">Wer im <marker>gestern</marker> lebt, verpasst das Heute.</example>
+                <example correction="Heute">Wer im Gestern lebt, verpasst das <marker>heute</marker>.</example>
+                <example>Im gestern eröffneten Supermarkt wird das heute gebackene Brot angeboten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IM_KLAREN" name="'im klaren (Klaren)'">
             <url>http://www.korrekturen.de/wortliste/im_klaren.shtml</url>
             <rule>
