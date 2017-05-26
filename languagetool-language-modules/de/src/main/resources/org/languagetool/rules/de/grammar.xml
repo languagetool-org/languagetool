@@ -9332,6 +9332,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="GESTERN_MIT_PRAESENS" name="Zeitform: 'gestern' etc. mit Präsens">
             <rule>
+                <antipattern>
+                    <token>im</token>
+                    <token regexp="yes">Gestern|Vorgestern</token>
+                    <token inflected="yes">leben</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="SENT_START" skip="-1">
@@ -9360,6 +9365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yoko ging <marker>gestern einkaufen</marker>.</example>
                 <example>Mein Auto, das gestern stehen blieb.</example>
                 <example>Seit gestern schneit es.</example>
+                <example>Wer im Gestern lebt, verpasst das Heute.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13191,6 +13197,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="IM_GESTERN" name="im gestern (Gestern) leben">
             <rule>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <token regexp="yes">(vor)?gestern|heute</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">im|das</token>
                     <marker>
@@ -13203,6 +13214,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gestern">Wer im <marker>gestern</marker> lebt, verpasst das Heute.</example>
                 <example correction="Heute">Wer im Gestern lebt, verpasst das <marker>heute</marker>.</example>
                 <example>Im gestern eröffneten Supermarkt wird das heute gebackene Brot angeboten.</example>
+                <example>Ein Sauwetter ist das heute!</example>
+                <example>Welches war das gestern!</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_KLAREN" name="'im klaren (Klaren)'">
