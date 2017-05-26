@@ -26044,7 +26044,7 @@ Andere Projekte</example>
                     <token postag="ZAL.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:NOM:SIN:NEU:.*|ADJ:AKK:SIN:NEU:.*|ZAL.*" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
+                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:NOM:...:NEU:.*|ADJ:AKK:SIN:NEU:.*|ZAL.*" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
                     <marker>
                     <token case_sensitive="yes">mal</token>
                     </marker>
@@ -26054,6 +26054,33 @@ Andere Projekte</example>
                 <example>Sie sagte es ihm jedes <marker>Mal</marker> wieder.</example>
                 <example correction="Mal" type="incorrect">Sie hatte es ihm einige <marker>mal</marker> gezeigt.</example>
                 <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
+                <example correction="Mal" type="incorrect">Beim nächsten <marker>mal</marker> werde ich ihn schlagen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>für</token>
+                    <token>alle</token>
+                    <marker>
+                    <token case_sensitive="yes">mal</token>
+                    </marker>
+                </pattern>
+                <message>Sollte <suggestion>Mal</suggestion> hier großgeschrieben werden?</message>
+                <example correction="Mal" type="incorrect">Sie sagte es ihm ein für alle <marker>mal</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Mal</token>
+                    <token/>
+                    <token>Mal</token>
+                </antipattern>
+                <pattern>
+                    <token>mal</token>
+                    <token regexp="yes">für|zu</token>
+                    <token>mal</token>
+                </pattern>
+                <message>Sollte <suggestion>Mal \2 Mal</suggestion> hier großgeschrieben werden?</message>
+                <example correction="Mal zu Mal">Sie wird von <marker>mal zu mal</marker> besser.</example>
+                <example correction="Mal für Mal">Sie wird <marker>mal für mal</marker> besser.</example>
             </rule>
         </rulegroup>
         <rule id="IN_WEISS" name="in + 'Farbe' ('in Weiß')">
@@ -26242,6 +26269,18 @@ Andere Projekte</example>
                 <message>Wird <suggestion>Sanitär</suggestion> als Substantiv verwendet, wird es großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Sanitär">Er ist verantwortlich für die Bereiche <marker>sanitär</marker>, Heizung und Klima.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BESSEREN_BELEHREN" name="eines besseren (belehren)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>eines</token>
+                    <marker><token regexp="yes">bessere?n</token></marker>
+                    <token inflected="yes">belehren</token>
+                </pattern>
+                <message>&inwend;'eines <suggestion><match no="2" case_conversion="startupper"/></suggestion> belehren' wird 'Besseren' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Besseren">Sie hat mich eines <marker>besseren</marker> belehrt.</example>
             </rule>
         </rulegroup>
     </category>
@@ -27165,9 +27204,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token postag="PRO:POS:.*" postag_regexp="yes" regexp="yes">.*e[smn]
-                            <exception>euer</exception>
-                        </token>
+                        <token postag="PRO:POS:.*" postag_regexp="yes" regexp="yes">.*e[smn]</token>
                         <token postag="SUB:.*(FEM).*" postag_regexp="yes"></token>
                     </marker>
                     <token postag="VER:3:.*" postag_regexp="yes"/>
