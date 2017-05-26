@@ -381,7 +381,7 @@ public class AgreementRule extends Rule {
   }
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
-    return tokensReadings.hasPartialPosTag("PA1") || tokensReadings.hasPartialPosTag("PA2");
+    return tokensReadings.hasPartialPosTag("PA");
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
