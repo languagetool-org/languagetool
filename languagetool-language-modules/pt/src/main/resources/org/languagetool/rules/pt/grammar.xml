@@ -8025,7 +8025,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mesa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <!--<suggestion><match no='1' postag='V.+'>revelar</match></suggestion> TODO Add revelar to POS tagger -->
+    <!--<suggestion><match no='1' postag='V.+'>revelar</match></suggestion> TODO Add revelar to POS tagger -->
       <example correction=''><marker>pôr as cartas na mesa</marker>.</example>
     </rule>
     <rule id='CLICHE_124_POR' name='pôr as cartas na mesa'>
@@ -8107,7 +8107,6 @@ tokenizer spreadsheet in the forum	     -->
       <example correction='esclarecer a situação'><marker>pôr os pontos nos is</marker>.</example>
     </rule>
   </rulegroup>
-
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
     <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
@@ -17096,6 +17095,16 @@ TODO Write better examples
       <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
         <suggestion><match no='1' postag='V(.+)' postag_replace='V$1'>fazer</match> sexo</suggestion>
       <example correction='fez sexo|fê sexo'><marker>afogou o ganso</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>arrear</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token regexp='yes'>(calhau|calça)s?</token>
+      </pattern>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
+        <suggestion><match no='1' postag='V(.+)' postag_replace='V$1'>defecar</match></suggestion>
+      <example correction='defecar'><marker>arrear o calhau</marker>.</example>
     </rule>
     <rule>
       <pattern>
