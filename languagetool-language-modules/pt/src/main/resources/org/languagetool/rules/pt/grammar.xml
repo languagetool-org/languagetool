@@ -8603,6 +8603,33 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
+  <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
+    <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+      </pattern>
+      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\3</suggestion>
+      <example correction='mas|contudo'>Este é um caminho promissor <marker>mas, contudo</marker> ainda há um grande caminho a percorrer.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>mas|porém|contudo|entretanto|todavia</token>
+          <token min='0'>,</token>
+          <token>no</token>
+          <token>entanto</token>
+      </pattern>
+      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\3 \4</suggestion>
+      <example correction='mas|no entanto'>Este é um caminho promissor <marker>mas no entanto</marker> ainda há um grande caminho a percorrer.</example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id="CONFUSED_WORDS" name="Confusão de Palavras">
