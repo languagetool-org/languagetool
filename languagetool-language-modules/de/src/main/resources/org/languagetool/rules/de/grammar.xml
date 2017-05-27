@@ -30252,6 +30252,25 @@ Andere Projekte</example>
                 <example correction="">Je mehr ich schreibe <marker>desto</marker> mehr Fehler mache ich.</example>
                 <example>Je mehr ich schreibe<marker>, desto</marker> mehr Fehler mache ich.</example>
             </rule>
+            <rule>
+                <regexp>\b(teils\s[^,]+\steils)\b</regexp>
+                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab: <suggestion><match no="1" regexp_match="\steils$" regexp_replace=", teils"/></suggestion></message>
+                <example correction="teils lustig, teils">Der Film war <marker>teils lustig teils</marker> traurig.</example>
+                <example correction="teils bei seinem Vater, teils">Er lebt <marker>teils bei seinem Vater teils</marker> bei seiner Mutter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>halb</token>
+                    <marker>
+                        <token><exception>,</exception><exception>und</exception></token>
+                    </marker>
+                    <token>halb</token>
+                </pattern>
+                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab.</message>
+                <suggestion>\2,</suggestion>
+                <example correction="verlegen,">Sie lächelte halb <marker>verlegen</marker> halb belustigt.</example>
+                <example >Er macht mit ihr halb <marker>und</marker> halb.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="KOMMA_DATUM_WOCHENTAG" name="Fehlendes Komma zwischen Wochentag und Datumsangabe">
             <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Komma/Angaben.html#Anchor-Bei-49575</url>
