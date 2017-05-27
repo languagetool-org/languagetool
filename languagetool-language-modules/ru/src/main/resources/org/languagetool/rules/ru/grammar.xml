@@ -2867,6 +2867,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="из-под">Кот вылез <marker>из под</marker> стола.</example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="PO_NAD" name="Сложный предлог «по-над»">
+            <rule> <!-- TODO  добавить исключение в правило "два предлога подряд" -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>по</token>
+                    <token>над</token>
+                  </marker>
+                    <token  postag_regexp="yes" postag="NN:.*:.*:.*:T|ADJ:.*:.*:T"></token>       
+                </pattern>
+                <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+             
+                <short>Дефис.</short>
+                <example>Кот крался по-над стенкой.</example>
+                <example correction="по-над">Кот крался <marker>по над</marker> стенкой.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
             <rule>
                 <pattern case_sensitive="yes">
