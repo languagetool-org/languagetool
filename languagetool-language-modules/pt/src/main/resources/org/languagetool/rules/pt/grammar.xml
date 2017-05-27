@@ -3558,13 +3558,15 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
           <token skip="4">
-            <exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'></exception>
+            <exception scope='next' postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'></exception>
+            <exception postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'></exception>
             <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
           <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
       </pattern>
       <message>Substitua por <suggestion>há</suggestion>.</message>
       <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
       <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
+      <example>No entanto, antes de vir à Terra por qualquer período de tempo.</example>
     </rule>
 
     <rule id="HÁ-DIRECTION" name="Confusão: Há + Direção">
