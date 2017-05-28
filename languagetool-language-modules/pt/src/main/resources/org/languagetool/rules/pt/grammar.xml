@@ -7991,8 +7991,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>massa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>pôr a mão na massa</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>fazer</match></suggestion>
+      <example correction='fazer'><marker>pôr a mão na massa</marker>.</example>
     </rule>
     <rule id='CLICHE_121_POR' name='pôr a pata na poça'>
       <pattern>
@@ -8125,8 +8125,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>barco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desistir</match> de uma situação difícil que se repete quotidianamente</suggestion>
-      <example correction='desistir de uma situação difícil que se repete quotidianamente'><marker>abandonar o barco</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>desistir</match></suggestion>
+      <example correction='desistir'><marker>abandonar o barco</marker>.</example>
     </rule>
     <rule id='CLICHE_23_ABOTOAR' name='abotoar o paletó'>
       <pattern>
@@ -8141,7 +8141,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_24_ABRAÇAR' name='abraçar uma causa'>
       <pattern>
           <token inflected='yes'>abraçar</token>
-          <token>uma</token>
+          <token regexp='yes'>a|uma</token>
           <token>causa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
@@ -8175,22 +8175,14 @@ tokenizer spreadsheet in the forum	     -->
       <pattern>
           <token inflected='yes'>abrir</token>
           <token>mão</token>
-          <token>de</token>
+          <token min='0'>de</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>renunciar</match> a</suggestion>
-      <example correction='renunciar a'><marker>abrir mão de</marker>.</example>
-    </rule>
-    <rule id='CLICHE_28_ABRIR' name='abrir mão'>
-      <pattern>
-          <token inflected='yes'>abrir</token>
-          <token>mão</token>
-      </pattern>
-      <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>deixar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>largar</match></suggestion>
+        <suggestion><match no='1' postag='V.+'>deixar</match> de</suggestion>
+        <suggestion><match no='1' postag='V.+'>largar</match> a</suggestion>
         <suggestion><match no='1' postag='V.+'>permitir</match></suggestion>
-      <example correction='deixar|largar|permitir'><marker>abrir mão</marker>.</example>
+      <example correction='renunciar a|deixar de|largar a|permitir'><marker>abrir mão de</marker>.</example>
     </rule>
     <rule id='CLICHE_29_ABRIR' name='abrir o coração'>
       <pattern>
@@ -8264,7 +8256,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_218_ACHAR' name='achar chifre em cabeça de cavalo'>
       <pattern>
           <token inflected='yes'>achar</token>
-          <token>chifre</token>
+          <token regexp='yes'>chifres?</token>
           <token>em</token>
           <token>cabeça</token>
           <token>de</token>
@@ -8277,13 +8269,13 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_219_ACHAR' name='achar pêlo em ovo'>
       <pattern>
           <token inflected='yes'>achar</token>
-          <token>pêlo</token>
+          <token regexp='yes'>p[eê]lo</token>
           <token>em</token>
           <token>ovo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>buscar</match> impossíveis</suggestion>
-      <example correction='buscar impossíveis'><marker>achar pêlo em ovo</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>procurar</match> o impossível</suggestion>
+      <example correction='procurar o impossível'><marker>achar pêlo em ovo</marker>.</example>
     </rule>
     <rule id='CLICHE_220_ACOLHER' name='acolher de braços abertos'>
       <pattern>
@@ -8355,8 +8347,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_226_AMARRAR' name='amarrar o burro'>
       <pattern>
           <token inflected='yes'>amarrar</token>
-          <token>o</token>
-          <token>burro</token>
+          <token regexp='yes'>[ao]</token>
+          <token regexp='yes'>burr[ao]</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>ficar</match> em descanso</suggestion>
@@ -8474,27 +8466,19 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_237_ARRANCAR' name='arrancar cabelos'>
       <pattern>
           <token inflected='yes'>arrancar</token>
-          <token>cabelos</token>
+          <token min='0' regexp='yes'>os?</token>
+          <token regexp='yes'>cabelos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>entrar</match> em desespero</suggestion>
       <example correction='entrar em desespero'><marker>arrancar cabelos</marker>.</example>
-    </rule>
-    <rule id='CLICHE_238_ARRANCAR' name='arrancar os cabelos'>
-      <pattern>
-          <token inflected='yes'>arrancar</token>
-          <token>os</token>
-          <token>cabelos</token>
-      </pattern>
-      <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entrar</match> em desespero</suggestion>
       <example correction='entrar em desespero'><marker>arrancar os cabelos</marker>.</example>
     </rule>
     <rule id='CLICHE_239_ARRASTAR' name='arrastar as asas'>
       <pattern>
           <token inflected='yes'>arrastar</token>
-          <token>as</token>
-          <token>asas</token>
+          <token regexp='yes'>as?</token>
+          <token regexp='yes'>asas?|asinhas?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>enamorar</match>-se</suggestion>
@@ -8535,18 +8519,10 @@ tokenizer spreadsheet in the forum	     -->
           <token>mangas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>dar</match> início a um trabalho com afinco</suggestion>
-      <example correction='dar início a um trabalho com afinco'><marker>arregaçar as mangas</marker>.</example>
-    </rule>
-    <rule id='CLICHE_244_ARREGAÇAR' name='arregaçar as mangas'>
-      <pattern>
-          <token inflected='yes'>arregaçar</token>
-          <token>as</token>
-          <token>mangas</token>
-      </pattern>
-      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>trabalhar</match> com afinco</suggestion>
         <suggestion><match no='1' postag='V.+'>iniciar</match> algo</suggestion>
-      <example correction='iniciar algo'><marker>arregaçar as mangas</marker>.</example>
+      <example correction='trabalhar com afinco|iniciar algo'><marker>arregaçar as mangas</marker>.</example>
+      <example correction='trabalhar com afinco|iniciar algo'><marker>arregaçar as mangas</marker>.</example>
     </rule>
     <rule id='CLICHE_245_ARRUMAR' name='arrumar sarna para se coçar'>
       <pattern>
@@ -8570,17 +8546,6 @@ tokenizer spreadsheet in the forum	     -->
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion>\1 chatear outra pessoa</suggestion>
       <example correction='vai chatear outra pessoa'><marker>vai chatear o camões</marker>.</example>
-    </rule>
-    <rule id='CLICHE_247_IR' name='ir por água abaixo'>
-      <pattern>
-          <token inflected='yes'>ir</token>
-          <token>por</token>
-          <token>água</token>
-          <token>abaixo</token>
-      </pattern>
-      <message>Frase-feita. Procure alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>ir por água abaixo</marker>.</example>
     </rule>
     <rule id='CLICHE_248_VER' name='ver fumo/bilhas'>
       <pattern>
