@@ -760,7 +760,7 @@ public class CaseRule extends Rule {
     if (!isPotentialError &&
         lowercaseReadings != null
         && tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF")
-        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG"))) {
+        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:"))) {
       // find error in: "Der Brief wird morgen Übergeben."
       isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
