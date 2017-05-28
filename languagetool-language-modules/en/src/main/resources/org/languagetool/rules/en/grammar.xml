@@ -14002,11 +14002,11 @@ USA
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
                     <marker>
-                        <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
+                        <token regexp="yes">accordingly|additionally|al(so|as)|besides|comparatively|con(sequent|verse)ly|elsewhere|equally|finally|further(more)?|hence(forth)?|however|in(deed|stead)|likewise|meanwhile|moreover|namely|n(ever|one)theless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
-                    <token negate="yes">,</token>
+                    <token negate="yes" regexp="yes">,|!</token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\2,</suggestion>
@@ -14020,6 +14020,8 @@ USA
                 <example>However fast you may walk, you can't catch up with him.</example>
                 <example>Also specify your gender.</example>
                 <example>However you look at it, existing investors are likely to lose out.</example>
+                <example correction="Alas,"><marker>Alas</marker>  James had finals and couldn’t attend.</example>
+                <example>Alas! Her heart belonged to another.</example>
                 <example>Further to this previous point, it is difficult to fully respect a high-ranking business official if their grammar isn’t up to par.</example>
             </rule>
             <rule>
