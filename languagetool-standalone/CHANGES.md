@@ -36,6 +36,8 @@
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
+  * The `apiVersion` property of the JSON output is now a number
+    instead of a string (issue #712)
 
 #### Java API
   * Some deprecated methods and classes have been removed.
