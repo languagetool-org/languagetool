@@ -29,10 +29,10 @@ USA
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
-    <!ENTITY abbrevWeekdays "Mon|Mo|Tue|Tu|Wed|We|Thu|Th|Fri|Fr|Sat|Sa|Sun|Su">
-    <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
-    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
+    <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|S(atur|un)day">
+    <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
+    <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
+    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -367,7 +367,7 @@ USA
         </rule>
         <rule id="MAKE_US_OF" name="make us (use) of">
             <pattern>
-                <token regexp="yes">make|makes|made|making</token>
+                <token regexp="yes">makes?|made|making</token>
                 <marker>
                     <token>us</token>
                 </marker>
@@ -385,7 +385,7 @@ USA
                     </marker>
                     <token>of</token>
                     <token>the</token>
-                    <token regexp="yes">more|most|less|least|best|worst</token>
+                    <token regexp="yes">mo(re|st)|le(ss|ast)|best|worst</token>
                 </pattern>
                 <message>Did you mean <suggestion>one</suggestion>?</message>
                 <short>Possible typo</short>
@@ -14020,7 +14020,7 @@ USA
                 <example>However fast you may walk, you can't catch up with him.</example>
                 <example>Also specify your gender.</example>
                 <example>However you look at it, existing investors are likely to lose out.</example>
-                <example correction="Alas,"><marker>Alas</marker>  James had finals and couldn’t attend.</example>
+                <example correction="Alas,"><marker>Alas</marker> James had finals and couldn’t attend.</example>
                 <example>Alas! Her heart belonged to another.</example>
                 <example>Further to this previous point, it is difficult to fully respect a high-ranking business official if their grammar isn’t up to par.</example>
             </rule>
@@ -14047,7 +14047,7 @@ USA
                     <token regexp="yes">an?|the</token>
                     <marker>
                         <token postag="CD"/>
-                        <token regexp="yes">second|minute|min|hour|day|week|month|year|foot|meter|metre|mile|inch|page</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
@@ -14062,7 +14062,7 @@ USA
                 <pattern>
                     <token regexp="yes">an?|the</token>
                     <marker>
-                        <token postag="JJ" regexp="yes">.*(second|minute|min|hour|day|week|month|year|foot|meter|metre|mile|inch|page)</token>
+                        <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page)</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
@@ -14079,7 +14079,7 @@ USA
                     <token postag="JJ" min="0"/>
                     <marker>
                         <token postag="CD"></token>
-                        <token regexp="yes">second|minute|min|hour|day|week|month|year|foot|meter|metre|mile|inch|page</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page</token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"/>
                 </pattern>
