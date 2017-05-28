@@ -5802,6 +5802,50 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id="INTERROGATIVES_PUNTUATION" name="Pontuar interrogações: Porquê?">
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|porqu[eê]|qu[eê]
+            <exception scope='next'>,</exception></token>
+        <marker>
+          <token postag='SENT_END'>.</token>
+        </marker>
+      </pattern>
+      <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+      <example correction="?">Porque é que dizes isso<marker>.</marker></example>
+      <example>Como sabes, gosto destas coisas.</example>
+      <example>Quem sabe, sabe.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token>o</token>
+          <token skip="-1" regexp='yes'>qu[eê]
+            <exception scope='next'>,</exception></token>
+        <marker>
+          <token postag='SENT_END'>.</token>
+        </marker>
+      </pattern>
+      <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+      <example correction="?">O que achas disto<marker>.</marker></example>
+      <example>O que o Dr. Mário disse, eu bem sei.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token>de</token>
+          <token skip="-1">onde
+            <exception scope='next'>,</exception></token>
+        <marker>
+          <token postag='SENT_END'>.</token>
+        </marker>
+      </pattern>
+      <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+      <example correction="?">De onde vem isso<marker>.</marker></example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="INTERJECTIONS_PUNTUATION" name="Pontuar interjeições: Olá!">
     <!--  Created by Tiago F. Santos, 2017-04-28      -->
     <rule>
