@@ -307,7 +307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens</token>
+                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens|térbolament|séver|asséver</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion>
@@ -359,7 +359,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol|vèrbol|bèrbol)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens</token>
+                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol|vèrbol|bèrbol)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens|tèrbolament|sèver|assèver</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message>
                 <suggestion><match no="1" regexp_match="^(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion>
@@ -519,7 +519,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Variant valenciana.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dipositar</match></suggestion>
                 <example correction="dipositaren">Hi <marker>depositaren</marker>.</example>
-                <example>Hi van dipositar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -528,7 +527,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Variant valenciana.</message>
                 <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">dipòsit</match></suggestion>
                 <example correction="dipòsits">Els <marker>depòsits</marker></example>
-                <example>dipòsits</example>
             </rule>
             <rule>
                 <pattern>
@@ -537,7 +535,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Variant valenciana.</message>
                 <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>
                 <example correction="serveis">Els <marker>servicis</marker></example>
-                <example>serveis</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dessetè</token>
+                </pattern>
+                <message>Variant valenciana.</message>
+                <suggestion><match no="1" regexp_match="de(.*)" regexp_replace="di$1"/></suggestion>
+                <example correction="dissetens">Els <marker>dessetens</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, esser, posader">
