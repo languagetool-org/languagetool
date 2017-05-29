@@ -15723,6 +15723,39 @@ TODO Write better examples
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
     </rule>
+  </rulegroup>
+
+  <rulegroup id="DASH_SPACE_RULES" name="Travessão em enumerações" default="on">
+    <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
+      <short>Erro tipográfico</short>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+|w</token>
+          <token regexp="yes">[–‒—-]</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <message>Em enumerações, deve dar um espaço depois do travessão.</message>
+        <suggestion>\2 — \4</suggestion>
+      <example correction="1 — Influência"><marker>1—Influência</marker> artística.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[–‒—-]</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Em diálogos, deve remover o espaço depois do travessão.</message>
+        <suggestion>—\3</suggestion>
+      <example correction="—Corre"><marker>— Corre</marker>! vá!</example>
+      <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>—Saltar</example>
+      <example>—Correr</example>
+      <example>—Rastejar</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="HIPHEN_SPACE_RULES" name="Espaçamento em hífens e travessões" default="on">
     <rule>
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -15756,36 +15789,6 @@ TODO Write better examples
         <suggestion>\1 — \3</suggestion>
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
-    </rule>
-  </rulegroup>
-
-  <rulegroup id="DASH_SPACE_RULES" name="Travessão em enumerações" default="on">
-    <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
-      <short>Erro tipográfico</short>
-    <rule>
-      <pattern>
-          <token postag="SENT_START"/>
-          <token regexp="yes">\d+|w</token>
-          <token regexp="yes">[–‒—-]</token>
-          <token spacebefore="no"/>
-      </pattern>
-      <message>Em enumerações, deve dar um espaço depois do travessão.</message>
-        <suggestion>\2 — \4</suggestion>
-      <example correction="1 — Influência"><marker>1—Influência</marker> artística.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—-]</token>
-          <token spacebefore="yes"/>
-      </pattern>
-      <message>Em diálogos, deve remover o espaço depois do travessão.</message>
-        <suggestion>—\3</suggestion>
-      <example correction="—Corre"><marker>— Corre</marker>! vá!</example>
-      <example>1139–1385 — Formação do Reino de Portugal</example>
-      <example>—Saltar</example>
-      <example>—Correr</example>
-      <example>—Rastejar</example>
     </rule>
   </rulegroup>
 
