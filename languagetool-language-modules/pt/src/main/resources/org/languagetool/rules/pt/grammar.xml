@@ -15723,6 +15723,40 @@ TODO Write better examples
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
     </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+          <token/>
+          <token spacebefore="yes" regexp='yes'>-|–|—</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
+        <suggestion>\1-\3</suggestion>
+        <suggestion>\1 — \3</suggestion>
+      <short>Erro tipográfico.</short>
+      <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás -os</marker>-Montes.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+          <token/>
+          <token spacebefore="no" regexp='yes'>-|–|—</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
+        <suggestion>\1-\3</suggestion>
+        <suggestion>\1 — \3</suggestion>
+      <short>Erro tipográfico.</short>
+      <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="DASH_SPACE_RULES" name="Travessão em enumerações" default="on">
