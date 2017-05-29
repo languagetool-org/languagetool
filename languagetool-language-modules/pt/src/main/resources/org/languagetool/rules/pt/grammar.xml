@@ -8299,7 +8299,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>agulhas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <!--<suggestion><match no='1' postag='V.+'>pôr</match>-se de acordo</suggestion> TODO fiz pôr POS tag -->
+    <!--<suggestion><match no='1' postag='V.+'>pôr</match>-se de acordo</suggestion> TODO fiz pôr POS tag -->
         <suggestion><match no='1' postag='V.+'>combinar</match> algo</suggestion>
         <suggestion><match no='1' postag='V.+'>entender</match>-se</suggestion>
       <example correction='combinar algo|entender-se'><marker>acertar agulhas</marker>.</example>
@@ -15763,15 +15763,16 @@ TODO Write better examples
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
-          <token/>
+          <token regexp='yes'>\p{L}+</token>
           <token spacebefore="yes" regexp='yes'>-|–|—</token>
-          <token spacebefore="no"/>
+          <token spacebefore="no" regexp='yes'>\p{L}+</token>
       </pattern>
       <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
         <suggestion>\1-\3</suggestion>
         <suggestion>\1 — \3</suggestion>
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás -os</marker>-Montes.</example>
+      <example>Ayer, A. J.— As Ideias de Bertrand Russel.</example>
     </rule>
     <rule>
       <antipattern>
@@ -17091,12 +17092,17 @@ TODO Write better examples
       <url>https://pt.wiktionary.org/wiki/Categoria:Coloquialismo_(Portugu%C3%AAs)</url>
       <short>Linguagem informal</short>
     <rule>
+      <antipattern>
+          <token regexp="yes">pr[oó]</token>
+          <token>-</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">(&informal;)s?</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
       <example type="incorrect">Passei o dia a <marker>anhar</marker>.</example>
       <example type="correct">Passei o dia a <marker>procrastinar</marker>.</example>
+      <example>Actua ao bloquear alguns metabólitos pró-inflamatórios que aceleram e agravam o processo.</example>
     </rule>
     <rule>
       <pattern>
@@ -17628,15 +17634,15 @@ TODO Write better examples
     <rule id='ACHO_QUE' name="penso/julgo que">
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
       <pattern>
-		<marker>
+        <marker>
           <token>acho</token>
-		</marker>
+        </marker>
           <token>que</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-	  <suggestion>penso</suggestion>
-      <suggestion>julgo</suggestion>      
-	  <example correction='penso|julgo'>Eu <marker>acho</marker> que devemos vencer.</example>
+        <suggestion>penso</suggestion>
+        <suggestion>julgo</suggestion>
+      <example correction='penso|julgo'>Eu <marker>acho</marker> que devemos vencer.</example>
     </rule>
 
   <rulegroup id="PROFANITY" name="Profanidade">
