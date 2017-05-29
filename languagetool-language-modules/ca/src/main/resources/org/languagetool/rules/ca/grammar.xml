@@ -4920,7 +4920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Es va <marker>haver</marker> d'aturat.</example>
                 <example>Quan el vam haver pràcticament esgotat.</example>
                 <example>Hi va haver mala sort.</example>
-                <exmaple>Va haver-hi mala sort.</exmaple>
+                <example>Va haver-hi mala sort.</example>
                 <example>Hi ha d'haver un espai.</example>
                 <example>Hi pot haver material.</example>
                 <example>Ho hauries d'haver fet.</example>
@@ -11799,7 +11799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>afí</suggestion> (=que té afinitat)?</message>
             <example correction="afí">Una persona <marker>a fi</marker> al partit.</example>
         </rule>
-        <rule id="SEMBLAR_ASSEMBLAR" name="semblar-se / assemblar-se">
+        <!--<rule id="SEMBLAR_ASSEMBLAR" name="semblar-se / assemblar-se">
             <antipattern>
                 <marker>
                     <token skip="1" regexp="yes">em|me|m'|-.+</token>
@@ -11820,7 +11820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="assemblen">No se <marker>semblen</marker> gens.</example>
             <example>Què et sembla?</example>
             <example>Em semblava una cosa ridícula</example>
-        </rule>
+        </rule>-->
         <rule id="PORTIC_SI_ALTRES" name="pòrtic *si altres (error típic en la Viquipèdia)">
             <pattern>
                 <marker>
@@ -18285,7 +18285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal apostrofar.</message>
                 <example correction="">És <marker>de Osama</marker>.</example>
                 <example correction="">classificació <marker>de Esping</marker>-Andersen.</example>
-                <exmaple>Alcalá de Henares</exmaple>
+                <example>Alcalá de Henares</example>
                 <example>de la Universitat</example>
                 <example>la incubatio</example>
             </pattern>
@@ -32689,7 +32689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>És obligatori.</example>
         </rule>
     </category>
-    <category id="DISPUTED_FORMS" name="C5) Formes normatives discutides: coresponsable, ressituar, termostable" type="style">
+    <category id="DISPUTED_FORMS" name="C5) Formes normatives discutides: ressituar" type="style">
         <rulegroup id="FORMES_NORMATIVES" name="Usa formes normatives (AVL, IEC): ressituar" default="on">
             <rule id="RESITUAR" name="Exigeix 'ressituar'">
                 <pattern>
@@ -32701,15 +32701,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ressituats"><marker>resituats</marker></example>
                 <example>ressituats.</example>
             </rule>
-            <!--<rule id="TERMOESTABLE" name="Exigeix 'termostable'">
-                <pattern>
-                    <token inflected="yes">termoestable</token>
-                </pattern>
-                <message>Normativament (IEC, AVL) s'escriu <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">termostable</match></suggestion>, però l'ortografia és discutida.</message>
-                <short>Ortografia discutida</short>
-                <example correction="termostables"><marker>termoestables</marker></example>
-                <example>resituats.</example>
-            </rule>-->
         </rulegroup>
         <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar, termostable" default="on">
             <rule id="RESSITUAR" name="Exigeix 'resituar'">
@@ -32722,16 +32713,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="resituats"><marker>ressituats</marker></example>
                 <example>resituats.</example>
             </rule>
-            <!--<rule id="TERMOSTABLE" name="Exigeix 'termoestable'">
-                <pattern>
-                    <token inflected="yes">termostable</token>
-                </pattern>
-                <message>Normativament (IEC, AVL) s'escriu així, però l'ortografia és discutida.</message>
-                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">termoestable</match></suggestion>
-                <short>Ortografia discutida</short>
-                <example correction="termoestables"><marker>termostables</marker></example>
-                <example>resituats.</example>
-            </rule>-->
         </rulegroup>
     </category>
     <category id="CONDEMNED_BY_SOME" name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
@@ -33195,16 +33176,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ençà i enllà"><marker>enllà i ençà</marker></example>
             <example>ençà i enllà</example>
         </rule>
-        <rule id="COM_DE_RAPID_ES" name="*com de ràpid és/com és de ràpid">
+        <rule id="COM_DE_RAPID_ES" name="*com de ràpid és/com és de ràpid/que ràpid és">
+            <antipattern>
+                <marker>
+                    <token skip="-1">com</token>
+                    <token>?</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token>com</token>
-                <token>de</token>
+                <token inflected="yes">de</token>
                 <token postag="A.*" postag_regexp="yes"></token>
-                <token postag="V.[MSI].*" postag_regexp="yes"></token>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
             </pattern>
-            <message>És preferible usar un altre ordre.</message>
-            <suggestion>\1 \4 \2 \3</suggestion>
-            <example correction="com corria de ràpid"><marker>com de ràpid corria</marker>!</example>
+            <message>És preferible: "com + (verb) + de (adj.)" o " que + (adj.) + (verb)".</message>
+            <example correction=""><marker>com de ràpid ha</marker> de ser!</example>
+            <example correction=""><marker>com de bonica anava</marker>!</example>
+            <example correction=""><marker>com d'intel·ligent era</marker>!</example>
+            <example>Com de gran ha de ser l'ampolla?</example>
         </rule>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
@@ -39053,7 +39042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ésser">És natural en un <marker>ser</marker> viu.</example>
                 <example>Hem de ser coherents.</example>
                 <example>Podrà no ser aplicable.</example>
-                <exmaple>Ser incompetent.</exmaple>
+                <example>Ser incompetent.</example>
                 <example>ser capaç de sentir empatia</example>
             </rule>
             <rule>
