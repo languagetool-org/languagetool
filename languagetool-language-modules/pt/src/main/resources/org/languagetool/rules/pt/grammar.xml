@@ -5803,11 +5803,16 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id="INTERROGATIVES_PUNTUATION" name="Pontuar interrogações: Porquê?">
+      <antipattern>
+          <token>.</token>
+          <token>.</token>
+          <token postag='SENT_END'>.</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|porqu[eê]|qu[eê]
-            <exception scope='next'>,</exception></token>
+          <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|porqu[eê]|quê
+            <exception scope='next' regexp='yes'>[,:]</exception></token>
         <marker>
           <token postag='SENT_END'>.</token>
         </marker>
@@ -5816,13 +5821,15 @@ title="Easy editing stylesheet" ?>
       <example correction="?">Porque é que dizes isso<marker>.</marker></example>
       <example>Como sabes, gosto destas coisas.</example>
       <example>Quem sabe, sabe.</example>
+      <example>Como diz o ditado: "quem não arrisca não petisca".</example>
+      <example>Quem sabe...</example>
     </rule>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
           <token>o</token>
           <token skip="-1" regexp='yes'>qu[eê]
-            <exception scope='next'>,</exception></token>
+            <exception scope='next' regexp='yes'>[,:]</exception></token>
         <marker>
           <token postag='SENT_END'>.</token>
         </marker>
@@ -5836,7 +5843,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token>de</token>
           <token skip="-1">onde
-            <exception scope='next'>,</exception></token>
+            <exception scope='next' regexp='yes'>[,:]</exception></token>
         <marker>
           <token postag='SENT_END'>.</token>
         </marker>
@@ -5848,6 +5855,19 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id="INTERJECTIONS_PUNTUATION" name="Pontuar interjeições: Olá!">
     <!--  Created by Tiago F. Santos, 2017-04-28      -->
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token skip="-1">que
+            <exception scope='next' regexp='yes'>[,:]</exception></token>
+        <marker>
+          <token postag='SENT_END'>.</token>
+        </marker>
+      </pattern>
+      <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+      <example correction="!">Que lindo dia<marker>.</marker></example>
+      <example>Que é isso?</example>
+    </rule>
     <rule>
       <pattern>
           <token postag='I'>
