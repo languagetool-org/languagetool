@@ -20136,5 +20136,1795 @@ TODO Write better examples
       <example correction="inconsequente">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
     </rule>
 
+  <rulegroup id="MISPELLED_NAMES" name="Nomes próprios estrangeiros: p.ex. Jimmy Hendrix → Jimi Hendrix">
+    <!--      Localized from French grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-30      -->
+      <short>Nome próprio incorreto</short>
+    <rule>
+      <antipattern>
+          <token>Jimi</token>
+          <token>Hendrix</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jimm?[yi]</token>
+          <token regexp="yes">Hendrix|Hendric?ks</token>
+      </pattern>
+      <message>Escreva <suggestion>Jimi Hendrix</suggestion> se se refere ao guitarista.</message>
+      <url>https://pt.wikipedia.org/wiki/Jimi_Hendrix</url>
+      <example correction="Jimi Hendrix"><marker>Jimi Hendricks</marker></example>
+      <example correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Barbara</token>
+          <token>Hendricks</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Barba?ra</token>
+          <token regexp="yes">Hendrix|Hendric?ks?</token>
+      </pattern>
+      <message>Escreva <suggestion>Barbara Hendricks</suggestion> se se refere à cantora.</message>
+      <url>https://pt.wikipedia.org/wiki/Barbara_Hendricks</url>
+      <example correction="Barbara Hendricks"><marker>Barbara Hendrix</marker></example>
+      <example correction="Barbara Hendricks"><marker>Barbra Hendricks</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Harpo|Chico|Groucho|Gummo|Zeppo|Léonard|Arthur|Julius|Milton|Herbert</token>
+          <token>Max</token>
+      </pattern>
+      <message>Escreva <suggestion>\1 Marx</suggestion> se se refere ao comédien americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Marx_Brothers</url>
+      <example correction="Groucho Marx"><marker>Groucho Max</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Max</token>
+          <token>Brothers</token>
+      </pattern>
+      <message>Escreva <suggestion>Marx Brothers</suggestion> se se refere aos comediantes americanos.</message>
+      <url>https://pt.wikipedia.org/wiki/Marx_Brothers</url>
+      <example correction="Marx Brothers">Un film dos <marker>Max Brothers</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Karl</token>
+          <token>Marx</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[CK]arl</token>
+          <token regexp="yes">Mar?x</token>
+      </pattern>
+      <message>Escreva <suggestion>Karl Marx</suggestion> se se refere ao filósofo alemão.</message>
+      <url>https://pt.wikipedia.org/wiki/Karl_Marx</url>
+      <example correction="Karl Marx"><marker>Karl Max</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Siegmund</token>
+          <token>Freud</token>
+      </pattern>
+      <message>Escreva <suggestion>Sigmund Freud</suggestion> se se refere ao fundador da psicanálise.</message>
+      <url>https://pt.wikipedia.org/wiki/Sigmund_Freud</url>
+      <example correction="Sigmund Freud"><marker>Siegmund Freud</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bertrand</token>
+          <token>Russel</token>
+      </pattern>
+      <message>Escreva <suggestion>\1 Russell</suggestion> se se refere ao filósofo/matemático britânico.</message>
+      <url>https://pt.wikipedia.org/wiki/Bertrand_Russel</url>
+      <example correction="Bertrand Russell"><marker>Bertrand Russel</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Will?[iy]
+            <exception>Willy</exception></token>
+          <token regexp="yes">Brand?t</token>
+      </pattern>
+      <message>Escreva <suggestion>Willy Brandt</suggestion> se se refere ao político alemão.</message>
+      <url>https://pt.wikipedia.org/wiki/Willy_Brandt</url>
+      <example correction="Willy Brandt"><marker>Willi Brandt</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Keira</token>
+          <token>Knightley</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Kie?ra|Keira</token>
+          <token regexp="yes">Knight?e?le?y?</token>
+      </pattern>
+      <message>Escreva <suggestion>Keira Knightley</suggestion> se se refere à actriz britânica.</message>
+      <url>https://pt.wikipedia.org/wiki/Keira_Knightley</url>
+      <example correction="Keira Knightley"><marker>Keira Knightly</marker></example>
+      <example correction="Keira Knightley"><marker>Kiera Knightley</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Debra</token>
+          <token>Winger</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">D[eé]bb?o?rr?h?ah?</token>
+          <token regexp="yes">Wingg?er</token>
+      </pattern>
+      <message>Escreva <suggestion>Debra Winger</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Debra_Winger</url>
+      <example correction="Debra Winger"><marker>Debora Winger</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Steve</token>
+          <token regexp="yes">Carr?ell?
+            <exception>Carell</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Steve Carell</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Steve_Carell</url>
+      <example correction="Steve Carell"><marker>Steve Carrell</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Will</token>
+          <token regexp="yes">F[ae]rr?ell?
+            <exception>Ferrell</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Will Ferrell</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Will_Ferrell</url>
+      <example correction="Will Ferrell"><marker>Will Ferrel</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Cate</token>
+          <token>Blanchett</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[KC]ate</token>
+          <token regexp="yes">Blanchet?t?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Cate Blanchett</suggestion> se se refere à actriz australiana.</message>
+      <url>https://pt.wikipedia.org/wiki/Cate_Blanchett</url>
+      <example correction="Cate Blanchett"><marker>Kate Blanchett</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Scarlett</token>
+          <token>Johansson</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Scarlett?e?</token>
+          <token regexp="yes">Johanss?on</token>
+      </pattern>
+      <message>Escreva <suggestion>Scarlett Johansson</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Scarlett_Johansson</url>
+      <example correction="Scarlett Johansson"><marker>Scarlett Johanson</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Shia</token>
+          <token case_sensitive="yes">LaBeouf</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">sc?ha?ia</token>
+          <token regexp="yes">L[ae]b[eé]?ouff?e?|L[ae]bœuff?e?|L[ae]boeuff?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Shia LaBeouf</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Shia_LaBeouf</url>
+      <example correction="Shia LaBeouf"><marker>Shia LaBoeuf</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jimmy</token>
+          <token>Page</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jimm?[iy]</token>
+          <token regexp="yes">Pai?ge</token>
+      </pattern>
+      <message>Escreva <suggestion>Jimmy Page</suggestion> se se refere ao guitarista dos Led Zeppelin.</message>
+      <url>https://pt.wikipedia.org/wiki/Jimmy_page</url>
+      <example correction="Jimmy Page"><marker>Jimmy Paige</marker></example>
+      <example correction="Jimmy Page"><marker>Jimmi Page</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Guns</token>
+          <token>N</token>
+          <token regexp="yes" spacebefore="no">[’']</token>
+          <token>Roses</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Guns?</token>
+          <token regexp="yes">And|N</token>
+          <token min="0" max="1" regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">Roses?</token>
+      </pattern>
+      <message>Escreva <suggestion>Guns N’ Roses</suggestion> se se refere ao grupo de hard rock americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Guns_N'_Roses</url>
+      <example correction="Guns N’ Roses"><marker>Guns And Roses</marker></example>
+      <example correction="Guns N’ Roses"><marker>Gun N’ Roses</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Axl</token>
+          <token>Rose</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Axle?|Axel</token>
+          <token regexp="yes">Roses?</token>
+      </pattern>
+      <message>Escreva <suggestion>Axl Rose</suggestion> se se refere ao cantor dos Guns N' Roses.</message>
+      <url>https://pt.wikipedia.org/wiki/Axl_Rose</url>
+      <example correction="Axl Rose"><marker>Axle Rose</marker></example>
+      <example correction="Axl Rose"><marker>Axl Roses</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Ozzy</token>
+          <token>Osbourne</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Ozz?(y|ie?)</token>
+          <token regexp="yes">Osbou?rne?s?</token>
+      </pattern>
+      <message>Escreva <suggestion>Ozzy Osbourne</suggestion> se se refere ao cantor dos Black Sabbath.</message>
+      <url>https://pt.wikipedia.org/wiki/Ozzy_Osbourne</url>
+      <example correction="Ozzy Osbourne">Connais-tu <marker>Ozzy Osbourn</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Randy</token>
+          <token>Rhoads</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Rand[yi]e?</token>
+          <token regexp="yes">Rh?oa?de?s?</token>
+      </pattern>
+      <message>Escreva <suggestion>Randy Rhoads</suggestion> se se refere ao guitarista americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Randy_Rhoads</url>
+      <example correction="Randy Rhoads">Connais-tu <marker>Randy Roads</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Justin</token>
+          <token>Beiber</token>
+      </pattern>
+      <message>Escreva <suggestion>Justin Bieber</suggestion> se se refere ao cantor canadiano.</message>
+      <url>https://pt.wikipedia.org/wiki/Justin_Bieber</url>
+      <example correction="Justin Bieber"><marker>Justin Beiber</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Lionel</token>
+          <token regexp="yes">Rit?chie?
+            <exception>Richie</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Lionel Richie</suggestion> se se refere ao cantor soul americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Lionel_Richie</url>
+      <example correction="Lionel Richie"><marker>Lionel Ritchie</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Eddie</token>
+          <token>Rabbitt</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Edd[iy]e?</token>
+          <token regexp="yes">Rabb?itt?</token>
+      </pattern>
+      <message>Escreva <suggestion>Eddie Rabbitt</suggestion> se se refere ao cantor americano.</message>
+      <example correction="Eddie Rabbitt">Connais-tu <marker>Eddie Rabbit</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Billie</token>
+          <token>Holiday</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Bill?[iy]e?</token>
+          <token regexp="yes">H[ao]ll?idays?</token>
+      </pattern>
+      <message>Escreva <suggestion>Billie Holiday</suggestion> se se refere à cantora de jazz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Billie_Holiday</url>
+      <example correction="Billie Holiday">Connais-tu <marker>Billy Holiday</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Billy</token>
+          <token>Squire</token>
+      </pattern>
+      <message>Escreva <suggestion>Billy Squier</suggestion> se se refere ao cantor americano.</message>
+      <example correction="Billy Squier">Connais-tu <marker>Billy Squire</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Bonnie</token>
+          <token>Raitt</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Bonn?[yi]e?</token>
+          <token regexp="yes">Rai?tt?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Bonnie Raitt</suggestion> se se refere à cantora americana.</message>
+      <example correction="Bonnie Raitt">Connais-tu <marker>Bonnie Rate</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Janis</token>
+          <token>Joplin</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Janis|Janice</token>
+          <token regexp="yes">Jopp?line?</token>
+      </pattern>
+      <message>Escreva <suggestion>Janis Joplin</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Janis_Joplin</url>
+      <example correction="Janis Joplin"><marker>Janice Joplin</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Sid</token>
+          <token>Viscious</token>
+      </pattern>
+      <message>Escreva <suggestion>Sid Vicious</suggestion>.</message>
+      <url>https://pt.wikipedia.org/wiki/Sid_Vicious</url>
+      <example correction="Sid Vicious"><marker>Sid Viscious</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Donna</token>
+          <token>Summer</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Donn?a</token>
+          <token regexp="yes">S[uo]mmers?</token>
+      </pattern>
+      <message>Escreva <suggestion>Donna Summer</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Donna_Summer</url>
+      <example correction="Donna Summer"><marker>Dona Summer</marker></example>
+      <example correction="Donna Summer"><marker>Donna Summers</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">M[eé]gg?a[-‑‐]?dea?th
+            <exception>Megadeth</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Megadeth</suggestion> se se refere ao grupo metal americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Megadeth</url>
+      <example correction="Megadeth">J’aime beaucoup <marker>Megadeath</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">A(?:rr?[eé]|[eé]rr?)o-?smith
+            <exception>Aerosmith</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Aerosmith</suggestion> se se refere ao grupo rock americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Aerosmith</url>
+      <example correction="Aerosmith"><marker>Areosmith</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Beasty</token>
+          <token>Boys</token>
+      </pattern>
+      <message>Escreva <suggestion>Beastie Boys</suggestion> se se refere ao grupo de hip-hop americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Beastie_Boys</url>
+      <example correction="Beastie Boys">Les <marker>Beasty Boys</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Led</token>
+          <token>Zeppelin</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Lea?d</token>
+          <token regexp="yes">Zepp?e?ll?inn?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Led Zeppelin</suggestion> se se refere ao grupo rock.</message>
+      <url>https://pt.wikipedia.org/wiki/Led_Zeppelin</url>
+      <example correction="Led Zeppelin">Um disco de <marker>Led Zepelin</marker></example>
+      <example correction="Led Zeppelin">Um disco de <marker>Lead Zeppelin</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Mot[öo]r[-‑‐]?h?ea?d
+            <exception>Motörhead</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Motörhead</suggestion> se se refere ao grupo heavy metal.</message>
+      <url>https://pt.wikipedia.org/wiki/Mot%C3%B6rhead</url>
+      <example correction="Motörhead"><marker>Motorhead</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Mot[öo]r</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token regexp="yes">h?ea?d</token>
+      </pattern>
+      <message>Escreva <suggestion>Motörhead</suggestion> se se refere ao grupo heavy metal.</message>
+      <url>https://pt.wikipedia.org/wiki/Mot%C3%B6rhead</url>
+      <example correction="Motörhead"><marker>Motor-head</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Lynyrd</token>
+          <token>Skynyrd</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">L[iy]nn?[yae]?rds?</token>
+          <token regexp="yes">Skynn?[yae]rds?</token>
+      </pattern>
+      <message>Escreva <suggestion>Lynyrd Skynyrd</suggestion>.</message>
+      <url>https://pt.wikipedia.org/wiki/Lynyrd_Skynyrd</url>
+      <example correction="Lynyrd Skynyrd"><marker>Lynard Skynerd</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Ronnie</token>
+          <token>Van</token>
+          <token>Zant</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Ronn?[yi]e?</token>
+          <token>van</token>
+          <token regexp="yes">Zand?t?</token>
+      </pattern>
+      <message>Escreva <suggestion>Ronnie Van Zant</suggestion> se se refere ao cantor do grupo Lynyrd Slynyrd.</message>
+      <url>https://pt.wikipedia.org/wiki/Ronnie_Van_Zant</url>
+      <example correction="Ronnie Van Zant"><marker>Ronnie van Zandt</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Def</token>
+          <token>Leppard</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Dea?f</token>
+          <token regexp="yes">Leo?pp?ard</token>
+      </pattern>
+      <message>Escreva <suggestion>Def Leppard</suggestion> se se refere ao grupo rock.</message>
+      <url>https://pt.wikipedia.org/wiki/Def_Leppard</url>
+      <example correction="Def Leppard">Um disco de <marker>Deaf Leppard</marker></example>
+      <example correction="Def Leppard">Um disco de <marker>Def Leopard</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Gre?ate?full?
+            <exception>Grateful</exception></token>
+          <token>Dead</token>
+      </pattern>
+      <message>Escreva <suggestion>Grateful Dead</suggestion> se se refere ao grupo rock.</message>
+      <url>https://pt.wikipedia.org/wiki/Grateful_Dead</url>
+      <example correction="Grateful Dead">Um disco dos <marker>Greatful Dead</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Gre?ate?full?deads?</token>
+      </pattern>
+      <message>Escreva <suggestion>Grateful Dead</suggestion> se se refere ao grupo rock.</message>
+      <url>https://pt.wikipedia.org/wiki/Grateful_Dead</url>
+      <example correction="Grateful Dead">Um disco dos <marker>Gratefuldead</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Gre?ate?full?</token>
+          <token regexp='yes'>[-‑‐]</token>
+          <token regexp="yes">deads?</token>
+      </pattern>
+      <message>Escreva <suggestion>Grateful Dead</suggestion> se se refere ao grupo rock.</message>
+      <url>https://pt.wikipedia.org/wiki/Grateful_Dead</url>
+      <example correction="Grateful Dead">Um disco dos <marker>Grateful-dead</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Jeff(:rey)?</token>
+          <token regexp="yes">Lynn?|Lyne</token>
+      </pattern>
+      <message>Escreva <suggestion>\1 Lynne</suggestion> se se refere ao músico de rock britânico.</message>
+      <url>https://pt.wikipedia.org/wiki/Jeff_Lynne</url>
+      <example correction="Jeff Lynne"><marker>Jeff Lynn</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>John</token>
+          <token regexp="yes">[EA]nt?-?wh?ist?l?e?
+            <exception>Entwistle</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>John Entwistle</suggestion> se se refere ao baixista do grupo The Who.</message>
+      <url>https://pt.wikipedia.org/wiki/John_Entwistle</url>
+      <example correction="John Entwistle"><marker>John Entwhistle</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Micky</token>
+          <token>Dolenz</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Mic?ke?[iy]</token>
+          <token regexp="yes">Doll?en[sz]</token>
+      </pattern>
+      <message>Escreva <suggestion>Micky Dolenz</suggestion> se se refere ao actor, realizador, produtor, cenarista, músico e compositor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Micky_Dolenz</url>
+      <example correction="Micky Dolenz"><marker>Mickey Dolenz</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Rickie</token>
+          <token>Lee</token>
+          <token>Jones</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">R[iy]c?k[iye]e?</token>
+          <token>Lee</token>
+          <token regexp="yes">Jones?</token>
+      </pattern>
+      <message>Escreva <suggestion>Rickie Lee Jones</suggestion> se se refere à cantora, música e compositora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Rickie_Lee_Jones</url>
+      <example correction="Rickie Lee Jones"><marker>Ricky Lee Jones</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Erykah</token>
+          <token>Badu</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[ÉE]rr?[iy](?:ck?|k)ah?</token>
+          <token regexp="yes">Bh?ah?dd?h?ue?h?</token>
+      </pattern>
+      <message>Escreva <suggestion>Erykah Badu</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Erykah_Badu</url>
+      <example correction="Erykah Badu"><marker>Erika Badu</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Alison</token>
+          <token>Krauss</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">All?iss?on</token>
+          <token regexp="yes">[KC]rauss?</token>
+      </pattern>
+      <message>Escreva <suggestion>Alison Krauss</suggestion> se se refere à cantora e violonista americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Alison_Krauss</url>
+      <example correction="Alison Krauss"><marker>Allison Krauss</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Roger</token>
+          <token>Hogson</token>
+      </pattern>
+      <message>Escreva <suggestion>Roger Hodgson</suggestion> se se refere ao membro do grupo Supertramp.</message>
+      <url>https://pt.wikipedia.org/wiki/Roger_Hodgson</url>
+      <example correction="Roger Hodgson"><marker>Roger Hogson</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>André</token>
+          <token>Agassi</token>
+      </pattern>
+      <message>Escreva <suggestion>Andre Agassi</suggestion> se se refere ao jogador de ténis.</message>
+      <url>https://pt.wikipedia.org/wiki/Andre_Agassi</url>
+      <example correction="Andre Agassi"><marker>André Agassi</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Steffi</token>
+          <token>Graf</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Ste(?:ff?|ph)e?[iy]e?</token>
+          <token regexp="yes">Gra(?:ff?|ph)</token>
+      </pattern>
+      <message>Escreva <suggestion>Steffi Graf</suggestion> se se refere à jogadora de ténis.</message>
+      <url>https://pt.wikipedia.org/wiki/Steffi_Graf</url>
+      <example correction="Steffi Graf"><marker>Stefi Graf</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[CS]her[iy]ll?
+            <exception>Sheryl</exception></token>
+          <token>Crow</token>
+      </pattern>
+      <message>Escreva <suggestion>Sheryl Crow</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Sheryl_Crow</url>
+      <example correction="Sheryl Crow"><marker>Cheryl Crow</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Keith</token>
+          <token regexp="yes">Jh?arr?ett?h?
+            <exception>Jarrett</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Keith Jarrett</suggestion> se se refere ao pianiste americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Keith_Jarrett</url>
+      <example correction="Keith Jarrett"><marker>Keith Jarret</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Keith</token>
+          <token>Richard</token>
+      </pattern>
+      <message>Escreva <suggestion>Keith Richards</suggestion> se se refere ao guitarista dos Rolling Stones.</message>
+      <url>https://pt.wikipedia.org/wiki/Keith_Richards</url>
+      <example correction="Keith Richards"><marker>Keith Richard</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Cliff</token>
+          <token>Richards</token>
+      </pattern>
+      <message>Escreva <suggestion>Cliff Richard</suggestion> se se refere ao músico inglês.</message>
+      <url>https://pt.wikipedia.org/wiki/Cliff_Richard</url>
+      <example correction="Cliff Richard"><marker>Cliff Richards</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Fredd?y|Fredie</token>
+          <token>Mercury</token>
+      </pattern>
+      <message>Escreva <suggestion>Freddie Mercury</suggestion> se se refere ao cantor do grupo Queen.</message>
+      <url>https://pt.wikipedia.org/wiki/Freddie_Mercury</url>
+      <example correction="Freddie Mercury"><marker>Freddy Mercury</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Art|Arthur|Ira</token>
+        <marker><token regexp="yes">Garfunkle?</token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Garfunkel</suggestion> se se refere ao cantor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Arthur_Garfunkel</url>
+      <example correction="Garfunkel">Art <marker>Garfunkle</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Alanis</token>
+          <token>Morissette</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">All?ann?iss?e?</token>
+          <token regexp="yes">M(o|e?au)rr?iss?ett?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Alanis Morissette</suggestion> se se refere à cantora canadianone.</message>
+      <url>https://pt.wikipedia.org/wiki/Alanis_Morissette</url>
+      <example correction="Alanis Morissette"><marker>Alanis Morrissette</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Thom</token>
+          <token>Yorke</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Th?om</token>
+          <token regexp="yes">Yorke?</token>
+      </pattern>
+      <message>Escreva <suggestion>Thom Yorke</suggestion> se se refere ao cantor do grupo Radiohead.</message>
+      <url>https://pt.wikipedia.org/wiki/Thom_Yorke</url>
+      <example correction="Thom Yorke"><marker>Tom Yorke</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Tupac</token>
+          <token>Shakur</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Tupp?a(?:[ck]|ck)</token>
+          <token regexp="yes">[CS]hakk?h?o?ure?</token>
+      </pattern>
+      <message>Escreva <suggestion>Tupac Shakur</suggestion> se se refere ao rapper americano.</message>
+      <url>https://en.wikipedia.org/wiki/Tupac_Shakur</url>
+      <example correction="Tupac Shakur"><marker>Tupak Shakur</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Weird</token>
+          <token>Al</token>
+          <token>Yankovic</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Weird|Wierd</token>
+          <token>Al</token>
+          <token regexp="yes">Yanc?kovi[ck]h?</token>
+      </pattern>
+      <message>Escreva <suggestion>Weird Al Yankovic</suggestion> se se refere ao cantor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Weird_Al_Yankovic</url>
+      <example correction="Weird Al Yankovic"><marker>Weird al Yankovich</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Barbra</token>
+          <token>Streisand</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Barba?ra</token>
+          <token regexp="yes">Strei?ss?ande?</token>
+      </pattern>
+      <message>Escreva <suggestion>Barbra Streisand</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Barbra_Streisand</url>
+      <example correction="Barbra Streisand"><marker>Barbara Streisand</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Edgar</token>
+          <token>Allan</token>
+          <token>Poe</token>
+      </antipattern>
+      <pattern>
+          <token>Edgar</token>
+          <token regexp="yes">All?[ae]n</token>
+          <token regexp="yes">Poe?</token>
+      </pattern>
+      <message>Escreva <suggestion>Edgar Allan Poe</suggestion> se se refere ao escritor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Edgar_Allan_Poe</url>
+      <example correction="Edgar Allan Poe"><marker>Edgar Alan Poe</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Charlotte</token>
+          <token>Bronte</token>
+      </pattern>
+      <message>Escreva <suggestion>Charlotte Brontë</suggestion> se se refere à autora inglesa.</message>
+      <url>https://pt.wikipedia.org/wiki/Charlotte_Bront%C3%AB</url>
+      <example correction="Charlotte Brontë"><marker>Charlotte Bronte</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">St[eé](f|ph)[ea]nie?
+            <exception>Stephenie</exception></token>
+          <token>Meyer</token>
+      </pattern>
+      <message>Escreva <suggestion>Stephenie Meyer</suggestion> se se refere à autora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Stephenie_Meyer</url>
+      <example correction="Stephenie Meyer"><marker>Stephanie Meyer</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Jonath?an</token>
+          <token>Fransen</token>
+      </pattern>
+      <message>Escreva <suggestion>Jonathan Franzen</suggestion> se se refere ao autor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Jonathan_Franzen</url>
+      <example correction="Jonathan Franzen"><marker>Jonathan Fransen</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">J[eo]?ane?</token>
+          <token>Austin</token>
+      </pattern>
+      <message>Escreva <suggestion>Jane Austen</suggestion> se se refere à escritora inglesa.</message>
+      <url>https://pt.wikipedia.org/wiki/Jane_Austen</url>
+      <example correction="Jane Austen"><marker>Jane Austin</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jimmy</token>
+          <token>Buffett</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jimm?[iy]</token>
+          <token regexp="yes">Buff?ett?</token>
+      </pattern>
+      <message>Escreva <suggestion>Jimmy Buffett</suggestion> se se refere ao cantor americano.</message>
+      <example correction="Jimmy Buffett"><marker>Jimmy Buffet</marker></example>
+      <example correction="Jimmy Buffett"><marker>Jimi Buffett</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Warren</token>
+          <token>Buffett</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Warr?en?</token>
+          <token regexp="yes">Buff?ett?</token>
+      </pattern>
+      <message>Escreva <suggestion>Warren Buffett</suggestion> se se refere ao homem de negócios americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Warren_Buffett</url>
+      <example correction="Warren Buffett"><marker>Warren Buffet</marker></example>
+      <example correction="Warren Buffett"><marker>Waren Buffett</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Joel|Ethan|frères?</token>
+        <marker><token>Cohen</token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Coen</suggestion> se se refere ao cineasta americano.</message>
+      <example correction="Coen">Joel and Ethan <marker>Cohen</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token case_sensitive="yes">Leonardo</token>
+          <token case_sensitive="yes">DiCaprio</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">L[eé]onardo?</token>
+          <token regexp="yes">D[ei]Capp?rio</token>
+      </pattern>
+      <message>Escreva <suggestion>Leonardo DiCaprio</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+      <example correction="Leonardo DiCaprio"><marker>Leonardo DeCaprio</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">L[eé]onardo?</token>
+          <token regexp="yes">D[ei]</token>
+          <token regexp="yes">Capp?rio</token>
+      </pattern>
+      <message>Escreva <suggestion>Leonardo DiCaprio</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+      <example correction="Leonardo DiCaprio"><marker>Leonardo Di Caprio</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Nich?olas?
+            <exception>Nicolas</exception></token>
+          <token>Cage</token>
+      </pattern>
+      <message>Escreva <suggestion>Nicolas Cage</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Nicolas_Cage</url>
+      <example correction="Nicolas Cage"><marker>Nicholas Cage</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>John</token>
+          <token regexp="yes">Stewar[td]</token>
+      </pattern>
+      <message>Escreva <suggestion>Jon Stewart</suggestion> se se refere à humorista americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Jon_Stewart</url>
+      <example correction="Jon Stewart"><marker>John Stewart</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Ghandh?i|Gandi</token>
+      </pattern>
+      <message>Escreva <suggestion>Gandhi</suggestion> se se refere ao líder político e guia espiritual da Índia.</message>
+      <url>https://pt.wikipedia.org/wiki/Gandhi</url>
+      <example correction="Gandhi"><marker>Ghandi</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Hilary</token>
+          <token>Clinton</token>
+      </pattern>
+      <message>Escreva <suggestion>Hillary Clinton</suggestion> se se refere à mulher política americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Hillary_Clinton</url>
+      <example correction="Hillary Clinton"><marker>Hilary Clinton</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Barack</token>
+          <token>Obama</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Barr?ac?[ck]</token>
+          <token regexp="yes">Obb?amm?a</token>
+      </pattern>
+      <message>Escreva <suggestion>Barack Obama</suggestion> se se refere ao presidente dos Estados-Unidos.</message>
+      <url>https://pt.wikipedia.org/wiki/Barack_Obama</url>
+      <example correction="Barack Obama"><marker>Barak Obama</marker></example>
+      <example correction="Barack Obama"><marker>Barack Obbama</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Eva</token>
+          <token>Mendez</token>
+      </pattern>
+      <message>Escreva <suggestion>Eva Mendes</suggestion> se se refere à actriz de origem cubana.</message>
+      <url>https://pt.wikipedia.org/wiki/Eva_Mendes</url>
+      <example correction="Eva Mendes"><marker>Eva Mendez</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Salma</token>
+          <token>Hayek</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">S[ae]lma</token>
+          <token regexp="yes">Ha[yj][ae]c?k</token>
+      </pattern>
+      <message>Escreva <suggestion>Salma Hayek</suggestion> se se refere à actriz mexico-americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Salma_Hayek</url>
+      <example correction="Salma Hayek"><marker>Selma Hayek</marker></example>
+      <example correction="Salma Hayek"><marker>Salma Hayeck</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jamie</token>
+          <token>Foxx</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jamm?[yi]e?</token>
+          <token regexp="yes">Foxx?</token>
+      </pattern>
+      <message>Escreva <suggestion>Jamie Foxx</suggestion> se se refere ao humorista americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Jamie_Foxx</url>
+      <example correction="Jamie Foxx"><marker>Jamie Fox</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Jerr?y</token>
+          <token>Seinfield</token>
+      </pattern>
+      <message>Escreva <suggestion>Jerry Seinfeld</suggestion> se se refere ao humorista americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Jerry_Seinfeld</url>
+      <example correction="Jerry Seinfeld"><marker>Jerry Seinfield</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Martin</token>
+          <token regexp="yes">Scor[cs]s?esee?
+            <exception>Scorsese</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Martin Scorsese</suggestion> se se refere ao realizador americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Martin_Scorsese</url>
+      <example correction="Martin Scorsese"><marker>Martin Scorcese</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Kayne|Kenye</token>
+          <token>West</token>
+      </pattern>
+      <message>Escreva <suggestion>Kanye West</suggestion> se se refere ao músico americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Kanye_West</url>
+      <example correction="Kanye West"><marker>Kayne West</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp="yes">Steven?</token>
+          <token>Jobs</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Stee?ven?</token>
+          <token regexp="yes">Jobs?</token>
+      </pattern>
+      <message>Escreva <suggestion>Steve Jobs</suggestion> se se refere ao co-fundador da Apple.</message>
+      <url>https://pt.wikipedia.org/wiki/Steve_Jobs</url>
+      <example correction="Steve Jobs"><marker>Steve Job</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bill</token>
+          <token>Gate</token>
+      </pattern>
+      <message>Escreva <suggestion>Bill Gates</suggestion> se se refere ao co-fundador da Microsoft.</message>
+      <example correction="Bill Gates"><marker>Bill Gate</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp="yes">Steven?</token>
+          <token>Ballmer</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Stee?ven?</token>
+          <token regexp="yes">Ball?mer</token>
+      </pattern>
+      <message>Escreva <suggestion>Steve Ballmer</suggestion> se se refere à ex-CEO da Microsoft.</message>
+      <example correction="Steve Ballmer"><marker>Steve Balmer</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Bjarne</token>
+          <token>Stroustrup</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Bj?arne?s?</token>
+          <token regexp="yes">St?ro?o?u?r?ss?t?tr?o?o?u?pp?</token>
+      </pattern>
+      <message>Escreva <suggestion>Bjarne Stroustrup</suggestion> se se refere ao autor do c++.</message>
+      <url>https://pt.wikipedia.org/wiki/Bjarne_Stroustrup</url>
+      <example correction="Bjarne Stroustrup"><marker>Bjarne Stroustroup</marker></example>
+      <example correction="Bjarne Stroustrup"><marker>Bjarnes Stroustrup</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Linus</token>
+          <token>Torvalds</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Linu[xs]</token>
+          <token regexp="yes">Th?orvald?s?</token>
+      </pattern>
+      <message>Escreva <suggestion>Linus Torvalds</suggestion> se se refere ao criador de Linux.</message>
+      <url>https://pt.wikipedia.org/wiki/Linus_Torvalds</url>
+      <example correction="Linus Torvalds"><marker>Linux Torvalds</marker></example>
+      <example correction="Linus Torvalds"><marker>Linus Thorvalds</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Richard</token>
+          <token regexp="yes">Stall?mann?
+            <exception>Stallman</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Richard Stallman</suggestion> se se refere ao criador do projeto GNU.</message>
+      <url>https://pt.wikipedia.org/wiki/Richard_Stallman</url>
+      <example correction="Richard Stallman"><marker>Richard Stallmann</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bram</token>
+          <token regexp="yes">Moo?u?ll?enaa?re?
+            <exception>Moolenaar</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Bram Moolenaar</suggestion> se se refere à autor do Vim.</message>
+      <url>https://pt.wikipedia.org/wiki/Bram_Moolenaar</url>
+      <example correction="Bram Moolenaar"><marker>Bram Moolenar</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Henri</token>
+        <marker><token regexp="yes">Point?carr?é
+            <exception>Poincaré</exception></token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Poincaré</suggestion> se se refere ao matemático francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Henri_Poincar%C3%A9</url>
+      <example correction="Poincaré">Henri <marker>Pointcaré</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Raymond</token>
+        <marker><token regexp="yes">Point?carr?é
+            <exception>Poincaré</exception></token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Poincaré</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Raymond_Poincar%C3%A9</url>
+      <example correction="Poincaré">Raymond <marker>Pointcaré</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Charles|Général|Président</token>
+          <token>de</token>
+        <marker><token regexp="yes">Gaules?|Gaulles</token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Gaulle</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Charles_de_Gaulle</url>
+      <example correction="Gaulle">Charles de <marker>Gaule</marker></example>
+      <example>Rome importait de Gaule essentiellement do sel.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Vall?[eé]r[iy]e?
+            <exception>Valéry</exception></token>
+          <token>Giscard</token>
+      </pattern>
+      <message>Escreva <suggestion>Valéry Giscard</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Val%C3%A9ry_Giscard_d%27Estaing</url>
+      <example correction="Valéry Giscard"><marker>Valérie Giscard</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>François</token>
+          <token>Mitterrand</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Fran[cç]ois</token>
+          <token regexp="yes">Mit?terr?and</token>
+      </pattern>
+      <message>Escreva <suggestion>François Mitterrand</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand</url>
+      <example correction="François Mitterrand"><marker>François Mitterand</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Nicolas</token>
+          <token>Sarkozy</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Ni[ck]h?olas?</token>
+          <token regexp="yes">Sar[kc]o[sz][yi]e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Nicolas Sarkozy</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Nicolas_Sarkozy</url>
+      <example correction="Nicolas Sarkozy"><marker>Nicolas Sarkozi</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>François</token>
+          <token>Hollande</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Fran[cç]ois</token>
+          <token regexp="yes">Holl?ande?</token>
+      </pattern>
+      <message>Escreva <suggestion>François Hollande</suggestion> se se refere ao presidente da República.</message>
+      <url>https://pt.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
+      <example correction="François Hollande"><marker>François Holland</marker></example>
+      <example correction="François Hollande"><marker>Francois Hollande</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Dominique</token>
+          <token>Strauss</token>
+          <token regexp="yes">[-‑‐]</token>
+          <token>Kahn</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Dominique|Dominic</token>
+          <token regexp="yes">Strauss?[CK]h?ah?n</token>
+      </pattern>
+      <message>Escreva <suggestion>Dominique Strauss-Kahn</suggestion> se se refere ao economista e político francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
+      <example correction="Dominique Strauss-Kahn"><marker>Dominique StraussKhan</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Dominique</token>
+          <token>Strauss</token>
+          <token regexp='yes'>[-‑‐]</token>
+          <token>Kahn</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Dominique|Dominic</token>
+          <token regexp="yes">Strauss?</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token regexp="yes">[CK]h?ah?n</token>
+      </pattern>
+      <message>Escreva <suggestion>Dominique Strauss-Kahn</suggestion> se se refere ao economista e político francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
+      <example correction="Dominique Strauss-Kahn"><marker>Dominique Strauss-Khan</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Dominique|Dominic</token>
+          <token regexp="yes">Strauss?</token>
+          <token regexp="yes">[CK]h?ah?n</token>
+      </pattern>
+      <message>Escreva <suggestion>Dominique Strauss-Kahn</suggestion> se se refere ao economista e político francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
+      <example correction="Dominique Strauss-Kahn"><marker>Dominique Strauss Khan</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Ségolène</token>
+          <token>Royal</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">S[éi]goll?[eè]nn?e?</token>
+          <token regexp="yes">Royall?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Ségolène Royal</suggestion> se se refere à política francesa.</message>
+      <url>https://pt.wikipedia.org/wiki/S%C3%A9gol%C3%A8ne_Royal</url>
+      <example correction="Ségolène Royal"><marker>Ségolène Royale</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Manuel</token>
+          <token>Valls</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[ÉE]?mm?ann?uell?e?</token>
+          <token regexp="yes">Val?s?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Manuel Valls</suggestion> se se refere ao político francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Manuel_Valls</url>
+      <example correction="Manuel Valls"><marker>Manuel Vals</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jack</token>
+          <token>Lang</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jack|Jac?ques?</token>
+          <token regexp="yes">Lang(?:ues?)?</token>
+      </pattern>
+      <message>Escreva <suggestion>Jack Lang</suggestion> se se refere ao político francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Jack_Lang</url>
+      <example correction="Jack Lang"><marker>Jacques Lang</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Liliane</token>
+          <token>Bettencourt</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Lill?iann?e</token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
+      </pattern>
+      <message>Escreva <suggestion>Liliane Bettencourt</suggestion> se se refere à mulher de negócios francesa.</message>
+      <url>https://pt.wikipedia.org/wiki/Liliane_Bettencourt</url>
+      <example correction="Liliane Bettencourt"><marker>Lilianne Bettencourt</marker></example>
+      <example correction="Liliane Bettencourt"><marker>Liliane Betencourt</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Ingrid</token>
+          <token>Betancourt</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Ingride?</token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
+      </pattern>
+      <message>Escreva <suggestion>Ingrid Betancourt</suggestion> se se refere à política franco-colombiana.</message>
+      <url>https://pt.wikipedia.org/wiki/%C3%8Dngrid_Betancourt</url>
+      <example correction="Ingrid Betancourt"><marker>Ingrid Bettencourt</marker></example>
+      <example correction="Ingrid Betancourt"><marker>Ingride Betancourt</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Arnold</token>
+          <token regexp="yes">Sc?hwarzenn?egg?er
+            <exception>Schwarzenegger</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Arnold Schwarzenegger</suggestion> ao actor e político.</message>
+      <url>https://pt.wikipedia.org/wiki/Arnold_Schwarzenegger</url>
+      <example correction="Arnold Schwarzenegger"><marker>Arnold Schwarzeneger</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Ringo</token>
+          <token regexp="yes">Stars?</token>
+      </pattern>
+      <message>Escreva <suggestion>Ringo Starr</suggestion> se se refere ao membre dos Beatles.</message>
+      <url>https://pt.wikipedia.org/wiki/Ringo_Starr</url>
+      <example correction="Ringo Starr"><marker>Ringo Star</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Sophia</token>
+          <token>Loren</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Sofia|Sophia</token>
+          <token regexp="yes">Lorr?enn?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Sophia Loren</suggestion> se se refere ao actriz italiana.</message>
+      <url>https://pt.wikipedia.org/wiki/Sophia_Loren</url>
+      <example correction="Sophia Loren"><marker>Sofia Loren</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Add?ams?
+            <exception>Addams</exception></token>
+          <token>Family</token>
+      </pattern>
+      <message>Escreva <suggestion>Addams Family</suggestion> se se refere aos personagens da série televisiva.</message>
+      <url>https://pt.wikipedia.org/wiki/The_Addams_Family</url>
+      <example correction="Addams Family"><marker>Adams Family</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Famille</token>
+          <token regexp="yes">Add?ams?
+            <exception>Addams</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Famille Addams</suggestion> se se refere aos personagens da série televisiva.</message>
+      <url>https://pt.wikipedia.org/wiki/The_Addams_Family</url>
+      <example correction="Famille Addams">La <marker>Famille Adams</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Spiderman</token>
+      </pattern>
+      <message>Hifenize <suggestion>Spider-Man</suggestion> se se refere ao personagem de ficção.</message>
+      <url>https://pt.wikipedia.org/wiki/Spider-Man</url>
+      <example correction="Spider-Man"><marker>Spiderman</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Spider</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token regexp="yes">(?-i)man</token>
+      </pattern>
+      <message>Hifenize <suggestion>Spider-Man</suggestion> se se refere ao personagem de ficção.</message>
+      <url>https://pt.wikipedia.org/wiki/Spider-Man</url>
+      <example correction="Spider-Man"><marker>Spider-man</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Darth</token>
+          <token>Vader</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Darthe?|Darke?</token>
+          <token regexp="yes">Va[dt]ere?|Va[dt](re)?|Vadore?</token>
+      </pattern>
+      <message>Escreva <suggestion>Darth Vader</suggestion> (em inglês) se se refere ao personagem do Star Wars.</message>
+      <url>https://pt.wikipedia.org/wiki/Darth_Vader</url>
+      <example correction="Darth Vader"><marker>Dark Vader</marker> é um personagem de Star Wars.</example>
+      <example correction="Darth Vader"><marker>Dark Vador</marker> é um personagem de Star Wars.</example>
+      <example correction="Darth Vader"><marker>Darth Vador</marker> é um personagem de Star Wars.</example>
+      <example>Darth Vader é um personagem de Star Wars.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Freddy</token>
+          <token>Krueger</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Fredd?[iy]e?</token>
+          <token regexp="yes">Kr[uü]e?gg?er</token>
+      </pattern>
+      <message>Escreva <suggestion>Freddy Krueger</suggestion> se se refere ao personagem de ficção.</message>
+      <url>https://pt.wikipedia.org/wiki/Freddy_Krueger</url>
+      <example correction="Freddy Krueger"><marker>Freddy Kruger</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Forest</token>
+          <token>Gump</token>
+      </pattern>
+      <message>Escreva <suggestion>Forrest Gump</suggestion> se se refere ao personagem do filme.</message>
+      <url>https://pt.wikipedia.org/wiki/Forrest_Gump</url>
+      <example correction="Forrest Gump"><marker>Forest Gump</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Whoopi</token>
+          <token>Goldberg</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Whoo?pie?</token>
+          <token regexp="yes">Gold?berg</token>
+      </pattern>
+      <message>Escreva <suggestion>Whoopi Goldberg</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Whoopi_Goldberg</url>
+      <example correction="Whoopi Goldberg"><marker>Whoopie Goldberg</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jennifer</token>
+          <token>Aniston</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jenn?ifer</token>
+          <token regexp="yes">Ann?iston</token>
+      </pattern>
+      <message>Escreva <suggestion>Jennifer Aniston</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Jennifer_Aniston</url>
+      <example correction="Jennifer Aniston"><marker>Jennifer Anniston</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Co?u?rte?ney
+            <exception>Courteney</exception></token>
+          <token>Cox</token>
+      </pattern>
+      <message>Escreva <suggestion>Courteney Cox</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Courteney_Cox</url>
+      <example correction="Courteney Cox"><marker>Courtney Cox</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Alyssa</token>
+          <token>Milano</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">All?[iy]ss?a</token>
+          <token regexp="yes">Mill?ann?o</token>
+      </pattern>
+      <message>Escreva <suggestion>Alyssa Milano</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Alyssa_Milano</url>
+      <example correction="Alyssa Milano"><marker>Alissa Milano</marker></example>
+      <example correction="Alyssa Milano"><marker>Alyssa Milanno</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Liza</token>
+          <token>Minnelli</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Li[sz]a</token>
+          <token regexp="yes">Minn?ell?i</token>
+      </pattern>
+      <message>Escreva <suggestion>Liza Minnelli</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Liza_Minnelli</url>
+      <example correction="Liza Minnelli"><marker>Lisa Minnelli</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Bro[ou]ke?</token>
+          <token>Shield</token>
+      </pattern>
+      <message>Escreva <suggestion>Brooke Shields</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Brooke_Shields</url>
+      <example correction="Brooke Shields"><marker>Brooke Shield</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">J[uo]dd?[iy]e?
+            <exception>Jodie</exception></token>
+          <token>Foster</token>
+      </pattern>
+      <message>Escreva <suggestion>Jodie Foster</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Jodie_Foster</url>
+      <example correction="Jodie Foster"><marker>Joddie Foster</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Yann</token>
+          <token regexp="yes">Th?ie?rss?enn?
+            <exception>Tiersen</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Yann Tiersen</suggestion> se se refere ao pianiste francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Yann_Tiersen</url>
+      <example correction="Yann Tiersen"><marker>Yann Tiersenn</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Alan</token>
+          <token>Stivell</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">All?an</token>
+          <token regexp="yes">Stivell?</token>
+      </pattern>
+      <message>Escreva <suggestion>Alan Stivell</suggestion> se se refere ao músico bretão.</message>
+      <url>https://pt.wikipedia.org/wiki/Alan_Stivell</url>
+      <example correction="Alan Stivell"><marker>Allan Stivell</marker></example>
+      <example correction="Alan Stivell"><marker>Alan Stivel</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Glenn?</token>
+          <token>Mor</token>
+      </pattern>
+      <message>Escreva <suggestion>Glenmor</suggestion> se se refere ao músico bretão.</message>
+      <url>https://pt.wikipedia.org/wiki/Glenmor</url>
+      <example correction="Glenmor"><marker>Glenn Mor</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Glennmor|Glenn?[-‑‐]mor</token>
+      </pattern>
+      <message>Escreva <suggestion>Glenmor</suggestion> se se refere ao músico bretão.</message>
+      <url>https://pt.wikipedia.org/wiki/Glenmor</url>
+      <example correction="Glenmor"><marker>Glennmor</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Glenn?</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token>mor</token>
+      </pattern>
+      <message>Escreva <suggestion>Glenmor</suggestion> se se refere ao músico bretão.</message>
+      <url>https://pt.wikipedia.org/wiki/Glenmor</url>
+      <example correction="Glenmor"><marker>Glenn-mor</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bernez</token>
+          <token regexp="yes">Tangu[iy]|Tangy</token>
+      </pattern>
+      <message>Escreva <suggestion>Bernez Tangi</suggestion> se se refere ao poeta bretão.</message>
+      <url>https://pt.wikipedia.org/wiki/Bernez_Tangi</url>
+      <example correction="Bernez Tangi"><marker>Bernez Tanguy</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Nicki</token>
+          <token>Minaj</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Nic?kk?[yi]e?</token>
+          <token regexp="yes">M[ie]nn?a[jg]e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Nicki Minaj</suggestion> se se refere à rapper americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Nicki_Minaj</url>
+      <example correction="Nicki Minaj"><marker>Nicky Minaj</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Britney</token>
+          <token>Spears</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Britt?a?nn?(y|ie?)|Britt?ne?y</token>
+          <token regexp="yes">Spears?</token>
+      </pattern>
+      <message>Escreva <suggestion>Britney Spears</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Britney_Spears</url>
+      <example correction="Britney Spears"><marker>Brittany Spears</marker></example>
+      <example correction="Britney Spears"><marker>Britney Spear</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Karl</token>
+          <token>Lagerfeld</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[KC]arl</token>
+          <token regexp="yes">Lag[ae]rfi?eld</token>
+      </pattern>
+      <message>Escreva <suggestion>Karl Lagerfeld</suggestion> se se refere ao designer alemão.</message>
+      <url>https://pt.wikipedia.org/wiki/Karl_Lagerfeld</url>
+      <example correction="Karl Lagerfeld"><marker>Karl Lagerfield</marker></example>
+      <example correction="Karl Lagerfeld"><marker>Carl Lagerfeld</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Mariah</token>
+          <token>Carey</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Marr?iah?</token>
+          <token regexp="yes">Carr?ey</token>
+      </pattern>
+      <message>Escreva <suggestion>Mariah Carey</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Mariah_Carey</url>
+      <example correction="Mariah Carey"><marker>Maria Carey</marker></example>
+      <example>Mariah Carey</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Merryl</token>
+          <token>Streep</token>
+      </pattern>
+      <message>Escreva <suggestion>Meryl Streep</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Meryl_Streep</url>
+      <example correction="Meryl Streep"><marker>Merryl Streep</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Cyndi</token>
+          <token>Lauper</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">C[iy]nd[yi]e?</token>
+          <token regexp="yes">Laupers?</token>
+      </pattern>
+      <message>Escreva <suggestion>Cyndi Lauper</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Cyndi_Lauper</url>
+      <example correction="Cyndi Lauper"><marker>Cyndie Lauper</marker></example>
+      <example correction="Cyndi Lauper"><marker>Cyndi Laupers</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Nelson</token>
+          <token regexp="yes">Mendell?a|Mandella</token>
+      </pattern>
+      <message>Escreva <suggestion>Nelson Mandela</suggestion> se se refere ao chefe de Estado sul-africano.</message>
+      <url>https://pt.wikipedia.org/wiki/Nelson_Mandela</url>
+      <example correction="Nelson Mandela"><marker>Nelson Mendela</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Ban</token>
+          <token>Ki</token>
+          <token>Moon</token>
+      </pattern>
+      <message>Escreva <suggestion>Ban Ki-moon</suggestion> se se refere ao diplomata sul-coreano.</message>
+      <url>https://pt.wikipedia.org/wiki/Ban_Ki-moon</url>
+      <example correction="Ban Ki-moon"><marker>Ban Ki Moon</marker></example>
+    </rule>
+    <rule>
+      <regexp>(?-i)(?!Cédric Villani\b)(?i)\bC[ée]drick? Vill?ann?[iy]e?\b</regexp>
+      <message>Escreva <suggestion>Cédric Villani</suggestion> se se refere ao matemático francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Cédric_Villani</url>
+      <example correction="Cédric Villani"><marker>Cédric Vilani</marker></example>
+    </rule>
+    <rule>
+      <regexp>(?-i)(?!Artur Avila\b)(?i)\bArth?ur Avv?ill?a?\b</regexp>
+      <message>Escreva <suggestion>Artur Avila</suggestion> se se refere ao matemático brazilo-francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Artur_Avila</url>
+      <example correction="Artur Avila"><marker>Arthur Avila</marker></example>
+    </rule>
+    <rule>
+      <regexp>(?-i)(?!Pierre-Gilles de Gennes\b)(?i)\bPi[eêè]rr?es?[- ]Gill?es? de G[eêè]nn?es?\b</regexp>
+      <message>Escreva <suggestion>Pierre-Gilles de Gennes</suggestion> se se refere ao físico francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Pierre-Gilles_de_Gennes</url>
+      <example correction="Pierre-Gilles de Gennes"><marker>Pierre-Gilles de Genne</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Ban</token>
+          <token case_sensitive="yes">Ki</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token case_sensitive="yes">Moon</token>
+      </pattern>
+      <message>Escreva <suggestion>Ban Ki-moon</suggestion> se se refere ao diplomata sul-coreano.</message>
+      <url>https://pt.wikipedia.org/wiki/Ban_Ki-moon</url>
+      <example correction="Ban Ki-moon"><marker>Ban Ki-Moon</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Albert|Docteur</token>
+        <marker><token>Schweizer</token></marker>
+      </pattern>
+      <message>Escreva <suggestion>Schweitzer</suggestion> se se refere ao filósofo/médico alemão.</message>
+      <url>https://pt.wikipedia.org/wiki/Albert_Schweitzer</url>
+      <example correction="Schweitzer">Albert <marker>Schweizer</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bob</token>
+          <token regexp="yes">Sa?inclai?re?|(St|Saint)Clai?re?
+            <exception>Sinclar</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Bob Sinclar</suggestion> se se refere ao DJ francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Bob_Sinclar</url>
+      <example correction="Bob Sinclar"><marker>Bob Sinclair</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Bob</token>
+          <token regexp="yes">St|Saint</token>
+          <token regexp='yes' min='0'>[-‑‐]|\.</token>
+          <token regexp="yes">Clai?re?</token>
+      </pattern>
+      <message>Escreva <suggestion>Bob Sinclar</suggestion> se se refere ao DJ francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Bob_Sinclar</url>
+      <example correction="Bob Sinclar"><marker>Bob St.Clair</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Jonah</token>
+          <token>Lomu</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Jh?oh?nn?h?ah?</token>
+          <token regexp="yes">L[ao]mm?o?u</token>
+      </pattern>
+      <message>Escreva <suggestion>Jonah Lomu</suggestion> se se refere ao jogador de rugby neozelandês.</message>
+      <url>https://pt.wikipedia.org/wiki/Jonah_Lomu</url>
+      <example correction="Jonah Lomu"><marker>Johna Lomu</marker></example>
+      <example correction="Jonah Lomu"><marker>Jhona Lomu</marker></example>
+      <example correction="Jonah Lomu"><marker>Jonnah Lomu</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?
+            <exception>Natalie</exception></token>
+          <token>Imbruglia</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Imbruglia</suggestion> se se refere à cantora americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Imbruglia</url>
+      <example correction="Natalie Imbruglia"><marker>Nathalie Imbruglia</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Natalie</token>
+          <token>Portman</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?</token>
+          <token regexp="yes">Poo?rtmann?</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Portman</suggestion> se se refere à actriz israelo-americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Portman</url>
+      <example correction="Natalie Portman"><marker>Nathalie Portman</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Natalie</token>
+          <token>Portman</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?</token>
+          <token regexp="yes">Poo?rt</token>
+          <token regexp='yes' min='0'>[-‑‐]</token>
+          <token regexp="yes">mann?</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Portman</suggestion> se se refere à actriz israelo-americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Portman</url>
+      <example correction="Natalie Portman"><marker>Natalie Port-man</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?
+            <exception>Natalie</exception></token>
+          <token>Wood</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Wood</suggestion> se se refere à actriz americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Wood</url>
+      <example correction="Natalie Wood"><marker>Nathalie Wood</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Natalie</token>
+          <token>Cole</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?</token>
+          <token regexp="yes">Coo?le</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Cole</suggestion> se se refere à cantora americana de Jazz, soul e R&amp;B.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Cole</url>
+      <example correction="Natalie Cole"><marker>Nathalie Cole</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Nath?al[iy]e?
+            <exception>Natalie</exception></token>
+          <token>Dormer</token>
+      </pattern>
+      <message>Escreva <suggestion>Natalie Dormer</suggestion> se se refere à actriz britânica.</message>
+      <url>https://pt.wikipedia.org/wiki/Natalie_Dormer</url>
+      <example correction="Natalie Dormer"><marker>Nathalie Dormer</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[EÉ]ll?iott?e?s?
+            <exception>Elliott</exception></token>
+          <token>Gould</token>
+      </pattern>
+      <message>Escreva <suggestion>Elliott Gould</suggestion> se se refere ao actor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Elliott_Gould</url>
+      <example correction="Elliott Gould"><marker>Elliot Gould</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Missy</token>
+          <token regexp="yes">[EÉ]ll?iott?e?s?
+            <exception>Elliott</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Missy Elliott</suggestion> se se refere à rapper americana.</message>
+      <url>https://pt.wikipedia.org/wiki/Missy_Elliott</url>
+      <example correction="Missy Elliott"><marker>Missy Elliot</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Lyle</token>
+          <token>Lovett</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">L[yi]ll?e</token>
+          <token regexp="yes">Lovett?e?</token>
+      </pattern>
+      <message>Escreva <suggestion>Lyle Lovett</suggestion> se se refere ao cantor compositor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Lyle_Lovett</url>
+      <example correction="Lyle Lovett"><marker>Lyle Lovet</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Chris</token>
+          <token regexp="yes">I[zs]aa?(?:c?k|c)
+            <exception>Isaak</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Chris Isaak</suggestion> se se refere ao cantor americano.</message>
+      <url>https://pt.wikipedia.org/wiki/Chris_Isaak</url>
+      <example correction="Chris Isaak"><marker>Chris Izaak</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>France</token>
+          <token regexp="yes">Gall?e?s?
+            <exception>Gall</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>France Gall</suggestion> se se refere à cantora francesa.</message>
+      <url>https://pt.wikipedia.org/wiki/France_Gall</url>
+      <example correction="France Gall"><marker>France Galle</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Michel</token>
+          <token regexp="yes">Fugh?u?a?i?n
+            <exception>Fugain</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Michel Fugain</suggestion> se se refere ao cantor compositor francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Michel_Fugain</url>
+      <example correction="Michel Fugain"><marker>Michel Fuguin</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Michel</token>
+          <token regexp="yes">Delp[èêe]che?
+            <exception>Delpech</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Michel Delpech</suggestion> se se refere ao cantor compositor francês.</message>
+      <url>https://pt.wikipedia.org/wiki/Michel_Delpech</url>
+      <example correction="Michel Delpech"><marker>Michel Delpeche</marker></example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Gustav</token>
+          <token>Mahler</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Gustave?</token>
+          <token regexp="yes">Mah?lh?er</token>
+      </pattern>
+      <message>Escreva <suggestion>Gustav Mahler</suggestion> se se refere ao compositor austríaco.</message>
+      <url>https://pt.wikipedia.org/wiki/Gustav_Mahler</url>
+      <example correction="Gustav Mahler"><marker>Gustav Malher</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Lee</token>
+          <token regexp="yes">S[ée]e?dd?oll?e?
+            <exception>Sedol</exception></token>
+      </pattern>
+      <message>Escreva <suggestion>Lee Sedol</suggestion> se se refere ao jogador de Go profissional coreano.</message>
+      <url>https://pt.wikipedia.org/wiki/Lee_Sedol</url>
+      <example correction="Lee Sedol"><marker>Lee Seedol</marker></example>
+    </rule>
+  </rulegroup>
+
  </category>
 </rules>
