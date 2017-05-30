@@ -1386,7 +1386,8 @@ title="Easy editing stylesheet" ?>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id="VERBO_DE_QUE" name="Verbo tipo pensar + de que">
       <pattern>
-          <token inflected="yes" regexp="yes">pensar|opinar|acreditar|comentar|expresar|dizer|deduzir|inferir|razoar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconselhar|ver|observar|gostar|antes<exception>razões</exception></token>
+          <token inflected="yes" regexp="yes">pensar|opinar|acreditar|comentar|expresar|dizer|deduzir|inferir|razoar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconselhar|ver|observar|gostar|antes
+            <exception>razões</exception></token>
           <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
@@ -2215,7 +2216,8 @@ title="Easy editing stylesheet" ?>
           <token>necessário</token>
         </marker>
           <token>uma</token>
-          <token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></exception><exception>uma</exception></token>
+          <token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></exception>
+            <exception>uma</exception></token>
       </pattern>
       <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
       <example correction="necessária">É <marker>necessário</marker> uma festa.</example>
@@ -2227,8 +2229,10 @@ title="Easy editing stylesheet" ?>
           <token>necessário</token>
         </marker>
           <token>uma</token>
-          <token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"><exception>uma</exception></token>
-          <token postag="NCFS000"><exception postag="NCMS000"></exception><exception>uma</exception></token>
+          <token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000">
+            <exception>uma</exception></token>
+          <token postag="NCFS000"><exception postag="NCMS000"></exception>
+            <exception>uma</exception></token>
       </pattern>
       <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
       <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
@@ -4848,7 +4852,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token><exception regexp="yes">[,;:–—\(]</exception><exception>o</exception></token>
+          <token><exception regexp="yes">[,;:–—\(]</exception>
+            <exception>o</exception></token>
         </marker>
           <token regexp="yes">mas|porém|contudo|entretanto|todavia</token>
       </pattern>
@@ -5607,7 +5612,8 @@ title="Easy editing stylesheet" ?>
           <token min='0'>.</token>
           <token regexp='yes'>al|all</token>
         </marker>
-          <token><exception>.</exception></token>
+          <token>
+            <exception>.</exception></token>
       </pattern>
       <message>Erro de pontuação.</message>
         <suggestion>et al.</suggestion>
@@ -5944,7 +5950,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token><match no="1"/></token>
       </antipattern>
       <pattern>
-          <token><exception>-</exception></token>
+          <token>
+            <exception>-</exception></token>
           <token skip='-1'/>
         <marker>
           <token><match no="1"/>
@@ -5984,7 +5991,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       </antipattern>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
       <pattern>
-          <token><exception>-</exception></token>
+          <token>
+            <exception>-</exception></token>
           <token skip='-1'/>
           <token><match no="1"/></token>
           <token skip='-1'/>
@@ -6023,9 +6031,12 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>de</token>
       </antipattern>
       <pattern>
-          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
-          <token regexp="yes"><exception>e</exception>\p{L}+</token>
-          <token regexp="yes"><exception>e</exception>\p{L}+</token>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
           <token><match no="0"/></token>
           <token><match no="1"/></token>
           <token><match no="2"/></token>
@@ -6061,8 +6072,10 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>terra</token>
       </antipattern>
       <pattern>
-          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>e</exception>\p{L}+</token>
-          <token regexp="yes"><exception>e</exception>\p{L}+</token>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
           <token><match no="0"/></token>
           <token><match no="1"/></token>
       </pattern>
@@ -19411,7 +19424,8 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="(P.|N).FP.+" postag_regexp="yes"/>
-          <token postag="CC"><exception>senão</exception></token>
+          <token postag="CC">
+            <exception>senão</exception></token>
           <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\3</suggestion>.</message>
@@ -19421,7 +19435,8 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="(P.|N).MP.+" postag_regexp="yes"/>
-          <token postag="CC"><exception>sino</exception></token>
+          <token postag="CC">
+            <exception>sino</exception></token>
           <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\1</suggestion>.</message>
@@ -19432,7 +19447,8 @@ TODO Write better examples
       <pattern>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
           <token postag="(P.|N).FP.+" postag_regexp="yes"/>
-          <token postag="CC"><exception>sino</exception></token>
+          <token postag="CC">
+            <exception>sino</exception></token>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
       </pattern>
@@ -19443,7 +19459,8 @@ TODO Write better examples
       <pattern>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
           <token postag="(P.|N).[MC]P.+" postag_regexp="yes"/>
-          <token postag="CC"><exception>sino</exception></token>
+          <token postag="CC">
+            <exception>sino</exception></token>
           <token postag="[DP].+" postag_regexp="yes" skip="1"><exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
       </pattern>
@@ -19496,7 +19513,8 @@ TODO Write better examples
           <token>depois</token>
           <token>de</token>
         </marker>
-          <token><exception>amanhã</exception></token>
+          <token>
+            <exception>amanhã</exception></token>
       </pattern>
       <message>Substitua por <suggestion>após</suggestion>.</message>
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
