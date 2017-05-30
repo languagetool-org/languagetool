@@ -9114,8 +9114,10 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_346_COROAR' name='coroar de êxito'>
       <pattern>
           <token inflected='yes'>coroar</token>
+          <token min='0'>-</token>
+          <token min='0' regexp='yes'>[mts]e</token>
           <token>de</token>
-          <token>êxito</token>
+          <token regexp='yes'>êxitos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>ter</match> sucesso</suggestion>
@@ -9993,8 +9995,8 @@ egligenciar</suggestion>
           <token>meada</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>perder o fio à meada</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>desnortear</match>-se</suggestion>
+      <example correction='desnortear-se'><marker>perder o fio à meada</marker>.</example>
     </rule>
 
   </rulegroup>
@@ -18489,8 +18491,8 @@ TODO Write better examples
           <token>de</token>
       </pattern>
       <message>Possível linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>a fim de</marker>.</example>
+        <suggestion>interessar-se</suggestion>
+      <example correction='interessar-se'><marker>a fim de</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18510,8 +18512,8 @@ TODO Write better examples
           <token>sofrimento</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>acabar com o sofrimento</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>matar</match></suggestion>
+      <example correction='matar'><marker>acabar com o sofrimento</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18538,8 +18540,8 @@ TODO Write better examples
           <token>papo</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>bater papo</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>falar</match></suggestion>
+      <example correction='falar'><marker>bater papo</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18693,8 +18695,8 @@ TODO Write better examples
           <token>saco</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>encher o saco</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>aborrecer</match></suggestion>
+      <example correction='aborrecer'><marker>encher o saco</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18711,10 +18713,10 @@ TODO Write better examples
           <token>mal</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>falar mal</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>maldizer</match></suggestion>
+      <example correction='maldiga'><marker>fala mal</marker>.</example>
     </rule>
-    <rule>
+    <!--rule>
       <pattern>
           <token>falas</token>
           <token>português</token>
@@ -18722,7 +18724,7 @@ TODO Write better examples
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion></suggestion>
       <example correction=''><marker>falas português</marker>.</example>
-    </rule>
+    </rule-->
     <rule>
       <pattern>
           <token inflected='yes'>fazer</token>
@@ -18730,8 +18732,8 @@ TODO Write better examples
           <token>coxas</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>feito nas coxas</marker>.</example>
+        <suggestion>\1 apressadamente</suggestion>
+      <example correction='feito apressadamente'><marker>feito nas coxas</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18790,8 +18792,8 @@ TODO Write better examples
           <token>cara</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion></suggestion>
-      <example correction=''><marker>está na cara</marker>.</example>
+        <suggestion><match no='1' postag='V.+'>ser</match> óbvio</suggestion>
+      <example correction='sejas óbvio|sê óbvio'><marker>está na cara</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -18947,6 +18949,16 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
+          <token inflected='yes'>bobear</token>
+          <token min='0'>-</token>
+          <token min='0'>se</token>
+      </pattern>
+      <message>Linguagem informal. Considere as alternativas.</message>
+        <suggestion></suggestion>
+      <example correction=''><marker>bobear-se</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token inflected='yes'>tirar</token>
           <token>água</token>
           <token>do</token>
@@ -18994,8 +19006,6 @@ TODO Write better examples
         <suggestion></suggestion>
       <example correction=''><marker>vira e mexe</marker>.</example>
     </rule>
-  </rulegroup>
-
     <rule id='ACHO_QUE' name="penso/julgo que">
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
       <pattern>
@@ -19009,17 +19019,18 @@ TODO Write better examples
         <suggestion>julgo</suggestion>
       <example correction='penso|julgo'>Eu <marker>acho</marker> que devemos vencer.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id="PROFANITY" name="Profanidade">
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+      <url>https://pt.wiktionary.org/wiki/Categoria:Obscenidade_(Portugu%C3%AAs)</url>
+      <short>Baixo calão</short>
     <rule>
       <pattern>
           <token inflected="yes" regexp="yes">(&obscenidades;)s?</token>
       </pattern>
       <message>Esta palavra é de baixo calão. Considere as alternativas.</message>
         <suggestion>#¿$?%!¡</suggestion>
-      <url>https://pt.wiktionary.org/wiki/Categoria:Obscenidade_(Portugu%C3%AAs)</url>
-      <short>Baixo calão</short>
       <example correction="#¿$?%!¡"><marker>Merda</marker>!</example>
       <example type="correct">Porra!</example>
     </rule>
@@ -19148,9 +19159,9 @@ TODO Write better examples
           <token>o</token>
           <token>biscoito</token>
       </pattern>
-      <message>Frase-feita. Procure alternativas.</message>
+      <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
         <suggestion><match no='1' postag='V.+'>fazer</match> sexo</suggestion>
-      <example correction='fi sexo|fiz sexo'><marker>molhei o biscoito</marker>.</example>
+      <example correction='fizer sexo'><marker>molhar o biscoito</marker>.</example>
     </rule>
     <rule>
       <pattern>
