@@ -21924,6 +21924,343 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Lee_Sedol</url>
       <example correction="Lee Sedol"><marker>Lee Seedol</marker></example>
     </rule>
+    <!--      Localized from German grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-31      -->
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Alexius</token>
+          <token>Meinung</token>
+      </pattern>
+      <message>Pretende referir-se ao filósofo <suggestion>Alexius Meinong</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Alexius_Meinong</url>
+      <example correction="Alexius Meinong"><marker>Alexius Meinung</marker> é um filósofo.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Henry</token>
+          <token regexp="yes">Poincaré|Matisse</token>
+      </pattern>
+      <message>Pretende referir-se ao nomes franceses <suggestion>Henri \2</suggestion>?</message>
+      <example correction="Henri Poincaré">A conjetura de Poincaré é <marker>Henry Poincaré</marker> bem conhecida.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Josef</token>
+          <token regexp="yes">Haydns?</token>
+      </pattern>
+      <message>Pretende referir-se ao compotitor Franz <suggestion>Joseph Haydn</suggestion>?</message>
+      <example correction="Joseph Haydn"><marker>Josef Haydn</marker> compôs o hino imperial.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Herman</token>
+          <token regexp="yes">Reutters?</token>
+      </pattern>
+      <message>Pretende referir-se ao compositor <suggestion>Hermann Reutter</suggestion>?</message>
+      <example correction="Hermann Reutter"><marker>Herman Reutter</marker> compôs a melodia do hino da Alemanha.</example>
+    </rule>
+    <rule>
+      <regexp case_sensitive='yes'>Abraham Linken</regexp>
+      <message>Pretende referir-se ao presidente americano <suggestion>Abraham Lincoln</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Abraham_Lincoln</url>
+      <example correction="Abraham Lincoln"><marker>Abraham Linken</marker> foi assassinado.</example>
+    </rule>
+    <rule>
+      <regexp case_sensitive='yes'>Max Brot\b</regexp>
+      <message>Pretende referir-se a <suggestion>Max Brod</suggestion>, o amigo e executor de Franz Kafka?</message>
+      <url>https://pt.wikipedia.org/wiki/Max_Brod</url>
+      <example><marker>Max Brod</marker> era um amigo de Kafka.</example>
+      <example correction="Max Brod"><marker>Max Brot</marker> foi um amigo de Kafka.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Ulrike</token>
+          <token>Meinhoff</token>
+      </pattern>
+      <message>Pretende referir-se a <suggestion>Ulrike Meinhof</suggestion> (Mitglied der RAF)?</message>
+      <url>https://pt.wikipedia.org/wiki/Ulrike_Meinhof</url>
+      <example correction="Ulrike Meinhof"><marker>Ulrike Meinhoff</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Johannes</token>
+          <token>Guttenberg</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Johannes Gutenberg</suggestion>, o inventor da prensa de impressão?</message>
+      <url>https://pt.wikipedia.org/wiki/Johannes_Gutenberg</url>
+      <example>Karl Theodor renunciou <marker>Guttenberg</marker> por causa de um escândalo de plágio.</example>
+      <example correction="Johannes Gutenberg"><marker>Johannes Guttenberg</marker> é o inventor de impressão com o tipo móvel.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" skip="1">Theodor|.*(Minister|ministro)</token>
+        <marker>
+          <token>Gutenberg</token>
+        </marker>
+      </pattern>
+      <message>Pretende referir-se Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+      <url>https://pt.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
+      <example>Johannes <marker>Gutenberg</marker> o ex-ministro da Defesa.</example>
+      <example correction="Guttenberg">Karl-Theodor renunciou <marker>Gutenberg</marker> por causa de um escândalo de plágio.</example>
+    </rule>
+    <rule>
+      <regexp case_sensitive="yes">Eli[sz]abeth? (Selber|Selberth)\b</regexp>
+      <message>Pretende referir-se <suggestion>Elisabeth Selbert</suggestion> (deutsche política)?</message>
+      <url>https://pt.wikipedia.org/wiki/Elisabeth_Selbert</url>
+      <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> foi uma das quatro "mães da Lei Básica".</example>
+    </rule>
+    <rule>
+      <regexp case_sensitive="yes">Elisabeth (Selber|Selberth)\b</regexp>
+      <message>Pretende referir-se <suggestion>Elisabeth Selbert</suggestion> (deutsche política)?</message>
+      <url>https://pt.wikipedia.org/wiki/Elisabeth_Selbert</url>
+      <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> foi uma das quatro "mães da Lei Básica".</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Andreas</token>
+          <token>Bader</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Andreas Baader</suggestion> (Mitglied der RAF)?</message>
+      <url>https://pt.wikipedia.org/wiki/Andreas_Baader</url>
+      <example correction="Andreas Baader"><marker>Andreas Bader</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Reinecke</token>
+          <token>Fuchs</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Reineke Fuchs</suggestion> (figura literária)?</message>
+      <url>https://pt.wikipedia.org/wiki/Reineke_Fuchs</url>
+      <example correction="Reineke Fuchs"><marker>Reinecke Fuchs</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">Russelschen?</token>
+          <token>Antinomie</token>
+      </pattern>
+      <message>Pretende referir-se a <suggestion><match no="1" regexp_match="(Russel)(sche|schen)" regexp_replace="$1l$2"/> Antinomie</suggestion>? (abgeleitet von: Bertrand Russell)</message>
+      <url>https://pt.wikipedia.org/wiki/Russellsche_Antinomie</url>
+      <example correction="Russellsche Antinomie"><marker>Russelsche Antinomie</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Mari\w?a<exception>Marina</exception></token>
+          <token regexp="yes">Weisband|Weißband</token>
+      </pattern>
+      <message>Pretende referir-se à política <suggestion>Marina Weisband</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Marina_Weisband</url>
+      <example correction="Marina Weisband"><marker>Maria Weißband</marker></example>
+      <example correction="Marina Weisband"><marker>Marita Weisband</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Marina</token>
+          <token regexp="yes">Wei\w\w?band|Weißband<exception>Weisband</exception></token>
+      </pattern>
+      <message>Pretende referir-se à política <suggestion>Marina Weisband</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Marina_Weisband</url>
+      <example correction="Marina Weisband"><marker>Marina Weißband</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Sarah?</token>
+          <token>Wagenknecht</token>
+      </pattern>
+      <message>Pretende referir-se à política <suggestion>Sahra Wagenknecht</suggestion>? (Esta é a ortografia preferido de seu primeiro nome.)</message>
+      <url>https://pt.wikipedia.org/wiki/Sahra_Wagenknecht</url>
+      <example><marker>Sarah Vaughan</marker> era uma cantora.</example>
+      <example correction="Sahra Wagenknecht"><marker>Sarah Wagenknecht</marker> é uma política.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Sarah?</token>
+          <token>Leander</token>
+      </pattern>
+      <message>Pretende referir-se a uma atriz sueca e cantora <suggestion>Zarah Leander</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Zarah_Leander</url>
+      <example><marker>Sahra</marker> Wagenknecht</example>
+      <example correction="Zarah Leander"><marker>Sarah Leander</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Till</token>
+          <token>Schweiger</token>
+      </pattern>
+      <message>Pretende referir-se ao ator alemão e cineasta <suggestion>Til Schweiger</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Til_Schweiger</url>
+      <example><marker>Till</marker> Eulenspiegel</example>
+      <example correction="Til Schweiger"><marker>Till Schweiger</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Helmuth</token>
+          <token>Schmidt</token>
+      </pattern>
+      <message>Pretende referir-se ao político alemão <suggestion>Helmut Schmidt</suggestion> (Chanceler de 1974 a 1982)?</message>
+      <url>https://pt.wikipedia.org/wiki/Helmut_Schmidt</url>
+      <example correction="Helmut Schmidt"><marker>Helmuth Schmidt</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Helmut</token>
+          <token regexp="yes">Schmitt|Schmid</token>
+      </pattern>
+      <message>Pretende referir-se ao político alemão <suggestion>Helmut Schmidt</suggestion> (Chanceler de 1974 a 1982)?</message>
+      <url>https://pt.wikipedia.org/wiki/Helmut_Schmidt</url>
+      <example correction="Helmut Schmidt"><marker>Helmut Schmitt</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Helmuth</token>
+          <token>Kohl</token>
+      </pattern>
+      <message>Pretende referir-se ao político alemão <suggestion>Helmut Kohl</suggestion> (Chanceler de 1982 a 1998)?</message>
+      <url>https://pt.wikipedia.org/wiki/Helmut_Kohl</url>
+      <example correction="Helmut Kohl"><marker>Helmuth Kohl</marker></example>
+    </rule>
+    <rule>
+      <regexp case_sensitive='yes'>Josef (G(oe|ö)bbels)</regexp>
+      <message>Pretende referir-se <suggestion>Joseph Goebbels</suggestion>, o ministro da propaganda do Terceiro Reich?</message>
+      <url>https://pt.wikipedia.org/wiki/Joseph_Goebbels</url>
+      <example correction="Joseph Goebbels"><marker>Josef Goebbels</marker></example>
+      <example correction="Joseph Goebbels"><marker>Josef Göbbels</marker></example>
+    </rule>
+    <rule>
+      <regexp case_sensitive='yes'>Joseph Göbbels</regexp>
+      <message>Pretende referir-se <suggestion>Joseph Goebbels</suggestion>, o ministro da propaganda do Terceiro Reich?</message>
+      <url>https://pt.wikipedia.org/wiki/Joseph_Goebbels</url>
+      <example correction="Joseph Goebbels"><marker>Joseph Göbbels</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Berth?old</token>
+          <token>Brecht</token>
+      </pattern>
+      <message>Pretende referir-se ao dramaturgo alemão <suggestion>Bertolt Brecht</suggestion>? (Esta é a sua própria ortografia do primeiro nome.)</message>
+      <url>https://pt.wikipedia.org/wiki/Bertolt_Brecht</url>
+      <example correction="Bertolt Brecht"><marker>Berthold Brecht</marker></example>
+      <example correction="Bertolt Brecht"><marker>Bertold Brecht</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Gustav</token>
+          <token>Gründgens</token>
+      </pattern>
+      <message>Pretende referir-se ao ator alemão <suggestion>Gustaf Gründgens</suggestion>? (Esta é a sua própria ortografia do primeiro nome.)</message>
+      <url>https://pt.wikipedia.org/wiki/Gustaf_Gr%C3%BCndgens</url>
+      <example correction="Gustaf Gründgens"><marker>Gustav Gründgens</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Emanuel</token>
+          <token>Kant</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Immanuel Kant</suggestion> (filósofo do iluminismo)?</message>
+      <url>https://pt.wikipedia.org/wiki/Immanuel_Kant</url>
+      <example correction="Immanuel Kant"><marker>Emanuel Kant</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Gottlieb</token>
+          <token>Frege</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Gottlob Frege</suggestion> (fundador da lógica moderna)?</message>
+      <url>https://pt.wikipedia.org/wiki/Gottlob_Frege</url>
+      <example correction="Gottlob Frege"><marker>Gottlieb Frege</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Karl</token>
+          <token>Friedrich</token>
+          <token regexp='yes'>Gauß|Gauss</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Carl Friedrich \3</suggestion> (Mathematiker)?</message>
+      <url>https://pt.wikipedia.org/wiki/Carl_Friedrich_Gau%C3%9F</url>
+      <example correction="Carl Friedrich Gauß"><marker>Karl Friedrich Gauß</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Georg</token>
+          <token>Kantor</token>
+      </pattern>
+      <message>Pretende referir-se ao matemático <suggestion>Georg Cantor</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Georg_Cantor</url>
+      <example correction="Georg Cantor"><marker>Georg Kantor</marker></example>
+    </rule>
+    <rule>
+      <regexp case_sensitive='yes'>Kantor-Medaille</regexp>
+      <message>Pretende referir-se ao matemático Georg Cantor, chamado <suggestion>Cantor-Medaille</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Georg_Cantor</url>
+      <example correction="Cantor-Medaille"><marker>Kantor-Medaille</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Heinrich</token>
+          <token min='0'>Rudolf</token>
+          <token>Herz</token>
+      </pattern>
+      <message>Pretende referir-se ao físico alemão <suggestion>Heinrich Rudolf Hertz</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Heinrich_Hertz</url>
+      <example correction="Heinrich Rudolf Hertz"><marker>Heinrich Herz</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>Heinrich</token>
+          <token min='0'>Friedrich</token>
+          <token>Emil</token>
+          <token>Lentz</token>
+      </pattern>
+      <message>Pretende referir-se <suggestion>Heinrich Friedrich Emil Lenz</suggestion> (físico)?</message>
+      <url>https://pt.wikipedia.org/wiki/Emil_Lenz</url>
+      <example correction="Heinrich Friedrich Emil Lenz"><marker>Heinrich Friedrich Emil Lentz</marker> foi ao físico.</example>
+    </rule>
+    <rule>
+      <regexp>Hendric?k Antoo?n Lorenz</regexp>
+      <message>Pretende referir-se <suggestion>Hendrik Antoon Lorentz</suggestion> (físico e matemático)?</message>
+      <url>https://pt.wikipedia.org/wiki/Hendrik_Antoon_Lorentz</url>
+      <example correction="Hendrik Antoon Lorentz"><marker>Hendrik Anton Lorenz</marker> foi um físico.</example>
+    </rule>
+    <rule>
+      <regexp>Ludvig Valentin Lorentz</regexp>
+      <message>Pretende referir-se <suggestion>Ludvig Valentin Lorenz</suggestion> (físico)?</message>
+      <example correction="Ludvig Valentin Lorenz"><marker>Ludvig Valentin Lorentz</marker> foi um físico.</example>
+    </rule>
+    <rule>
+      <regexp>(Lorentz\-?(eichung|mie)[\w-]*)</regexp>
+      <message>Pretende referir-se <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/></suggestion> (nomeado pelo Ludvig Valentin Lorenz)?</message>
+      <example correction="Lorenz-Eichung">O <marker>Lorentz-Eichung</marker> é interessante.</example>
+      <example correction="Lorenz-Mie-Streuung">O <marker>Lorentz-Mie-Streuung</marker> é interessante.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Gottfried</token>
+          <token>Wilhelm</token>
+          <token>Leibnitz</token>
+      </pattern>
+      <message>Pretende referir-se ao filósofo <suggestion>Gottfried Wilhelm Leibniz</suggestion>?</message>
+      <example correction="Gottfried Wilhelm Leibniz"><marker>Gottfried Wilhelm Leibnitz</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>Gottfried</token>
+          <token>W</token>
+          <token>.</token>
+          <token>Leibnitz</token>
+      </pattern>
+      <message>Pretende referir-se ao filósofo <suggestion>Gottfried W. Leibniz</suggestion>?</message>
+      <example correction="Gottfried W. Leibniz"><marker>Gottfried W. Leibnitz</marker></example>
+    </rule>
+    <rule>
+      <regexp>Leibnitz Universität</regexp>
+      <message>Pretende referir-se à <suggestion>Leibniz Universität</suggestion> em Hannover?</message>
+      <example correction="Leibniz Universität">Vou para a <marker>Leibnitz Universität</marker> em Hannover.</example>
+    </rule>
+    <rule>
+      <regexp>Leibnitz[\w-]*keks[\w-]*</regexp>
+      <message>Pretende referir-se a <suggestion><match no="0" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
+      <example>Isto é <marker>Leibniz-Kekse</marker>.</example>
+      <example correction="Leibniz-Kekse">Isto é <marker>Leibnitz-Kekse</marker>.</example>
+      <example correction="Leibniz-Butterkeks">Isto é a <marker>Leibnitz-Butterkeks</marker>.</example>
+    </rule>
   </rulegroup>
 
  </category>
