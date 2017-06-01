@@ -54,7 +54,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Palavras compostas, por exemplo 'CD-ROM' em vez de 'CD ROM'";
+    return "Palavras compostas";
   }
 
   @Override
