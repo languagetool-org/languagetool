@@ -36,7 +36,7 @@ public class RussianVerbConjugationRule extends Rule {
 
     @Override
     public String getDescription() {
-        return "Checks for coherence of personal pronouns and verbs in Russian";
+        return "Согласование персональных местоимений с глаголами";
     }
 
     @Override
@@ -95,7 +95,7 @@ public class RussianVerbConjugationRule extends Rule {
     }
 
     private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings currentReading, AnalyzedTokenReadings nextReading) {
-        RuleMatch ruleMatch = new RuleMatch(this, currentReading.getStartPos(), nextReading.getEndPos(), "Неверное спряжение глагола", getShort());
+        RuleMatch ruleMatch = new RuleMatch(this, currentReading.getStartPos(), nextReading.getEndPos(), "Неверное спряжение глагола или неверное местоимение", getShort());
         ruleMatches.add(ruleMatch);
     }
 
