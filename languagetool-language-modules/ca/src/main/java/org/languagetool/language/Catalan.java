@@ -88,10 +88,14 @@ public class Catalan extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, 
+            		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
+            		Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
             new DoublePunctuationRule(messages),
             new CatalanUnpairedBracketsRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this,
+            		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
+            		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
             new LongSentenceRule(messages),
             // specific to Catalan:
