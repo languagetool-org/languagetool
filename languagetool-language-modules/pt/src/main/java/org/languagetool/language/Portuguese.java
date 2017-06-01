@@ -137,7 +137,9 @@ public class Portuguese extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
-            new GenericUnpairedBracketsRule(messages),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "“", "‘"),
+                    Arrays.asList("]", ")", "}", "”", "’")),
             new HunspellRule(messages, this),
             new LongSentenceRule(messages, 45, true),
             new UppercaseSentenceStartRule(messages, this,
@@ -195,6 +197,7 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "DEGREE_MINUTES_SECONDS":    return 20;
       case "INTERJECTIONS_PUNTUATION":  return  5;
       case "PROFANITY":                 return -1;
       case "PT_MULTI_REPLACE":          return -10;
