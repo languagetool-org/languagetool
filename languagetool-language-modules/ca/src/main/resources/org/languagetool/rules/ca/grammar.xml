@@ -35703,7 +35703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DAR" name="dar">
             <pattern>
-                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*|_GN_.*" postag_regexp="yes"/></token>
             </pattern>
             <message>El verb "dar" sol usar-se només en expressions fossilitzades.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
@@ -35712,6 +35712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ara van mal dades</example>
             <example>Tot està dat i beneït.</example>
             <example>Se li deu això.</example>
+            <example>El dau està llançat.</example>
         </rule>
         <rule id="DEPARAR" name="deparar">
             <pattern>
@@ -42842,6 +42843,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/id/2307</url>
             <example correction="revoltàrem">Ens <marker>sublevàrem</marker>.</example>
             <example>Ens revoltàrem.</example>
+        </rule>
+    </category>
+    <category id="ONLY_DNV" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris">
+        <rule id="BOLLIR" name="bollir/bullir">
+            <pattern>
+                <token inflected="yes" regexp="yes">bollir|rebollir<exception inflected="yes" regexp="yes">bullir|rebullir</exception></token>
+            </pattern>
+            <message>Paraula admesa només pel DNV (AVL).</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)boll(.*)" regexp_replace="$1bull$2" /></suggestion>
+            <example correction="bullirem">Ho <marker>bollirem</marker>.</example>
+            <example correction="rebullirem">Ho <marker>rebollirem</marker>.</example>
+            <example>Bull les creïlles.</example>
+            <example>Rebulliu les creïlles.</example>
+        </rule>
+        <rule id="GASTO" name="gasto/despesa">
+            <pattern>
+                <token postag="_GN_.*" postag_regexp="yes" regexp="yes">gastos?</token>
+            </pattern>
+            <message>Com a substatiu, només està admès pel DNV (AVL).</message>
+            <suggestion><match no="1" postag="NC.([SP]).+" postag_regexp="yes" postag_replace="NCF$1000">despesa</match></suggestion>
+            <short>Possible error</short>
+            <example correction="despeses">No s'han produït els <marker>gastos</marker>.</example>
+            <example correction="despesa">Han fet un <marker>gasto</marker> important.</example>
+            <example>Jo gasto molt poc.</example>
         </rule>
     </category>
     <category id="STYLE_OPTIONAL" name="C2) Qüestions estilístiques opcionals" type="style">
