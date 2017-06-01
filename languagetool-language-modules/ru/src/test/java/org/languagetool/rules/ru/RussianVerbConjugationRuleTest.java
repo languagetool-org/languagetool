@@ -44,5 +44,4 @@ public class RussianVerbConjugationRuleTest {
             assertEquals(0, rule.match(analyzedSentence).length);
         }
     }
-
 }

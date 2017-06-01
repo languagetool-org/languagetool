@@ -55,17 +55,19 @@ public class RussianVerbConjugationRule extends Rule {
                     Pair<String, String> pronounPair = new ImmutablePair<>(pronounMatcher.group(1), pronounMatcher.group(2));
                     AnalyzedToken nextLemmaTok = nextReading.getReadings().get(0);
                     String nextPosTag = nextLemmaTok.getPOSTag();
-                    Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);
-                    if (verbMatcher.find()) {
-                        Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(2), verbMatcher.group(3));
-                        if (isConjugationInPresentOrFutureWrong(pronounPair, verbPair)) {
-                            addRuleMatch(ruleMatches, currentReading, nextReading);
-                        }
-                    } else {
-                        verbMatcher = PAST_VERB.matcher(nextPosTag);
+                    if(nextPosTag != null && !nextPosTag.isEmpty()) {
+                        Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);
                         if (verbMatcher.find()) {
-                            if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(1))) {
+                            Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(2), verbMatcher.group(3));
+                            if (isConjugationInPresentOrFutureWrong(pronounPair, verbPair)) {
                                 addRuleMatch(ruleMatches, currentReading, nextReading);
+                            }
+                        } else {
+                            verbMatcher = PAST_VERB.matcher(nextPosTag);
+                            if (verbMatcher.find()) {
+                                if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(1))) {
+                                    addRuleMatch(ruleMatches, currentReading, nextReading);
+                                }
                             }
                         }
                     }
