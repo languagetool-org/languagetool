@@ -23,15 +23,17 @@
     - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
     - style: wordy expressions detection added and significant redundant expressions detection improvements
     - punctuation: significant improvements
-- typography: international system standards, number and mathematical symbol formatting
-    - [pt-PT] AO90: identify words with changed spelling
+    - formal speech: archaims, cacophonies, childish language and slang detection added
+    - typography: international system standards, number and mathematical symbol formatting
+    - misspellings: foreign famous personalities common misspelings
+    - AO90: identify words with changed spelling
   * disambiguation improvements
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
   * spell checking exceptions for common Latin, English and French expressions, species scientific names,
     and famous personalities
-  * updated PT-BR hunspell dictionary to latest VERO version (2.1.4)
+  * [pt-BR] hunspell dictionary updated to latest VERO version (2.1.4)
 
 #### Slovak
   * major rule updates by Matúš Matula
