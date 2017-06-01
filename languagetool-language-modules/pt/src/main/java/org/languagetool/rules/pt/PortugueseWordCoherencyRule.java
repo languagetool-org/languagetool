@@ -40,7 +40,7 @@ public class PortugueseWordCoherencyRule extends AbstractWordCoherencyRule {
 
   public PortugueseWordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    // super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Inconsistency);
     addExamplePair(Example.wrong("Foi um período duradouro. Tão marcante e <marker>duradoiro</marker> dificilmente será esquecido."),
                    Example.fixed("Foi um período duradouro. Tão marcante e <marker>duradouro</marker> dificilmente será esquecido."));
