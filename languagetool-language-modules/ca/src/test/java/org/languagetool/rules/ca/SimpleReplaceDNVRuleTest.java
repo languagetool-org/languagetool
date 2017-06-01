@@ -48,8 +48,7 @@ public class SimpleReplaceDNVRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Això està força bé.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ella és molt incauta.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("L'arxipèleg."));
@@ -73,6 +72,12 @@ public class SimpleReplaceDNVRuleTest {
     assertEquals("arrupeixen", matches[0].getSuggestedReplacements().get(0));
     assertEquals("arrupen", matches[0].getSuggestedReplacements().get(1));
     
+    matches = rule.match(langTool.getAnalyzedSentence("incautaren"));
+    assertEquals(1, matches.length);
+    assertEquals("confiscaren", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("requisaren", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("comissaren", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("decomissaren", matches[0].getSuggestedReplacements().get(3));
   }
 
 }
