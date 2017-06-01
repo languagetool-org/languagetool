@@ -2877,10 +2877,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token  postag_regexp="yes" postag="NN:.*:.*:.*:T|ADJ:.*:.*:T"></token>       
                 </pattern>
                 <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
-             
+
                 <short>Дефис.</short>
                 <example>Кот крался по-над стенкой.</example>
                 <example correction="по-над">Кот крался <marker>по над</marker> стенкой.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="Po-bystromu" name="Наречие «по-быстрому»?">
+            <rule> <!-- " -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>по</token>
+                    <token regexp="yes">быстрому|новому</token>
+                  </marker>
+          <!--    <token><exception  postag_regexp="yes" postag="NN:.*:.*:.*:D|ADJ:.*:.*:D"></exception></token>     -->
+                    <token>.</token>                
+                </pattern>
+                <message>Наречие пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+             
+                <short>Дефис.</short>
+                <example>Мы справились по-быстрому.</example>
+                <example>Мы пошли по быстрому маршруту.</example>
+                <example correction="по-быстрому">Мы справились <marker>по быстрому</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
