@@ -29,7 +29,9 @@
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
-  * spell checking exceptions for common Latin, English and French expressions, species scientific names, and famous personalities
+  * spell checking exceptions for common Latin, English and French expressions, species scientific names,
+    and famous personalities
+  * updated PT-BR hunspell dictionary to latest VERO version (2.1.4)
 
 #### Slovak
   * major rule updates by Matúš Matula
