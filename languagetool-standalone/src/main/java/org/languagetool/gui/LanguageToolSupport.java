@@ -25,9 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -47,8 +45,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
@@ -723,7 +719,7 @@ class LanguageToolSupport {
     }
 
     long startTime = System.currentTimeMillis();
-    List<RuleMatch> matches = this.languageTool.check(this.textComponent.getText());
+    List<RuleMatch> matches = this.languageTool.check(this.textComponent.getText()); // TODO Bulat
     long elapsedTime = System.currentTimeMillis() - startTime;
 
     int v = check.get();

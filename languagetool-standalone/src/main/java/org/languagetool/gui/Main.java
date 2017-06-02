@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,9 +18,28 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+/*
+  Copyright 2017, Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+import com.google.cloud.speech.spi.v1beta1.SpeechClient;
+import com.google.cloud.speech.v1beta1.*;
+import com.google.cloud.speech.v1beta1.RecognitionConfig.AudioEncoding;
+import com.google.protobuf.ByteString;
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
@@ -28,34 +47,27 @@ import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 
+import javax.sound.sampled.AudioFileFormat;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.TextAction;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.TextAction;
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
+
+
 
 /**
  * A simple GUI to check texts with.
@@ -77,7 +89,7 @@ public final class Main {
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
-  private static final int MAX_RECENT_FILES = 8;
+
 
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
@@ -97,91 +109,72 @@ public final class Main {
   private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
-  private OpenAction openAction;
-  private SaveAction saveAction;
-  private SaveAsAction saveAsAction;
+  private StartRecordingAction startRecordingAction;
+  private StopRecordingAction stopRecordingAction;
   private AutoCheckAction autoCheckAction;
   private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
-  private File currentFile;
-  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
-  private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
-  private JMenu recentFilesMenu;
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JSplitPane splitPane;
   private final JPanel mainPanel = new JPanel();
+
+  private Microphone mic = new Microphone(AudioFileFormat.Type.WAVE);
 
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
   }
 
-  private void loadFile() {
-    File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
-    if (file == null) {  // user clicked cancel
-      return;
-    }
-    loadFile(file);
-  }
-
-  private void loadFile(File file) {
-    try (FileInputStream inputStream = new FileInputStream(file)) {
-      BOMInputStream bomIn = new BOMInputStream(inputStream, false,
-              ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
-              ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
-      String charsetName;
-      if (bomIn.hasBOM() == false) {
-        // No BOM found
-        bom = null;
-        charsetName = null;
-      } else {
-        bom = bomIn.getBOM();
-        charsetName = bom.getCharsetName();
-      }
-      String fileContents = StringTools.readStream(bomIn, charsetName);
-      textArea.setText(fileContents);
-      currentFile = file;
-      updateTitle();
-      if(recentFiles.contains(file.getAbsolutePath())) {
-        recentFiles.remove(file.getAbsolutePath());
-      }
-      recentFiles.add(file.getAbsolutePath());
-      localStorage.saveProperty("recentFiles", recentFiles);
-      updateRecentFilesMenu();
-    } catch (IOException e) {
-      Tools.showError(e);
-    }
-  }
-
-  private void saveFile(boolean newFile) {
-    if (currentFile == null || newFile) {
-      JFileChooser jfc = new JFileChooser();
-      jfc.setFileFilter(new PlainTextFileFilter());
-      jfc.showSaveDialog(frame);
-
-      File file = jfc.getSelectedFile();
-      if (file == null) {  // user clicked cancel
-        return;
-      }
-      currentFile = file;
-      bom = null;
-      updateTitle();
-    }
+  private void startRecognition() throws Exception {
+    File file = new File ("record.raw");	//Name your file whatever you want
     try {
-      if(bom != null) {
-        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
-        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
-      } else {
-        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
-      }
-    } catch (IOException ex) {
-      Tools.showError(ex);
+      mic.captureAudioToFile (file);
+    } catch (Exception ex) {
+      //Microphone not available or some other error.
+      System.out.println ("ERROR: Microphone is not availible.");
+      ex.printStackTrace ();
     }
+  }
+
+  private String stopRecognition() throws Exception {
+    SpeechClient speech = SpeechClient.create();
+      mic.close ();
+    // The path to the audio file to transcribe
+    String fileName = "record.raw";
+
+    // Reads the audio file into memory
+    Path path = Paths.get(fileName);
+    byte[] data = Files.readAllBytes(path);
+    ByteString audioBytes = ByteString.copyFrom(data);
+
+    // Builds the sync recognize request
+    RecognitionConfig config = RecognitionConfig.newBuilder()
+            .setEncoding(AudioEncoding.LINEAR16)
+            .setSampleRate(8000)
+            .build();
+    RecognitionAudio audio = RecognitionAudio.newBuilder()
+            .setContent(audioBytes)
+            .build();
+
+    // Performs speech recognition on the audio file
+    SyncRecognizeResponse response = speech.syncRecognize(config, audio);
+    List<SpeechRecognitionResult> results = response.getResultsList();
+
+    String text = "";
+    for (SpeechRecognitionResult result: results) {
+      List<SpeechRecognitionAlternative> alternatives = result.getAlternativesList();
+      for (SpeechRecognitionAlternative alternative: alternatives) {
+        text += alternative.getTranscript();
+        System.out.println(alternative.getTranscript());
+      }
+    }
+    speech.close();
+    return text;
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
@@ -237,27 +230,13 @@ public final class Main {
     return frame;
   }
 
-  private void updateTitle() {
-    StringBuilder sb = new StringBuilder();
-    if(currentFile != null) {
-      sb.append(currentFile.getName());
-      if(bom != null) {
-        sb.append(" (").append(bom.getCharsetName()).append(')');
-      }
-      sb.append(" - ");
-    }
-    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
-    frame.setTitle(sb.toString());
-  }
-
   private void createGUI() {
-    loadRecentFiles();
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
-    openAction = new OpenAction();
-    saveAction = new SaveAction();
-    saveAsAction = new SaveAsAction();
+     startRecordingAction = new StartRecordingAction();
+     stopRecordingAction = new StopRecordingAction();
+
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
     showResultAction = new ShowResultAction(true);
@@ -322,20 +301,18 @@ public final class Main {
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
 
-    JButton openButton = new JButton(openAction);
-    openButton.setHideActionText(true);
-    openButton.setFocusable(false);
-    toolbar.add(openButton);
 
-    JButton saveButton = new JButton(saveAction);
-    saveButton.setHideActionText(true);
-    saveButton.setFocusable(false);
-    toolbar.add(saveButton);
 
-    JButton saveAsButton = new JButton(saveAsAction);
-    saveAsButton.setHideActionText(true);
-    saveAsButton.setFocusable(false);
-    toolbar.add(saveAsButton);
+    JButton startRecordingButton = new JButton(this.startRecordingAction);
+    startRecordingButton.setHideActionText(true);
+    startRecordingButton.setFocusable(false);
+    toolbar.add(startRecordingButton);
+
+    JButton stopRecordingButton = new JButton(this.stopRecordingAction);
+    stopRecordingButton.setHideActionText(true);
+    stopRecordingButton.setFocusable(false);
+    toolbar.add(stopRecordingButton);
+
 
     JButton spellButton = new JButton(this.checkAction);
     spellButton.setHideActionText(true);
@@ -499,7 +476,7 @@ public final class Main {
   private JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
     JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
-    fileMenu.setMnemonic(getMnemonic("guiMenuFile"));
+    fileMenu.setText("Menu");
     JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
     editMenu.setMnemonic(getMnemonic("guiMenuEdit"));
     JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
@@ -507,14 +484,6 @@ public final class Main {
     JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
-    fileMenu.add(openAction);
-    fileMenu.add(saveAction);
-    fileMenu.add(saveAsAction);
-    recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
-    recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
-    fileMenu.add(recentFilesMenu);
-    updateRecentFilesMenu();
-    fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
     fileMenu.add(new QuitAction());
@@ -587,27 +556,6 @@ public final class Main {
     menuBar.add(grammarMenu);
     menuBar.add(helpMenu);
     return menuBar;
-  }
-
-  private void updateRecentFilesMenu() {
-    recentFilesMenu.removeAll();
-    String[] files = recentFiles.toArray(new String[recentFiles.size()]);
-    ArrayUtils.reverse(files);
-    for(String filename : files) {
-      recentFilesMenu.add(new RecentFileAction(new File(filename)));
-    }
-  }
-
-  private void loadRecentFiles() {
-    CircularFifoQueue<String> l = localStorage.loadProperty("recentFiles", CircularFifoQueue.class);
-    if(l != null) {
-      for(String name : l) {
-        File f = new File(name);
-        if(f.exists() && f.isFile()) {
-          recentFiles.add(name);
-        }
-      }
-    }
   }
 
   private void addLookAndFeelMenuItem(JMenu lafMenu,
@@ -744,7 +692,7 @@ public final class Main {
     if(comp instanceof JSplitPane) {
       bean.setDividerLocation(((JSplitPane)comp).getDividerLocation());
     } else {
-      MainWindowStateBean old = 
+      MainWindowStateBean old =
         localStorage.loadProperty("gui.state", MainWindowStateBean.class);
       bean.setDividerLocation(old.getDividerLocation());
     }
@@ -1097,16 +1045,13 @@ public final class Main {
       });
     } else if (args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"))) {
       printUsage();
-    } else if (args.length == 0 || args.length == 1) {
+    } else if (args.length == 0) {
       SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
           try {
             prg.createGUI();
             prg.showGUI();
-            if (args.length == 1) {
-              prg.loadFile(new File(args[0]));
-            }
           } catch (Exception e) {
             Tools.showError(e);
           }
@@ -1120,10 +1065,8 @@ public final class Main {
 
   private static void printUsage() {
     System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-    System.out.println("    or java org.languagetool.gui.Main [file]");
     System.out.println("Parameters:");
     System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
-    System.out.println("    file:       a plain text file to load on startup");
   }
 
   private class ControlReturnTextCheckingListener extends KeyAdapter {
@@ -1212,71 +1155,39 @@ public final class Main {
 
   }
 
-  static class PlainTextFileFilter extends FileFilter {
+  class StartRecordingAction extends AbstractAction {
 
-    @Override
-    public boolean accept(File f) {
-      boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
-      return isTextFile || f.isDirectory();
-    }
-
-    @Override
-    public String getDescription() {
-      return "*.txt";
-    }
-
-  }
-
-  class OpenAction extends AbstractAction {
-
-    OpenAction() {
-      super(getLabel("guiMenuOpen"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuOpenShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuOpenLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOpen"));
-      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_O));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_open.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_open.png"));
+    StartRecordingAction() {
+      putValue(Action.SMALL_ICON, getImageIcon("lc_mic.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_mic.png"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      loadFile();
+      try {
+        ltSupport.getTextComponent().setText("Recording your voice");
+        startRecognition();
+      } catch (Exception e1) {
+        e1.printStackTrace();
+      }
     }
   }
 
-  class SaveAction extends AbstractAction {
+  class StopRecordingAction extends AbstractAction {
 
-    SaveAction() {
-      super(getLabel("guiMenuSave"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
-      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_save.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_save.png"));
+    StopRecordingAction() {
+      putValue(Action.SMALL_ICON, getImageIcon("lc_stopmic.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_stopmic.png"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      saveFile(false);
-    }
-  }
-
-  class SaveAsAction extends AbstractAction {
-
-    SaveAsAction() {
-      super(getLabel("guiMenuSaveAs"));
-      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveAsShortDesc"));
-      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveAsLongDesc"));
-      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
-      putValue(Action.SMALL_ICON, getImageIcon("sc_saveas.png"));
-      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_saveas.png"));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      saveFile(true);
+      try {
+        String s = stopRecognition().toString();
+        ltSupport.getTextComponent().setText(s);
+      } catch (Exception e1) {
+        e1.printStackTrace();
+      }
     }
   }
 
@@ -1482,29 +1393,6 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       JTextComponent component = getFocusedComponent();
       component.selectAll();
-    }
-  }
-
-  class RecentFileAction extends AbstractAction {
-
-    private final File file;
-
-    RecentFileAction(File file) {
-      super(file.getName());
-      this.file = file;
-      putValue(Action.SHORT_DESCRIPTION, file.getAbsolutePath());
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      if(file.exists()) {
-        loadFile(file);
-      } else {
-        JOptionPane.showMessageDialog(frame, messages.getString("guiFileNotFound"),
-                messages.getString("dialogTitleError"), JOptionPane.ERROR_MESSAGE);
-        recentFiles.remove(file.getAbsolutePath());
-        updateRecentFilesMenu();
-      }
     }
   }
 
