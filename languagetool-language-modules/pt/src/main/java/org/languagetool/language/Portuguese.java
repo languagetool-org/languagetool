@@ -138,8 +138,8 @@ public class Portuguese extends Language implements AutoCloseable {
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "‘"),
-                    Arrays.asList("]", ")", "}", "”", "’")),
+                    Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
+                    Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this),
             new LongSentenceRule(messages, 45, true),
             new UppercaseSentenceStartRule(messages, this,
@@ -199,7 +199,8 @@ public class Portuguese extends Language implements AutoCloseable {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
       case "DEGREE_MINUTES_SECONDS":    return 20;
       case "INTERJECTIONS_PUNTUATION":  return  5;
-      case "PROFANITY":                 return -1;
+      case "UNPAIRED_BRACKETS":         return -5;
+      case "PROFANITY":                 return -6;
       case "PT_MULTI_REPLACE":          return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
