@@ -60,7 +60,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                 <token postag="SUB:.*" postag_regexp="yes">
                     <exception postag_regexp="yes" postag="ADJ:.*"/><!-- needed for AgreementRule to not false alert on 'den Berliner Arbeitern' -->
                 </token>
@@ -85,7 +85,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <unify>
                     <feature id="number"/><feature id="case"/><feature id="gender"/>
                     "die ältere [der beiden]"
-                    <token regexp="yes">der|die|das</token>
+                    <token regexp="yes">d(er|ie|as)</token>
                     <token postag="ADJ.*:(DEF|IND).*" postag_regexp="yes"/>
                 </unify>
         </pattern>
@@ -96,7 +96,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
@@ -109,7 +109,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <!-- "Der größte und schönste Tempel" -->
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <unify-ignore>
                     <token>und</token>
@@ -124,7 +124,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
@@ -148,10 +148,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!-- "Die von der Regierung geprüften Hunde" -->
-                <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                 <unify-ignore>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                    <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
                     <!--<token postag="ADJ:.*" postag_regexp="yes"/>-->
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </unify-ignore>
@@ -1510,7 +1510,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Air Force" id="AIR_FORCE">
         <pattern>
             <token>Air</token>
-            <token regexp="yes">Force|France</token>
+            <token regexp="yes">F(orce|rance)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1552,7 +1552,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="ad hoc" id="AD_HOC">
         <pattern>
             <token>ad</token>
-            <token regexp='yes'>hoc|hominem|infinitum|libitum|nauseam</token>
+            <token regexp='yes'>ho(c|minem)|infinitum|libitum|nauseam</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
