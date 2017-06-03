@@ -684,7 +684,7 @@ title="Easy editing stylesheet" ?>
  <category id='FORMAL_SPEECH' name='Linguagem Formal' type='style'>
 
     <!-- TODO Add antipattern for dash and quotations -->
-  <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês)' default='on'>
+  <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
     <!--    <rule>
@@ -815,7 +815,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
+  <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas' default='off'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
     <rule>
       <pattern>
@@ -879,9 +879,24 @@ title="Easy editing stylesheet" ?>
 
  </category>
 
- <category id="AO90_RULES" name="Regras do Acordo Ortográfico de 90 (pós-AO90)" default='on'>
+ <category id="AO90_RULES" name="Regras do Acordo Ortográfico de 90 (pós-AO90)" type="misspelling" default='on'>
 
-  <rulegroup id='COMPOUNDS_AO90_GENERIC_PREFIX' name='AO90: Hifenizador de palavras'>
+    <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento" >
+      <pattern>
+          <token regexp='yes'>.+((óide|óic[oa]|ói[ao])s?)$
+            <exception postag_regexp='yes' postag='NP.+'/></token>
+      </pattern>
+      <message>Palavras com esta terminação não são acentuadas, segundo o Acordo Ortográfico de 90.</message>
+        <suggestion><match no='1' regexp_match='ó' regexp_replace='o'/></suggestion>
+      <url>http://www.portaldalinguaportuguesa.org/recursos.html?action=novoacordo</url>
+      <short>Palavra alterada pelo AO90</short>
+      <example correction="abrotanoides"><marker>abrotanóides</marker>.</example>
+      <example correction="acaroide"><marker>acaróide</marker>.</example>
+      <example correction="agnostozoico"><marker>agnostozóico</marker>.</example>
+      <example correction="jiboia"><marker>jibóia</marker>.</example>
+    </rule>
+
+  <rulegroup id='AO90_COMPOUNDS_GENERIC_PREFIX' name='AO90: Hifenizador de palavras'>
     <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-02 -->
     <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
@@ -1193,7 +1208,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
@@ -1282,7 +1297,7 @@ title="Easy editing stylesheet" ?>
 
  </category>
 
- <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)" default='off'>
+ <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)"  type="misspelling" default='off'>
 
     <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
