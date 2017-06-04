@@ -11998,11 +11998,42 @@ USA
                 <example>There are several wine and food festivals this spring.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NOT_NOTHING" name="Wrong negated forms ('not... nothing' instead 'not... anything')">
+        <rulegroup id="DOUBLE_NEGATIVE" name="Double negative (e.g., 'not... nothing' instead of 'not... anything')">
+            <url>https://en.oxforddictionaries.com/grammar/double-negatives</url>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>not|nobody|nothing|never</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">’|'|´</token>
+                    <token>t</token>
+                    <token>not</token>
+                </pattern>
+                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3</suggestion>?</message>
+                <short>Negation after negation</short>
+                <example correction="shouldn't">You <marker>shouldn't not</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">’|'|´</token>
+                    <token>t</token>
+                    <token>have</token>
+                    <token>not</token>
+                </pattern>
+                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3 \4</suggestion>?</message>
+                <short>Negation after negation</short>
+                <example correction="shouldn't have">You <marker>shouldn't have not</marker> done it!</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>who</token> 
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
+                    <token regexp="yes">nobody|nothing|nowhere</token>
+                    <token postag="VB.*" postag_regexp="yes" skip="1"/>
+                    <token regexp="yes">nothing|nobody|nowhere</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>not|nobody|nothing|never</token>
+                    <token postag="VB.*" postag_regexp="yes" skip="1"><exception>believe</exception></token>
                     <marker>
                         <token regexp="yes"><exception negate_pos="yes" postag="PRP|VB.*|TO|IN" postag_regexp="yes" scope="previous"/>nothing|nobody|nowhere</token>
                     </marker>
@@ -12011,6 +12042,40 @@ USA
                 <example correction="anything">Nobody told me <marker>nothing</marker>.</example>
                 <example correction="anybody">I'm not speaking to <marker>nobody</marker> in this class.</example>
                 <example correction="anything">I didn't notice <marker>nothing</marker> wrong.</example>
+                <example>Those who possess nothing lose nothing.</example>
+                <example>I can't believe nobody came to your party.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">not</token>
+                    <token regexp="yes" inflected="yes">accept|take</token>
+                    <token>no</token>
+                    <token>for</token>
+                    <token>an</token>
+                    <token>answer</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">not</token>
+                    <token>like</token>
+                    <token>not</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">not</token>
+                    <token postag="VB.*" postag_regexp="yes" min="0"><exception regexp="yes">[,;:-]|sa(y|id)|believe</exception></token>
+                    <token regexp="yes">n(ot?|othing|ever|either|obody|owhere)</token>
+                </pattern>
+                <message>Double negatives are discouraged in standard English. Can you reformulate this phrase or is a comma missing?</message>
+                <short>Bad style</short>
+                <example correction="">I didn'<marker>t see nothing</marker>.</example>
+                <example>I didn’t see anything.</example>
+                <example>I couldn’t say no to Tom.</example>
+                <example>I couldn’t accept no for an answer.</example>
+                <example>I haven't said no yet.</example>
+                <example>I'm not taking no for an answer.</example>
+                <example>Tom didn't like not having enough money.</example>
+                <example>I can't believe nobody came to your party.</example>
+                <example correction="">... but there wasn’<marker>t nobody</marker> in the office.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
@@ -12821,31 +12886,6 @@ USA
             <example>She had difficulty communicating in French <marker>despite</marker> all her years of study.</example>
             <example>She had difficulty communicating in French <marker>in spite of</marker> all her years of study.</example>
         </rule>
-        <rulegroup id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
-            <rule>
-                <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">’|'|´</token>
-                    <token>t</token>
-                    <token>not</token>
-                </pattern>
-                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3</suggestion>?</message>
-                <short>Negation after negation</short>
-                <example correction="shouldn't">You <marker>shouldn't not</marker> do it!</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">’|'|´</token>
-                    <token>t</token>
-                    <token>have</token>
-                    <token>not</token>
-                </pattern>
-                <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3 \4</suggestion>?</message>
-                <short>Negation after negation</short>
-                <example correction="shouldn't have">You <marker>shouldn't have not</marker> done it!</example>
-            </rule>
-        </rulegroup>
         <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
             <pattern>
                 <marker>
@@ -19075,7 +19115,7 @@ USA
         </rule>
         <rule id="PROFANITY" name="Profanity">
             <antipattern>
-                <token regexp="yes">spic|spick</token>
+                <token regexp="yes">spick?</token>
                 <token>and</token>
                 <token>span</token>
             </antipattern>
