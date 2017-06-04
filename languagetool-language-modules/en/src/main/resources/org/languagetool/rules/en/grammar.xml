@@ -6297,6 +6297,21 @@ USA
             <suggestion><match no="4" postag="VB"/></suggestion>
             <example correction="move">We regularly <marker>moving</marker> a conversation from the forum to email.</example>
         </rule>
+        <rule id="I_LIFE" name="I life (live)">
+            <antipattern>
+                <token>type</token>
+                <token>I</token>
+                <token>life</token>
+            </antipattern>
+            <pattern>
+                <token regexp='yes'>i|we</token>
+                <marker><token>life</token></marker>
+            </pattern>
+            <message>Possible agreement error -- use verb form: <suggestion>live</suggestion>.</message>
+            <example correction="live">I <marker>life</marker> in Moscow.</example>
+            <example correction="live">We have to respect the laws of the land we <marker>life</marker> in.</example>
+            <example>Troopers are trained to use Type I life jackets on handcuffed subjects.</example>
+        </rule>
         <rule id="SOME_FACULTY" name="some faculty...  (some faculty members...)">
             <pattern>
                 <token regexp="yes">some|many|most|two|three|four|five|six|seven|eight|nine|ten</token>
@@ -16934,6 +16949,36 @@ USA
                 <short>Commonly confused word</short>
                 <example correction="complaint">This is our biggest <marker>complain</marker>.</example>
                 <example correction="complaint">Shortness of breath was a common <marker>complain</marker> among the patients.</example>
+            </rule>
+        </rulegroup>
+        <rule id="FIRST_AID_KIT" name="first aid kid (kit)">
+            <pattern>
+                <token regexp="yes">aid|starter|t(ravel|ool)</token>
+                <marker><token>kid</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>kit</suggestion> (=set of articles, tools, or supplies) instead of 'kid' (=young person)?</message>
+            <url>https://www.merriam-webster.com/dictionary/kit</url>
+            <short>Commonly confused word</short>
+            <example correction="kit">A first aid <marker>kid</marker> is a collection of medical supplies and equipment, often portable.</example>
+        </rule>
+        <rulegroup id="SPILLING_ERROR" name="spilling (spelling) error">
+            <rule>
+                <pattern>
+                    <marker><token>spilling</token></marker>
+                    <token regexp="yes">errors?|checkers?</token>
+                </pattern>
+                <message>Did you mean <suggestion>spelling</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="spelling">This is a <marker>spilling</marker> error.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">British|American|correct</token>
+                    <marker><token>spilling</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>spelling</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="spelling">What is the correct <marker>spilling</marker> of 'Mississippi'?</example>
             </rule>
         </rulegroup>
     </category>
