@@ -398,7 +398,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token postag='(N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'></exception>
-            <exception regexp="yes">há|são|ser|haver|devido|vão</exception></token>
+            <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
@@ -409,6 +409,7 @@ title="Easy editing stylesheet" ?>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
       <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
+      <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
     </rule>
     <rule>
       <pattern>
@@ -794,6 +795,7 @@ title="Easy editing stylesheet" ?>
       <message>Erro de concordância verbal.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
       <example correction='Os médicos saíram'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
+      <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
     </rule>
     <rule>
       <pattern>
@@ -1742,6 +1744,11 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
     <rule>
+      <antipattern>
+          <token>entre</token>
+          <token regexp='yes'>uma?</token>
+          <token>a</token>
+      </antipattern>
       <antipattern>
           <token regexp='yes'>uma?</token>
           <token>a</token>
@@ -5969,6 +5976,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token><match no="1"/>
             <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
+            <exception>são</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -6011,7 +6019,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
         <marker>
           <token><match no="1"/>
             <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT|_GN_' postag_regexp='yes'/>
-            <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
+            <exception inflected='yes' regexp='yes'>ser|estar|haver|são</exception>
+            <exception>são</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -6524,7 +6533,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id="PL_SUSSURAR" name="Sussurar baixo">
       <pattern>
           <token inflected='yes'>sussurar</token>
-          <token min='0' regexp='yes'>bem|muito|muitíssimo)</token>
+          <token min='0' regexp='yes'>bem|muito|muitíssimo</token>
           <token regexp='yes'>baix(o|inho)</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
@@ -18956,6 +18965,16 @@ TODO Write better examples
       <message>Esta palavra é uma palavra de português arcaico. Tente utilizar uma alternativa.</message>
       <example type='incorrect'><marker>Vosmecês</marker> são uns sacanas!</example>
       <example type='correct'><marker>Vocês</marker> são uns sacanas!</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>tão</token>
+          <token>-</token>
+          <token>pouco</token>
+      </pattern>
+      <message>Esta palavra é uma palavra de português arcaico.</message>
+        <suggestion>tampouco</suggestion>
+      <example correction='tampouco'>Não tem férias, nem <marker>tão-pouco</marker> precisa delas.</example>
     </rule>
   </rulegroup>
 
