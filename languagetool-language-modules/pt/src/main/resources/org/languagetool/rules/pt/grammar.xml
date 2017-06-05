@@ -4288,7 +4288,15 @@ title="Easy editing stylesheet" ?>
       <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
     <rule>
       <pattern>
-          <token>a</token>
+          <token regexp='yes'>a|à</token>
+          <token>eu</token>
+      </pattern>
+      <message>Substitua por <suggestion>a mim</suggestion> ou <suggestion>a me</suggestion>.</message>
+      <example correction="a mim|a me">Isto deve-se <marker>a eu</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>a|à</token>
           <token>tu</token>
       </pattern>
       <message>Substitua por <suggestion>a ti</suggestion> ou <suggestion>a te</suggestion>.</message>
@@ -6400,6 +6408,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id="PL_ENTRAR" name="Entrar para dentro">
       <pattern>
           <token inflected='yes'>entrar</token>
+          <token min='0' regexp='yes'>agora|já</token>
           <token min='0' regexp='yes'>pa?ra</token>
           <token>dentro</token>
       </pattern>
@@ -6515,8 +6524,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule id="PL_SUSSURAR" name="Sussurar baixo">
       <pattern>
           <token inflected='yes'>sussurar</token>
-          <token min='0' regexp='yes'>bem|muit(o|íssimo)</token>
-          <token>baixo</token>
+          <token min='0' regexp='yes'>bem|muito|muitíssimo)</token>
+          <token regexp='yes'>baix(o|inho)</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
