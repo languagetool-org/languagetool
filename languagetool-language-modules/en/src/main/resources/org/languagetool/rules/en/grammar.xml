@@ -17030,7 +17030,7 @@ USA
                     <token regexp="yes">years|months|weeks|days|hours|minutes</token>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Did you mean <suggestion>for</suggestion>? ('since' refers to a point in time, whereas 'for' to the entire period)</message>
+                <message>Did you mean <suggestion>for</suggestion>? ('since' refers to a point in time, whereas 'for' refers to a period)</message>
                 <short>Commonly confused word</short>
                 <example correction="for">I've lived in Barcelona <marker>since</marker> six years.</example>
                 <example>I've lived in Barcelona <marker>since</marker> 2015.</example>
@@ -17040,12 +17040,35 @@ USA
             <rule>
                 <pattern>
                     <token>to</token>
-                    <token regexp="yes">wh(at|ich)</token>
+                    <token regexp="yes">wh(at|ich)|some|certain</token>
                     <marker><token>extend</token></marker>
                 </pattern>
                 <message>Did you mean the noun <suggestion>extent</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="extent">It is not known to what <marker>extend</marker> the subjects were being truthful.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <token>a</token>
+                    <token regexp="yes">certain|great(er)?|lesser</token>
+                    <marker><token>extend</token></marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>extent</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="extent">To a great <marker>extend</marker>, psychological explanations prove satisfactory.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <token min="0">the</token>
+                    <token regexp="yes">full(est)?</token>
+                    <marker><token>extend</token></marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>extent</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="extent">Shoplifters will be prosecuted to the fullest <marker>extend</marker> of the law.</example>
             </rule>
         </rulegroup>
     </category>
