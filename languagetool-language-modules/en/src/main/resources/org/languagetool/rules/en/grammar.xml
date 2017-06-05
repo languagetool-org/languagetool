@@ -17005,7 +17005,7 @@ USA
             <rule>
                 <pattern>
                     <marker><token>spilling</token></marker>
-                    <token regexp="yes">errors?|checkers?</token>
+                    <token regexp="yes">errors?|checkers?|mistakes?</token>
                 </pattern>
                 <message>Did you mean <suggestion>spelling</suggestion>?</message>
                 <short>Commonly confused word</short>
@@ -17019,6 +17019,33 @@ USA
                 <message>Did you mean <suggestion>spelling</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="spelling">What is the correct <marker>spilling</marker> of 'Mississippi'?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SINCE_FOR" name="since (for) +  'period of time'">
+            <url>http://www.grammarbank.com/since-for-usage.html</url>
+            <rule>
+                <pattern>
+                    <marker><token>since</token></marker>
+                    <token postag="CD"/>
+                    <token regexp="yes">years|months|weeks|days|hours|minutes</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion>for</suggestion>? ('since' refers to a point in time, whereas 'for' to the entire period)</message>
+                <short>Commonly confused word</short>
+                <example correction="for">I've lived in Barcelona <marker>since</marker> six years.</example>
+                <example>I've lived in Barcelona <marker>since</marker> 2015.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXTEND_EXENT" name="extend (extent)">
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <token regexp="yes">wh(at|ich)</token>
+                    <marker><token>extend</token></marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>extent</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="extent">It is not known to what <marker>extend</marker> the subjects were being truthful.</example>
             </rule>
         </rulegroup>
     </category>
