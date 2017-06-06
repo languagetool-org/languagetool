@@ -83,6 +83,7 @@ public class AgreementRuleTest {
     assertGood("Mancher ausscheidende Politiker hinterlässt eine Lücke.");
     assertGood("Kern einer jeden Tragödie ist es, ..");
     assertGood("Das wenige Sekunden alte Baby schrie laut.");
+    assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
