@@ -33003,8 +33003,14 @@ Andere Projekte</example>
                     <token regexp="yes">,|;|:|-|–|\.|!|\?|und|oder</token>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">eine|die</token>
+                    <token regexp="yes">Folge|Konsequenz</token>
+                    <token>dessen</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">,|;|:|-|–|—</token>
-                    <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen</token>
+                    <token regexp="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen</token>
                     <token skip="-1">
                         <exception postag="SUB:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -33016,7 +33022,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">,|;|:|-|–|—</token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token regexp="yes">der|die|das|dessen|deren|dem|denen|den|welcher|welche|welches|welchem|wessen</token>
+                    <token regexp="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen</token>
                     <token skip="-1">
                         <exception postag="SUB:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -33065,6 +33071,7 @@ Andere Projekte</example>
                 <example correction="Hand, welche sie für ihre Katze gekauft hat" type="incorrect">Die Frau hält die Leine in der <marker>Hand welche sie für ihre Katze gekauft hat</marker>.</example>
                 <example correction="Haus, wessen dem ich hier bin" type="incorrect">Das <marker>Haus wessen dem ich hier bin</marker>, steht zum Verkauf.</example>
                 <example correction="Hund, dessen Fell sich sträubt" type="incorrect">Der <marker>Hund dessen Fell sich sträubt</marker>, gehört meiner Nachbarin.</example>
+                <example>Eine Konsequenz dessen ist die Unmöglichkeit eines Perpetuum Mobile 2. Art.</example>
             </rule>
             <rule>
                 <antipattern>

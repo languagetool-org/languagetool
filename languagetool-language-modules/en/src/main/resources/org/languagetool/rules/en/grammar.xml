@@ -17071,6 +17071,27 @@ USA
                 <example correction="extent">Shoplifters will be prosecuted to the fullest <marker>extend</marker> of the law.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUPPER" name="super (supper)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a(fter|t)|for|without|cold|last</token>
+                    <marker><token>super</token></marker>
+                    <token regexp="yes">\.|,|\?</token>
+                </pattern>
+                <message>Did you mean <suggestion>supper</suggestion> (=evening meal)</message>
+                <short>Commonly confused word</short>
+                <example correction="supper">We went for a walk after <marker>super</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">eat</token>
+                    <marker><token>super</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>supper</suggestion> (=evening meal)</message>
+                <short>Commonly confused word</short>
+                <example correction="supper">After I had eaten my <marker>super</marker>, I went straight to bed.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
