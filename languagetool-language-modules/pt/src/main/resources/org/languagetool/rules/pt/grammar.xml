@@ -6035,7 +6035,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
         <marker>
           <token><match no="1"/>
             <exception postag='(C|R|D|NP|P|R|SP|Z).+|_PUNCT|_GN_' postag_regexp='yes'/>
-            <exception inflected='yes' regexp='yes'>ser|estar|haver|são</exception>
+            <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
             <exception>são</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
@@ -10049,7 +10049,644 @@ egligenciar</suggestion>
         <suggestion><match no='1' postag='V.+'>desnortear</match>-se</suggestion>
       <example correction='desnortear-se'><marker>perder o fio à meada</marker>.</example>
     </rule>
-
+    <rule id='CLICHE_41_CRIANÇAS' name='crianças ser o futuro'>
+      <pattern>
+          <token>crianças</token>
+          <token inflected='yes'>ser</token>
+          <token>o</token>
+          <token>futuro</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>crianças ser o futuro</marker>.</example>
+    </rule>
+    <rule id='CLICHE_42_MULHER' name='mulher ser na cozinha'>
+      <pattern>
+          <token regexp='yes'>mulher(es)?</token>
+          <token inflected='yes'>ser</token>
+          <token>na</token>
+          <token>cozinha</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>mulher ser na cozinha</marker>.</example>
+    </rule>
+    <rule id='CLICHE_43_MUNDO' name='mundo ser dos espertos'>
+      <pattern>
+          <token>mundo</token>
+          <token inflected='yes'>ser</token>
+          <token>dos</token>
+          <token>espertos</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>mundo ser dos espertos</marker>.</example>
+    </rule>
+    <rule id='CLICHE_44_NÃO' name='não bater bem da bola'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>bater</token>
+          <token>bem</token>
+          <token>da</token>
+          <token>bola</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='2' postag='V.+'>ser</match> maluco</suggestion>
+      <example correction='sejas maluco|sê maluco'><marker>não bate bem da bola</marker>.</example>
+    </rule>
+    <rule id='CLICHE_45_NÃO' name='não deixou margem a dúvidas'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>deixar</token>
+          <token>margem</token>
+          <token>a</token>
+          <token>dúvidas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>não deixou margem a dúvidas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_46_NÃO' name='não estar nem aí'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>estar</token>
+          <token>nem</token>
+          <token>aí</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='2' postag='V.+'>ignorar</match></suggestion>
+      <example correction='ignorar'><marker>não estar nem aí</marker>.</example>
+    </rule>
+    <rule id='CLICHE_47_NÃO' name='não fazer bom cabelo'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>fazer</token>
+          <token>bom</token>
+          <token>cabelo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>não <match no='2' postag='V.+'>ouvir</match></suggestion>
+        <suggestion>não <match no='2' postag='V.+'>servir</match></suggestion>
+        <suggestion>não <match no='2' postag='V.+'>combinar</match> bem</suggestion>
+      <example correction='não ouvir|não servir|não combinar bem'><marker>não fazer bom cabelo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_48_NÃO' name='não fugir ao seu destino'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>fugir</token>
+          <token>ao</token>
+          <token>seu</token>
+          <token>destino</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>não fugir ao seu destino</marker>.</example>
+    </rule>
+    <rule id='CLICHE_49_NÃO' name='não precisar de apresentação'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>precisar</token>
+          <token>de</token>
+          <token regexp='yes'>apresentaç(ão|ões)</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='2' postag='V.+'>ser</match> famoso</suggestion>
+      <example correction='és famoso'><marker>não precisas de apresentação</marker>.</example>
+    </rule>
+    <rule id='CLICHE_410_NÃO' name='não saiu do papel'>
+      <pattern>
+          <token>não</token>
+          <token inflected='yes'>sair</token>
+          <token>do</token>
+          <token>papel</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>não saiu do papel</marker>.</example>
+    </rule>
+    <rule id='CLICHE_411_OUVIR' name='ouvir o recado na escada'>
+      <pattern>
+          <token inflected='yes'>ouvir</token>
+          <token>o</token>
+          <token>recado</token>
+          <token>na</token>
+          <token>escada</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>não <match no='1' postag='V.+'>prestar</match> correta atenção ao assunto</suggestion>
+      <example correction='não prestar correta atenção ao assunto'><marker>ouvir o recado na escada</marker>.</example>
+    </rule>
+    <rule id='CLICHE_412_PAGAR' name='pagar o pato'>
+      <pattern>
+          <token inflected='yes'>pagar</token>
+          <token>o</token>
+          <token>pato</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ser</match> responsabilizado por algo que não cometeu</suggestion>
+      <example correction='for responsabilizado por algo que não cometeu'><marker>pagar o pato</marker>.</example>
+    </rule>
+    <rule id='CLICHE_413_PIRAR' name='pirar na batatinha'>
+      <pattern>
+          <token inflected='yes'>pirar</token>
+          <token>na</token>
+          <token>batatinha</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>pensar</match> no improvável</suggestion>
+        <suggestion><match no='1' postag='V.+'>imaginar</match> o impossível</suggestion>
+        <suggestion><match no='1' postag='V.+'>propor</match> o impossível</suggestion>
+      <example correction='pensar no improvável|imaginar o impossível|propuser o impossível'><marker>pirar na batatinha</marker>.</example>
+    </rule>
+    <rule id='CLICHE_414_PISAR' name='pisar na bola
+o tomate'>
+      <pattern>
+          <token inflected='yes'>pisar</token>
+          <token>na</token>
+          <token>bola
+o</token>
+          <token>tomate</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>cometer</match> um deslize</suggestion>
+      <example correction='cometer um deslize'><marker>pisar na bola
+o tomate</marker>.</example>
+    </rule>
+    <rule id='CLICHE_415_PROCURAR' name='procurar chifre em cabeça de cavalo'>
+      <pattern>
+          <token inflected='yes'>procurar</token>
+          <token>chifre</token>
+          <token>em</token>
+          <token>cabeça</token>
+          <token>de</token>
+          <token>cavalo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>exagerar</match> problemas</suggestion>
+      <example correction='exagerar problemas'><marker>procurar chifre em cabeça de cavalo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_416_PROCURAR' name='procurar pelo em ovo'>
+      <pattern>
+          <token inflected='yes'>procurar</token>
+          <token>pelo</token>
+          <token>em</token>
+          <token>ovo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>exagerar</match> problemas</suggestion>
+      <example correction='exagerar problemas'><marker>procurar pelo em ovo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_417_PROCURAR' name='procurar sarna para se coçar'>
+      <pattern>
+          <token inflected='yes'>procurar</token>
+          <token>sarna</token>
+          <token>para</token>
+          <token>se</token>
+          <token>coçar</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>envolver</match>-se em problemas sem necessidade</suggestion>
+      <example correction='envolver-se em problemas sem necessidade'><marker>procurar sarna para se coçar</marker>.</example>
+    </rule>
+    <rule id='CLICHE_418_PROCURAR' name='procurar uma agulha num palheiro'>
+      <pattern>
+          <token inflected='yes'>procurar</token>
+          <token>uma</token>
+          <token>agulha</token>
+          <token>num</token>
+          <token>palheiro</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>tentar</match> algo quase impossível</suggestion>
+      <example correction='tentar algo quase impossível'><marker>procurar uma agulha num palheiro</marker>.</example>
+    </rule>
+    <rule id='CLICHE_419_PLANTAR' name='plantar bananeira'>
+      <pattern>
+          <token inflected='yes'>plantar</token>
+          <token>bananeira</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>colocar</match>-se de cabeça para baixo</suggestion>
+      <example correction='colocar-se de cabeça para baixo'><marker>plantar bananeira</marker>.</example>
+    </rule>
+    <rule id='CLICHE_420_QUEBRAR' name='quebrar o galho'>
+      <pattern>
+          <token inflected='yes'>quebrar</token>
+          <token>o</token>
+          <token>galho</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>improvisar</suggestion>
+      <example correction='improvisar'><marker>quebrar o galho</marker>.</example>
+    </rule>
+    <rule id='CLICHE_421_QUEBRAR' name='quebrar o protocolo'>
+      <pattern>
+          <token inflected='yes'>quebrar</token>
+          <token>o</token>
+          <token>protocolo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>quebrar o protocolo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_422_RECARREGAR' name='recarregar as baterias'>
+      <pattern>
+          <token inflected='yes'>recarregar</token>
+          <token>as</token>
+          <token>baterias</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>recuperar</suggestion>
+      <example correction='recuperar'><marker>recarregar as baterias</marker>.</example>
+    </rule>
+    <rule id='CLICHE_423_RECEBER' name='receber um balde de água fria'>
+      <pattern>
+          <token inflected='yes'>receber</token>
+          <token>um</token>
+          <token>balde</token>
+          <token>de</token>
+          <token>água</token>
+          <token>fria</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ter</match> entusiasmo transformado em desilusão</suggestion>
+      <example correction='tiver entusiasmo transformado em desilusão'><marker>receber um balde de água fria</marker>.</example>
+    </rule>
+    <rule id='CLICHE_424_RESOLVER' name='resolver um pepino'>
+      <pattern>
+          <token inflected='yes'>resolver</token>
+          <token>um</token>
+          <token>pepino</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 um problema</suggestion>
+      <example correction='resolver um problema'><marker>resolver um pepino</marker>.</example>
+    </rule>
+    <rule id='CLICHE_425_RESPIRAR' name='respirar aliviado'>
+      <pattern>
+          <token inflected='yes'>respirar</token>
+          <token min='0'>de</token>
+          <token regexp='yes'>alívio|aliviado</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>respirar aliviado</marker>.</example>
+    </rule>
+    <rule id='CLICHE_426_SEGURAR' name='segurar vela'>
+      <pattern>
+          <token inflected='yes'>segurar</token>
+          <token>vela</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>atrapalhar</match> namoro</suggestion>
+        <suggestion><match no='1' postag='V.+'>estar</match> sozinho com um casal</suggestion>
+      <example correction='atrapalhar namoro|estiver sozinho com um casal'><marker>segurar vela</marker>.</example>
+    </rule>
+    <rule id='CLICHE_427_SENTIR' name='sentir dor de corno'>
+      <pattern>
+          <token inflected='yes'>sentir</token>
+          <token>dor</token>
+          <token>de</token>
+          <token>corno</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 despeito amoroso</suggestion>
+      <example correction='sentir despeito amoroso'><marker>sentir dor de corno</marker>.</example>
+    </rule>
+    <rule id='CLICHE_428_SENTIR' name='sentir dor de cotovelo'>
+      <pattern>
+          <token inflected='yes'>sentir</token>
+          <token>dor</token>
+          <token>de</token>
+          <token>cotovelo</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>sentir</match> inveja</suggestion>
+      <example correction='sentir inveja'><marker>sentir dor de cotovelo</marker>.</example>
+    </rule>
+    <rule id='CLICHE_429_SER' name='ser de bom comer'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>de</token>
+          <token>bom</token>
+          <token>comer</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ter</match> boa boca</suggestion>
+        <suggestion><match no='1' postag='V.+'>consentir</match> na infidelidade da própria mulher</suggestion>
+      <example correction='ter boa boca|consentir na infidelidade da própria mulher'><marker>ser de bom comer</marker>.</example>
+    </rule>
+    <rule id='CLICHE_431_SER' name='ser um chato de galocha'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>um</token>
+          <token>chato</token>
+          <token>de</token>
+          <token>galocha</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 uma pessoa de comportamento desagradável</suggestion>
+      <example correction='ser uma pessoa de comportamento desagradável'><marker>ser um chato de galocha</marker>.</example>
+    </rule>
+    <rule id='CLICHE_432_SER' name='ser um joão-ninguém|ser um zé-ninguém'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token regexp='yes'>uma?s?|uns</token>
+          <token regexp='yes'>joão|zés?</token>
+          <token>-</token>
+          <token>ninguém</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>não <match no='1' postag='V.+'>ter</match> importância</suggestion>
+        <suggestion>não <match no='1' postag='V.+'>ter</match> peso social</suggestion>
+        <suggestion>\1 destituído de poder económico</suggestion>
+      <example correction='não ter importância|não ter peso social|ser destituído de poder económico'><marker>ser um joão-ninguém</marker>.</example>
+    </rule>
+    <rule id='CLICHE_433_SER' name='ser um troca-tintas'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token regexp='yes'>uma?s?|uns</token>
+          <token>troca</token>
+          <token>-</token>
+          <token>tintas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>mudar</match> de ideias facilmente</suggestion>
+	<suggestion>\1 traidor</suggestion>
+      <example correction='mudar de ideias facilmente|ser traidor'><marker>ser um troca-tintas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_434_SER' name='ser um maria-vai-com-as-outras'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token regexp='yes'>uma?s?|uns</token>
+          <token>maria</token>
+          <token>-</token>
+          <token>vai</token>
+          <token>-</token>
+          <token>com</token>
+          <token>-</token>
+          <token>as</token>
+          <token>-</token>
+          <token>outras</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>não <match no='1' postag='V.+'>ter</match> personalidade própria</suggestion>
+        <suggestion><match no='1' postag='V.+'>deixar</match>-se influenciar facilmente</suggestion>
+      <example correction='não ter personalidade própria|deixar-se influenciar facilmente'><marker>ser um maria-vai-com-as-outras</marker>.</example>
+    </rule>
+    <rule id='CLICHE_435_SER' name='ser uma mala sem alça'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>uma</token>
+          <token>mala</token>
+          <token>sem</token>
+          <token>alça</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 chato</suggestion>
+      <example correction='ser chato'><marker>ser uma mala sem alça</marker>.</example>
+    </rule>
+    <rule id='CLICHE_436_SER' name='ser uma mão na roda'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>uma</token>
+          <token>mão</token>
+          <token>na</token>
+          <token>roda</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ajudar</match> muito</suggestion>
+        <suggestion>\1 prestável</suggestion>
+      <example correction='ajudar muito|ser prestável'><marker>ser uma mão na roda</marker>.</example>
+    </rule>
+    <rule id='CLICHE_437_SER' name='ser uma pedra no sapato|ser uma pedra no caminho'>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>uma</token>
+          <token>pedra</token>
+          <token>no</token>
+          <token regexp='yes'>sapato|caminho</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 um estorvo</suggestion>
+        <suggestion><match no='1' postag='V.+'>atrapalhar</match></suggestion>
+      <example correction='ser um estorvo|atrapalhar'><marker>ser uma pedra no sapato</marker>.</example>
+    </rule>
+    <rule id='CLICHE_438_TER' name='ter a barriga a dar horas'>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>a</token>
+          <token>barriga</token>
+          <token>a</token>
+          <token>dar</token>
+          <token>horas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 fome</suggestion>
+      <example correction='ter fome'><marker>ter a barriga a dar horas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_439_TER' name='ter bicho carpinteiro'>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>bicho</token>
+          <token>carpinteiro</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>estar</match> irrequieto</suggestion>
+      <example correction='estar irrequieto'><marker>ter bicho carpinteiro</marker>.</example>
+    </rule>
+    <rule id='CLICHE_440_TER' name='ter lata'>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>lata</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ser</match> descarado</suggestion>
+      <example correction='ser descarado'><marker>ter lata</marker>.</example>
+    </rule>
+    <rule id='CLICHE_441_TER' name='ter macacos no sótão'>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>macacos</token>
+          <token>no</token>
+          <token>sótão</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>\1 ilusões</suggestion>
+      <example correction='ter ilusões'><marker>ter macacos no sótão</marker>.</example>
+    </rule>
+    <rule id='CLICHE_442_TIRAR' name='tirar a barriga da miséria'>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+          <token>a</token>
+          <token>barriga</token>
+          <token>da</token>
+          <token>miséria</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>tirar a barriga da miséria</marker>.</example>
+    </rule>
+    <rule id='CLICHE_443_TIRAR' name='tirar água do joelho'>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+          <token>água</token>
+          <token>do</token>
+          <token>joelho</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>urinar</suggestion>
+      <example correction='urinar'><marker>tirar água do joelho</marker>.</example>
+    </rule>
+    <rule id='CLICHE_444_TIRAR' name='tirar de letra'>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+          <token>de</token>
+          <token>letra</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>fazer</match> algo com facilidade</suggestion>
+      <example correction='fizer algo com facilidade'><marker>tirar de letra</marker>.</example>
+    </rule>
+    <rule id='CLICHE_445_TIRAR' name='tirar o cavalo da chuva'>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+          <token>o</token>
+          <token>cavalo</token>
+          <token>da</token>
+          <token>chuva</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>desistir</match> de algo</suggestion>
+        <suggestion><match no='1' postag='V.+'>desistir</match> de alguém</suggestion>
+      <example correction='desistir de algo|desistir de alguém'><marker>tirar o cavalo da chuva</marker>.</example>
+    </rule>
+    <rule id='CLICHE_446_TIRAR' name='tirar onda'>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+          <token>onda</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>brincar</suggestion>
+        <suggestion>enganar</suggestion>
+      <example correction='brincar|enganar'><marker>tirar onda</marker>.</example>
+    </rule>
+    <rule id='CLICHE_447_TOMAR' name='tomar um banho de loja'>
+      <pattern>
+          <token inflected='yes'>tomar</token>
+          <token>um</token>
+          <token>banho</token>
+          <token>de</token>
+          <token>loja</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>tomar um banho de loja</marker>.</example>
+    </rule>
+    <rule id='CLICHE_448_TOMAR' name='tomar um chega para lá'>
+      <pattern>
+          <token inflected='yes'>tomar</token>
+          <token>um</token>
+          <token>chega</token>
+          <token>para</token>
+          <token>lá</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>ser</match> descartado</suggestion>
+      <example correction='for descartado'><marker>tomar um chega para lá</marker>.</example>
+    </rule>
+    <rule id='CLICHE_449_TRAIR-SE' name='trair-se pela emoção'>
+      <pattern>
+          <token inflected='yes'>trair</token>
+          <token>-</token>
+          <token>se</token>
+          <token>pela</token>
+          <token>emoção</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>trair-se pela emoção</marker>.</example>
+    </rule>
+    <rule id='CLICHE_450_TRAZER' name='trazer à tona'>
+      <pattern>
+          <token inflected='yes'>trazer</token>
+          <token>à</token>
+          <token>tona</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion>revisitar</suggestion>
+      <example correction='revisitar'><marker>trazer à tona</marker>.</example>
+    </rule>
+    <rule id='CLICHE_451_TREPAR' name='trepar paredes'>
+      <pattern>
+          <token inflected='yes'>trepar</token>
+          <token>paredes</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>estar</match> desesperado</suggestion>
+      <example correction='estiver desesperado'><marker>trepar paredes</marker>.</example>
+    </rule>
+    <rule id='CLICHE_452_TROCAR' name='trocar alhos por bugalhos'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>alhos</token>
+          <token>por</token>
+          <token>bugalhos</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>confundir</match> factos</suggestion>
+        <suggestion><match no='1' postag='V.+'>confundir</match> histórias</suggestion>
+      <example correction='confundir factos|confundir histórias'><marker>trocar alhos por bugalhos</marker>.</example>
+    </rule>
+    <rule id='CLICHE_453_TROCAR' name='trocar as bolas'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>as</token>
+          <token>bolas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>atrapalhar</match>-se</suggestion>
+      <example correction='atrapalhar-se'><marker>trocar as bolas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_454_TROCAR' name='trocar farpas'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>farpas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>trocar farpas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_455_TROCAR' name='trocar figurinhas'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>figurinhas</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>trocar figurinhas</marker>.</example>
+    </rule>
+    <rule id='CLICHE_456_TROCAR' name='trocar os pés pelas mãos'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>os</token>
+          <token>pés</token>
+          <token>pelas</token>
+          <token>mãos</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>agir</match> desajeitadamente</suggestion>
+        <suggestion><match no='1' postag='V.+'>agir</match> com pressa</suggestion>
+      <example correction='agir desajeitadamente|agir com pressa'><marker>trocar os pés pelas mãos</marker>.</example>
+    </rule>
+    <rule id='CLICHE_457_TROCAR' name='trocar seis por meia dúzia'>
+      <pattern>
+          <token inflected='yes'>trocar</token>
+          <token>seis</token>
+          <token>por</token>
+          <token>meia</token>
+          <token>dúzia</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>trocar</match> sem fazer qualquer diferença</suggestion>
+      <example correction='trocar sem fazer qualquer diferença'><marker>trocar seis por meia dúzia</marker>.</example>
+    </rule>
+    <rule id='CLICHE_458_VIR' name='vir à tona'>
+      <pattern>
+          <token inflected='yes'>vir</token>
+          <token>à</token>
+          <token>tona</token>
+      </pattern>
+      <message>Frase-feita. Procure alternativas.</message>
+      <example correction=''><marker>vir à tona</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
