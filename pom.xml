@@ -78,6 +78,19 @@
                       <excludePackageNames>org.languagetool.dev.conversion*</excludePackageNames>
                   </configuration>
               </plugin>
+
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-dependency-plugin</artifactId>
+                  <version>2.4</version>
+                  <executions>
+                      <execution>
+                          <id>copy-dependencies</id>
+                          <phase>package</phase>
+                          <goals><goal>copy-dependencies</goal></goals>
+                      </execution>
+                  </executions>
+              </plugin>
               
           </plugins>
       </pluginManagement>
@@ -164,15 +177,7 @@
     <module>languagetool-language-modules/de-DE-x-simple-language</module>
     <module>languagetool-language-modules/all</module>
     <module>languagetool-gui-commons</module>
-    <module>languagetool-commandline</module>
-    <module>languagetool-standalone</module>
-    <module>languagetool-office-extension</module>
-    <module>hunspell-native-libs</module>
-    <module>languagetool-wikipedia</module>
     <module>languagetool-server</module>
-    <module>languagetool-http-client</module>
-    <module>languagetool-tools</module>
-    <module>languagetool-dev</module>
     <!-- don't add languagetool-client-example here, it's built manually only -->
   </modules>
 
