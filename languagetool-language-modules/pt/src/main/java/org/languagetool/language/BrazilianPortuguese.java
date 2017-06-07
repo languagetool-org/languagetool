@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.*;
+import org.languagetool.rules.pt.BrazilianPortugueseReplaceRule;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseDashRule;
 
