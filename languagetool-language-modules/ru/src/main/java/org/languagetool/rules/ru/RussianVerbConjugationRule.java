@@ -36,7 +36,7 @@ public class RussianVerbConjugationRule extends Rule {
 
     @Override
     public String getDescription() {
-        return "Согласование персональных местоимений с глаголами";
+        return "Согласование личных местоимений с глаголами";
     }
 
     @Override
