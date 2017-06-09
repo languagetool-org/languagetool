@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +72,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
+      String requestMethod = httpExchange.getRequestMethod();
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
@@ -92,6 +94,14 @@ class LanguageToolHttpHandler implements HttpHandler {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
         print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
+        return;
+      }
+      if (requestMethod.equalsIgnoreCase("OPTIONS")) {
+        Headers headers = httpExchange.getResponseHeaders();
+        headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        headers.add("Access-Control-Allow-Origin", config.getAllowOriginUrl());
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NO_CONTENT, 0);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
