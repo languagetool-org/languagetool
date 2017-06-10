@@ -17092,6 +17092,33 @@ USA
                 <example correction="supper">After I had eaten my <marker>super</marker>, I went straight to bed.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PERSONAL_PERSONNEL" name="personal (personnel)">
+            <rule>
+                <pattern>
+                    <token>of</token>
+                    <marker><token>personal</token></marker>
+                    <token postag="SENT_END" regexp="yes">\W+|at|if</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>personnel</suggestion>?</message>
+                <example correction="personnel">She's the director of <marker>personal</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a(rmou?red|uthorized)|m(ilitary|edical)|technical|key|naval|qualified</token>
+                    <marker><token>personal</token></marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>personnel</suggestion>?</message>
+                <example correction="personnel">For authorized <marker>personal</marker> only.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>personal</token></marker>
+                    <token regexp="yes">d(epartment|irector)s?|manag(er|ment)s?|files?|officer?s?</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>personnel</suggestion>?</message>
+                <example correction="personnel">He is the <marker>personal</marker> director.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
