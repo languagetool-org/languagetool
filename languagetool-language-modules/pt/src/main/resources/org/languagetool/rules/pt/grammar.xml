@@ -19312,10 +19312,11 @@ TODO Write better examples
       <example>A reunião poderá ser às 15h00.</example>
     </rule>
 
-    <rule id="IR_AS_FUTURE_AUXILIARY" name="IR (Futuro/Condicional) + Infinitivo" default='off'>
+  <rulegroup id="IR_AS_FUTURE_AUXILIARY" name="IR (Presente/Futuro/Condicional) + Infinitivo" default='on'>
     <!--    Created by Tiago F. Santos, 2017-04-12     -->
+    <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes'>ir</token>
+          <token postag_regexp='yes' postag='VM.[CF].+' inflected='yes'>ir</token>
           <token postag='VMN0000'/>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
@@ -19325,6 +19326,17 @@ TODO Write better examples
       <example correction="chegará">Ele <marker>irá chegar</marker> a tempo.</example>
       <example correction="chegaria">Ele sabia que <marker>iria chegar</marker> atrasado.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='VM.P.+' inflected='yes'>ir</token>
+          <token postag='VMN0000'/>
+      </pattern>
+      <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-verbo-ir-como-auxiliar-de-si-proprio/5679</url>
+      <short>Possível gerundismo.</short>
+      <example correction="">Ele <marker>vai chegar</marker> a tempo.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='AVOID_PASSIVE_VOICE' name='Evitar a Passiva (somente a analítica)' type='style' default='off'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
