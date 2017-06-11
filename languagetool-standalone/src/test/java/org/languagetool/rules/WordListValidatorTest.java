@@ -38,6 +38,7 @@ public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
           "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòôÈÉÁÀÓÒãñíîş" +
+          "âêôõ" +  // for Portuguese
           "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
           "Śśōżúï" +
           "·" +   // for Catalan
