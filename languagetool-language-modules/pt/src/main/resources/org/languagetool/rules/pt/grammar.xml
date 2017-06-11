@@ -3441,15 +3441,15 @@ title="Easy editing stylesheet" ?>
 
     <!-- ESTAR SOBRE O EFEITO DE estar sob o efeito de -->
     <rule id='ESTAR_SOBRE_O_EFEITO_DE' name="estar sob o efeito de">
-	<!-- Created by Marco A.G.Pinto, 2017-06-06 -->
+    <!-- Created by Marco A.G.Pinto, 2017-06-06 -->
       <pattern>
           <token inflected='yes'>estar</token>
-		  <marker>
-			<token>sobre</token>
-		  </marker>
-		  <token regexp="yes">os?</token>
-		  <token regexp="yes">efeitos?</token>
-		  <token regexp="yes">de|dos?|das?</token>
+        <marker>
+          <token>sobre</token>
+        </marker>
+          <token regexp="yes">os?</token>
+          <token regexp="yes">efeitos?</token>
+          <token regexp="yes">de|dos?|das?</token>
       </pattern>
       <message>Substitua por <suggestion>sob</suggestion>.</message>        
       <example correction="sob">Ele estava <marker>sobre</marker> o efeito de drogas.</example>
@@ -6351,11 +6351,330 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
   </rulegroup>
 
+  <rulegroup id='WORDINESS' name='Expressão prolixas'>
+    <!--  Rule group made semi automatically with the Wikipedia list
+tokenizer spreadsheet in the forum	     -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
+      <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo</url>
+      <short>Expressão prolixa</short>
+    <rule>
+      <pattern>
+          <token inflected='yes'>dar</token>
+          <token>uma</token>
+          <token>indicação</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>indicar</match></suggestion>
+      <example correction='indicar'><marker>dar uma indicação de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>derivar</token>
+          <token>grande</token>
+          <token>prazer</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>apreciar</match></suggestion>
+      <example correction='apreciar'><marker>derivar grande prazer de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>desaparecer</token>
+          <token>da</token>
+          <token>vista</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='desaparecer'><marker>desaparecer da vista</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>dizer</token>
+          <token>exatamente</token>
+          <token>a</token>
+          <token>mesma</token>
+          <token>coisa</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>repetir</match></suggestion>
+      <example correction='repetir'><marker>dizer exatamente a mesma coisa</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>eliminar</token>
+          <token>completamente</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='eliminar'><marker>eliminar completamente</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>estar</token>
+          <token>em</token>
+          <token>posição</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>poder</match></suggestion>
+      <example correction='poder'><marker>estar em posição de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token regexp='yes'>contac?tos?</token>
+          <token>com</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>contactar</match></suggestion>
+      <example correction='contactar'><marker>fazer contacto com</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>referência</token>
+          <token>a</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>referir-se a</suggestion>
+      <example correction='referir-se a'><marker>fazer referência a</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token min='0'>um</token>
+          <token regexp='yes'>arranjos?</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>arranjar</match></suggestion>
+      <example correction='arranjar'><marker>fazer um arranjo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token min='0'>um</token>
+          <token regexp='yes'>esforços?</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>tentar</match></suggestion>
+        <suggestion><match no='1' postag='V.+'>esforçar</match></suggestion>
+      <example correction='tentar|esforçar'><marker>fazer um esforço</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>um</token>
+          <token>plano</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>planear</match></suggestion>
+      <example correction='planear'><marker>fazer um plano</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>uma</token>
+          <token>aquisição</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>adquirir</match></suggestion>
+      <example correction='adquirir'><marker>fazer uma aquisição</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>uma</token>
+          <token>determinação</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>decidir</match></suggestion>
+      <example correction='decidir'><marker>fazer uma determinação</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>uma</token>
+          <token>suposição</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>supor</match></suggestion>
+      <example correction='supor'><marker>fazer uma suposição</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ganhar</token>
+          <token>entrada</token>
+          <token>em</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>entrar</match></suggestion>
+      <example correction='entrar'><marker>ganhar entrada em</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>levar</token>
+          <token>em</token>
+          <token>conta</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>considerar</match></suggestion>
+      <example correction='considerar'><marker>levar em conta</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ligar</token>
+          <token>junto</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='ligar'><marker>ligar junto</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>poder</token>
+          <token>ser</token>
+          <token>visto</token>
+          <token regexp='yes'>como|que</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>APAGAR</suggestion>
+        <suggestion><match no='1' postag='V.+'>ser</match></suggestion>
+      <example correction='APAGAR|ser'><marker>poder ser visto como</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>poder</token>
+          <token>ver</token>
+          <token>que</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>EVITAR</suggestion>
+      <example correction='EVITAR'><marker>poder ver que</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>preferir</token>
+          <token>ter</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='preferir'><marker>preferir ter</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>procurar</token>
+          <token>ter</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='procurar'><marker>procurar ter</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>um</token>
+          <token>reflexo</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>refletir</suggestion>
+      <example correction='refletir'><marker>ser um reflexo de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ser</token>
+          <token>útil</token>
+          <token>na</token>
+          <token>compreensão</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>esclarecer</match></suggestion>
+      <example correction='esclarecer'><marker>ser útil na compreensão</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>servir</token>
+          <token>o</token>
+          <token>propósito</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>APAGAR</suggestion>
+      <example correction='APAGAR'><marker>servir o propósito de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>a</token>
+          <token>capacidade</token>
+          <token>de</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>poder</match></suggestion>
+      <example correction='poder'><marker>ter a capacidade de</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>um</token>
+          <token>efeito</token>
+          <token>sobre</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>afetar</suggestion>
+      <example correction='afetar'><marker>ter um efeito sobre</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token>um</token>
+          <token>efeito</token>
+          <token>sobre</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>influenciar</match></suggestion>
+      <example correction='influenciar'><marker>ter um efeito sobre</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>testemunhar</token>
+          <token>em</token>
+          <token>primeira</token>
+          <token>mão</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+      <example correction='testemunhar'><marker>testemunhar em primeira mão</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>tomar</token>
+          <token>uma</token>
+          <token>decisão</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>decidir</match></suggestion>
+      <example correction='decidir'><marker>tomar uma decisão</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>trazer</token>
+          <token>à</token>
+          <token>mente</token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>lembrar</match></suggestion>
+        <suggestion><match no='1' postag='V.+'>sugerir</match></suggestion>
+      <example correction='lembrar|sugerir'><marker>trazer à mente</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup type='style' id='PLEONASMOS' name="Pleonasmos">
     <!--  Rule group made semi automatically with the Wikipedia list
 tokenizer spreadsheet in the forum	     -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-  <rulegroup type='style' id='PLEONASMOS' name="Pleonasmos">
-    <!--	  TODO Write better examples for all these rules	    -->
       <url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
       <short>Pleonasmo.</short>
     <rule id='PL_CEGO' name="Cego">
@@ -10360,7 +10679,7 @@ o tomate'>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>mudar</match> de ideias facilmente</suggestion>
-	<suggestion>\1 traidor</suggestion>
+        <suggestion>\1 traidor</suggestion>
       <example correction='mudar de ideias facilmente|ser traidor'><marker>ser um troca-tintas</marker>.</example>
     </rule>
     <rule id='CLICHE_434_SER' name='ser um maria-vai-com-as-outras'>
