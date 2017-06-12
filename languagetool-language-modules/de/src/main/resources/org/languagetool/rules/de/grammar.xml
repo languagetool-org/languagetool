@@ -12786,6 +12786,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er setzte alles auf die Vier.</example>
                 <example>Er würfelt eine Sechs.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">durch|um|nach|mit|b(is|ei)|unter|über|g(egen|leich)|plus|m(inus|al)|a(n|uf)|zu|von|in</token>
+                    <marker>
+                        <token case_sensitive="yes">Null</token>
+                    </marker>
+                </pattern>
+                <message>Zahlen unter einer Million werden in der Regel kleingeschrieben.</message>
+                <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="null">Die Temperatur fiel unter <marker>Null</marker>.</example>
+                <example correction="null">Wir spielten zu <marker>Null</marker>.</example>
+                <example correction="null">Die Reihe konvergiert gegen <marker>Null</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
