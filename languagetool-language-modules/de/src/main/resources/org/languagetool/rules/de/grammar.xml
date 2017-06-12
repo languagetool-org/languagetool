@@ -3754,6 +3754,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>verzinst</suggestion>, eine Form von 'verzinsen'?</message>
             <example correction="verzinst">Mein Konto wird gut <marker>verzinnst</marker>.</example>
         </rule>
+        <rule id="ZURZEIT" name="zur Zeit (zurzeit)">
+            <pattern>
+                <marker>
+                   <token>zur</token>
+                   <token>zeit</token>
+                </marker>
+                <token><exception postag=".*:GEN:.*|UNKNOWN" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1zeit</suggestion> (=gegenwärtig) statt 'zur Zeit' (=zu einer bestimmten Zeit)?</message>
+            <example correction='zurzeit'>Er ist <marker>zur Zeit</marker> in Berlin.</example>
+            <example correction='zurzeit'>Er ist <marker>zur Zeit</marker> krank.</example>
+            <example>Er lebte <marker>zur Zeit</marker> Karls des Großen.</example>
+        </rule>
         <rule id="WIDER_MIT" name="'wider mit (wieder mit)'">
             <pattern>
                 <marker>
