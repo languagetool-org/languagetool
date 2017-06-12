@@ -21,6 +21,8 @@ package org.languagetool.rules.pt;
 import org.languagetool.rules.AbstractWordCoherencyRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordCoherencyDataLoader;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,6 +40,8 @@ public class PortugueseWordCoherencyRule extends AbstractWordCoherencyRule {
 
   public PortugueseWordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Inconsistency);
     addExamplePair(Example.wrong("Foi um período duradouro. Tão marcante e <marker>duradoiro</marker> dificilmente será esquecido."),
                    Example.fixed("Foi um período duradouro. Tão marcante e <marker>duradouro</marker> dificilmente será esquecido."));
   }
@@ -59,7 +63,7 @@ public class PortugueseWordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   public String getDescription() {
-    return "Verificação de consistência para palavras com múltiplas grafia correctas";
+    return "Consistência de palavras com grafias múltiplas";
   }
 
 }

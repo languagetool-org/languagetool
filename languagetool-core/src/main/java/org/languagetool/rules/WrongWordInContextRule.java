@@ -48,6 +48,7 @@ import org.languagetool.JLanguageTool;
 public abstract class WrongWordInContextRule extends Rule {
 
   private final List<ContextWords> contextWordsSet;
+  private boolean matchLemmas = false;
 
   public WrongWordInContextRule(ResourceBundle messages) {
     super.setCategory(new Category(CategoryIds.CONFUSED_WORDS, getCategoryString()));
@@ -70,6 +71,14 @@ public abstract class WrongWordInContextRule extends Rule {
   public String getDescription() {
     return "Confusion of words";
   }
+  
+  /*
+   *  Match lemmas instead of word forms
+   */
+  public void setMatchLemmmas() {
+    matchLemmas = true;
+  }
+  
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
@@ -125,12 +134,30 @@ public abstract class WrongWordInContextRule extends Rule {
         //ignoring token 0, i.e., SENT_START
         String token;
         for (i = 1; i < tokens.length && !matchedContext[foundWord]; i++) {
-          token = tokens[i].getToken();
-          matchedContext[foundWord] = matchers[foundWord].reset(token).find();
+          if (matchLemmas) {
+            for (j = 0; j < tokens[i].getReadingsLength() && !matchedContext[foundWord]; j++) {
+              String lemma = tokens[i].getAnalyzedToken(j).getLemma();
+              if (lemma != null && !lemma.isEmpty()) {
+                matchedContext[foundWord] = matchers[foundWord].reset(lemma).find();
+              }
+            }
+          } else {
+            token = tokens[i].getToken();
+            matchedContext[foundWord] = matchers[foundWord].reset(token).find();
+          }
         }
         for (i = 1; i < tokens.length && !matchedContext[notFoundWord]; i++) {
-          token = tokens[i].getToken();
-          matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
+          if (matchLemmas) {
+            for (j = 0; j < tokens[i].getReadingsLength() && !matchedContext[notFoundWord]; j++) {
+              String lemma = tokens[i].getAnalyzedToken(j).getLemma();
+              if (lemma != null && !lemma.isEmpty()) {
+                matchedContext[notFoundWord] = matchers[notFoundWord].reset(lemma).find();
+              }
+            }
+          } else {
+            token = tokens[i].getToken();
+            matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
+          }
         }
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
           String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),

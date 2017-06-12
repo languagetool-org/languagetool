@@ -539,6 +539,7 @@ public class CaseRule extends Rule {
     languages.add("Jugoslawisch");
     languages.add("Kantonesisch");
     languages.add("Katalanisch");
+    languages.add("Klingonisch");
     languages.add("Koreanisch");
     languages.add("Kroatisch");
     languages.add("Lateinisch");
@@ -693,10 +694,13 @@ public class CaseRule extends Rule {
             continue;
           }
           if (prevTokenIsDas
-              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) || isFollowedByRelativeOrSubordinateClause(i, tokens))) {
+              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) ||
+                  isFollowedByRelativeOrSubordinateClause(i, tokens)) ||
+                  (i > 1 && hasPartialTag(tokens[i-2], "VER:AUX"))) {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
+        	// avoid false alarm for "Wir werden das stoppen."
             continue;
           }
         }
@@ -756,9 +760,9 @@ public class CaseRule extends Rule {
     if (!isPotentialError &&
         lowercaseReadings != null
         && tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF")
-        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG"))) {
+        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:"))) {
       // find error in: "Der Brief wird morgen Übergeben."
-      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER");
+      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !hasPartialTag(tokens[pos-1], "VER:AUX:3:");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
       // find error in: "Sie bat ihn, es zu Überprüfen."
       isPotentialError |= (pos >= tokens.length - 2 || ",".equals(tokens[pos+1].getToken()))

@@ -113,6 +113,13 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("PKT").build()// "Ist das Kunst?"
     ),
     Arrays.asList(
+        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten").build(),
+        new PatternTokenBuilder().tokenRegex("sind|waren|ist").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build() // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList(
         new PatternTokenBuilder().token("des").build(),
         new PatternTokenBuilder().token("Lied").build(),
         new PatternTokenBuilder().token("ich").build()// Wes Brot ich ess, des Lied ich sing

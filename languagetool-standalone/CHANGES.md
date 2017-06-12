@@ -23,16 +23,27 @@
     - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
     - style: wordy expressions detection added and significant redundant expressions detection improvements
     - punctuation: significant improvements
-- typography: international system standards, number and mathematical symbol formatting
-    - [pt-PT] AO90: identify words with changed spelling
+    - formal speech: archaims, cacophonies, childish language and slang detection added
+    - typography: international system standards, number and mathematical symbol formatting
+    - misspellings: foreign famous personalities common misspelings
+    - AO90: identify words with changed spelling
   * disambiguation improvements
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
-  * spell checking exceptions for common Latin, English and French expressions, species scientific names, and famous personalities
+  * spell checking exceptions for common Latin, English and French expressions, species scientific names,
+    and famous personalities
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
+    - [pt-BR]        VERO version 2.1.4
+
+#### Slovak
+  * major rule updates by Matúš Matula
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
+  * The `apiVersion` property of the JSON output is now a number
+    instead of a string (issue #712)
 
 #### Java API
   * Some deprecated methods and classes have been removed.

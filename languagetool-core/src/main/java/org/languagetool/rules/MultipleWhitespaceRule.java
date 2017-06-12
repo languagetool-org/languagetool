@@ -57,6 +57,7 @@ public class MultipleWhitespaceRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
     boolean prevWhite = false;
+    boolean isLineBreakContinuation = false;
     int prevLen = 0;
     int prevPos = 0;
     //note: we start from token 1
@@ -65,8 +66,9 @@ public class MultipleWhitespaceRule extends Rule {
     while (i < tokens.length) {
       boolean tokenIsTab = tokens[i].getToken().equals("\t");
       boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
+      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab;
       if ((tokens[i].isWhitespace() ||
-          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
+          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak && !isLineBreakContinuation) {
         int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && (tokens[i].isWhitespace() ||
             StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {

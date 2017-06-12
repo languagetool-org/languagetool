@@ -46,13 +46,23 @@ public class MultipleWhitespaceRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Multiple tabs\t\tare okay"));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("\n This is a test sentence..."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("\n    This is a test sentence..."));
+    assertEquals(0, matches.length);
+    // Needs isParagraphStart creation. Excluding i = 1 will make the rule ignore multiple white spaces in middle senteces.
+    // matches = rule.match(langTool.getAnalyzedSentence("    This is a test sentence..."));
+    // assertEquals(0, matches.length);
 
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("This  is a test sentence."));
     assertEquals(1, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
-    
+    matches = rule.match(langTool.getAnalyzedSentence("\n   This  is a test sentence."));
+    assertEquals(1, matches.length);
+    assertEquals(8, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
     matches = rule.match(langTool.getAnalyzedSentence("This is a test   sentence."));
     assertEquals(1, matches.length);
     assertEquals(14, matches[0].getFromPos());

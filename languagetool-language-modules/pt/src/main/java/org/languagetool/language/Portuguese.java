@@ -137,7 +137,9 @@ public class Portuguese extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
-            new GenericUnpairedBracketsRule(messages),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
+                    Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this),
             new LongSentenceRule(messages, 45, true),
             new UppercaseSentenceStartRule(messages, this,
@@ -151,7 +153,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule2(messages),
             new PortugueseClicheRule(messages),
             new PortugueseRedundancyRule(messages),
-            new PortugueseWordynessRule(messages),
+            new PortugueseWordinessRule(messages),
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
@@ -195,16 +197,19 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "DEGREE_MINUTES_SECONDS":    return 20;
       case "INTERJECTIONS_PUNTUATION":  return  5;
-      case "PROFANITY":                 return -1;
+      case "UNPAIRED_BRACKETS":         return -5;
+      case "PROFANITY":                 return -6;
       case "PT_MULTI_REPLACE":          return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
-      case "PT_WORDYNESS_REPLACE":      return -13;
+      case "PT_WORDINESS_REPLACE":      return -13;
       case "PT_CLICHE_REPLACE":         return -17;
       case "CHILDISH_LANGUAGE":         return -25;
       case "ARCHAISMS":                 return -26;
       case "INFORMALITIES":             return -27;
+      case "PT_AGREEMENT_REPLACE":      return -35;
       case "HUNSPELL_RULE":             return -50;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
