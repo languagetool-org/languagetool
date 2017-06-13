@@ -6479,8 +6479,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>fazer</token>
-          <token>um</token>
-          <token>plano</token>
+          <token min='0'>um</token>
+          <token regexp='yes'>planos?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>planear</match></suggestion>
@@ -6489,8 +6489,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>fazer</token>
-          <token>uma</token>
-          <token>aquisição</token>
+          <token min='0'>uma</token>
+          <token regexp='yes'>aquisiç(ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>adquirir</match></suggestion>
@@ -6499,8 +6499,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>fazer</token>
-          <token>uma</token>
-          <token>determinação</token>
+          <token min='0'>uma</token>
+          <token regexp='yes'>determinaç(ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>decidir</match></suggestion>
@@ -6509,8 +6509,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>fazer</token>
-          <token>uma</token>
-          <token>suposição</token>
+          <token min='0'>uma</token>
+          <token regexp='yes'>suposiç(ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>supor</match></suggestion>
@@ -6530,7 +6530,7 @@ tokenizer spreadsheet in the forum	     -->
       <pattern>
           <token inflected='yes'>levar</token>
           <token>em</token>
-          <token>conta</token>
+          <token regexp='yes'>conta|consideração</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>considerar</match></suggestion>
@@ -6599,7 +6599,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>ser</token>
-          <token>útil</token>
+          <token regexp='yes'>útil|úteis</token>
           <token>na</token>
           <token>compreensão</token>
       </pattern>
@@ -6621,8 +6621,8 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>ter</token>
-          <token>a</token>
-          <token>capacidade</token>
+          <token regexp='yes'>[ao]</token>
+          <token regexp='yes'>capacidade|poder</token>
           <token>de</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
@@ -6632,23 +6632,14 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token inflected='yes'>ter</token>
-          <token>um</token>
+          <token min='0'>um</token>
           <token>efeito</token>
-          <token>sobre</token>
+          <token regexp='yes'>sobre|em</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>afetar</suggestion>
-      <example correction='afetar'><marker>ter um efeito sobre</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected='yes'>ter</token>
-          <token>um</token>
-          <token>efeito</token>
-          <token>sobre</token>
-      </pattern>
-      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+'>influenciar</match></suggestion>
+      <example correction='afetar'><marker>ter um efeito sobre</marker>.</example>
       <example correction='influenciar'><marker>ter um efeito sobre</marker>.</example>
     </rule>
     <rule>
