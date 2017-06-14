@@ -114,6 +114,14 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           if (!isMisspelled(candidate)) {
             candidates.add(candidate);
           }
+          // Arbeidszimmer -> Arbeitszimmer:
+          if (partCount < parts.size()-1 && part.endsWith("s") && suggestion.endsWith("-")) {
+            partsCopy.set(partCount, suggestion.substring(0, suggestion.length()-1));
+            String infixCandidate = String.join("", partsCopy);
+            if (!isMisspelled(infixCandidate)) {
+              candidates.add(infixCandidate);
+            }
+          }
         }
       }
       // What if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??

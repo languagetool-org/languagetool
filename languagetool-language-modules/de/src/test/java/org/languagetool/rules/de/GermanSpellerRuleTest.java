@@ -305,6 +305,8 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
+    
+    assertCorrection(rule, "Arbeidszimmer", "Arbeitszimmer");
       
     // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
     // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
