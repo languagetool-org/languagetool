@@ -542,6 +542,7 @@ public class CaseRule extends Rule {
     languages.add("Klingonisch");
     languages.add("Koreanisch");
     languages.add("Kroatisch");
+    languages.add("Kurdisch");
     languages.add("Lateinisch");
     languages.add("Lettisch");
     languages.add("Litauisch");
