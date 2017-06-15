@@ -5127,8 +5127,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token>
-            <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
+          <token postag_regexp='yes' postag='C.+'/>
         <marker>
           <token>ao</token>
           <token>mesmo</token>
@@ -5137,7 +5136,8 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>, <match no='2' case_conversion="startlower"/> \3 \4</suggestion>
-      <example correction=", ao mesmo tempo">Foi feito com distinção <marker>ao mesmo tempo</marker>, está bem feito.</example>
+      <example correction=", ao mesmo tempo">Foi feito com distinção, mas <marker>ao mesmo tempo</marker>, está bem feito.</example>
+      <example>Ela consegue fazer duas coisas ao mesmo tempo.</example>
     </rule>
     <rule>
       <pattern>
@@ -6626,8 +6626,9 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion><match no='1' postag='V.+'>conseguir</match></suggestion>
         <suggestion><match no='1' postag='V.+'>poder</match></suggestion>
-      <example correction='poder'><marker>ter a capacidade de</marker>.</example>
+      <example correction='conseguir|poder'><marker>ter a capacidade de</marker>.</example>
     </rule>
     <rule>
       <pattern>
