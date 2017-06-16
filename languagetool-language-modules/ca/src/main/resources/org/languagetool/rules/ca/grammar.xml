@@ -26289,6 +26289,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DONAR_QUE_PARLAR" name="*donar que parlar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">donar</token>
+                    <token regexp="yes">què|que</token>
+                </marker>
+                <token>parlar</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+            <example correction="fer">No els agrada <marker>donar que</marker> parlar.</example>
+            <example correction="feien">Sempre <marker>donaven què</marker> parlar.</example>
+        </rule>
         <rule id="DOLORES" name="Dolores (municipi) / Dolors">
             <antipattern>
                 <marker>
