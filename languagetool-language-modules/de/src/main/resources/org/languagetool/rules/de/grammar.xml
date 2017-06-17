@@ -10405,6 +10405,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[gG]emeinsame[nr]?</token>
+                    <token regexp="yes">Schnittmengen?</token>
+                </pattern>
+                <message>Mögliche Redundanz: Die Bedeutung des Substantivs '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Schnittmenge">Unsere <marker>gemeinsame Schnittmenge</marker> ist nicht sehr groß.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[kK]atholische[mnr]?</token>
                     <token inflected="yes">Papst</token>
                 </pattern>
