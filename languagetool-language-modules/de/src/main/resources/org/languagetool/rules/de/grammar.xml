@@ -12612,6 +12612,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Spiel">Sie setze ihr Vermögen aufs <marker>spiel</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SIE_DIALOG" name="Erlauben sie (Sie)?">
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>Erlauben|Gestatten</token>
+                    <marker>
+                        <token>sie</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Bitte prüfen Sie, ob <suggestion>Sie</suggestion> hier als Anrede verwendet wird und großgeschrieben werden muss.</message>
+                <example correction='Sie'>Gestatten <marker>sie</marker>?</example>
+                <example correction='Sie'>Erlauben <marker>sie</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token>Was</token>
+                    <token>darf</token>
+                    <token>ich</token>
+                    <marker>
+                        <token>ihnen</token>
+                    </marker>
+                    <token>anbieten</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Bitte prüfen Sie, ob <suggestion>Ihnen</suggestion> hier als Anrede verwendet wird und großgeschrieben werden muss.</message>
+                <example correction='Ihnen'>Was darf ich <marker>ihnen</marker> anbieten?</example>
+            </rule>
+        </rulegroup>
         <rule id="SIE_KEINE_ANREDE" name="'Sie' groß, obwohl keine Anrede (unvollständig)" default="off">
             <!-- off by default due to false alarms, e.g. "Was glauben Sie ist wahr, obwohl Sie es nicht beweisen können?" -->
             <pattern case_sensitive="yes">
