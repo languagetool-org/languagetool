@@ -147,7 +147,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DASH" name="Риска">
       <rule>
         <pattern>
-          <token regexp="yes">[а-яіїєґ]+[—–][а-яіїєґ]+</token>
+          <token regexp="yes">[а-яіїєґ']+[—–][а-яіїєґ']+</token>
         </pattern>
         <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
         <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
@@ -617,6 +617,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>бабусин</suggestion>
       <example correction="бабусь|бабусин">до тих <marker>бабусів-дідусів</marker>.</example>
     </rule>
+
+
+    <rulegroup id="LATIN_LETTERS_IN_SENTENCE" name="Латинські літери в реченні">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[а-яіїєґ]</token>
+          <token regexp="yes">,</token>
+          <marker>
+            <token case_sensitive="yes">a</token>
+          </marker>
+          <token regexp="yes">[а-яіїєґ].*</token>
+        </pattern>
+        <message>Потенційна помилка: латинська літера замість української</message>
+        <suggestion>а</suggestion>
+        <example correction="а">2014 року, <marker>a</marker> то й раніше.</example>
+        <!--
+        <example>заробітна плата, a й b — числа</example>
+        -->
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[а-яіїєґ]</token>
+          <token regexp="yes" min="0">[:,»)-]</token>
+          <marker>
+            <token case_sensitive="yes">i</token>
+          </marker>
+          <token regexp="yes">[а-яіїєґ].*</token>
+        </pattern>
+        <message>Потенційна помилка: латинська літера замість української</message>
+        <suggestion>і</suggestion>
+        <example correction="і">врахували це, <marker>i</marker> головним героєм.</example>
+        <example correction="і">так <marker>i</marker> не запрацювала.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ZAKINCHENNYA_CYFROVYH_CHYSLIVNYKIV" name="Закінчення цифрових числівників" default="off">
+      <rule>
+        <pattern>
+          <or>
+            <token regexp="yes">([0-9]*[02-9])?((1-ш|2-г|[456]-т|[789]-м)(ий|ого|ому|им|а|ої|ій|ою|е)|3-т(ій|ього|ьому|ім|я|ьої|ій|ю|ьою|є))</token>
+            <token regexp="yes">[0-9]*1[0-9]-Т(ий|ого|ому|им|а|ої|ій|ою|е)</token>
+          </or>
+        </pattern>
+        <message>Потенційна помилка: зайві літери закінчення числівника.</message>
+        <url>https://r2u.org.ua/check/rules/ZAKINCHENNYA_CYFROVYH_CHYSLIVNYKIV</url>
+        <example correction="">у <marker>2-гій</marker> Київський гімназії.</example>
+        <example correction="">е базується <marker>173-тя</marker> десантна бригада</example>
+        <example correction="">між <marker>3-тім</marker> та 4-им валом</example>
+        <example correction="">між 3-ім та <marker>4-тим</marker> валом</example>
+        <example correction=""><marker>7-ма</marker> ракетка.</example>
+        <example correction=""><marker>11-та</marker> ракетка.</example>
+        <example>разом із 17-ма тисячами</example>
+        <example>11-а ракетка</example>
+      </rule>
+    </rulegroup>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
