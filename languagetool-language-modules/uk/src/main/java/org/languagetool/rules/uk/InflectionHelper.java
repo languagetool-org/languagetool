@@ -47,12 +47,23 @@ class InflectionHelper {
         return false;
   
       Inflection other = (Inflection) obj;
-      return gender.equals(other.gender)
+      return genderEquals(gender, other.gender)
           && _case.equals(other._case)
           && (animTag == null || other.animTag == null 
           || ! animMatters() || ! other.isAnimalSensitive() || animTag.equals(other.animTag));
     }
   
+    private boolean genderEquals(String gender1, String gender2) {
+      if( gender1.equals(gender2) )
+        return true;
+      
+      if( gender1.equals("s") && gender2.matches("[mfn]") 
+          || gender2.equals("s") && gender1.matches("[mfn]") )
+        return true;
+
+      return false;
+    }
+
     public boolean equalsIgnoreGender(Inflection other) {
       return //gender.equals(other.gender)
           _case.equals(other._case)
@@ -94,7 +105,7 @@ class InflectionHelper {
       if( posTag == null || ! posTag.startsWith("adj") )
         continue;
   
-      Matcher matcher = TokenInflectionAgreementRule.ADJ_INFLECTION_PATTERN.matcher(posTag);
+      Matcher matcher = TokenAgreementAdjNounRule.ADJ_INFLECTION_PATTERN.matcher(posTag);
       matcher.find();
   
       String gen = matcher.group(1);
@@ -119,7 +130,7 @@ class InflectionHelper {
       if( posTag2 == null )
         continue;
   
-      Matcher matcher = TokenInflectionAgreementRule.NOUN_INFLECTION_PATTERN.matcher(posTag2);
+      Matcher matcher = TokenAgreementAdjNounRule.NOUN_INFLECTION_PATTERN.matcher(posTag2);
       if( ! matcher.find() ) {
         //  			System.err.println("Failed to find slave inflection tag in " + posTag2 + " for " + nounTokenReadings);
         continue;
@@ -136,7 +147,7 @@ class InflectionHelper {
     return slaveInflections;
   }
 
-  private static final Map<String,Integer> GEN_ORDER = new HashMap<>();
+  static final Map<String,Integer> GEN_ORDER = new HashMap<>();
   private static final Map<String,Integer> VIDM_ORDER = new HashMap<>();
   
   static {
@@ -145,6 +156,8 @@ class InflectionHelper {
     GEN_ORDER.put("n", 3);
 //    GEN_ORDER.put("s", 4);
     GEN_ORDER.put("p", 5);
+    GEN_ORDER.put("i", 6);      // verb:inf
+    GEN_ORDER.put("o", 7);      // verb:impers
 
     VIDM_ORDER.put("v_naz", 10);
     VIDM_ORDER.put("v_rod", 20);
