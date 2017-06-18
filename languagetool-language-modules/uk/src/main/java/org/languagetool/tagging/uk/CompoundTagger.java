@@ -71,12 +71,9 @@ class CompoundTagger {
   private static final Pattern stdNounTagRegex = Pattern.compile("noun:(?:in)?anim:(.):(v_...).*");
   private static final Set<String> dashPrefixes;
   private static final Set<String> leftMasterSet;
-  private static final Set<String> cityAvenue = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе"));
   private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
   private static final Set<String> slaveSet;
   private static final Map<String, List<String>> NUMR_ENDING_MAP;
-
-
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = "adj:m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = "adj:m:v_naz";
 
@@ -99,7 +96,7 @@ class CompoundTagger {
   static {
     Map<String, List<String>> map2 = new HashMap<>();
     map2.put("й", Arrays.asList(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis")); // 1-й
-    map2.put("ій", Arrays.asList(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis")); // 3-тій
+    map2.put("ій", Arrays.asList(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis")); // 3-ій
     map2.put("го", Arrays.asList(":m:v_rod", ":m:v_zna:ranim", ":n:v_rod"));
     map2.put("му", Arrays.asList(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis", ":f:v_zna"));  // TODO: depends on the last digit
     map2.put("м", Arrays.asList(":m:v_oru", ":n:v_oru", ":p:v_dav"));
@@ -320,7 +317,7 @@ class CompoundTagger {
 
     // Пенсильванія-авеню
 
-    if( Character.isUpperCase(leftWord.charAt(0)) && cityAvenue.contains(rightWord) ) {
+    if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
       if( leftWdList.isEmpty() )
         return null;
       
@@ -538,6 +535,14 @@ class CompoundTagger {
       }
     }
 
+    if( ! newAnalyzedTokens.isEmpty() 
+        && ! PosTagHelper.hasPosTagPart(newAnalyzedTokens, ":p:") ) {
+      if( (LemmaHelper.hasLemma(leftAnalyzedTokens, LemmaHelper.DAYS_OF_WEEK) && LemmaHelper.hasLemma(rightAnalyzedTokens, LemmaHelper.DAYS_OF_WEEK))
+          || (LemmaHelper.hasLemma(leftAnalyzedTokens, LemmaHelper.MONTH_LEMMAS) && LemmaHelper.hasLemma(rightAnalyzedTokens, LemmaHelper.MONTH_LEMMAS)) ) {
+        newAnalyzedTokens.add(new AnalyzedToken(word, newAnalyzedTokens.get(0).getPOSTag().replaceAll(":[mfn]:", ":p:"), newAnalyzedTokens.get(0).getLemma()));
+      }
+    }
+    
     // remove duplicates
     newAnalyzedTokens = new ArrayList<>(new LinkedHashSet<>(newAnalyzedTokens));
     
