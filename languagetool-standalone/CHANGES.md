@@ -40,6 +40,14 @@
 #### Slovak
   * major rule updates by Matúš Matula
 
+#### Ukrainian
+  * Significant dictionary update:
+    - thousands of new words
+    - some inflection adjustments
+  * Improved dynamic tagging for compound words
+  * Many new rules (barbarism, grammar, and spelling)
+  * New noun-verb agreement rule
+
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
   * The `apiVersion` property of the JSON output is now a number
