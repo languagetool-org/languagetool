@@ -1853,6 +1853,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="ODYN_I_TOY_ZHE" name="Один і той же" default="off">
+      <pattern>
+       <token inflected='yes'>один</token>
+       <token regexp='yes'>і|й</token>
+       <token inflected='yes'>той</token>
+       <token regexp='yes'>же|ж</token>
+      </pattern>
+      <message>Вираз "\1 \2 \3 \4" не характерний українській мові. Варто вживати <suggestion>той самий</suggestion>, <suggestion>один і той самий</suggestion></message>
+      <url>https://r2u.org.ua/node/213</url>
+      <example correction="той самий|один і той самий">Представники різних рас і народів по-різному реагують на <marker>один і той же</marker> препарат</example>
+      <example correction="Той самий|Один і той самий"><marker>Один і той же</marker> одяг можу носити півроку</example>
+      <example>Конституція також передбачає випадки, коли один і той самий закон повинен бути підтриманий Верховною Радою та народом</example>
+    </rule>
+
+    <rule id="ODYN_NA_ODYM" name="Один на один">
+      <pattern>
+        <token>один</token>
+        <token>на</token>
+        <token>один</token>
+      </pattern>
+      <message>Вираз "\1 \2 \3" не характерний українській мові. Варто вживати <suggestion>сам на сам</suggestion>, <suggestion>віч-на-віч</suggestion>, <suggestion>сам один</suggestion></message>
+      <url>http://stalivyrazy.org.ua/everyfile.php?transfer=folders/o/odin.html</url>
+      <example correction="сам на сам|віч-на-віч|сам один">Якщо потрібно з кимось порадитись, то це треба робити <marker>один на один</marker>.</example>
+      <example correction="сам на сам|віч-на-віч|сам один">Ми лишилися <marker>один на один</marker> зі своїми викликами.</example>
+      <example>Сам на сам із ринком</example>
+    </rule>
+
+    <rule id="ODYN_CHAS" name="Один час">
+      <pattern>
+        <token negate='yes'>в</token>
+        <marker>
+          <token>один</token>
+          <token>час</token>
+        </marker>
+      </pattern>
+      <message>Вираз "\2 \3" в контексті "\2 \3 було..." не характерний українській мові. Варто вживати <suggestion>свого часу</suggestion>, <suggestion>певний час</suggestion>, <suggestion>деякий час</suggestion></message>
+      <example correction="свого часу|певний час|деякий час"><marker>один час</marker></example>
+      <example correction="свого часу|певний час|деякий час">Питаннях шлюбу, <marker>один час</marker> намагалася "приборкати" римська католицька церква</example>
+      <example>Багато людей в одному місці й в один час</example>
+    </rule>
+
     <rule id="VSI_DO_YEDYNOHO" name="Всі до єдиного">
       <pattern>
         <token inflected="yes" postag_regexp="yes" postag="adj:p:.*" regexp="yes">у?весь</token>
