@@ -4473,24 +4473,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-<!--
-    <rulegroup id="BUTY_PRAVYM" name="Бути правим">
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-            <token inflected="yes" regexp="yes">оливковий|рослинний|соняшниковий|пальмовий|бавовняний|етеровий|ефірний|кедровий|кіпарисовий|обліпиховий|ріпаковий|рапсовий|соєвий</token>
-            <token inflected="yes">масло</token>
-          </unify>
-        </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олія</suggestion></message>
-        <example correction="рослинна олія">полити <marker>рослинним маслом</marker>.</example>
-        <example correction="оливкова олія">полити <marker>оливковим маслом</marker>.</example>
-      </rule>
-    </rulegroup>
--->
-
     <rulegroup id="DVA_CHOBOTY" name="Два чоботи пара">
       <rule>
         <pattern>
@@ -4507,6 +4489,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>одно за вісімнадцять, друге без двох за двадцять</suggestion>
         <example correction="один одного варт (вартий)|обоє рябоє|зустрівся Яким з таким|яке їхало, таке й здибало|яке брело, таке й стріло|одно за вісімнадцять, друге без двох за двадцять"><marker>два черевики — пара</marker>.</example>
         <example correction="один одного варт (вартий)|обоє рябоє|зустрівся Яким з таким|яке їхало, таке й здибало|яке брело, таке й стріло|одно за вісімнадцять, друге без двох за двадцять"><marker>обидва чоботи пара</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="NE_V_SYLAH" name="Не в силах">
+      <rule>
+        <pattern>
+          <token>не</token>
+          <token>в</token>
+          <token>силах</token>
+        </pattern>
+        <message>Правильно: <suggestion>не мати сили</suggestion></message>
+        <suggestion>не мати снаги</suggestion>
+        <suggestion>несила (кому)</suggestion>
+        <suggestion>неспромога (кому)</suggestion>
+        <suggestion>не здужати</suggestion>
+        <suggestion>не спроможним бути</suggestion>
+        <example correction="не мати сили|не мати снаги|несила (кому)|неспромога (кому)|не здужати|не спроможним бути">геть <marker>не в силах</marker> протистояти.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">удар|атака</token>
+          <token min="0"/>
+          <token>по</token>
+          <token>силах</token>
+        </antipattern>
+        <antipattern>
+          <token>силах</token>
+          <token regexp="yes">АТО|НАТО</token>
+        </antipattern>
+        <pattern>
+          <token>по</token>
+          <token>силах</token>
+        </pattern>
+        <message>Правильно: <suggestion>до снаги</suggestion></message>
+        <suggestion>несила (кому)</suggestion>
+        <suggestion>не під силу</suggestion>
+        <suggestion>не здужати</suggestion>
+        <suggestion>не подужати</suggestion>
+        <example correction="до снаги|несила (кому)|не під силу|не здужати|не подужати">геть не <marker>по силах</marker> йому.</example>
+        <example>б'ють по силах АТО</example>
+        <example>ударів НАТО по силах Талібану</example>
       </rule>
     </rulegroup>
 
