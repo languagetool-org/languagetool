@@ -24598,6 +24598,18 @@ Andere Projekte</example>
             <example>Er ist im <marker>Begriff</marker>, etwas zu tun.</example>
             <example correction="Begriffe">Sie ist im <marker>begriffe</marker>, etwas zu tun.</example>
         </rule>
+        <rule id="ER_BEGRIFF" name="'er Begriff (begriff)'">
+            <pattern>
+                <token regexp="yes">e[rs]|ich|sie</token>
+                <token regexp="yes" min="0">nicht|schießlich|endlich</token>
+                <marker>
+                    <token case_sensitive="yes">Begriff</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion><match case_conversion="startlower" no="3"/></suggestion>&verende;</message>
+            <example correction="begriff">Ich <marker>Begriff</marker> schließlich, was auf dem Spiel stand.</example>
+            <example correction="begriff">Weil er nicht <marker>Begriff</marker>, verlor er.</example>
+        </rule>
         <rulegroup id="WEITERE_VORGEHEN" name="'das weitere vorgehen (Vorgehen)'">
             <rule>
                 <pattern case_sensitive="yes">
