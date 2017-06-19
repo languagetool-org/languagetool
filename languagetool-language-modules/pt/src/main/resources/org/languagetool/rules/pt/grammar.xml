@@ -588,7 +588,7 @@ title="Easy editing stylesheet" ?>
           <token>ido</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>algema|alvíssara|arra|boda|cadeira|calça|calenda|Canária|cã|ceroula|cócega|condolência|endoença|exéquia|féria|feze|finança|hemorróida|matina|nádega|núpcia|olheira|palma|pantalona|primícia|profunda|reticência|treva|víscera|afazere|anai|antolho|apetrecho|arredore|brócol[io]|confin|esponsai|esposório|fasto|ido|mane|óculo|parabé[mn]|pêsame|petrecho|pi[ck]le|suspensório|vívere</token>
+          <token regexp='yes'>algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|ido|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabé[mn]|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere</token>
       </pattern>
       <message>Esta expressão é invariável.</message>
         <suggestion>\1s</suggestion>
@@ -618,7 +618,7 @@ title="Easy editing stylesheet" ?>
       <example correction="às custas">Ele tenta viver <marker>à custa</marker> do trabalho dos outros.</example>
     </rule>
     <rule>
-      <pattern>
+      <pattern case_sensitive='yes'>
           <token>Estado</token>
           <token>Unido</token>
       </pattern>
@@ -628,25 +628,58 @@ title="Easy editing stylesheet" ?>
       <example correction="Estados Unidos">A sul do Canadá está o <marker>Estado Unido</marker>.</example>
     </rule>
     <rule>
-      <pattern>
-         <token regexp='yes'>(?iu)(B[aá]lcã|Canária)</token>
+      <pattern case_sensitive='yes'>
+         <token regexp='yes'>B[aá]lcã|Canária</token>
       </pattern>
       <message>Esta expressão é invariável.</message>
         <suggestion>\1s</suggestion>
       <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
-      <example correction="Balcãs">A Bósnia é um país no <marker>Balcã</marker>.</example>
+      <example correction="Balcãs">A Bósnia situa-se no <marker>Balcã</marker>.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>óleos?</token>
+          <token>de</token>
+          <token>palma</token>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+          <token skip='-1' inflected='yes'>bater</token>
+          <token>palma</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion><match no='1' include_skipped='all'/> \2s</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="bateram palmas">No fim, <marker>bateram palma</marker>.</example>
+      <example>Piero Pollaiuolo, Dosso Dossi, Palma il Giovane</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(falsi|humil|sinceri|leal|bon|cari|mal)dades|fés|pratas|cobres|platinas|brisas|oxig[éê]nios|fomes|plebes|pós|neves|lenhas|(cristian|islam|protestant|bud|hindu|xaman|satan|naz)[ií]smos</token>
+          <token regexp='yes'>(falsi|humil|sinceri|leal|bon|cari|mal)dades|fés|pratas|cobres|platinas|brisas|fomes|lenhas|oxig[éê]nios|plebes|profundidades|(cristian|islam|protestant|bud|hindu|xaman|satan|naz)[ií]smos</token>
       </pattern>
       <message>Esta palavra costuma ser apenas referida no singular.</message>
         <suggestion><match no='1' regexp_match='(.*)s$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
-      <example correction="pó">Passou o dia a limpar os <marker>pós</marker> da casa.</example>
+      <example correction="prata">Ele tinha muitas <marker>pratas</marker> da casa.</example>
     </rule>
     <rule>
-      <pattern>
+      <pattern case_sensitive='yes'>
+          <token>
+            <exception>-</exception></token>
+        <marker>
+          <token regexp='yes'>pós|neves</token>
+        </marker>
+          <token>
+            <exception>-</exception></token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion><match no='2' regexp_match='(.*)s$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
+      <example correction="pó">Passou o dia a limpar os <marker>pós</marker> da casa.</example>
+      <example>Correntes pós-clássicas</example>
+      <example>Tancredo Neves, morto antes da posse, foi substituído pelo seu...</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
           <token>Reinos</token>
           <token>Unidos</token>
       </pattern>
