@@ -26289,6 +26289,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="BIS_COMICA" name="*bis/vis còmica">
+            <antipattern>
+                <marker>
+                    <token>vis</token>
+                    <token regexp="yes">còmica|còmiques</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">bis|vis</token>
+                <token inflected="yes">còmic</token>
+            </pattern>
+            <message>Expressió probablement incorrecta.</message>
+            <suggestion>vis <match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0F$10"/></suggestion>
+            <example correction="vis còmica">La seva <marker>bis còmica</marker>.</example>
+            <example correction="vis còmica">un <marker>bis còmic</marker>.</example>
+        </rule>
         <rule id="DONAR_QUE_PARLAR" name="*donar que parlar">
             <pattern>
                 <marker>
