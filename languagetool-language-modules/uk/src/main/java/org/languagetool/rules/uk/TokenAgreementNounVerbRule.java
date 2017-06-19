@@ -375,7 +375,7 @@ public class TokenAgreementNounVerbRule extends Rule {
     @Override
     public int compareTo(Inflection o) {
       Integer thisOrder = gender != null ? InflectionHelper.GEN_ORDER.get(gender) : 0;
-      Integer otherOrder = gender != null ? InflectionHelper.GEN_ORDER.get(o.gender) : 0;
+      Integer otherOrder = o.gender != null ? InflectionHelper.GEN_ORDER.get(o.gender) : 0;
       
       int compared = thisOrder.compareTo(otherOrder);
 //      if( compared != 0 )

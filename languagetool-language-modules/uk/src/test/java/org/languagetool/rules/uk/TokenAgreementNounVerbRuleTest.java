@@ -106,7 +106,8 @@ public class TokenAgreementNounVerbRuleTest {
 
     //TODO: ignore insert words
     // assertEmptyMatch("про припинення їхньої діяльності ми ухвалити, зрозуміло, не    могли");
-    
+//    assertEmptyMatch("Почав, значить, я рости.");
+
     assertEmptyMatch(GOOD_TEXT);
   }
 
