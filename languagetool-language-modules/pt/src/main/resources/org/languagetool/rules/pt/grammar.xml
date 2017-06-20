@@ -2192,30 +2192,12 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>forem</token>
         <marker>
-          <token postag="AQ0FS0"><exception postag="VMIP3S0"></exception></token>
+          <token postag_regexp='yes' postag="AQ..S."><exception postag_regexp='yes' postag="V..P.+"></exception></token>
         </marker>
       </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0FS0" postag_replace="AQ0FP0"/></suggestion></message>
+      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(.+)S(.+)" postag_replace="$1P$2"/></suggestion></message>
       <example correction="necessárias">Quando forem <marker>necessária</marker> novas medidas.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>forem</token>
-        <marker>
-          <token postag="AQ0MS0"><exception postag="VMIP1S0"></exception></token>
-        </marker>
-      </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0MS0" postag_replace="AQ0MP0"/></suggestion></message>
       <example correction="necessários">Quando forem <marker>necessário</marker> mais meios.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>forem</token>
-        <marker>
-          <token postag="AQ0CS0"></token>
-        </marker>
-      </pattern>
-      <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0CS0" postag_replace="AQ0CP0"/></suggestion></message>
       <example correction="urgentes">Todos os exames que forem <marker>urgente</marker> serão marcados.</example>
     </rule>
   </rulegroup>
