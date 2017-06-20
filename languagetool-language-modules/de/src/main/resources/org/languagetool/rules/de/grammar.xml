@@ -3843,6 +3843,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="1" regexp_match="name" regexp_replace="nahme"/></suggestion>? Ein 'Teilname' wäre ein unvollständiger Name.</message>
             <example correction="Teilnahme"><marker>Teilname</marker> nur mit schriftlicher Einladung.</example>
         </rule>
+        <rulegroup id="HAKEN_HACKEN" name="Hacken/Haken">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(To\-do\-)?Liste</token>
+                    <marker>
+                        <token inflected="yes">abhacken</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="hack" regexp_replace="hak"/></suggestion> (auf einer Liste einen Haken hinter etwas setzen)?</message>
+                <example correction="abgehakt">Ich habe alles auf meiner To-do-Liste <marker>abgehackt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Häckchen</token>
+                    </marker>
+                    <token inflected="yes">setzen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="äck" regexp_replace="äk"/></suggestion> (kleiner Haken)?</message>
+                <example correction="Häkchen">Ich habe ein <marker>Häckchen</marker> gesetzt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LIESST" name="ließt (liest)">
             <rule>
                 <pattern>
