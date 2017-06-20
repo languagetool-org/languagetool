@@ -10860,9 +10860,9 @@ USA
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">s?he|some(one|body)|nobody|anyone|every(body|one)</token>
                     <marker>
-                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -10877,12 +10877,13 @@ USA
                 <example>I find it hard to understand how anyone seeking a position in public life could demonstrate...</example>
                 <example>He was busy, he said, in having someone submit to a monkey-gland operation.</example>
                 <example>What's he going to do?</example>
+                <example correction="hates">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example type="triggers_error">Nobody move!</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">s?he|some(one|body)|nobody|anyone</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
@@ -10895,7 +10896,7 @@ USA
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">s?he|some(one|body)|nobody|anyone|every(body|one)</token>
                     <token postag="RB"><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
@@ -10909,7 +10910,7 @@ USA
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
-                    <token regexp="yes">someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">some(one|body)|nobody|anyone</token>
                     <token>else</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
@@ -10925,7 +10926,7 @@ USA
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|let|was|dare|lest|without)</token>
-                    <token regexp="yes">someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">some(one|body)|nobody|anyone</token>
                     <token>else</token>
                     <token postag="RB"/>
                     <marker>
@@ -11182,7 +11183,7 @@ USA
             <pattern>
                 <token regexp="yes">kind|sort|type</token>
                 <token>of</token>
-                <token regexp="yes">an|a</token>
+                <token regexp="yes">an?</token>
             </pattern>
             <message>Don't include '\3' after a classification term. Use simply <suggestion>\1 \2</suggestion>.</message>
             <short>Grammatical problem: unnecessary 'a/an'</short>
