@@ -4444,13 +4444,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>geboren</token>
                 </antipattern>
                 <pattern>
-                    <token postag='ART:.*' postag_regexp='yes'/>
+                    <token postag='ART:.*' postag_regexp='yes'><exception scope="previous" postag="PKT"/></token>
                     <marker>
                         <token>tot</token>
                     </marker>
                 </pattern>
                 <message>Meinen Sie <suggestion>Tod</suggestion>?</message>
                 <example correction='Tod'>Der <marker>Tot</marker> kam unerwartet.</example>
+                <example>Der Mann, der <marker>tot</marker> aufgefunden wurde, lebte nicht mehr.</example>
             </rule>
             <rule>
                 <pattern>
