@@ -1675,6 +1675,78 @@ Contributions and ideas from:
   <example>Ik feliciteer de <marker>22-jarige</marker>.</example>
 </rule>
 
+<rule id="VANZELFSPREKEND" name="van zelfsprekend → vanzelfsprekend">
+  <!--
+  2017-06-20 TaalTik
+  -->
+  <pattern>
+  <token>van</token>
+  <token regexp="yes">zelfsprekend.*</token>
+  </pattern>
+  <message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
+  <url></url>
+  <example correction="vanzelfsprekend">Dat is <marker>van zelfsprekend</marker>.</example>
+  <example>Ik feliciteer je <marker>vanzelfsprekend</marker>.</example>
+</rule>
+
+<rule id="KRIS_KRAS" name="kris kras → kriskras">
+  <!--
+  2017-06-20 TaalTik
+  -->
+  <pattern>
+  <token>kris</token>
+  <token>kras</token>
+  </pattern>
+  <message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
+  <url></url>
+  <example correction="kriskras">We gaan <marker>kris kras</marker> er doorheen.</example>
+  <example>We gaan<marker>kriskras</marker> er doorheen.</example>
+</rule>
+
+<rule id="PEPER_EN_ZOUTSTEL" name="peper- en zoutstel → peper-en-zoutstel">
+  <!--
+  2017-06-20 TaalTik
+  -->
+  <pattern>
+  <token regexp="yes" >peper|peper-</token>
+  <token regexp="yes">en|&amp;</token>
+  <token regexp="yes">zoutstel.*</token>
+  </pattern>
+  <message>Dit moet vast zijn: <suggestion>peper-en-<match no="3"/></suggestion></message>
+  <url></url>
+  <example correction="peper-en-zoutstelletje">Ik pak het <marker>peper en zoutstelletje</marker>.</example>
+  <example>Hij pakt het <marker>peper-en-zoutstel</marker>.</example>
+</rule>
+
+<rule id="ART_DECOSTIJL" name="art decostijl → art-decostijl">
+  <!--
+  2017-06-20 TaalTik
+  -->
+  <pattern>
+  <token regexp="yes" >[aA]rt</token>
+  <token regexp="yes">[dD]eco....*</token>
+  </pattern>
+  <message>Dit moet vast zijn: <suggestion>art-<match no="2" case_conversion="startlower"/></suggestion></message>
+  <url></url>
+  <example correction="art-decostijl">Het gebouw is in <marker>art decostijl</marker>.</example>
+  <example>Ik houd van de <marker>art-decostijl</marker>.</example>
+</rule>
+
+<rule id="BIJNA_DOOD_ERVARING" name="bijna dood ervaring → bijna-doodervaring">
+  <!--
+  2017-06-20 TaalTik
+  -->
+  <pattern>
+  <token>bijna</token>
+  <token>dood</token>
+  <token regexp="yes">ervaring.*</token>
+  </pattern>
+  <message>Dit moet vast zijn: <suggestion>bijna-dood<match no="3"/></suggestion></message>
+  <url></url>
+  <example correction="bijna-doodervaringen">Ik geloof niet in <marker>bijna dood ervaringen</marker>.</example>
+  <example>Hij had een <marker>bijna-doodervaring</marker>.</example>
+</rule>
+
 
 <rule id="OT_HET_ZNW_ZNW_a" name="Het deur raam → het deurraam">
   <!-- 2014-08-20 TaalTik
