@@ -10858,6 +10858,11 @@ USA
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
             <short>Agreement error</short>
             <rule>
+                <antipattern>
+                    <token>with</token>
+                    <token regexp="yes">every(one|body)</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">s?he|it|(any|every|no|some)(one|body)</token>
@@ -10879,6 +10884,7 @@ USA
                 <example>What's he going to do?</example>
                 <example correction="hates">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example type="triggers_error">Nobody move!</example>
+                <example>The bride came into the room, with everyone staring at her.</example>
             </rule>
             <rule>
                 <pattern>
