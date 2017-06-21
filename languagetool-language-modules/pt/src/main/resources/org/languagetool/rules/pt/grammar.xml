@@ -19233,7 +19233,7 @@ TODO Write better examples
           <token regexp="yes">[\d\,\.]+[$£¥\u8371]</token>
       </pattern>
       <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no="1" regexp_match="([\d\,\.]+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
-      <short>Coloque a divisa no inicio</short>
+      <short>Coloque a divisa no início</short>
       <example correction="£100">Deve <marker>100£</marker>.</example>
       <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
     </rule>
@@ -19243,7 +19243,7 @@ TODO Write better examples
           <token regexp="yes">[$£¥\u8371]</token>
       </pattern>
       <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\2\1</suggestion>.</message>
-      <short>Coloque a divisa no inicio</short>
+      <short>Coloque a divisa no início</short>
       <example correction="£100">Deve <marker>100 £</marker>.</example>
       <example correction="£100.00">Deve <marker>100.00 £</marker>.</example>
     </rule>
@@ -20206,24 +20206,25 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule default="on" id='SENT_START_NUM' name="Número no inicio da frase">
+    <rule default="on" id='SENT_START_NUM' name="Número no início da frase">
     <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
       <pattern>
         <marker>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d+</token>
+          <token regexp="yes">[\d,.]+</token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|Z.+|SENT_END'/></token>
       </pattern>
-      <message>Números no inicio de frases devem ser escritos por extenso.</message>
-      <short>Número no inicio da frase</short>
+      <message>Números no início de frases devem ser escritos por extenso.</message>
+      <short>Número no início da frase</short>
       <example correction=""><marker>12</marker> meses no ano.</example>
       <example>Doze meses no ano.</example>
       <example>Mil vezes! Já o disse 1000 vezes!</example>
       <example><marker>1.</marker> Introdução</example>
       <example><marker>1.-</marker> Introdução</example>
       <example><marker>1.--</marker> Introdução</example>
+      <example><marker>1.2.</marker> Introdução</example>
       <example><marker>1.3.—</marker> Introdução</example>
       <example>50-30</example>
     </rule>
@@ -21522,6 +21523,10 @@ TODO Write better examples
     <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
       <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+      </antipattern>
+      <antipattern>
           <token regexp="yes">\d{3}\.\d{3}</token>
           <token><exception regexp='yes'>\d+</exception></token>
       </antipattern>
@@ -21599,7 +21604,7 @@ TODO Write better examples
       </pattern>
       <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
-      <example correction="9,5"><marker>9.5</marker></example>
+      <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
       <example correction="9,5">És de <marker>9.5</marker>.</example>
       <example correction="9349,5"><marker>9349.5</marker></example>
       <example correction="349,56">1 999 <marker>349.56</marker></example>
