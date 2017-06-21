@@ -12538,6 +12538,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
         </rule>
+        <rule id="VON_KLEIN" name="von Klein (klein) auf">
+            <pattern>
+                <token>von</token>
+                <marker>
+                    <token case_sensitive='yes'>Klein</token>
+                </marker>
+                <token>auf</token>
+            </pattern>
+            <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> auf' muss 'klein' kleingeschrieben werden.</message>
+            <short>&prgk;.</short>
+            <example correction='klein'>Von <marker>Klein</marker> auf wurde er auf diese Aufgabe vorbereitet.</example>
+        </rule>
+        <rule id="VON_NAH_UND" name="von Nah (nah) und fern">
+            <pattern>
+                <token>von</token>
+                <marker>
+                    <token case_sensitive='yes'>Nah</token>
+                </marker>
+                <token>und</token>
+            </pattern>
+            <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> und fern' muss 'nah' kleingeschrieben werden.</message>
+            <short>&prgk;.</short>
+            <example correction='nah'>Sie kamen von <marker>Nah</marker> und fern.</example>
+        </rule>
         <rule id="IN_DER_MACHT_STEHENDE" name="Großschreibung von 'Stehende' in 'alles in jemandes Macht Stehende'">
             <pattern>
                 <token>in</token>
@@ -12591,7 +12615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
-                <token regexp='yes'>seit|von</token>
+                <token regexp='yes'>seit|vo[nr]|mit|nach|zu</token>
                 <marker>
                     <token case_sensitive='yes'>beginn</token>
                 </marker>
@@ -12602,7 +12626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="NOMEN_KLEIN" name="der/die/das + Adjektiv + kleingeschriebenes Nomen" default="off">
             <pattern>
-                <token regexp="yes">der|die|das</token>
+                <token regexp="yes">d(er|ie|as)</token>
                 <token postag="ADJ:NOM:.*" postag_regexp="yes">
                     <exception postag="PA[12]:.*" postag_regexp="yes"/>
                     <exception>gleiche</exception>
