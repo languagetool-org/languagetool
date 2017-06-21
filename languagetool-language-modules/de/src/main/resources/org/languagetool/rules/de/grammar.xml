@@ -12522,7 +12522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Beste">Er will immer der <marker>beste</marker> sein.</example>
             <example correction="Beste">Um die <marker>beste</marker> zu sein, musst du hart arbeiten.</example>
             <example>Eine dieser Lösungen muss die <marker>beste</marker> sein.</example>
-            <example>Von allen Voschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
+            <example>Von allen Vorschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
         </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
             <pattern>
@@ -12643,6 +12643,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>In der Wendung "aufs Spiel setzen" wird <suggestion>Spiel</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Spiel">Sie setze ihr Vermögen aufs <marker>spiel</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_DEM_TROCKENEN" name="auf dem trockenen (Trockenen) sitzen">
+            <url>https://de.wiktionary.org/wiki/auf_dem_Trockenen_sitzen</url>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">trockenen</token>
+                    </marker>
+                    <token inflected="yes">sitzen</token>
+                </pattern>
+                <message><suggestion>Trockenen</suggestion> wird in dieser Wendung in der Regel großgeschrieben. Es gibt aber Ausnahmen, z.B. "Dieser Stuhl ist nass, ich möchte lieber auf dem trockenen sitzen."</message>
+                <short>&prgk;.</short>
+                <example correction="Trockenen">Ihr sollt hier doch nicht auf dem <marker>trockenen</marker> sitzen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">sitzen</token>
+                    <token>auf</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">trockenen</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung "auf dem Trockenen sitzen" wird <suggestion>Trockenen</suggestion> in der Regel großgeschrieben. Es gibt aber Ausnahmen, z.B. "Dieser Stuhl ist nass, ich möchte lieber auf dem trockenen sitzen."</message>
+                <short>&prgk;.</short>
+                <example correction="Trockenen">Wir sitzen auf dem <marker>trockenen</marker>!</example>
+                <example correction="Trockenen">Sie sitzen schon sehr lange auf dem <marker>trockenen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SIE_DIALOG" name="Erlauben sie (Sie)?">
