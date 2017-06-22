@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.CompoundRule;
 import org.languagetool.rules.nl.DutchWrongWordInContextRule;
@@ -109,6 +110,11 @@ public class Dutch extends Language {
             new Contributor("OpenTaal", "http://www.opentaal.org"),
             new Contributor("TaalTik", "http://www.taaltik.nl")
     };
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
   @Override
