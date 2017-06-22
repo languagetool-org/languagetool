@@ -128,4 +128,13 @@ public class Dutch extends Language {
     );
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "INREKENING_A":              return 11;
+      case "INREKENING_B":              return 10;
+      // case "HUNSPELL_RULE":             return -1;
+    }
+    return 0;
+  }
 }
