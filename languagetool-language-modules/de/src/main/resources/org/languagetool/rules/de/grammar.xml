@@ -26568,6 +26568,71 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Besseren">Sie hat mich eines <marker>besseren</marker> belehrt.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">belehren</token>
+                    <token><exception postag="PKT"/></token>
+                    <token>eines</token>
+                    <marker><token regexp="yes">bessere?n</token></marker>
+                </pattern>
+                <message>&inwend;'eines <suggestion><match no="4" case_conversion="startupper"/></suggestion> belehren' wird 'Besseren' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Besseren">Sie belehrte mich eines <marker>besseren</marker>.</example>
+            </rule>
+        </rulegroup>
+                <rulegroup id="PRO_UND_KONTRA" name="das pro (Pro) und kontra (Kontra)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as</token>
+                    <marker><token>pro</token></marker>
+                    <token>und</token>
+                    <token min="0">das</token>
+                    <token regexp="yes">[cCkK]ontra</token>
+                </pattern>
+                <message>&inwend;'das <suggestion><match no="2" case_conversion="startupper"/></suggestion> und Kontra' wird 'Pro' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Pro">Sie erörterten das <marker>pro</marker> und Kontra ihrer Idee.</example>
+                <example correction="Pro">Sie erörterten das <marker>pro</marker> und das Kontra ihrer Idee.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as</token>
+                    <token regexp="yes">[pP]ro</token>
+                    <token>und</token>
+                    <token min="0">das</token>
+                    <marker><token regexp="yes">[ck]ontra</token></marker>
+                </pattern>
+                <message>&inwend;'das Pro und <suggestion><match no="5" case_conversion="startupper"/></suggestion>' wird 'Kontra' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Kontra">Sie erörterten das Pro und <marker>kontra</marker> ihrer Idee.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DAS_FUER_UND_WIDER" name="das für (Für) und wider (Wider)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as</token>
+                    <marker><token>für</token></marker>
+                    <token>und</token>
+                    <token min="0">das</token>
+                    <token regexp="yes">[wW]ie?der</token>
+                </pattern>
+                <message>&inwend;'das <suggestion><match no="2" case_conversion="startupper"/></suggestion> und Wider' wird 'Für' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Für">Sie erörterten das <marker>für</marker> und Wider ihrer Idee.</example>
+                <example correction="Für">Sie erörterten das <marker>für</marker> und das Wider ihrer Idee.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as</token>
+                    <token regexp="yes">[fF]ür</token>
+                    <token>und</token>
+                    <token min="0">das</token>
+                    <marker><token>wider</token></marker>
+                </pattern>
+                <message>&inwend;'das Für und <suggestion><match no="5" case_conversion="startupper"/></suggestion>' wird 'Wider' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Wider">Sie erörterten das Für und <marker>wider</marker> ihrer Idee.</example>
+            </rule>
         </rulegroup>
     </category>
 
