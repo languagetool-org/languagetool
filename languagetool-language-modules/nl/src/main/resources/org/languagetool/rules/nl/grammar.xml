@@ -1606,9 +1606,21 @@ Contributions and ideas from:
         </pattern>
 		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in goede</suggestion> moet staan.</message>
         <example correction="in goede">Hij leidt het <marker>ingoede</marker> banen.</example>
-        <example>Hij leidt het <marker>in goede banen</marker>.</example>
+        <example>Hij leidt het <marker>in goede</marker> banen.</example>
         </rule>
 		  
+        <rule id="WATJE" name="watje → wat je">
+        <!-- created 2017-06-22 by TaalTik -->
+        <pattern>
+				<token negate="yes" regexp="yes">het|een|geen</token>
+				<marker>
+				<token>watje</token>
+				</marker>
+        </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans aanwezig dat hier <suggestion>wat je</suggestion> moet staan.</message>
+        <example correction="wat je">Het is niet goed <marker>watje</marker> doet.</example>
+        <example>Het is niet goed <marker>wat je</marker> doet.</example>
+        </rule>
 		  
 <rule id="OT_IN_ZAKE" name="in zake → inzake">
   <!--
