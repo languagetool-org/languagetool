@@ -3957,6 +3957,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="punkto|in puncto">Deshalb wird sich künftig <marker>puncto</marker> Versorgungssicherheit die Spreu vom Weizen der Erdgasanbieter noch deutlicher trennen</example>
             </rule>
         </rulegroup>
+        <rule id="VERBIETE_MIR" name="ich verbiete (verbitte) mir">
+            <pattern>
+                <token>Ich</token>
+                <marker>
+                    <token>verbiete</token>
+                </marker>
+                <token>mir</token>
+                <token regexp="yes">derart.*|derlei|(ihr|jed|dies|solch)en?</token>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">Belehrung(en)?|Belästigung(en)?|Bevormundung(en)?|Bezeichnung(en)?|Einflussnahme|Einmischung.*|Impertinenz|Kritik|Unterstellung(en)?|Vorverurteilung(en)?|Ton</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>verbitte</suggestion> (sich gegen etwas verwahren)?</message>
+            <url>http://www.duden.de/rechtschreibung/verbitten</url>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="verbitte">Ich <marker>verbiete</marker> mir diesen Ton!</example>
+            <example correction="verbitte">Ich <marker>verbiete</marker> mir jede Einmischung in meine Ehe!</example>
+            <example correction="verbitte">Ich <marker>verbiete</marker> mir derart infame Unterstellungen!</example>
+            <example correction="verbitte">Ich <marker>verbiete</marker> mir solche Bevormundungen!</example>
+            <example correction="verbitte">Ich <marker>verbiete</marker> mir Ihre Belehrungen!</example>
+        </rule>
         <rule id="SPAET_JEMANDEN_AUS" name="spät (späht) jemanden aus">
             <pattern>
                 <token negate="yes">zu</token>
