@@ -1570,11 +1570,11 @@ Contributions and ideas from:
         <example>Appels <marker>in plaats</marker> van peren.</example>
         </rule>
 
-        <rule id="INREKENING" name="inrekening → in rekening">
+        <rule id="INREKENING_A" name="inrekening → in rekening">
         <!-- created 2017-06-22 by TaalTik -->
         <pattern>
 				<marker>
-				<token>inrekening</token>
+				<token skip="10">inrekening</token>
 				</marker>
 				<token inflected="yes">brengen</token>
         </pattern>
@@ -1582,6 +1582,20 @@ Contributions and ideas from:
         <example correction="in rekening">Wanneer hij het bedrag <marker>inrekening</marker> brengt.</example>
         <example>Wanneer hij het bedrag <marker>in rekening</marker> brengt.</example>
         </rule>
+
+			<rule id="INREKENING_B" name="inrekening → in rekening">
+        <!-- created 2017-06-22 by TaalTik -->
+        <pattern>
+				<token inflected="yes" skip="10">brengen</token>
+				<marker>
+				<token>inrekening</token>
+				</marker>
+        </pattern>
+		  <message>Hoewel '<match no="2"/>' een correct woord is, is de kans groot dat hier <suggestion>in rekening</suggestion> moet staan.</message>
+        <example correction="in rekening">Hij brengt het bedrag een keer <marker>inrekening</marker>.</example>
+        <example>Hij brengt het wel een keer <marker>in rekening</marker>.</example>
+        </rule>
+
 		  
 <rule id="OT_IN_ZAKE" name="in zake → inzake">
   <!--
