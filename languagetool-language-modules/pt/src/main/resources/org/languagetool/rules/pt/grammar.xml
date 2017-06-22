@@ -20208,13 +20208,18 @@ TODO Write better examples
 
     <rule default="on" id='SENT_START_NUM' name="Número no início da frase">
     <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[\d,.]+</token>
+          <token postag='SENT_END'/>
+      </antipattern>      
       <pattern>
         <marker>
           <token postag="SENT_START"/>
           <token regexp="yes">[\d,.]+</token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='_PUNCT|Z.+|SENT_END'/></token>
+            <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
       </pattern>
       <message>Números no início de frases devem ser escritos por extenso.</message>
       <short>Número no início da frase</short>
