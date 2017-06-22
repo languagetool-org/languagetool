@@ -6744,6 +6744,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <example correction='auseinandergesetzt'>Ich habe mich damit schon länger <marker>auseinander gesetzt</marker>.</example>
         </rule>
+        <rule id="BEI_M" name="bei m (beim)">
+            <pattern>
+                <marker>
+                    <token>bei</token>
+                    <token>m</token>
+                </marker>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </pattern>
+            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+            <example correction='Beim'><marker>Bei m</marker> Sturz aus dem 2. Stock verletzte sie sich.</example>
+        </rule>
         <rule id="NACH_HOLEN" name="nach holen (nachholen)">
             <pattern>
                 <token>nach</token>
@@ -11048,7 +11059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="-1">brauchen</token>
-                <token regexp="yes">,|;|-|:|„|“|–</token>
+                <token regexp="yes">,|;|-|:|„|“|–|und|oder</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="-1">brauchen</token>
@@ -11082,6 +11093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ich brauche etwas Zeit zum Nachdenken.</example>
             <example>Ich brauche ein Hemd mit einem steifen Kragen.</example>
             <example>Er braucht Geld – darf aber sein Erspartes nicht nutzen.</example>
+            <example>Er weiß, was sie braucht und brauchen wird.</example>
         </rule>
         <rulegroup id="WEGEN_DIR" name="'wegen dir (deinetwegen)' etc.">
             <rule>
