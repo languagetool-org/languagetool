@@ -1765,7 +1765,30 @@ Contributions and ideas from:
         <example correction="in geval van">Het is fout <marker>ingeval van</marker> een vergissing.</example>
         <example >Het is fout <marker>in geval van</marker> een vergissing.</example>
 </rule>
-
+<rulegroup id="INWERKIN_TREDEN" name="inwerking treden → in werking treden">
+	<rule>
+  <pattern>
+	  <marker>
+   <token skip="4">inwerking</token>
+</marker>
+   <token inflected="yes">treden</token>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans erg groot dat hier <suggestion>in werking</suggestion> moet staan.</message>
+        <example correction="in werking">ALs het alarm <marker>inwerking</marker> treedt, gaat het mis.</example>
+        <example>ALs het alarm <marker>in werking</marker> treedt, gaat het mis.</example>
+</rule>
+	<rule>
+  <pattern>
+   <token inflected="yes" skip="4">treden</token>
+	  <marker>
+   <token>inwerking</token>
+</marker>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans erg groot dat hier <suggestion>in werking</suggestion> moet staan.</message>
+        <example correction="in werking">Het alarm treedt <marker>inwerking</marker>.</example>
+        <example>Het alarm treedt <marker>in werking</marker>.</example>
+</rule>
+</rulegroup>
 <!-- ############# -->
 		  
 <rule id="IN_ZAKE" name="in zake → inzake">
