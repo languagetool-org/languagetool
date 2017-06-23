@@ -1681,18 +1681,37 @@ Contributions and ideas from:
 	</rulegroup>
 
 	<rule id="INSTAAT" name="instaat → instaat">
+		<antipattern><token skip="5">voor</token><token>instaat</token></antipattern>
+		<antipattern><token skip="5">instaat</token><token>voor</token></antipattern>
   <pattern>
-	  <marker>
-    <token>instaat</token>
- </marker>
-    <token negate="yes">voor</token>
+   <token>instaat</token>
   </pattern>
 		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in staat</suggestion> moet staan.</message>
         <example correction="in staat">Hij is <marker>instaat</marker> om het te doen.</example>
         <example>Hij is <marker>in staat</marker> om het te doen.</example>
 </rule>
 		  
-		  <!-- ############# -->
+	<rule id="WEETNIET" name="weetniet → weet niet">
+  <pattern>
+   <token negate="yes" regexp="yes">een|de|geen</token>
+	<marker>
+   <token>weetniet</token>
+</marker>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>weet niet</suggestion> moet staan.</message>
+        <example correction="weet niet">Ik <marker>weetniet</marker> dat dit fout is.</example>
+        <example>Ik <marker>weet niet</marker> of dit correct is.</example>
+</rule>
+
+	<rule id="MANDIE" name="mandie → man die">
+  <pattern>
+   <token>mandie</token>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>man die</suggestion> moet staan.</message>
+        <example correction="man die">Ik ben de <marker>mandie</marker> fouten maakt.</example>
+        <example>Ik ben de <marker>man die</marker> fouten maakt.</example>
+</rule>
+<!-- ############# -->
 		  
 <rule id="IN_ZAKE" name="in zake → inzake">
   <!--
