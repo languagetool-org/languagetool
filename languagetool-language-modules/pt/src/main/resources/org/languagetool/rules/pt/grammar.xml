@@ -2682,8 +2682,8 @@ title="Easy editing stylesheet" ?>
       <example correction="à medida que">Faz a revisão <marker>à medida em que</marker> lês.</example>
     </rule>
 
-    <!-- À MEIA NOITE à meia-noite -->
     <rule id='À_MEIA_NOITE' name="à meia-noite">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>à</token>
           <token>meia</token>
@@ -2693,18 +2693,18 @@ title="Easy editing stylesheet" ?>
       <example correction="à meia-noite">O encontro é <marker>à meia noite</marker>.</example>
     </rule>
 
-    <!-- À MUITO há muito -->
     <rule id='À_MUITO' name="Há muito">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>à</token>
-          <token>muito</token>
+          <token regexp='yes'>muito|pouco</token>
       </pattern>
       <message>Substitua por <suggestion>há muito</suggestion>.</message>
       <example correction="há muito">Ainda <marker>à muito</marker> a fazer.</example>
     </rule>
 
-    <!-- A PREÇO PELO apreço pelo -->
     <rule id='A_PREÇO_PELO' name="Confusão: a preço - apreço">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token>preço</token>
@@ -2715,8 +2715,8 @@ title="Easy editing stylesheet" ?>
       <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
     </rule>
 
-    <!-- A QUANDO aquando -->
     <rule id='A_QUANDO' name="Confusão: a quando - aquando">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token>quando</token>
@@ -2725,22 +2725,20 @@ title="Easy editing stylesheet" ?>
       <example correction="aquando">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
     </rule>
 
-    <!-- A QUE SERVE ISTO/ISSO para que serve isto/isso -->
     <rule id='A_QUE_SERVE_ISTO_ISSO' name="Para que serve isto/isso">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-        <marker>
           <token>a</token>
-        </marker>
           <token>que</token>
           <token>serve</token>
-          <token regexp="yes">isto|isso</token>
+          <token regexp="yes">is[st]o|es[st][ae]s?</token>
       </pattern>
-      <message>Substitua por <suggestion>para</suggestion>.</message>
-      <example correction="Para"><marker>A</marker> que serve isto?</example>
+      <message>Substitua por <suggestion>para \2 \3 \4</suggestion>.</message>
+      <example correction="Para que serve isto"><marker>A que serve isto</marker>?</example>
     </rule>
 
-    <!-- À SÓS a sós -->
     <rule id='À_SÓS' name="A sós">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>à</token>
           <token>sós</token>
@@ -2749,8 +2747,8 @@ title="Easy editing stylesheet" ?>
       <example correction="a sós">Fazemos <marker>à sós</marker> ou em grupo?</example>
     </rule>
 
-    <!-- A TRÁS atrás -->
     <rule id='A_TRÁS' name="Confusão: a trás - atrás">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token>trás</token>
@@ -2759,8 +2757,8 @@ title="Easy editing stylesheet" ?>
       <example correction="atrás">Vê <marker>a trás</marker> da porta.</example>
     </rule>
 
-    <!-- ATREVIMENTO A atrevimento para -->
     <rule id='ATREVIMENTO_A' name="Atrevimento para">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>atrevimento</token>
           <token>a</token>
@@ -2769,8 +2767,8 @@ title="Easy editing stylesheet" ?>
       <example correction="atrevimento para">É muito <marker>atrevimento a</marker> falar assim.</example>
     </rule>
 
-    <!-- A UM CONSERTO a um concerto -->
     <rule id='A_UM_CONSERTO' name="A um concerto">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token>um</token>
@@ -2780,8 +2778,8 @@ title="Easy editing stylesheet" ?>
       <example correction="a um concerto">Vou <marker>a um conserto</marker>.</example>
     </rule>
 
-    <!-- A XXX DE VOCÊS a vossa XXX -->
     <rule id='A_XXX_DE_VOCÊS' name="Confusão: A XXX de vocês -> a vossa XXX">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token><exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
@@ -2793,29 +2791,17 @@ title="Easy editing stylesheet" ?>
       <example>A maioria de vocês.</example>
     </rule>
 
-    <!-- ÀS CUSTAS DA/DAS/DO/DOS à custa da/das/do/dos -->
     <rule id='ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas - à custa">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
           <token>às</token>
           <token>custas</token>
         </marker>
-          <token regexp="yes">da|das|do|dos</token>
+          <token regexp="yes">d[eao]s?</token>
       </pattern>
       <message>Substitua por <suggestion>à custa</suggestion>.</message>
       <example correction="à custa">Ele fê-lo <marker>às custas</marker> do filho.</example>
-    </rule>
-
-    <!-- ABANDONAR O LEITO deixar a cama -->
-    <rule id='ABANDONAR_O_LEITO' name="Deixar a cama">
-      <pattern>
-          <token inflected='yes'>abandonar</token>
-          <token>o</token>
-          <token>leito</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>deixar</match> a cama</suggestion>.</message>
-      <example correction="deixar a cama">Vou <marker>abandonar o leito</marker>.</example>
-      <example correction="deixei a cama">Vou <marker>abandonei o leito</marker>.</example>
     </rule>
 
     <rule id='AINDA_NUNCA' name="Ainda não">
@@ -2853,8 +2839,8 @@ title="Easy editing stylesheet" ?>
       <example correction="alertar para">Obrigado por me <marker>alertar para com</marker> o perigo.</example>
     </rule>
 
-    <!-- AMOR PELA LÍNGUA amor à língua -->
     <rule id='AMOR_PELA_LÍNGUA' name="Amor à língua">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>amor</token>
           <token>pela</token>
@@ -2864,31 +2850,19 @@ title="Easy editing stylesheet" ?>
       <example correction="amor à língua">Tenho <marker>amor pela língua</marker> materna.</example>
     </rule>
 
-    <!-- ANALISE análise -->
-    <rule id='ANALISE' name="Confusão: analise - análise">
-      <pattern case_sensitive="no">
-        <marker>
-          <token>analise</token>
-        </marker>
-          <token regexp="yes">dos?|das?</token>
-      </pattern>
-      <message>Substitua por <suggestion>análise</suggestion>.</message>
-      <example correction="análise">Quero uma <marker>analise</marker> do problema.</example>
-    </rule>
-
-    <!-- ANDARES-MODELOS andares-modelo -->
     <rule id='ANDARES-MODELOS' name="Andares-modelo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>andares</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>modelos</token>
       </pattern>
       <message>Substitua por <suggestion>andares-modelo</suggestion>.</message>
       <example correction="andares-modelo">Vamos ver os <marker>andares-modelos</marker>.</example>
     </rule>
 
-    <!-- APELAR À LUTA/FÉ apelar para a luta/fé -->
     <rule id='APELAR_À_LUTA-FÉ' name="Apelar para a luta-fé">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
           <token inflected='yes'>apelar</token>
@@ -2900,8 +2874,8 @@ title="Easy editing stylesheet" ?>
       <example correction="apelar para a">Vamos <marker>apelar à</marker> fé.</example>
     </rule>
 
-    <!-- APOSTAR EM COMO apostar que -->
     <rule id='APOSTAR_EM_COMO' name="Apostar que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>apostar</token>
           <token>em</token>
@@ -2911,8 +2885,8 @@ title="Easy editing stylesheet" ?>
       <example correction="apostar que">Vou <marker>apostar em como</marker> irei ganhar.</example>
     </rule>
 
-    <!-- AO MEIO DIA ao meio-dia -->
     <rule id='AO_MEIO_DIA' name="Ao meio-dia">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>ao</token>
           <token>meio</token>
@@ -2922,8 +2896,8 @@ title="Easy editing stylesheet" ?>
       <example correction="ao meio-dia">O encontro é amanhã <marker>ao meio dia</marker>.</example>
     </rule>
 
-    <!-- AO SEREM USADO ao serem usados -->
     <rule id='AO_SEREM_USADO' name="Ao serem usados">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>ao</token>
           <token>serem</token>
@@ -2933,41 +2907,30 @@ title="Easy editing stylesheet" ?>
       <example correction="ao serem usados">Há produtos que <marker>ao serem usado</marker> fazem-nos sentir bem.</example>
     </rule>
 
-    <!-- AS MILHARES os milhares -->
-    <!-- TODO POS fixed remove after release
-    <rule id='AS_MILHARES' name="Os milhares">
-      <pattern>
-          <token>as</token>
-          <token>milhares</token>
-      </pattern>
-      <message>Substitua por <suggestion>os milhares</suggestion>.</message>
-      <example correction="os milhares">Vejam <marker>as milhares</marker> de mulheres.</example>
-    </rule>-->
-
-    <!-- ABORDO DA a bordo da -->
     <rule id='ABORDO_DA' name="A bordo da">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>abordo</token>
-          <token regexp='yes'>d[ao]s?</token>
+          <token regexp='yes'>d[eao]s?</token>
       </pattern>
       <message>Substitua por <suggestion>a bordo \2</suggestion>.</message>
       <example correction="a bordo da">Vai uma pessoa importante <marker>abordo da</marker> fragata.</example>
       <example correction="a bordo do">Vai uma pessoa importante <marker>abordo do</marker> avião.</example>
     </rule>
 
-    <!-- ABRIR-MOS abrirmos -->
     <rule id='ABRIR-MOS' name="Confusão: abrir-mos - abrirmos">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token regexp='yes'>abrir?</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>abr[aei]r?</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>mos</token>
       </pattern>
       <message>Substitua por <suggestion>\1mos</suggestion>.</message>
       <example correction="abrirmos">Pediram para <marker>abrir-mos</marker> a porta.</example>
     </rule>
 
-    <!-- ADIVINHA DISSO QUE advinha disso que -->
-    <rule id='ADIVINHA_DISSO_QUE' name="Adivinha disso que" default='off'>
+    <rule id='ADIVINHA_DISSO_QUE' name="Adivinha disso que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>adivinhar</token>
           <token>disso</token>
@@ -2977,19 +2940,19 @@ title="Easy editing stylesheet" ?>
       <example correction="adivinha que">A mensagem <marker>adivinha disso que</marker> ele revelou.</example>
     </rule>
 
-    <!-- ANTES DE QUE antes que -->
     <rule id='ANTES_DE_QUE' name="Antes que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token>antes</token>
+          <token regexp='yes'>antes|depois</token>
           <token>de</token>
           <token>que</token>
       </pattern>
-      <message>Substitua por <suggestion>antes que</suggestion>.</message>
+      <message>Substitua por <suggestion>\1 que</suggestion>.</message>
       <example correction="antes que">Tratar de algo <marker>antes de que</marker> seja tarde.</example>
     </rule>
 
-    <!-- ANTI VÍRUS antivírus -->
     <rule id='ANTI_VÍRUS' name="Antivírus">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>anti</token>
           <token>vírus</token>
@@ -2998,8 +2961,8 @@ title="Easy editing stylesheet" ?>
       <example correction="antivírus">Actualiza sempre o <marker>anti vírus</marker>.</example>
     </rule>
 
-    <!-- AO MEU VER a meu ver -->
     <rule id='AO_MEU_VER' name="A meu ver">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>ao</token>
           <token>meu</token>
@@ -3009,8 +2972,8 @@ title="Easy editing stylesheet" ?>
       <example correction="a meu ver">Isto é, <marker>ao meu ver</marker>, muito importante.</example>
     </rule>
 
-    <!-- AS BRACELETES os braceletes -->
     <rule id='AS_BRACELETES' name="Os braceletes">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>as</token>
           <token>braceletes</token>
@@ -3019,24 +2982,11 @@ title="Easy editing stylesheet" ?>
       <example correction="os braceletes">Coloca <marker>as braceletes</marker>.</example>
     </rule>
 
-    <!-- ASSERTO DE CONTAS acerto de contas -->
-    <rule id='ASSERTO_DE_CONTAS' name="Acerto de contas">
-      <pattern>
-        <marker>
-          <token>asserto</token>
-        </marker>
-          <token>de</token>
-          <token>contas</token>
-      </pattern>
-      <message>Substitua por <suggestion>acerto</suggestion>.</message>
-      <example correction="acerto">Temos de fazer um <marker>asserto</marker> de contas.</example>
-    </rule>
-
-    <!-- ASSUNTO/ASSUNTOS A ESCLARECER assunto/assuntos para esclarecer -->
     <rule id='ASSUNTO_ASSUNTOS_A_ESCLARECER' name="Assunto/assuntos para esclarecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
-          <token regexp="yes">assunto|assuntos</token>
+          <token regexp="yes">assuntos?</token>
           <token>a</token>
         </marker>
           <token>esclarecer</token>
@@ -3045,8 +2995,8 @@ title="Easy editing stylesheet" ?>
       <example correction="assuntos para">Temos vários <marker>assuntos a</marker> esclarecer.</example>
     </rule>
 
-    <!-- ATÉ MANHÃ até amanhã -->
     <rule id='ATÉ_MANHÃ' name="Até amanhã">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>até</token>
           <token>manhã</token>
@@ -3055,53 +3005,53 @@ title="Easy editing stylesheet" ?>
       <example correction="até amanhã">Boa noite e <marker>até manhã</marker> cedo.</example>
     </rule>
 
-    <!-- AUTO-FALANTE altifalante -->
-    <rule id='AUTO-FALANTE' name="Altifalante">
+  <rulegroup id='AUTO-FALANTE' name="Altifalante">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
       <pattern>
           <token>auto</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>falante</token>
       </pattern>
       <message>Substitua por <suggestion>altifalante</suggestion>.</message>
       <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
     </rule>
-
-    <!-- AUTO-FALANTES altifalantes -->
-    <rule id='AUTO-FALANTES' name="Altifalantes">
+    <rule>
       <pattern>
           <token>auto</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>falantes</token>
       </pattern>
       <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
       <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
     </rule>
+  </rulegroup>
 
-    <!-- BASEIA-SE EM tem por base -->
     <rule id='BASEIA-SE_EM' name="Tem por base">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token>baseia</token>
-          <token>-</token>
+          <token inflected='yes'>basear</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>se</token>
           <token>em</token>
       </pattern>
       <message>Substitua por <suggestion>tem por base</suggestion>.</message>
       <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
     </rule>	
-	
-    <!-- BOLOS-REI bolos-reis -->
+
     <rule id='BOLOS-REI' name="Bolos-reis">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>bolos</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>rei</token>
       </pattern>
       <message>Substitua por <suggestion>bolos-reis</suggestion>.</message>
       <example correction="bolos-reis">Vamos comprar os <marker>bolos-rei</marker>.</example>
     </rule>
 
-    <!-- DEZENAS/CENTENAS DE MILHAR dezenas/centenas de milhares -->
     <rule id='DEZENAS_CENTENAS_DE_MILHAR' name="Dezenas/centenas de milhares">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp="yes">dezenas|centenas</token>
           <token>de</token>
@@ -3501,16 +3451,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Usar infinitivo: <suggestion><match no="3" postag_regexp= "yes" postag="V.+" postag_replace="VMN0000"/></suggestion></message>
       <example correction="pedir">Alguns carteiros estão a <marker>pedirem</marker> a reforma.</example>
-    </rule>
-
-    <!-- EU CRIA eu queria -->
-    <rule id='EU_CRIA' name="Confusão: cria - queria">
-      <pattern>
-          <token>eu</token>
-          <token>cria</token>
-      </pattern>
-      <message>Substitua por <suggestion>eu queria</suggestion>.</message>
-      <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
     </rule>
 
     <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ -->
@@ -11446,6 +11386,17 @@ o tomate'>
         <suggestion><match no='1' postag='V.+'>trocar</match> sem fazer qualquer diferença</suggestion>
       <example correction='trocar sem fazer qualquer diferença'><marker>trocar seis por meia dúzia</marker>.</example>
     </rule>
+    <rule id='ABANDONAR_O_LEITO' name="Deixar a cama">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token inflected='yes'>abandonar</token>
+          <token>o</token>
+          <token>leito</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>deixar</match> a cama</suggestion>.</message>
+      <example correction="deixar a cama">Vou <marker>abandonar o leito</marker>.</example>
+      <example correction="deixei a cama">Vou <marker>abandonei o leito</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
@@ -11479,8 +11430,19 @@ o tomate'>
 
  <category id='CONFUSED_WORDS' name="Confusão de Palavras">
 
-    <!-- Confusion CONTANTO > CONTANDO -->
+    <rule id='ASSERTO_DE_CONTAS' name="Acerto de contas">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>asserto</token>
+          <token>de</token>
+          <token>contas</token>
+      </pattern>
+      <message>Substitua por <suggestion>acerto \2 \3</suggestion>.</message>
+      <example correction="acerto de contas">Temos de fazer um <marker>asserto de contas</marker>.</example>
+    </rule>
+
     <rule id='CONTANTO_CONTANDO' name="Confusão contanto-contando">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
           <token>contanto</token>
@@ -11491,9 +11453,18 @@ o tomate'>
       <example correction="contando">Isto já <marker>contanto</marker> com o jantar.</example>
     </rule>
 
-    <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
-    <!-- ********************************************************** -->
+    <rule id='EU_CRIA' name="Confusão: cria - queria">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>eu</token>
+          <token>cria</token>
+      </pattern>
+      <message>Substitua por <suggestion>eu queria</suggestion>.</message>
+      <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
+    </rule>
+
   <rulegroup id='TRAZ_TRÁS' name="Confusão traz-trás">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
       <pattern>
           <token regexp="yes">de|pa?ra|por</token>
@@ -11505,6 +11476,7 @@ o tomate'>
       <example correction="trás">A Ana deve viajar no banco de <marker>traz</marker>.</example>
     </rule>
     <rule>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <antipattern>
           <token>trás</token>
           <token regexp='yes'>-|–|—</token>
@@ -11523,8 +11495,6 @@ o tomate'>
       <example>Universidade de Trás-os-Montes e Alto Douro</example>
     </rule>
   </rulegroup>
-    <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS *****END***** -->
-    <!-- ********************************************************** -->
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
@@ -15742,6 +15712,17 @@ o tomate'>
         <suggestion>\1 análise<match no='4' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='na análise'><marker>na analise</marker>.</example>
       <example correction='nas análises'><marker>nas analises</marker>.</example>
+    </rule>
+    <rule id='ANALISE' name="Confusão: analise - análise">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern case_sensitive="no">
+        <marker>
+          <token>analise</token>
+        </marker>
+          <token regexp="yes">d[eao]s?</token>
+      </pattern>
+      <message>Substitua por <suggestion>análise</suggestion>.</message>
+      <example correction="análise">Quero uma <marker>analise</marker> do problema.</example>
     </rule>
     <rule id='PARONYM_ARICA_364' name='Na arica'>
       <pattern>
@@ -20493,7 +20474,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token>
-            <exception postag_regexp='yes' postag='(N.|[ADP]..|V.....)[FC].*'/></token>
+            <exception postag_regexp='yes' postag='(N.|[ADP]..|V.....)[FC].*|SPS.+'/></token>
         <marker>
           <token regexp="yes">pás?</token>
         </marker>
@@ -20503,6 +20484,7 @@ TODO Write better examples
       <example type="incorrect">Os <marker>pás</marker> lá da terra passam o dia a fumar.</example>
       <example type="correct">Os <marker>jovens</marker> lá da terra passam o dia a fumar.</example>
       <example>Leva as pás, ao Sr. António.</example>
+      <example>O meu irmão descança em pás.</example>
     </rule>
     <rule>
       <pattern>
