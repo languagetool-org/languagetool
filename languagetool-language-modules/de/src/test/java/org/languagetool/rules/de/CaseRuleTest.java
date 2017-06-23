@@ -107,7 +107,9 @@ public class CaseRuleTest {
     assertGood("Wahre Liebe muss das aushalten.");
     assertGood("Du kannst das machen.");
     assertGood("Vor dem Aus stehen.");
+    assertGood("Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden.");
 
+    assertBad("Sie Vertraute niemandem");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
     assertBad("Er sammelt Große und kleine Tassen.");
