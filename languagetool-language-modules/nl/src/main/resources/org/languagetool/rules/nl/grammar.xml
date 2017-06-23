@@ -4909,21 +4909,6 @@ Contributions and ideas from:
   <example correction="'s middags">Het was <marker>des middags</marker>.</example>
 </rule>
 
-  <!-- 
-  2014-08-20 TaalTik
-    Regel werkt goed, tekst iets aangepast.
-  2014-08-27 TaalTik
-    Regel uitgeschakeld ivm nieuwe aanpak staande uitdrukkingen
-<rule id="GELIEVE" name="gelieve etc.">
-  <pattern case_sensitive="yes">
-  <token regexp="yes">gelieve|aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|langen|laste|leste|male|mans|mijnent|mijner|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
-  </pattern>
-  <message>Ouderwets. Kies een moderner alternatief.</message>
-  <short>Ouderwets</short>
-  <example type="incorrect">Met <marker>algemenen</marker> is ouderwets.</example>
-  <example><marker>Het </marker> is moderner.</example>
-</rule>
-  -->
 
 <rule id="TEN_STENGSTE" name="ten strengste etc.">
   <!--
@@ -8771,6 +8756,21 @@ zijdens 	van de kant van, door
   <example>Hij bleef <marker>in gebreke</marker>.</example>
 </rule>
 
+<rule id="LANGEN" name="ten langen teste'">
+  <!-- TODO Afraden van al deze ouderwetsigheid -->
+  <antipattern><token>ten</token><token>langen</token><token>leste</token></antipattern>
+  <pattern>
+    <token></token>
+    <token>langen</token>
+    <token></token>
+  </pattern>
+  <message>
+	  U bedoel vast <suggestion>ten langen leste</suggestion>, of er is iets anders mis ('langen'?).
+  </message>
+  <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
+  <example correction="ten langen leste">Hij deed het <marker>ter langen leste</marker>.</example>
+  <example>Hij deed het <marker>ten langen leste</marker>.</example>
+</rule>
 
 <!-- STAANDE UITDRUKKINGEN  TODO
 
@@ -8906,7 +8906,6 @@ ten huwelijk vragen
 ten kantore van
 ten koste van
 ten kwade
-ten langen leste
 ten laste leggen
 tenlastelegging, te lastlegging
 ten laste van
