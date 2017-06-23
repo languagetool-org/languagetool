@@ -1725,6 +1725,17 @@ Contributions and ideas from:
         <example>Een kussen <marker>onder haar</marker> billen.</example>
 </rule>
 
+	<rule id="NIETTEN" name="nietten → niet ten">
+  <pattern>
+	<marker>
+   <token>nietten</token>
+	</marker>
+   <token regexp="yes">onder|onrechte</token>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>niet ten</suggestion> moet staan.</message>
+        <example correction="niet ten">Het gaat <marker>nietten</marker> onder.</example>
+        <example>Het gaat <marker>niet ten</marker> onder.</example>
+</rule>
 
 <!-- ############# -->
 		  
@@ -3313,14 +3324,17 @@ Contributions and ideas from:
   <example>Hij staat onder <marker>ede</marker>.</example>
 </rule>
 
+<!--
 	<rule id="INBED" name="inbed → in bed, inbedt">
   <pattern>
    <token>inbed</token>
   </pattern>
-		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in bed</suggestion> of<suggestion>in bed</suggestion> moet staan.</message>
-        <example correction="onder haar">Een kussen <marker>onderhaar</marker> billen.</example>
-        <example>Een kussen <marker>onder haar</marker> billen.</example>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in bed</suggestion> of <suggestion>inbedt</suggestion> moet staan.</message>
+        <example correction="in bed">Zij ligt <marker>inbed</marker>.</example>
+        <example correction="inbedt">Wanneer ze het <marker>inbedt</marker>, werkt het..</example>
+        <example>Zij ligt <marker>in bed</marker>.</example>
 </rule>
+-->
 
 
 <rule id="LANG_HL" name="Lang woord in hoofdletters">
