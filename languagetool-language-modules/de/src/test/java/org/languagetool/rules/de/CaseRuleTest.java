@@ -104,6 +104,9 @@ public class CaseRuleTest {
     assertGood("Er führt Böses im Schilde.");
     assertGood("Es gab Überlebende.");
     assertGood("'Wir werden das stoppen.'");
+    assertGood("Wahre Liebe muss das aushalten.");
+    assertGood("Du kannst das machen.");
+    assertGood("Vor dem Aus stehen.");
 
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");

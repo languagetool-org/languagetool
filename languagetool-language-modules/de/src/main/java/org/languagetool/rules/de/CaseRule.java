@@ -337,7 +337,6 @@ public class CaseRule extends Rule {
     "Verlobter",
     "Anstrich",
     "Armes",
-    "Aus",    // "vor dem Aus stehen"
     "Ausdrücke",
     "Auswüchsen",
     "Bände",
@@ -357,12 +356,9 @@ public class CaseRule extends Rule {
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
     "Fraß",
-    "Für",      // "das Für und Wider"
     "Genüge",
     "Gefallen", // Gefallen finden
     "Gläubiger",
-    "Goldener",    // Goldener Schnitt
-    "Guten",    // das Kap der Guten Hoffnung
     "Hechte",
     "Herzöge",
     "Herzögen",
@@ -437,7 +433,6 @@ public class CaseRule extends Rule {
     "Tausend",   // je nach Kontext groß (TODO)
     "Tischende",
     "Toter",
-    "tun",   // "Sie müssen das tun"
     "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen"
     "Unentschieden",
     "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes"
@@ -592,7 +587,6 @@ public class CaseRule extends Rule {
     substVerbenExceptions.add("helfen");
     substVerbenExceptions.add("lassen");
     substVerbenExceptions.add("passieren");  // "das Schlimmste, das passieren könnte"
-    substVerbenExceptions.add("machen");  // "Du kannst das machen."
     substVerbenExceptions.add("haben");  // "Das haben schon viele versucht."
     substVerbenExceptions.add("passiert");  // "Das passiert..."
     substVerbenExceptions.add("beschränkt");  // "Das beschränkt sich..."
@@ -697,11 +691,12 @@ public class CaseRule extends Rule {
           if (prevTokenIsDas
               && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) ||
                   isFollowedByRelativeOrSubordinateClause(i, tokens)) ||
-                  (i > 1 && hasPartialTag(tokens[i-2], "VER:AUX"))) {
+                  (i > 1 && hasPartialTag(tokens[i-2], "VER:AUX", "VER:MOD"))) {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
         	// avoid false alarm for "Wir werden das stoppen."
+        	// avoid false alarm for "Wahre Liebe muss das aushalten."
             continue;
           }
         }
