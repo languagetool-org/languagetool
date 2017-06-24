@@ -26289,6 +26289,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="MUNTAR EN CÒLERA" name="*muntar en còlera">
+            <pattern>
+                <marker>
+                    <token inflected="yes">muntar</token>
+                    <token>en</token>
+                    <token>còlera</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>(encendre's) d'ira</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esclatar</match> la còlera</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">treure</match> el geni</suggestion>
+            <example correction="(encendre's) d'ira|esclatar la còlera|traure el geni|treure el geni">Va <marker>muntar en còlera</marker>.</example>
+        </rule>
         <rule id="BIS_COMICA" name="*bis/vis còmica">
             <antipattern>
                 <marker>
@@ -34704,6 +34718,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="petxines|conquilles|closques|coverols|careis">Les <marker>conxes</marker>.</example>
             <example>Vinc de la pedrera.</example>
         </rule>
+        <rule id="CONXAVA" name="conxava">
+            <pattern>
+                <token regexp="yes">conxava|conxaves|conxaven</token>
+            </pattern>
+            <message>Incorrecte si equival a "fer conxorxa". Correcte si és del verb conxar.</message>
+            <suggestion>(fer conxorxa)</suggestion>
+            <suggestion>(complotar)</suggestion>
+            <example correction="(fer conxorxa)|(complotar)">Es <marker>conxava</marker>.</example>
+        </rule>
         <rule id="CAMILLER" name="camiller/portalliteres">
             <pattern>
                 <token inflected="yes">camiller</token>
@@ -39031,10 +39054,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Forma secundària.</message>
             <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">cartó</match></suggestion>
-            <short>Forma preferible</short>
             <example correction="cartons"><marker>cartrons</marker></example>
             <example correction="cartó"><marker>cartró</marker></example>
-            <example>cartó</example>
+        </rule>
+        <rule id="EUGA" name="euga / euga">
+            <pattern>
+                <token inflected="yes">euga</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">egua</match></suggestion>
+            <example correction="egües">Les <marker>eugues</marker></example>
+            <example correction="egua">Una <marker>euga</marker></example>
         </rule>
         <rule id="MURTRA" name="murtra / murta">
             <antipattern>
