@@ -106,7 +106,7 @@ public class Configuration {
     loadConfiguration(lang);
   }
 
-  Configuration() {
+  private Configuration() {
   }
 
   /**

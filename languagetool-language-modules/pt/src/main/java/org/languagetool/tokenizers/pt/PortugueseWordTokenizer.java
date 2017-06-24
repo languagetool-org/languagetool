@@ -26,15 +26,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 
-import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
  *
- * @author Tiago F. Santos based on Spanish tokenizer
+ * @author Tiago F. Santos
  * @since 3.6
  */
-public class PortugueseWordTokenizer implements Tokenizer {
+public class PortugueseWordTokenizer extends WordTokenizer {
+
   private static final String SPLIT_CHARS = "\u0020\u002d" 
         + "\u00A0\u115f\u1160\u1680"
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
@@ -44,7 +45,6 @@ public class PortugueseWordTokenizer implements Tokenizer {
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
         + ",.;()[]{}<>!?:/\\\"'«»„”“‘`’…¿¡\t\n\r";
-
 
   // Section copied from UkranianWordTokenizer.java for handling exceptions
   
@@ -73,43 +73,21 @@ public class PortugueseWordTokenizer implements Tokenizer {
   private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DATE_PATTERN_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
 
-  // url
-  private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].[^\\s]*$", Pattern.CASE_INSENSITIVE);
-  private static final int URL_START_REPLACE_CHAR = 0xE300;
-
   public PortugueseWordTokenizer() {
   }
 
   @Override
   public List<String> tokenize(String text) {
-    HashMap<String, String> urls = new HashMap<>();
 
-    // text = cleanup(text);
-    
+    // text = cleanup(text);   
     if( text.contains(",") ) {
     	text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
-    }
-
-    // check for urls
-    if( text.contains("tp") ) { // https?|ftp
-      Matcher matcher = URL_PATTERN.matcher(text);
-      int urlReplaceChar = URL_START_REPLACE_CHAR;
-      
-      while( matcher.find() ) {
-        String urlGroup = matcher.group();
-        String replaceChar = String.valueOf((char)urlReplaceChar);
-        urls.put(replaceChar, urlGroup);
-        text = matcher.replaceAll(replaceChar);
-        urlReplaceChar++;
-      }
     }
 
     // if period is not the last character in the sentence
     int dotIndex = text.indexOf(".");
     boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
-    
     if( dotInsideSentence ){
-  
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
     }
@@ -124,7 +102,6 @@ public class PortugueseWordTokenizer implements Tokenizer {
     		splitNumberAdjusted = splitNumberAdjusted.replace('\u00A0', NON_BREAKING_SPACE_SUBST);
     		spacedDecimalMatcher.appendReplacement(sb, splitNumberAdjusted);
     	} while( spacedDecimalMatcher.find() );
-
     	spacedDecimalMatcher.appendTail(sb);
     	text = sb.toString();
     }
@@ -133,31 +110,18 @@ public class PortugueseWordTokenizer implements Tokenizer {
     if( text.contains(":") ) {
     	text = COLON_NUMBERS_PATTERN.matcher(text).replaceAll(COLON_NUMBERS_REPL);
     }
-
     List<String> tokenList = new ArrayList<>();
     StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
-
     while (st.hasMoreElements()) {
-      String token = st.nextToken();
-      
+      String token = st.nextToken(); 
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
-      
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
-      
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
-
-      if( ! urls.isEmpty() ) {
-        for(Entry<String, String> entry : urls.entrySet()) {
-          token = token.replace(entry.getKey(), entry.getValue());
-        }
-      }
-      
       tokenList.add( token );
     }
 
-    return tokenList;
+    return joinEMailsAndUrls(tokenList);
   }
-
 }

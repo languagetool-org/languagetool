@@ -23,6 +23,7 @@ public final class PosTagHelper {
 
   public static final Map<String, String> VIDMINKY_MAP;
   public static final Map<String, String> GENDER_MAP;
+  public static final Map<String, String> PERSON_MAP;
 
   static {
     Map<String, String> map = new LinkedHashMap<>();
@@ -40,7 +41,18 @@ public final class PosTagHelper {
     map2.put("f", "ж.р.");
     map2.put("n", "с.р.");
     map2.put("p", "мн.");
+    map2.put("s", "одн.");
+    map2.put("i", "інф.");
+    map2.put("o", "безос. форма");
     GENDER_MAP = Collections.unmodifiableMap(map2);
+    
+    Map<String, String> map3 = new LinkedHashMap<>();
+    map3.put("1", "1-а особа");
+    map3.put("2", "2-а особа");
+    map3.put("3", "3-я особа");
+    map3.put("s", "одн.");
+    map3.put("p", "мн.");
+    PERSON_MAP = Collections.unmodifiableMap(map3);
   }
   
   private PosTagHelper() {

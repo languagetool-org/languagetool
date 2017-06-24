@@ -147,7 +147,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       line = origLine;
     }
-    wordsToBeIgnored.addAll(expandLine(line));
+    List<String> words = expandLine(line);
+    for (String word : words) {
+      super.addIgnoreWords(word, wordsToBeIgnored);
+    }
   }
 
   @Override
@@ -208,8 +211,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> sorted1 = sortByReplacements(misspelling, suggestions);
-    List<String> sorted2 = sortByCase(misspelling, sorted1);
-    return sorted2;
+    return sortByCase(misspelling, sorted1);
   }
 
   @Override
@@ -225,7 +227,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound;
   }
-  
+
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");

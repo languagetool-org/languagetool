@@ -28,66 +28,82 @@ USA
         <rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
             <pattern>
                 <token>zip</token>
-                <token>code</token>
+                <token postag_regexp="yes" postag="NN:UN|NNS" regexp="yes">codes?</token>
             </pattern>
-            <message>This expression is common for American English. Did you mean <suggestion>postcode</suggestion>?</message>
+            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">postcode</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <short>AmE/BrE: zip code/postcode</short>
             <example correction="postcode">Please enter your <marker>zip code</marker>.</example>
+            <example correction="Postcodes"><marker>Zip codes</marker> are not always necessary.</example>
         </rule>
         <rule id="APARTMENT-FLAT" name="apartment/flat">
             <pattern>
-                <token>apartment</token>
+                <token inflected="yes">apartment</token>
             </pattern>
-            <message>This word is common for American English. Did you mean <suggestion>flat</suggestion>?</message>
+            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="flat">I just bought an <marker>apartment</marker>?</example>
+            <short>AmE/BrE: apartment/flat</short>
+            <example correction="flats">These <marker>apartments</marker> are expensive.</example>
+            <example correction="flat">I just bought an <marker>apartment</marker>.</example>
         </rule>
-        <rule id="BAND-AID_PLASTER" name="band-aid/plaster">
-            <pattern>
-                <token>band-aid</token>
-            </pattern>
-            <message>This word is common for American English. Did you mean <suggestion>plaster</suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="plaster">Where's the <marker>band-aid</marker>?</example>
-        </rule>
+        <rulegroup id="BAND-AID_PLASTER" name="band-aid/plaster">
+            <rule><!-- 'Band-Aid' is a trademark according to Merriam Webster's dictionary. Thus, it must not have postags NN or NNS. -->
+                <pattern>
+                    <token>band-aid</token>
+                </pattern>
+                <message>The word '\1' is common for American English. (Band-Aid is a trademark.) Did you mean <suggestion>plaster</suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: band-aid/plaster</short>
+                <example correction="plaster">Where's the <marker>band-aid</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>band-aids</token>
+                </pattern>
+                <message>The word '\1' is common for American English. (Band-Aid is a trademark.) Did you mean <suggestion>plasters</suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: band-aid/plaster</short>
+                <example correction="plasters">These <marker>band-aids</marker> are dirty.</example>
+            </rule>
+        </rulegroup>
         <rule id="GROUND_VS_MINCED" name="ground beef/minced beef">
             <pattern>
-                <marker>
-                    <token>ground</token>
-                </marker>
+                <token>ground</token>
                 <token>beef</token>
             </pattern>
-            <message>This word is common for American English. Did you mean <suggestion>minced</suggestion>?</message>
+            <message>The term '\1 \2' is common for American English. Did you mean <suggestion>minced \2</suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="minced">Do vegetarians eat <marker>ground</marker> beef?</example>
+            <short>AmE/BrE: ground beef/minced beef</short>
+            <example correction="minced beef">Do vegetarians eat <marker>ground beef</marker>?</example>
         </rule>
         <rule id="MOVIE_THEATER_CINEMA" name="movie theater/cinema">
             <pattern>
                 <token>movie</token>
                 <token inflected="yes">theater</token>
             </pattern>
-            <message>This expression is common for American English. Did you mean <suggestion>cinema</suggestion>?</message>
+            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">cinema</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <short>AmE/BrE: movie theater/cinema</short>
             <example correction="cinema">Let's go to a <marker>movie theater</marker>.</example>
-            <example>Edward Norton – not appearing in a cinema near you.</example>
+            <example correction="Cinemas"><marker>Movie theaters</marker> are popular, despite the new online movie streaming services.</example>
+            <example>Edward Norton – not appearing in a <marker>cinema</marker> near you.</example>
         </rule>
         <rule id="GOT_GOTTEN" name="gotten/got">
             <pattern>
-                <marker>
-                    <token>gotten</token>
-                </marker>
-                <token><exception>up</exception></token>
+                <token>gotten</token>
             </pattern>
-            <message>In the UK, the word 'gotten' is usually no longer used. Did you mean <suggestion>got</suggestion>?</message>
+            <message>In the UK, the word 'gotten' is not used. Did you mean <suggestion>got</suggestion>?</message>
             <url>http://public.wsu.edu/~brians/errors/got.html</url>
-            <example>He's gotten up on the wrong side of bed.</example>
+            <short>AmE/BrE: gotten/got</short>
             <example correction="got">He has <marker>gotten</marker> some food.</example>
+            <example correction="got">He's <marker>gotten</marker> up on the wrong side of bed.</example>
         </rule>
         <rule id="GAS_PETROL" name="gas/petrol" default="off"> <!-- This rule needs more exceptions to be usable -->
             <pattern>
                 <token>gas<exception scope="previous">natural</exception></token>
             </pattern>
             <message>With the meaning of "gasoline", in British English is more common to use <suggestion>petrol</suggestion>.</message>
+            <short>AmE/BrE: gas/petrol</short>
             <example>Natural gas.</example>
             <example correction="petrol">More <marker>gas</marker>.</example>
         </rule>
@@ -95,16 +111,16 @@ USA
             <pattern>
                 <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">license</token>
             </pattern>
-            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
-            <suggestion>licence</suggestion>
+            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English. Use <suggestion>licence</suggestion>.</message>
+            <short>AmE/BrE: license/licence (noun singular)</short>
             <example correction="licence">Please show me your <marker>license</marker>.</example>
         </rule>
         <rule id="LICENCE_LICENSE_NOUN_PLURAL" name="Licenses/Licences (noun)">
             <pattern>
                 <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
             </pattern>
-            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
-            <suggestion>licences</suggestion>
+            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English. Use <suggestion>licences</suggestion>.</message>
+            <short>AmE/BrE: license/licence (noun plural)</short>
             <example correction="licences">Please show me your <marker>licenses</marker>.</example>
         </rule>
         <rule  id="TRUNK_BOOT" name="trunk/boot (of car)">

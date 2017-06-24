@@ -392,7 +392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="5" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+        <message>Після числівника, що закінчується на 2-4, іменник має стояти в називному відмінку множини: <suggestion><match no="5" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
         <url>http://mova.kreschatic.kiev.ua/228.htm</url>
         <example correction="тижні">24 з половиною <marker>тижня</marker></example>
         <example correction="тижні">24 з половиною довгих <marker>тижня</marker></example>
@@ -432,7 +432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+        <message>Після числівника, що закінчується на 2-4, іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
         <url>http://mova.kreschatic.kiev.ua/228.htm</url>
         <example correction="вулики">двадцять три <marker>вулика</marker></example>
         <example correction="тижні">24 <marker>тижня</marker></example>
@@ -492,7 +492,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
         <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
         <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
         <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
@@ -520,7 +520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
         <!--
             <example correction="грамів">сто <marker>грам</marker></example>
             <example correction="грамів">100 <marker>грам</marker></example>
@@ -568,7 +568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Після числівника що закінчується на 1 іменник має стояти в однині</message>
+        <message>Після числівника, що закінчується на 1, іменник має стояти в однині</message>
         <example type="incorrect">271 <marker>депутатів</marker> проголосовали</example>
         <example type="incorrect">1 271 <marker>депутатів</marker> проголосовали</example>
         <example type="incorrect">всього 441 <marker>рази</marker>.</example>
@@ -1319,6 +1319,113 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Бобові перетріть крізь сито</example>
         <example>Рибу з'їж сам</example>
         <example>Настю відправ додому</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="VONO_IMPERF" name="Воно + безособова форма">
+      <rule>
+        <pattern>
+          <token>воно</token>
+          <token postag_regexp="yes" postag="verb:.*:impers.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*"/>
+          </token>
+        </pattern>
+        <message>Неправильна конструкція</message>
+        <suggestion>його <match no="2"/></suggestion>
+        <suggestion><match no="1"/> <match no="2" regexp_match="(.*)о" regexp_replace="$1е"/></suggestion>
+        <example correction="його зафіксовано|воно зафіксоване">І так <marker>воно зафіксовано</marker> в законі.</example>
+        <example>воно приховано існувало багато років</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>все</token>
+          <token>решта</token>
+        </antipattern>
+        <pattern>
+          <token>решта</token>
+          <token postag_regexp="yes" postag="verb:.*:impers.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*"/>
+          </token>
+        </pattern>
+        <message>Неправильна конструкція</message>
+        <suggestion>решту <match no="2"/></suggestion>
+        <suggestion><match no="1"/> <match no="2" regexp_match="(.*)о" regexp_replace="$1а"/></suggestion>
+        <example correction="решту зафіксовано|решта зафіксована">А <marker>решта зафіксовано</marker> в законі.</example>
+        <example>все решта зафіксовано</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="SEKTOR_GAZA" name="Сектор Газа">
+      <rule>
+        <pattern>
+          <token>сектор</token>
+          <token case_sensitive="yes">Газа</token>
+        </pattern>
+        <message>Правильно: <suggestion>Сектор Гази</suggestion></message>
+        <example correction="Сектор Гази">Приїхав в <marker>Сектор Газа</marker> в лютому.</example>
+        <example correction="Сектор Гази">Приїхав в <marker>сектор Газа</marker> в лютому.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>сектор</token>
+          <token>Гази</token>
+        </pattern>
+        <message>Правильно: <suggestion>Сектор Гази</suggestion></message>
+        <example correction="Сектор Гази">Приїхав в <marker>сектор Гази</marker> в лютому.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="PLURAL_LAST_NAME" name="Множина прізвищ">
+      <rule>
+        <antipattern>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:n:.*">подружжя</token>
+          <token postag_regexp="yes" postag="noun:anim:f:v_rod.*:lname.*"/>
+          <token regexp="yes">і|й|та</token>
+          <token postag_regexp="yes" postag="noun:anim:m:v_rod.*:lname.*"/>
+        </antipattern>
+        <pattern>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:n:.*">подружжя</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:[fm]:v_naz:prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:p:v_rod:prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після «подружжя» прізвище має стояти в родовому відмінку множини</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:)[fm]:v_...(:prop:lname.*)" postag_replace="$1p:v_rod$2"/></suggestion>
+        <example correction="Обам">Подружжя <marker>Обама</marker>.</example>
+        <example correction="Кличків">Подружжя <marker>Кличко</marker>.</example>
+        <example>Подружжя Бушів.</example>
+        <example>Подружжя Роше.</example>
+        <example>подружжя Цвігун і Ковальчука</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token inflected="yes" postag_regexp="yes" postag="noun:anim:p:.*">брат</token>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*:fname.*"/>
+          <token regexp="yes">і|й|та</token>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*:fname.*"/>
+        </antipattern>
+        <pattern>
+          <token inflected="yes" postag_regexp="yes" postag="noun:anim:p:.*">брат</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:m:v_naz:prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:p:v_rod:prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після «брати́» прізвище має стояти в множині</message>
+        <!-- TODO: figure out how to inflect 2nd token by the 1st inflection
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:)m:v_...(:prop:lname.*)" postag_replace="$1p:v_naz$2"/></suggestion>
+         -->
+        <example correction="">Брати <marker>Кличко</marker>.</example>
+        <example correction="">Брати <marker>Грімм</marker>.</example>
+        <example correction="">Брати <marker>Люм'єр</marker>.</example>
+        <example correction="">Братів <marker>Кличко</marker>.</example>
+        <example correction="">Брати <marker>Єременко</marker>.</example>
+        <example>Брати Капранови.</example>
+        <example>Брати Меладзе.</example>
+        <example>брати Франк і Рональд</example>
       </rule>
     </rulegroup>
 

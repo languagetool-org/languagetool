@@ -1050,14 +1050,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="PRYNALEZHNIST" name="Приналежність і належність">
-      <pattern>
-        <token regexp="yes">приналеж.*</token>
-      </pattern>
-      <message>Правильно: <suggestion><match no="1" regexp_match="[Пп]ри(належ.*)" regexp_replace="$1"/></suggestion></message>
-      <url>http://mova.kreschatic.kiev.ua/246.htm</url>
-      <example correction="належність">культурна <marker>приналежність</marker> людини</example>
-    </rule>
+<!-- "ставити питання" є в АС та словнику Виргана, Пилинської -->
+    <rulegroup id="ZADAVATY_PYTANNIA" name="Задавати питання">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">задавати|задати|задаючи|задавання|заданий</token>
+          <token postag_regexp="yes" postag="adj:[np]:.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token regexp="yes" inflected="yes">(за)?питання</token>
+        </pattern>
+        <message>Краще: <suggestion>(по)ставити <match no="2"/> <match no="3"/></suggestion></message>
+        <example correction="(по)ставити питання">не <marker>задавати питання</marker></example>
+        <example correction="(по)ставити складних питань">не <marker>задавати складних питань</marker></example>
+        <example correction="(по)ставити їм запитань">не <marker>задавав їм запитань</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">задаватися|задатися|задаючися</token>
+          <token postag_regexp="yes" postag="adj:[np]:.*" min="0"/>
+          <token regexp="yes" inflected="yes">(за)?питання</token>
+        </pattern>
+        <message>Краще: <suggestion>(по)ставити собі <match no="2"/> <match no="3" postag="noun:inanim:n:v_naz"/></suggestion></message>
+        <suggestion>вдаватися в питання</suggestion>
+        <suggestion>загадуватися над питанням</suggestion>
+        <example correction="(по)ставити собі питання|вдаватися в питання|загадуватися над питанням"><marker>задаватися питанням</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(за)?питання</token>
+          <token postag_regexp="yes" postag="noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token regexp="yes" inflected="yes">(задавати|задати|задаючи)(ся)?|задавання|заданий</token>
+        </pattern>
+        <message>Краще: <suggestion>\1 \2 (по)ставити</suggestion></message>
+        <example correction="питання йому (по)ставити">ці <marker>питання йому задали</marker> його ж студенти</example>
+      </rule>
+    </rulegroup>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення
@@ -1131,6 +1157,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>не світився ліхтар.</example>
         </rule>
         </rulegroup>
+    -->
+
+    <!--
+     // r2u засвідчує такі слова - і в словниках, і в цитатах. Зокрема "приналежний" та інші слова з при- можуть вживатися у високому стилі, для надання урочистості висловленню
+
+    <rule id="PRYNALEZHNIST" name="Приналежність і належність">
+      <pattern>
+        <token regexp="yes">приналеж.*</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="[Пп]ри(належ.*)" regexp_replace="$1"/></suggestion></message>
+      <url>http://mova.kreschatic.kiev.ua/246.htm</url>
+      <example correction="належність">культурна <marker>приналежність</marker> людини</example>
+    </rule>
     -->
   </category>
 

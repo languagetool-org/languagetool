@@ -2,16 +2,74 @@
 
 ## 3.8-SNAPSHOT (release planned for 2017-06-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary and rules for official names of Valencian municipalities
+
+#### Dutch
+  * added some rules (by Ruud Baars)
+
+#### English
+  * added and improved rules
+
 #### German
+  * added and improved rules
   * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
     also has a message explaining the user that `Kuß` is an old spelling
 
+#### Polish
+   * added rules
+   * added some common typos
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
+    - style: wordy expressions detection added and significant redundant expressions detection improvements
+    - punctuation: significant improvements
+    - formal speech: archaims, cacophonies, childish language and slang detection added
+    - typography: international system standards, number and mathematical symbol formatting
+    - misspellings: foreign famous personalities common misspelings
+    - AO90: identify words with changed spelling
+  * disambiguation improvements
+  * false friends support added
+    - Portuguese to Catalan (26 new pairs)
+    - Portuguese to Spanish (7 new pairs)
+  * spell checking exceptions for common Latin, English and French expressions, species scientific names,
+    and famous personalities
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
+    - [pt-BR]        VERO version 2.1.4
+
+#### Slovak
+  * major rule updates by Matúš Matula
+
+#### Ukrainian
+  * Significant dictionary update:
+    - thousands of new words
+    - some inflection adjustments
+  * Improved dynamic tagging for compound words
+  * Many new rules (barbarism, grammar, and spelling)
+  * New noun-verb agreement rule
+
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
+  * The `apiVersion` property of the JSON output is now a number
+    instead of a string (issue #712)
 
 #### Java API
   * Some deprecated methods and classes have been removed.
 
+#### Internal
+  * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
+    line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
+    and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
+    the spell checker)
+
+#### LT server
+   * When running a LT server, the enabled/disabled rules loaded from a configuration file 
+     at the startup time will be the new default rules. Previously these rules were "forgotten" 
+     when a server query used the parameters for enabling and disabling rules. Now the rules 
+     from the query will be added to the rules from the configuration file. 
 
 ## 3.7 (2017-03-27)
 

@@ -28,10 +28,13 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
- * A rule that matches words which should not be used and suggests correct ones instead. 
- * Romanian implementations. Loads the list of words from
- * <code>/ro/replace.txt</code>.
+ * A rule that matches common Wikipedia errors. 
+ * Portuguese implementations. Loads the list of words from
+ * <code>/pt/wikipedia.txt</code>.
  *
  * @author Tiago F. Santos 
  * @since 3.6
@@ -80,6 +83,15 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getSuggestionsSeparator() {
     return " ou ";
+  }
+
+  @Override
+  public URL getUrl() {
+    try {
+      return new URL("https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Lista_de_erros_comuns/M%C3%A1quinas");
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

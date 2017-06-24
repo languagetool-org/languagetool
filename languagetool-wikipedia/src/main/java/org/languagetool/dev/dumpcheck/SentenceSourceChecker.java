@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -244,7 +245,8 @@ public class SentenceSourceChecker {
     if (additionalCategoryIds != null) {
       for (String categoryId : additionalCategoryIds) {
         for (Rule rule : languageTool.getAllRules()) {
-          if (rule.getCategory().getName().equals(categoryId)) {
+          CategoryId id = rule.getCategory().getId();
+          if (id != null && id.toString().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
             languageTool.enableRule(rule.getId());
           }

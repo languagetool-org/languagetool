@@ -160,7 +160,7 @@ public class JLanguageToolTest {
     //test soft-hyphen ignoring:
     assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
         "is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
-        "test­ed[tested/JJ,test/VBD,test/VBN,test­ed/null,I-NP-singular] " +
+        "test­ed[tested/JJ,I-NP-singular] " +
         "sentence[sentence/NN,E-NP-singular].[./.,</S>,O]",
         tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding

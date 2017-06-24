@@ -38,6 +38,7 @@ import org.languagetool.rules.ca.ReflexiveVerbsRule;
 import org.languagetool.rules.ca.ReplaceOperationNamesRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
+import org.languagetool.rules.ca.SimpleReplaceDNVRule;
 import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -88,10 +89,14 @@ public class Catalan extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, 
+            		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
+            		Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
             new DoublePunctuationRule(messages),
             new CatalanUnpairedBracketsRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this,
+            		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
+            		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
             new LongSentenceRule(messages),
             // specific to Catalan:
@@ -106,6 +111,7 @@ public class Catalan extends Language {
             new SimpleReplaceVerbsRule(messages),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
+            new SimpleReplaceDNVRule(messages),
             new ReplaceOperationNamesRule(messages)
     );
   }
@@ -166,6 +172,7 @@ public class Catalan extends Language {
       case "REGIONAL_VERBS": return -10;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
+      case "MUNDAR": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;

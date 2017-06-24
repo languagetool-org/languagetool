@@ -38,10 +38,10 @@ public final class GermanHelper {
       return false;
     }
     for (AnalyzedToken token : tokenReadings) {
-      if (token.getPOSTag() != null) {
-        if (token.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || token.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
-          return false;
-        }
+      if (token.getPOSTag() != null &&
+          (token.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) ||
+           token.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME))) {
+        return false;
       }
       AnalyzedGermanToken germanToken = new AnalyzedGermanToken(token);
       if (germanToken.getType() == type) {

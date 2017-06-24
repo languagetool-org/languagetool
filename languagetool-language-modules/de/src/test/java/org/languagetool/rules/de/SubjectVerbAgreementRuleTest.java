@@ -296,7 +296,9 @@ public class SubjectVerbAgreementRuleTest {
         "Einer seiner bedeutendsten Kämpfe war gegen den späteren Weltmeister.",
         "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug Mitte der 90er Jahre gezwungen, ...",
         "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart.",
-        "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft."
+        "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft.",
+        "Knapp acht Monate ist die Niederlage nun her.",
+        "Vier Monate ist die Niederlage nun her."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

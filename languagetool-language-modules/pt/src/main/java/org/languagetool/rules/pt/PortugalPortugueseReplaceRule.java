@@ -52,7 +52,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public PortugalPortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(Categories.REPETITIONS.getCategory(messages));
+    super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Onde está o <marker>banheiro</marker>?"),
                    Example.fixed("Onde está o <marker>toilet</marker>?"));
