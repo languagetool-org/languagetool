@@ -3027,18 +3027,6 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='BASEIA-SE_EM' name="Tem por base">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token inflected='yes'>basear</token>
-          <token regexp='yes' min='0'>-|–|—</token>
-          <token>se</token>
-          <token>em</token>
-      </pattern>
-      <message>Substitua por <suggestion>tem por base</suggestion>.</message>
-      <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
-    </rule>	
-
     <rule id='BOLOS-REI' name="Bolos-reis">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -18366,7 +18354,7 @@ TODO Write better examples
       <example correction='A viagem'><marker>A viajem</marker> com 1 500 regras, parece que ainda agora começou.</example>
       <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
     </rule>
-    <rule id='PARONYM_NUMERO_606' name='O + calculo'>
+    <rule id='PARONYM_CALCULO_606' name='O + calculo'>
       <pattern>
           <token regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -20539,7 +20527,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token inflected='yes'>bater</token>
-          <token>papo</token>
+          <token regexp='yes'>papos?</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion><match no='1' postag='V.+'>falar</match></suggestion>
@@ -20547,8 +20535,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token>bicho</token>
-          <token>geográfico</token>
+          <token regexp='yes'>bichos?</token>
+          <token regexp='yes'>geográficos?</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion></suggestion>
@@ -20583,7 +20571,7 @@ TODO Write better examples
         <suggestion></suggestion>
       <example correction=''><marker>bola pra frente</marker>.</example>
     </rule>
-    <rule>
+    <!--rule>
       <pattern>
           <token>cartão</token>
           <token>do</token>
@@ -20592,7 +20580,7 @@ TODO Write better examples
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion>bilhete de identidade</suggestion>
       <example correction='bilhete de identidade'><marker>cartão do cidadão</marker>.</example>
-    </rule>
+    </rule-->
     <rule>
       <pattern>
           <token>coisa</token>
@@ -21018,6 +21006,17 @@ TODO Write better examples
         <suggestion><match no='1' postag='V.+'>pensar</match> que</suggestion>
         <suggestion><match no='1' postag='V.+'>julgar</match> que</suggestion>
       <example correction='penso que|julgo que'>Eu <marker>acho que</marker> devemos vencer.</example>
+    </rule>
+    <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token inflected='yes'>basear</token>
+          <token regexp='yes' min='0'>-|–|—</token>
+          <token>se</token>
+          <token>em</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>ter</match> por base</suggestion>.</message>
+      <example correction="tem por base|tenhas por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
     </rule>
   </rulegroup>
 
