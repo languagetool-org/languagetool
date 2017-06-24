@@ -7,7 +7,7 @@
   * updated dictionary and rules for official names of Valencian municipalities
 
 #### Dutch
-  * added some rules (by Ruud Baars)
+  * added many rules (by Ruud Baars)
 
 #### English
   * added and improved rules
