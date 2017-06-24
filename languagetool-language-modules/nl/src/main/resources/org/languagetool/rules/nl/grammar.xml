@@ -1789,6 +1789,32 @@ Contributions and ideas from:
         <example>Het alarm treedt <marker>in werking</marker>.</example>
 </rule>
 </rulegroup>
+
+<rulegroup id="INSLAAP_VALLEN" name="inslaap vallen → in slaap vallen">
+	<rule>
+  <pattern>
+	  <marker>
+   <token skip="4">inslaap</token>
+</marker>
+   <token inflected="yes">vallen</token>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans erg groot dat hier <suggestion>in slaap</suggestion> moet staan.</message>
+        <example correction="in slaap">Als ik <marker>inslaap</marker> val, gaat het mis.</example>
+        <example>ALs ik <marker>in slaap</marker> val, gaat het mis.</example>
+</rule>
+	<rule>
+  <pattern>
+   <token inflected="yes" skip="4">vallen</token>
+	  <marker>
+   <token>inslaap</token>
+</marker>
+  </pattern>
+		  <message>Hoewel '<match no="1"/>' een correct woord is, is de kans erg groot dat hier <suggestion>in slaap</suggestion> moet staan.</message>
+        <example correction="in slaap">Ik val weer eens <marker>inslaap</marker>.</example>
+        <example>Ik val weer eens <marker>in slaap</marker>.</example>
+</rule>
+</rulegroup>
+
 <!-- ############# -->
 
 <rule id="TEGELOVEN" name="tegeloven → te geloven">
