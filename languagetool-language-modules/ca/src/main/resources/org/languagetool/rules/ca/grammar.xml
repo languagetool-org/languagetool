@@ -33257,6 +33257,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RAMERA" name="ramera">
+            <pattern>
+                <token inflected="yes">ramera</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">prostituta</match></suggestion>? Correcte en el sentit de <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">brancatge</match></suggestion>.</message>
+            <example correction="prostitutes|brancatges">Les <marker>rameres</marker>.</example>
+        </rule>
         <rule id="GOT_VAS" name="*got/vas sanguini">
             <pattern>
                 <marker>
