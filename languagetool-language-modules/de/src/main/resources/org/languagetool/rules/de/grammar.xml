@@ -10128,14 +10128,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
                 <suggestion>sowie</suggestion>
-                <example correction="und|sowie">Bund <marker>und sowie</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+                <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>\bsowie und\b</regexp>
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
                 <suggestion>sowie</suggestion>
-                <example correction="und|sowie">Bund <marker>sowie und</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+                <example correction="und|sowie">Bund <marker>sowie und</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="19XXer Jahre des zwanzigsten Jahrhunderts">
@@ -11050,6 +11050,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Redundantes Kompositum</short>
                 <example correction="Visiere">Sie hatten die <marker>Gesichtsvisiere</marker> heruntergeklappt.</example>
                 <example correction="Visier">Das <marker>Gesichtsvisier</marker> war stark verkratzt.</example>
+            </rule>
+            <rule>
+                <regexp>Eieromelett(s|e(n|s)?)?</regexp>
+                <message>Redundantes Kompositum: Ein(e) Omelett(e) ist laut Wörterbuch ein Eierkuchen. Ersetzen durch <suggestion><match no="1" regexp_replace="O" regexp_match="^Eiero"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Omelett</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Omelette">Wer hatte die <marker>Eieromelette</marker> bestellt?</example>
+                <example correction="Omeletts">Es gab <marker>Eieromeletts</marker> zum Frühstück.</example>
+                <example correction="Omelett">Das <marker>Eieromelett</marker> war vorzüglich!</example>
+            </rule>
+            <rule>
+                <regexp>Baumalleen?</regexp>
+                <message>Redundantes Kompositum: Eine Allee ist laut Wörterbuch eine von Bäumen gesäumte Straße. Ersetzen durch <suggestion><match no="1" regexp_replace="A" regexp_match="^Bauma"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Allee</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Allee">Diese <marker>Baumallee</marker> ist wirklich herrlich!</example>
             </rule>
         </rulegroup>
     </category>
