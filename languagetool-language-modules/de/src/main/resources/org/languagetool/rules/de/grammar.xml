@@ -9621,7 +9621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="LICHTJAHR" name="Lichtjahr als Zeiteinheit">
             <rule>
-                <regexp>\b((Lichtjahre? (alt(e[rsmn]?)?|(ge)?dauer[tn].*|später))|(dauer[nt].* (noch|ein|viele)?[ ]?(Lichtjahre?)))\b</regexp>
+                <regexp>\b((Lichtjahre? (alt(e[rsmn]?)?|(ge)?dauer[tn].*|später|da(nach|rauf)))|(dauer[nt].* (noch|ein|viele)?[ ]?(Lichtjahre?)))\b</regexp>
                 <message>Ein Lichtjahr ist keine Zeiteinheit, sondern eine Längeneinheit.</message>
                 <short>Semantischer Fehler</short>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
@@ -9633,9 +9633,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">doppelt|halb|(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zeun|hundert|\d+-)mal</token>
                     <token>so</token>
-                    <token regexp="yes">warm|heiß|kalt</token>
+                    <token regexp="yes">(warm|heiß|kalt)(e[nrs]?)?</token>
                 </pattern>
-                <message>Diese Formulierung ergibt nur Sinn, wenn die Temperaturmessung die Kelvinskala verwendet wird.</message>
+                <message>Diese Formulierung ergibt nur Sinn, wenn für die Temperaturmessung die Kelvinskala verwendet wird.</message>
                 <url>https://de.wikipedia.org/wiki/Intervallskala</url>
                 <short>Semantischer Fehler</short>
                 <example correction="">Gestern war es <marker>doppelt so warm</marker> wie heute.</example>
