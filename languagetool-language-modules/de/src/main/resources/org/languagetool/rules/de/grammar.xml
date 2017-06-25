@@ -10857,7 +10857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ENTSTAMMEN_AUS" name="'entstammt aus (entstammt)'">
             <rule>
                 <pattern>
-                    <token regexp="yes">entstamm((en?)|s?t|ten?)</token>
+                    <token inflected="yes">entstammen</token>
                     <token regexp="yes">aus|von</token>
                 </pattern>
                 <message><suggestion>\1</suggestion> wird mit dem Dativ und ohne die Präposition 'aus' verwendet, z.B. 'Sie entstammt einem guten Haus'. Alternativen: <suggestion><match no="1" regexp_replace="" regexp_match="^ent"/> aus</suggestion>, <suggestion><match no="1" regexp_replace="ko" regexp_match="^entsta"/> aus</suggestion>.</message>
@@ -26710,6 +26710,39 @@ Andere Projekte</example>
             <example type="incorrect">Eine einfache Java-Bibliothek Software <marker>zum</marker> Trennung von Komposita.</example>
           </rule>
         </rulegroup>
+<rulegroup id="BEHARREN_AUF_DATIV" name="'beharren auf' ohne Dativ">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">be(harren|ruhen)|fußen</token>
+                    <token>auf</token>
+                    <marker>
+                        <token regexp="yes">([mds]?ein|unser|eue?r|ihr|dies)en?</token>
+                    </marker>
+                    <token postag="SUB:.*:SIN:(MAS|NEU).*" postag_regexp="yes"><exception postag="SUB:.*:PLU:.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Auf 'beharren auf' folgt der Dativ: <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>m</suggestion></message>
+                <example correction="seinem">Er beharrte auf <marker>seinen</marker> Recht.</example>
+                <example>Sie beharrte auf <marker>ihrer</marker> Meinung.</example>
+                <example correction="meinem">Ich beharre auf <marker>meine</marker> Standpunkt.</example>
+                <example correction="einem">Unsere Entscheidung beruhte auf <marker>einen</marker> Irrtum.</example>
+                <example correction="seinem">Er beharrte auf <marker>seinen</marker> Recht.</example>
+                <example>Die Kraft eines Baumes beruht auf <marker>seinen</marker> Wurzeln.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">be(harren|ruhen)|fußen</token>
+                    <token>auf</token>
+                    <marker>
+                        <token regexp="yes">([mds]?ein|unser|eue?r|ihr|dies)en?</token>
+                    </marker>
+                    <token postag="SUB:.*:SIN:FEM.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Auf 'beharren auf' folgt der Dativ: <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>r</suggestion></message>
+                <example correction="seiner">Er beharrte auf <marker>seine</marker> Meinung dazu.</example>
+                <example correction="einer">Diese Entscheidung beruhte auf <marker>eine</marker> Information, die sich als falsch erwies.</example>
+                <example>Sie beharrte auf <marker>ihrer</marker> Meinung.</example>
+            </rule>
+        </rulegroup>
         -->
         <!-- TODO: make this more generic + avoid false alarm in "helfen ihm zu finden"
         <rule id="HELFEN_DATIV" name="'Dativ nach 'helfen'">
@@ -32416,6 +32449,7 @@ Andere Projekte</example>
                 <example >Das ist <marker>sicher das</marker> schönste Haus der Stadt.</example>
                 <example>Sie führte das Haushaltsbuch mit großer Sorgfalt.</example>
                 <example>Wenn Sie Ihr Haus in Schuss halten, schadet das dem Wiederverkaufswert nicht.</example>
+                <example>Wenn Sie Ihr Haus in Schuss halten, so schadet das dem Wiederverkaufswert nicht.</example>
                 <example correction="beschwert, dass">Ein Urlauber hat sich sogar darüber <marker>beschwert das</marker> der Sand zu sandig war.</example>
 			</rule>
         </rulegroup>
