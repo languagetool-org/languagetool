@@ -432,6 +432,116 @@ title="Easy editing stylesheet" ?>
       <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
     </rule>
 
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+  <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
+    <rule>
+      <pattern>
+          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
+        <marker>
+          <token>equipe</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>equipa</suggestion>.</message>
+      <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
+        <marker>
+          <token>equipes</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>equipas</suggestion>.</message>
+      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+  <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
+    <rule>
+      <pattern>
+          <token regexp="yes">o|de|do</token>
+        <marker>
+          <token>controle</token>
+        </marker>
+          <token regexp="yes">das?|dos?|de</token>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>sob</token>
+        <marker>
+          <token>controle</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
+    </rule>
+  </rulegroup>
+
+ </category>
+
+ <category id="CONTRACTIONS" name="Contrações">
+
+  <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
+      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <short>Utilize a contração.</short>
+    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
+      </pattern>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+      <example correction='doutrem'><marker>de outrem</marker>.</example>
+      <example correction='doutro'><marker>de outro</marker>.</example>
+      <example correction='doutros'><marker>de outros</marker>.</example>
+      <example correction='doutra'><marker>de outra</marker>.</example>
+      <example correction='doutras'><marker>de outras</marker>.</example>
+    </rule>
+    <rule default='on' id='CONTRACAO_DUM' name='De + um/uns'>
+      <antipattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+      </pattern>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+      <example correction='dum'><marker>de um</marker> calmo dia.</example>
+      <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
+      <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
+      <example correction='duns'><marker>de uns</marker> rios.</example>
+    </rule>
+    <rule default='on' id='CONTRACAO_NUM' name='Em + um/uns'>
+      <antipattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+      </pattern>
+      <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
+      <example correction='num'><marker>em um</marker> belo dia.</example>
+      <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
+      <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
+      <example correction='nuns'><marker>em uns</marker> rios.</example>
+    </rule>
+  </rulegroup>
+
+ </category>
+
+ <category id='REGIONALISMS' name='Regionalismos'>
+
   <rulegroup id="BRASILEIRISMOS" name="Brasileirismos">
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
@@ -565,112 +675,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>telemóvel</suggestion>.</message>
       <example correction='telemóvel'><marker>telefone celular</marker>.</example>
-    </rule>
-  </rulegroup>
-
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-  <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
-    <rule>
-      <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
-        <marker>
-          <token>equipe</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>equipa</suggestion>.</message>
-      <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
-        <marker>
-          <token>equipes</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>equipas</suggestion>.</message>
-      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
-    </rule>
-  </rulegroup>
-
-    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-  <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
-    <rule>
-      <pattern>
-          <token regexp="yes">o|de|do</token>
-        <marker>
-          <token>controle</token>
-        </marker>
-          <token regexp="yes">das?|dos?|de</token>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>sob</token>
-        <marker>
-          <token>controle</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
-    </rule>
-  </rulegroup>
-
- </category>
-
- <category id="CONTRACTIONS" name="Contrações">
-
-  <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-      <short>Utilize a contração.</short>
-    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
-      <example correction='doutrem'><marker>de outrem</marker>.</example>
-      <example correction='doutro'><marker>de outro</marker>.</example>
-      <example correction='doutros'><marker>de outros</marker>.</example>
-      <example correction='doutra'><marker>de outra</marker>.</example>
-      <example correction='doutras'><marker>de outras</marker>.</example>
-    </rule>
-    <rule default='on' id='CONTRACAO_DUM' name='De + um/uns'>
-      <antipattern>
-          <token>de</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token postag='V.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
-      <example correction='dum'><marker>de um</marker> calmo dia.</example>
-      <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
-      <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
-      <example correction='duns'><marker>de uns</marker> rios.</example>
-    </rule>
-    <rule default='on' id='CONTRACAO_NUM' name='Em + um/uns'>
-      <antipattern>
-          <token>em</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token postag='V.+' postag_regexp='yes'></token>
-      </antipattern>
-      <pattern>
-          <token>em</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
-      <example correction='num'><marker>em um</marker> belo dia.</example>
-      <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
-      <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
-      <example correction='nuns'><marker>em uns</marker> rios.</example>
     </rule>
   </rulegroup>
 
