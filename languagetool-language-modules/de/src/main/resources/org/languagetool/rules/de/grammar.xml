@@ -970,7 +970,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="WIR_WIE" name="'im selben Stall wir (wie)' etc.">
             <pattern>
-                <token regexp="yes">gleich.*|.*selbe.*</token>
+                <token regexp="yes">gleich.*|.*selbe.*<exception>gleichzeitig</exception></token>
                 <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/><exception>,</exception></token>
                 <marker>
                     <token>wir</token>
@@ -980,6 +980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicher Tippfehler</short>
             <example correction="wie">Die Datei muss hier im selben Verzeichnis sein <marker>wir</marker> dort.</example>
             <example correction="wie">Ich habe das gleiche Kleid <marker>wir</marker> sie.</example>
+            <example>Gleichzeitig wollen wir aber an dem Ort bleiben, an dem wir einmal investiert haben.</example>
             <example>Im selben Boot sitzen <marker>wir</marker>.</example>
             <example>Unsere Sprache ist fast dieselbe, <marker>wir</marker> haben eine gemeinsame Kultur.</example>
         </rule>
@@ -32374,6 +32375,7 @@ Andere Projekte</example>
                     <marker>
                         <token postag="VER:3:.*|ADJ:PRD:GRU" postag_regexp="yes">
                             <exception scope="previous" postag="SENT_START"/>
+                            <exception scope="previous" postag="PKT"/>
                             <exception postag_regexp="yes" postag="VER:(MOD|AUX):.*"/>
                         </token>
                         <token>das</token>
@@ -32397,6 +32399,7 @@ Andere Projekte</example>
                 <example correction="sicher, dass">Ich bin mir <marker>sicher das</marker> morgen die Welt untergeht.</example>
                 <example >Das ist <marker>sicher das</marker> schönste Haus der Stadt.</example>
                 <example>Sie führte das Haushaltsbuch mit großer Sorgfalt.</example>
+                <example>Wenn Sie Ihr Haus in Schuss halten, schadet das dem Wiederverkaufswert nicht.</example>
                 <example correction="beschwert, dass">Ein Urlauber hat sich sogar darüber <marker>beschwert das</marker> der Sand zu sandig war.</example>
 			</rule>
         </rulegroup>
