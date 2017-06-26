@@ -7839,7 +7839,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<token inflected="yes">dienen</token><token>te</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>moeten</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">moeten</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="moeten">A <marker>dienen te</marker> B.</example>
@@ -11555,7 +11555,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<token inflected="yes">ombuiging</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bezuiniging</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion><match no="1" postag="NN.*" postag_regexp="yes">bezuiniging</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="bezuiniging">A <marker>ombuiging</marker> B.</example>
@@ -11573,7 +11574,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="daarom">A <marker>om deze redenen</marker> B.</example>
 	<example>A <marker>daarom</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="OM_NIET" name="om niet">
 	<pattern>
 		<token>om</token><token>niet</token>
@@ -11585,7 +11586,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="gratis">A <marker>om niet</marker> B.</example>
 	<example>A <marker>gratis</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="OM_REDEN_VAN" name="om reden van">
 	<pattern>
 		<token>om</token><token>reden</token><token>van</token>
@@ -16450,10 +16451,8 @@ zijdens 	van de kant van, door
   <example><marker>Hij beheert</marker> het verder.</example>
 </rule>
 
+<!--
 <rule id="WORDT_BESCHULDIGT_VAN" name="beschuldigt → beschuldigd">
-  <!--
-  2015-02-01 TaalTik nieuw
-  -->
   <antipattern>
   <token inflected="yes">worden</token><token postag="VBp" regexp="yes">.*t</token><token regexp="yes">van|door</token></antipattern>
   <pattern>
@@ -16468,7 +16467,7 @@ zijdens 	van de kant van, door
   <example>Jij wordt <marker>beschuldigd</marker> van fouten.</example>
   <example>Het wordt <marker>veroorzaakt</marker> door fouten.</example>
 </rule>
-
+-->
 <rule id="WIJ_LOOP" name="wij loopt">
   <!--
   2014-08-23 TaalTik
@@ -17689,11 +17688,12 @@ zijdens 	van de kant van, door
     <example><marker>NB dit is correct.</marker>.</example>
   </rule>  
 
-  <rule id="PS_a" name="P.S.: → P.S. ">
+  <rulegroup id="PS" name="P.S.">
     <!--
     2014-09-08 TaalTik 
       Nieuwe regel. 
     -->
+	  <rule>
     <pattern>
       <token case_sensitive="yes">P</token>
       <token spacebefore="no">.</token>
@@ -17707,7 +17707,7 @@ zijdens 	van de kant van, door
     <example><marker>P.S. dit is correct.</marker>.</example>
   </rule>  
   
-  <rule id="PS_b" name="PS: → PS">
+  <rule>
     <!--
     2014-09-08 TaalTik 
       Nieuwe regel. 
@@ -17721,7 +17721,8 @@ zijdens 	van de kant van, door
     <example correction="PS"><marker>PS:</marker> Dit is fout.</example>
     <example><marker>PS dit is correct.</marker>.</example>
   </rule>  
-  
+</rulegroup>
+
   <rule id="LEGER_DES_HEILS" name="Leger des Heils">
     <!--
     2014-08-21 TaalTik Nieuwe regel. 
@@ -20571,7 +20572,7 @@ zich van de domme houden, van den domme houden
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
     
-    <rulegroup id="In_DE_RIJ" name="In de rij staan voor">
+    <rulegroup id="IN_DE_RIJ" name="In de rij staan voor">
     <rule>
     <pattern>
       <token>in</token>
