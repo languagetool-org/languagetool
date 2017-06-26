@@ -2256,11 +2256,11 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<pattern>
 			<token>het</token>
 			<token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">bij|voor|was|niet|een|buiten</exception><exception postag="VB1|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"/></token>
-			<token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets|alles</exception></token>
+			<token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets|alles|weer</exception></token>
 		</pattern>
 		<message>Dit kan een eigennaam zijn met een spatiefout. Controleer s.v.p. bij de eigenaar hoe deze de naam zelf schrijft.</message>
 		<short>de- of het-fout</short>
-		<example correction="">Ik zie <marker>het Natuurkunde College</marker>.</example>
+		<example type="incorrect">Ik zie <marker>het Natuurkunde College</marker>.</example>
 		<example>De <marker>donsdeken</marker>.</example>
 	</rule>
 	
@@ -5766,10 +5766,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
   <!-- 2014-09-08 TaalTik
   nieuw
   -->
-  <antipattern><token>is</token><token>gelukt</token></antipattern>
-  <antipattern><token>gelukt</token><token>is</token></antipattern>
   <pattern>
-    <token inflected="yes">gelukken<exception postag_regexp="yes" postag="NN1.*"/></token>
+	  <token inflected="yes">gelukken<exception postag_regexp="yes" postag="NN1.*"/><exception>gelukt</exception></token>
   </pattern>
   <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="VB.*" postag_regexp="yes">lukken</match></suggestion>.</message>
   <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
