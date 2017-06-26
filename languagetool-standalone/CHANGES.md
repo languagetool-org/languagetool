@@ -6,7 +6,7 @@
   * added and improved rules
   * updated dictionary and rules for official names of Valencian municipalities
 
-### Chinese
+#### Chinese
   * added one rule
 
 #### Dutch
