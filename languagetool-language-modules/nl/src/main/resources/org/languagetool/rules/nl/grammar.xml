@@ -5934,7 +5934,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example>A <marker>te sluiten (overeenkomsten)</marker>.</example>
 	</rule>
 	
-	
+	<!--
 	<rule id="AANVANGEN" name="aanvangen">
 	<pattern>
 		<token inflected="yes">aanvangen</token>
@@ -5946,7 +5946,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="beginnen|starten">A <marker>aanvangen</marker> B.</example>
 	<example>A <marker>beginnen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="AANVANKELIJK" name="aanvankelijk">
 	<pattern>
 		<token>aanvankelijk</token>
@@ -8197,7 +8197,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="aan de ene kant|als je het zo bekijkt">A <marker>enerzijds</marker> B.</example>
 	<example>A <marker>aan de ene kant</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="ENIGE" name="enige">
 	<pattern>
 		<token negate="yes" regexp="yes">de|het|een</token>
@@ -8212,11 +8212,11 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="een paar|enkele">A <marker>enige</marker> B.</example>
 	<example>A <marker>een paar</marker>.</example>
 	</rule>
-
+	-->
 	
 	<rule id="EPISTEL" name="epistel">
 	<pattern>
-		<token inflected="yes">epistel</token>
+		<token>epistel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>brief</suggestion>.
@@ -14840,7 +14840,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="over">A <marker>voor wat betreft</marker> B.</example>
 	<example>A <marker>over</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="VORDEREN" name="vorderen">
 	<pattern>
 		<token inflected="yes">vorderen</token>
@@ -14852,7 +14852,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="eisen">A <marker>vorderen</marker> B.</example>
 	<example>A <marker>eisen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="VORENBEDOELDE" name="vorenbedoelde">
 	<pattern>
 		<token>vorenbedoelde</token>
@@ -16402,20 +16402,18 @@ zijdens 	van de kant van, door
   <example correction="Ik loop"><marker>Ik loopt</marker> door.</example>
   <example><marker>Ik loop</marker> verder.</example>
 </rule>
-
-			<rule id="ZICH_INBEELD" name="zich inbeeld  → zich inbeeldt">
-        <!-- created 2017-06-22 by TaalTik -->
-        <pattern>
-				<token >zich</token>
-				<marker>
-					<token postag="VB1"><exception postag="VB3"></exception></token>
-				</marker>
-        </pattern>
-		  <message>U bedoelt vast <suggestion><match no="2" postag="VB3" postag_regexp="yes"></match></suggestion></message>
-        <example correction="inbeeldt">Ik denk dat hij het zich <marker>inbeeld</marker>.</example>
-        <example>Ik denk dat hij het zich <marker>inbeeldt</marker>.</example>
-        </rule>
-
+<rule id="ZICH_INBEELD" name="zich inbeeld  → zich inbeeldt">
+<!-- created 2017-06-22 by TaalTik -->
+<pattern>
+	<token>zich</token>
+	<marker>
+		<token>inbeeld</token>
+	</marker>
+</pattern>
+<message>U bedoelt vast <suggestion><match no="2" postag="VB3" postag_regexp="yes"></match></suggestion></message>
+<example correction="inbeeldt">Ik denk dat hij het zich <marker>inbeeld</marker>.</example>
+<example>Ik denk dat hij het zich <marker>inbeeldt</marker>.</example>
+</rule>
 
 <rule id="JIJ_LOOP" name="jij loop">
   <!--
