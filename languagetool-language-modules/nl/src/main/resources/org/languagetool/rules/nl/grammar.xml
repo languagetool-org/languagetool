@@ -29,7 +29,9 @@ Contributions and ideas from:
 - Jan de Ridder (missende regels aan de hand van fouten op Wikipedia) 
 - F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
 -->
-
+<!--
+opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">ergeren</match>
+-->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
     <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
@@ -2446,7 +2448,7 @@ Contributions and ideas from:
 <rule id="AD_a" name="ad. → ad">
 <pattern case_sensitive="yes">
 <token spacebefore="yes">ad</token>
-<token>.</token>
+<token spacebefore="no">.</token>
 </pattern>
 <message>Dit is geen afkorting: <suggestion>ad</suggestion></message>
 <example correction="ad">Ik wil <marker>ad.</marker> punt 5 nog iets zeggen.</example>
@@ -2596,9 +2598,13 @@ Contributions and ideas from:
 <rule id="EINDE_ZIN_ONVERWACHT" name="onverwacht einde zin">
   <!--
   2014-08-22 TaalTik
-  2014-10-02 TaalTik: lengte als variabele opgenomen, om te veel foute meldingen op kopjes en tabelcellen uit te zetten
+  2017-06-26 uitzondering voor korte zinnen gemaakt (kopjes)
   -->
-    <antipattern><token postag="SENT_START"/><token/><token/><token/><token/><token/><token/><token/></antipattern>
+	<antipattern><token postag="SENT_START"/><token postag="SENT_END"/></antipattern>
+	<antipattern><token postag="SENT_START"/><token/><token postag="SENT_END"/></antipattern>
+	<antipattern><token postag="SENT_START"/><token/><token/><token postag="SENT_END"/></antipattern>
+	<antipattern><token postag="SENT_START"/><token/><token/><token/><token postag="SENT_END"/></antipattern>
+	<antipattern><token postag="SENT_START"/><token/><token/><token/><token/><token postag="SENT_END"/></antipattern>
   <pattern>
     <marker>
     <token regexp="yes" postag="SENT_END">[\p{L}]+</token> 
@@ -2606,7 +2612,7 @@ Contributions and ideas from:
   </pattern>
   <message>Onverwacht einde. Voeg toe een leesteken toe of koppel de teksten.</message>
   <short>Geen einde</short>
-  <example correction="">Dit is <marker>fout</marker></example>
+  <example correction="">Deze wat langere zin is <marker>fout</marker></example>
   <example>Dit is correct.</example>
 </rule>
 
@@ -3212,15 +3218,24 @@ Contributions and ideas from:
   <example>Er was <marker>vijfduizend</marker> vierhonderdeenentwintig man aanwezig.</example>
 </rule>
 
-<rule id="GETALLEN_O_20" name="Getallen onder 20 uitschrijven">
+<rule id="GETALLEN_0_20" name="Getallen onder 20 uitschrijven">
   <!-- TODO: weer op 'off'zetten na testen -->
-  
+  <antipattern>
+	  <token regexp="yes">[.,/-]|artikel|jaar|jaren|'</token>
+	  <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+	  <token/>
+	</antipattern>
+  <antipattern>
+	  <token/>
+	  <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+	  <token regexp="yes">.{4,50}|[.,/-]|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|mg|ml|m|cm|km|mm</token>
+	</antipattern>
   <pattern>
-  <token negate="yes" regexp="yes">[.,/-]|artikel|jaar|jaren|'</token>
-  <marker>
-  <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
-  </marker>
-  <token><exception regexp="yes">.{4,50}|[.,/-]|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|mg|ml|m|cm|km</exception></token>
+	  <token/> 
+		<marker>
+		<token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+		</marker>
+		<token></token>
   </pattern>
   <message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven</message>
   <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>  
@@ -4793,7 +4808,7 @@ Contributions and ideas from:
   -->
   <pattern>
   <token regexp="yes">[0-9]{1,2}u</token>
-  <token>.</token>
+  <token spacebefore="no">.</token>
   <token regexp="yes">\d\d</token>
   </pattern>
   <message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 u.</suggestion></message>
@@ -5811,7 +5826,7 @@ Contributions and ideas from:
 
 	<rule id="AANDACHTIG" name="aandachtig">
 	<pattern>
-		<token>aandachtig</token>
+		<token inflected="yes">aandachtig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goed</suggestion>.
@@ -5895,10 +5910,10 @@ Contributions and ideas from:
 	
 	<rule id="AANSTUREN" name="aansturen">
 	<pattern>
-		<token>aansturen</token>
+		<token inflected="yes">aansturen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>leiding geven</suggestion> of <suggestion>sturen</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>leiding <match no="1" postag="VB.*" postag_regexp="yes">geven</match></suggestion> of <suggestion><match no="1" postag="VB.*" postag_regexp="yes">sturen</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="leiding geven|sturen">A <marker>aansturen</marker> B.</example>
@@ -5923,7 +5938,7 @@ Contributions and ideas from:
 		<token inflected="yes">aanvangen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beginnen</suggestion> of <suggestion>starten</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">beginnen</match></suggestion> of <suggestion><match no="1" postag="VB.*" postag_regexp="yes">starten</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="beginnen|starten">A <marker>aanvangen</marker> B.</example>
@@ -5944,10 +5959,10 @@ Contributions and ideas from:
 	
 	<rule id="AANVLIEGEN" name="aanvliegen">
 	<pattern>
-		<token>aanvliegen</token>
+		<token inflected="yes">aanvliegen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>benaderen</suggestion> of <suggestion>aanpakken</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">benaderen</match></suggestion> of <suggestion><match no="1" postag="VB.*" postag_regexp="yes">aanpakken</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="benaderen|aanpakken">A <marker>aanvliegen</marker> B.</example>
@@ -5956,10 +5971,10 @@ Contributions and ideas from:
 	
 	<rule id="AANWENDEN" name="aanwenden">
 	<pattern>
-		<token>aanwenden</token>
+		<token inflected="yes">aanwenden</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebruiken</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VBi" postag_regexp="yes">gebruiken</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="gebruiken">A <marker>aanwenden</marker> B.</example>
@@ -5992,10 +6007,10 @@ Contributions and ideas from:
 	
 	<rule id="ACCEPTATIE" name="acceptatie">
 	<pattern>
-		<token>acceptatie</token>
+		<token inflected="yes">acceptatie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goedkeuring</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="NN.*" postag_regexp="yes">goedkeuring</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="goedkeuring">A <marker>acceptatie</marker> B.</example>
@@ -6004,7 +6019,7 @@ Contributions and ideas from:
 	
 	<rule id="ACCOMMODATIE" name="accommodatie">
 	<pattern>
-		<token>accommodatie</token>
+		<token inflected="yes">accommodatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebouw</suggestion> of <suggestion>locatie</suggestion>.
@@ -6016,10 +6031,10 @@ Contributions and ideas from:
 	
 	<rule id="ACCORDEREN" name="accorderen">
 	<pattern>
-		<token>accorderen</token>
+		<token inflected="yes">accorderen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>instemmen met</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">instemmen</match> met</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="instemmen met">A <marker>accorderen</marker> B.</example>
@@ -6027,8 +6042,9 @@ Contributions and ideas from:
 	</rule>
 	
 	<rule id="ACHTEN" name="achten">
+		<antipattern><token>acht</token></antipattern>
 	<pattern>
-		<token>achten</token>
+		<token inflected="yes">achten</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vinden</suggestion> of <suggestion>van mening zijn</suggestion>.
@@ -6052,7 +6068,7 @@ Contributions and ideas from:
 	
 	<rule id="ACTUALISEREN" name="actualiseren">
 	<pattern>
-		<token>actualiseren</token>
+		<token inflected="yes">actualiseren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aanpassen</suggestion> of <suggestion>moderniseren</suggestion>.
@@ -6064,7 +6080,7 @@ Contributions and ideas from:
 	
 	<rule id="ACUUT" name="acuut">
 	<pattern>
-		<token>acuut</token>
+		<token inflected="yes">acuut</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>direct</suggestion> of <suggestion>onmiddellijk</suggestion>.
@@ -6087,7 +6103,7 @@ Contributions and ideas from:
 	</rule>	
 	<rule id="ADDITIONEEL" name="additioneel">
 	<pattern>
-		<token>additioneel</token>
+		<token inflected="yes">additioneel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>toegevoegd</suggestion> of <suggestion>aanvullend</suggestion> of <suggestion>extra</suggestion>.
@@ -6099,7 +6115,7 @@ Contributions and ideas from:
 	
 	<rule id="ADEQUAAT" name="adequaat">
 	<pattern>
-		<token>adequaat</token>
+		<token inflected="yes">adequaat</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>passend</suggestion> of <suggestion>juist</suggestion> of <suggestion>goed</suggestion>.
@@ -6111,7 +6127,7 @@ Contributions and ideas from:
 	
 	<rule id="ADHESIE" name="adhesie">
 	<pattern>
-		<token>adhesie</token>
+		<token inflected="yes">adhesie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>instemming</suggestion> of <suggestion>steun</suggestion>.
@@ -6120,7 +6136,7 @@ Contributions and ideas from:
 	<example correction="instemming|steun">A <marker>adhesie</marker> B.</example>
 	<example>A <marker>instemming</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="ADHESIE_BETUIGEN" name="adhesie betuigen">
 	<pattern>
 		<token>adhesie</token><token>betuigen</token>
@@ -6132,7 +6148,7 @@ Contributions and ideas from:
 	<example correction="instemmen|steunen|laten merken dat je het ermee eens bent">A <marker>adhesie betuigen</marker> B.</example>
 	<example>A <marker>instemmen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="AD_HOC" name="ad hoc">
 	<pattern>
 		<token>ad</token><token>hoc</token>
@@ -6147,7 +6163,7 @@ Contributions and ideas from:
 	
 	<rule id="ADSTRUEREN" name="adstrueren">
 	<pattern>
-		<token>adstrueren</token>
+		<token inflected="yes">adstrueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verduidelijken</suggestion> of <suggestion>toelichten</suggestion> of <suggestion>bewijzen</suggestion>.
@@ -6171,7 +6187,7 @@ Contributions and ideas from:
 	
 	<rule id="AFDOENING" name="afdoening">
 	<pattern>
-		<token>afdoening</token>
+		<token inflected="yes">afdoening</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afhandeling</suggestion> of <suggestion>afsluiting</suggestion>.
@@ -6183,7 +6199,7 @@ Contributions and ideas from:
 	
 	<rule id="AFFIRMATIEF" name="affirmatief">
 	<pattern>
-		<token>affirmatief</token>
+		<token inflected="yes">affirmatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bevestigend</suggestion>.
@@ -6207,7 +6223,7 @@ Contributions and ideas from:
 	
 	<rule id="AFRONDEN" name="afronden">
 	<pattern>
-		<token>afronden</token>
+		<token inflected="yes">afronden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afmaken</suggestion> of <suggestion>beëindigen</suggestion>.
@@ -6219,7 +6235,7 @@ Contributions and ideas from:
 	
 	<rule id="AFTIKKEN" name="aftikken">
 	<pattern>
-		<token>aftikken</token>
+		<token inflected="yes">aftikken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>controleren</suggestion> of <suggestion>beëindigen</suggestion>.
@@ -6231,7 +6247,7 @@ Contributions and ideas from:
 	
 	<rule id="AFVLOEIEN" name="afvloeien">
 	<pattern>
-		<token>afvloeien</token>
+		<token inflected="yes">afvloeien</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verminderen</suggestion>.
@@ -6279,7 +6295,7 @@ Contributions and ideas from:
 	
 	<rule id="ALLOCEREN" name="alloceren">
 	<pattern>
-		<token>alloceren</token>
+		<token inflected="yes">alloceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>toewijzen</suggestion>.
@@ -6316,7 +6332,7 @@ Contributions and ideas from:
 
 	<rule id="AMBIVALENT" name="ambivalent">
 	<pattern>
-		<token>ambivalent</token>
+		<token inflected="yes">ambivalent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>dubbel</suggestion> of <suggestion>twijfel</suggestion>.
@@ -6352,7 +6368,7 @@ Contributions and ideas from:
 	
 	<rule id="ANNONCE" name="annonce">
 	<pattern>
-		<token>annonce</token>
+		<token inflected="yes">annonce</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aankondiging</suggestion>.
@@ -6364,7 +6380,7 @@ Contributions and ideas from:
 	
 	<rule id="ANTICIPEREN" name="anticiperen">
 	<pattern>
-		<token>anticiperen</token>
+		<token inflected="yes">anticiperen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verwachten</suggestion> of <suggestion>vooruitlopen op</suggestion>.
@@ -6376,7 +6392,7 @@ Contributions and ideas from:
 	
 	<rule id="APPELLANT" name="appellant">
 	<pattern>
-		<token>appellant</token>
+		<token inflected="yes">appellant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>partij die in hoger beroep gaat</suggestion> of <suggestion>iemand die laat weten het er niet mee een te zijn</suggestion>.
@@ -6387,8 +6403,9 @@ Contributions and ideas from:
 	</rule>
 	
 	<rule id="APPELLEREN" name="appelleren">
+		<antipattern><token inflected="yes">appelleren</token><token>aan</token></antipattern>
 	<pattern>
-		<token>appelleren</token>
+		<token inflected="yes">appelleren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>in hoger beroep gaan</suggestion> of <suggestion>protesteren</suggestion>.
@@ -6400,7 +6417,7 @@ Contributions and ideas from:
 	
 	<rule id="APPELLEREN_AAN" name="appelleren aan">
 	<pattern>
-		<token>appelleren</token><token>aan</token>
+		<token inflected="yes">appelleren</token><token>aan</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een beroep doen op</suggestion> of <suggestion>aanspreken</suggestion>.
@@ -6412,7 +6429,7 @@ Contributions and ideas from:
 	
 	<rule id="APPRECIATIE" name="appreciatie">
 	<pattern>
-		<token>appreciatie</token>
+		<token inflected="yes">appreciatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>waardering</suggestion>.
@@ -6436,7 +6453,7 @@ Contributions and ideas from:
 	
 	<rule id="AUTONOOM" name="autonoom">
 	<pattern>
-		<token>autonoom</token>
+		<token inflected="yes">autonoom</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zelfstandig</suggestion> of <suggestion>onafhankelijk</suggestion>.
@@ -6460,7 +6477,7 @@ Contributions and ideas from:
 	
 	<rule id="BEHELZEN" name="behelzen">
 	<pattern>
-		<token>behelzen</token>
+		<token inflected="yes">behelzen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gaan over</suggestion> of <suggestion>bevatten</suggestion> of <suggestion>inhouden</suggestion>.
@@ -6484,7 +6501,7 @@ Contributions and ideas from:
 	
 	<rule id="BEHOEVEN" name="behoeven">
 	<pattern>
-		<token>behoeven</token>
+		<token inflected="yes">behoeven</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>moeten</suggestion> of <suggestion>hoeven</suggestion> of <suggestion>nodig hebben</suggestion> of <suggestion>nodig zijn</suggestion> of <suggestion>willen</suggestion>.
@@ -6496,7 +6513,7 @@ Contributions and ideas from:
 	
 	<rule id="BEHOREN" name="behoren">
 	<pattern>
-		<token>behoren</token>
+		<token inflected="yes">behoren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>moeten</suggestion> of <suggestion>horen</suggestion>.
@@ -6545,7 +6562,7 @@ Contributions and ideas from:
 	
 	<rule id="BEKOMEN" name="bekomen">
 	<pattern>
-		<token>bekomen</token>
+		<token inflected="yes">bekomen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>krijgen</suggestion>.
@@ -6557,7 +6574,7 @@ Contributions and ideas from:
 	
 	<rule id="BELANGHEBBENDE" name="belanghebbende">
 	<pattern>
-		<token>belanghebbende</token>
+		<token inflected="yes">belanghebbende</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betrokken persoon</suggestion> of <suggestion>betrokkene</suggestion>.
@@ -6569,7 +6586,7 @@ Contributions and ideas from:
 	
 	<rule id="BELEIDSIMPULS" name="beleidsimpuls">
 	<pattern>
-		<token>beleidsimpuls</token>
+		<token inflected="yes">beleidsimpuls</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goed plan</suggestion> of <suggestion>extra aandacht geven aan ...</suggestion>.
@@ -6593,7 +6610,7 @@ Contributions and ideas from:
 	
 	<rule id="BENCHMARKING" name="benchmarking">
 	<pattern>
-		<token>benchmarking</token>
+		<token inflected="yes">benchmarking</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>prestaties vergelijken</suggestion>.
@@ -6606,7 +6623,7 @@ Contributions and ideas from:
 
 	<rule id="BEOGEN" name="beogen">
 	<pattern>
-		<token>beogen</token>
+		<token inflected="yes">beogen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bedoelen</suggestion>.
@@ -6616,6 +6633,7 @@ Contributions and ideas from:
 	<example>A <marker>bedoelen</marker>.</example>
 	</rule>
 	
+	<!--
 	<rule id="BEPAALD" name="bepaald">
 	<pattern>
 		<token>bepaald</token>
@@ -6627,7 +6645,7 @@ Contributions and ideas from:
 	<example correction="een|een zeker|dit|dat">A <marker>bepaald</marker> B.</example>
 	<example>A <marker>een</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="HET_BEPAALDE" name="het bepaalde">
 	<pattern>
 		<token>het</token><token>bepaalde</token>
@@ -6642,7 +6660,7 @@ Contributions and ideas from:
 	
 	<rule id="BERICHTEN" name="berichten">
 	<pattern>
-		<token>berichten</token>
+		<token inflected="yes" postag_regexp="yes" postag="VB.*">berichten</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>laten weten</suggestion>.
@@ -6654,7 +6672,7 @@ Contributions and ideas from:
 	
 	<rule id="BERISPEN" name="berispen">
 	<pattern>
-		<token>berispen</token>
+		<token  inflected="yes">berispen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>op z'n kop geven</suggestion> of <suggestion>zeggen dat iemand iets verkeerd heeft aangepakt</suggestion>.
@@ -6681,7 +6699,7 @@ Contributions and ideas from:
 		<token>bescheiden</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>papieren</suggestion> of <suggestion>documenten</suggestion>.
+		Als je het over documenten hebt, schrijf dan ook <suggestion>papieren</suggestion> of <suggestion>documenten</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="papieren|documenten">A <marker>bescheiden</marker> B.</example>
@@ -6702,7 +6720,7 @@ Contributions and ideas from:
 	
 	<rule id="BESTENDIGEN" name="bestendigen">
 	<pattern>
-		<token>bestendigen</token>
+		<token inflected="yes">bestendigen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voortzetten</suggestion> of <suggestion>vasthouden</suggestion>.
@@ -6714,7 +6732,7 @@ Contributions and ideas from:
 	
 	<rule id="BESTRIJKEN" name="bestrijken">
 	<pattern>
-		<token>bestrijken</token>
+		<token  inflected="yes">bestrijken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>(deze stukken) gaan over</suggestion> of <suggestion>(deze periode) duurt van ... tot ...</suggestion>.
@@ -6725,9 +6743,9 @@ Contributions and ideas from:
 	</rule>
 	
 	
-	<rule id="BETREFT" name="betreft">
+	<rule id="BETREFFEN" name="betreffen">
 	<pattern>
-		<token>betreft</token>
+		<token inflected="yes">betreffen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>over</suggestion> of <suggestion>onderwerp</suggestion>.
@@ -6751,7 +6769,7 @@ Contributions and ideas from:
 	
 	<rule id="BETUIGEN" name="betuigen">
 	<pattern>
-		<token>betuigen</token>
+		<token inflected="yes">betuigen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verklaren</suggestion> of <suggestion>zeggen dat ...</suggestion>.
@@ -6763,7 +6781,7 @@ Contributions and ideas from:
 	
 	<rule id="BEWERKSTELLIGEN" name="bewerkstelligen">
 	<pattern>
-		<token>bewerkstelligen</token>
+		<token inflected="yes">bewerkstelligen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zorgen voor</suggestion> of <suggestion>doen</suggestion>.
@@ -6775,7 +6793,7 @@ Contributions and ideas from:
 	
 	<rule id="BEZIEN" name="bezien">
 	<pattern>
-		<token>bezien</token>
+		<token inflected="yes">bezien</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bekijken</suggestion>.
@@ -6787,7 +6805,7 @@ Contributions and ideas from:
 	
 	<rule id="BEZIGEN" name="bezigen">
 	<pattern>
-		<token>bezigen</token>
+		<token inflected="yes">bezigen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>doen</suggestion> of <suggestion>aan iets werken</suggestion> of <suggestion>gebruiken</suggestion>.
@@ -6896,7 +6914,7 @@ Contributions and ideas from:
 	
 	<rule id="BILATERAAL" name="bilateraal">
 	<pattern>
-		<token>bilateraal</token>
+		<token inflected="yes">bilateraal</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>van twee kanten</suggestion>.
@@ -6943,7 +6961,7 @@ Contributions and ideas from:
 	</rule>
 	<rule id="BORGEN" name="borgen">
 	<pattern>
-		<token>borgen</token>
+		<token inflected="yes">borgen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vasthouden aan</suggestion> of <suggestion>zorgen dat iets (goeds) blijft bestaan/voortgezet wordt</suggestion>.
@@ -6967,7 +6985,7 @@ Contributions and ideas from:
 	
 	<rule id="BOVENSTAAND" name="bovenstaand">
 	<pattern>
-		<token>bovenstaand</token>
+		<token inflected="yes">bovenstaand</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>deze</suggestion> of <suggestion>dit</suggestion> of <suggestion>wat hierboven staat</suggestion>.
@@ -6979,19 +6997,19 @@ Contributions and ideas from:
 	
 	<rule id="BRANDING" name="branding">
 	<pattern>
-		<token>branding</token>
+		<token inflected="yes">branding</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>reclame maken voor</suggestion> of <suggestion>als een merk / vaste (goede) eigenschap presenteren</suggestion>.
+		Als je reclame bedoelt, schrijf dan ook <suggestion>reclame maken voor</suggestion> of <suggestion>als een merk presenteren</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="reclame maken voor|als een merk / vaste (goede) eigenschap presenteren">A <marker>branding</marker> B.</example>
+	<example correction="reclame maken voor|als een merk presenteren">A <marker>branding</marker> B.</example>
 	<example>A <marker>reclame maken voor</marker>.</example>
 	</rule>
 	
 	<rule id="BRANDSTOFVERKOOPPUNT" name="brandstofverkooppunt">
 	<pattern>
-		<token>brandstofverkooppunt</token>
+		<token inflected="yes">brandstofverkooppunt</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>tankstation</suggestion>.
@@ -7004,7 +7022,7 @@ Contributions and ideas from:
 	
 	<rule id="CAPACITEIT" name="capaciteit">
 	<pattern>
-		<token>capaciteit</token>
+		<token inflected="yes">capaciteit</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vermogen</suggestion>.
@@ -7029,9 +7047,9 @@ Contributions and ideas from:
 	<rule id="C_Q" name="c.q.">
 	<pattern>
 		<token>c</token>
-		<token>.</token>
+		<token spacebefore="no">.</token>
 		<token>q</token>
-		<token>.</token>
+		<token spacebefore="no">.</token>
 		</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>en</suggestion> of <suggestion>of</suggestion>.
@@ -7043,7 +7061,7 @@ Contributions and ideas from:
 
 	<rule id="CATEGORIE" name="categorie">
 	<pattern>
-		<token>categorie</token>
+		<token inflected="yes">categorie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>soort</suggestion> of <suggestion>rubriek</suggestion>.
@@ -7079,7 +7097,7 @@ Contributions and ideas from:
 	
 	<rule id="CITYMARKETING" name="citymarketing">
 	<pattern>
-		<token>citymarketing</token>
+		<token inflected="yes">citymarketing</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>stadspromotie</suggestion>.
@@ -7091,7 +7109,7 @@ Contributions and ideas from:
 	
 	<rule id="CLAUSULE" name="clausule">
 	<pattern>
-		<token>clausule</token>
+		<token inflected="yes">clausule</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bepaling</suggestion> of <suggestion>regel</suggestion> of <suggestion>voorbehoud</suggestion>.
@@ -7103,7 +7121,7 @@ Contributions and ideas from:
 	
 	<rule id="CLUSTEREN" name="clusteren">
 	<pattern>
-		<token>clusteren</token>
+		<token inflected="yes">clusteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>samenvoegen</suggestion>.
@@ -7115,7 +7133,7 @@ Contributions and ideas from:
 	
 	<rule id="COHESIE" name="cohesie">
 	<pattern>
-		<token>cohesie</token>
+		<token inflected="yes">cohesie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>samenhang</suggestion> of <suggestion>binding</suggestion>.
@@ -7127,7 +7145,7 @@ Contributions and ideas from:
 	
 	<rule id="COMPATIBEL" name="compatibel">
 	<pattern>
-		<token>compatibel</token>
+		<token inflected="yes">compatibel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitwisselbaar</suggestion> of <suggestion>verenigbaar</suggestion>.
@@ -7139,7 +7157,7 @@ Contributions and ideas from:
 	
 	<rule id="COMPENSATIE" name="compensatie">
 	<pattern>
-		<token>compensatie</token>
+		<token inflected="yes">compensatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vergoeding</suggestion> of <suggestion>schade goedmaken</suggestion>.
@@ -7151,19 +7169,22 @@ Contributions and ideas from:
 	
 	<rule id="COMPLEX" name="complex">
 	<pattern>
-		<token>complex</token>
+		<token negate="yes" skip="4" regexp="yes">het|dit|dat</token>
+		<marker>
+		<token inflected="yes">complex</token>
+		</marker>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>moeilijk</suggestion> of <suggestion>ingewikkeld; gebouw</suggestion>.
+		De tekst word vlotter als je schrijft: <suggestion>moeilijk</suggestion> of <suggestion>ingewikkeld</suggestion> of <suggestion>gebouw</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="moeilijk|ingewikkeld; gebouw">A <marker>complex</marker> B.</example>
+	<example correction="moeilijk|ingewikkeld|gebouw">A <marker>complex</marker> B.</example>
 	<example>A <marker>moeilijk</marker>.</example>
 	</rule>
 	
 	<rule id="COMPLICEREN" name="compliceren">
 	<pattern>
-		<token>compliceren</token>
+		<token inflected="yes">compliceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ingewikkeld maken</suggestion> of <suggestion>moeilijk maken</suggestion>.
@@ -7187,22 +7208,22 @@ Contributions and ideas from:
 	
 	<rule id="CONCIPIËREN" name="concipiëren">
 	<pattern>
-		<token>concipiëren</token>
+		<token inflected="yes">concipiëren</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ontwerpen</suggestion> of <suggestion>schetsen; zwanger worden</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">ontwerpen</match></suggestion> of <suggestion><match no="1" postag="VB.*" postag_regexp="yes">schetsen</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="ontwerpen|schetsen; zwanger worden">A <marker>concipiëren</marker> B.</example>
+	<example correction="ontwerpen|schetsen">A <marker>concipiëren</marker> B.</example>
 	<example>A <marker>ontwerpen</marker>.</example>
 	</rule>
 	
 	<rule id="CONCREET" name="concreet">
 	<pattern>
-		<token>concreet</token>
+		<token inflected="yes">concreet</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>praktisch</suggestion> of <suggestion>duidelijk</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">praktisch</match></suggestion> of <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">duidelijk</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="praktisch|duidelijk">A <marker>concreet</marker> B.</example>
@@ -7211,10 +7232,10 @@ Contributions and ideas from:
 	
 	<rule id="CONDITIE" name="conditie">
 	<pattern>
-		<token>conditie</token>
+		<token inflected="yes">conditie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorwaarde</suggestion>.
+		Als je een voorwaarde bedoelt, schrijf dan ook <suggestion>voorwaarde</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="voorwaarde">A <marker>conditie</marker> B.</example>
@@ -7223,7 +7244,7 @@ Contributions and ideas from:
 	
 	<rule id="CONFIGURATIE" name="configuratie">
 	<pattern>
-		<token>configuratie</token>
+		<token inflected="yes">configuratie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>samenstelling</suggestion>.
@@ -7236,7 +7257,7 @@ Contributions and ideas from:
 
 	<rule id="CONFLICTSITUATIE" name="conflictsituatie">
 	<pattern>
-		<token>conflictsituatie</token>
+		<token inflected="yes">conflictsituatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ruzie</suggestion> of <suggestion>conflict</suggestion>.
@@ -7248,7 +7269,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSENSUS" name="consensus">
 	<pattern>
-		<token>consensus</token>
+		<token inflected="yes">consensus</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>overeenstemming</suggestion>.
@@ -7260,7 +7281,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSISTENT" name="consistent">
 	<pattern>
-		<token>consistent</token>
+		<token inflected="yes">consistent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>logisch</suggestion> of <suggestion>samenhangend</suggestion>.
@@ -7272,7 +7293,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSOLIDATIE" name="consolidatie">
 	<pattern>
-		<token>consolidatie</token>
+		<token inflected="yes">consolidatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>het vasthouden</suggestion> of <suggestion>het vastleggen van iets goeds</suggestion> of <suggestion>het bewaren van ...</suggestion>.
@@ -7284,7 +7305,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSTATEREN" name="constateren">
 	<pattern>
-		<token>constateren</token>
+		<token inflected="yes">constateren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zien</suggestion> of <suggestion>vaststellen</suggestion>.
@@ -7296,7 +7317,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSTELLATIE" name="constellatie">
 	<pattern>
-		<token>constellatie</token>
+		<token inflected="yes">constellatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>samenstelling</suggestion> of <suggestion>stand van zaken</suggestion>.
@@ -7308,7 +7329,7 @@ Contributions and ideas from:
 
 	<rule id="CONSTRUCTIEF" name="constructief">
 	<pattern>
-		<token>constructief</token>
+		<token inflected="yes">constructief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>opbouwend</suggestion> of <suggestion>bruikbaar</suggestion> of <suggestion>nuttig</suggestion>.
@@ -7320,7 +7341,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSULTATIEF" name="consultatief">
 	<pattern>
-		<token>consultatief</token>
+		<token inflected="yes">consultatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>advies vragend</suggestion>.
@@ -7332,7 +7353,7 @@ Contributions and ideas from:
 	
 	<rule id="CONSULTEREN" name="consulteren">
 	<pattern>
-		<token>consulteren</token>
+		<token inflected="yes">consulteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>advies vragen</suggestion> of <suggestion>hulp zoeken</suggestion>.
@@ -7344,7 +7365,7 @@ Contributions and ideas from:
 	
 	<rule id="CONTINUEREN" name="continueren">
 	<pattern>
-		<token>continueren</token>
+		<token inflected="yes">continueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>doorgaan</suggestion> of <suggestion>volhouden</suggestion>.
@@ -7356,7 +7377,7 @@ Contributions and ideas from:
 	
 	<rule id="CONVENANT" name="convenant">
 	<pattern>
-		<token>convenant</token>
+		<token inflected="yes">convenant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>overeenkomst</suggestion> of <suggestion>afspraak met</suggestion>.
@@ -7368,7 +7389,7 @@ Contributions and ideas from:
 	
 	<rule id="COÖRDINEREN" name="coördineren">
 	<pattern>
-		<token>coördineren</token>
+		<token inflected="yes">coördineren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderdelen op elkaar afstemmen</suggestion> of <suggestion>de samenwerking regelen</suggestion>.
@@ -7380,7 +7401,7 @@ Contributions and ideas from:
 	
 	<rule id="COURANT" name="courant">
 	<pattern>
-		<token>courant</token>
+		<token inflected="yes">courant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gangbaar</suggestion> of <suggestion>gebruikelijk</suggestion>.
@@ -7392,10 +7413,10 @@ Contributions and ideas from:
 	
 	<rule id="CREËREN" name="creëren">
 	<pattern>
-		<token>creëren</token>
+		<token inflected="yes">creëren</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maken</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">maken</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="maken">A <marker>creëren</marker> B.</example>
@@ -7404,22 +7425,25 @@ Contributions and ideas from:
 	
 	<rule id="CRITERIUM" name="criterium">
 	<pattern>
-		<token>criterium</token>
+		<token inflected="yes">criterium</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>norm</suggestion> of <suggestion>richtlijn</suggestion> of <suggestion>eis</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion><match no="1" postag="NN.*" postag_regexp="yes">norm</match></suggestion> of 
+		<suggestion><match no="1" postag="NN.*" postag_regexp="yes">richtlijn</match></suggestion> of 
+		<suggestion><match no="1" postag="NN.*" postag_regexp="yes">eis</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="norm|richtlijn|eis">A <marker>criterium</marker> B.</example>
+	<example correction="(norm)|(richtlijn)|(eis)">A <marker>criterium</marker> B.</example>
 	<example>A <marker>norm</marker>.</example>
 	</rule>
 	
 	<rule id="CRUCIAAL" name="cruciaal">
 	<pattern>
-		<token>cruciaal</token>
+		<token inflected="yes">cruciaal</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>noodzakelijk</suggestion> of <suggestion>belangrijk</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">noodzakelijk</match></suggestion> of <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">belangrijk</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="noodzakelijk|belangrijk">A <marker>cruciaal</marker> B.</example>
@@ -7453,7 +7477,7 @@ Contributions and ideas from:
 
 	<rule id="CUMULATIEF" name="cumulatief">
 	<pattern>
-		<token>cumulatief</token>
+		<token inflected="yes">cumulatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>toenemend</suggestion> of <suggestion>oplopend</suggestion>.
@@ -7465,16 +7489,17 @@ Contributions and ideas from:
 	
 	<rule id="CURIEUS" name="curieus">
 	<pattern>
-		<token>curieus</token>
+		<token inflected="yes">curieus</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vreemd</suggestion> of <suggestion>merkwaardig</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">vreemd</match></suggestion> of <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">merkwaardig</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="vreemd|merkwaardig">A <marker>curieus</marker> B.</example>
 	<example>A <marker>vreemd</marker>.</example>
 	</rule>
-	
+
+	<!-- uitgeschakeld vanwege de verwijzende daar 
 	<rule id="DAAR" name="daar">
 	<pattern>
 		<token>daar</token>
@@ -7486,16 +7511,17 @@ Contributions and ideas from:
 	<example correction="aangezien|omdat">A <marker>daar</marker> B.</example>
 	<example>A <marker>aangezien</marker>.</example>
 	</rule>
+	-->
 	
 	<rule id="DAGTEKENING" name="dagtekening">
 	<pattern>
-		<token>dagtekening</token>
+		<token inflected="yes">dagtekening</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>datum (van een brief)</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>datum</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="datum (van een brief)">A <marker>dagtekening</marker> B.</example>
+	<example correction="datum">A <marker>dagtekening</marker> B.</example>
 	<example>A <marker>datum (van een brief)</marker>.</example>
 	</rule>
 	
@@ -7525,10 +7551,10 @@ Contributions and ideas from:
 	
 	<rule id="DANKZEGGEN" name="dankzeggen">
 	<pattern>
-		<token>dankzeggen</token>
+		<token inflected="yes">dankzeggen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bedanken</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">bedanken</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="bedanken">A <marker>dankzeggen</marker> B.</example>
@@ -7561,13 +7587,13 @@ Contributions and ideas from:
 	-->
 	<rule id="DECENTRAAL" name="decentraal">
 	<pattern>
-		<token>decentraal</token>
+		<token inflected="yes">decentraal</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet centraal</suggestion> of <suggestion>niet vanuit één kantoor/gebouw/...</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 'niet centraal' of 'niet vanuit één kantoor/gebouw'.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="niet centraal|niet vanuit één kantoor/gebouw/...">A <marker>decentraal</marker> B.</example>
+	<example type="incorrect">A <marker>decentraal</marker> B.</example>
 	<example>A <marker>niet centraal</marker>.</example>
 	</rule>
 	
@@ -7576,16 +7602,16 @@ Contributions and ideas from:
 		<token>de</token><token>dato</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>van (datum)</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>van</suggestion> of <suggestion>van datum</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="van (datum)">A <marker>de dato</marker> B.</example>
+	<example correction="van|van datum">A <marker>de dato</marker> B.</example>
 	<example>A <marker>van (datum)</marker>.</example>
 	</rule>
 	
 	<rule id="DEDUCTIEF" name="deductief">
 	<pattern>
-		<token>deductief</token>
+		<token inflected="yes">deductief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afgeleid</suggestion> of <suggestion>afleidend</suggestion> of <suggestion>tot de conclusie komend</suggestion>.
@@ -7622,48 +7648,50 @@ Contributions and ideas from:
 	
 	<rule id="DELEGEREN" name="delegeren">
 	<pattern>
-		<token>delegeren</token>
+		<token inflected="yes">delegeren</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een ander laten doen</suggestion> of <suggestion>een taak neerleggen bij; aan een ander geven (geld</suggestion> of <suggestion>een recht)</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 'een ander laten doen' of 'een taak neerleggen bij' of 'aan een ander geven'.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="een ander laten doen|een taak neerleggen bij; aan een ander geven (geld|een recht)">A <marker>delegeren</marker> B.</example>
+	<example type="incorrect">A <marker>delegeren</marker> B.</example>
 	<example>A <marker>een ander laten doen</marker>.</example>
 	</rule>
 	
-	<rule id="DE_MENING_TOEGEDAAN_ZIJN" name="de mening toegedaan zijn">
+	<rule id="DE_MENING_TOEGEDAAN" name="de mening toegedaan">
 	<pattern>
-		<token>de</token><token>mening</token><token>toegedaan</token><token>zijn</token>
+		<token>de</token><token>mening</token><token>toegedaan</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vinden</suggestion> of <suggestion>denken</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 'vinden' of 'denken'.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="vinden|denken">A <marker>de mening toegedaan zijn</marker> B.</example>
+	<example type="incorrect">A <marker>de mening toegedaan</marker> B.</example>
 	<example>A <marker>vinden</marker>.</example>
 	</rule>
 	
 	
 	<rule id="DEREGULERING" name="deregulering">
 	<pattern>
-		<token>deregulering</token>
+		<token inflected="yes">deregulering</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>regels afschaffen</suggestion> of <suggestion>versimpelen</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 'regels afschaffen' of 'versimpelen'.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="regels afschaffen|versimpelen">A <marker>deregulering</marker> B.</example>
+	<example type="incorrect">A <marker>deregulering</marker> B.</example>
 	<example>A <marker>regels afschaffen</marker>.</example>
 	</rule>
 	
 	
 	<rule id="DEROGATIE" name="derogatie">
 	<pattern>
-		<token>derogatie</token>
+		<token inflected="yes">derogatie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vertraging</suggestion> of <suggestion>uitstel</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion>vertraging</suggestion> of 
+		<suggestion>uitstel</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="vertraging|uitstel">A <marker>derogatie</marker> B.</example>
@@ -7672,7 +7700,7 @@ Contributions and ideas from:
 	
 	<rule id="DERVEN" name="derven">
 	<pattern>
-		<token>derven</token>
+		<token inflected="yes">derven</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>mislopen</suggestion> of <suggestion>verliezen</suggestion>.
@@ -7684,7 +7712,7 @@ Contributions and ideas from:
 	
 	<rule id="DERVING" name="derving">
 	<pattern>
-		<token>derving</token>
+		<token inflected="yes">derving</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verlies</suggestion>.
@@ -7805,7 +7833,7 @@ Contributions and ideas from:
 	
 	<rule id="DIENEN_TE" name="dienen te">
 	<pattern>
-		<token>dienen</token><token>te</token>
+		<token inflected="yes">dienen</token><token>te</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>moeten</suggestion>.
@@ -7817,7 +7845,7 @@ Contributions and ideas from:
 	
 	<rule id="DIENOVEREENKOMSTIG" name="dienovereenkomstig">
 	<pattern>
-		<token>dienovereenkomstig</token>
+		<token inflected="yes">dienovereenkomstig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>(net) zo</suggestion>.
@@ -7830,7 +7858,7 @@ Contributions and ideas from:
 	
 	<rule id="DIFFERENTIËREN" name="differentiëren">
 	<pattern>
-		<token>differentiëren</token>
+		<token inflected="yes">differentiëren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderscheiden</suggestion> of <suggestion>verschillen</suggestion> of <suggestion>verschil maken</suggestion>.
@@ -7854,7 +7882,7 @@ Contributions and ideas from:
 	
 	<rule id="DISKWALIFICATIE" name="diskwalificatie">
 	<pattern>
-		<token>diskwalificatie</token>
+		<token inflected="yes">diskwalificatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afkeuring</suggestion>.
@@ -7866,7 +7894,7 @@ Contributions and ideas from:
 	
 	<rule id="DISTRIBUEREN" name="distribueren">
 	<pattern>
-		<token>distribueren</token>
+		<token inflected="yes">distribueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verspreiden</suggestion> of <suggestion>versturen</suggestion> of <suggestion>verdelen</suggestion>.
@@ -7881,7 +7909,7 @@ Contributions and ideas from:
 		<token>dit</token><token>schrijven</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>deze brief</suggestion>.
+		Wanneer je een brief bedoelt, schrijf dan ook <suggestion>deze brief</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="deze brief">A <marker>dit schrijven</marker> B.</example>
@@ -7890,7 +7918,7 @@ Contributions and ideas from:
 	
 	<rule id="DIVERSITEIT" name="diversiteit">
 	<pattern>
-		<token>diversiteit</token>
+		<token inflected="yes">diversiteit</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verschillend</suggestion> of <suggestion>ongelijkheid</suggestion> of <suggestion>allerlei ...</suggestion>.
@@ -7914,7 +7942,7 @@ Contributions and ideas from:
 	
 	<rule id="DOGMATISCH" name="dogmatisch">
 	<pattern>
-		<token>dogmatisch</token>
+		<token inflected="yes">dogmatisch</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>streng</suggestion> of <suggestion>rechtlijnig</suggestion>.
@@ -7950,7 +7978,7 @@ Contributions and ideas from:
 	
 	<rule id="DOORONTWIKKELEN" name="doorontwikkelen">
 	<pattern>
-		<token>doorontwikkelen</token>
+		<token inflected="yes">doorontwikkelen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verder ontwikkelen</suggestion>.
@@ -7962,7 +7990,7 @@ Contributions and ideas from:
 	
 	<rule id="DOORPAKKEN" name="doorpakken">
 	<pattern>
-		<token>doorpakken</token>
+		<token inflected="yes">doorpakken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>doorgaan</suggestion> of <suggestion>volhouden</suggestion> of <suggestion>niet stoppen</suggestion>.
@@ -7974,7 +8002,7 @@ Contributions and ideas from:
 	
 	<rule id="DRAAGVLAK" name="draagvlak">
 	<pattern>
-		<token>draagvlak</token>
+		<token inflected="yes">draagvlak</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>steun</suggestion>.
@@ -7986,7 +8014,7 @@ Contributions and ideas from:
 	
 	<rule id="DRALEN" name="dralen">
 	<pattern>
-		<token>dralen</token>
+		<token inflected="yes">dralen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>treuzelen</suggestion> of <suggestion>afwachten</suggestion>.
@@ -8037,7 +8065,7 @@ Contributions and ideas from:
 	
 	<rule id="EDUCATIEF" name="educatief">
 	<pattern>
-		<token>educatief</token>
+		<token inflected="yes">educatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>leerzaam</suggestion>.
@@ -8109,7 +8137,7 @@ Contributions and ideas from:
 
 	<rule id="EFFECTUEREN" name="effectueren">
 	<pattern>
-		<token>effectueren</token>
+		<token inflected="yes">effectueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitvoeren</suggestion> of <suggestion>doen</suggestion>.
@@ -8133,7 +8161,7 @@ Contributions and ideas from:
 	
 	<rule id="ELIMINEREN" name="elimineren">
 	<pattern>
-		<token>elimineren</token>
+		<token inflected="yes">elimineren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitschakelen</suggestion> of <suggestion>verwijderen</suggestion>.
@@ -8169,10 +8197,13 @@ Contributions and ideas from:
 	
 	<rule id="ENIGE" name="enige">
 	<pattern>
+		<token negate="yes" regexp="yes">de|het|een</token>
+		<marker>
 		<token>enige</token>
+	</marker>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een paar</suggestion> of <suggestion>enkele</suggestion>.
+		Als 'enige' hier <suggestion>een paar</suggestion> of <suggestion>enkele</suggestion> betekent, schrijf dat dan ook.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="een paar|enkele">A <marker>enige</marker> B.</example>
@@ -8182,7 +8213,7 @@ Contributions and ideas from:
 	
 	<rule id="EPISTEL" name="epistel">
 	<pattern>
-		<token>epistel</token>
+		<token inflected="yes">epistel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>brief</suggestion>.
@@ -8194,7 +8225,7 @@ Contributions and ideas from:
 	
 	<rule id="EQUIVALENT" name="equivalent">
 	<pattern>
-		<token>equivalent</token>
+		<token inflected="yes">equivalent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gelijkwaardig</suggestion> of <suggestion>gelijk</suggestion>.
@@ -8242,7 +8273,7 @@ Contributions and ideas from:
 	
 	<rule id="ESCALEREN" name="escaleren">
 	<pattern>
-		<token>escaleren</token>
+		<token inflected="yes">escaleren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>erger worden; hogerop zoeken</suggestion> of <suggestion>hogerop brengen</suggestion>.
@@ -8254,7 +8285,7 @@ Contributions and ideas from:
 	
 	<rule id="ESSENTIEEL" name="essentieel">
 	<pattern>
-		<token>essentieel</token>
+		<token inflected="yes">essentieel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onmisbaar</suggestion> of <suggestion>nodig</suggestion> of <suggestion>noodzakelijk</suggestion>.
@@ -8266,7 +8297,7 @@ Contributions and ideas from:
 	
 	<rule id="EVALUATIE" name="evaluatie">
 	<pattern>
-		<token>evaluatie</token>
+		<token inflected="yes">evaluatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bespreking</suggestion> of <suggestion>beoordeling</suggestion>.
@@ -8278,7 +8309,7 @@ Contributions and ideas from:
 	
 	<rule id="EVALUEREN" name="evalueren">
 	<pattern>
-		<token>evalueren</token>
+		<token inflected="yes">evalueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bespreken</suggestion> of <suggestion>beoordelen</suggestion> of <suggestion>achteraf bespreken om ervan te leren</suggestion>.
@@ -8287,9 +8318,7 @@ Contributions and ideas from:
 	<example correction="bespreken|beoordelen|achteraf bespreken om ervan te leren">A <marker>evalueren</marker> B.</example>
 	<example>A <marker>bespreken</marker>.</example>
 	</rule>
-	
-	
-	
+		
 	<rule id="EVENZO" name="evenzo">
 	<pattern>
 		<token>evenzo</token>
@@ -8306,7 +8335,7 @@ Contributions and ideas from:
 	<pattern>
 		<marker>
 		<token>ex</token>
-		<token>.</token>
+		<token spacebefore="no">.</token>
 	</marker>
 		<token>artikel</token>
 	</pattern>
@@ -8321,7 +8350,7 @@ Contributions and ideas from:
 	
 	<rule id="EXCERPEREN" name="excerperen">
 	<pattern>
-		<token>excerperen</token>
+		<token inflected="yes">excerperen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een samenvatting maken</suggestion>.
@@ -8331,11 +8360,9 @@ Contributions and ideas from:
 	<example>A <marker>een samenvatting maken</marker>.</example>
 	</rule>
 	
-
-	
 	<rule id="EXORBITANT" name="exorbitant">
 	<pattern>
-		<token>exorbitant</token>
+		<token inflected="yes">exorbitant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>buitensporig</suggestion>.
@@ -8347,7 +8374,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPIRATIE" name="expiratie">
 	<pattern>
-		<token>expiratie</token>
+		<token inflected="yes">expiratie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afloop</suggestion> of <suggestion>beëindiging</suggestion> of <suggestion>einde (van een termijn)</suggestion>.
@@ -8359,7 +8386,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPIREREN" name="expireren">
 	<pattern>
-		<token>expireren</token>
+		<token inflected="yes">expireren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verlopen</suggestion> of <suggestion>vervallen</suggestion> of <suggestion>aflopen</suggestion> of <suggestion>eindigen</suggestion>.
@@ -8372,7 +8399,7 @@ Contributions and ideas from:
 
 	<rule id="EXPLICEREN" name="expliceren">
 	<pattern>
-		<token>expliceren</token>
+		<token inflected="yes">expliceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verklaren</suggestion> of <suggestion>uitleggen</suggestion> of <suggestion>duidelijk maken</suggestion>.
@@ -8384,7 +8411,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPLICIET" name="expliciet">
 	<pattern>
-		<token>expliciet</token>
+		<token inflected="yes">expliciet</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitdrukkelijk</suggestion> of <suggestion>nadrukkelijk</suggestion>.
@@ -8396,7 +8423,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPLOITATIE" name="exploitatie">
 	<pattern>
-		<token>exploitatie</token>
+		<token inflected="yes">exploitatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>benutting (bv. door een bedrijf van een terrein); misbruik</suggestion>.
@@ -8408,7 +8435,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPLOITEREN" name="exploiteren">
 	<pattern>
-		<token>exploiteren</token>
+		<token inflected="yes">exploiteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>winstgevend maken</suggestion> of <suggestion>benutten om een bedrijf te voeren; misbruik maken van</suggestion>.
@@ -8420,7 +8447,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPLORATIE" name="exploratie">
 	<pattern>
-		<token>exploratie</token>
+		<token inflected="yes">exploratie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>het onderzoeken</suggestion> of <suggestion>het doorzoeken</suggestion>.
@@ -8432,7 +8459,7 @@ Contributions and ideas from:
 	
 	<rule id="EXPLOREREN" name="exploreren">
 	<pattern>
-		<token>exploreren</token>
+		<token inflected="yes">exploreren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderzoeken</suggestion> of <suggestion>opsporen</suggestion>.
@@ -8927,7 +8954,7 @@ Contributions and ideas from:
 	
 	<rule id="GENEREREN" name="genereren">
 	<pattern>
-		<token>genereren</token>
+		<token inflected="yes">genereren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maken</suggestion>.
@@ -8975,7 +9002,7 @@ Contributions and ideas from:
 	
 	<rule id="GESCHIEDEN" name="geschieden">
 	<pattern>
-		<token>geschieden</token>
+		<token inflected="yes">geschieden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebeuren</suggestion>.
@@ -9020,7 +9047,8 @@ Contributions and ideas from:
 	<example correction="melden|bekendmaken">A <marker>gewag maken van</marker> B.</example>
 	<example>A <marker>melden</marker>.</example>
 	</rule>
-	
+
+	<!-- te veel verwarring met de gewone gezien.
 	<rule id="GEZIEN" name="gezien">
 	<pattern>
 		<token>gezien</token>
@@ -9032,7 +9060,8 @@ Contributions and ideas from:
 	<example correction="daarom|met het oog op">A <marker>gezien</marker> B.</example>
 	<example>A <marker>daarom</marker>.</example>
 	</rule>
-	
+	-->
+
 	<rule id="GEZIEN_HET_FEIT_DAT" name="gezien het feit dat">
 	<pattern>
 		<token>gezien</token><token>het</token><token>feit</token><token>dat</token>
@@ -9059,7 +9088,7 @@ Contributions and ideas from:
 	
 	<rule id="GROOTSTEDELIJK" name="grootstedelijk">
 	<pattern>
-		<token>grootstedelijk</token>
+		<token inflected="yes">grootstedelijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>in/van grote steden</suggestion>.
@@ -9120,7 +9149,7 @@ Contributions and ideas from:
 	
 	<rule id="HERORIËNTATIE" name="heroriëntatie">
 	<pattern>
-		<token>heroriëntatie</token>
+		<token inflected="yes">heroriëntatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>opnieuw bekijken</suggestion>.
@@ -9132,7 +9161,7 @@ Contributions and ideas from:
 	
 	<rule id="HERORIËNTEREN" name="heroriënteren">
 	<pattern>
-		<token>heroriënteren</token>
+		<token inflected="yes">heroriënteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>opnieuw de juiste richting bepalen</suggestion>.
@@ -9144,7 +9173,7 @@ Contributions and ideas from:
 	
 	<rule id="HEROVERWEGEN" name="heroverwegen">
 	<pattern>
-		<token>heroverwegen</token>
+		<token inflected="yes">heroverwegen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>nog een keer over iets nadenken</suggestion>.
@@ -9252,7 +9281,7 @@ Contributions and ideas from:
 	
 	<rule id="HIËRARCHIE" name="hiërarchie">
 	<pattern>
-		<token>hiërarchie</token>
+		<token inflected="yes">hiërarchie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>rangorde</suggestion>.
@@ -9444,7 +9473,7 @@ Contributions and ideas from:
 	
 	<rule id="IMPLEMENTATIE" name="implementatie">
 	<pattern>
-		<token>implementatie</token>
+		<token inflected="yes">implementatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitvoering</suggestion> of <suggestion>invoering</suggestion> of <suggestion>toepassing</suggestion>.
@@ -9456,7 +9485,7 @@ Contributions and ideas from:
 	
 	<rule id="IMPLEMENTEREN" name="implementeren">
 	<pattern>
-		<token>implementeren</token>
+		<token inflected="yes">implementeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>invoeren</suggestion> of <suggestion>uitvoeren</suggestion> of <suggestion>ervoor zorgen dat iets wordt toegepast</suggestion>.
@@ -9468,7 +9497,7 @@ Contributions and ideas from:
 	
 	<rule id="IMPLICATIE" name="implicatie">
 	<pattern>
-		<token>implicatie</token>
+		<token inflected="yes">implicatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gevolg</suggestion>.
@@ -9480,7 +9509,7 @@ Contributions and ideas from:
 	
 	<rule id="IMPLICEREN" name="impliceren">
 	<pattern>
-		<token>impliceren</token>
+		<token inflected="yes">impliceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>inhouden</suggestion> of <suggestion>betekenen</suggestion>.
@@ -9528,7 +9557,7 @@ Contributions and ideas from:
 	
 	<rule id="INCIDENT" name="incident">
 	<pattern>
-		<token>incident</token>
+		<token inflected="yes">incident</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebeurtenis</suggestion> of <suggestion>vervelende gebeurtenis</suggestion>.
@@ -9552,7 +9581,7 @@ Contributions and ideas from:
 	
 	<rule id="INCONGRUENT" name="incongruent">
 	<pattern>
-		<token>incongruent</token>
+		<token inflected="yes">incongruent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verschillend</suggestion> of <suggestion>ongelijk</suggestion>.
@@ -9564,7 +9593,7 @@ Contributions and ideas from:
 	
 	<rule id="INCONSEQUENT" name="inconsequent">
 	<pattern>
-		<token>inconsequent</token>
+		<token inflected="yes">inconsequent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afwijkend</suggestion> of <suggestion>niet volgens afspraak</suggestion>.
@@ -9576,7 +9605,7 @@ Contributions and ideas from:
 	
 	<rule id="INCOURANT" name="incourant">
 	<pattern>
-		<token>incourant</token>
+		<token inflected="yes">incourant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ongewoon</suggestion>.
@@ -9708,7 +9737,7 @@ Contributions and ideas from:
 	
 	<rule id="INDICATIE" name="indicatie">
 	<pattern>
-		<token>indicatie</token>
+		<token inflected="yes">indicatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aanwijzing</suggestion>.
@@ -9756,7 +9785,7 @@ Contributions and ideas from:
 	
 	<rule id="INFLATIE" name="inflatie">
 	<pattern>
-		<token>inflatie</token>
+		<token inflected="yes">inflatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>waardevermindering van geld</suggestion> of <suggestion>prijsstijging</suggestion>.
@@ -9777,7 +9806,7 @@ Contributions and ideas from:
 	<example correction="samen|in overleg met">A <marker>in gemeen overleg</marker> B.</example>
 	<example>A <marker>samen</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="INGEVAL" name="ingeval">
 	<pattern>
 		<token>ingeval</token>
@@ -9789,7 +9818,7 @@ Contributions and ideas from:
 	<example correction="als|wanneer">A <marker>ingeval</marker> B.</example>
 	<example>A <marker>als</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="IN_GEVAL_VAN" name="in geval van">
 	<pattern>
 		<token>in</token><token>geval</token><token>van</token>
@@ -9807,10 +9836,10 @@ Contributions and ideas from:
 		<token>ingevolge</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>door</suggestion> of <suggestion>op grond van</suggestion> of <suggestion>naar aanleiding van</suggestion> of <suggestion>als gevolg van</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>door</suggestion> of <suggestion>op grond van</suggestion> of  <suggestion>als gevolg van</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="door|op grond van|naar aanleiding van|als gevolg van">A <marker>ingevolge</marker> B.</example>
+	<example correction="door|op grond van|als gevolg van">A <marker>ingevolge</marker> B.</example>
 	<example>A <marker>door</marker>.</example>
 	</rule>
 	
@@ -9888,7 +9917,7 @@ Contributions and ideas from:
 	
 	<rule id="INHOUDELIJK" name="inhoudelijk">
 	<pattern>
-		<token>inhoudelijk</token>
+		<token inflected="yes">inhoudelijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>over de inhoud</suggestion> of <suggestion>als het om de inhoud gaat (of: schrappen)</suggestion>.
@@ -9900,7 +9929,7 @@ Contributions and ideas from:
 	
 	<rule id="INITIATIEF" name="initiatief">
 	<pattern>
-		<token>initiatief</token>
+		<token inflected="yes">initiatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>plan</suggestion> of <suggestion>idee; eerste stap</suggestion>.
@@ -9912,7 +9941,7 @@ Contributions and ideas from:
 	
 	<rule id="INITIEEL" name="initieel">
 	<pattern>
-		<token>initieel</token>
+		<token inflected="yes">initieel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>eerst</suggestion> of <suggestion>om te beginnen</suggestion> of <suggestion>eigenlijk</suggestion>.
@@ -9924,7 +9953,7 @@ Contributions and ideas from:
 	
 	<rule id="INITIËREN" name="initiëren">
 	<pattern>
-		<token>initiëren</token>
+		<token inflected="yes">initiëren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beginnen</suggestion> of <suggestion>in gang zetten</suggestion>.
@@ -9948,7 +9977,7 @@ Contributions and ideas from:
 	
 	<rule id="INNOVATIE" name="innovatie">
 	<pattern>
-		<token>innovatie</token>
+		<token inflected="yes">innovatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vernieuwing</suggestion>.
@@ -10009,7 +10038,7 @@ Contributions and ideas from:
 	
 	<rule id="INSTITUEREN" name="institueren">
 	<pattern>
-		<token>institueren</token>
+		<token inflected="yes">institueren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>inrichten</suggestion>.
@@ -10021,7 +10050,7 @@ Contributions and ideas from:
 	
 	<rule id="INSTITUTIONALISEREN" name="institutionaliseren">
 	<pattern>
-		<token>institutionaliseren</token>
+		<token inflected="yes">institutionaliseren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vastleggen</suggestion> of <suggestion>invoeren</suggestion>.
@@ -10033,7 +10062,7 @@ Contributions and ideas from:
 	
 	<rule id="INTEGRAAL" name="integraal">
 	<pattern>
-		<token>integraal</token>
+		<token inflected="yes">integraal</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volledig</suggestion> of <suggestion>helemaal</suggestion>.
@@ -10045,7 +10074,7 @@ Contributions and ideas from:
 	
 	<rule id="INTEGREREN" name="integreren">
 	<pattern>
-		<token>integreren</token>
+		<token inflected="yes">integreren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>inpassen</suggestion> of <suggestion>aanpassen</suggestion> of <suggestion>bij elkaar brengen</suggestion>.
@@ -10057,7 +10086,7 @@ Contributions and ideas from:
 	
 	<rule id="INTENTIE" name="intentie">
 	<pattern>
-		<token>intentie</token>
+		<token inflected="yes">intentie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bedoeling</suggestion> of <suggestion>we willen</suggestion> of <suggestion>we proberen</suggestion>.
@@ -10093,7 +10122,7 @@ Contributions and ideas from:
 	
 	<rule id="INSISTEREN" name="insisteren">
 	<pattern>
-		<token>insisteren</token>
+		<token inflected="yes">insisteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aandringen op</suggestion>.
@@ -10105,7 +10134,7 @@ Contributions and ideas from:
 	
 	<rule id="INVORDEREN" name="invorderen">
 	<pattern>
-		<token>invorderen</token>
+		<token inflected="yes">invorderen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betaling eisen</suggestion>.
@@ -10141,7 +10170,7 @@ Contributions and ideas from:
 	
 	<rule id="INWILLIGEN" name="inwilligen">
 	<pattern>
-		<token>inwilligen</token>
+		<token inflected="yes">inwilligen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>toestaan</suggestion> of <suggestion>toestemming geven</suggestion> of <suggestion>toestemming verlenen aan; zich schikken in of naar</suggestion> of <suggestion>toegeven</suggestion>.
@@ -10165,7 +10194,7 @@ Contributions and ideas from:
 	
 	<rule id="IRREËEL" name="irreëel">
 	<pattern>
-		<token>irreëel</token>
+		<token inflected="yes">irreëel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onwerkelijk</suggestion> of <suggestion>niet realistisch</suggestion>.
@@ -10177,7 +10206,7 @@ Contributions and ideas from:
 	
 	<rule id="IRRELEVANT" name="irrelevant">
 	<pattern>
-		<token>irrelevant</token>
+		<token inflected="yes">irrelevant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet ter zake doend</suggestion> of <suggestion>zonder betekenis</suggestion> of <suggestion>niet van toepassing</suggestion>.
@@ -10189,7 +10218,7 @@ Contributions and ideas from:
 	
 	<rule id="ISSUE" name="issue">
 	<pattern>
-		<token>issue</token>
+		<token inflected="yes">issue</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>belangrijk onderwerp</suggestion> of <suggestion>het punt waar het om gaat</suggestion>.
@@ -10201,7 +10230,7 @@ Contributions and ideas from:
 	
 	<rule id="ITEM" name="item">
 	<pattern>
-		<token>item</token>
+		<token inflected="yes">item</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderwerp</suggestion> of <suggestion>punt</suggestion>.
@@ -10237,7 +10266,7 @@ Contributions and ideas from:
 	
 	<rule id="JUMELAGE" name="jumelage">
 	<pattern>
-		<token>jumelage</token>
+		<token inflected="yes">jumelage</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vriendschapsband tussen steden/dorpen</suggestion>.
@@ -10273,7 +10302,7 @@ Contributions and ideas from:
 	
 	<rule id="JUSTIFICATIE" name="justificatie">
 	<pattern>
-		<token>justificatie</token>
+		<token inflected="yes">justificatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verdediging</suggestion> of <suggestion>rechtvaardiging</suggestion>.
@@ -10309,7 +10338,7 @@ Contributions and ideas from:
 	
 	<rule id="KERNTAAK" name="kerntaak">
 	<pattern>
-		<token>kerntaak</token>
+		<token inflected="yes">kerntaak</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>belangrijkste taak</suggestion>.
@@ -10321,7 +10350,7 @@ Contributions and ideas from:
 	
 	<rule id="KICK-OFF" name="kick-off">
 	<pattern>
-		<token>kick-off</token>
+		<token inflected="yes">kick-off</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aftrap</suggestion> of <suggestion>opening</suggestion> of <suggestion>feestelijke start</suggestion>.
@@ -10345,7 +10374,7 @@ Contributions and ideas from:
 	
 	<rule id="KORTSLUITEN" name="kortsluiten">
 	<pattern>
-		<token>kortsluiten</token>
+		<token inflected="yes">kortsluiten</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>snel afspreken</suggestion> of <suggestion>zorgen dat iedereen weet wat er aan de hand is / wat er moet gebeuren</suggestion>.
@@ -10357,7 +10386,7 @@ Contributions and ideas from:
 	
 	<rule id="KORTWIEKEN" name="kortwieken">
 	<pattern>
-		<token>kortwieken</token>
+		<token inflected="yes">kortwieken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kleiner maken</suggestion> of <suggestion>beperken</suggestion>.
@@ -10369,7 +10398,7 @@ Contributions and ideas from:
 	
 	<rule id="KOSTENINDICATIE" name="kostenindicatie">
 	<pattern>
-		<token>kostenindicatie</token>
+		<token inflected="yes">kostenindicatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>berekening van de kosten</suggestion>.
@@ -10393,7 +10422,7 @@ Contributions and ideas from:
 	
 	<rule id="KWALIFICATIE" name="kwalificatie">
 	<pattern>
-		<token>kwalificatie</token>
+		<token inflected="yes">kwalificatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beoordeling</suggestion>.
@@ -10405,7 +10434,7 @@ Contributions and ideas from:
 	
 	<rule id="KWALIFICEREN" name="kwalificeren">
 	<pattern>
-		<token>kwalificeren</token>
+		<token inflected="yes">kwalificeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een naam geven aan</suggestion> of <suggestion>het recht hebben iets te doen / ergens aan mee te doen</suggestion>.
@@ -10417,7 +10446,7 @@ Contributions and ideas from:
 	
 	<rule id="KWALIJK" name="kwalijk">
 	<pattern>
-		<token>kwalijk</token>
+		<token inflected="yes">kwalijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet goed</suggestion> of <suggestion>slecht</suggestion>.
@@ -10429,7 +10458,7 @@ Contributions and ideas from:
 	
 	<rule id="KWALITATIEF" name="kwalitatief">
 	<pattern>
-		<token>kwalitatief</token>
+		<token inflected="yes">kwalitatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wat de kwaliteit/waarde betreft</suggestion> of <suggestion>(schrappen)</suggestion>.
@@ -10441,7 +10470,7 @@ Contributions and ideas from:
 	
 	<rule id="KWANTIFICEREN" name="kwantificeren">
 	<pattern>
-		<token>kwantificeren</token>
+		<token inflected="yes">kwantificeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bepalen</suggestion> of <suggestion>meten</suggestion> of <suggestion>in cijfers vaststellen of uitdrukken</suggestion>.
@@ -10453,7 +10482,7 @@ Contributions and ideas from:
 	
 	<rule id="KWANTITATIEF" name="kwantitatief">
 	<pattern>
-		<token>kwantitatief</token>
+		<token inflected="yes">kwantitatief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>als het gaat om de hoeveelheid/grootte</suggestion>.
@@ -10465,7 +10494,7 @@ Contributions and ideas from:
 	
 	<rule id="KWANTITEIT" name="kwantiteit">
 	<pattern>
-		<token>kwantiteit</token>
+		<token inflected="yes">kwantiteit</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>hoeveelheid</suggestion> of <suggestion>bedrag</suggestion> of <suggestion>grootte</suggestion>.
@@ -10477,7 +10506,7 @@ Contributions and ideas from:
 	
 	<rule id="KWARTAAL" name="kwartaal">
 	<pattern>
-		<token>kwartaal</token>
+		<token inflected="yes">kwartaal</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een vierde deel van het jaar</suggestion> of <suggestion>periode van drie maanden</suggestion>.
@@ -10489,7 +10518,7 @@ Contributions and ideas from:
 	
 	<rule id="KWESTIE" name="kwestie">
 	<pattern>
-		<token>kwestie</token>
+		<token inflected="yes">kwestie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>de zaak waar het om gaat</suggestion> of <suggestion>probleem</suggestion>.
@@ -10501,7 +10530,7 @@ Contributions and ideas from:
 	
 	<rule id="KWESTIEUS" name="kwestieus">
 	<pattern>
-		<token>kwestieus</token>
+		<token inflected="yes">kwestieus</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>twijfelachtig</suggestion>.
@@ -10525,7 +10554,7 @@ Contributions and ideas from:
 	
 	<rule id="LABELEN" name="labelen">
 	<pattern>
-		<token>labelen</token>
+		<token inflected="yes">labelen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>noemen</suggestion>.
@@ -10537,7 +10566,7 @@ Contributions and ideas from:
 	
 	<rule id="LAKEN" name="laken">
 	<pattern>
-		<token>laken</token>
+		<token inflected="yes">laken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>sterk afkeuren</suggestion>.
@@ -10549,7 +10578,7 @@ Contributions and ideas from:
 	
 	<rule id="LANCEREN" name="lanceren">
 	<pattern>
-		<token>lanceren</token>
+		<token inflected="yes">lanceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>naar voren brengen</suggestion> of <suggestion>onder de aandacht brengen</suggestion>.
@@ -10558,7 +10587,7 @@ Contributions and ideas from:
 	<example correction="naar voren brengen|onder de aandacht brengen">A <marker>lanceren</marker> B.</example>
 	<example>A <marker>naar voren brengen</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="LANDEN" name="landen">
 	<pattern>
 		<token>landen</token>
@@ -10570,10 +10599,10 @@ Contributions and ideas from:
 	<example correction="begrepen worden|geaccepteerd worden">A <marker>landen</marker> B.</example>
 	<example>A <marker>begrepen worden</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="LANGJARIG" name="langjarig">
 	<pattern>
-		<token>langjarig</token>
+		<token inflected="yes">langjarig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>jarenlang</suggestion>.
@@ -10585,7 +10614,7 @@ Contributions and ideas from:
 	
 	<rule id="LARDEREN_MET" name="larderen met">
 	<pattern>
-		<token>larderen</token><token>met</token>
+		<token inflected="yes">larderen</token><token>met</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorzien van</suggestion>.
@@ -10609,7 +10638,7 @@ Contributions and ideas from:
 
 	<rule id="L_S_" name="L.S.">
 	<pattern>
-		<token>L</token><token>.</token><token>S</token><token>.</token>
+		<token>L</token><token spacebefore="no">.</token><token>S</token><token spacebefore="no">.</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>Geachte</suggestion> of <suggestion>Beste</suggestion>.
@@ -10645,7 +10674,7 @@ Contributions and ideas from:
 	
 	<rule id="LEGITIEM" name="legitiem">
 	<pattern>
-		<token>legitiem</token>
+		<token inflected="yes">legitiem</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wettelijk</suggestion> of <suggestion>wettig</suggestion> of <suggestion>rechtmatig</suggestion> of <suggestion>terecht</suggestion> of <suggestion>goed</suggestion>.
@@ -10654,22 +10683,22 @@ Contributions and ideas from:
 	<example correction="wettelijk|wettig|rechtmatig|terecht|goed">A <marker>legitiem</marker> B.</example>
 	<example>A <marker>wettelijk</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="LEGITIMATIE" name="legitimatie">
 	<pattern>
-		<token>legitimatie</token>
+		<token inflected="yes">legitimatie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verklaring dat iets wettig/echt is</suggestion> of <suggestion>bewijs dat iemand echt degene is die hij zegt dat hij is</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verklaring dat iets wettig is</suggestion> of <suggestion>bewijs dat iemand echt degene is die hij zegt dat hij is</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="verklaring dat iets wettig/echt is|bewijs dat iemand echt degene is die hij zegt dat hij is">A <marker>legitimatie</marker> B.</example>
+	<example correction="verklaring dat iets wettig|bewijs dat iemand echt degene is die hij zegt dat hij is">A <marker>legitimatie</marker> B.</example>
 	<example>A <marker>verklaring dat iets wettig/echt is</marker>.</example>
 	</rule>
 	
 	<rule id="LEGITIMEREN" name="legitimeren">
 	<pattern>
-		<token>legitimeren</token>
+		<token inflected="yes">legitimeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wettigen</suggestion> of <suggestion>verantwoorden</suggestion> of <suggestion>aantonen dat iets goed is</suggestion> of <suggestion>bewijzen dat iemand echt degene is die hij zegt dat hij is</suggestion>.
@@ -10678,7 +10707,7 @@ Contributions and ideas from:
 	<example correction="wettigen|verantwoorden|aantonen dat iets goed is|bewijzen dat iemand echt degene is die hij zegt dat hij is">A <marker>legitimeren</marker> B.</example>
 	<example>A <marker>wettigen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="LEIDMOTIEF" name="leidmotief, leitmotiv">
 	<pattern>
 		<token regexp="yes">leidmotief|leitmotiv</token>
@@ -10693,7 +10722,7 @@ Contributions and ideas from:
 	
 	<rule id="LERING_TREKKEN_UIT" name="lering trekken uit">
 	<pattern>
-		<token>lering</token><token>trekken</token><token>uit</token>
+		<token>lering</token><token inflected="yes">trekken</token><token>uit</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wijzer worden van</suggestion> of <suggestion>iets als een wijze les zien/gebruiken</suggestion>.
@@ -10705,7 +10734,7 @@ Contributions and ideas from:
 	
 	<rule id="LIAISON" name="liaison">
 	<pattern>
-		<token>liaison</token>
+		<token inflected="yes">liaison</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verbintenis</suggestion>.
@@ -10729,7 +10758,7 @@ Contributions and ideas from:
 	
 	<rule id="LICENTIE" name="licentie">
 	<pattern>
-		<token>licentie</token>
+		<token inflected="yes">licentie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vergunning</suggestion> of <suggestion>vergunningsbewijs</suggestion>.
@@ -10741,10 +10770,10 @@ Contributions and ideas from:
 	
 	<rule id="LICHAAM" name="lichaam">
 	<pattern>
-		<token>lichaam</token>
+		<token inflected="yes">lichaam</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>organisatie</suggestion> of <suggestion>college</suggestion> of <suggestion>overleg</suggestion>.
+		Wanneer je een organisatie bedoelt, schrijf dan ook <suggestion>organisatie</suggestion> of <suggestion>college</suggestion> of <suggestion>overleg</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="organisatie|college|overleg">A <marker>lichaam</marker> B.</example>
@@ -10753,7 +10782,7 @@ Contributions and ideas from:
 	
 	<rule id="LICHTVAARDIG" name="lichtvaardig">
 	<pattern>
-		<token>lichtvaardig</token>
+		<token inflected="yes">lichtvaardig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ondoordacht</suggestion> of <suggestion>zonder goed te hebben nagedacht/overlegd</suggestion>.
@@ -10777,7 +10806,7 @@ Contributions and ideas from:
 	
 	<rule id="LITIGIEUS" name="litigieus">
 	<pattern>
-		<token>litigieus</token>
+		<token inflected="yes">litigieus</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>twijfelachtig</suggestion>.
@@ -10789,7 +10818,7 @@ Contributions and ideas from:
 	
 	<rule id="LOCATIE" name="locatie">
 	<pattern>
-		<token>locatie</token>
+		<token inflected="yes">locatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>plaats</suggestion> of <suggestion>gebouw</suggestion>.
@@ -10801,7 +10830,7 @@ Contributions and ideas from:
 	
 	<rule id="MANAGEN" name="managen">
 	<pattern>
-		<token>managen</token>
+		<token inflected="yes">managen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>besturen</suggestion> of <suggestion>doen</suggestion> of <suggestion>uitvoeren</suggestion> of <suggestion>regelen</suggestion>.
@@ -10813,7 +10842,7 @@ Contributions and ideas from:
 	
 	<rule id="MANDAAT" name="mandaat">
 	<pattern>
-		<token>mandaat</token>
+		<token inflected="yes">mandaat</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>toestemming</suggestion>.
@@ -10837,7 +10866,7 @@ Contributions and ideas from:
 	
 	<rule id="MEDEDELEN" name="mededelen">
 	<pattern>
-		<token>mededelen</token>
+		<token inflected="yes">mededelen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>laten weten</suggestion> of <suggestion>vertellen</suggestion> of <suggestion>schrijven</suggestion>.
@@ -10861,7 +10890,7 @@ Contributions and ideas from:
 	
 	<rule id="MEENEMEN" name="meenemen">
 	<pattern>
-		<token>meenemen</token>
+		<token inflected="yes">meenemen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onthouden</suggestion> of <suggestion>erbij betrekken</suggestion>.
@@ -11044,7 +11073,7 @@ Contributions and ideas from:
 		<token>middelen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>geld</suggestion> of <suggestion>bedrag</suggestion>.
+		Wanneer je geld bedoelt, schrijf dan ook <suggestion>geld</suggestion> of <suggestion>bedrag</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="geld|bedrag">A <marker>middelen</marker> B.</example>
@@ -11089,7 +11118,7 @@ Contributions and ideas from:
 
 	<rule id="M_I" name="m.i.">
 	<pattern>
-		<token>m</token><token>.</token><token>i</token><token>.</token>
+		<token>m</token><token spacebefore="no">.</token><token>i</token><token spacebefore="no">.</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volgens mij</suggestion> of <suggestion>ik vind</suggestion> of <suggestion>ik denk</suggestion>.
@@ -11161,7 +11190,7 @@ Contributions and ideas from:
 	
 	<rule id="MONITOREN" name="monitoren">
 	<pattern>
-		<token>monitoren</token>
+		<token inflected="yes">monitoren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bekijken</suggestion> of <suggestion>bestuderen</suggestion> of <suggestion>in de gaten houden</suggestion>.
@@ -11173,7 +11202,7 @@ Contributions and ideas from:
 	
 	<rule id="MOTIE" name="motie">
 	<pattern>
-		<token>motie</token>
+		<token inflected="yes">motie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>politiek voorstel</suggestion>.
@@ -11197,7 +11226,7 @@ Contributions and ideas from:
 	
 	<rule id="MOTIVEREN" name="motiveren">
 	<pattern>
-		<token>motiveren</token>
+		<token inflected="yes">motiveren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>redenen geven</suggestion> of <suggestion>uitleggen waarom</suggestion>.
@@ -11207,16 +11236,16 @@ Contributions and ideas from:
 	<example>A <marker>redenen geven</marker>.</example>
 	</rule>
 	
-	<rule id="MUTATIES" name="mutaties">
+	<rule id="MUTATIE" name="mutatie">
 	<pattern>
-		<token>mutaties</token>
+		<token>mutatie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wijzigingen</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wijziging</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="wijzigingen">A <marker>mutaties</marker> B.</example>
-	<example>A <marker>wijzigingen</marker>.</example>
+	<example correction="wijziging">A <marker>mutatie</marker> B.</example>
+	<example>A <marker>wijziging</marker>.</example>
 	</rule>
 	
 	<rule id="NAAR_AANLEIDING_VAN" name="naar aanleiding van">
@@ -11224,10 +11253,10 @@ Contributions and ideas from:
 		<token>naar</token><token>aanleiding</token><token>van</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>omdat x is gebeurd</suggestion> of <suggestion>na ...</suggestion>.
+		De tekst wordt vlotter als je deze woordgroep vermijdt.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="omdat x is gebeurd|na ...">A <marker>naar aanleiding van</marker> B.</example>
+	<example type="incorrect">A <marker>naar aanleiding van</marker> B.</example>
 	<example>A <marker>omdat x is gebeurd</marker>.</example>
 	</rule>
 	
@@ -11322,7 +11351,7 @@ Contributions and ideas from:
 	
 	<rule id="NEVENEFFECT" name="neveneffect">
 	<pattern>
-		<token>neveneffect</token>
+		<token inflected="yes">neveneffect</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onverwacht effect</suggestion> of <suggestion>onverwacht gevolg</suggestion>.
@@ -11394,7 +11423,7 @@ Contributions and ideas from:
 	
 	<rule id="NOODZAKELIJK" name="noodzakelijk">
 	<pattern>
-		<token>noodzakelijk</token>
+		<token inflected="yes">noodzakelijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>nodig</suggestion>.
@@ -11443,7 +11472,7 @@ Contributions and ideas from:
 	-->
 	<rule id="OFFICIEUS" name="officieus">
 	<pattern>
-		<token>officieus</token>
+		<token inflected="yes">officieus</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet officieel</suggestion>.
@@ -11479,7 +11508,7 @@ Contributions and ideas from:
 	
 	<rule id="OMBUIGEN" name="ombuigen">
 	<pattern>
-		<token>ombuigen</token>
+		<token inflected="yes">ombuigen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bezuinigen</suggestion>.
@@ -11491,7 +11520,7 @@ Contributions and ideas from:
 	
 	<rule id="OMBUIGING" name="ombuiging">
 	<pattern>
-		<token>ombuiging</token>
+		<token inflected="yes">ombuiging</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bezuiniging</suggestion>.
@@ -11551,7 +11580,7 @@ Contributions and ideas from:
 	
 	<rule id="OMVANGRIJK" name="omvangrijk">
 	<pattern>
-		<token>omvangrijk</token>
+		<token inflected="yes">omvangrijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>groot</suggestion>.
@@ -11563,7 +11592,7 @@ Contributions and ideas from:
 	
 	<rule id="ONBEZOLDIGD" name="onbezoldigd">
 	<pattern>
-		<token>onbezoldigd</token>
+		<token inflected="yes">onbezoldigd</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet betaald</suggestion>.
@@ -11611,7 +11640,7 @@ Contributions and ideas from:
 	
 	<rule id="ONDERHAVIG" name="onderhavig">
 	<pattern>
-		<token>onderhavig</token>
+		<token inflected="yes">onderhavig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>deze</suggestion> of <suggestion>die</suggestion> of <suggestion>dit</suggestion> of <suggestion>dat</suggestion>.
@@ -11647,7 +11676,7 @@ Contributions and ideas from:
 	
 	<rule id="ONDERSCHEIDENLIJK" name="onderscheidenlijk">
 	<pattern>
-		<token>onderscheidenlijk</token>
+		<token inflected="yes">onderscheidenlijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>duidelijk</suggestion>.
@@ -11671,7 +11700,7 @@ Contributions and ideas from:
 	
 	<rule id="ONDERWERPELIJK" name="onderwerpelijk">
 	<pattern>
-		<token>onderwerpelijk</token>
+		<token inflected="yes">onderwerpelijk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>deze</suggestion> of <suggestion>dit</suggestion>.
@@ -11719,7 +11748,7 @@ Contributions and ideas from:
 	
 	<rule id="ONJUIST" name="onjuist">
 	<pattern>
-		<token>onjuist</token>
+		<token inflected="yes">onjuist</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verkeerd</suggestion> of <suggestion>fout</suggestion>.
@@ -11743,7 +11772,7 @@ Contributions and ideas from:
 	
 	<rule id="ONTBEREN" name="ontberen">
 	<pattern>
-		<token>ontberen</token>
+		<token inflected="yes">ontberen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>eraan ontbreken</suggestion> of <suggestion>niet hebben</suggestion>.
@@ -11752,10 +11781,10 @@ Contributions and ideas from:
 	<example correction="eraan ontbreken|niet hebben">A <marker>ontberen</marker> B.</example>
 	<example>A <marker>eraan ontbreken</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="ONTHOUDEN" name="onthouden">
 	<pattern>
-		<token>onthouden</token>
+		<token inflected="yes">onthouden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet geven</suggestion> of <suggestion>niet toekennen</suggestion>.
@@ -11764,10 +11793,10 @@ Contributions and ideas from:
 	<example correction="niet geven|niet toekennen">A <marker>onthouden</marker> B.</example>
 	<example>A <marker>niet geven</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="ONTPLOOIEN" name="ontplooien">
 	<pattern>
-		<token>ontplooien</token>
+		<token inflected="yes">ontplooien</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ontwikkelen</suggestion> of <suggestion>uitvoeren</suggestion>.
@@ -11827,7 +11856,7 @@ Contributions and ideas from:
 
 	<rule id="O_I" name="o.i.">
 	<pattern>
-		<token>o</token><token>.</token><token>i</token><token>.</token>
+		<token>o</token><token spacebefore="no">.</token><token>i</token><token spacebefore="no">.</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volgens ons</suggestion> of <suggestion>wij vinden</suggestion> of <suggestion>wij denken</suggestion>.
@@ -11839,7 +11868,7 @@ Contributions and ideas from:
 	
 	<rule id="OOGMERK" name="oogmerk">
 	<pattern>
-		<token>oogmerk</token>
+		<token inflected="yes">oogmerk</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>doel</suggestion>.
@@ -11936,7 +11965,7 @@ Contributions and ideas from:
 	
 	<rule id="OPSTARTEN" name="opstarten">
 	<pattern>
-		<token>opstarten</token>
+		<token inflected="yes">opstarten</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beginnen</suggestion>.
@@ -11948,7 +11977,7 @@ Contributions and ideas from:
 	
 	<rule id="OPTEREN_VOOR" name="opteren voor">
 	<pattern>
-		<token>opteren</token><token>voor</token>
+		<token inflected="yes">opteren</token><token>voor</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kiezen voor</suggestion> of <suggestion>de voorkeur geven aan</suggestion>.
@@ -11960,7 +11989,7 @@ Contributions and ideas from:
 	
 	<rule id="OPTIMAAL" name="optimaal">
 	<pattern>
-		<token>optimaal</token>
+		<token inflected="yes">optimaal</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zo goed mogelijk</suggestion>.
@@ -11972,7 +12001,7 @@ Contributions and ideas from:
 	
 	<rule id="OPTIMALISEREN" name="optimaliseren">
 	<pattern>
-		<token>optimaliseren</token>
+		<token inflected="yes">optimaliseren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verbeteren</suggestion>.
@@ -12056,7 +12085,7 @@ Contributions and ideas from:
 	
 	<rule id="PANEL" name="panel">
 	<pattern>
-		<token>panel</token>
+		<token inflected="yes">panel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderzoeksgroep</suggestion>.
@@ -12068,7 +12097,7 @@ Contributions and ideas from:
 	
 	<rule id="PARAAF" name="paraaf">
 	<pattern>
-		<token>paraaf</token>
+		<token inflected="yes">paraaf</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>handtekening</suggestion>.
@@ -12080,7 +12109,7 @@ Contributions and ideas from:
 	
 	<rule id="PARAFEREN" name="paraferen">
 	<pattern>
-		<token>paraferen</token>
+		<token inflected="yes">paraferen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>handtekening zetten</suggestion>.
@@ -12092,7 +12121,7 @@ Contributions and ideas from:
 	
 	<rule id="PARTICIPEREN" name="participeren">
 	<pattern>
-		<token>participeren</token>
+		<token inflected="yes">participeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>meedoen</suggestion> of <suggestion>deelnemen</suggestion>.
@@ -12104,7 +12133,7 @@ Contributions and ideas from:
 	
 	<rule id="PARTIEEL" name="partieel">
 	<pattern>
-		<token>partieel</token>
+		<token inflected="yes">partieel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gedeeltelijk</suggestion>.
@@ -12116,7 +12145,7 @@ Contributions and ideas from:
 	
 	<rule id="PEILDATUM" name="peildatum">
 	<pattern>
-		<token>peildatum</token>
+		<token inflected="yes">peildatum</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vanaf (datum)</suggestion> of <suggestion>sinds (datum)</suggestion>.
@@ -12140,7 +12169,7 @@ Contributions and ideas from:
 	
 	<rule id="PERCENT" name="percent">
 	<pattern>
-		<token>percent</token>
+		<token inflected="yes">percent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>procent</suggestion>.
@@ -12164,7 +12193,7 @@ Contributions and ideas from:
 	
 	<rule id="PERSISTEREN" name="persisteren">
 	<pattern>
-		<token>persisteren</token>
+		<token inflected="yes">persisteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volhouden</suggestion> of <suggestion>vasthouden aan</suggestion>.
@@ -12188,7 +12217,7 @@ Contributions and ideas from:
 	
 	<rule id="PILOT" name="pilot">
 	<pattern>
-		<token>pilot</token>
+		<token inflected="yes">pilot</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>proefproject</suggestion>.
@@ -12200,7 +12229,7 @@ Contributions and ideas from:
 	
 	<rule id="POGEN" name="pogen">
 	<pattern>
-		<token>pogen</token>
+		<token inflected="yes">pogen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>proberen</suggestion>.
@@ -12212,7 +12241,7 @@ Contributions and ideas from:
 	
 	<rule id="PORTEFEUILLE" name="portefeuille">
 	<pattern>
-		<token>portefeuille</token>
+		<token inflected="yes">portefeuille</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>taken</suggestion> of <suggestion>takenpakket</suggestion> of <suggestion>beleidsterrein</suggestion>.
@@ -12224,7 +12253,7 @@ Contributions and ideas from:
 	
 	<rule id="PREALABEL" name="prealabel">
 	<pattern>
-		<token>prealabel</token>
+		<token inflected="yes">prealabel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorafgaand</suggestion> of <suggestion>voordat andere punten aan de orde komen</suggestion>.
@@ -12236,7 +12265,7 @@ Contributions and ideas from:
 	
 	<rule id="PRECEDENT" name="precedent">
 	<pattern>
-		<token>precedent</token>
+		<token inflected="yes">precedent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorbeeld</suggestion> of <suggestion>eerder besluit</suggestion>.
@@ -12248,7 +12277,7 @@ Contributions and ideas from:
 	
 	<rule id="PRECEDENTWERKING" name="precedentwerking">
 	<pattern>
-		<token>precedentwerking</token>
+		<token inflected="yes">precedentwerking</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een mogelijk verkeerd voorbeeld gevend</suggestion>.
@@ -12260,7 +12289,7 @@ Contributions and ideas from:
 	
 	<rule id="PRELIMINAIR" name="preliminair">
 	<pattern>
-		<token>preliminair</token>
+		<token inflected="yes">preliminair</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorafgaand</suggestion> of <suggestion>inleidend</suggestion>.
@@ -12272,7 +12301,7 @@ Contributions and ideas from:
 	
 	<rule id="PRELUDEREN_OP" name="preluderen op">
 	<pattern>
-		<token>preluderen</token><token>op</token>
+		<token inflected="yes" skip="4">preluderen</token><token>op</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>alvast iets zeggen over iets wat later aan de orde komt</suggestion>.
@@ -12284,7 +12313,7 @@ Contributions and ideas from:
 	
 	<rule id="PREMATUUR" name="prematuur">
 	<pattern>
-		<token>prematuur</token>
+		<token inflected="yes">prematuur</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>te vroeg</suggestion> of <suggestion>voor zijn beurt</suggestion>.
@@ -12296,7 +12325,7 @@ Contributions and ideas from:
 	
 	<rule id="PREVALEREN" name="prevaleren">
 	<pattern>
-		<token>prevaleren</token>
+		<token inflected="yes">prevaleren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voor laten gaan</suggestion>.
@@ -12308,7 +12337,7 @@ Contributions and ideas from:
 	
 	<rule id="PREVENTIEF" name="preventief">
 	<pattern>
-		<token>preventief</token>
+		<token inflected="yes">preventief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>om ... te voorkomen</suggestion>.
@@ -12317,22 +12346,9 @@ Contributions and ideas from:
 	<example correction="om ... te voorkomen">A <marker>preventief</marker> B.</example>
 	<example>A <marker>om ... te voorkomen</marker>.</example>
 	</rule>
-	
-	<rule id="PREVENTIEVE_MAATREGELEN" name="preventieve maatregelen">
-	<pattern>
-		<token>preventieve</token><token>maatregelen</token>
-	</pattern>
-	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>dingen die gedaan worden om iets te voorkomen</suggestion>.
-	</message>
-	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="dingen die gedaan worden om iets te voorkomen">A <marker>preventieve maatregelen</marker> B.</example>
-	<example>A <marker>dingen die gedaan worden om iets te voorkomen</marker>.</example>
-	</rule>
-	
 	<rule id="PRIMAIR" name="primair">
 	<pattern>
-		<token>primair</token>
+		<token inflected="yes">primair</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>in de eerste plaats</suggestion> of <suggestion>belangrijkste</suggestion> of <suggestion>eerste</suggestion>.
@@ -12343,8 +12359,9 @@ Contributions and ideas from:
 	</rule>
 	
 	<rule id="PRINCIPE" name="principe">
+	<antipattern><token>in</token><token>principe</token></antipattern>
 	<pattern>
-		<token>principe</token>
+		<token inflected="yes">principe</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>keuze</suggestion> of <suggestion>uitgangspunt</suggestion>.
@@ -12356,7 +12373,7 @@ Contributions and ideas from:
 	
 	<rule id="PRINCIPIEEL" name="principieel">
 	<pattern>
-		<token>principieel</token>
+		<token inflected="yes">principieel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volgens een basisidee; volgens iemands overtuiging</suggestion> of <suggestion>uit de grond van iemands hart</suggestion>.
@@ -12368,7 +12385,7 @@ Contributions and ideas from:
 	
 	<rule id="PRIORITEIT" name="prioriteit">
 	<pattern>
-		<token>prioriteit</token>
+		<token inflected="yes">prioriteit</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorrang</suggestion> of <suggestion>iets wat voor moet gaan</suggestion>.
@@ -12380,7 +12397,7 @@ Contributions and ideas from:
 	
 	<rule id="PRIORITEITSSTELLING" name="prioriteitsstelling">
 	<pattern>
-		<token>prioriteitsstelling</token>
+		<token inflected="yes">prioriteitsstelling</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>volgorde van belangrijkheid</suggestion>.
@@ -12392,7 +12409,7 @@ Contributions and ideas from:
 	
 	<rule id="PROACTIEF" name="proactief">
 	<pattern>
-		<token>proactief</token>
+		<token inflected="yes">proactief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>actief</suggestion> of <suggestion>problemen vóór willen zijn</suggestion>.
@@ -12404,7 +12421,7 @@ Contributions and ideas from:
 	
 	<rule id="PROCEDÉ" name="procedé">
 	<pattern>
-		<token>procedé</token>
+		<token inflected="yes">procedé</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>werkwijze</suggestion> of <suggestion>manier van doen</suggestion>.
@@ -12416,7 +12433,7 @@ Contributions and ideas from:
 	
 	<rule id="PROCEDURE" name="procedure">
 	<pattern>
-		<token>procedure</token>
+		<token inflected="yes">procedure</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>werkwijze</suggestion> of <suggestion>manier om iets te aan te pakken</suggestion>.
@@ -12428,7 +12445,7 @@ Contributions and ideas from:
 	
 	<rule id="PROCEDUREEL" name="procedureel">
 	<pattern>
-		<token>procedureel</token>
+		<token inflected="yes">procedureel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wat de werkwijze betreft</suggestion> of <suggestion>volgens de afgesproken manier van werken</suggestion>.
@@ -12440,7 +12457,7 @@ Contributions and ideas from:
 	
 	<rule id="PROFILEREN" name="profileren">
 	<pattern>
-		<token>profileren</token>
+		<token inflected="yes">profileren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kenbaar maken</suggestion> of <suggestion>onderscheiden</suggestion>.
@@ -12452,7 +12469,7 @@ Contributions and ideas from:
 	
 	<rule id="PROGNOSE" name="prognose">
 	<pattern>
-		<token>prognose</token>
+		<token inflected="yes">prognose</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>voorspelling</suggestion>.
@@ -12464,7 +12481,7 @@ Contributions and ideas from:
 	
 	<rule id="PROMINENT" name="prominent">
 	<pattern>
-		<token>prominent</token>
+		<token inflected="yes">prominent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>belangrijk</suggestion>.
@@ -12500,7 +12517,7 @@ Contributions and ideas from:
 	
 	<rule id="QUICKSCAN" name="quickscan">
 	<pattern>
-		<token>quickscan</token>
+		<token inflected="yes">quickscan</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>snel onderzoek op hoofdlijnen</suggestion> of <suggestion>nattevingerwerk</suggestion>.
@@ -12524,7 +12541,7 @@ Contributions and ideas from:
 	
 	<rule id="QUOTUM" name="quotum">
 	<pattern>
-		<token>quotum</token>
+		<token inflected="yes">quotum</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aandeel</suggestion>.
@@ -12539,7 +12556,7 @@ Contributions and ideas from:
 		<token>ramen</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>schatten</suggestion> of <suggestion>begroten</suggestion>.
+		Wanneer je begroten of schatten bedoelt, schrijf dat dan ook: <suggestion>schatten</suggestion> of <suggestion>begroten</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="schatten|begroten">A <marker>ramen</marker> B.</example>
@@ -12548,7 +12565,7 @@ Contributions and ideas from:
 	
 	<rule id="RAMING" name="raming">
 	<pattern>
-		<token>raming</token>
+		<token inflected="yes">raming</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>schatting</suggestion> of <suggestion>begroting</suggestion>.
@@ -12558,9 +12575,9 @@ Contributions and ideas from:
 	<example>A <marker>schatting</marker>.</example>
 	</rule>
 	
-	<rule id="RANDVOORWAARDEN" name="randvoorwaarden">
+	<rule id="RANDVOORWAARDE" name="randvoorwaarde">
 	<pattern>
-		<token>randvoorwaarden</token>
+		<token inflected="yes">randvoorwaarde</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>eisen</suggestion> of <suggestion>voorwaarden (waaraan in elk geval moet worden voldaan)</suggestion>.
@@ -12584,7 +12601,7 @@ Contributions and ideas from:
 	
 	<rule id="RATIONEEL" name="rationeel">
 	<pattern>
-		<token>rationeel</token>
+		<token inflected="yes">rationeel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verstandig</suggestion> of <suggestion>redelijk</suggestion>.
@@ -12596,7 +12613,7 @@ Contributions and ideas from:
 	
 	<rule id="REACTIEF" name="reactief">
 	<pattern>
-		<token>reactief</token>
+		<token inflected="yes">reactief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afwachten</suggestion> of <suggestion>te laat</suggestion> of <suggestion>achter de feiten aan</suggestion>.
@@ -12608,7 +12625,7 @@ Contributions and ideas from:
 	
 	<rule id="REALISEREN" name="realiseren">
 	<pattern>
-		<token>realiseren</token>
+		<token inflected="yes">realiseren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maken</suggestion> of <suggestion>bouwen</suggestion> of <suggestion>behalen</suggestion> of <suggestion>bereiken</suggestion>.
@@ -12632,7 +12649,7 @@ Contributions and ideas from:
 	
 	<rule id="RECES" name="reces">
 	<pattern>
-		<token>reces</token>
+		<token inflected="yes">reces</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vakantieperiode</suggestion>.
@@ -12656,7 +12673,7 @@ Contributions and ideas from:
 	
 	<rule id="RECLAMANT" name="reclamant">
 	<pattern>
-		<token>reclamant</token>
+		<token inflected="yes">reclamant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>degene die bezwaar maakt</suggestion> of <suggestion>de klager</suggestion> of <suggestion>de eiser</suggestion>.
@@ -12668,7 +12685,7 @@ Contributions and ideas from:
 	
 	<rule id="RECTIFICEREN" name="rectificeren">
 	<pattern>
-		<token>rectificeren</token>
+		<token inflected="yes">rectificeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verbeteren</suggestion> of <suggestion>rechtzetten</suggestion>.
@@ -12692,7 +12709,7 @@ Contributions and ideas from:
 	
 	<rule id="REDUCTIE" name="reductie">
 	<pattern>
-		<token>reductie</token>
+		<token inflected="yes">reductie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vermindering</suggestion> of <suggestion>korting</suggestion>.
@@ -12716,7 +12733,7 @@ Contributions and ideas from:
 	
 	<rule id="REFERENTIE" name="referentie">
 	<pattern>
-		<token>referentie</token>
+		<token inflected="yes">referentie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verwijzing</suggestion>.
@@ -12728,7 +12745,7 @@ Contributions and ideas from:
 	
 	<rule id="REFEREREN_AAN" name="refereren aan">
 	<pattern>
-		<token>refereren</token><token>aan</token>
+		<token inflected="yes">refereren</token><token>aan</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verwijzen naar</suggestion>.
@@ -12740,7 +12757,7 @@ Contributions and ideas from:
 	
 	<rule id="REFLECTEREN" name="reflecteren">
 	<pattern>
-		<token>reflecteren</token>
+		<token inflected="yes">reflecteren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ergens op reageren</suggestion>.
@@ -12752,7 +12769,7 @@ Contributions and ideas from:
 	
 	<rule id="REGARDEREN" name="regarderen">
 	<pattern>
-		<token>regarderen</token>
+		<token inflected="yes">regarderen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aangaan</suggestion>.
@@ -12764,7 +12781,7 @@ Contributions and ideas from:
 	
 	<rule id="REGIE_NEMEN" name="regie nemen">
 	<pattern>
-		<token>regie</token><token>nemen</token>
+		<token>regie</token><token inflected="yes">nemen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>leiden</suggestion>.
@@ -12776,7 +12793,7 @@ Contributions and ideas from:
 	
 	<rule id="REGULIER" name="regulier">
 	<pattern>
-		<token>regulier</token>
+		<token inflected="yes">regulier</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebruikelijk</suggestion> of <suggestion>gewoon</suggestion>.
@@ -12788,7 +12805,7 @@ Contributions and ideas from:
 	
 	<rule id="RELATIONEEL" name="relationeel">
 	<pattern>
-		<token>relationeel</token>
+		<token inflected="yes">relationeel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>in relatie tot</suggestion> of <suggestion>binnen</suggestion>.
@@ -12800,7 +12817,7 @@ Contributions and ideas from:
 	
 	<rule id="RELEVANT" name="relevant">
 	<pattern>
-		<token>relevant</token>
+		<token inflected="yes">relevant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>belangrijk</suggestion>.
@@ -12824,7 +12841,7 @@ Contributions and ideas from:
 	
 	<rule id="REPERCUSSIE" name="repercussie">
 	<pattern>
-		<token>repercussie</token>
+		<token inflected="yes">repercussie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maatregel die ertegenin gaat</suggestion> of <suggestion>reactie</suggestion>.
@@ -12836,7 +12853,7 @@ Contributions and ideas from:
 	
 	<rule id="REPLICEREN" name="repliceren">
 	<pattern>
-		<token>repliceren</token>
+		<token inflected="yes">repliceren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>antwoorden</suggestion>.
@@ -12872,7 +12889,7 @@ Contributions and ideas from:
 	
 	<rule id="RESTITUTIE" name="restitutie">
 	<pattern>
-		<token>restitutie</token>
+		<token inflected="yes">restitutie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>teruggave</suggestion> of <suggestion>terugbetalen</suggestion> of <suggestion>u krijgt ... euro terug</suggestion>.
@@ -12882,21 +12899,21 @@ Contributions and ideas from:
 	<example>A <marker>teruggave</marker>.</example>
 	</rule>
 	
-	<rule id="RESTRICTIES" name="restricties">
+	<rule id="RESTRICTIE" name="restrictie">
 	<pattern>
-		<token>restricties</token>
+		<token inflected="yes">restrictie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beperkingen</suggestion> of <suggestion>grenzen</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>beperking</suggestion> of <suggestion>grens</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="beperkingen|grenzen">A <marker>restricties</marker> B.</example>
-	<example>A <marker>beperkingen</marker>.</example>
+	<example correction="beperking|grens">A <marker>restrictie</marker> B.</example>
+	<example>A <marker>beperking</marker>.</example>
 	</rule>
 	
 	<rule id="RESULTEREN_IN" name="resulteren in">
 	<pattern>
-		<token>resulteren</token><token>in</token>
+		<token inflected="yes">resulteren</token><token>in</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>leiden tot</suggestion>.
@@ -12908,7 +12925,7 @@ Contributions and ideas from:
 	
 	<rule id="RESUMÉ" name="resumé">
 	<pattern>
-		<token>resumé</token>
+		<token inflected="yes">resumé</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>samenvatting</suggestion>.
@@ -12932,7 +12949,7 @@ Contributions and ideas from:
 	
 	<rule id="RETOURNEREN" name="retourneren">
 	<pattern>
-		<token>retourneren</token>
+		<token inflected="yes">retourneren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>terugsturen</suggestion>.
@@ -12944,7 +12961,7 @@ Contributions and ideas from:
 	
 	<rule id="RETOURZENDEN" name="retourzenden">
 	<pattern>
-		<token>retourzenden</token>
+		<token inflected="yes">retourzenden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>terugsturen</suggestion>.
@@ -12956,7 +12973,7 @@ Contributions and ideas from:
 	
 	<rule id="RETRIBUTIE" name="retributie">
 	<pattern>
-		<token>retributie</token>
+		<token inflected="yes">retributie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bijdrage</suggestion>.
@@ -12968,7 +12985,7 @@ Contributions and ideas from:
 	
 	<rule id="REVITALISERING" name="revitalisering">
 	<pattern>
-		<token>revitalisering</token>
+		<token inflected="yes">revitalisering</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>het opknappen</suggestion> of <suggestion>nieuw leven inblazen</suggestion>.
@@ -12990,21 +13007,21 @@ Contributions and ideas from:
 	<example>A <marker>aandacht geven</marker>.</example>
 	</rule>
 	
-	<rule id="SANCTIES" name="sancties">
+	<rule id="SANCTIE" name="sanctie">
 	<pattern>
-		<token>sancties</token>
+		<token inflected="yes">sanctie</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maatregelen</suggestion> of <suggestion>straf</suggestion> of <suggestion>boete</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>maatregel</suggestion> of <suggestion>straf</suggestion> of <suggestion>boete</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="maatregelen|straf|boete">A <marker>sancties</marker> B.</example>
+	<example correction="maatregel|straf|boete">A <marker>sancties</marker> B.</example>
 	<example>A <marker>maatregelen</marker>.</example>
 	</rule>
 	
 	<rule id="SANCTIONEREN" name="sanctioneren">
 	<pattern>
-		<token>sanctioneren</token>
+		<token inflected="yes">sanctioneren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goedkeuren</suggestion> of <suggestion>zeggen dat iets moet doorgaan</suggestion>.
@@ -13013,7 +13030,7 @@ Contributions and ideas from:
 	<example correction="goedkeuren|zeggen dat iets moet doorgaan">A <marker>sanctioneren</marker> B.</example>
 	<example>A <marker>goedkeuren</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="SCHOON" name="schoon">
 	<pattern>
 		<token>schoon</token>
@@ -13025,7 +13042,7 @@ Contributions and ideas from:
 	<example correction="hoewel|al">A <marker>schoon</marker> B.</example>
 	<example>A <marker>hoewel</marker>.</example>
 	</rule>
-	
+	-->
 
 	<rule id="SEDERT" name="sedert">
 	<pattern>
@@ -13041,7 +13058,7 @@ Contributions and ideas from:
 	
 	<rule id="SEPARAAT" name="separaat">
 	<pattern>
-		<token>separaat</token>
+		<token inflected="yes">separaat</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>apart</suggestion> of <suggestion>los</suggestion>.
@@ -13053,7 +13070,7 @@ Contributions and ideas from:
 	
 	<rule id="SEPONEREN" name="seponeren">
 	<pattern>
-		<token>seponeren</token>
+		<token inflected="yes">seponeren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet vervolgen</suggestion> of <suggestion>er niets mee doen</suggestion>.
@@ -13077,7 +13094,7 @@ Contributions and ideas from:
 	
 	<rule id="SIGNIFICANT" name="significant">
 	<pattern>
-		<token>significant</token>
+		<token inflected="yes">significant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>opvallend</suggestion> of <suggestion>statistisch verantwoord</suggestion>.
@@ -13101,7 +13118,7 @@ Contributions and ideas from:
 	
 	<rule id="SPECIFIEK" name="specifiek">
 	<pattern>
-		<token>specifiek</token>
+		<token inflected="yes">specifiek</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vooral</suggestion> of <suggestion>in het bijzonder</suggestion>.
@@ -13113,7 +13130,7 @@ Contributions and ideas from:
 	
 	<rule id="SPIN-OFF" name="spin-off">
 	<pattern>
-		<token>spin-off</token>
+		<token inflected="yes">spin-off</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gevolg</suggestion> of <suggestion>bijproduct</suggestion>.
@@ -13125,7 +13142,7 @@ Contributions and ideas from:
 	
 	<rule id="STAGNATIE" name="stagnatie">
 	<pattern>
-		<token>stagnatie</token>
+		<token inflected="yes">stagnatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vertraging</suggestion> of <suggestion>stilstand</suggestion>.
@@ -13137,7 +13154,7 @@ Contributions and ideas from:
 	
 	<rule id="STAGNEREN" name="stagneren">
 	<pattern>
-		<token>stagneren</token>
+		<token inflected="yes">stagneren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vertraagd raken</suggestion> of <suggestion>tot stilstand komen</suggestion>.
@@ -13149,7 +13166,7 @@ Contributions and ideas from:
 	
 	<rule id="STAKEHOLDER" name="stakeholder">
 	<pattern>
-		<token>stakeholder</token>
+		<token inflected="yes">stakeholder</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betrokkene</suggestion> of <suggestion>betrokken partij</suggestion>.
@@ -13158,18 +13175,8 @@ Contributions and ideas from:
 	<example correction="betrokkene|betrokken partij">A <marker>stakeholder</marker> B.</example>
 	<example>A <marker>betrokkene</marker>.</example>
 	</rule>
-	<rule id="STAKEHOLDERS" name="stakeholders">
-	<pattern>
-		<token>stakeholders</token>
-	</pattern>
-	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betrokkenen</suggestion> of <suggestion>betrokken partijen</suggestion>.
-	</message>
-	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="betrokkenen|betrokken partijen">A <marker>stakeholders</marker> B.</example>
-	<example>A <marker>betrokkenen</marker>.</example>
-	</rule>
-	
+
+<!--	
 	<rule id="STELLEN" name="stellen">
 	<pattern>
 		<token>stellen</token>
@@ -13181,10 +13188,10 @@ Contributions and ideas from:
 	<example correction="verklaren|meedelen">A <marker>stellen</marker> B.</example>
 	<example>A <marker>verklaren</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="STORNEREN" name="storneren">
 	<pattern>
-		<token>storneren</token>
+		<token inflected="yes">storneren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>terugstorten</suggestion>.
@@ -13196,7 +13203,7 @@ Contributions and ideas from:
 	
 	<rule id="STORNERING" name="stornering">
 	<pattern>
-		<token>stornering</token>
+		<token inflected="yes">stornering</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>terugboeking</suggestion>.
@@ -13208,7 +13215,7 @@ Contributions and ideas from:
 	
 	<rule id="STRATEGIE" name="strategie">
 	<pattern>
-		<token>strategie</token>
+		<token inflected="yes">strategie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>plan</suggestion> of <suggestion>aanpak</suggestion>.
@@ -13220,7 +13227,7 @@ Contributions and ideas from:
 	
 	<rule id="STRINGENT" name="stringent">
 	<pattern>
-		<token>stringent</token>
+		<token inflected="yes">stringent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>strak</suggestion> of <suggestion>streng</suggestion>.
@@ -13232,7 +13239,7 @@ Contributions and ideas from:
 	
 	<rule id="STRUCTUREEL" name="structureel">
 	<pattern>
-		<token>structureel</token>
+		<token inflected="yes">structureel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>jaarlijks</suggestion> of <suggestion>belangrijk</suggestion> of <suggestion>voldoende</suggestion>.
@@ -13242,14 +13249,14 @@ Contributions and ideas from:
 	<example>A <marker>jaarlijks</marker>.</example>
 	</rule>
 	
-	<rule id="EEN_STUKJE" name="een stukje.">
+	<rule id="EEN_STUKJE_BELEID" name="een stukje.">
 	<pattern>
 		<token>een</token>
 		<token>stukje</token>
 		<token>beleid</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft zonder 'een stukje, bijvoorbeeld <suggestion><match no="3"/></suggestion>'.
+		De tekst wordt vlotter als je de tekst herschrijft zonder 'een stukje' <suggestion><match no="3"/></suggestion>'.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="beleid">A <marker>een stukje beleid</marker> B.</example>
@@ -13258,7 +13265,7 @@ Contributions and ideas from:
 	
 	<rule id="SUBJECTIEF" name="subjectief">
 	<pattern>
-		<token>subjectief</token>
+		<token inflected="yes">subjectief</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>persoonlijk</suggestion> of <suggestion>eigen mening</suggestion> of <suggestion>alleen naar op het eigen gevoel lettend</suggestion>.
@@ -13270,7 +13277,7 @@ Contributions and ideas from:
 	
 	<rule id="SUBOPTIMAAL" name="suboptimaal">
 	<pattern>
-		<token>suboptimaal</token>
+		<token inflected="yes">suboptimaal</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>niet zo goed</suggestion> of <suggestion>minder goed dan verwacht</suggestion>.
@@ -13282,7 +13289,7 @@ Contributions and ideas from:
 	
 	<rule id="SUBSIDIABEL" name="subsidiabel">
 	<pattern>
-		<token>subsidiabel</token>
+		<token inflected="yes">subsidiabel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>wat subsidie kan krijgen</suggestion> of <suggestion>wat geld van de overheid kan krijgen</suggestion>.
@@ -13294,7 +13301,7 @@ Contributions and ideas from:
 	
 	<rule id="SUBSTANTIEEL" name="substantieel">
 	<pattern>
-		<token>substantieel</token>
+		<token inflected="yes">substantieel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>belangrijk</suggestion> of <suggestion>flink</suggestion>.
@@ -13306,7 +13313,7 @@ Contributions and ideas from:
 	
 	<rule id="SUMMIER" name="summier">
 	<pattern>
-		<token>summier</token>
+		<token inflected="yes">summier</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kort</suggestion> of <suggestion>beperkt</suggestion>.
@@ -13318,7 +13325,7 @@ Contributions and ideas from:
 	
 	<rule id="SUPPLETOIR" name="suppletoir">
 	<pattern>
-		<token>suppletoir</token>
+		<token inflected="yes">suppletoir</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aanvullend</suggestion>.
@@ -13342,7 +13349,7 @@ Contributions and ideas from:
 	
 	<rule id="TARGET" name="target">
 	<pattern>
-		<token>target</token>
+		<token inflected="yes">target</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>doel</suggestion>.
@@ -13354,7 +13361,7 @@ Contributions and ideas from:
 	
 	<rule id="TASKFORCE" name="taskforce">
 	<pattern>
-		<token>taskforce</token>
+		<token inflected="yes">taskforce</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>werkgroep</suggestion> of <suggestion>projectgroep</suggestion>.
@@ -13451,7 +13458,7 @@ Contributions and ideas from:
 	
 	<rule id="TEMPORISEREN" name="temporiseren">
 	<pattern>
-		<token>temporiseren</token>
+		<token inflected="yes">temporiseren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>uitstellen</suggestion> of <suggestion>vertragen</suggestion>.
@@ -13475,7 +13482,7 @@ Contributions and ideas from:
 
 	<rule id="T_A_V" name="t.a.v.">
 	<pattern>
-		<token>t</token><token>.</token><token>a</token><token>.</token><token>v</token><token>.</token>
+		<token>t</token><token spacebefore="no">.</token><token>a</token><token spacebefore="no">.</token><token>v</token><token spacebefore="no">.</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>over</suggestion>.
@@ -13499,7 +13506,7 @@ Contributions and ideas from:
 
 	<rule id="T_B_V" name="t.b.v.">
 	<pattern>
-		<token>t</token><token>.</token><token>b</token><token>.</token><token>v</token><token>.</token>
+		<token>t</token><token spacebefore="no">.</token><token>b</token><token spacebefore="no">.</token><token>v</token><token spacebefore="no">.</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>om</suggestion> of <suggestion>voor</suggestion> of <suggestion>bestemd voor</suggestion> of <suggestion>gericht aan</suggestion>.
@@ -13705,7 +13712,7 @@ Contributions and ideas from:
 	
 	<rule id="TERECHTWIJZING" name="terechtwijzing">
 	<pattern>
-		<token>terechtwijzing</token>
+		<token inflected="yes">terechtwijzing</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>tik op de vingers</suggestion>.
@@ -13777,7 +13784,7 @@ Contributions and ideas from:
 	
 	<rule id="TERUGKOPPELEN" name="terugkoppelen">
 	<pattern>
-		<token>terugkoppelen</token>
+		<token inflected="yes">terugkoppelen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>informeren</suggestion> of <suggestion>doorgeven wat besloten/besproken is</suggestion>.
@@ -13789,7 +13796,7 @@ Contributions and ideas from:
 	
 	<rule id="TERUGMELDEN" name="terugmelden">
 	<pattern>
-		<token>terugmelden</token>
+		<token inflected="yes">terugmelden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>melden (wat besproken is)</suggestion>.
@@ -13798,7 +13805,7 @@ Contributions and ideas from:
 	<example correction="melden (wat besproken is)">A <marker>terugmelden</marker> B.</example>
 	<example>A <marker>melden (wat besproken is)</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="TER_ZAKE" name="ter zake">
 	<pattern>
 		<token>ter</token><token>zake</token>
@@ -13810,7 +13817,7 @@ Contributions and ideas from:
 	<example correction="over">A <marker>ter zake</marker> B.</example>
 	<example>A <marker>over</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="TER_ZAKE_KUNDIG" name="ter zake kundig">
 	<pattern>
 		<token>ter</token><token>zake</token><token>kundig</token>
@@ -13908,21 +13915,9 @@ Contributions and ideas from:
 	</rule>
 	
 	
-	<rule id="TIENTAL" name="tiental">
-	<pattern>
-		<token>tiental</token>
-	</pattern>
-	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>tien</suggestion>.
-	</message>
-	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="tien">A <marker>tiental</marker> B.</example>
-	<example>A <marker>tien</marker>.</example>
-	</rule>
-	
 	<rule id="TIJDPAD" name="tijdpad">
 	<pattern>
-		<token>tijdpad</token>
+		<token inflected="yes">tijdpad</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>planning</suggestion>.
@@ -13934,7 +13929,7 @@ Contributions and ideas from:
 	
 	<rule id="TIJDSBESTEK" name="tijdsbestek">
 	<pattern>
-		<token>tijdsbestek</token>
+		<token inflected="yes">tijdsbestek</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>tijd</suggestion> of <suggestion>periode</suggestion>.
@@ -13958,7 +13953,7 @@ Contributions and ideas from:
 	
 	<rule id="TOETSEN_AAN" name="toetsen aan">
 	<pattern>
-		<token>toetsen</token><token>aan</token>
+		<token inflected="yes">toetsen</token><token>aan</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vergelijken met</suggestion>.
@@ -13970,7 +13965,7 @@ Contributions and ideas from:
 	
 	<rule id="TOPIC" name="topic">
 	<pattern>
-		<token>topic</token>
+		<token inflected="yes">topic</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>onderwerp</suggestion>.
@@ -14006,7 +14001,7 @@ Contributions and ideas from:
 	
 	<rule id="TRACHTEN" name="trachten">
 	<pattern>
-		<token>trachten</token>
+		<token inflected="yes">trachten</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>proberen</suggestion>.
@@ -14018,7 +14013,7 @@ Contributions and ideas from:
 	
 	<rule id="TRANSPARANT" name="transparant">
 	<pattern>
-		<token>transparant</token>
+		<token inflected="yes">transparant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>open</suggestion> of <suggestion>doorzichtig</suggestion> of <suggestion>te controleren</suggestion>.
@@ -14090,7 +14085,7 @@ Contributions and ideas from:
 	
 	<rule id="UNIVERSEEL" name="universeel">
 	<pattern>
-		<token>universeel</token>
+		<token inflected="yes">universeel</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>algemeen</suggestion>.
@@ -14102,7 +14097,7 @@ Contributions and ideas from:
 	
 	<rule id="URGENT" name="urgent">
 	<pattern>
-		<token>urgent</token>
+		<token inflected="yes">urgent</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>dringend</suggestion> of <suggestion>iets wat haast heeft</suggestion>.
@@ -14114,7 +14109,7 @@ Contributions and ideas from:
 	
 	<rule id="URGENTIE" name="urgentie">
 	<pattern>
-		<token>urgentie</token>
+		<token inflected="yes">urgentie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>haast</suggestion> of <suggestion>het spoedeisend zijn</suggestion>.
@@ -14126,7 +14121,7 @@ Contributions and ideas from:
 	
 	<rule id="USANCE" name="usance">
 	<pattern>
-		<token>usance</token>
+		<token inflected="yes">usance</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gebruik</suggestion>.
@@ -14138,7 +14133,7 @@ Contributions and ideas from:
 	
 	<rule id="UTILITAIR" name="utilitair">
 	<pattern>
-		<token>utilitair</token>
+		<token inflected="yes">utilitair</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>gericht op praktisch nut</suggestion>.
@@ -14186,7 +14181,7 @@ Contributions and ideas from:
 	
 	<rule id="VACANT" name="vacant">
 	<pattern>
-		<token>vacant</token>
+		<token inflected="yes">vacant</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vrij</suggestion>.
@@ -14222,7 +14217,7 @@ Contributions and ideas from:
 	
 	<rule id="VALIDEREN" name="valideren">
 	<pattern>
-		<token>valideren</token>
+		<token inflected="yes">valideren</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goedkeuren</suggestion>.
@@ -14234,7 +14229,7 @@ Contributions and ideas from:
 	
 	<rule id="VALORISATIE" name="valorisatie">
 	<pattern>
-		<token>valorisatie</token>
+		<token inflected="yes">valorisatie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kennis echt gaan benutten</suggestion> of <suggestion>kennis toepassen in de praktijk</suggestion>.
@@ -14340,7 +14335,7 @@ Contributions and ideas from:
 	<example correction="[vermijden]">A <marker>vanuit de organisatie</marker> B.</example>
 	<example>A <marker>[vermijden]</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="VANWEGE" name="vanwege">
 	<pattern>
 		<token>vanwege</token>
@@ -14352,7 +14347,7 @@ Contributions and ideas from:
 	<example correction="omdat">A <marker>vanwege</marker> B.</example>
 	<example>A <marker>omdat</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="VANWEGE_HET_FEIT_DAT" name="vanwege het feit dat">
 	<pattern>
 		<token>vanwege</token><token>het</token><token>feit</token><token>dat</token>
@@ -14389,15 +14384,15 @@ Contributions and ideas from:
 	<example>A <marker>vaak</marker>.</example>
 	</rule>
 	
-	<rule id="VERBETERPUNTEN" name="verbeterpunten">
+	<rule id="VERBETERPUNT" name="verbeterpunt">
 	<pattern>
-		<token>verbeterpunten</token>
+		<token inflected="yes">verbeterpunt</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>dingen die beter moeten</suggestion> of <suggestion>fouten</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>iets dat beter moet</suggestion> of <suggestion>fout</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="dingen die beter moeten|fouten">A <marker>verbeterpunten</marker> B.</example>
+	<example correction="iets dat beter moet|fout">A <marker>verbeterpunt</marker> B.</example>
 	<example>A <marker>dingen die beter moeten</marker>.</example>
 	</rule>
 	
@@ -14415,7 +14410,7 @@ Contributions and ideas from:
 	
 	<rule id="VERKETELEN" name="verketelen">
 	<pattern>
-		<token>verketelen</token>
+		<token inflected="yes">verketelen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>een cv-ketel vervangen</suggestion>.
@@ -14427,7 +14422,7 @@ Contributions and ideas from:
 	
 	<rule id="VERKIEZEN_BOVEN" name="verkiezen boven">
 	<pattern>
-		<token>verkiezen</token><token>boven</token>
+		<token inflected="yes">verkiezen</token><token>boven</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>kiezen voor iets anders</suggestion> of <suggestion>iets anders een betere keuze vinden</suggestion>.
@@ -14439,7 +14434,7 @@ Contributions and ideas from:
 	
 	<rule id="VERMANEN" name="vermanen">
 	<pattern>
-		<token>vermanen</token>
+		<token inflected="yes">vermanen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>op de vingers tikken</suggestion> of <suggestion>de les lezen</suggestion>.
@@ -14448,7 +14443,7 @@ Contributions and ideas from:
 	<example correction="op de vingers tikken|de les lezen">A <marker>vermanen</marker> B.</example>
 	<example>A <marker>op de vingers tikken</marker>.</example>
 	</rule>
-	
+	<!--
 	<rule id="VERMOGEN" name="vermogen">
 	<pattern>
 		<token>vermogen</token>
@@ -14460,10 +14455,10 @@ Contributions and ideas from:
 	<example correction="kunnen|in staat zijn; bezit">A <marker>vermogen</marker> B.</example>
 	<example>A <marker>kunnen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="VERORDENING" name="verordening">
 	<pattern>
-		<token>verordening</token>
+		<token inflected="yes">verordening</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>regels waaraan men zich moet houden</suggestion> of <suggestion>bindende regeling</suggestion>.
@@ -14487,7 +14482,7 @@ Contributions and ideas from:
 	
 	<rule id="VERSTREKEN_PERIODE" name="verstreken periode">
 	<pattern>
-		<token>verstreken</token><token>periode</token>
+		<token>verstreken</token><token inflected="yes">periode</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afgelopen tijd</suggestion>.
@@ -14559,7 +14554,7 @@ Contributions and ideas from:
 			
 	<rule id="VLIEGUREN_MAKEN" name="vlieguren maken">
 	<pattern>
-		<token>vlieguren</token><token>maken</token>
+		<token>vlieguren</token><token inflected="yes">maken</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>werken</suggestion> of <suggestion>aan de gang zijn</suggestion> of <suggestion>ervaring opdoen</suggestion>.
@@ -14569,9 +14564,10 @@ Contributions and ideas from:
 	<example>A <marker>werken</marker>.</example>
 	</rule>
 	
+	<!--
 	<rule id="VOLDOEN" name="voldoen">
 	<pattern>
-		<token>voldoen</token>
+		<token inflected="yes">voldoen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betalen</suggestion>.
@@ -14580,7 +14576,7 @@ Contributions and ideas from:
 	<example correction="betalen">A <marker>voldoen</marker> B.</example>
 	<example>A <marker>betalen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="VOLGAARNE" name="volgaarne">
 	<pattern>
 		<token>volgaarne</token>
@@ -14787,7 +14783,7 @@ Contributions and ideas from:
 	
 	<rule id="VOORWAARDEN_SCHEPPEN" name="voorwaarden scheppen">
 	<pattern>
-		<token>voorwaarden</token><token>scheppen</token>
+		<token>voorwaarden</token><token inflected="yes">scheppen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>mogelijk maken</suggestion>.
@@ -14811,7 +14807,7 @@ Contributions and ideas from:
 	
 	<rule id="VORDEREN" name="vorderen">
 	<pattern>
-		<token>vorderen</token>
+		<token inflected="yes">vorderen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>eisen</suggestion>.
@@ -14871,7 +14867,7 @@ Contributions and ideas from:
 	
 	<rule id="VRAAGPUNT" name="vraagpunt">
 	<pattern>
-		<token>vraagpunt</token>
+		<token inflected="yes">vraagpunt</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vraag</suggestion>.
@@ -14883,7 +14879,7 @@ Contributions and ideas from:
 	
 	<rule id="VREZEN_VOOR" name="vrezen voor">
 	<pattern>
-		<token>vrezen</token><token>voor</token>
+		<token inflected="yes">vrezen</token><token>voor</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bang zijn voor</suggestion>.
@@ -14907,7 +14903,7 @@ Contributions and ideas from:
 	
 	<rule id="WAARBORGEN" name="waarborgen">
 	<pattern>
-		<token>waarborgen</token>
+		<token inflected="yes">waarborgen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zorgen dat iets blijft bestaan</suggestion> of <suggestion>vasthouden</suggestion>.
@@ -14919,7 +14915,7 @@ Contributions and ideas from:
 	
 	<rule id="WAARNEMEN" name="waarnemen">
 	<pattern>
-		<token>waarnemen</token>
+		<token inflected="yes">waarnemen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zien; tijdelijk de functie hebben van</suggestion>.
@@ -14967,7 +14963,7 @@ Contributions and ideas from:
 	
 	<rule id="WATERGANG" name="watergang">
 	<pattern>
-		<token>watergang</token>
+		<token inflected="yes">watergang</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>sloot</suggestion> of <suggestion>gracht</suggestion>.
@@ -15014,10 +15010,10 @@ Contributions and ideas from:
 	<example correction="misschien">A <marker>wellicht</marker> B.</example>
 	<example>A <marker>misschien</marker>.</example>
 	</rule>
-	
+	<!-- is onzin als het een znw is.
 	<rule id="WENSEN" name="wensen">
 	<pattern>
-		<token>wensen</token>
+		<token inflected="yes">wensen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>willen</suggestion>.
@@ -15026,10 +15022,10 @@ Contributions and ideas from:
 	<example correction="willen">A <marker>wensen</marker> B.</example>
 	<example>A <marker>willen</marker>.</example>
 	</rule>
-	
+	-->
 	<rule id="WERKBAAR" name="werkbaar">
 	<pattern>
-		<token>werkbaar</token>
+		<token inflected="yes">werkbaar</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>praktisch</suggestion>.
@@ -15041,7 +15037,7 @@ Contributions and ideas from:
 	
 	<rule id="WERKVOORRAAD" name="werkvoorraad">
 	<pattern>
-		<token>werkvoorraad</token>
+		<token inflected="yes">werkvoorraad</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>achterstand</suggestion>.
@@ -15053,7 +15049,7 @@ Contributions and ideas from:
 	
 	<rule id="WERKZAAM_ZIJN" name="werkzaam zijn">
 	<pattern>
-		<token>werkzaam</token><token>zijn</token>
+		<token>werkzaam</token><token inflected="yes">zijn</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>werken</suggestion>.
@@ -15149,7 +15145,7 @@ Contributions and ideas from:
 	
 	<rule id="XENOFOBIE" name="xenofobie">
 	<pattern>
-		<token>xenofobie</token>
+		<token inflected="yes">xenofobie</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>angst voor buitenlanders</suggestion> of <suggestion>hekel aan buitenlanders</suggestion> of <suggestion>vreemdelingenhaat</suggestion>.
@@ -15161,7 +15157,7 @@ Contributions and ideas from:
 	
 	<rule id="XENOFOOB" name="xenofoob">
 	<pattern>
-		<token>xenofoob</token>
+		<token inflected="yes">xenofoob</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>bang voor buitenlanders</suggestion> of <suggestion>een hekel hebbend aan buitenlanders</suggestion>.
@@ -15173,7 +15169,7 @@ Contributions and ideas from:
 	
 	<rule id="YELL" name="yell">
 	<pattern>
-		<token>yell</token>
+		<token inflected="yes">yell</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>slagzin</suggestion> of <suggestion>kreet</suggestion>.
@@ -15185,7 +15181,7 @@ Contributions and ideas from:
 	
 	<rule id="YUP" name="yup">
 	<pattern>
-		<token>yup</token>
+		<token inflected="yes">yup</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>jong persoon met een goede baan</suggestion>.
@@ -15209,7 +15205,7 @@ Contributions and ideas from:
 	
 	<rule id="ZICH_BERADEN" name="zich beraden">
 	<pattern>
-		<token>zich</token><token>beraden</token>
+		<token>zich</token><token inflected="yes">beraden</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>nadenken over</suggestion>.
@@ -15221,7 +15217,7 @@ Contributions and ideas from:
 	
 	<rule id="ZICH_VERSTAAN_MET" name="zich verstaan met">
 	<pattern>
-		<token>zich</token><token>verstaan</token><token>met</token>
+		<token>zich</token><token inflected="yes">verstaan</token><token>met</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>overleggen met</suggestion>.
@@ -15233,7 +15229,7 @@ Contributions and ideas from:
 	
 	<rule id="ZIEN_OP" name="zien op">
 	<pattern>
-		<token>zien</token><token>op</token>
+		<token inflected="yes">zien</token><token>op</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>betrekking hebben op</suggestion> of <suggestion>gaan over</suggestion>.
@@ -15293,7 +15289,7 @@ Contributions and ideas from:
 	
 	<rule id="ZODANIG" name="zodanig">
 	<pattern>
-		<token>zodanig</token>
+		<token inflected="yes">zodanig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zo</suggestion>.
@@ -15341,7 +15337,7 @@ Contributions and ideas from:
 	
 	<rule id="ZORG_DRAGEN" name="zorg dragen">
 	<pattern>
-		<token>zorg</token><token>dragen</token>
+		<token>zorg</token><token inflected="yes">dragen</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ervoor zorgen</suggestion>.
@@ -15353,7 +15349,7 @@ Contributions and ideas from:
 	
 	<rule id="ZORGVULDIG" name="zorgvuldig">
 	<pattern>
-		<token>zorgvuldig</token>
+		<token inflected="yes">zorgvuldig</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>netjes</suggestion> of <suggestion>precies</suggestion> of <suggestion>nauwkeurig</suggestion>.
@@ -15390,7 +15386,7 @@ Contributions and ideas from:
 	
 	<rule id="ZWAKTEBOD" name="zwaktebod">
 	<pattern>
-		<token>zwaktebod</token>
+		<token inflected="yes">zwaktebod</token>
 	</pattern>
 	<message>
 		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>iets slechts aanbieden</suggestion> of <suggestion>alleen maar omdat er niets beters is</suggestion> of <suggestion>slecht voorstel</suggestion>.
@@ -16423,8 +16419,10 @@ zijdens 	van de kant van, door
   <!--
   2015-02-01 TaalTik nieuw
   -->
+  <antipattern>
+  <token inflected="yes">worden</token><token postag="VBp" regexp="yes">.*t</token><token regexp="yes">van|door</token></antipattern>
   <pattern>
-  <token regexp="yes">wordt|word|werd|werden|worden</token>
+  <token inflected="yes">worden</token>
   <marker>
   <token postag="VB3" regexp="yes">.*t</token>
   </marker>
@@ -16432,6 +16430,8 @@ zijdens 	van de kant van, door
   </pattern>
   <message>U bedoelt vast <suggestion><match no="2" postag="VBp"/></suggestion></message>
   <example correction="beschuldigd">Jij wordt <marker>beschuldigt</marker> van fouten.</example>
+  <example>Jij wordt <marker>beschuldigd</marker> van fouten.</example>
+  <example>Het wordt <marker>veroorzaakt</marker> door fouten.</example>
 </rule>
 
 <rule id="WIJ_LOOP" name="wij loopt">
@@ -17457,8 +17457,9 @@ zijdens 	van de kant van, door
   <example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
 </rule>
 -->
-  
-<rule id="KAN_KUN_a" name="kan vs kun">
+
+<rulegroup id="KAN_KUN" name="kan vs kun">
+<rule>
   <!--
   2014-08-20 TaalTik
     regel werkt
@@ -17478,7 +17479,7 @@ zijdens 	van de kant van, door
   <example correction="Kun"><marker>Kan</marker> je het even doen voor mij?</example>
 </rule>
 
-<rule id="KAN_KUN_b" name="kan of kunt">
+<rule>
   <!--
   2014-08-22 TaalTik
     regel werkt goed
@@ -17496,7 +17497,7 @@ zijdens 	van de kant van, door
   <example correction="Kunt"><marker>Kan</marker> u het even doen voor mij?</example>
 </rule>
 
-<rule id="KAN_KUN_c" name="kan of kunt">
+<rule>
   <!--
   2014-08-21 TaalTik
     regel werkt goed, maar tekst iets aangepast o.b.v. advies Onze Taal
@@ -17512,8 +17513,10 @@ zijdens 	van de kant van, door
   <example><marker>U kunt</marker> dat toch wel even doen voor mij?.</example>
   <example correction="U kunt"><marker>U kan</marker> dat toch wel even doen voor mij?</example>
 </rule>
+</rulegroup>
 
-<rule id="ZAL_ZUL_a" name="zal of zul">
+<rulegroup id="ZAL_ZUL" name="zal of zul">
+	<rule>
   <!--
   2014-08-21 TaalTik
     regel werkt goed
@@ -17533,7 +17536,7 @@ zijdens 	van de kant van, door
   <example correction="Zul je"><marker>Zal</marker> je het even doen voor mij?</example>
 </rule>
 
-<rule id="ZAL_ZUL_b" name="zal of zult">
+<rule>
   <!--
   2014-08-22 TaalTik
     regel werkt goed
@@ -17550,7 +17553,7 @@ zijdens 	van de kant van, door
   <example correction="Zult u"><marker>Zal u</marker> het even doen voor mij?</example>
 </rule>
 
-<rule id="ZAL_ZUL_c" name="zal of zult">
+<rule>
   <!--
   2014-08-22 TaalTik
     regel werkt goed
@@ -17566,7 +17569,7 @@ zijdens 	van de kant van, door
   <example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
   <example correction="U zult"><marker>U zal</marker> dat toch wel even doen voor mij?</example>
 </rule>
-
+</rulegroup>
   <!--
   2014-08-23 TaalTik
     regel uitgezet vanwege advies: https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f
@@ -17626,9 +17629,9 @@ zijdens 	van de kant van, door
     -->
     <pattern>
       <token case_sensitive="yes">N</token>
-      <token>.</token>
+      <token spacebefore="no">.</token>
       <token case_sensitive="yes">B</token>      
-      <token>.</token>      
+      <token spacebefore="no">.</token>      
       <token>:</token>      
     </pattern>
     <message>Na N.B. komt geen dubbelepunt: <suggestion>N.B.</suggestion></message>
@@ -17658,9 +17661,9 @@ zijdens 	van de kant van, door
     -->
     <pattern>
       <token case_sensitive="yes">P</token>
-      <token>.</token>
+      <token spacebefore="no">.</token>
       <token case_sensitive="yes">S</token>      
-      <token>.</token>      
+      <token spacebefore="no">.</token>      
       <token>:</token>      
     </pattern>
     <message>Na P.S. komt geen dubbelepunt: <suggestion>P.S.</suggestion></message>
@@ -19611,7 +19614,7 @@ zich van de domme houden, van den domme houden
 
     <!-- TaalTik 2014-09-15: nieuw , maar 16-9 uitgeschakeld; niet zinnig
   <rule id="KORT_3" name="Zinnen van 3 woorden">
-    <antipattern><token regexp="yes">[0-9]</token><token>.</token><token regexp="yes">[0-9]</token><token>.</token></antipattern>
+    <antipattern><token regexp="yes">[0-9]</token><token spacebefore="no">.</token><token regexp="yes">[0-9]</token><token spacebefore="no">.</token></antipattern>
     <pattern>
       <token postag="SENT_START"/>
       <token/>
@@ -19629,7 +19632,7 @@ zich van de domme houden, van den domme houden
   
   <rule id="X_EEUWSE" name="19e eeuwse → 19e-eeuwse">
     <!-- TaalTik 2014-09-15: nieuw -->
-    <antipattern><token regexp="yes">[0-9]</token><token>.</token><token regexp="yes">[0-9]</token><token>.</token></antipattern>
+    <antipattern><token regexp="yes">[0-9]</token><token spacebefore="no">.</token><token regexp="yes">[0-9]</token><token spacebefore="no">.</token></antipattern>
     <pattern>
       <token regexp="yes">.*[0-9](e|de|ste)</token>
       <token regexp="yes">eeuws|eeuwse</token>
@@ -19703,10 +19706,10 @@ zich van de domme houden, van den domme houden
     <example><marker>We</marker> vinden het goed.</example>
   </rule>
 
-  <rule id="KORT_1" name="Zinnen van 1 woorden">
+  <rule id="KORT_1" name="Zin van 1 woord">
     <pattern>
       <token postag="SENT_START"/>
-      <token><exception regexp="yes">§|"|©</exception></token>
+      <token><exception regexp="yes">§|"|©|[a-zA-Z0-9]</exception></token>
       <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
     </pattern>
     <message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>    
@@ -19715,6 +19718,7 @@ zich van de domme houden, van den domme houden
   </rule>  
   
   <rule id="KORT_2" name="Zinnen van 2 woorden">
+	  <antipattern><token>Hoofdstuk</token><token regexp="yes">[0-9]*</token></antipattern>
     <pattern>
       <token postag="SENT_START"/>
       <token><exception regexp="yes">§|"|©</exception></token>
@@ -19915,7 +19919,6 @@ zich van de domme houden, van den domme houden
   </rule>
   
 </category>
-
 <category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés">
 
   <rulegroup id="KASSA_RINKELT" name="De kassa rinkelt">
