@@ -3619,9 +3619,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="BESCHEIDE_BESCHEID" name="'Bescheide/Bescheid'">
             <pattern>
                 <marker>
-                    <token regexp="yes">Bescheide|Bescheids</token>
+                    <token regexp="yes">Bescheid[es]</token>
                 </marker>
-                <token regexp="yes">sagen|sagst|sagt|wissen|weißt|wisst|geben|gebt</token>
+                <token regexp="yes">sagen|sags?t|wissen|weißt|wisst|geben|gebt</token>
             </pattern>
             <message>Meinten Sie <suggestion>Bescheid</suggestion>?</message>
             <example correction="Bescheid">Da würde ich auch <marker>Bescheide</marker> sagen.</example>
@@ -3753,6 +3753,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="1" regexp_match="-Ü" regexp_replace="ü"/></suggestion>?</message>
             <example correction="vorübergehende">Eine <marker>vor-Übergehende</marker> Störung.</example>
         </rule>
+        <rulegroup id="ERDEN_WERDEN" name="'erden (werden)'">
+             <rule>
+                <pattern>
+                    <token postag="PA2:PRD:GRU:VER"></token>
+                    <marker><token regexp="yes" case_sensitive="yes">erden?</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>w\2</suggestion> (Hilfsverb für das Perfekt / Passiv) statt '\2' &odkomma;?</message>
+                <example correction="werden">Er soll bestraft <marker>erden</marker>.</example>
+                <example correction="werde">Falls ich dazu gezwungen <marker>erde</marker>, werde ich mich beschweren.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -27691,7 +27702,7 @@ Andere Projekte</example>
                 <token regexp="yes" skip="-1">hatt(en?|es?t)|war(s?t|en)?<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
                 <marker>
                     <token postag="PA2.*" postag_regexp="yes"><exception negate_pos="yes" postag=".*PA2.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">gehabt|gewesen</token>
+                    <token regexp="yes">ge(habt|wesen)</token>
                 </marker>
             </pattern>
             <message>Das doppelte Plusquamperfekt ('\1 \2 \3') ist keine standardsprachlich zulässige Zeitform. Verwenden Sie stattdessen das Plusquamperfekt oder Adverbien wie 'bereits' oder 'vorher'.</message>
@@ -28274,7 +28285,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">w[euü]rden</token>
                     </marker>
-                    <token regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart</token>
+                    <token regexp="yes">bin|bist|ist|sind|seid|war(st|en|t)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' &odkomma;?</message>
                 <example correction="worden">Nachdem er besiegt <marker>wurden</marker> war, gab er völlig auf.</example><!-- NOTE WAR_WERDEN also detects an error here. -->
