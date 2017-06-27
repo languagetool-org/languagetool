@@ -741,7 +741,7 @@ public class CaseRule extends Rule {
     return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).mapToInt(e -> 1).sum();
   }
 
-  private int getTokensWithMatchingPosTagRegexp(AnalyzedTokenReadings[] tokens, String regexp) {
+  private int getTokensWithMatchingPosTagRegexpCount(AnalyzedTokenReadings[] tokens, String regexp) {
     return Arrays.stream(tokens).filter(token -> token.matchesPosTagRegex(regexp)).mapToInt(e -> 1).sum();
   }
 
@@ -760,7 +760,7 @@ public class CaseRule extends Rule {
     if (!isPotentialError &&
         lowercaseReadings != null
         && (tokens[pos].hasPosTag("SUB:NOM:SIN:NEU:INF") || tokens[pos].hasPosTag("SUB:DAT:PLU:MAS"))
-        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:"))) {
+        && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:") || tokens[pos-1].isPosTagUnknown())) {
       // find error in: "Der Brief wird morgen Übergeben." / "Die Ausgaben haben eine Mrd. Euro Überschritten."
       isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !hasPartialTag(tokens[pos-1], "VER:AUX:3:");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
@@ -963,7 +963,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO:", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO:", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) || // "etwas ganz schön Verrücktes"
-         (tokens[i].hasPartialPosTag("VER:") && getTokensWithMatchingPosTagRegexp(tokens, "VER:[123]:SIN:.*") > 1 && getTokensWithPartialPosTagCount(tokens, "PKT") < 2); // "Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden."
+         (tokens[i].hasPartialPosTag("VER:") && getTokensWithMatchingPosTagRegexpCount(tokens, "VER:[123]:SIN:.*") > 1 && getTokensWithPartialPosTagCount(tokens, "PKT") < 2); // "Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden."
     }
     return false;
   }
