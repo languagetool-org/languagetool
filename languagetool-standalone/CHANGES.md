@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 3.8-SNAPSHOT (release planned for 2017-06-27)
+## 3.8 (2017-06-27)
 
 #### Catalan
   * added and improved rules
@@ -11,6 +11,7 @@
 
 #### Dutch
   * added many rules (by Ruud Baars)
+  * spelling dictionary update
 
 #### English
   * added and improved rules
@@ -42,6 +43,9 @@
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
     - [pt-BR]        VERO version 2.1.4
+
+#### Russian
+  * added and improved rules
 
 #### Slovak
   * major rule updates by Matúš Matula
