@@ -31,6 +31,8 @@ Contributions and ideas from:
 -->
 <!--
 opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">ergeren</match>
+regexp case-insensitive maken : (?i)
+
 -->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
@@ -41,7 +43,48 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 ]>
 
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-	<category id="SEMANTICS" name="Semantisch" default="off">
+<!--	
+<category id="CASING" name="Regels over toepassing van hoofdletters.">
+</category>
+
+<category id="COLLOQUIALISMS" name="Spreektaal.">
+</category>
+
+<category id="COMPOUNDING" name="Regels over los of aaneenschrijven.">
+</category>
+
+<category id="CONFUSED_WORDS" name="Woorden die vaak verward worden.">
+</category>
+
+<category id="FALSE_FRIENDS" name="Woorden die verward worden met een gelijkend woord in een andere taal.">
+</category>
+
+<category id="GENDER_NEUTRALITY">
+</category>
+
+<category id="GRAMMAR" name="Grammaticaregels.">
+</category>
+
+<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
+</category>
+
+<category id="REDUNDANCY">
+</category>
+
+<category id="REPETITIONS" name="Herlaning van woorden of woordgroepen.">
+</category>
+
+<category id="STYLE" name="Stijlaspecten die niet in de andere categorieën worden afgehandeld.">
+</category>
+
+<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
+</category>
+
+<category id="TYPOS" name="Typfouten of grote kans daarop.">
+</category>	
+-->
+	
+	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." default="off">
 		<rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
 			<rule>
 				<pattern>
@@ -170,6 +213,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		</rule>
 		
 	</category>
+	
 <category id="LEESBAARHEID" name="Leesbaarheid">
 	
 	<rule id="LANGER_DAN_18" name="Niet gemakkelijk leesbaar door lengte" default="off">
@@ -2281,8 +2325,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<example>Ik zie <marker>de wielas</marker>.</example>
 	</rule>
 	
-	
-	<rule id="GELE_TRUIDRAGER_a" name="gele truidrager → geletruidrager">
+	<rulegroup id="GELE_TRUIDRAGER_a" name="gele truidrager → geletruidrager">
+		<rule>
 		<!-- 
 		2014-08-19 TaalTik: 
 		rule is perfect; url added 
@@ -2297,7 +2341,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<example>De <marker>geletruidrager</marker>finishte.</example>
 	</rule>
 	
-	<rule id="GELE_TRUIDRAGER_b" name="gele - truidrager → geletruidrager">
+	<rule>
 		<pattern>
 			<token regexp="yes">gele|roze|groene|blauwe|witte|rode|oranje|bolletjes</token>
 			<token>-</token>
@@ -2307,6 +2351,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<example correction="geletruidrager">De <marker>gele - truidrager</marker> finishte.</example>
 		<example>De <marker>geletruidrager</marker>finishte.</example>
 	</rule>
+</rulegroup>
 	
 	<rule id="DERDE_WERELD_" name="derde wereldland → derdewereldland">
 		<!--
@@ -2920,7 +2965,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
   <example>Ik ben dol op <marker>cordon bleu</marker>.</example>
 </rule>
 
-<rule id="AKKOORD_ZIJN_a" name="akkoord zijn">
+<rulegroup id="AKKOORD_ZIJN" name="akkoord zijn">
+	<rule>
   <!--
   2014-08-23 TaalTik
     regel werkt goed
@@ -2952,11 +2998,12 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
   <message>Juist is <suggestion><match no="1" postag="VB.*" postag_regexp="yes">gaan</match></suggestion>.</message>
   <example correction="ga">Ik <marker>ben</marker> akkoord met het plan.</example>
 </rule>
+</rulegroup>
 
 <rule id="MISTTE" name="mistte of miste">
   <!--
   2014-08-23 TaalTik
-    regel wektr goed, en komt niet te vaak op.
+    regel werkt goed, en komt niet te vaak op.
     -->
   <pattern>
   <token negate="yes">het</token>
@@ -3088,8 +3135,6 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
     <example>De <marker>Straat Bass</marker>.</example>
     </rule>
     -->
-
-
 <rule id="T_PLAATS" name="'t Plaats">
   <!-- 
   2014-08-23 TaalTik
@@ -3726,7 +3771,6 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
   <example correction="aan het hart">Het gaat hem <marker>aan het hard</marker>.</example>
 </rule>
 
-
 <rule id="EIGENNAAM" name="eigennaam?">
   <!--
   2014-08-21 TaalTik
@@ -3923,7 +3967,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 <rule id="ALLES_DAT" name="geen 'alles dat', maar 'alles wat'">
   <!--
   2014-08-22 TaalTik
-    regel wertk goed, url toegevoegd
+    regel werkt goed, url toegevoegd
   -->
   <pattern>
   <token>alles</token>
@@ -7204,11 +7248,14 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<pattern>
 		<token negate="yes" skip="4" regexp="yes">het|dit|dat</token>
 		<marker>
-		<token inflected="yes">complex</token>
+		<token>complex</token>
 		</marker>
 	</pattern>
 	<message>
-		De tekst word vlotter als je schrijft: <suggestion>moeilijk</suggestion> of <suggestion>ingewikkeld</suggestion> of <suggestion>gebouw</suggestion>.
+		De tekst word vlotter als je schrijft: 
+		<suggestion>moeilijk</suggestion> of 
+		<suggestion>ingewikkeld</suggestion> of 
+		<suggestion>gebouw</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="moeilijk|ingewikkeld|gebouw">A <marker>complex</marker> B.</example>
@@ -9622,7 +9669,9 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<token inflected="yes">incongruent</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>verschillend</suggestion> of <suggestion>ongelijk</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion><match no="1" postag="AJ.*" postag_regexp="yes">verschillend</match></suggestion> of 
+			<suggestion><match no="1" postag="AJ.*" postag_regexp="yes">ongelijk</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="verschillend|ongelijk">A <marker>incongruent</marker> B.</example>
@@ -9634,10 +9683,11 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<token inflected="yes">inconsequent</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>afwijkend</suggestion> of <suggestion>niet volgens afspraak</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion><match no="1" postag="AJ.*" postag_regexp="yes">afwijkend</match></suggestion> of <suggestion>niet volgens afspraak</suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-	<example correction="afwijkend|niet volgens afspraak">A <marker>inconsequent</marker> B.</example>
+	<example correction="(afwijkend)|niet volgens afspraak">A <marker>inconsequent</marker> B.</example>
 	<example>A <marker>afwijkend</marker>.</example>
 	</rule>
 	
@@ -9646,7 +9696,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 		<token inflected="yes">incourant</token>
 	</pattern>
 	<message>
-		De tekst wordt vlotter als je de tekst herschrijft met <suggestion>ongewoon</suggestion>.
+		De tekst wordt vlotter als je de tekst herschrijft met 
+		<suggestion><match no="1" postag="AJ.*" postag_regexp="yes">ongewoon</match></suggestion>.
 	</message>
 	<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 	<example correction="ongewoon">A <marker>incourant</marker> B.</example>
@@ -9677,7 +9728,8 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example>A <marker>ongeveer</marker>.</example>
 	</rule>
 	
-	<rule id="IN_DE_GELEGENHEID_ZIJN" name="in de gelegenheid zijn">
+	<rulegroup id="IN_DE_GELEGENHEID_ZIJN" name="in de gelegenheid zijn">
+		<rule>
 	<pattern>
 		<token>in</token><token>de</token><token>gelegenheid</token><token>zijn</token>
 	</pattern>
@@ -9688,6 +9740,7 @@ opzoeken overeenkomende vorm: <match no="1" postag="VB.*" postag_regexp="yes">er
 	<example correction="kunnen">A <marker>in de gelegenheid zijn</marker> B.</example>
 	<example>A <marker>kunnen</marker>.</example>
 	</rule>
+</rulegroup>
 	
 	<rule id="IN_DE_NABIJE_TOEKOMST" name="in de nabije toekomst">
 	<pattern>
@@ -19767,7 +19820,7 @@ zich van de domme houden, van den domme houden
     <pattern>
       <token regexp="yes">jij|wij|zij|mij></token>
     </pattern>
-    <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
+    <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
     <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
     <short>Nadruk?</short>
     <example correction="We"><marker>Wij</marker> vinden het fout.</example>
