@@ -4391,7 +4391,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(?iu)(n|Mr|C|Dr|Dra|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dc|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd)\.\s</beforebreak>
+<beforebreak>\b(dc|(?iu)(n|Mr|C|Dr|Dra|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
@@ -4542,7 +4542,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Don't split at e.g. "d. h." -->
 <rule break="no">
-<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|«|\)|\]|\}]?\s</beforebreak>
+<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|“|«|\)|\]|\}]?\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4574,18 +4574,18 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Don't split [.?!] when they're quoted -->
 <rule break="no">
-<beforebreak>['"][\.!?…]['"]\s</beforebreak>
+<beforebreak>['"„][\.!?…]['"“]\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Don't break after quote unless there's a capital letter
          e.g.: "That's right!" he said. -->
 <rule break="no">
-<beforebreak>["']\s</beforebreak>
+<beforebreak>["'“]\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- e.g. "Das ist . so." - assume one sentence. -->
 <rule break="no">
-<beforebreak>\s([\.!?]{1,3}|…)['|"|«|\)|\]|\}]?\s</beforebreak>
+<beforebreak>\s([\.!?]{1,3}|…)['|"|“|«|\)|\]|\}]?\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Numbers, dates e.g. "3.10. datiert" -->
@@ -4636,7 +4636,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <!-- ähnliche Fälle außerhalb der Monatsnamen -->
 <rule break="no">
 <beforebreak>\d+\.\s</beforebreak>
-<afterbreak>Amtsperiode|Breitengrad|Breitengrads|Breitengrades|Jubiläum|Jh|Jhd|Jhdt|Tag|Tages|Tags|(Jahres|Spiel|Partei|Geburts)tag|(Jahres|Spiel|Partei|Geburts)tages|(Jahres|Spiel|Partei|Geburts)tags|Jahrhundert|Jahrhunderts|Jahrtausend|Platz|Platzes|Lebensjahr|Lebensjahrs|Lebensjahres|Loch|Lochs|Loches|Grads|Grades|Obergeschoss|Stock(werk)?s?|Etage|Klasse</afterbreak>
+<afterbreak>Amtsperiode|Breitengrad|Breitengrads|Breitengrades|Jubiläum|Jh|Jhd|Jhdt|Tag|Tages|Tags|(Jahres|Spiel|Partei|Geburts)tag|(Jahres|Spiel|Partei|Geburts)tages|(Jahres|Spiel|Partei|Geburts)tags|Jahrhundert|Jahrhunderts|Jahrtausend|Platz|Platzes|Lebensjahr|Lebensjahrs|Lebensjahres|Loch|Lochs|Loches|Grads|Grades|Obergeschoss|Stock(werk)?s?|Etage|Klasse|Runde|Bezirk</afterbreak>
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
@@ -4674,16 +4674,16 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|vorm|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt|zz|zzgl|Zz|Zt|Min|bzgl|bezügl|Frhr|ggfs|insb|autom)\.\s</beforebreak>
+<beforebreak>\b(Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vgl|Vol|vollst|vorm|vorm|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt|zz|zzgl|Zz|Zt|Min|bzgl|bezügl|Frhr|ggfs|insb|autom)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Break rules -->
 <rule break="yes">
-<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<beforebreak>[\.!?…][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"\p{Pe}\u00BB\u201D]?</beforebreak>
+<beforebreak>[\.!?…]['"“\p{Pe}\u00BB\u201D]?</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
@@ -4974,7 +4974,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Гг]р|вул|о|р|ім|[Сс]в)\.[\s\u00A0]*</beforebreak>
+<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Гг]р|о|р|ім|[Сс]в|вул|просп|бульв)\.[\s\u00A0]*</beforebreak>
 <afterbreak>[\s\u00A0]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
 <!-- місто, але принаймні з парою літер в назві бо є ще метри (м) -->
@@ -5320,7 +5320,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(h|hab|hist|Hort)\.\s</beforebreak>
+<beforebreak>\b(hab|hist|Hort)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5352,7 +5352,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(q.b|q.do|Q.I|ql)\.\s</beforebreak>
+<beforebreak>\b(q.b|q.do|Q.E|Q.I|ql)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5360,7 +5360,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(S|s|S.A|símb|S. M|Sr|Srta|suf|superl)\.\s</beforebreak>
+<beforebreak>\b(S|S.A|símb|S. M|Sr|Srta|suf|superl)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">

@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
  * for documentation of the steps this rule relies on.
  * @since 2.9
  */
-public class SubjectVerbAgreementRule extends GermanRule {
+public class SubjectVerbAgreementRule extends Rule {
 
   private static final ChunkTag NPS = new ChunkTag("NPS"); // noun phrase singular
   private static final ChunkTag NPP = new ChunkTag("NPP"); // noun phrase plural
@@ -70,6 +70,19 @@ public class SubjectVerbAgreementRule extends GermanRule {
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("ist|war").build(),
       new PatternTokenBuilder().token("gemeinsam").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().pos("ZAL").build(),
+      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
+      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().posRegex("ADV:MOD|ADJ:PRD:GRU").build(),
+      new PatternTokenBuilder().pos("ZAL").build(),
+      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
+      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
     )
   );
 
@@ -292,9 +305,6 @@ public class SubjectVerbAgreementRule extends GermanRule {
     throw new RuntimeException("No plural found for '" + token + "'");
   }
 
-  @Override
-  public void reset() {}
-  
   private static class SingularPluralPair {
     String singular;
     String plural;

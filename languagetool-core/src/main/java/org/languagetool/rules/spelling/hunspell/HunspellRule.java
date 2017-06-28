@@ -185,7 +185,6 @@ public class HunspellRule extends SpellingCheckRule {
         if (!"".equals(hunspellDict.getWordChars())) {
           wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }
-
         addIgnoreWords();
       }
     }

@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
  * "Und deine Schwester?", "Wie dumm von mir!", and book references like "Andreas Fecker: Fluglotsen."
  * @since 2.7
  */
-public class MissingVerbRule extends GermanRule {
+public class MissingVerbRule extends Rule {
 
   private static final int MIN_TOKENS_FOR_ERROR = 5;
 
@@ -137,7 +137,4 @@ public class MissingVerbRule extends GermanRule {
     return false;
   }
 
-  @Override
-  public void reset() {
-  }
 }

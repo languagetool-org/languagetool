@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -41,7 +42,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Jaume Ortolà i Font
  */
-public class AccentuationCheckRule extends CatalanRule {
+public class AccentuationCheckRule extends Rule {
 
   /**
    * Patterns
@@ -370,11 +371,6 @@ public class AccentuationCheckRule extends CatalanRule {
       }
     }
     return matches;
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

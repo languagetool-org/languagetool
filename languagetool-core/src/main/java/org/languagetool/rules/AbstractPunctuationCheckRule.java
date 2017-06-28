@@ -88,9 +88,4 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

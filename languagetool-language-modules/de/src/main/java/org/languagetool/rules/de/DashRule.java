@@ -29,7 +29,7 @@ import org.languagetool.rules.*;
  *   
  * @author Daniel Naber
  */
-public class DashRule extends GermanRule {
+public class DashRule extends Rule {
 
   public DashRule(ResourceBundle messages) {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
@@ -72,10 +72,6 @@ public class DashRule extends GermanRule {
       prevToken = token;
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
   }
 
 }

@@ -54,7 +54,9 @@ printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
 MSWORD=`grep -c ":msword" $TMPFILE`
 printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 
-echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD" >>/home/languagetool/api/api-log.csv
+# when adding items, add only at the end so scripts don't get confused:
+echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME;$GOOGLEAPP" >>/home/languagetool/api/api-log.csv
+cp /home/languagetool/api/api-log.csv /home/languagetool/languagetool.org/languagetool-website/www/analytics
 
 echo "" >>$OUTFILE
 echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
@@ -69,6 +71,10 @@ echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $T
 echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "Top API blocks:" >>$OUTFILE
+grep "too many requests" $TMPFILE | cut -c 21-59 | sort | uniq -c | sort -r -n | head -n 10  >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "Top 10 Errors:" >>$OUTFILE

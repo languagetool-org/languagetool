@@ -143,10 +143,21 @@
       </and>
     </pattern>
     <disambig action="remove" postag=".*:rare.*"/>
-    <example type="ambiguous" 
+    <example type="ambiguous"
         inputform="Можна[можна/predic,можний/adj:f:v_kly:rare,можний/adj:f:v_naz:rare]" 
         outputform="Можна[можна/predic]"><marker>Можна</marker> поломати ногу.</example>
     <example type="untouched">Можний дядько.</example>
+  </rule>
+
+  <rule name="Тих (займенник - не дієслово)" id="DIS_TYH">
+    <pattern>
+      <token>тих</token>
+    </pattern>
+    <disambig action="remove" postag="verb:imperf:past:m"/>
+    <example type="ambiguous" 
+        inputform="тих[тихнути/verb:imperf:past:m,той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
+        outputform="тих[той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
+        >До <marker>тих</marker> людей.</example>
   </rule>
 
   <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
@@ -251,7 +262,7 @@
     </pattern>
     <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly,любий/adj:f:v_naz]" 
+        inputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
         outputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname]">Агов <marker>Люба</marker></example>
     <example type="untouched">Тоді почалася Друга світова війна.</example>
     <example type="untouched">«Люба формула.</example>
@@ -266,7 +277,7 @@
     </pattern>
     <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="Люба[Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly,любий/adj:f:v_naz]" 
+        inputform="Люба[Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
         outputform="Люба[Люба/noun:anim:f:v_naz:prop:fname]"><marker>Люба</marker> Михайлівна</example>
     <example type="untouched">Така Люба.</example>
     <example type="untouched">Люба преференція.</example>
@@ -481,13 +492,17 @@
       <marker>
         <token>та</token>
       </marker>
-      <token><exception postag_regexp="yes" postag="noun.*?:f:v_naz.*"/></token>
+      <token>
+        <exception postag_regexp="yes" postag="noun.*?:f:v_naz.*"/>
+        <exception regexp="yes">[йі]</exception>
+      </token>
     </pattern>
     <disambig><match no="1" postag="conj.*|part.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
         inputform="та[та/conj:coord,та/part,той/adj:f:v_naz:&amp;pron:dem]"
         outputform="та[та/conj:coord,та/part]">садки <marker>та</marker> ясла</example>
     <example type="untouched">та жінка</example>
+    <example type="untouched">та й інша</example>
     <!-- TODO:
     <example type="untouched">та сама фігура</example>
     <example type="untouched">та зелена спідниця</example>
@@ -835,16 +850,30 @@
     <example type="untouched">В Ван приїхав султан.</example>
   </rule>
 
-  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR">
+  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR1">
     <pattern case_sensitive="yes">
       <marker>
         <token>Кот</token>
       </marker>
       <token regexp="yes">д['ʼ’]Івуар.*</token>
     </pattern>
-    <disambig><match no="1" postag="transl"/></disambig>
-    <example type="ambiguous" 
-        inputform="Кот[Кот/noun:anim:m:v_naz:prop:lname]"
+    <disambig action="add"><wd lemma="Кот" pos="transl">Кот</wd></disambig>
+    <example type="ambiguous"
+        inputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname]"
+        outputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname,Кот/transl]"
+            >до <marker>Кот</marker> д'Івуара</example>
+    <example type="untouched">Приїхав Василь Кот.</example>
+  </rule>
+  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR2">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>Кот</token>
+      </marker>
+      <token regexp="yes">д['ʼ’]Івуар.*</token>
+    </pattern>
+    <disambig><match no="1" postag="transl" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname,Кот/transl]"
         outputform="Кот[Кот/transl]"
             >до <marker>Кот</marker> д'Івуара</example>
     <example type="untouched">Приїхав Василь Кот.</example>
@@ -948,6 +977,20 @@
             >з грудня минулого <marker>року</marker>.</example>
     <example type="untouched">від класичної та етнічної до авангардного року.</example>
     <example type="untouched">з 2003 року.</example>
+  </rule>
+
+  <rule name="Ректи" id="REKTY">
+    <pattern>
+      <marker>
+        <token>рік</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="verb:imperf:past.*"/>
+    <example type="ambiguous"
+        inputform="рік[ректи/verb:imperf:past:m,рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
+        outputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
+            >минулий <marker>рік</marker>.</example>
+    <example type="untouched">минулого року.</example>
   </rule>
 
   <!-- TOOD: redo when dictionary updated

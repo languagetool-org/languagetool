@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,15 +16,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
-
-import org.languagetool.rules.Rule;
+package org.languagetool.dev.wordsimilarity;
 
 /**
- * Abstract base class for rules for the English language.
- * @deprecated let rules extend Rule or TextLevelRule directly (deprecated since LT 3.7)
+ * English keyboard distances.
  */
-@Deprecated
-public abstract class EnglishRule extends Rule {
+class QwertyKeyboardDistance extends BaseKeyboardDistance {
+
+  private static final char[][] KEYS = {
+          {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'},
+          {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'ü'},
+          {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'},
+          {'z', 'x', 'c', 'v', 'b', 'n', 'm'}
+  };
+
+  @Override
+  char[][] getKeys() {
+    return KEYS;
+  }
 
 }

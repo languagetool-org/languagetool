@@ -274,20 +274,19 @@ class Main {
     }
   }
 
-  private int handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
+  private void handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
     int matches = 0;
     String s = filterXML(sb.toString());
     if (options.isApplySuggestions()) {
-        System.out.print(Tools.correctText(s, lt));
-      } else if (profileRules) {
-        matches += Tools.profileRulesOnLine(s, lt, currentRule);
-      } else if (!options.isTaggerOnly()) {
-        matches += CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
-            lineOffset, matches, mode, options.isListUnknown(), Collections.<String>emptyList());
-      } else {
-        CommandLineTools.tagText(s, lt);
-      }
-    return matches;
+      System.out.print(Tools.correctText(s, lt));
+    } else if (profileRules) {
+      Tools.profileRulesOnLine(s, lt, currentRule);
+    } else if (!options.isTaggerOnly()) {
+      CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
+          lineOffset, matches, mode, options.isListUnknown(), Collections.emptyList());
+    } else {
+      CommandLineTools.tagText(s, lt);
+    }
   }
 
   private boolean isBreakPoint(String line) {

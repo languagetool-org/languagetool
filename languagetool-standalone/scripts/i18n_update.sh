@@ -27,7 +27,7 @@ do
   recode latin1..utf8 $SOURCE
   TARGET="../../../languagetool-language-modules/${shortCode}/src/main/resources/org/languagetool/MessagesBundle_${lang}.properties"
   SOURCE2=downloaded.tmp.ascii
-  native2ascii $SOURCE >$SOURCE2  
+  native2ascii -encoding utf-8 $SOURCE >$SOURCE2  
   # ignore new strings not translated yet (Transifex adds them, but commented out):
   modified_lines=`diff $TARGET $SOURCE2 | grep "^[<>]" | grep "^[<>] [a-zA-Z]"|wc -l`
   if [ $modified_lines -ne "0" ]; then

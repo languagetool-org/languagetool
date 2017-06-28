@@ -144,9 +144,6 @@ class AtDEvaluator implements Evaluator {
       throw new RuntimeException("not implemented");
     }
 
-    @Override
-    public void reset() {}
-    
   }
 
 }

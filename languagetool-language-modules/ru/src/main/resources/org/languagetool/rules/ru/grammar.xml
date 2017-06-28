@@ -163,7 +163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
-                    <token>,</token>
+                    <token min="0" max="1">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d\d\d</token>
@@ -171,14 +171,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>Днём недели \3 \4 \5 является не \1, а {realDay}.</message>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 октября 2014</marker> г.</example>
+                <example correction="">Конференция состоится в <marker>понедельник 7 октября 2014</marker> г.</example>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 окт 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 октября 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 окт 2014</marker> г.</example>
             </rule>
-              <rule>
+            <rule>
                   <pattern>
                       <token regexp="yes">&weekdays;</token>
-                      <token>,</token>
+                      <token min="0" max="1">,</token>
                       <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>            
                       <token>.</token>
                       <token regexp="yes">0?[1-9]|1[0-2]</token>
@@ -188,6 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
                 <message>Днём недели \3.\5.\7 является не \1, а {realDay}.</message>
                 <example correction="">Конференция состоится в <marker>понедельник, 7.10.2014</marker> г.</example>
+                <example correction="">Конференция состоится в <marker>понедельник 7.10.2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
@@ -200,6 +202,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
+        <rulegroup id="ne_proronila_ni" name="Опечатка «не проронила и слово»">
+         <!-- TODO: add postag for verb - переходный глагол-->   
+          <rule>
+              <pattern>
+		<token>не</token>
+                <token regexp="yes">проронил|проронила</token>
+                <token regexp="yes">и|ни</token>
+                <token postag_regexp="yes" postag="NN:.*:.*:Sin:V"><exception postag_regexp="yes" postag="NN:.*:.*:Sin:R"></exception></token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1" /> <match no="2" /> ни <match no="4" postag="NN:(.*):(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="не проронила ни слова">За весь вечер она <marker>не проронила и слово</marker>.</example>
+          </rule>
+        </rulegroup>
         <rule id="zakonchit_школу" name="Опечатка «закончить/окончить»">
             <pattern>
 		<token inflected="yes">закончить</token>
@@ -2835,6 +2851,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="час пик"><marker>час-пик</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="IS_POD" name="Сложный предлог «из-под»">
+            <rule> <!-- Предлог из-под всегда употребляется с родительным падежом -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>из</token>
+                    <token>под</token>
+                  </marker>
+                    <token  postag_regexp="yes" postag="NN:.*:.*:.*:R|ADJ:.*:.*:R"></token>       
+                </pattern>
+                <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+                <url>http://kak-pishetsa.ru/kak-pravilno-pishetsya-iz-pod/</url>
+                <short>Дефис.</short>
+                <example>Кот вылез из-под стола.</example>
+                <example correction="из-под">Кот вылез <marker>из под</marker> стола.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="PO_NAD" name="Сложный предлог «по-над»">
+            <rule> <!-- TODO  добавить исключение в правило "два предлога подряд" -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>по</token>
+                    <token>над</token>
+                  </marker>
+                    <token  postag_regexp="yes" postag="NN:.*:.*:.*:T|ADJ:.*:.*:T"></token>       
+                </pattern>
+                <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+
+                <short>Дефис.</short>
+                <example>Кот крался по-над стенкой.</example>
+                <example correction="по-над">Кот крался <marker>по над</marker> стенкой.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="Po-bystromu" name="Наречие «по-быстрому»?">
+            <rule> <!-- " -->
+                <pattern case_sensitive="yes">
+                  <marker>
+                    <token>по</token>
+                    <token regexp="yes">быстрому|новому</token>
+                  </marker>
+          <!--    <token><exception  postag_regexp="yes" postag="NN:.*:.*:.*:D|ADJ:.*:.*:D"></exception></token>     -->
+                    <token>.</token>                
+                </pattern>
+                <message>Наречие пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+             
+                <short>Дефис.</short>
+                <example>Мы справились по-быстрому.</example>
+                <example>Мы пошли по быстрому маршруту.</example>
+                <example correction="по-быстрому">Мы справились <marker>по быстрому</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
             <rule>
                 <pattern case_sensitive="yes">
@@ -3364,6 +3430,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Работа была сделана как попало.</example>
                 <example correction=" как попало">Работа была сделана<marker>, как попало</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VB:.*"></token>
+                    <token>,</token>
+                    <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
+                    <token>нужно</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Они воспринимают это как сигнал к тому, что нужно начать говорить.</example>
+                <example correction="достать что нужно"><marker>достать, что нужно</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...»">
+            <!--"Будь что будет" перед "что" запятая не нужна.
+            -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">бери|делай|будь|ешь</token>
+                    <token>,</token>
+                    <token>что</token>
+                    <token regexp="yes">будет|дают|хочешь|нравится</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="будь что будет">И <marker>будь, что будет</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="NO_VVODNOE" name="Слова не являющиеся вводными">
@@ -7263,7 +7356,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Нужно, чтобы мы готовились к худшему.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
-   
+
+        <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token postag="VB:Real:.*:P3" postag_regexp="yes" ><exception postag="VB:INF:"></exception></token>
+                <token>и</token>
+                <marker>
+                    <token postag="VB:INF:" ></token>
+                </marker>
+                <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception></token>
+            </pattern>
+            <message>Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:"  postag_replace="VB:Real:Sin:P3"></match></suggestion></message>
+
+            <short>Глагол должен быть в в личной форме.</short>
+            <example>Она сидит и кормит ребёнка.</example>
+            <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
+        </rule>
+        
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->

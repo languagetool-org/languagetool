@@ -1,6 +1,95 @@
 # LanguageTool Change Log
 
-## 3.7 (release planned for 2017-03-27)
+## 3.9-SNAPSHOT (release planned for 2017-09-26)
+
+ ...
+ 
+## 3.8 (2017-06-27)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary and rules for official names of Valencian municipalities
+
+#### Chinese
+  * added one rule
+
+#### Dutch
+  * added many rules (by Ruud Baars)
+  * spelling dictionary update
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * improved messages for old spelling variants, e.g. `Kuß` now suggests only `Kuss` and
+    also has a message explaining the user that `Kuß` is an old spelling
+
+#### Polish
+   * added rules
+   * added some common typos
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, contractions, pronominal collocations, compounding, and paronyms detection
+    - style: wordy expressions detection added and significant redundant expressions detection improvements
+    - punctuation: significant improvements
+    - formal speech: archaims, cacophonies, childish language and slang detection added
+    - typography: international system standards, number and mathematical symbol formatting
+    - misspellings: foreign famous personalities common misspelings
+    - AO90: identify words with changed spelling
+  * disambiguation improvements
+  * false friends support added
+    - Portuguese to Catalan (26 new pairs)
+    - Portuguese to Spanish (7 new pairs)
+  * spell checking exceptions for common Latin, English, and French expressions, species scientific names,
+    and famous personalities
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
+    - [pt-BR]        VERO version 2.1.4
+
+#### Russian
+  * added and improved rules
+
+#### Slovak
+  * major rule updates by Matúš Matula
+
+#### Ukrainian
+  * Significant dictionary update:
+    - thousands of new words
+    - some inflection adjustments
+  * Improved dynamic tagging for compound words
+  * Many new rules (barbarism, grammar, and spelling)
+  * New noun-verb agreement rule
+
+#### HTTP API
+  * The deprecated AfterTheDeadline mode has been removed
+  * The `apiVersion` property of the JSON output is now a number
+    instead of a string (issue #712)
+
+#### Java API
+  * Some deprecated methods and classes have been removed.
+
+#### Internal
+  * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
+    line are converted to a `DisambiguationPatternRule` in which each word is a case-sensitive
+    and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
+    the spell checker)
+
+#### LT server
+   * When running a LT server, the enabled/disabled rules loaded from a configuration file 
+     at the startup time will be the new default rules. Previously these rules were "forgotten" 
+     when a server query used the parameters for enabling and disabling rules. Now the rules 
+     from the query will be added to the rules from the configuration file. 
+
+## 3.7 (2017-03-27)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary
 
 #### English
   * added and improved rules
@@ -11,6 +100,7 @@
 
 #### German
   * added and improved rules
+  * added some common Latin, French, and English phrases that will be ignored by the spell checker
   * updated Hunspell dictionary to version 2017.01.12:
     * https://extensions.libreoffice.org/extensions/german-de-de-frami-dictionaries
     * https://extensions.libreoffice.org/extensions/german-de-at-frami-dictionaries
@@ -29,12 +119,13 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
+    - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
-    - typography: chemical formulas, degrees signs, dash signs, and punctuation
-    - semantics: url validator and date checker improvements
+    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
+    - semantics: wrong words in the context (22 confusion pairs), url validator and date checker improvements
     - registered brands category added
+    - translation errors category added
   * false friends support added:
     - Portuguese to Spanish (186 new pairs)
     - Portuguese to English (156 new pairs)
@@ -49,6 +140,17 @@
 
 #### Russian
   * added and improved rules
+  * updated tagger dictionary from AOT.ru rev.269 with extended POS tags
+
+#### Ukrainian
+  * Significant dictionary update:
+    - many new words
+    - some inflection adjustments
+  * Many new rules (barbarism, punctuations, and grammar)
+  * Improved dynamic tagging for compound words
+
+#### LibreOffice / Apache OpenOffice Integration
+  * Options dialog now uses system theme instead of Nimbus.
 
 #### Command-line
   * Added a `--languageModel` option to the embedded server, thanks to 
@@ -75,9 +177,6 @@
   
 #### Internal
   * OpenNLP has been updated from 1.6.0 to 1.7.2 (only used for English)
-
-#### LibreOffice / Apache OpenOffice Integration
-  * Options dialog now uses system theme instead of Nimbus.
 
 
 ## 3.6 (2016-12-28)

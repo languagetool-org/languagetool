@@ -36,10 +36,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CorrectExample;
-import org.languagetool.rules.IncorrectExample;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
 import org.languagetool.tools.StringTools;
 
@@ -205,7 +202,7 @@ public final class Tools {
     Set<String> disabledCategories = config.getDisabledCategoryNames();
     if (disabledCategories != null) {
       for (String categoryName : disabledCategories) {
-        langTool.disableCategory(categoryName);
+        langTool.disableCategory(new CategoryId(categoryName));
       }
     }
     Set<String> enabledRules = config.getEnabledRuleIds();

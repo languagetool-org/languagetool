@@ -50,7 +50,7 @@ import java.util.*;
  *  
  * @author Daniel Naber
  */
-public class AgreementRule extends GermanRule {
+public class AgreementRule extends Rule {
 
   private final German language;
 
@@ -86,7 +86,7 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("das|die").build(),
+      new PatternTokenBuilder().tokenRegex("das|die|der").build(),
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
@@ -113,6 +113,13 @@ public class AgreementRule extends GermanRule {
         new PatternTokenBuilder().posRegex("PKT").build()// "Ist das Kunst?"
     ),
     Arrays.asList(
+        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten").build(),
+        new PatternTokenBuilder().tokenRegex("sind|waren|ist").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build() // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList(
         new PatternTokenBuilder().token("des").build(),
         new PatternTokenBuilder().token("Lied").build(),
         new PatternTokenBuilder().token("ich").build()// Wes Brot ich ess, des Lied ich sing
@@ -122,6 +129,58 @@ public class AgreementRule extends GermanRule {
         new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().posRegex("ART:.*").build(), // "Das wenige Kilometer breite Tal"
+        new PatternTokenBuilder().posRegex("ADJ:.*").build(),
+        new PatternTokenBuilder().tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Van").build(), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
+        new PatternTokenBuilder().token("der").build(),
+        new PatternTokenBuilder().token("Bellen").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("mehrere").build(), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
+        new PatternTokenBuilder().pos("SUB:NOM:SIN:FEM:ADJ").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("allen").build(),
+        new PatternTokenBuilder().token("Besitz").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().tokenRegex("die|den|[md]einen?").build(),
+        new PatternTokenBuilder().token("Top").build(),
+        new PatternTokenBuilder().tokenRegex("\\d+").build()
+    ),
+    Arrays.asList( //"Unter diesen rief das großen Unmut hervor."
+        new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
+        new PatternTokenBuilder().pos("ZUS").build(),
+        new PatternTokenBuilder().pos("SENT_END").build()
+    ),
+    Arrays.asList( // "Bei mir löste das Panik aus."
+        new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
+        new PatternTokenBuilder().pos("ZUS").build(),
+        new PatternTokenBuilder().pos("SENT_END").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Außenring").build(),
+        new PatternTokenBuilder().token("Autobahn").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("Eurovision").build(),
+        new PatternTokenBuilder().token("Song").build(),
+        new PatternTokenBuilder().token("Contest").build()
+    ),
+    Arrays.asList( // "Das Holocaust Memorial Museum."
+        new PatternTokenBuilder().posRegex("ART:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build(),
+        new PatternTokenBuilder().pos("UNKNOWN").build()
     )
   );
 
@@ -169,6 +228,8 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("mit");
     PREPOSITIONS.add("durch");
     PREPOSITIONS.add("während");
+    PREPOSITIONS.add("unter");
+    PREPOSITIONS.add("ohne");
     // TODO: add more
   }
   
@@ -249,7 +310,7 @@ public class AgreementRule extends GermanRule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
-      boolean ignore = couldBeRelativeClause(tokens, i);
+      boolean ignore = couldBeRelativeOrDependentClause(tokens, i);
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))
@@ -335,16 +396,15 @@ public class AgreementRule extends GermanRule {
     boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
     String token = tokens[pos].getToken();
-    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && token.equalsIgnoreCase("allem")) {
-      relevantPronoun = false;
-    } else if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase())) {
+    if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase()) ||
+        (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && token.equalsIgnoreCase("allem"))) {
       relevantPronoun = false;
     }
     return relevantPronoun;
   }
 
   // TODO: improve this so it only returns true for real relative clauses
-  private boolean couldBeRelativeClause(AnalyzedTokenReadings[] tokens, int pos) {
+  private boolean couldBeRelativeOrDependentClause(AnalyzedTokenReadings[] tokens, int pos) {
     boolean comma;
     boolean relPronoun;
     if (pos >= 1) {
@@ -358,13 +418,14 @@ public class AgreementRule extends GermanRule {
     }
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
+      // or: "Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ."
       comma = tokens[pos-2].getToken().equals(",");
       if(comma) {
         String term1 = tokens[pos-1].getToken();
         String term2 = tokens[pos].getToken();
         boolean prep = PREPOSITIONS.contains(term1);
         relPronoun = REL_PRONOUN.contains(term2);
-        return prep && relPronoun;
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && term2.matches("(dies|jen)e[rmns]?"));
       }
     }
     return false;
@@ -373,7 +434,9 @@ public class AgreementRule extends GermanRule {
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2) {
-    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
+    // TODO: remove "-".equals(token2.getToken()) after the bug fix 
+    // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
       return null;
     }
     if (token2.isImmunized()) {
@@ -548,10 +611,6 @@ public class AgreementRule extends GermanRule {
       l.add(determination.toString());
     }
     return String.join("/", l);
-  }
-
-  @Override
-  public void reset() {
   }
 
 }

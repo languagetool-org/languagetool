@@ -65,14 +65,4 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
     return token.matches("^[.,!?: -]$");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.AbstractPunctuationCheckRule#reset()
-   */
-  @Override
-  public void reset() {
-    // nothing
-  }
-
 }

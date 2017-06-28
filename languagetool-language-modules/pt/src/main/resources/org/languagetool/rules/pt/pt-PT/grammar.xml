@@ -4,7 +4,7 @@ title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 
-<!--
+    <!--
  Portuguese (Portugal - postreform) - Grammar and Typo Rules for LanguageTool.
 
  Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
 
 -->
 
-<!DOCTYPE rules [
+  <!DOCTYPE rules [
 
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
@@ -41,7 +41,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
-    <!ENTITY PP_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
+    <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
 
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     
@@ -50,8 +50,8 @@ title="Easy editing stylesheet" ?>
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<!-- Unification rules retrieved from galician grammar.xml - START-->
-    <unification feature="number">
+    <!-- Unification rules retrieved from galician grammar.xml - START-->
+      <unification feature="number">
         <equivalence type="singular">
           <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
         </equivalence>
@@ -59,9 +59,9 @@ title="Easy editing stylesheet" ?>
         <equivalence type="plural">
           <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
         </equivalence>
-    </unification>
+      </unification>
 
-    <unification feature="gender">
+      <unification feature="gender">
         <equivalence type="masc">
           <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
         </equivalence>
@@ -69,9 +69,9 @@ title="Easy editing stylesheet" ?>
         <equivalence type="fem">
           <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
         </equivalence>
-    </unification>
+      </unification>
 
-    <unification feature="person">
+      <unification feature="person">
         <equivalence type="first">
           <token postag="(V...|PP)1.*" postag_regexp="yes"/>
         </equivalence>
@@ -81,27 +81,10 @@ title="Easy editing stylesheet" ?>
         <equivalence type="third">
           <token postag="(V...|PP)3.*" postag_regexp="yes"/>
         </equivalence>
-    </unification>
-<!-- Unification rules retrieved from galician grammar.xml - END  -->
+      </unification>
+    <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
-<category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
-
-    <rule id="AVÉ_MARIA" name="AO90: ave Maria">
-    <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-09 -->
-      <pattern>
-        <marker>
-          <token>avé</token>
-        </marker>
-          <token min="0">,</token>
-          <token>Maria</token>
-          <token>,</token>
-          <token>cheia</token>
-          <token>de</token>
-          <token>graça</token>
-      </pattern>
-      <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
-      <example correction="Ave"><marker>Avé</marker>, Maria, cheia de graça.</example>
-    </rule>
+ <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
 
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
@@ -117,43 +100,49 @@ title="Easy editing stylesheet" ?>
       <example correction="efeito de estufa|efeito estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example><!-- TODO Confirm if this is a case of AO changes. VOP (AO90) has 'efeito de estufa'. Verify per-AO. -->
     </rule>
 
-    <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+  <rulegroup id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal</short>
+    <rule>
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
           <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
           <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\1-\2-\3</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2-\3</suggestion>
       <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
     <!-- 		Brazilian Portuguese has some inverted colocations  -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal</short>
     <rule>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes'>(algum|nenhum)a?</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&negacoes;</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
           <token postag='V.[PG].*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
@@ -164,26 +153,25 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message>
+      <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1-\2 \3</suggestion>
         <suggestion>\1 \3-\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <example correction='vou-te dar|vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>
@@ -197,49 +185,50 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes'>(algum|nenhum)a?</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&negacoes;</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>-|–</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
           <token postag_regexp='yes' postag='N.+'/>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
-          <token postag='V.*' postag_regexp='yes'></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\2-\1</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
+      <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
       <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>
@@ -250,15 +239,104 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token postag='V.*' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
-          <token regexp='yes'>&PP_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
-      <message>Palavra composta. Será que quis dizer:</message><suggestion>\1-\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2</suggestion>
       <example correction='dar-me'>Isto vai <marker>dar me</marker> muitas dores de cabeça.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+          <token postag='V.+' postag_regexp='yes'>
+    <!--<exception regexp='yes'>como|para|casa|nada</exception>--></token>
+      </pattern>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-\2</suggestion>
+      <example correction='Eu convido-o'><marker>Eu o convido</marker> para a inauguração.</example>
+      <example correction='Ele esmera-se'><marker>Ele se esmera</marker> na apresentação.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+      </pattern>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+      <example correction='Nós convidamo-lo'><marker>Nós o convidamos</marker> para a inauguração.</example>
+      <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
+      <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+      </pattern>
+      <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-n\2</suggestion>
+      <example correction='Eles convidaram-no'><marker>Eles o convidaram</marker> para a inauguração.</example>
+      <example>De forma alguma <marker>eles o convidaram</marker> para a inauguração.</example>
+      <example correction='Ela põe-nas'><marker>Ela as põe</marker> na mesa.</example>
     </rule>
   </rulegroup>
 
@@ -286,11 +364,11 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
       <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
       <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>
-<!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
+    <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
     </rule>
 
   <rulegroup id='AVOID_GERUND' name='Evitar o Gerúndio (perifrásico)' default='on' type='style'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
       <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
     <rule>
       <pattern>
@@ -329,7 +407,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
     <!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-24 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
     <rule id='AVOID_ALL_GERUND' name='Evitar o Gerúndio (completo)' default='off' type='style'>
       <pattern>
           <token postag='V.G0+' postag_regexp='yes'>
@@ -342,9 +420,20 @@ title="Easy editing stylesheet" ?>
       <example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
     </rule>
 
-    <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
-    <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
-  <rulegroup default='on' id="EQUIPES" name="Confusão Equipes - Equipas">
+    <rule id="POR_QUEH_PORQUE" name="Confusão: 'Por quê' e 'Porque'">
+      <pattern>
+          <token>por</token>
+          <token>quê</token>
+      </pattern>
+      <message>Em Português Europeu a expressão é sempre justaposta.</message>
+        <suggestion>porquê</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-porque-e-o-por-que-e-o-portugues-europeu/30017</url>
+      <short>Brasileirismo</short>
+      <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
+    </rule>
+
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+  <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
     <rule>
       <pattern>
           <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
@@ -368,7 +457,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
     <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
-    <!-- Created by  Marco A.G.Pinto , Portuguese rule -->
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
   <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
     <rule>
       <pattern>
@@ -393,453 +482,338 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-</category>
+ </category>
 
-<category id="CONTRACTIONS" name="Contrações">
+ <category id="CONTRACTIONS" name="Contrações">
 
   <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
-    <!-- DE OUTRA doutra				-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRA' name='De + outra'>
+      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+      <short>Utilize a contração.</short>
+    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">outra</token>
+          <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
       </pattern>
-      <message>Pode também dizer <suggestion>doutra</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+      <example correction='doutrem'><marker>de outrem</marker>.</example>
+      <example correction='doutro'><marker>de outro</marker>.</example>
+      <example correction='doutros'><marker>de outros</marker>.</example>
       <example correction='doutra'><marker>de outra</marker>.</example>
-    </rule>
-
-    <!-- DE OUTRAS doutras				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRAS' name='De + outras'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outras</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutras</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='doutras'><marker>de outras</marker>.</example>
     </rule>
-
-    <!-- DE OUTREM doutrem				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outrem'>
+    <rule default='on' id='CONTRACAO_DUM' name='De + um/uns'>
+      <antipattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
       <pattern>
           <token>de</token>
-          <token case_sensitive="yes">outrem</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode também dizer <suggestion>doutrem</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutrem'><marker>de outrem</marker>.</example>
-    </rule>
-
-    <!-- DE OUTRO doutro				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTRO' name='De + outro'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outro</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutro</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutro'><marker>de outro</marker>.</example>
-    </rule>
-
-    <!-- DE OUTROS doutros				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DOUTROS' name='De + outros'>
-      <pattern>
-          <token>de</token>
-          <token case_sensitive="yes">outros</token>
-      </pattern>
-      <message>Pode também dizer <suggestion>doutros</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='doutros'><marker>de outros</marker>.</example>
-    </rule>
-
-    <!-- DE UM dum				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUM' name='De + um'>
-
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>dum</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
-    </rule>
-
-    <!-- DE UMA duma				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUMA' name='De + uma'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>duma</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
-    </rule>
-
-    <!-- DE UMAS dumas				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUMAS' name='De + umas'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>dumas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
-    </rule>
-
-    <!-- DE UNS duns				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_DUNS' name='De + uns'>
-      <pattern>
-        <marker>
-          <token>de</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>duns</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='duns'><marker>de uns</marker> rios.</example>
     </rule>
-
-    <!-- EM UM num				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUM' name='Em + um'>
-      <pattern>
-        <marker>
+    <rule default='on' id='CONTRACAO_NUM' name='Em + um/uns'>
+      <antipattern>
           <token>em</token>
-          <token case_sensitive="yes">um</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
-      <message>Pode também dizer <suggestion>num</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
+      <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <example correction='num'><marker>em um</marker> belo dia.</example>
-    </rule>
-
-    <!-- EM UMA numa				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMA' name='Em + uma'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uma</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>numa</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
-    </rule>
-
-    <!-- EM UMAS numas				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMAS' name='Em + umas'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">umas</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>numas</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
       <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
-    </rule>
-
-    <!-- EM UNS nums				-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-    <rule default='on' id='CONTRACAO_NUMS' name='Em + uns'>
-      <pattern>
-        <marker>
-          <token>em</token>
-          <token case_sensitive="yes">uns</token>
-        </marker>
-          <token max='2' postag='(N|A).*' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
-      </pattern>
-      <message>Pode também dizer <suggestion>nums</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
-    <!--		TODO Write better examples		-->
-      <example correction='nums'><marker>em uns</marker> rios.</example>
-    </rule>
- 
-</rulegroup>
-
-</category>
-
-<category id='COMPOUNDING' name='Palavras Compostas'>
-
-    <rule id='HAVER_DE' name='Haver + de (AO90)'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-07 -->
-      <pattern>
-          <token regexp='yes'>hei|hás|há|hão</token>
-          <token regexp='yes'>-|–|—</token>
-          <token>de</token>
-      </pattern>
-      <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message><suggestion>\1 \3</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
-      <example correction='Hás de'><marker>Hás-de</marker> comprar uma casa.</example>
-      <example correction='Hei de'><marker>Hei-de</marker> ir ao Congo.</example>
-    </rule>
-
-  <rulegroup id='COMPOUNDS_AO90_GENERIC_PREFIX' name='Hifenizador de palavras pós-reforma'>
-    <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-02 -->
-<!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
-      <url>http://pucrs.br/gpt/hifen.php</url>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>-->
-      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>
-    <rule>
-      <pattern>
-          <token regexp='yes'>ex|sota|soto|vice|vizo|grã|pós|pré|pró|recém</token>
-    <!-- além|aquém|bem|sem|grão are better dealt by PortugueseCompoundRule.java -->
-          <token>
-            <exception regexp='yes'>[-,.!?\(\)]</exception>
-            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
-          </token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='vice-diretor'>Tem uma reunião marcada com o <marker>vice diretor</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>
-            <exception regexp='yes'>[-,.!?\(\)]</exception>
-            <exception postag='(C|R|S|NP).+' postag_regexp='yes'/>
-          </token>
-          <token regexp='yes'>açu|guaçu|mirim</token>
-    <!-- These suffixes are used in Brazilian Portuguese -->
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='Escuteiro-Mirim'>Manual do  <marker>Escuteiro Mirim</marker></example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa|extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro|circum|pan|hiper|inter|super|sub</token>
-    <!-- além|aquém|sem|grão|bem|mal|contra|entre|sobre|ante are better dealt by PortugueseCompoundRule.java -->
-          <token regexp='yes'>h.+
-            <exception regexp='yes'>[-,.!?\(\)]</exception>
-            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
-          </token>
-      </pattern>
-      <message>Palavra provavelmente hifenizada. Pretende dizer </message><suggestion>\1-\2</suggestion>
-      <example correction='co-herdada'>A análise do ADN mostrou uma mutação <marker>co herdada</marker> por todos os membros da família afetados.</example>
-<!--	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>-->
-      <example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
-    </rule>
-   
-    <!--	TODO Rule for (des|in)-h... -> (des|in)...	-->
-   
-    <rule>
-      <pattern>
-          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
-          <token min='0'>-</token>
-          <token regexp='yes' case_sensitive="yes">[^hrs].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1\3</suggestion>
-      <example correction='codependência'>Vivem em regime de <marker>co-dependência</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>não|quase</token>
-          <token regexp='yes'>-|–|—</token>
-          <token/>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message><suggestion>\1 \3</suggestion>
-      <example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
-    <!-- contra are better dealt by PortugueseCompoundRule.java -->
-          <token regexp='yes'>a.+
-            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
-          </token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='infra-acústico'>O som foi produzido no espetro <marker>infra acústico</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>[^ahrs].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-      <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>tele</token>
-    <!-- ante|entre|sobre are better dealt by PortugueseCompoundRule.java -->
-          <token regexp='yes'>e.+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='tele-educação'>Os filhos tiveram que recorrer à <marker>tele educação</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>tele</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>[^ehrs].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-      <example correction='televisão'>Nem tudo o que aparece na <marker>tele-visão</marker> é verdade.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
-          <token regexp='yes'>i.+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='anti-intelectuais'>Tive que superar atitudes <marker>anti intelectuais</marker> antes de conseguir apresentar o trabalho.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>[^ihrs].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-      <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token regexp='yes'>o.+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='micro-ondas'>Aquece 10 minutos no <marker>micro ondas</marker> altos.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>[^hors].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-      <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
-    </rule>
-
-    <!-- TODO special rules for  ante|contra|entre|sobre  -->
-
-    <rule>
-      <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>r.+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1r\3</suggestion>
-      <example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>s.+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1s\3</suggestion>
-      <example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>hiper|inter|super</token>
-          <token regexp='yes'>r.+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='super-resistente'>Estamos a desenvolver um liga <marker>super resistente</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>ob|sub</token>
-    <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
-          <token regexp='yes' case_sensitive="yes">[br].+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-<!--	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>-->
-      <example correction='sub-reino'>No <marker>sub reino</marker> dos Eumetazoa podemos encontrar...</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>ob|sub</token>
-    <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
-          <token min='0'>-</token>
-          <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-<!--	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>-->
-      <example correction='subnível'>Em caso de emergência, saia pelo <marker>sub nível</marker> 1.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>circum|pan</token>
-          <token regexp='yes'>[mnaeiouh].+</token>
-      </pattern>
-      <message>Palavra hifenizada.</message><suggestion>\1-\2</suggestion>
-      <example correction='Circum-navegação'><marker>Circum navegação</marker> é uma viagem marítima em torno de um lugar.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>circum|pan</token>
-          <token min='0'>-</token>
-          <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
-      </pattern>
-      <message>Este prefixo não é hifenizado neste contexto.</message><suggestion>\1\3</suggestion>
-      <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+      <example correction='nuns'><marker>em uns</marker> rios.</example>
     </rule>
   </rulegroup>
- 
-</category>
 
-<category id='FORMAL_PORTUGUESE' name='Linguagem Formal' type='style'>
+ </category>
 
-<!-- TODO Add antipattern for dash and quotations -->
-  <rulegroup id='T-V_DISTINCTION' name='Tratamento formal (Tu,Você;Vós,Vocês)' default='on'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
+ <category id='REGIONALISMS' name='Regionalismos'>
+
+  <rulegroup id="BRASILEIRISMOS" name="Brasileirismos">
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
+      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
+      <short>Brasileirismo</short>
+    <rule id="PAPAI_NOEL" name="Brasileirismo: Papai Noel - Pai Natal">
+      <pattern>
+          <token regexp='yes'>(pa)?pai</token>
+          <token>noel</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>Pai Natal</suggestion>.</message>
+      <example correction="Pai Natal">O <marker>Papai Noel</marker> vive na Lapónia.</example>
+    </rule>
+    <rule id="TIRO_DE_META" name="Brasileirismo: Tiro de Meta - Pontapé de Baliza">
+      <pattern>
+          <token>tiro</token>
+          <token>de</token>
+          <token>meta</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>pontapé de baliza</suggestion>.</message>
+      <example correction="pontapé de baliza">Weverton dá o <marker>tiro de meta</marker>.</example>
+    </rule>
+    <rule id="CAFE_DA_MANHA" name="Brasileirismo: Café da Manhã - Pequeno Almoço">
+      <pattern>
+          <token>café</token>
+          <token>da</token>
+          <token>manhã</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>pequeno almoço</suggestion>.</message>
+      <example correction="pequeno almoço">Já tomei o <marker>café da manhã</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_1_ABRIDOR' name='Brasileirismo: abridor de garrafas ou saca-rolhas'>
+      <pattern>
+          <token>abridor</token>
+          <token>de</token>
+          <token>garrafas</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>saca-rolhas</suggestion>.</message>
+      <example correction='saca-rolhas'><marker>abridor de garrafas</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_2_ABRIDOR' name='Brasileirismo: abridor de latas'>
+      <pattern>
+          <token>abridor</token>
+          <token>de</token>
+          <token>latas</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>abre-latas</suggestion>.</message>
+      <example correction='abre-latas'><marker>abridor de latas</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_3_ÁGUA' name='Brasileirismo: água sanitária'>
+      <pattern>
+          <token>água</token>
+          <token>sanitária</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>lixívia</suggestion>.</message>
+      <example correction='lixívia'><marker>água sanitária</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_4_CAFÉ' name='Brasileirismo: café da manhã'>
+      <pattern>
+          <token>café</token>
+          <token>da</token>
+          <token>manhã</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>pequeno almoço</suggestion>.</message>
+      <example correction='pequeno almoço'><marker>café da manhã</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_5_CARRO' name='Brasileirismo: carro conversível'>
+      <pattern>
+          <token>carro</token>
+          <token>conversível</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>carro descapotável</suggestion>.</message>
+      <example correction='carro descapotável'><marker>carro conversível</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_6_CARTEIRA' name='Brasileirismo: carteira de identidade'>
+      <pattern>
+          <token>carteira</token>
+          <token>de</token>
+          <token>identidade</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>bilhete de identidade</suggestion>.</message>
+      <example correction='bilhete de identidade'><marker>carteira de identidade</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_7_ESTAÇÃO' name='Brasileirismo: estação de trem'>
+      <pattern>
+          <token>estação</token>
+          <token>de</token>
+          <token>trem</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>gare</suggestion>.</message>
+      <example correction='gare'><marker>estação de trem</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_8_ESTRADA' name='Brasileirismo: estrada de ferro'>
+      <pattern>
+          <token>estrada</token>
+          <token>de</token>
+          <token>ferro</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>caminho de ferro</suggestion>.</message>
+      <example correction='caminho de ferro'><marker>estrada de ferro</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_9_FONES' name='Brasileirismo: fones de ouvido'>
+      <pattern>
+          <token>fones</token>
+          <token>de</token>
+          <token>ouvido</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>auscultadores</suggestion>.</message>
+      <example correction='auscultadores'><marker>fones de ouvido</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_10_PRIVADA' name='Brasileirismo: privada sanitária, vaso sanitário'>
+      <pattern>
+          <token regexp='yes'>privada|vaso</token>
+          <token regexp='yes'>sanitári[ao]</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>retrete</suggestion>.</message>
+      <example correction='retrete'><marker>privada sanitária</marker>.</example>
+      <example correction='retrete'><marker>vaso sanitário</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_11_SECRETÁRIA' name='Brasileirismo: secretária eletrônica'>
+      <pattern>
+          <token>secretária</token>
+          <token regexp='yes'>eletr[óô]nica</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>atendedor de chamadas</suggestion>.</message>
+      <example correction='atendedor de chamadas'><marker>secretária eletrônica</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_13_TELEFONE' name='Brasileirismo: telefone celular'>
+      <pattern>
+          <token>telefone</token>
+          <token>celular</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>telemóvel</suggestion>.</message>
+      <example correction='telemóvel'><marker>telefone celular</marker>.</example>
+    </rule>
+  </rulegroup>
+
+ </category>
+
+    <!--
+ <category id='COMPOUNDING' name='Palavras Compostas'>
+ </category>
+  -->
+
+ <category id='FORMAL_SPEECH' name='Linguagem Formal' type='style'>
+
+    <!-- TODO Add antipattern for dash and quotations -->
+  <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
-<!--    <rule>
+      <antipattern>
+          <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
+          <token regexp='yes'>["'»”]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes' skip='-1'>-|‒|–|—|―
+            <exception scope='next' regexp='yes'>‒|–|—|―</exception></token>
+          <token postag='SENT_END'/>
+      </antipattern>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token min='0' regexp='yes'>tu|vós</token>
+          <token postag="V...2S.+" postag_regexp='yes'>
+            <exception regexp='yes'>ambientes|boates|corretas|gomes|soares|rodrigues|transplantes</exception>
+            <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/></token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
+      <short>Tratamento informal</short>
+      <example correction="Escolhia"><marker>Escolhias</marker> um projeto melhor.</example>
+      <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
+      <example>—Dirás a opção correcta.</example>
+      <example>“Dirás a opção correcta.”</example>
+      <example>Ela está preocupada com a evolução, a física, a química, e...</example>
+      <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
+      <example correction="Está"><marker>Estás</marker> bem?</example>
+      <example>Está bem.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>tu|vós</token>
+          <token postag="R." postag_regexp='yes' min='0' max='2'/>
+          <token postag="V...2.+" postag_regexp='yes'/>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+      <short>Tratamento informal</short>
+      <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>teus?|tuas?|ti</token>
+      </pattern>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion><match no='1' regexp_match='t' regexp_replace='s'/></suggestion>
+      <short>Tratamento inapropriado</short>
+      <example correction="seu">O <marker>teu</marker> carro é maneiro.</example>
+      <example>—O teu carro é maneiro.</example>
+      <example>“O teu carro é maneiro.”</example>
+      <example correction="si">Ele a <marker>ti</marker> tem respeito. O mesmo não se pode dizer dela.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>te</token>
+      </pattern>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion>lhe</suggestion>
+      <short>Tratamento inapropriado</short>
+      <example correction="lhe">O Dr. Mário faz-<marker>te</marker> essa análise sem problemas.</example>
+      <example>—O Dr. Mário faz-<marker>te</marker> essa análise sem problemas.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>tu</token>
+          <token postag="R." postag_regexp='yes' min='0' max='2'/>
+          <token postag="V...2.+" postag_regexp='yes'/>
+      </pattern>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
+      <short>Tratamento inapropriado</short>
+      <example correction="Tem"><marker>Tu tem</marker> mais atenção ao promenor.</example>
+      <example correction="Não tenhas"><marker>Tu não tenhas</marker> atenção, não…</example>
+      <example correction="dizes">“O teu carro é maneiro.” — <marker>tu dizes</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>vocês?</token>
+          <token postag="R." postag_regexp='yes' min='0' max='2'/>
+          <token postag="V...3.+" postag_regexp='yes'/>
+      </pattern>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
+      <short>Tratamento inapropriado</short>
+      <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
+      <example correction="Não tenha"><marker>Você não tenha</marker> atenção, não…</example>
+      <example correction="diz">“O teu carro é maneiro.” — <marker>você diz</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="V.+" postag_regexp='yes'/>
+          <token regexp='yes'>-|–|—</token>
+          <token>te</token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion>\1-lhe</suggestion>
+      <short>Possível tratamento informal</short>
+      <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
+      <example>—<marker>Garanto-te</marker> que foi mesmo assim.</example>
+      <example>«<marker>Garanto-te</marker> que foi mesmo assim.»</example>
+      <example>"<marker>Garanto-te</marker> que foi mesmo assim."</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token min='0' regexp='yes'>tu|vós</token>
+          <token postag="V...2.+" postag_regexp='yes'>
+            <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
+          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
+      </pattern>
+      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
+      <short>Possível tratamento informal</short>
+      <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
+      <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
+      <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
+    </rule>
+    <!--    <rule>
       <antipattern>
           <token postag='SENT_START'/>
           <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
         FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
       <antipattern>
@@ -861,108 +835,10 @@ title="Easy editing stylesheet" ?>
       <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
       <example>Está tudo bem.</example>
     </rule>-->
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
-            <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
-      </antipattern>
-      <pattern case_sensitive="yes">
-          <token min='0' regexp='yes'>tu|vós</token>
-          <token postag="V...2S.+" postag_regexp='yes'>
-            <exception regexp='yes'>ambientes|boates|corretas|gomes|soares|rodrigues|transplantes</exception>
-            <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/></token>
-      </pattern>
-      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="2" postag="(V...)2S(.+)" postag_replace='$13S$2' postag_regexp="yes"/></suggestion>
-      <short>Tratamento informal</short>
-      <example correction="Escolhia"><marker>Escolhias</marker> um projeto melhor.</example>
-      <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
-      <example>Ela está preocupada com a evolução, a física, a química, e...</example>
-      <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
-      <example correction="Está"><marker>Estás</marker> bem?</example>
-      <example>Está bem.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
-            <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
-      </antipattern>
-      <pattern>
-          <token regexp='yes'>tu|vós</token>
-          <token postag="R." postag_regexp='yes' min='0' max='2'/>
-          <token postag="V...2.+" postag_regexp='yes'/>
-      </pattern>
-      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
-      <short>Tratamento informal</short>
-      <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
-            <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
-      </antipattern>
-      <pattern>
-          <token regexp='yes'>você|vocês</token>
-          <token postag="R." postag_regexp='yes' min='0' max='2'/>
-          <token postag="V...3.+" postag_regexp='yes'/>
-      </pattern>
-      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
-        <suggestion>\3</suggestion>
-      <short>Tratamento inapropriado</short>
-      <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
-            <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
-      </antipattern>
-      <pattern>
-          <token postag="V.+" postag_regexp='yes'/>
-          <token regexp='yes'>-|–|—</token>
-          <token>te</token>
-      </pattern>
-      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion>\1-lhe</suggestion>
-      <short>Possível tratamento informal</short>
-      <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
-      <example>—<marker>Garanto-te</marker> que foi mesmo assim.</example>
-      <example>«<marker>Garanto-te</marker> que foi mesmo assim.»</example>
-      <example>"<marker>Garanto-te</marker> que foi mesmo assim."</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes' skip='-1'>["«„“-]|‒|–|—|―
-            <exception scope='next' regexp='yes'>["'»”]</exception></token>
-          <token postag="V.....+" postag_regexp='yes'/>
-      </antipattern>
-      <pattern>
-          <token min='0' regexp='yes'>tu|vós</token>
-          <token postag="V...2.+" postag_regexp='yes'>
-            <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
-          <token regexp='yes'>-|–|—</token>
-          <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
-      </pattern>
-      <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
-      <short>Possível tratamento informal</short>
-      <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
-      <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
-      <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
-    </rule>
   </rulegroup>
 
-  <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal (Todas as formas na segunda pessoa, sem salvaguardas)' default='off'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2016-12-28 -->
+  <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas' default='off'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
     <rule>
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
@@ -1023,12 +899,325 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-</category>
+ </category>
 
-  <category id='CASING' name='Capitalização' type='grammar'>
+ <category id="AO90_RULES" name="Regras do Acordo Ortográfico de 90 (pós-AO90)" type="misspelling" default='on'>
+
+    <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento" >
+      <pattern>
+          <token regexp='yes'>.+((óid[oae]|óic[oa]|ói[ao])s?)$
+            <exception postag_regexp='yes' postag='NP.+'/></token>
+      </pattern>
+      <message>Palavras com esta terminação não são acentuadas, segundo o Acordo Ortográfico de 90.</message>
+        <suggestion><match no='1' regexp_match='ó' regexp_replace='o'/></suggestion>
+      <url>http://www.portaldalinguaportuguesa.org/recursos.html?action=novoacordo</url>
+      <short>Palavra alterada pelo AO90</short>
+      <example correction="abrotanoides"><marker>abrotanóides</marker>.</example>
+      <example correction="acaroide"><marker>acaróide</marker>.</example>
+      <example correction="agnostozoico"><marker>agnostozóico</marker>.</example>
+      <example correction="jiboia"><marker>jibóia</marker>.</example>
+    </rule>
+
+  <rulegroup id='AO90_COMPOUNDS_GENERIC_PREFIX' name='AO90: Hifenizador de palavras'>
+    <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-02 -->
+    <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
+      <url>http://pucrs.br/gpt/hifen.php</url>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>-->
+      <url>https://pt.wikipedia.org/wiki/Uso_do_h%C3%ADfen_conforme_o_Acordo_Ortogr%C3%A1fico_de_1990</url>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ex|sota|soto|vice|vizo|grã|pós|pré|pró|recém</token>
+    <!-- além|aquém|bem|sem|grão are better dealt by PortugueseCompoundRule.java -->
+          <token>
+            <exception regexp='yes'>[-,.!?\(\)]</exception>
+            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+          </token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='vice-diretor'>Tem uma reunião marcada com o <marker>vice diretor</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception regexp='yes'>[-,.!?\(\)]</exception>
+            <exception postag='(C|R|S|NP).+' postag_regexp='yes'/>
+          </token>
+          <token regexp='yes'>açu|guaçu|mirim</token>
+    <!-- These suffixes are used in Brazilian Portuguese -->
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='Escuteiro-Mirim'>Manual do  <marker>Escuteiro Mirim</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa|extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro|circum|pan|hiper|inter|super|sub</token>
+    <!-- além|aquém|sem|grão|bem|mal|contra|entre|sobre|ante are better dealt by PortugueseCompoundRule.java -->
+          <token regexp='yes'>h.+
+            <exception regexp='yes'>[-,.!?\(\)]</exception>
+            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+          </token>
+      </pattern>
+      <message>Palavra provavelmente hifenizada. Pretende dizer </message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='co-herdada'>A análise do ADN mostrou uma mutação <marker>co herdada</marker> por todos os membros da família afetados.</example>
+    <!--	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>-->
+      <example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
+    </rule>
+   
+    <!--	TODO Rule for (des|in)-h... -> (des|in)...	-->
+   
+    <rule>
+      <pattern>
+          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
+          <token min='0'>-</token>
+          <token regexp='yes' case_sensitive="yes">[^hrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
+        <suggestion>\1\3</suggestion>
+      <example correction='codependência'>Vivem em regime de <marker>co-dependência</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>não|quase</token>
+          <token regexp='yes'>-|–|—</token>
+          <token/>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
+        <suggestion>\1 \3</suggestion>
+      <example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
+    <!-- contra are better dealt by PortugueseCompoundRule.java -->
+          <token regexp='yes'>a.+
+            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
+          </token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='infra-acústico'>O som foi produzido no espetro <marker>infra acústico</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>infra|intra|supra|ultra|mega</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>[^ahrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>extra</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
+      </pattern>
+      <message>Neste contexto deve unir as palavras.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='extraterrestre'>A rocha encontrada é de origem <marker>extra terrestre</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>tele</token>
+    <!-- ante|entre|sobre are better dealt by PortugueseCompoundRule.java -->
+          <token regexp='yes'>e.+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='tele-educação'>Os filhos tiveram que recorrer à <marker>tele educação</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>tele</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>[^ehrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='televisão'>Nem tudo o que aparece na <marker>tele-visão</marker> é verdade.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token regexp='yes'>i.+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='anti-intelectuais'>Tive que superar atitudes <marker>anti intelectuais</marker> antes de conseguir apresentar o trabalho.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>[^ihrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>o.+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='micro-ondas'>Aquece 10 minutos no <marker>micro ondas</marker> altos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>[^hors].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
+    </rule>
+    <!-- TODO special rules for  ante|contra|entre|sobre  -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>r.+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1r\3</suggestion>
+      <example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>s.+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1s\3</suggestion>
+      <example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>hiper|inter|super</token>
+          <token regexp='yes'>r.+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='super-resistente'>Estamos a desenvolver um liga <marker>super resistente</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ob|sub</token>
+    <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
+          <token regexp='yes' case_sensitive="yes">[br].+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+    <!--	<example correction='ab-rogar'>Pretende-se <marker>ab rogar</marker> as novas referências, no início do ano.</example>-->
+      <example correction='sub-reino'>No <marker>sub reino</marker> dos Eumetazoa podemos encontrar...</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ob|sub</token>
+    <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
+          <token min='0'>-</token>
+          <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+    <!--	<example correction='abdicar'>Pretende <marker>ab-dicar</marker> dos seus direitos...</example>-->
+      <example correction='subnível'>Em caso de emergência, saia pelo <marker>sub nível</marker> 1.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>circum|pan</token>
+          <token regexp='yes'>[mnaeiouh].+</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='Circum-navegação'><marker>Circum navegação</marker> é uma viagem marítima em torno de um lugar.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>circum|pan</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='AO90_HIPHEN_REMOVALS' name='AO90: Palavras que deixam de ser hifenizadas'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-19 -->
+          <regexp>acha-de-armas|achas-de-armas|açúcar-de-madeira|água-de-força|água-de-lume|água-de-mesa|água-de-végeto|águas-de-força|águas-de-lume|águas-de-mesa|águas-de-végeto|ajudante-de-campo|ajudante-de-ordens|ajudantes-de-campo|ajudantes-de-ordens|alfinete-de-ama|alfinetes-de-ama|algodão-das-laranjeiras|algodão-das-oliveiras|algodão-de-vidro|algodão-em-rama|alma-do-padeiro|almas-do-padeiro|almécega-do-brasil|almécega-do-brasis|ama-de-leite|amigo-da-onça|amigos-da-onça|angu-de-caroço|angus-de-caroço|anjo-da-guarda|anjos-da-guarda|arco-da-aliança|arco-da-chuva|arco-de-deus|arcos-da-aliança|arcos-da-chuva|arroz-de-cuxá|arruda-dos-muros|árvore-da-vida|árvores-da-vida|auto-de-fé|autos-de-fé|azeite-de-cheiro|azeite-de-pau|azeites-de-cheiro|azeites-de-pau|azuis-da-prússia|azuis-de-metileno|azul-da-prússia|azul-de-metileno|baba-de-camelo|baba-de-moça|babas-de-camelo|bairro-de-lata|bairros-de-lata|balão-de-ensaio|balões-de-ensaio|bálsamo-do-canadá|barba-de-baleia|barca-de-ouro|barriga-de-bicho|barriga-de-freira|barrigas-de-bicho|barrigas-de-freira|beijo-de-moça|beijos-de-moça|bênção-de-deus|bênções-de-deus|bexiga-de-lobo|bexigas-de-lobo|bicha-de-rabear|bicha-de-sete-cabeças|bichas-de-rabear|bichas-de-sete-cabeças|bicho-de-sete-cabeças|bicho-do-buraco|bicho-do-mato|bicho-do-ouvido|bichos-de-sete-cabeças|bichos-do-buraco|bichos-do-mato|bichos-do-ouvido|bico-de-gás|bico-de-gavião|bico-de-mocho|bico-de-obra|bico-de-papagaio|bico-de-pato|bico-de-pomba|bicos-de-gás|bicos-de-gavião|bicos-de-obra|bicos-de-papagaio|bicos-de-pato|bicos-de-pomba|bife-de-caneca|bilhete-de-identidade|bilhetes-de-identidade|bilhete-de-visita|bilhetes-de-visita|boa-vai-ela|boca-de-favas|boca-de-fogo|boca-de-incêndio|boca-de-sino|boca-de-siri|bocas-de-fogo|bocas-de-incêndio|bocas-de-lobo|bocas-de-sino|bocas-de-siri|bola-ao-cesto|bola-de-neve|bolas-ao-cesto|bolas-de-neve|bom-de-bico|bons-de-bico|bota-de-elástico|botão-de-ouro|botões-de-ouro|botas-de-elástico|braço-de-armas|braço-de-ferro|braço-de-preguiça|braços-de-ferro|braços-de-preguiça|branco-de-baleia|bravo-de-mundão|bravos-de-mundão|bucha-dos-caçadores|buchas-dos-caçadores|cabeça-de-abóbora|cabeça-de-alho-chocho|cabeça-de-asno|cabeça-de-avelã|cabeça-de-burro|cabeça-de-carneiro|cabeça-de-cartaz|cabeça-de-casal|cabeça-de-cavalo|cabeça-de-cobra|cabeça-de-lista|cabeça-de-medusa|cabeça-de-motim|cabeça-de-pau|cabeça-de-ponte|cabeça-de-porco|cabeça-de-prego|cabeça-de-secção|cabeça-de-série|cabeça-de-tremoço|cabeça-de-turco|cabeça-de-vento|cabeça-no-ar|cabeças-de-abóbora|cabeças-de-alho-chocho|cabeças-de-avelã|cabeças-de-carneiro|cabeças-de-cartaz|cabeças-de-casal|cabeças-de-cobra|cabeças-de-lista|cabeças-de-medusa|cabeças-de-motim|cabeças-de-pau|cabeças-de-ponte|cabeças-de-prego|cabeças-de-santo-antónio|cabeças-de-secção|cabeças-de-série|cabeças-de-tremoço|cabeças-de-turco|cabeças-de-vento|cabeças-no-ar|cabelo-das-feiticeiras|cabelo-de-anjo|cabelos-das-feiticeiras|cabelos-de-anjo|cabelos-de-raposa|cabo-de-esquadra|cabo-de-guerra|cabos-de-esquadra|cabos-de-guerra|cachorro-da-areia|cachorros-da-areia|caga-na-saquinha|cagas-na-saquinha|caixa-de-ar|caixa-de-música|caixa-de-óculos|caixa-de-pirolitos|caixa-de-ressonância|caixa-de-rufo|caixa-dos-pirolitos|caixas-de-ar|caixas-de-música|caixas-de-óculos|caixas-de-pirolitos|caixas-de-rufo|câmara-de-ar|câmaras-de-ar|caminho-de-ferro|caminhos-de-ferro|camisa-de-força|camisa-de-forças|camisa-de-onze-varas|camisa-de-vénus|camisa-do-pano|camisas-de-forças|camisas-de-onze-varas|camisas-de-vénus|cana-de-roca|canais-da-areia|canais-de-areia|canal-da-areia|canal-de-areia|cânhamo-de-manila|cânhamos-de-manila|canto-de-cisne|canto-do-cisne|cantos-de-cisne|capa-de-chuva|capitão-de-bandeira|capitão-de-corveta|capitão-de-fragata|capitão-de-mar-e-guerra|capitões-de-bandeira|capitões-de-fragata|capitões-de-mar-e-guerra|cara-de-nó-cego|cara-de-pau|caras-de-nó-cego|caras-de-pau|carne-de-sois|carne-de-sol|carreira-de-tiro|carreiras-de-tiro|carta-de-prego|cartão-de-visita|cartões-de-visita|cartas-de-prego|casaco-de-couro|casacos-de-couro|casca-de-carvalho|casca-de-noz|cascas-de-carvalho|cascas-de-noz|catinga-de-bode|catingas-de-bode|cavalo-de-batalha|cavalo-de-frisa|cavalo-do-cão|cavalos-do-cão|cavalos-de-batalha|caveira-da-noite|caveiras-da-noite|centáurea-menor-perfolhada|centáureas-menor-perfolhada|centro-de-mesa|céu-da-boca|céus-da-boca|chalotinhas-do-gerês|chapéu-de-chuva|chapéu-de-sois|chapéu-de-sol|chapéus-de-chuva|chapéus-de-sol|chefe-de-fila|chuva-de-ouro|chuvas-de-ouro|colete-de-forças|coletes-de-forças|come-e-dorme|comes-e-dorme|comida-de-urso|comidas-de-urso|conto-da-carochinha|conto-do-vigário|contos-da-carochinha|contos-do-vigário|cor-de-laranja|cor-de-tijolo|cor-de-vinho|cores-de-laranja|cores-de-tijolo|cores-de-vinho|corpo-a-corpo|cova-do-ladrão|cova-do-ladrões|covas-do-ladrão|cravagem-do-centeio|cu-de-judas|curral-de-trapiche|cus-de-judas|dança-de-são-vito|danças-de-são-vito|dente-de-coelho|dentes-de-lobo|dentes-de-serra|dia-a-dia|doença-do-sono|doenças-do-sono|eau-de-toilette|eaus-de-toilette|és-não-és|espuma-do-mar|faca-de-mato|face-a-face|faces-a-face|farinha-de-pau|farinhas-de-pau|fato-de-banho|fato-de-macaco|fato-de-saia-e-casaco|fato-de-treino|fatos-de-banho|fatos-de-macaco|fatos-de-treino|faz-de-conta|fazs-de-conta|febre-de-malta|febre-dos-fenos|febre-dos-três-dias|ferro-de-engomar|ferro-de-romã|fezes-de-ouro|filho-da-terra|filho-de-parida|fim-de-semana|fins-de-semana|fio-de-prumo|fios-de-ovos|fios-de-prumo|fiscais-de-linha|fiscal-de-linha|flor-de-enxofre|focinho-de-burro|focinho-de-porco|focinho-de-tenca|focinhos-de-burro|focinhos-de-porco|focinhos-de-tenca|fogo-de-artifício|fogo-de-bengala|fogo-de-santelmo|fogo-de-santo-antão|fogo-de-santo-antões|fogo-de-vista|fogo-do-ar|fogos-de-artifício|fogos-de-bengala|fogos-de-santelmo|fogos-de-santo-antão|fogos-de-vista|fogos-do-ar|folha-de-flandres|folhos-de-sinhá|fora-da-lei|fora-de-jogo|foras-da-lei|foras-de-jogo|fradinho-da-mão-furada|fradinho-de-mão-furada|frente-a-frente|frentes-a-frente|frutos-do-mar|fula-de-gabu|fumo-da-terra|fumos-da-terra|gaita-de-beiços|gaita-de-foles|gaitas-de-beiços|gaitas-de-foles|gás-dos-pântanos|gesso-de-paris|gessos-de-paris|grosso-de-nápoles|guarda-de-corpo|guincho-da-tainha|guinchos-da-tainha|há-de-haver|hás-de-haver|jardim-de-infância|jardins-de-infância|juiz-de-campo|juiz-de-linha|juizs-de-campo|juizs-de-linha|leite-de-cais|leite-de-cal|limpa-pára-brisas|limpas-pára-brisas|língua-de-gato|língua-de-sogra|língua-de-trapos|língua-de-veado|línguas-de-gato|linha-de-água|lixa-de-lei|lixa-de-pau|lixas-de-lei|lixas-de-pau|lua-de-meis|lua-de-mel|luas-de-mel|maçã-de-adão|maçã-de-adões|mãe-da-lua|mãe-de-aluguer|mãe-de-santo|mães-da-lua|mães-de-santo|manga-de-alpaca|manga-de-eixo|mão-de-barca|mão-de-judas|mão-de-obra|mãos-de-obra|marca-de-judas|marco-de-colónia|maria-da-fonte|maria-das-pernas-compridas|marido-de-bolas|marmita-de-gigante|matuta-e-meia|matutas-e-meia|meadinha-de-ouro|meia-de-leite|meias-de-leite|menina-de-cinco-olhos|menina-do-olho|mesa-de-cabeceira|mesas-de-cabeceira|mesinha-de-cabeceira|mestre-de-armas|mestre-de-cerimónias|mestre-de-obras|mestres-de-cerimónias|mestres-de-obras|moço-de-forcado|moços-de-forcado|monte-de-vénus|montes-de-vénus|morte-em-pé|mortes-em-pé|moscas-de-milão|moscas-de-milões|mulher-a-dias|mulhers-a-dias|não-sei-quê|não-sei-quês|nariz-de-cera|negro-de-fumo|negros-de-fumo|nó-de-adão|nós-de-adão|norte-rio-grandense|nortes-rio-grandense|oco-do-coração|oco-do-corações|ocos-do-coração|oficiais-às-ordens|oficial-às-ordens|oitavos-de-finais|oitavos-de-final|olho-de-boi|olho-de-mosquito|olho-de-sogra|olho-de-tigre|olhos-de-boi|orelhas-de-abade|pai-de-meninos|pai-de-santo|pai-de-todos|pai-de-velhacos|pai-dos-meninos|pais-de-santo|pais-de-velhacos|pais-dos-meninos|palha-de-abade|palpos-de-aranha|pão-de-açucar|pão-de-açúcar|pão-de-galo|pão-de-leite|pão-de-ló|pão-de-passarinho|pão-do-chile|pão-por-Deus|pães-de-açucar|pães-de-galo|pães-de-leite|pães-de-ló|pães-de-passarinho|pães-do-chile|papo-de-anjo|papo-de-peru|papo-de-rola|papos-de-anjo|papos-de-peru|par-ou-pernão|passarinho-a-olhar|pau-a-pique|pau-de-cabeleira|pau-de-fileira|pau-de-sabão|pau-do-ar|paus-a-pique|paus-de-sabão|paz-de-alma|pazes-de-alma|pé-de-alferes|pé-de-altar|pé-de-amigo|pé-de-atleta|pé-de-banco|pé-de-boi|pé-de-cabra|pé-de-cana|pé-de-candeeiro|pé-de-cantiga|pé-de-cavalo|pé-de-chumbo|pé-de-dança|pé-de-galinha|pé-de-lebre|pé-de-moleque|pé-de-pato|pé-de-vento|pedaço-de-asno|pedaços-de-asno|pedra-da-lua|pedra-das-amazonas|pedra-de-afiar|pedra-de-águia|pedra-de-amolar|pedra-de-cevar|pedra-de-raio|pedra-de-sangue|pedra-de-toque|pedra-do-ar|pedra-do-sois|pedra-do-sol|pedras-da-lua|pedras-de-afiar|pedras-de-águia|pedras-de-amolar|pedras-de-cevar|pedras-de-raio|pedras-de-toque|pedras-do-ar|pedras-do-sol|pedrinha-na-boca|peito-de-canga|peito-de-morte|pele-de-vinho|peles-de-vinho|perna-de-pau|perna-de-serra|pernas-de-pau|pés-de-atleta|pés-de-boi|pés-de-cabra|pés-de-chumbo|pés-de-galinha|pés-de-lebre|pés-de-vento|piano-dos-pretos|pianos-dos-pretos|pião-das-nicas|piões-das-nicas|pingo-de-tocha|pingos-de-ovos|pinho-de-flandres|piolho-de-cobra|pó-de-arroz|pó-de-chipre|pó-de-goa|pó-de-sapato|pó-de-talco|pomo-de-adão|pomo-de-adões|pomos-de-adão|ponta-de-lança|pontas-de-lança|pôr-do-sois|pôr-do-sol|pores-do-sol|pôrs-do-sol|porta-a-porta|porta-da-rua|portas-a-porta|pós-de-arroz|pós-de-chipre|pós-de-goa|pressão-de-ar|pressões-de-ar|preto-e-branco|pretos-e-branco|príncipe-de-gales|pronto-a-comer|pronto-a-vestir|prontos-a-comer|prontos-a-vestir|quarto-de-finais|quarto-de-final|quartos-de-finais|quartos-de-final|queijinho-do-céu|rabo-de-andorinha|rabo-de-arraia|rabo-de-cavalo|rabo-de-galo|rabo-de-leque|rabo-de-saia|rabo-de-tatu|rabos-de-andorinha|rabos-de-arraia|rabos-de-cavalo|rabos-de-galo|rabos-de-leque|rabos-de-saia|rabos-de-tatu|relógio-da-morte|relógio-de-ponto|relógios-da-morte|relógios-de-ponto|rés-do-chão|rés-do-chões|resina-de-jalapa|rosa-de-oiro|rosa-de-ouro|rosa-dos-ventos|roupa-de-franceses|saca-de-carvão|saca-de-carvões|saco-de-areia|saída-de-banho|saída-de-praia|sais-de-azedas|sal-de-azedas|sal-de-epsom|sal-de-glauber|sal-de-júpiter|sal-de-saturno|sal-de-seldlitz|sal-de-vichy|sol-de-gata|sol-e-dó|sopa-de-urso|sopinha-de-massa|sul-rio-grandense|ténis-de-mesa|terra-a-terra|terra-de-ninguém|terra-de-sevilha|terra-de-siena|terras-a-terra|testa-de-ferro|testa-de-ponte|testas-de-ferro|testas-de-ponte|tête-à-tête|têtes-à-tête|tinta-da-china|tinta-dos-pobres|tintas-da-china|tintas-dos-pobres|tira-que-tira|tiras-que-tira|tiro-de-guerra|topa-a-tudo|topas-a-tudo|torna-e-torna|tornas-e-torna|torrão-de-alicante|toucinho-do-céu|toucinhos-do-céu|trinta-e-um|trintas-e-um|troixa-de-ovos|tromba-de-boi|trouxa-de-ovos|trouxas-de-ovos|umbigo-de-freira|unha-de-fome|unhas-de-fome|up-to-date|verbo-de-encher|verbos-de-encher|vidro-de-cheiro|vinho-de-caju|vinho-de-cheiro|vinho-de-maçã|vinho-de-maçãs|vinho-de-palma|vinhos-de-cheiro|vinhos-de-maçãs|vinte-e-quatro-horas|vinte-e-um|vintém-de-santo-antónio|viola-da-terra|viola-de-amor|viola-de-arame|volta-no-meio|zé-da-véstia|zé-dos-anzóis|zé-faz-formas|zés-da-véstia|zés-dos-anzóis|zés-faz-formas</regexp>
+      <message>Esta palavra já não é hifenizada.</message>
+        <!--<suggestion><match no="0" regexp_match="-" regexp_replace=" "/></suggestion>-->
+      <url>http://www.portaldalinguaportuguesa.org/recursos.html?action=novoacordo</url>
+      <example type='incorrect'>Soluções <marker>terra-a-terra</marker> têm resistência.</example>
+      <example type='correct'>Soluções <marker>terra a terra</marker> têm resistência.</example>
+    </rule>
+
+  <rulegroup id='HAVER_DE' name='AO90: Haver + de'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-07 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
+    <rule>
+      <pattern>
+          <token regexp='yes'>heis?|hás?|hão</token>
+          <token regexp='yes'>-|–|—</token>
+          <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message>
+        <suggestion>\1 \3</suggestion>
+      <example correction='Hás de'><marker>Hás-de</marker> comprar uma casa.</example>
+      <example correction='Hei de'><marker>Hei-de</marker> ir ao Congo.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>às?</token>
+          <token>de</token>
+          <token regexp='yes'>uma?|uns</token>
+      </antipattern>
+      <antipattern>
+          <token>ás</token>
+          <token>de</token>
+          <token regexp='yes'>ouros|copas|espadas|paus|trunfos?</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes'>-</token>
+        <marker>
+          <token regexp='yes'>eis?|ás?|ão</token>
+          <token min='0' regexp='yes'>-|–|—</token>
+          <token>de</token>
+        </marker>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
+        <suggestion>h<match no='2' case_conversion='alllower'/> \4</suggestion>
+      <example correction='Hás de'><marker>Ás-de</marker> comprar uma casa.</example>
+      <example>All In na blind com Ás de Copas e Ás de Ouros.</example>
+      <example>Os espanhóis realizaram outra expedição similar à de Orellana.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>às?</token>
+          <token regexp='yes'>-|–|—</token>
+          <token>de</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
+        <suggestion>há<match no='1' regexp_match='.(s?)' regexp_replace='$1'/> \3</suggestion>
+      <example correction='Hás de'><marker>Às-de</marker> comprar uma casa.</example>
+      <example>Os espanhóis realizaram outra expedição similar à de Orellana.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-25 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-25 -->
       <antipattern>
           <token>Rio</token>
           <token>de</token>
@@ -1041,7 +1230,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
@@ -1057,7 +1246,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
       <pattern case_sensitive='yes'>
           <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
@@ -1093,14 +1282,18 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
     <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <antipattern case_sensitive='yes'>
+          <token>Médio</token>
+          <token>Oriente</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token>
             <exception regexp='yes'>[Pp]ólo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|-</exception>
             <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
           <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
-            <exception postag_regexp='yes' postag='NP.+'/></token>
+            <exception postag_regexp='yes' postag='NP..[^G]+'/></token>
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os pontos cardeais deixam de ser capitalizados, excepto se se referem a uma região específica.</message>
@@ -1111,16 +1304,31 @@ title="Easy editing stylesheet" ?>
       <example>Este elevador é capaz de carregar 10 pessoas por vez.</example>
     </rule>
 
-    <!--          Tiago F. Santos Rules Ending          ****END**** -->
-    <!-- ********************************************************** -->
-  </category>
+    <rule id="AVÉ_MARIA" name="AO90: ave Maria">
+    <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-09 -->
+      <pattern>
+        <marker>
+          <token>avé</token>
+        </marker>
+          <token min="0">,</token>
+          <token>Maria</token>
+          <token>,</token>
+          <token>cheia</token>
+          <token>de</token>
+          <token>graça</token>
+      </pattern>
+      <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
+      <example correction="Ave"><marker>Avé</marker>, Maria, cheia de graça.</example>
+    </rule>
 
-  <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)" default='off'>
+ </category>
+
+ <category id="AO45_RULES" name="Regras do Acordo Ortográfico de 45 (pré-AO90)"  type="misspelling" default='off'>
 
     <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|outonos?
+          <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|estios?|outonos?
             <exception regexp='yes'>mar|dez</exception></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
@@ -1133,7 +1341,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='AO45: Capitalização dos Dias da Semana'>
-    <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>sábados?|domingo|s[aá]b|dom</token>
@@ -1195,24 +1403,24 @@ title="Easy editing stylesheet" ?>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='A Este da'><marker>A este da</marker> Europa, os biomas são mais diversos.</example>
     </rule>
-    </rulegroup>
+  </rulegroup>
 
     <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
     <!-- Created by Marco A.G. Pinto   -->
       <pattern>
           <token>muito</token>
           <token>pelo</token>
-          <token>é</token>
+          <token inflected='yes'>ser</token>
       </pattern>
-      <message>Substitua por <suggestion>muito pêlo é</suggestion>.</message>
+      <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
       <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
     </rule>
-</category>
+ </category>
 
-    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT tham move to pt-AO and pt-MZ. Change id back to CASING after moving.
-  <category id='CASING_AO45' name='Capitalização' type='grammar'>
+    <!-- TODO Temporary use only for minimum inconsistency. Regression test in pt-PT then move to pt-AO and pt-MZ. Change id back to CASING after moving.
+ <category id='CASING_AO45' name='Capitalização' type='grammar'>
 
 
-  </category>
+ </category>
  -->
 </rules>

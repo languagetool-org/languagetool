@@ -222,8 +222,4 @@ public abstract class AbstractCompoundRule extends Rule {
     }
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

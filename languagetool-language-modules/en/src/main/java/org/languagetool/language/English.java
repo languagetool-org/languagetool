@@ -171,13 +171,16 @@ public class English extends Language implements AutoCloseable {
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),
+        new OpenNMTRule(),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
         new CompoundRule(messages),
-        new ContractionSpellingRule(messages)
+        new ContractionSpellingRule(messages),
+        new EnglishWrongWordInContextRule(messages),
+        new EnglishDashRule()
     );
   }
 
@@ -198,5 +201,13 @@ public class English extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "CONFUSION_RULE": return -10;
+    }
+    return 0;
   }
 }

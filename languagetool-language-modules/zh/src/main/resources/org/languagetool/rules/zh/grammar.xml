@@ -16838,5 +16838,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<example>3个市长和3个书记莅临我校指导工作。</example>
 			</rule>
 		</rulegroup>
+		<rule id="SHI_ADHECTIVE_ERROR" name="'是'+形容词">
+            <pattern>
+              <token>是</token>
+              <token postag='a|an' postag_regexp='yes'></token>
+             </pattern>
+             <message>您不可用“是”来表达个形容词。大部分人都平常用“很”来代替“是”。您是不是想表达<suggestion>很<match no="2"/></suggestion>？</message>
+             <example correction="很乖">你<marker>是乖</marker>。</example>
+             <example correction="很饿">你<marker>是饿</marker>。</example>
+        </rule>
 	</category>
 </rules>

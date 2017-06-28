@@ -39,8 +39,4 @@ public class FakeRule extends Rule {
     return new RuleMatch[0];
   }
 
-  @Override
-  public void reset() {
-  }
-
 }

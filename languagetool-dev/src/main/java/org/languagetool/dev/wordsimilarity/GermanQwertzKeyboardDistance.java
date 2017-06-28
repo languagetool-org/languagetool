@@ -19,63 +19,19 @@
 package org.languagetool.dev.wordsimilarity;
 
 /**
- * A very simple keyboard distance algorithm. Supports only letters.
+ * German keyboard distances.
  */
-public class GermanQwertzKeyboardDistance implements KeyboardDistance {
-    
-    private static final char[][] KEYS = {
-            { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'ß' },      
-            { 'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ü' },      
-            { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä' },     
-            { 'y', 'x', 'c', 'v', 'b', 'n', 'm' }      
-    };
-    
-    static class Position {
-        int row;
-        int column;
-        
-        Position(int row, int column) {
-            this.row = row;
-            this.column = column;
-        }
+class GermanQwertzKeyboardDistance extends BaseKeyboardDistance {
 
-        float distanceTo(Position other) {
-            return Math.abs(column - other.column) + Math.abs(row - other.row);
-        }
+  private static final char[][] KEYS = {
+          {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'ß'},
+          {'q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ü'},
+          {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'},
+          {'y', 'x', 'c', 'v', 'b', 'n', 'm'}
+  };
 
-        @Override
-        public String toString() {
-            return "Position{row=" + row + ", column=" + column + '}';
-        }
-    }
-    
-    @Override
-    public float getDistance(char c1, char c2) {
-        Position p1 = getPosition(c1);
-        Position p2 = getPosition(c2);
-        return p1.distanceTo(p2);
-    }
-
-    private Position getPosition(char searchKey) {
-        char searchKeyLowerCase = Character.toLowerCase(searchKey);
-        int row = -1;
-        int column = -1;
-        int rowCount = 0;
-        int columnCount;
-        for (char[] rowKeys : KEYS) {
-            columnCount = 0;
-            for (char c : rowKeys) {
-                if (c == searchKeyLowerCase) {
-                    row = rowCount;
-                    column = columnCount;
-                }
-                columnCount++;
-            }
-            rowCount++;
-        }
-        if (row == -1 || column == -1) {
-            throw new RuntimeException("Could not find " + searchKey + " on keyboard - only letters are supported");
-        }
-        return new Position(row, column);
-    }
+  @Override
+  char[][] getKeys() {
+    return KEYS;
+  }
 }
