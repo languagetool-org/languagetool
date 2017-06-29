@@ -2,7 +2,10 @@
 
 ## 3.9-SNAPSHOT (release planned for 2017-09-26)
 
- ...
+#### Portuguese
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
  
 ## 3.8 (2017-06-27)
 
