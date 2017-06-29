@@ -7607,7 +7607,7 @@ though, and has since been slightly modified)-->
           <marker><token case_sensitive="yes">Renne</token></marker>
         </pattern>
         <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mammifère « renne ».</message>
-        <example correction="Rennes">J'habite à <marker>Renne</marker>.</example>
+        <example correction="Rennes">J’habite à <marker>Renne</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -9851,8 +9851,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot singulier « \8 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
-        <example correction="">Nous avions l'air <marker>fatigué</marker>.</example>
-        <example>Nous avions l'air <marker>fatigués</marker>.</example>
+        <example correction="">Nous avions l’air <marker>fatigué</marker>.</example>
+        <example>Nous avions l’air <marker>fatigués</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -13582,6 +13582,61 @@ though, and has since been slightly modified)-->
       <example correction="">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
       <example>Elle est certaine que vous <marker>êtes</marker> un espion.</example>
     </rule>
+    <rulegroup id="J_AIMERAI" name="j’aimerai, j’aimerais">
+      <rule>
+        <pattern>
+          <token>j</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">aimerai|apprécierai</token></marker>
+          <token regexp="yes">que?|bien|[mt]e?|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <example correction="aimerais">J’<marker>aimerai</marker> bien travailler ici.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">aimerai|apprécierai</token></marker>
+          <token>pas</token>
+          <token regexp="yes">que?|[mt]e|[nv]ous|lui</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionel <suggestion>\4s</suggestion> au lieu du futur « \4 » pour exprimer un souhait ?</message>
+        <example correction="aimerais">Je n’<marker>aimerai</marker> pas lui dire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token regexp="yes">que?|[mt]e|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionel <suggestion>\2s</suggestion> au lieu du futur « \2 » pour exprimer un souhait ?</message>
+        <example correction="voudrais">Je <marker>voudrai</marker> vous voir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <token>ne</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token>pas</token>
+          <token regexp="yes">[mt]e?|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <example correction="voudrais">Je ne <marker>voudrai</marker> pas lui dire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token>ne</token>
+          <token regexp="yes">pas|plus</token>
+          <token regexp="yes">[mt]e|[nv]ous|lui</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionel <suggestion>\2s</suggestion> au lieu du futur « \2 » pour exprimer un souhait ?</message>
+        <example correction="préférerais">Je <marker>préférerai</marker> ne pas vous voir.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="P_V_PAS" name="négation sans NE">
       <rule>
         <pattern>
@@ -28606,7 +28661,7 @@ though, and has since been slightly modified)-->
         <example correction="aux">Adressez-vous directement <marker>auprès des</marker> agents de sécurité.</example>
       </rule>
       <rule>
-        <pattern> 
+        <pattern>
           <marker>
             <token>auprès</token>
             <token>de</token>
