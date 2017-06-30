@@ -18793,6 +18793,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Collegis?|COLLEGIS?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Col·legi</suggestion>?</message>
+                <example correction="Col·legi"><marker>Collegi</marker> Superior.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <and>
                         <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|V.SP...V|N.*|AQ.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|africa</exception></token>
