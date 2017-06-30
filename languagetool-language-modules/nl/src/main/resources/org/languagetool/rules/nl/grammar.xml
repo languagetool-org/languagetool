@@ -1583,6 +1583,18 @@ regexp case-insensitive maken : (?i)
       </rulegroup>
    </category>
    <category id="COMPOUNDING" name="Aaneen of los">
+      <rulegroup id="LIEVE_HEERSBEEST" name="lieve heersbeest → lieveheersbeest">
+         <!-- 2014-08-23 TaalTik -->
+         <rule>
+            <pattern case_sensitive="yes">
+               <token>lieve</token>
+               <token regexp="yes">heersbeest.*</token>
+            </pattern>
+            <message>Juist is <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+            <example correction="lieveheersbeestje">Het <marker>lieve heersbeestje</marker> valt.</example>
+            <example>Het <marker>lieveheersbeestje</marker> valt.</example>
+         </rule>
+      </rulegroup>
       <rulegroup id="DE_GENE" name="die gene → diegene">
          <!-- 2014-08-23 TaalTik -->
          <rule>
