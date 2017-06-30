@@ -4578,6 +4578,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="ROZUMIYETSA_INSERT" name="Розуміється, як вставне слово">
+      <rule>
+        <pattern>
+          <token regexp="yes">[,—–-]</token>
+          <marker>
+            <token>розуміється</token>
+          </marker>
+          <token min="0">ж</token>
+          <token regexp="yes">[,!]</token>
+        </pattern>
+        <message>Правильно: <suggestion>певна річ</suggestion>, <suggestion>звичайно</suggestion></message>
+        <suggestion>звісно</suggestion>
+        <suggestion>певне</suggestion>
+        <example correction="певна річ|звичайно|звісно|певне">Гуляння, <marker>розуміється</marker>, було не на сухо.</example>
+        <example>Він розуміється на таких речах.</example>
+      </rule>
+    </rulegroup>
+
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
         <antipattern>
