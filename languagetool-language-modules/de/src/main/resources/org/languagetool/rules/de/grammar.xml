@@ -3776,7 +3776,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>verzinnst</token>
             </pattern>
             <message>Meinten Sie <suggestion>verzinst</suggestion>, eine Form von 'verzinsen'?</message>
+            <short>Mögliche Wortverwechslung</short>
             <example correction="verzinst">Mein Konto wird gut <marker>verzinnst</marker>.</example>
+        </rule>
+        <rule id="FUEHR_FUER" name="führ (für)">
+            <pattern>
+                <token postag="PKT" negate_pos="yes"/>
+                <marker>
+                    <token case_sensitive="yes">führ</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Präposition <suggestion>für</suggestion> statt des Imperativs von 'führen'?</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="für">Das ist <marker>führ</marker> Dich!</example>
+            <example>Führ deine Männer zum nächsten Dorf!</example>
+            <example>Thomas, führ deine Mannschaft zum Sieg!</example>
         </rule>
         <rule id="ZURZEIT" name="zur Zeit (zurzeit)">
             <pattern>
@@ -3801,6 +3815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">mit|auf</token>
             </pattern>
             <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+            <short>Mögliche Wortverwechslung</short>
             <example correction='wieder'>Aber demnächst geht es ja <marker>wider</marker> mit dem alten Kunden weiter.</example>
         </rule>
         <rule id="DAS_FUERCHTEN_LERNEN" name="das Fürchten lernen (lehren)">
@@ -3812,6 +3827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Meinten Sie die Wendung "das Fürchten <suggestion>lehren</suggestion>"?</message>
+            <short>Mögliche Wortverwechslung</short>
             <example correction='lehren'>das Fürchten <marker>lernen</marker></example>
             <example>das Fürchten lehren</example>
         </rule>
@@ -3850,6 +3866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+            <short>Mögliche Wortverwechslung</short>
             <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
             <example>Ist das <marker>wahr</marker>?</example>
         </rule>
@@ -3868,6 +3885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Teilnahme"><marker>Teilname</marker> nur mit schriftlicher Einladung.</example>
         </rule>
         <rulegroup id="HAKEN_HACKEN" name="Hacken/Haken">
+            <short>Mögliche Wortverwechslung</short>
             <rule>
                 <pattern>
                     <token regexp="yes">(To\-do\-)?Liste</token>
@@ -3890,6 +3908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="LIESST" name="ließt (liest)">
+            <short>Mögliche Wortverwechslung</short>
             <rule>
                 <pattern>
                     <token>durchließt</token>
