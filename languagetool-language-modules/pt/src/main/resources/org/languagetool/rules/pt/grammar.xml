@@ -2349,6 +2349,47 @@ title="Easy editing stylesheet" ?>
 
  </category>
 
+ <category id='SYNTAX' name='Sintaxe' type='grammar'>
+
+        <rulegroup id="DE_MANEIRA_ADVERBIO_MODO" name="Síntaxe: 'de modo' + advébio de modo">
+    <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
+    <rule>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>de|d?uma</token>
+                    <token regexp="yes">maneira|forma</token>
+                    <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
+                </marker>
+                <token>
+                  <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
+            </pattern>
+            <message>Construção incorreta.</message>
+            <suggestion>\3</suggestion>
+            <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+            <example correction="Permanentemente|De forma permanente"><marker>De forma permanentemente</marker>.</example>
+            <example>De uma forma directamente proporcional.</example>
+            <example>Duma forma racionalmente sustentável.</example>
+            <example>De maneira minimamente ordenada.</example>
+        </rule>
+    <rule>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>de|d?um</token>
+                    <token regexp="yes">modo|jeito</token>
+                    <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
+                </marker>
+                <token>
+                  <exception postag="AQ.[CM][SN].|V.P..SM." postag_regexp="yes"/></token>
+            </pattern>
+            <message>Construção incorreta.</message>
+            <suggestion>\3</suggestion>
+            <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+            <example correction="Permanentemente|De modo permanente"><marker>De modo permanentemente</marker>.</example>
+            <example>De um modo directamente proporcional.</example>
+        </rule>
+      </rulegroup>
+ </category>
+
  <category id='CASING' name='Capitalização' type='grammar'>
 
     <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios' default='off'>
@@ -2364,7 +2405,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='COMPOUND_PROPER_NOUNS_CASING' name="Capitalizar nomes próprios compostos...">
-    <!--  Localized from English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
+    <!--  Localized from English grammar.xml, by Tiago F. Santos, 2017-05-09      -->
       <url>https://pt.wikipedia.org/wiki/Caixa_alta_e_caixa_baixa</url>
       <short>Erro de capitalização</short>
     <rule>
