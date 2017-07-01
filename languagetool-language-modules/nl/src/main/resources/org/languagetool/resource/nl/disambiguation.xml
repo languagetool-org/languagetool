@@ -180,6 +180,14 @@ Copyright (C) 2008 Ruud Baars
     <disambig action="add"><wd pos="NN2r"/></disambig>
   </rule>
 
+  <!-- ~jdde duidt op vt -->
+  <rule name="guess VBh1" id="VBh1">
+     <pattern>
+        <token regexp="yes">[a-z].*dde<exception postag="VBh1"/></token>
+     </pattern>
+     <disambig action="add"><wd pos="VBh1"/></disambig>
+  </rule>
+  
   <!-- verklaar tot znw enkelvoud, de -->
   <!-- van schap zijn uitzonderingen die 'het' zijn -->
   <rule name="guess NN1d" id="NN1d_1">
@@ -239,7 +247,7 @@ Copyright (C) 2008 Ruud Baars
     <pattern>
       <!-- 's -->
       <marker>
-      <token regexp="yes">.*'s</token>
+         <token regexp="yes">[aeiouy]'s$</token>
     </marker>
     </pattern>
     <disambig action="add"><wd pos="NN2"/></disambig>

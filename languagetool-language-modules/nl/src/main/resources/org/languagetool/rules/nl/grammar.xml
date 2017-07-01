@@ -402,6 +402,13 @@ regexp case-insensitive maken : (?i)
             <message>Dit heeft in beide taalgebieden een andere betekenis</message>
             <example type="incorrect">Ik ging naar de <marker>aso</marker>.</example>
          </rule>
+         <rule>
+            <pattern>
+               <token regexp="yes">.*(bot|botten|botje|botjes)</token>
+            </pattern>
+            <message>In Vlaanderen betekent 'bot' (ook) 'laars'.</message>
+            <example type="incorrect">Ik trok mijn <marker>motorbotten</marker> aan..</example>
+         </rule>
       </rulegroup>
    </category>
    <category id="LEESBAARHEID" name="Leesbaarheid">
@@ -4315,6 +4322,28 @@ regexp case-insensitive maken : (?i)
             <example correction="verantwoordelijk">Ik zie een <marker>verantwoordelijke secretaris</marker>.</example>
          </rule>
       </rulegroup>
+      <rulegroup id="BEIDE_NN1" name="Beide impliceert meervoud">
+         <rule>
+            <pattern>
+               <token>beide</token>
+               <marker>
+               <token postag="NN1d|NN1f|NN1" postag_regexp="yes"/>
+            </marker>
+            </pattern>
+            <message>Na <match no="1"/> hoort een meervoud: <suggestion><match no="2" postag_regexp="yes" postag="NN.*" postag_replace="NN1"/></suggestion></message>
+            <example correction="(deur)">Ik zie beide <marker>deur</marker>.</example>
+         </rule>
+         <rule>
+            <pattern>
+               <token>beide</token>
+               <marker>
+                  <token postag="NN1r"/>
+               </marker>
+            </pattern>
+            <message>Na <match no="1"/> hoort een meervoud: <suggestion><match no="2" postag_regexp="yes" postag="NN.*" postag_replace="NN2r"/></suggestion></message>
+            <example correction="deurtjes">Ik zie beide <marker>deurtje</marker>.</example>
+         </rule>
+      </rulegroup>
       <rulegroup id="DE-AJn-NN" name="De dik man">
          <rule>
             <antipattern><token/><token>administratief</token><token inflected="yes">medewerker</token></antipattern>
@@ -5481,9 +5510,7 @@ regexp case-insensitive maken : (?i)
             <pattern>
                <token inflected="yes">aandachtig</token>
             </pattern>
-            <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>goed</suggestion>.
-            </message>
+            <message>De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">goed</match></suggestion>.</message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
             <example correction="goed">A <marker>aandachtig</marker> B.</example>
             <example>A <marker>goed</marker>.</example>
@@ -5619,6 +5646,7 @@ regexp case-insensitive maken : (?i)
             <example>A <marker>eerst</marker>.</example>
          </rule>
       </rulegroup>
+      <!-- regel uitgeschakeld vanwege veelvuldig letterlijk gebruik
       <rulegroup id="AANVLIEGEN" name="aanvliegen">
          <rule>
             <pattern>
@@ -5632,6 +5660,7 @@ regexp case-insensitive maken : (?i)
             <example>A <marker>benaderen</marker>.</example>
          </rule>
       </rulegroup>
+      -->
       <rulegroup id="AANWENDEN" name="aanwenden">
          <rule>
             <pattern>
@@ -5703,18 +5732,24 @@ regexp case-insensitive maken : (?i)
                <token inflected="yes">accorderen</token>
             </pattern>
             <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="VB.*" postag_regexp="yes">instemmen</match> met</suggestion>.
+               De tekst wordt vlotter als je de tekst herschrijft met 'instemmen met'.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-            <example correction="instemmen met">A <marker>accorderen</marker> B.</example>
+            <example type="incorrect">A <marker>accorderen</marker> B.</example>
             <example>A <marker>instemmen met</marker>.</example>
          </rule>
       </rulegroup>
       <rulegroup id="ACHTEN" name="achten">
          <rule>
-            <antipattern><token>acht</token></antipattern>
+            <antipattern><token>zevens</token><token>en</token><token>achten</token></antipattern>
+            <antipattern><token></token><token>voor</token><token>achten</token></antipattern>
+            <antipattern><token></token><token></token><token>acht</token></antipattern>
             <pattern>
+               <token/>
+               <token/>
+               <marker>
                <token inflected="yes">achten</token>
+               </marker>
             </pattern>
             <message>
                De tekst wordt vlotter als je de tekst herschrijft met <suggestion>vinden</suggestion> of <suggestion>van mening zijn</suggestion>.
@@ -6084,7 +6119,7 @@ regexp case-insensitive maken : (?i)
                <token inflected="yes">annonce</token>
             </pattern>
             <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>aankondiging</suggestion>.
+               De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="NN.*" postag_regexp="yes">aankondiging</match></suggestion>.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
             <example correction="aankondiging">A <marker>annonce</marker> B.</example>
@@ -6784,10 +6819,15 @@ regexp case-insensitive maken : (?i)
          </rule>
       </rulegroup>
       <rulegroup id="BRANDING" name="branding">
+         <!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
          <rule>
             <pattern>
-               <token inflected="yes">branding</token>
-            </pattern>
+               <token skip="10" negate="yes" regexp="yes">zee|rots|woest|rolt</token>
+               <marker>
+               <token skip="10">branding</token>
+               </marker>
+               <token negate="yes" regexp="yes">zee|rots|woest|rolt</token>
+               </pattern>
             <message>
                Als je reclame bedoelt, schrijf dan ook <suggestion>reclame maken voor</suggestion> of <suggestion>als een merk presenteren</suggestion>.
             </message>
@@ -7377,7 +7417,10 @@ regexp case-insensitive maken : (?i)
       <rulegroup id="DANIG" name="danig">
          <rule>
             <pattern>
+               <token negate="yes" regexp="yes">zo|zoo</token>
+               <marker>
                <token>danig</token>
+            </marker>
             </pattern>
             <message>
                De tekst wordt vlotter als je de tekst herschrijft met <suggestion>nogal</suggestion> of <suggestion>zeer</suggestion>.
@@ -8485,10 +8528,10 @@ regexp case-insensitive maken : (?i)
                <token>in</token><token>extremis</token>
             </pattern>
             <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>op het allerlaatste moment</suggestion>.
+               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>op het allerlaatste moment</suggestion>. Het betekent niet <suggestion>tot het uiterste</suggestion>.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-            <example correction="op het allerlaatste moment">A <marker>in extremis</marker> B.</example>
+            <example correction="op het allerlaatste moment|tot het uiterste">A <marker>in extremis</marker> B.</example>
             <example>A <marker>op het allerlaatste moment</marker>.</example>
          </rule>
       </rulegroup>
@@ -13429,10 +13472,10 @@ regexp case-insensitive maken : (?i)
                <token inflected="yes">significant</token>
             </pattern>
             <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>opvallend</suggestion> of <suggestion>statistisch verantwoord</suggestion>.
+               De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">opvallend</match></suggestion> of <suggestion>statistisch <match no="1" postag="AJ.*" postag_regexp="yes">verantwoord</match></suggestion>.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-            <example correction="opvallend|statistisch verantwoord">A <marker>significant</marker> B.</example>
+            <example correction="(opvallend)|statistisch verantwoord">A <marker>significant</marker> B.</example>
             <example>A <marker>opvallend</marker>.</example>
          </rule>
       </rulegroup>
@@ -14437,8 +14480,7 @@ regexp case-insensitive maken : (?i)
             <pattern>
                <token inflected="yes">transparant</token>
             </pattern>
-            <message>
-               De tekst wordt vlotter als je de tekst herschrijft met <suggestion>open</suggestion> of <suggestion>doorzichtig</suggestion> of <suggestion>te controleren</suggestion>.
+            <message> De tekst wordt vlotter als je de tekst herschrijft met <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">open</match></suggestion> of <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">doorzichtig</match></suggestion> of <suggestion>te controleren</suggestion>.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
             <example correction="open|doorzichtig|te controleren">A <marker>transparant</marker> B.</example>
@@ -15829,13 +15871,25 @@ regexp case-insensitive maken : (?i)
       <rulegroup id="ZODANIG" name="zodanig">
          <rule>
             <pattern>
-               <token inflected="yes">zodanig</token>
+               <token>zodanig</token>
             </pattern>
             <message>
                De tekst wordt vlotter als je de tekst herschrijft met <suggestion>zo</suggestion>.
             </message>
             <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
             <example correction="zo">A <marker>zodanig</marker> B.</example>
+            <example>A <marker>zo</marker>.</example>
+         </rule>
+         <rule>
+            <pattern>
+               <token>zo</token>
+               <token>danig</token>
+            </pattern>
+            <message>
+               Het moet zijn: 'zodanig', maar de tekst wordt vlotter als je de tekst herschrijft met <suggestion>zo</suggestion>.
+            </message>
+            <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+            <example correction="zo">A <marker>zo danig</marker> B.</example>
             <example>A <marker>zo</marker>.</example>
          </rule>
       </rulegroup>
@@ -16970,18 +17024,18 @@ regexp case-insensitive maken : (?i)
       </rulegroup>
       
       <rulegroup id="HARTE" name="harte">
+         <antipattern><token>ter</token><token>harte</token></antipattern>
+         <antipattern><token>van</token><token>harte</token></antipattern>
+         <antipattern><token>ganser</token><token>harte</token></antipattern>
+         <antipattern><token>met</token><token>harten</token></antipattern>
          <rule>
-            <!--
-            2014-08-22 TaalTik
-            regel werkt geod, op case_sensitivity na, met als gevolg onterechte meldingen op Van harte.
-            aangepast.
-            -->
+            <!-- 2014-08-22 TaalTik -->
             <pattern>
-               <token negate="yes" regexp="yes">van|ter|ganser</token>
+               <token/>
                <token>harte</token>
             </pattern>
-            <message>Fout van <suggestion>van harte</suggestion>, <suggestion>ter harte</suggestion>, <suggestion>ganser harte</suggestion> of <suggestion><match no="1"/> harten</suggestion> of nog anders.</message>
-            <example correction="van harte|ter harte|ganser harte|met harten">Ik doe het <marker>met harte</marker>.</example>
+            <message>Fout van <suggestion>van harte</suggestion>, <suggestion>ter harte</suggestion>, <suggestion>ganser harte</suggestion> of nog anders.</message>
+            <example correction="van harte|ter harte|ganser harte">Ik doe het <marker>met harte</marker>.</example>
             <example>Ik doe het <marker>van harte</marker>.</example>
          </rule>
       </rulegroup>
@@ -17795,25 +17849,29 @@ regexp case-insensitive maken : (?i)
       <rulegroup id="VERKEERD_IN_STAAT" name="Verkeerd in goede staat => verkeert in goede staat">
          <rule>
             <pattern>
-               <token>verkeerd</token>
+               <marker>
+                  <token>verkeerd</token>
+               </marker>
                <token>in</token>
                <token/>
                <token>staat</token>
             </pattern>
-            <message/>
-            <example correction="">Het <marker>verkeerd in goede staat</marker>.</example>
-            <example>Het <marker>verkeert in goede staat</marker>.</example>
+            <message>Het moet zijn: <suggestion>verkeert</suggestion>.</message>
+            <example correction="verkeert">Het <marker>verkeerd</marker> in goede staat.</example>
+            <example>Het <marker>verkeert</marker> in goede staat.</example>
          </rule>
          <rule>
             <pattern>
                <token>in</token>
                <token/>
                <token>staat</token>
-               <token>verkeerd</token>
+               <marker>
+                  <token>verkeerd</token>
+               </marker>
             </pattern>
-            <message/>
-            <example correction="">Ik vind dat het <marker>in goede staat verkeerd</marker>.</example>
-            <example>Ik vind dat het <marker>in goede staat verkeert</marker>.</example>
+            <message>Het moet zijn: <suggestion>verkeert</suggestion>.</message>
+            <example correction="verkeert">Ik vind dat het in goede staat <marker>verkeerd</marker>.</example>
+            <example>Ik vind dat het in goede staat <marker>verkeert</marker>.</example>
          </rule>
       </rulegroup>
       
@@ -18741,6 +18799,7 @@ regexp case-insensitive maken : (?i)
             <!-- 2014-09-24 TaalTik nieuw -->
             <!-- haren en mijnen uitgeschakeld i.v.m. vele false positives -->
             <pattern case_sensitive="yes">
+               <token negate="yes">de</token>
                <marker>
                   <token regexp="yes">jouwen|uwen|onzen|hunnen|zijnen</token>
                </marker>
@@ -19131,11 +19190,11 @@ regexp case-insensitive maken : (?i)
             -->
             <pattern>
                <token>den</token>
-               <token regexp="yes" case_sensitive="yes">[a-z].*n</token>
+               <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="NN2|AJen|AJcn|AJsn|PPen">[a-z].*en</token>
             </pattern>
-            <message>Standaardnederlands is <suggestion>de <match no="2" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
+            <message>Standaardnederlands is <suggestion>de <match no="2" regexp_match="en$" regexp_replace="e"/></suggestion>.</message>
             <url/>
-            <example correction="De lelijke"><marker>Den lelijken</marker> man.</example>
+            <example correction="De grote"><marker>Den groten</marker> man.</example>
          </rule>
       </rulegroup>
       
@@ -22460,5 +22519,6 @@ regexp case-insensitive maken : (?i)
             </rule>
          </rulegroup>
       </category>
-   </rules>
+   
+</rules>
    
