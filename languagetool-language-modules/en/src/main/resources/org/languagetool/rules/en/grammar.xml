@@ -13344,6 +13344,23 @@ USA
             <example>For Christ’s sake!</example>
             <example>For pity’s sake!</example>
         </rule>
+        <rulegroup id="COMMA_COMPOUND_SENTENCE" name="comma between independent clauses">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he</token>
+                        <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                    </marker>
+                    <token min="0">then</token>
+                    <token regexp="yes">s?he|we|they</token>
+                </pattern>
+                <message>Use a comma before '\2' if it conntects two independent clauses.</message>
+                <suggestion>\1, and</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="Tim, and">I love <marker>Tim and</marker> he loves me.</example>
+                <example>No one is obliged to do more than what he or she can.</example>
+            </rule>
+        </rulegroup>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
                 <marker>
