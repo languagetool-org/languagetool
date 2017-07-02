@@ -676,6 +676,38 @@ title="Easy editing stylesheet" ?>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>telemóvel</suggestion>.</message>
       <example correction='telemóvel'><marker>telefone celular</marker>.</example>
     </rule>
+    <rule id='BRASILEIRISMO_14_CABULAR' name='Brasileirismo: cabular à escola'>
+      <pattern>
+          <token inflected='yes'>cabular</token>
+          <token>a</token>
+          <token>escola</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' postag='V.+'>faltar</match> à escola</suggestion>.</message>
+      <example correction='faltar à escola'>Hoje vou <marker>cabular a escola</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_15_GOMA' name='Brasileirismo: goma de mascar'>
+      <pattern>
+          <token inflected='yes'>goma</token>
+          <token>de</token>
+          <token>mascar</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' postag='N.+'>pastilha</match> elástica</suggestion>.</message>
+      <example correction='pastilhas elástica'>Compra duas <marker>gomas de mascar</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_16_ATERRISAR' name='Brasileirismo: aterrisar' default='off'>
+      <pattern>
+          <token inflected='yes' regexp='yes'>aterri(z|ss?)ar</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' postag='V.+'>aterrar</match></suggestion>.</message>
+      <example correction='aterra|aterrada|aterradas|aterrado|aterrados|aterrai|aterrais|aterram|aterramo|aterramos|aterrando|aterrar|aterrara|aterraram|aterraras|aterrardes|aterrarei|aterrareis|aterrarem|aterraremos|aterrares|aterraria|aterrariam|aterrarias|aterrarmos|aterrará|aterrarás|aterrarão|aterraríamos|aterraríeis|aterras|aterrasse|aterrassem|aterrasses|aterraste|aterrastes|aterrava|aterravam|aterravas|aterre|aterrei|aterreis|aterrem|aterremo|aterremos|aterres|aterro|aterrou|aterrámo|aterrámos|aterráramo|aterráramos|aterrárei|aterráreis|aterrásseis|aterrássemos|aterrávamo|aterrávamos|aterrávei|aterráveis'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
+    </rule>
+    <rule id='BRASILEIRISMO_17_DECOLAR' name='Brasileirismo: decolar' default='off'>
+      <pattern>
+          <token inflected='yes'>decolar</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' postag='V.+'>descolar</match></suggestion>.</message>
+      <example correction='descola|descolada|descoladas|descolado|descolados|descolai|descolais|descolam|descolamo|descolamos|descolando|descolar|descolara|descolaram|descolaras|descolardes|descolarei|descolareis|descolarem|descolaremos|descolares|descolaria|descolariam|descolarias|descolarmos|descolará|descolarás|descolarão|descolaríamos|descolaríeis|descolas|descolasse|descolassem|descolasses|descolaste|descolastes|descolava|descolavam|descolavas|descole|descolei|descoleis|descolem|descolemo|descolemos|descoles|descolo|descolou|descolámo|descolámos|descoláramo|descoláramos|descolárei|descoláreis|descolásseis|descolássemos|descolávamo|descolávamos|descolávei|descoláveis'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
+    </rule>
   </rulegroup>
 
  </category>
