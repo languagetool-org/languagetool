@@ -26296,6 +26296,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="I_PICO" name="*i pico">
+            <pattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <marker>
+                    <token>i</token>
+                    <token>pico</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>i escaig</suggestion>
+            <suggestion>i busques</suggestion>
+            <example correction="i escaig|i busques">cinquanta <marker>i pico</marker>.</example>
+            <example correction="i escaig|i busques">60 <marker>i pico</marker>.</example>
+        </rule>
         <rule id="MUNTAR EN CÒLERA" name="*muntar en còlera">
             <pattern>
                 <marker>
