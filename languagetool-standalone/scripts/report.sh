@@ -110,7 +110,7 @@ YEAR=`date +"%Y"`
 # note: requires a root cronjob to copy the error.log file to ~/api/apache_error.log:
 echo "" >>$OUTFILE
 echo "Apache errors (max. 30):" >>$OUTFILE
-grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 30 >>$OUTFILE
+grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -v "log.php" | grep $YEAR | tail -n 30 >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "Apache not found errors (filtered, max. 10):" >>$OUTFILE
