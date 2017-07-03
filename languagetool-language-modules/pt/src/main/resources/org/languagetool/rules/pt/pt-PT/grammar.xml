@@ -694,19 +694,26 @@ title="Easy editing stylesheet" ?>
       <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' postag='N.+'>pastilha</match> elástica</suggestion>.</message>
       <example correction='pastilhas elástica'>Compra duas <marker>gomas de mascar</marker>.</example>
     </rule>
-    <rule id='BRASILEIRISMO_16_ATERRISAR' name='Brasileirismo: aterrisar' default='off'>
+    <rule id='BRASILEIRISMO_16_ATERRISAR' name='Brasileirismo: aterrisar'>
       <pattern>
-          <token inflected='yes' regexp='yes'>aterri(z|ss?)ar</token>
+          <token regexp='yes'>aterri(z|ss?).+</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
       <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
     </rule>
-    <rule id='BRASILEIRISMO_17_DECOLAR' name='Brasileirismo: decolar' default='off'>
+    <rule id='BRASILEIRISMO_17_DECOLAR' name='Brasileirismo: decolar'>
       <pattern>
-          <token inflected='yes'>decolar</token>
+          <token regexp='yes'>decol.+</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
       <example correction='descolar'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
+    </rule>
+    <rule id='BRASILEIRISMO_17_XINGAR' name='Brasileirismo: xingar'>
+      <pattern>
+          <token regexp='yes'>xing.+</token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='xing(.+)' regexp_replace='goz$1'/></suggestion>.</message>
+      <example correction='gozou'>Ela o <marker>xingou</marker> por não cortar o gramado.</example><!-- TODO Add xingar POSs to tagger -->
     </rule>
   </rulegroup>
 
