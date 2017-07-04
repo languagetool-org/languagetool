@@ -629,7 +629,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-         <token regexp='yes'>B[aá]lcã|Canária</token>
+          <token regexp='yes'>B[aá]lcã|Canária</token>
       </pattern>
       <message>Esta expressão é invariável.</message>
         <suggestion>\1s</suggestion>
@@ -2351,43 +2351,43 @@ title="Easy editing stylesheet" ?>
 
  <category id='SYNTAX' name='Sintaxe' type='grammar'>
 
-        <rulegroup id="DE_MANEIRA_ADVERBIO_MODO" name="Síntaxe: 'de modo' + advébio de modo">
+  <rulegroup id="DE_MANEIRA_ADVERBIO_MODO" name="Síntaxe: 'de modo' + advébio de modo">
     <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
     <rule>
-            <pattern>
-                <marker>
-                    <token regexp='yes'>de|d?uma</token>
-                    <token regexp="yes">maneira|forma</token>
-                    <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
-                </marker>
-                <token>
-                  <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
-            </pattern>
-            <message>Construção incorreta.</message>
-            <suggestion>\3</suggestion>
-            <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
-            <example correction="Permanentemente|De forma permanente"><marker>De forma permanentemente</marker>.</example>
-            <example>De uma forma directamente proporcional.</example>
-            <example>Duma forma racionalmente sustentável.</example>
-            <example>De maneira minimamente ordenada.</example>
-        </rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>de|d?uma</token>
+          <token regexp="yes">maneira|forma</token>
+          <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
+        </marker>
+          <token>
+            <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
+      </pattern>
+      <message>Construção incorreta.</message>
+        <suggestion>\3</suggestion>
+        <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+      <example correction="Permanentemente|De forma permanente"><marker>De forma permanentemente</marker>.</example>
+      <example>De uma forma directamente proporcional.</example>
+      <example>Duma forma racionalmente sustentável.</example>
+      <example>De maneira minimamente ordenada.</example>
+    </rule>
     <rule>
-            <pattern>
-                <marker>
-                    <token regexp='yes'>de|d?um</token>
-                    <token regexp="yes">modo|jeito</token>
-                    <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
-                </marker>
-                <token>
-                  <exception postag="AQ.[CM][SN].|V.P..SM." postag_regexp="yes"/></token>
-            </pattern>
-            <message>Construção incorreta.</message>
-            <suggestion>\3</suggestion>
-            <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
-            <example correction="Permanentemente|De modo permanente"><marker>De modo permanentemente</marker>.</example>
-            <example>De um modo directamente proporcional.</example>
-        </rule>
-      </rulegroup>
+      <pattern>
+        <marker>
+          <token regexp='yes'>de|d?um</token>
+          <token regexp="yes">modo|jeito</token>
+          <token postag="RG|UNKNOWN" postag_regexp='yes' regexp="yes">.+mente</token>
+        </marker>
+          <token>
+            <exception postag="AQ.[CM][SN].|V.P..SM." postag_regexp="yes"/></token>
+      </pattern>
+      <message>Construção incorreta.</message>
+        <suggestion>\3</suggestion>
+        <suggestion>\1 \2 <match no="3" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+      <example correction="Permanentemente|De modo permanente"><marker>De modo permanentemente</marker>.</example>
+      <example>De um modo directamente proporcional.</example>
+    </rule>
+  </rulegroup>
  </category>
 
  <category id='CASING' name='Capitalização' type='grammar'>
@@ -6148,19 +6148,19 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
-	<!-- COMO LHES + VERB + A VOCÊS como lhes + VERB -->
-	<rule id="COMO_LHES_VERB_A_VOCÊS" name="Como lhes VERB">
-		<pattern>
-			<token>como</token>
-			<token regexp='yes'>lhes?|vos|te</token>
-			<token postag_regexp='yes' postag='V.+'></token>
-			<token>a</token>
-			<token regexp='yes'>vocês?</token>
-		</pattern>
-		<message>Pleonasmo. Substitua por:</message>
-			<suggestion>\1 \2 \3</suggestion>
-		<example correction="como lhes disse">Façam <marker>como lhes disse a vocês</marker>.</example>
-	</rule>
+    <!-- COMO LHES + VERB + A VOCÊS como lhes + VERB -->
+    <rule id="COMO_LHES_VERB_A_VOCÊS" name="Como lhes VERB">
+      <pattern>
+          <token>como</token>
+          <token regexp='yes'>lhes?|vos|te</token>
+          <token postag_regexp='yes' postag='V.+'></token>
+          <token>a</token>
+          <token regexp='yes'>vocês?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2 \3</suggestion>
+      <example correction="como lhes disse">Façam <marker>como lhes disse a vocês</marker>.</example>
+    </rule>
 	
     <!-- Verb EXPORTAR + PARA FORA > Verb exportar -->
     <rule id='EXPORTAR_PARA_FORA' name="Exportar">
@@ -18423,6 +18423,654 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='LP_PARONYMS' name='Paranónimos especiais: (Lightproof)'>
+    <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
+      <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+      <short>Nesta situação não se acentua a palavra.</short>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|À|alguma|antiga|aquela|àquela|autêntica|cada|chamavam|com|da|daquela|de|décima|desa|desta|dita|duma|e|É|em|esa|esta|estuda|extensa|fechar|foi|futura|grande|grosa|grosseira|histórica|imensa|importante|internacional|maior|maravilhosa|melhor|mesma|mortífera|múltipla|na|naquela|nesta|nona|nosa|nova|numa|oitava|ou|outra|pela|pequena|primeira|própria|qualquer|quarta|que|querem|quinta|real|recente|referida|rica|segunda|sem|sétima|sexta|sua|tanta|tenho|terá|terceira|última|um|uma|única|velha|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>fabricas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>fábrica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="fábrica">outra <marker>fabrica</marker></example>
+      <example correction="fábricas">e <marker>fabricas</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|aí|ao|atrasa|atrasaram|atrasou|boicotam|bom|cada|com|como|cujo|curioso|dá|dado|dando|dão|dar|dará|daremos|daria|dava|davam|de|dê|demos|dera|deram|dese|deste|deu|difícil|dise|do|e|em|esse|este|indica|mais|marca|marcam|marcou|mau|melhor|mesmo|meu|naquele|nesse|neste|no|nos|noso|novo|num|o|os|ótimo|ou|para|pelo|pior|pleno|próprio|qualquer|recente|seu|simples|tardio|tem|têm|tendo|tenha|ter|terá|terão|teria|teve|tido|tinha|tinham|tiver|tivera|tiveram|todo|um)s?</token>
+        <marker>
+          <token regexp='yes'>inicios?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>início<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="início">tardio <marker>inicio</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|causa|causava|certa|com|da|dava|de|desa|É|em|era|faz|fazer|fazia|foi|grande|julgo|menor|merece|mereço|mesma|muita|naquela|ou|por|profunda|própria|que|seria|só|sua|talvez|tanta|uma|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>lastimas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>lástima<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="lástima">dava <marker>lastima</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|afoga|alguma|apenas|aquela|bastante|cada|causou|certa|com|cuja|da|daquela|de|demonstrando|desa|doe|dolorosa|e|É|em|era|esa|esta|estranha|eterna|fingida|fingindo|fose|funda|grande|guarda|guardo|há|horível|humana|imensa|infinda|infinita|interior|íntima|justa|leve|maior|mesma|minha|muita|na|naquela|negra|nem|nenhuma|nesa|nosa|numa|obscura|oculta|ou|para|pela|pequena|pesada|primeira|profunda|própria|pura|qualquer|que|sem|sentia|sobra|solene|sua|súbita|tal|tanta|tem|tens|tinha|traz|tua|uma|única|verdadeira|visível)s?</token>
+        <marker>
+          <token regexp='yes'>magoas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>mágoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="mágoa">muita <marker>magoa</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|alguma|aquela|as|bela|boa|cada|célebre|com|da|daquela|de|desa|duma|É|elegante|em|espesa|esa|esta|estupenda|expresiva|feia|fria|há|hedionda|interesante|meia|mesma|minha|misteriosa|na|naquela|nem|nenhuma|numa|pela|pequena|pobre|por|pôr|pôs|primeira|punha|sem|sob|sólida|sua|tal|trazem|trazes|traziam|tua|um|uma|usa|usará|usarei|usava|usei|uso|usou)s?</token>
+        <marker>
+          <token regexp='yes'>mascaras?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>máscara<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="máscara">sem <marker>mascara</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|algum|ao|aquele|belo|bom|cada|certo|com|como|daquele|de|dese|deste|do|dos|É|em|embrulhado|era|esse|este|excelente|faz|fazer|fazia|fechado|fechar|fez|foi|fraco|futuro|gigantesco|grande|grave|há|haverá|havia|igual|imenso|importante|liquidado|maior|mais|maldito|mau|melhor|mesmo|meu|muito|naquele|nenhum|nesse|neste|no|noso|novo|num|o|[\xd3ó]timo|outro|para|parecer|pelo|pequeno|por|principal|próprio|qualquer|que|quer|quero|semelhante|ser|seu|só|tal|tem|tenho|triste|tudo|último|um)s?</token>
+        <marker>
+          <token regexp='yes'>negocios?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>negócio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="negócio">novo <marker>negocio</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>([A-Za-z]+dade|[A-Za-z]+mente|[A-Za-zêâ]+ncia|[A-Za-z]+ção|a|à|acesa|adquirir|agradável|alegada|alguma|alta|alternativa|análise|antiga|aquela|àquela|arte|asim|astronomia|atitude|ativa|atual|aula|avidez|bastante|boa|breve|cada|certa|coisa|com|comete|como|componente|comprensão|conquista|considerada|considerado|constante|contra|coreta|costumada|cousa|cuja|da|de|deficiente|descolorida|desa|desta|determinada|discusão|doce|duma|e|É|em|encetada|ensino|era|eram|escola|esa|esta|estava|eventual|evidente|exerceu|exige|expresão|extensa|faz|fazem|fervorosa|filosofia|forma|fosse|frequente|galante|ganhar|gente|geral|gestão|glória|grande|há|hagiografia|haja|havido|hoje|ideia|imagem|incansável|incitar|indiferença|indigesta|iniciou|intolerável|jardinagem|labuta|linguagem|linha|liturgia|lógica|longa|má|mais|malta|maneira|mas|mecânica|medicina|medida|meio|melhor|menor|mesma|metade|minha|misteriosa|moral|mudar|muita|muito|na|nem|nenhuma|nesta|nosa|nova|numa|obra|ordem|ou|outra|para|parte|patrocinar|pela|pequena|pesoa|poesia|política|por|porém|pouca|pouco|preciso|pregunta|própria|prova|provável|qualquer|que|questão|rapariga|razão|reforma|regra|resposta|revelava|riqueza|sádica|saída|salutar|são|sediciosa|seja|sem|semelhante|ser|sido|simples|sobre|sofisticada|sua|tal|tanta|tanto|tão|tem|têm|tenho|tens|ter|termo|tinha|toda|tornar|tornou|uma|venerada|vertente|vida)s?</token>
+        <marker>
+          <token regexp='yes'>praticas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>prática<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="práticas">aulas <marker>praticas</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>([A-Za-z]+mente|[A-Za-z]+mento|alcance|algum|apenas|ar|aspecto|bastante|bem|campo|caráter|científico|coeficiente|como|controle|curso|de|dentista|desempenho|destino|devaso|do|domínio|e|É|efeito|em|ensino|era|espírito|este|estivese|estudo|exame|exemplo|exercício|fica|filósofo|gênio|grande|guia|hábito|homem|interese|intuito|iso|juízo|lado|mais|manejo|manual|marido|meio|menos|método|modo|muito|mundo|nada|navegante|negociante|nível|o|objetivo|olho|outro|país|palavreado|paso|pelo|pouco|princípio|problema|proceso|psicólogo|ramo|realismo|remédio|responsável|resultado|roteiro|saber|senso|sentido|ser|será|seria|significado|sobretudo|soldado|sujeito|suporte|talento|tão|tereno|teste|tornar|trabalho|treino|um|uso|valore?)s?</token>
+        <marker>
+          <token regexp='yes'>praticos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>prático<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="prático">tão <marker>pratico</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>([A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expectativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fose|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornase|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
+        <marker>
+          <token regexp='yes'>publicas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>pública<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="pública">tornou <marker>publica</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|antiga|aquela|atual|cada|como|comunista|curiosa|da|daquela|de|democrática|desa|desta|do|duma|e|É|em|escola|esa|esta|famosa|fez|formada|formosa|fose|futura|gloriosa|grande|haverá|já|jovem|juvenil|maldita|minha|miserável|na|nascente|nem|nesa|nesta|nosa|nova|numa|ou|outra|palavra|para|pela|pequena|pobre|por|primeira|quarta|que|quinta|segunda|sua|terceira|última|uma|velha|verdadeira|vizinha)s?</token>
+        <marker>
+          <token regexp='yes'>republicas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>república<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="república">quinta <marker>republica</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|alguma|antiga|aquela|àquela|autêntica|cada|chamavam|com|da|daquela|de|décima|desta|duma|e|É|em|esa|esta|faz|fez|grande|grosa|imensa|maior|melhor|mesma|na|naquela|nesta|nosa|nova|numa|ou|outra|pela|pequena|própria|qualquer|que|referida|rica|sem|sua|tanta|última|uma|única|velha|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>tabulas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>tábula<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="tábula">décima <marker>tabula</marker></example>
+    </rule>
+    <!--rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-z]+or|[A-Za-z]+ora|[A-Za-zá]+tico|[A-Za-zé]+nico|[A-Za-z]+al|[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|alun[ao]</token>
+        <marker>
+          <token regexp='yes'>tabulbs?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>tabulb<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="tabulb"><marker>tabulb</marker></example>
+    </rule-->
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|abonando|abre|abrir|acesar|acharia|admitem|alcançarem|algum|altera|ampliar|antigo|ao|apresente|aranjou|bom|bonito|buscando|buscar|colocou|com|como|concedam|concede|conceder|concedia|consegue|conseguiram|consolidado|constarão|constituirá|contratar|cronista|cujo|dado|dai|dando|dar|daria|daríeis|dava|de|dei|dera|deram|dermos|dese|deses|deste|determinado|deu|devido|do|É|e|em|empresas|encontra|escaso|esse|este|estuda|evento|eventual|fitas|fornecer|ganhara|ganharão|ganhase|garante|garantir|grande|há|haverá|imenso|implicam|implicará|inteiro|largo|maior|mais|mediante|menor|menos|merece|merecem|merecerem|mesmo|meu|muda|muito|municipal|não|negar|nem|nenhum|no|noso|novo|o|obtém|obter|obtinham|obtiveram|ocore|oferecendo|ou|para|pede|pelo|pequeno|piano|pleno|por|pouco|poupança|presidente|prestar|primeiro|próprio|qualquer|quer|queremos|receber|receberam|regateavam|respectivo|restringem|restringir|segundo|sem|seu|simplifica|sobre|solicitar|tal|tanto|tem|têm|tenho|ter|terá|teu|tinha|tiveram|tivesem|transferir|último|um|utilizado|volume|voso)s?</token>
+        <marker>
+          <token regexp='yes'>creditos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>crédito<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="crédito">pede <marker>credito</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|algum|alto|ao|apresenta|apresente|apresentou|com|como|de|dese|do|É|e|em|esse|haja|havia|importante|maior|mediante|menor|meu|no|novo|o|ou|pagar|para|primeiro|qualquer|sem|seu|só|somente|teu|um|único|último|velho|zera|zerou|zeraram|zerei)s?</token>
+        <marker>
+          <token regexp='yes'>debitos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>débito<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="débito">maior <marker>debito</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[0-9]+º|agora|antigo|ao|apoia|aquele|autodenomina|bom|brilhante|cada|chamado|com|cujo|daquele|de|décimo|denominada|denominado|desmobilizado|dese|deste|diminuto|dizer|do|e|elo|em|enorme|entre|equipado|esse|este|formidável|forte|futuro|grande|grupo|humilde|imenso|ira|lamuriento|lento|levantar|levarão|maior|melhor|mesmo|mobiliza|motivado|nem|nesse|no|nono|noso|novo|num|numeroso|o|oitavo|ordenado|ou|outro|pacífico|pelo|pequeno|poderoso|potencial|preparado|primeiro|próprio|qualquer|quarto|quinto|rebelde|restante|segundo|sem|sétimo|seu|sexto|só|sobre|terceiro|tínhamos|um|uma|vasto|velho|visem</token>
+        <marker>
+          <token regexp='yes'>exercitos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>exército<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="exército">pequeno <marker>exercito</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|ao|apenas|aquele|brilhante|cabal|cada|carvalho|como|competente|completo|da|de|depois|do|e|É|em|enquanto|este|excelente|famosa|fiel|foi|gigante|grande|guia|importante|jovem|legítimo|maior|melhor|minha|no|o|para|pelo|por|primeira|primeiro|principal|próprio|respeitoso|ser|seu|sou|sua|tem|teria|tradutor|tribunal|um|uma|único|verboso|virtual)s?</token>
+        <marker>
+          <token regexp='yes'>interpretes?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>intérprete<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="intérprete">ser <marker>interprete</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token>
+            <exception regexp='yes'>e|ela|ele|que|se|você</exception></token>
+        <marker>
+          <token regexp='yes'>perpetuas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>perpétua<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="perpétua">numa <marker>perpetua</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|achou|admite|admitia|admito|alguma|aquela|boa|breve|com|como|cuja|da|dar|dava|de|e|É|em|excelente|exigem|houve|minha|mínima|muita|na|naquela|oferecia|pela|primeira|provocava|qualquer|sem|sua|tem|termos|última|um|uma|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>replicas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>réplica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="réplica">excelente <marker>replica</marker></example>
+    </rule>
+    <!--rule>
+	<pattern>
+          <token regexp='yes'>o</token>
+        <marker>
+          <token regexp='yes'>tremulas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>trémula<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="trémula"><marker>tremula</marker></example>
+    </rule-->
+    <rule>
+	<pattern>
+          <token regexp='yes'>ainda|algum|antes|ao|aquele|asegurados|belo|bom|buscar|céu|chamo|chamou|com|como|conceder|considerável|cujo|dava|de|decisivo|dese|desem|dispensando|dispensar|do|É|e|em|encontrar|esperando|esperar|esse|forneceu|generoso|grande|grave|implorando|importante|incômodo|insignificante|justificável|maior|mais|menor|meu|necesitando|negar|nenhum|no|noso|o|obter|oferecer|ou|outro|para|peça|peçamos|peças|peço|pede|pedido|pedia|pediam|pedíamos|pedimos|pedindo|pedir|pedira|pedirá|pedirão|pediram|pedirei|pediremos|pediria|pediriam|pedise|pediu|pelo|pequeno|permanente|poderoso|por|potente|pouco|precioso|prestam|prestando|prestar|prestaram|prestarão|preste|prestou|procurando|procurar|procurasem|procurou|prometeu|prometeram|prometiam|pronto|qualquer|receber|receberam|recebeu|recebido|recusavam|requerendo|sem|seu|simples|só|solicitar|solicitou|suplicaram|suplicou|sustentado|também|tanto|tem|têm|temos|tenha|tenho|terá|terão|terei|teria|teriam|teu|teve|tido|tinha|tinham|tive|tivera|tiveram|tríplice|um|único|útil|valioso|veio|vinha|virá|viria|viriam</token>
+        <marker>
+          <token regexp='yes'>auxilios?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>auxílio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="auxílio">tem <marker>auxilio</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|abrindo|alguma|aparente|aquela|àquela|bastante|boa|breve|caso|certa|com|considerável|cuja|curta|da|dada|daquela|de|denominada|desconsoladora|deseja|desa|desta|determinada|duma|e|É|em|encurtar|enorme|esa|esta|exigia|existe|explorada|firme|ganhar|ganhara|gélida|grande|guardando|guardou|há|habitual|havia|houvera|igual|imensa|impercorível|impõe|impunha|inaceitável|indicando|insondável|intérmina|interpusese|intransponível|larga|longa|maior|mais|mantendo|mantenha|manter|marcando|média|meia|menor|mesma|mínima|muita|na|naquela|necesária|nenhuma|nesa|nesta|notável|numa|ou|pela|pequena|por|pouca|primeira|própria|qualquer|que|quer|querem|queria|quero|quis|razoável|relativa|removida|representar|respectiva|respeitável|respeitosa|segura|sem|sua|tal|tanta|tinha|tomando|tomou|última|única|uma|vence|venceu|velha)s?</token>
+        <marker>
+          <token regexp='yes'>distancias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>distância<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="distância">grande <marker>distancia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>acanhado|alegre|amplo|ao|apertado|aquele|aristocrático|breve|cada|chamado|como|daquele|de|denominado|deplorável|desfecho|dese|deste|do|dum|duplo|em|esse|este|estreitísimo|estreito|eterno|fazer|fazia|feito|fizemos|formando|formavam|grande|imenso|implacável|imponderável|importante|largo|legítimo|limitado|literário|maior|maldito|meio|mesmo|mesquinho|meu|monstruoso|naquele|nesse|neste|no|noso|noutro|num|o|oitavo|outro|pelo|pequenísimo|pequeno|por|primeiro|primitivo|próprio|que|quinto|reduzido|respeitoso|segundo|serviram|seu|suspeito|terível|tinha|trazia|último|um|uni|vasto</token>
+        <marker>
+          <token regexp='yes'>circulos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>círculo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="círculo">vasto <marker>circulo</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(agravam|algum|alivia|ao|bastante|bom|caótico|com|controlam|cujo|de|do|e|em|enfrentou|esse|este|fácil|fará|grande|há|haver|havia|inferniza|infernizam|intermitente|largo|lento|livre|maior|mais|muda|muito|neste|no|o|oferecer|orientam|para|pára|param|pelo|pior|por|prevê|próprio|realizando|reformula|sem|seu|simples|sobre|sol|tanto|tem|temeroso|ter|tinha|tiveram|tivesem|último|um)s?</token>
+        <marker>
+          <token regexp='yes'>transitos?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>trânsito<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="trânsito">bastante <marker>transito</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(algum|ao|aquele|bom|cada|com|controlam|cujo|de|do|e|em|esse|este|há|haver|havia|livre|maior|mais|muda|muito|necesário|nesse|neste|no|o|para|pára|param|pelo|por|primeiro|referido|sem|seu|simples|sobre|tanto|tem|ter|tinha|tiveram|tivesem|último|um)s?</token>
+        <marker>
+          <token regexp='yes'>tramites?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>trâmite<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="trâmite">simples <marker>tramite</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(algum|ao|aquele|bom|cada|com|cujo|de|do|É|e|em|esse|este|há|haver|havia|maior|mais|melhor|meu|muda|muito|nesse|neste|no|noso|o|pelo|por|sem|seu|sobre|tanto|tem|ter|teu|tinha|tiveram|tivesem|um)s?</token>
+        <marker>
+          <token regexp='yes'>animos?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>ânimo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="ânimo">maior <marker>animo</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|alguma|aquela|atrevida|bela|boa|cada|célebre|certa|com|da|daquela|de|desa|desta|divertida|duma|É|em|esa|esta|feia|interesante|mesma|minha|na|naquela|nem|nenhuma|numa|outra|pela|pequena|pobre|por|pôr|primeira|sem|sua|tal|trazem|traziam|tua|uma|velha)s?</token>
+        <marker>
+          <token regexp='yes'>parodias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>paródia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="paródia">atrevida <marker>parodia</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>([CILMXV]+|algum|ao|aquele|cada|cujo|de|do|em|esse|este|há|haver|havia|maior|mais|melhor|muda|muito|nesse|neste|no|noso|num|o|pelo|por|primeiro|quarto|quinto|sagrado|santo|secreto|segundo|sem|sexto|sétimo|seu|terceiro|um)s?</token>
+        <marker>
+          <token regexp='yes'>concilios?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>concílio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="concílio">santo <marker>concilio</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>([a-z]+[sç]ão|a|à|análise|aprendizagem|aquela|camada|conectividade|coreia|corente|da|de|descarga|desa|discursiva|É|em|era|essa|escala|espera|esta|está|estrutura|fase|foi|forma|inconstância|leitura|lida|linha|luta|mais|malha|maneira|marcha|masa|matriz|medida|melhoria|moldagem|na|natureza|necesariamente|nesa|numa|parte|pela|por|pública|queda|rajada|reciclagem|sai|saída|ser|série|superfície|tão|uma|vigilância)s?</token>
+        <marker>
+          <token regexp='yes'>continuas?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>contínua<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="contínua">natureza <marker>continua</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(a|abandono|abuso|acionamento|açoite|acompanhamento|afastamento|algo|antigo|ao|ardor|ataque|ato|atrito|aumento|austero|bailado|baixo|barateamento|barulho|bom|brado|ciclo|circular|citoplasma|com|combate|comércio|conjunto|crescendo|crescer|crescimento|cultivo|daquele|de|decair|declive|desde|desdobramento|desejo|desencontro|desenvolver|desenvolvimento|desgaste|deslumbramento|disparo|do|dum|É|em|empobrecimento|enfraquecimento|entre|era|erosão|esforço|espectro|esse|estado|este|fio|flagelo|fluido|fluxo|foco|fogo|foi|fornecimento|forno|friso|fui|gemido|giro|golpe|gravitar|hábito|instrumento|interdisciplinar|interese|investimento|jato|jogo|labor|labutar|levantamento|mais|mental|modo|monitoramento|montanhoso|movimento|murmúrio|no|novo|num|numérico|o|ordem|padecer|paralelo|pelo|pensamento|pesar|pigaro|por|povoamento|proceso|quase|querer|reconhecimento|regime|registador|registo|resfriamento|revezamento|risco|ritmo|rodopiar|rolo|ruído|rumor|seja|sente|será|serviço|seu|simples|sistema|soluçar|som|sonho|subconsciente|subir|susto|tão|tempo|térmico|texto|trabalho|traçado|traço|trato|trem|tremor|tropear|turbilhão|um|uso|vaivém|velho|vertia|volver|vômito|vo|voz|zunido)s?</token>
+        <marker>
+          <token regexp='yes'>continuos?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>contínuo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="contínuo">serviço <marker>continuo</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>([a-z]+nte|[a-z]+tar|[a-z]+o[nsrv]a|[a-z]+[sç]ão|[a-záâéíóôú]+ica|[a-záâéíóôú]+ria|[a-záâéíóôú]+tura|[a-záâéíóôú]+ral|[a-záâéíóôú]+ade|[a-zêâ]+ncia|[a-z]+gia|[a-z]+cial|[a-z]+iva|[a-z]+ional|abordagem|análise|[\xc1á]rea|arte|asembleia|atitude|base|bem|biblioteca|cartilha|causa|cautelar|clase|cláusula|coisa|com|conhecimento|cor|cura|da|data|de|dieta|diferença|disciplina|doença|e|É|empresa|[\xcaê]nfase|enzima|Época|era|escala|escolha|etnia|faixa|feramenta|fobia|foi|folha|forma|franja|gama|ideia|interface|legal|lei|língua|linguagem|linha|mais|maneira|marca|masa|medida|mental|meta|mudança|muito|mundo|musical|na|negócios|nenhuma|norma|ordem|outra|paixão|parte|pesquisa|pesoa|preço|preços|proposta|proteína|queixa|questão|raça|região|regra|religião|resposta|riqueza|saída|sala|ser|simpatia|sintaxe|subárea|tão|tarefa|tribal|tutela|tutelar|uma|urbana|variável|via|visual|vocabular)s?</token>
+        <marker>
+          <token regexp='yes'>especificas?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>específica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="específica">cor <marker>especifica</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>([a-z]+nte|[a-z]+nto|[a-z]+sto|[a-z]+i[tv]o|[a-z]+ado|[a-z]+[sç]ão|[a-z]+[dt]or|[a-z]+eto|[a-záâéíóôú]+ico|[a-záâéíóôú]+rio|[a-záâéíóôú]+ulo|[a-záâéíóôú]+ismo|acordo|algo|algoritmo|alvo|[\xc2â]mbito|anticorpo|apoio|aranjo|artigo|aspecto|ato|bem|calor|caminho|campo|canal|carácter|caso|cheiro|conteúdo|contexto|corpo|curso|de|deficit|demanda|desejo|despacho|diploma|do|dolo|domínio|e|É|em|embora|endereço|energia|estilo|estrese|estudo|exame|exemplo|fenômeno|fim|foi|fruto|fundo|gene|gênero|grupo|habitat|[\xcdí]ndice|indivíduo|inimigo|interese|intervalo|jargão|limite|local|lugar|mais|mandato|marketing|material|método|meu|modo|nada|não|nome|número|o|onda|[\xd3ó]rgão|padrão|palco|papel|perigo|peso|pesquisa|prazo|preparo|problema|proceso|produto|programa|quase|registro|remédio|risco|ritual|roteiro|seja|sensor|sentido|serviço|sistema|site|social|som|soro|substrato|tão|tecidular|tempo|termo|texto|tipo|trabalho|treino|último|um|uso|valor|visual)s?</token>
+        <marker>
+          <token regexp='yes'>especificos?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>específico<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="específico">tão <marker>especifico</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(a|algum|ao|àquele|ardente|cada|claro|com|como|confirma|dado|daquele|dar|dava|davam|de|dê|definiu|dese|deram|determinado|deu|do|dum|e|É|em|encontra|encontrava|encontravam|encontraram|encontrase|encontrou|entre|esse|este|estranho|extrair|extremo|formar|forte|grande|há|haja|havia|houve|houvese|houver|importante|já|ligeiro|lubrificante|maior|mais|melhor|mesmo|meu|mínimo|não|natural|nem|nenhum|no|nobre|novo|nosso|num|o|ou|outro|palavra|para|pelo|poderoso|por|primeiro|principal|produz|produza|produziu|prover|quente|recebe|recebeu|recebia|reconfortante|são|sem|semelhante|seu|simples|tal|tem|tivese|todo|um|último|único|usava|vivo)s?</token>
+        <marker>
+          <token regexp='yes'>estimulos?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>estímulo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="estímulo">forte <marker>estimulo</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(a|à|bastante|e|empresa|estava|família|firma|forma|garota|interna|leia|mais|melhor|menina|moça|muito|mulher|na|permanece|pesoa|sua|vida)s?</token>
+        <marker>
+          <token regexp='yes'>integras?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>íntegra<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="íntegra">família <marker>integra</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>(absolutamente|bastante|de|do|e|homem|magistrado|mais|mantenha|mas|menino|muito|o|personage[mn]|rapaze?|tudo)s?</token>
+        <marker>
+          <token regexp='yes'>integros?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>íntegro<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="íntegro">rapaz <marker>integro</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-z]+mente|[A-Za-z]+mento|abandono|afetivo|agora|agravo|álbum|algum|aliado|alvoroço|amargor|amigo|amor|anelo|antagonismo|ao|aquele|arepio|baile|bom|caderno|camarada|caminho|cântico|canto|carácter|caráter|casulo|causaria|causava|choque|círculo|clima|colóquio|com|combate|como|companheiro|compromiso|conselheiro|contato|convívio|cunho|daquele|de|debate|decoro|desafio|desejo|desespero|desgosto|desprezo|diálogo|diário|discurso|do|drama|e|É|elo|em|encanto|enxoval|era|está|este|fenômeno|ficara|ficou|foco|foi|foro|fui|furor|gemido|governo|gozo|grito|homem|horível|ideal|impulso|indicar|intérprete|jantar|júbilo|juízo|laço|lirismo|livro|luto|mais|menos|meu|mistério|modelo|molde|monólogo|motivo|muito|mundo|negócio|no|nosso|num|o|olhar|oráculo|orgulho|padecer|panorama|papel|para|parecia|parente|pede|pelo|piano|por|pouco|prazer|próprio|qualquer|quase|que|rapaz|recolho|refeitório|relato|são|sarau|secretário|sendo|senso|sentido|ser|seria|seu|sido|sobresalto|sol|sosego|suspiro|também|tão|terreno|terror|teu|todo|tom|torna|trato|um|verbo|viver</token>
+        <marker>
+          <token regexp='yes'>intimos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>íntimo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="íntimo">carácter <marker>intimo</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>([A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|[a-zêâ]+ncia|[a-z]+[dhistxç]ão|a|agonia|alegria|alma|amiga|amizade|ansiedade|aquela|atitude|atividade|bem|bondade|calma|carta|causa|ceia|cena|certeza|com|como|confiança|consulta|contextura|conversa|crônica|cumplicidade|da|daquela|de|delícia|descoberta|desa|desta|dor|e|É|em|energia|era|esfera|esperança|esa|esta|estante|estrutura|falta|fazer|felicidade|festa|fez|foi|força|forma|fose|fraternidade|frieza|ginástica|higiene|história|inimiga|irlanda|já|linguagem|literária|luta|luz|magoa|mágoa|mais|mantém|mas|menos|mesa|mesma|minha|moralidade|mostrar|muita|muito|na|não|natureza|necesidade|nossa|nota|nudez|numa|ordem|ou|pagina|página|palavra|palestra|palpite|parte|paz|pela|pergunta|perspectiva|pesoa|poesia|posuem|prática|que|quem|realidade|reviravolta|revolta|revolve|roupa|segurança|senhora|ser|sinceridade|sociedade|sombra|sou|sua|também|toda|tornou|tortura|tristeza|túnica|uma|verdade|vida|voz|zona)s?</token>
+        <marker>
+          <token regexp='yes'>intimas?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>íntima<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="íntimas">partes <marker>intimas</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|À|anuncia|anunciava|anunciam|anunciou|com|como|concedeu|cuja|da|de|desaprova|doce|dupla|e|É|em|esa|estúpida|eventual|fazer|frequente|generosa|houve|imediata|impliquem|importa|importará|minha|na|nega|nossa|numa|ou|pela|pequena|posterior|presumir|promove|promover|pura|representaram|signifique|sua|tua|última|única|uma)s?</token>
+        <marker>
+          <token regexp='yes'>renuncias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>renúncia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="renúncia">impliquem <marker>renuncia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|À|alguma|após|apresenta|apresentam|apresentar|apresentaram|apresente|apresentem|apresentou|apura|apurando|apurar|aquela|apurou|asunto|clara|com|como|confirma|confirmam|conforme|covarde|cuja|da|dar|das|de|desmente|desmentem|desmentiu|desa|duma|e|É|em|encaminha|encaminham|encaminhou|engolir|específica|esa|esta|exista|existiu|existindo|falsa|formaliza|formalizando|formalizaram|formalizou|formulada|grande|grave|há|havia|houve|houver|inexplicada|ingênua|investiga|investigam|investigar|investigava|julga|julgam|julgou|levar|mas|mediante|meia|muita|na|não|nenhuma|nova|numa|oferece|oferecer|ofereceu|ou|outra|pela|por|posível|preciosa|presente|primeira|qualquer|recebe|receberam|receberem|recebeu|segunda|segundo|simples|sobre|sua|tem|terrível|toda|tremenda|uma|velada)s?</token>
+        <marker>
+          <token regexp='yes'>denuncias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>denúncia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="denúncia">grave <marker>denuncia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>como|copa|de|do|É|educador|foi|fui|grande|maior|melhor|no|o|termo|um</token>
+        <marker>
+          <token regexp='yes'>liberos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>líbero<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="líbero">fui <marker>libero</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|aço|adorado|alcatrão|[\xc1á]lcol|algum|amortecedor|ao|aquele|ar|aro|artificioso|ativo|aumento|azoto|baro|bastante|batom|beber|bexiga|brilho|bucho|café|carbono|célebre|certo|céu|chumbo|cimento|cintilador|circulante|clorofórmio|com|combustível|como|composto|contêm|conteúdo|contribuinte|cor-de-rosa|coretivo|cristal|daquele|de|denominado|deramava|desaranjo|despenhadeiro|dese|deste|detergente|diamante|direito|do|e|É|efeito|efluente|em|empréstimo|endividamento|endosperma|enxofre|espelho|esse|estado|estados|este|esturinho|etano|exportador|externo|fato|faturamento|ficar|fio|fluxo|ganho|gás|giz|glicerol|glicol|hélio|hidrocarboneto|hidrogênio|ímã|investimento|iogurte|juro|lençol|linfa|litro|lucro|mais|material|meio|menos|microcosmos|miraculoso|monstro|muito|néctar|nenhum|nesse|nitrogênio|no|núcleo|num|o|objetivo|[\xd3ó]leo|OMO|[\xd3ó]pio|ordenado|ou|ouro|outro|oval|oxigênio|para|parece|patrimônio|pelo|peso|por|precioso|preciso|preço|prejuízo|prêmio|presente|produto|propanona|pus|qualquer|que|real|registo|rendimento|resgate|resultado|retorno|rubi|sabão|sabonete|salário|saldo|sempre|ser|seu|sódio|solda|sonho|subsídio|tal|talco|também|tão|tem|teto|tinta|título|tolueno|torna-se|total|tronco|tudo|um|urina|valor|vencimento|veneno|venenoso|vinagre</token>
+        <marker>
+          <token regexp='yes'>liquidos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>líquido<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="líquido">salário <marker>liquido</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|à|água|alma|apresenta-se|bala|captação|cera|chama|cocaína|coisa|como|completamente|consistência|contribuição|corente|criação|cromatografia|da|de|descarga|dieta|dívida|dorsal|e|É|energia|entrada|extensão|externa|faixa|fase|forma|frações|geralmente|glucose|herança|interna|joia|lâmina|ligação|mais|masa|montanha|multa|nasceu|nem|numa|nuvem|operacional|ou|parecia|parte|perda|planície|poeira|polpa|prata|produtividade|própria|prosa|quantidade|quase|que|receita|rede|refulgência|renda|rentabilidade|rocha|situação|solução|soma|substância|superfície|suspensão|taxa|tera|tomador|tributária|uma</token>
+        <marker>
+          <token regexp='yes'>liquidas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>líquida<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="líquida">receita <marker>liquida</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|alegre|alguma|aquela|avisada|certa|com|cuja|da|de|discreta|duma|e|É|em|envolve|esa|esta|eterna|fina|graciosa|há|inocente|inofensiva|ligeira|mais|menos|minha|na|nenhuma|numa|ou|outra|pela|petulante|por|pôs|profunda|pura|que|risonha|santa|sem|será|sua|tanta|tem|terna|toda|tua|uma|vê|vem|vi|via|viu</token>
+        <marker>
+          <token regexp='yes'>malicias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>malícia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="malícia">inocente <marker>malicia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|abra|abre|abrir|abriu|cada|caro|com|conhecida|cuja|da|de|e|esa|esta|fecha|fechou|minha|na|nova|pede|pediu|pela|primeira|requereu|segunda|sem|sua|uma)s?</token>
+        <marker>
+          <token regexp='yes'>matriculas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>matrícula<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="matrícula">cada <marker>matricula</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>ação|ao|assassin[oa]|autor e|coautor e|com|como|como sujeito|da|de|do|É|entre|foi|haja mais de um|houvese mais de um|o|para|por|posível|seja|ser|será|soldado|testemunha|vítima</token>
+          <token regexp='yes' min='0'>e|ou</token>
+        <marker>
+          <token regexp='yes'>participes?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>partícipe<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="partícipe">testemunha e <marker>participe</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>ac?ções|aos|as|autor|autores|coautor|coautores|com|como|sujeitos|das|de|dos|entre|novos|os|para|por|possíveis|são|sejam|serão|serem|soldados</token>
+          <token min='0'>e</token>
+        <marker>
+          <token>participes</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>partícipes</suggestion>
+      <example correction="partícipes">possíveis <marker>participes</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|admirável|arojada|asombrosa|com|concentram|cuja|da|de|diz|e|É|estranha|exige|exigiu|fator|falsa|fazer|feito|fizeram|grande|habitual|haver|igual|insuficiente|muita|na|ou|para|pela|por|primeira|própria|quarta|que|requer|requerer|requeria|requisitar|sem|sua|suma|surprendente|tal|tanta|última|uma|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>pericias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>perícia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="perícia">grande <marker>pericia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>abalado|adquirir|adquiriu|alcançado|algum|americana|antigo|ao|apenas|aranjar|asim|augusto|bastante|belo|brilhante|catalítico|certo|colhe|com|conferindo|conquista|conquistar|conseguiram|considerável|cujo|dá|dando-lhe|dar|de|dê|dem|definitivo|desmedido|dese|diabólico|do|e|É|eles|elevado|em|enorme|esse|eu|fascinante|fraco|funesto|ganha|ganhar|ganhou|genial|grande|imenso|impresionante|incontestado|inédito|insubstituível|justo|larguísimo|maior|mais|medíocre|menor|mesmo|meu|muito|nem|nenhum|nesse|no|novo|o|obter|para|particular|pelo|perde|perdendo|perder|perdeu|perdia|perdido|por|precioso|procurando|próprio|que|real|recuperar|régio|seco|sem|sentia|seu|significa|simples|singular|sinistro|somente|tal|tanto|tem|têm|tenho|ter|teria|terível|teu|tinha|tinham|tiveram|um|untado|vago|valeram|venerando|vulgar</token>
+        <marker>
+          <token regexp='yes'>prestigios?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>prestígio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="prestígio">particular <marker>prestigio</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|com|cuja|da|de|É|exige|exigiu|falsa|fazer|feito|fez|fizeram|grande|haver|muita|na|ou|para|pela|por|primeira|própria|quarta|que|requer|requisitar|sem|sua|tal|tanta|última|uma|verdadeira)s?</token>
+        <marker>
+          <token regexp='yes'>rec?tificas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>retífica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="retífica">requer <marker>retifica</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|adiantou|aguardava|ao|buscar|caixeiro|como|criado|e|É|ele|esponjava|estudou|gesto|guarda|lembrava|mais|mesmo|meu|mostrava|muito|o|observando|pastor|que|sempre|seu|tão|todo|um|vela</token>
+        <marker>
+          <token regexp='yes'>solicitos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>solícito<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="solícito">pastor <marker>solicito</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|achar|ache|achou|alegre|algum|ao|aquele|belo|como|cujo|daquele|de|dese|deste|do|dum|e|É|el|em|era|esse|este|existe|feio|grande|há|haja|irresistível|maldito|mau|máximo|menor|mesmo|meu|muito|naquele|nenhum|no|noturno|o|ou|outro|parece|pelo|pésimo|pior|pleno|por|próprio|quanto|que|resudando|seja|sem|ser|seu|só|sofre|soturno|supôs|tal|tem|teu|tornando|tornou|um|único|velho|vira|virando|virou</token>
+        <marker>
+          <token regexp='yes'>vicios?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>vício<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="vício">maldito <marker>vicio</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|algum|ao|apertado|aquele|com|cujo|de|dese|deste|diferente|discute|do|doce|duplo|em|Ém|esse|estabelece|estabelecer|estabeleceram|estabeleceu|este|existe|forte|ganhou|gera|gerase|gere|mais|mesmo|meu|muito|nega|nenhum|o|outro|pelo|por|posuem|posui|posuia|primeiro|pouco|qualquer|sem|seu|tal|tampouco|têm|tendo|tenha|tenho|tinha|tivese|último|um|único|vital</token>
+        <marker>
+          <token regexp='yes'>vinculos?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>vínculo<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="vínculo">forte <marker>vinculo</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|À\xc0à]|acaba|acabase|alegadamente|alguma|aluna|anos|antiga|aparente|aparentemente|cada|cair|caiu|certamente|com|como|considera|considerado|considerar|considerava|criatura|cuja|da|de|dela|dele|depois|desapareceu|desgraçada|designada|divina|diz|dizes|duma|e|É|ela|ele|em|entre|entregava|era|És|escolhida|escravidão|esa|esta|estreada|estudante|eu|fácil|facilmente|faleceu|fatalmente|faz|fazer|foi|for|fora|foram|fose|foses|foste|fui|grande|há|hospitalizado|imbele|indefesa|inevitavelmente|infeliz|ing[êé]nua|inocente|logo|maior|mais|mansa|minha|mísera|more|morer|moreu|morido|mostra|mulher|musical|na|nem|nenhuma|nobre|noite|nova|novamente|numa|oitava|ontem|ou|outra|padre|para|parecia|pela|pereceu|perpétua|personagem|pobre|população|por|praga|primeira|principal|própria|provavelmente|próxima|qualquer|quarta|que|querida|recente|se|segunda|seja|sem|sempre|sendo|sente|sentir|sentiu|ser|será|sereis|seria|sido|só|social|somos|sou|sua|sucumbido|suposta|talvez|também|terceira|tinham|torna|tornar|tornaria|tornou|tua|última|um|uma|única|vez|via|vise|voluntária</token>
+        <marker>
+          <token regexp='yes'>vitimas?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>vítima<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="vítima">terceira <marker>vitima</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|acabrunhadora|agradável|ainda|alguma|apareceu|aquela|àquela|atraente|bela|boa|breve|cada|certa|certamente|chamado|chegase|chegou|circunstanciada|com|comprida|conforme|consoladora|consta|cuja|curiosa|da|dá|dado|dando|dão|daquela|dar|darão|darem|daremos|darmos|dava|davam|de|dê|dei|deixase|dele|der|dera|deram|desagradável|desastrosa|desgostosa|desmentiu|desoladora|desa|dese|desem|desta|detalhada|deu|diseram|dolorosa|dou|duma|e|É|ele|encontra|era|eram|esa|esta|estupenda|exata|existindo|extraordinária|falsa|fantasiosa|fatal|fazem|feliz|foi|fora|foram|fosem|fraca|funesta|futura|grande|grata|grave|há|haja|haver|havia|horível|houve|houvera|houvese|ia|impacta|importante|inesperada|intempestiva|jornais|larga|leve|ligeira|lisonjeira|logo|lúgubre|má|mais|mandaria|mande|menor|mesma|minha|mínima|misteriosa|na|naquela|nem|nenhuma|nesta|numa|ontem|[\xd3ó]tima|ou|outra|outro|ouvidos|pavorosa|pediu|pela|pequena|pesco|pésima|pior|pobre|por|porém|portentosa|posui|pouca|pouco|prévia|primeira|principal|pronta|própria|próprios|próspera|qual|qualquer|quanta|que|querer|rara|recebemos|receber|recebera|receberam|recebeste|referida|saber|sabia|são|seguinte|segunda|segundo|sejam|sem|semelhante|ser|seriam|sido|simples|só|sobretudo|somente|soube|sua|surprendente|tal|tanta|tem|têm|temos|tendenciosa|tendo|tenhamos|tenho|tens|ter|teriam|terível|teve|tido|tinha|tinham|tínhamos|tive|tivemos|tiver|tivera|tiveram|tivese|tiveste|tornarem|tornou|trágica|traz|trazer|trazido|triste|trouxe|última|uma|única|ver|vez|vinha|virar|virou|terei|traga|tragam|espalhafatosa|sensacional|maravilhosa|sobre</token>
+        <marker>
+          <token regexp='yes'>noticias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>notícia<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="notícias">tenho <marker>noticias</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|à|alguma|apenas|aquela|as|cada|com|cria|cuja|da|daquela|de|desa|desta|determinada|duma|e|É|eficiente|em|entre|entrevista|esa|esta|existindo|futura|gigantesca|grande|haja|importante|inaugura|inauguramos|inaugurar|inauguraremos|inaugurou|jovem|maior|mesma|minha|moderna|modesta|montam|na|nenhuma|nesta|nossa|notória|nova|numa|ou|outra|para|pela|pequena|permanente|pobre|por|pretendida|prevista|primeira|principal|proeminente|própria|próxima|qualquer|recente|só|sobre|sofisticada|somente|soturna|sua|tem|terá|terão|tipo|última|uma|única|viagem</token>
+        <marker>
+          <token regexp='yes'>agencias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>agência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="agência">notória <marker>agencia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+        <marker>
+          <token regexp='yes'>agencias?</token>
+        </marker>
+          <token regexp='yes'>(à|aberta|acrescenta|água|alemã|americana|anatólia|ansa|antara|antidrogas|atômica|austríaca|autorizada|avaliar|bancária|bancárias|boca|brasil|brasileira|britânica|causado|central|centro|comprar|continua|corespondente|credenciada|criou|da|das|de|depositária|designer|desa|dese|deverá|dinheiro|dise|distribuiu|diz|do|dos|e|É|efe|em|escala|espacial|espanhola|especial|especializada|específica|está|estado|estadual|estão|estatal|estuda|europeia|existente|fechadas|federal|ficar|financeira|foi|folha|fotográfica|fotográficas|francesa|funerária|ganhou|gaúcha|governamental|guardaria|há|humanitária|imobiliária|incendiária|independência|indica|informativa|inglesa|instalada|internacionais|internacional|iraniana|já|judaica|leva|lisboeta|local|lotérica|lusa|magno|mas|matrimonial|matriz|menino|meridional|meteorológica|mundial|na|nacional|nada|não|no|norte-americana|nos|noticiosa|nova|o|oferece|oficial|onde|ou|paga|para|paranaense|parece|parisiense|paulista|permanente|porque|portuguesa|prevê|proponente|publicitária|que|quer|recebeu|recifense|referiu|regional|reguladora|regulatória|responsável|rodoviária|rusa|sacada|safras|santana|são|saúde|se|sobre|somará|superavitária|também|tanto|telegráfica|tem|tinha|traria|tucana|universitária|usa|vai|venha|vinculada|voltada)s?</token>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>agência<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="agência"><marker>agencia</marker> lisboeta</example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>([A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|absurda|achamos|adquiriu|alguma|aparente|apresenta|apresentam|com|como|crua|cuja|da|daquela|de|declarada|demonstrativa|dera|desta|e|É|em|espantosa|esa|esta|existe|flagrante|fornecendo|forte|fulgurante|ganhando|ganharam|grande|há|[\xcdí]ntima|irecusável|justiceira|lampejante|maior|mais|menos|minha|muita|na|não|nenhuma|nesa|nova|numa|outra|pela|plena|porque|preciosa|primeira|principal|progresiva|própria|qualquer|resplandecente|se|semelhante|ser|simples|sólida|sua|súbita|tal|tamanha|tanta|toda|todo|uma)s?</token>
+        <marker>
+          <token regexp='yes'>evidencias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>evidência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="evidência">principal <marker>evidencia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>([A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|à|alguma|alta|apenas|aquela|as|atual|cada|com|cria|cuja|da|daquela|de|desa|desta|determinada|duma|e|É|eficiente|em|entre|esa|esta|existindo|futura|gigantesca|grande|haja|importante|maior|mesma|minha|moderna|modesta|montam|na|nenhuma|nesa|nesta|nossa|notória|nova|numa|ou|outra|para|pela|pequena|permanente|pobre|por|pretendida|primeira|principal|proeminente|própria|próxima|qualquer|recente|sobre|sofisticada|sua|tem|terá|terão|tipo|última|uma|única)s?</token>
+        <marker>
+          <token regexp='yes'>gerencias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>gerência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="gerência">recente <marker>gerencia</marker></example>
+    </rule>
+    <rule>
+	<pattern>
+          <token regexp='yes'>(a|à|alega|alegada|alegaram|alegou|apura|com|como|contra|da|daquela|de|dizer|e|É|em|esa|eventual|foi|há|havia|houve|menor|mera|mesma|minha|na|ou|pela|perfeita|por|propositada|pura|que|sem|sua|toda|total|tremenda|uma)s?</token>
+        <marker>
+          <token regexp='yes'>negligencias?</token>
+        </marker>
+	</pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+	  <suggestion>negligência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="negligência">eventual <marker>negligencia</marker></example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='MESTRE_MESTRA' name='Confusão: mestre -> mestra'>
     <!-- Created by Tiago F. Santos, 2017-04-13, based on LightProof rule -->
     <rule>
@@ -18612,43 +19260,43 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rulegroup id="kWh" name="kW/h → kWh">
+  <rulegroup id="kWh" name="kW/h → kWh">
     <!-- Localized from French grammar.xml by Tiago F. Santos, 2017-06-28 -->
-        <url>https://pt.wikipedia.org/wiki/Watt-hora</url>
-      <rule>
-        <pattern>
+      <url>https://pt.wikipedia.org/wiki/Watt-hora</url>
+    <rule>
+      <pattern>
           <token regexp="yes">[KMGT]?W|(kilo|mega|giga|tera)?watt</token>
           <token spacebefore="no">/</token>
           <token spacebefore="no" regexp="yes">h|hora</token>
-        </pattern>
-        <message>Se se refere à unidade de consumo de energia, deve escrever <suggestion>\1\3</suggestion>.</message>
-        <example correction="kWh">O aparelho consome 5 <marker>kW/h</marker>.</example>
-        <example>O aparelho consome 5 kW.h.</example>
-        <example>O aparelho consome 5 kWh.</example>
-      </rule>
-      <rule>
-        <pattern>
+      </pattern>
+      <message>Se se refere à unidade de consumo de energia, deve escrever <suggestion>\1\3</suggestion>.</message>
+      <example correction="kWh">O aparelho consome 5 <marker>kW/h</marker>.</example>
+      <example>O aparelho consome 5 kW.h.</example>
+      <example>O aparelho consome 5 kWh.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token regexp="yes">(?-i)KW</token>
           <token spacebefore="no" regexp='yes'>[·.]</token>
           <token spacebefore="no">h</token>
-        </pattern>
-        <message>O prefixo kilo deve ser escrito em minúsculas.</message>
-          <suggestion><match no="1" case_conversion="startlower"/>h</suggestion>
-          <suggestion><match no="1" case_conversion="startlower"/>.h</suggestion>
-        <example correction="kWh|kW.h">O aparelho consome 5 <marker>KW.h</marker>.</example>
-        <example>O aparelho consome 5 kWh.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
+      </pattern>
+      <message>O prefixo kilo deve ser escrito em minúsculas.</message>
+        <suggestion><match no="1" case_conversion="startlower"/>h</suggestion>
+        <suggestion><match no="1" case_conversion="startlower"/>.h</suggestion>
+      <example correction="kWh|kW.h">O aparelho consome 5 <marker>KW.h</marker>.</example>
+      <example>O aparelho consome 5 kWh.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
           <token>KWh</token>
-        </pattern>
-        <message>O prefixo kilo deve ser escrito em minúsculas.</message>
-          <suggestion><match no="1" case_conversion="startlower"/></suggestion>
-        <example correction="kWh">O aparelho consome 5 <marker>KWh</marker>.</example>
-        <example>O aparelho consome 5 kW·h.</example>
-        <example>O aparelho consome 5 kWh.</example>
-      </rule>
-    </rulegroup>
+      </pattern>
+      <message>O prefixo kilo deve ser escrito em minúsculas.</message>
+        <suggestion><match no="1" case_conversion="startlower"/></suggestion>
+      <example correction="kWh">O aparelho consome 5 <marker>KWh</marker>.</example>
+      <example>O aparelho consome 5 kW·h.</example>
+      <example>O aparelho consome 5 kWh.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='MULTIPLICATION_SIGN' name="Sinal de multiplicação: x - × ">
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
