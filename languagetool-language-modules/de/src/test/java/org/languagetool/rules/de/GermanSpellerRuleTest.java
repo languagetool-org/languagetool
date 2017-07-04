@@ -48,6 +48,10 @@ public class GermanSpellerRuleTest {
   private static final GermanyGerman GERMAN_DE = new GermanyGerman();
   private static final SwissGerman GERMAN_CH = new SwissGerman();
 
+  //
+  // NOTE: also manually run SuggestionRegressionTest when the suggestions are changing!
+  //
+  
   @Test
   public void testSortSuggestion() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
