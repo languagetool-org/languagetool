@@ -4186,21 +4186,6 @@ title="Easy editing stylesheet" ?>
       <example correction="cesta">Ela tem uma <marker>sexta</marker> de vime.</example>
     </rule>
 
-    <!-- SOB O PONTO DE VISTA do ponto de vista -->
-    <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
-      <pattern>
-        <marker>
-          <token>sob</token>
-		  <token>o</token>
-        </marker>
-        <token>ponto</token>
-        <token>de</token>
-		<token>vista</token>
-      </pattern>
-      <message>Substitua por <suggestion>do</suggestion>.</message>
-      <example correction="do">Está tudo bem <marker>sob o</marker> ponto de vista da Ana.</example>
-    </rule>	
-
     <!-- TAL VEZ talvez -->
     <rule id='TAL_VEZ' name="Confusão: tal vez - talvez">
       <pattern>
@@ -21916,6 +21901,23 @@ TODO Write better examples
       <example correction='#¿$?%!¡'><marker>toco de amarrar jegue</marker>.</example>
     </rule>
   </rulegroup>
+
+    <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
+    <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>sob(re)?</token>
+          <token>o</token>
+        </marker>
+        <token min='0' postag_regexp='yes' postag='[AD]P.+'/>
+        <token>ponto</token>
+        <token>de</token>
+	<token>vista</token>
+      </pattern>
+      <message>Substitua por <suggestion>do</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/do-ponto-de-vista/450</url>
+      <example correction="do">Está tudo bem <marker>sob o</marker> ponto de vista da Ana.</example>
+    </rule>
 
   <rulegroup id='CACOPHONY' name="6. Cacofonias ofensivas">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-14 -->
