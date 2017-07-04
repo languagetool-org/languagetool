@@ -44,7 +44,7 @@ import java.util.List;
 @Experimental
 public class OpenNMTRule extends Rule {
 
-  private final static String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
+  private static final String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
   
   private final String serverUrl;
   private final ObjectMapper mapper = new ObjectMapper();
