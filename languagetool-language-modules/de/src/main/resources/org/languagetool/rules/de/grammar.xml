@@ -88,7 +88,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
     <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|zwischenzeitlich">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
-    <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen">
+    <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?">
     <!--
@@ -140,7 +140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="NACHEILEN" name="Nacheile (Nachteile)">
             <pattern case_sensitive="yes">
-                <token regexp="yes">Nacheil(e|en)?</token>
+                <token regexp="yes">Nacheil(en?)?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="3" regexp_match="Nacheil" regexp_replace="Nachteil"/></suggestion>?</message>
             <example correction="Nachteilen">Sie setzen sich gern mit den Vor- und <marker>Nacheilen</marker> auseinander.</example>
@@ -153,7 +153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>beide</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">die|der|den<exception scope="previous">,</exception></token>
+                <token regexp="yes">d(ie|e[nr])<exception scope="previous">,</exception></token>
                 <marker>
                     <token>beide</token>
                 </marker>
@@ -214,7 +214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>et</token>
                 </marker>
-                <token regexp='yes' negate='yes'>al|cetera|la|le|les|de|des|à|son|l</token>  <!-- Fehlalarme bei franz. Text vermeiden -->
+                <token regexp='yes' negate='yes'>al|cetera|l[ae]|les|des?|à|son|l</token>  <!-- Fehlalarme bei franz. Text vermeiden -->
             </pattern>
             <message>Meinten Sie <suggestion>er</suggestion>?</message>
             <example correction='Er'><marker>Et</marker> hat das aber so gesagt.</example>
@@ -419,7 +419,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">meinem|deinem|seinem|ihrem|unserem|eurem</token>
+                    <token regexp="yes">[dms]einem|ihrem|unserem|eurem</token>
                     <token>Schicksal</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -27481,7 +27481,7 @@ Andere Projekte</example>
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">wegen|(ab|zu)züglich|angesichts|abseits|anhand|aufgrund|infolge|innerhalb|außerhalb|jenseits|kraft|mithilfe|namens|seitens|unfern|zwecks</token>
-                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
+                        <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
