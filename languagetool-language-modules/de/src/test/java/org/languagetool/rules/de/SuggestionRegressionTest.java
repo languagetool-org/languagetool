@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
 
@@ -40,17 +41,23 @@ public class SuggestionRegressionTest {
   public void testSuggestions() throws IOException {
     String file = "src/test/resources/suggestions.txt";
     List<String> lines = Files.readAllLines(Paths.get(file));
-    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getEnglishMessages(), new GermanyGerman());
+    GermanyGerman german = new GermanyGerman();
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getEnglishMessages(), german);
     boolean different = false;
     StringBuilder result = new StringBuilder();
+    JLanguageTool lt = new JLanguageTool(german);
     for (String line : lines) {
       String[] parts = line.split(" => ");
       String word = parts[0];
+      if (rule.match(lt.analyzeText(word).get(0)).length == 0) {
+        continue;
+      }
       List<String> oldSuggestions = parts.length > 1 ? Arrays.asList(parts[1].split(", ")) : Collections.emptyList();
       List<String> newSuggestions = rule.getSuggestions(word);
       String thisResult = word + " => " + String.join(", ", newSuggestions);
       result.append(thisResult).append("\n");
       if (!oldSuggestions.equals(newSuggestions)) {
+        System.err.println("Input   : " + word);
         System.err.println("Expected: " + oldSuggestions);
         System.err.println("Got     : " + newSuggestions);
         different = true;
