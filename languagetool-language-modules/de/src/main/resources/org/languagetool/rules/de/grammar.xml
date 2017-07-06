@@ -15995,7 +15995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
+                    <token regexp="yes">D(ies)?er|Ihr|[DMS]ein|Euer|Unser</token>
                     <marker>
                         <token regexp="yes">&massubklein;</token>
                     </marker>
@@ -16009,7 +16009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
+                    <token regexp="yes">D(ies)?er|Ihr|[DMS]ein|Euer|Unser</token>
                     <token postag="ADJ:NOM:SIN:MAS:.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">&massubklein;</token>
@@ -17154,7 +17154,6 @@ Andere Projekte</example>
                     <marker>
                         <token skip="1">haut</token>
                     </marker>
-                    <token inflected="yes">fahren</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -28490,7 +28489,7 @@ Andere Projekte</example>
                     </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <!-- noun phrase: -->
-                    <token regexp="yes">d(as|e[mnr]|ie)|ein(en)?|</token>
+                    <token regexp="yes">d(as|e[mnr]|ie)|ein(en)?</token>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -28616,7 +28615,7 @@ Andere Projekte</example>
         <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
             <rule>
                 <pattern>
-                    <token regexp="yes">die|der|eine|ganze</token>
+                    <token regexp="yes">d(ie|er)|eine|ganze</token>
                     <token regexp="yes">Vielzahl|Reihe|Fülle</token>
                     <token>von</token>
                     <marker>
@@ -28735,7 +28734,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">Million|Milliarde</token>
+                        <token regexp="yes">Milli(on|arde)</token>
                     </marker>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
@@ -28749,7 +28748,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">[0-9]+<exception>1</exception></token>
                     <marker>
-                        <token regexp="yes">Million|Milliarde</token>
+                        <token regexp="yes">Milli(on|arde)</token>
                     </marker>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
