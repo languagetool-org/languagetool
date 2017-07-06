@@ -27394,7 +27394,7 @@ Andere Projekte</example>
         <rulegroup id="FEHLENDER_PLURAL" name="Fehlender Plural nach 'werden / müssen etc.'">
             <rule>
                 <pattern>
-                    <token regexp="yes">w[ue]rden|mussten|müssen|sollt?en|k[oö]nnt?en|d[uü]rft?en</token>
+                    <token regexp="yes">(w[ue]rd|m[uü]sst?|sollt?|k[oö]nnt?|d[uü]rft?)en</token>
                     <token min="0">die</token>
                     <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
                     <marker><token postag="SUB:(NOM|AKK):SIN:..." postag_regexp="yes"><exception postag=".*PLU.*" postag_regexp="yes"/></token></marker>
@@ -27502,7 +27502,7 @@ Andere Projekte</example>
                     <token postag="VER:.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">wegen|(ab|zu)züglich|angesichts|abseits|anhand|aufgrund|infolge|innerhalb|außerhalb|jenseits|kraft|mithilfe|namens|seitens|unfern|zwecks</token>
-                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
+                        <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
@@ -27527,7 +27527,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks</token>
-                    <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
+                    <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jen|dein|dies)e[mn]?</token>
                 </pattern>
                 <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
                 <short>Diese Präposition erfordert den Genitiv</short>
@@ -28282,7 +28282,7 @@ Andere Projekte</example>
                     <token postag="VER:AUX.+" postag_regexp="yes" inflected="yes" skip="4">haben<exception scope="next" postag="SENT_END"/></token>
                     <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*</token>
                     <marker>
-                        <token regexp="yes">gesehen|gelassen</token>
+                        <token regexp="yes">ge(seh|lass)en</token>
                     </marker>
                 </pattern>
                 <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="3" regexp_match="^ge" regexp_replace=""/></suggestion>.</message>
@@ -28334,7 +28334,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">w[euü]rden</token>
                     </marker>
-                    <token regexp="yes">bin|bist|ist|sind|seid|war(st|en|t)?</token>
+                    <token regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' &odkomma;?</message>
                 <example correction="worden">Nachdem er besiegt <marker>wurden</marker> war, gab er völlig auf.</example><!-- NOTE WAR_WERDEN also detects an error here. -->
@@ -28344,7 +28344,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
+                    <token skip="-1" regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
                     <marker>
                         <token regexp="yes">w[euü]rden</token>
@@ -28490,7 +28490,7 @@ Andere Projekte</example>
                     </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <!-- noun phrase: -->
-                    <token regexp="yes">dem|den|ein|einen|der|die|das</token>
+                    <token regexp="yes">d(as|e[mnr]|ie)|ein(en)?|</token>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <token postag="SENT_END"/>
                 </pattern>
