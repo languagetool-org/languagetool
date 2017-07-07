@@ -6624,6 +6624,19 @@ USA
             <message>Did you mean <suggestion><match no="2" postag="VBD"/></suggestion>?</message>
             <example correction='used'>He is <marker>use</marker> to a vegetarian diet.</example>
         </rule>
+        <rulegroup id="DISCUSS_ABOUT" name="wrong preposition: 'discuss about something' (discuss something)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">discuss(ed|ing)?</token>
+                    <token>about</token>
+                </pattern>
+                <message>Consider using <suggestion>\1</suggestion> or <suggestion><match no="1" regexp_match="discuss" regexp_replace="talk"/> \2</suggestion>.</message>
+                <url>http://www.oxfordlearnersdictionaries.com/definition/english/discuss</url>
+                <short>Redundant preposition</short>
+                <example correction="discuss|talk about">Do you have a few minutes to <marker>discuss about</marker> this project?</example>
+                <example correction="discussed|talked about">Have you <marker>discussed about</marker> the project?</example>
+            </rule>
+        </rulegroup>
         <rule id="ON_ADDITION" name="wrong preposition: 'On addition' (In addition)">
             <pattern>
                 <token postag="SENT_START"/>
