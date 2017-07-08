@@ -110,6 +110,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="EUCH_ALL" name="euch all (alle)">
+            <pattern>
+                <token>euch</token>
+                <marker>
+                    <token>all</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>alle</suggestion>?</message>
+            <example correction="alle">Ihr installiert Euch <marker>all</marker> das LanguageTool Browser-Add-on.</example>
+        </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
                 <marker>
@@ -1091,7 +1101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ja</token>
                     </marker>
-                    <token skip="-1" regexp="yes">mehr|öfter</token>
+                    <token skip="-1" regexp="yes">eher|mehr|öfter</token>
                     <token>desto</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>je</suggestion>?</message>
@@ -1604,12 +1614,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
-                    <token>sich</token>
+                    <token skip="-1">sich</token>
                     <marker>
                         <token>bewehrt</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
+                <message>Meinten Sie <suggestion>bewährt</suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
                 <example correction="bewährt">Diese Idee hat sich <marker>bewehrt</marker>.</example>
             </rule>
             <rule>
@@ -1619,19 +1629,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>sich</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
+                <message>Meinten Sie <suggestion>bewährt</suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
                 <example correction="bewährt">Diese Idee <marker>bewehrt</marker> sich immer wieder.</example>
                 <example>Diese Idee hat sich <marker>bewährt</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>sich</token>
-                    <token>nicht</token>
+                    <token skip="-1">nicht</token>
                     <marker>
                         <token>bewehrt</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
+                <message>Meinten Sie <suggestion>bewährt</suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
                 <example correction="bewährt">Diese Idee hat sich nicht <marker>bewehrt</marker>.</example>
                 <example>Diese Idee hat sich <marker>bewährt</marker>.</example>
             </rule>
@@ -2916,6 +2926,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bitte <marker>lies</marker> ihn mir vor!</example>
                 <example><marker>Lies</marker> es noch einmal.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:.*"><exception>bitte</exception></token>
+                    <marker>
+                        <token>lies</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>ließ</suggestion>, die Vergangenheitsform von 'lassen'? 'lies' ist die Befehlsform von 'lesen'.</message>
+                <example correction="ließ">Ich änderte eine Einstellung, was die Schrift grau erscheinen <marker>lies</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ZWEIUNDVIERZIG" name="'42 (die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest)'" default="off">
             <pattern>
@@ -3783,8 +3803,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
-        
-        <rule id="AB_MONTAGE" name="ab Montage (Montag) etc.">
+        <rule id="MEINES_ERACHTENS_NACH" name="meines Erachtens nach (meines Erachtens)">
+            <pattern>
+                <token>meines</token>
+                <token>Erachtens</token>
+                <token>nach</token>
+            </pattern>
+            <message>Die feste Wendung lautet <suggestion>meines Erachtens</suggestion>, ohne 'nach'.</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/meines_erachtens_nach.shtml</url>
+            <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
+        </rule>
+        <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ich|er|sie|es</token>
+                    <marker>
+                        <token>weis</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'? 'weis' ist die Befehlsform von 'weisen' (z.B. 'weis mich darauf hin').</message>
+                <example correction="weiß">Ich <marker>weis</marker> nicht, wie das gehen soll.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>weis</token>
+                    </marker>
+                    <token regexp="yes">ich|er|sie|es</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'? 'weis' ist die Befehlsform von 'weisen' (z.B. 'weis mich darauf hin').</message>
+                <example correction="weiß">Das war keine gute Idee, das <marker>weis</marker> ich ja auch.</example>
+            </rule>
+        </rulegroup>
+        <rule id="AB_DIENSTAGE" name="ab Dienstage (Dienstag) etc.">
             <pattern>
                 <token regexp="yes">ab|am</token>
                 <marker>
@@ -6822,6 +6873,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="EIWEISS_REICH" name="Eiweiß reich (eiweißreich)">
+            <pattern>
+                <token>Eiweiß</token>
+                <token regexp="yes">reiche?[rns]?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower" />\2</suggestion>? Dieses Adjektiv wird zusammengeschrieben.</message>
+            <example correction="eiweißreiche">Die <marker>Eiweiß reiche</marker> Ernährung macht den Unterschied.</example>
+        </rule>
         <rule id="AUSEINANDER_GESETZT" name="auseinander setzen (auseinandersetzen)">
             <pattern>
                 <token>auseinander</token>
@@ -10043,6 +10102,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz">
+        <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
+            <pattern>
+                <token skip="-1" >weltweit
+                    <exception scope="next" regexp="yes">,|und</exception>
+                </token>
+                <marker>
+                    <token>der</token>
+                    <token>Welt</token>
+                </marker>
+            </pattern>
+            <message>Mögliche Doppelung: 'weltweit' und 'der Welt'.</message>
+            <suggestion></suggestion>
+            <example correction="">Italdesign, eines der weltweit besten Designbüros <marker>der Welt</marker>.</example>
+            <example>Sie verkaufte 300 Millionen Tonträger weltweit, damit ist sie die kommerziell erfolgreichste Sängerin der Welt . </example>
+        </rule>
+        <rule id="NEBEN_MIT" name="neben mit">
+            <antipattern>
+                <token>neben</token>
+                <token skip="-1">mit</token>
+                <token postag_regexp="yes" postag="PA1:.+"/>
+            </antipattern>
+            <pattern>
+                <token>neben</token>
+                <token>mit</token>
+            </pattern>
+            <message>Mögliche Doppelung, meinten Sie nur <suggestion>\1</suggestion> oder nur <suggestion>\2</suggestion>?</message>
+            <example correction="neben|mit">Dort der Altberliner <marker>neben mit</marker> einer Flasche Bier.</example>
+            <example>Neben mit einer Schwangerschaft koinzidentell in Erscheinung tretenden Zuständen wie Thromboembolie...</example>
+        </rule>
         <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
             <antipattern>
                 <token>von</token>
