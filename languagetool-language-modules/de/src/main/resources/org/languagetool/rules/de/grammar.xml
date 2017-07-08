@@ -71,6 +71,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY abgekMonate "J[aä]n|Febr?|Mär|Apr|Ju[ln]|Aug|Sept?|Okt|Nov|Dez">
     <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
     <!ENTITY zeiteinheitensing "Millisekunde|Hundertstelsekunde|Zehntelsekunde|Sekunde|Minute|Stunde|Tag|Woche|Monat|Semester|Halbjahr|Jahr|Jahrzehnt|Jahrhundert|Jahrtausend|Jahrmillion">
+    <!ENTITY zeiteinheitenplu "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Semester|Halbjahre|Jahre|Jahrzehnte|Jahrhunderte|Jahrtausende|Jahrmillionen">
     <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
     <!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
     <!ENTITY fast "annähernd|beinahe?|fast|nahezu|ungefähr">
@@ -109,6 +110,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
+            <pattern>
+                <marker>
+                    <token>aller</token>
+                </marker>
+                <token regexp="yes">\d</token>
+                <token regexp="yes">&zeiteinheitenplu;</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>alle</suggestion>?</message>
+            <example correction="alle">Wir empfehlen die Reinigung besonders moderner Fenster <marker>aller</marker> 3 Monate.</example>
+        </rule>
         <rule id="ETWAS_DASS" name="', etwas dass (, etwa dass)'">
             <pattern>
                 <token>,</token>
@@ -3771,6 +3783,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        
+        <rule id="AB_MONTAGE" name="ab Montage (Montag) etc.">
+            <pattern>
+                <token regexp="yes">ab|am</token>
+                <marker>
+                    <!-- "Montag" rausgelassen wg. zweiter Bedeutung -->
+                    <token regexp="yes">(Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag)e</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="(&wochentage;)e" regexp_replace="$1"/></suggestion>?</message>
+            <example correction="Dienstag">Fangen wir doch ab <marker>Dienstage</marker> damit an.</example>
+        </rule>
+        <rule id="ANS_ARTRPRO" name="ans (an)">
+            <pattern>
+                <marker>
+                    <token>ans</token>
+                </marker>
+                <token postag="(ART|PRO):.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion>an</suggestion>?</message>
+            <example correction="an">Gehen wir konservativ <marker>ans</marker> die Sache.</example>
+        </rule>
         <rule id="VERZINNST" name="'verzinnst' statt 'verzinst'">
             <pattern>
                 <token>verzinnst</token>
@@ -12603,6 +12637,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="DIE_ZEIT" name="die zeit (Zeit)">
+            <antipattern>
+                <token>Zeit</token>
+                <token postag_regexp="yes" postag="PRO:POS:.*"/>
+                <token>Lebens</token>
+            </antipattern>
+            <pattern>
+                <token>die</token>
+                <marker>
+                    <token case_sensitive="yes">zeit</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Zeit</suggestion>?</message>
+            <example correction="Zeit">Und wenn schon – die <marker>zeit</marker> ist ein unzuverlässiges Kriterium.</example>
+            <example>Die <marker>zeit</marker> seines Lebens immer wieder vorkommenden Vorwürfe haben sich nicht erhärtet.</example>
+        </rule>
         <rule id="DAS_KLEINES_SUBST_ADJEKTIV" name="kleingeschriebenes substantiviertes Adjektiv am Satzanfang">
             <pattern>
                 <token postag="SENT_START"/>
@@ -26855,6 +26905,18 @@ Andere Projekte</example>
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule id="IN_DER_PLU" name="in der + Plural-Nomen + sein">
+            <pattern>
+                <token>in</token>
+                <token>der</token>
+                <marker>
+                    <token postag_regexp="yes" postag="SUB:.+:PLU:.+"></token>
+                </marker>
+                <token inflected="yes">sein</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="3" postag_regexp="yes" postag="SUB:(.+):PLU:(.+)" postag_replace="SUB:$1:SIN:$2" /></suggestion>?</message>
+            <example correction="Zeit">In der <marker>Zeiten</marker> sind 112,5 Liter pro Quadratmeter gemessen worden.</example>
+        </rule>
         <rulegroup id="ALS_SOLCHES" name="'dem Haus als solches (solchem)' etc.">
             <url>https://de.wiktionary.org/wiki/solch</url>
             <rule>
@@ -31429,6 +31491,13 @@ Andere Projekte</example>
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typographie">
+        <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
+            <regexp>(\w+) ([!?:])</regexp>
+            <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
+            <suggestion>\1\2</suggestion>
+            <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
+            <example correction="eins:">Ein weicher Teppichboden erfordert vor allem <marker>eins :</marker> harte Stuhlrollen.</example>
+        </rule>
         <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
             <regexp> - </regexp>
             <message>Meinten Sie den Gedankenstrich?</message>
@@ -32034,7 +32103,23 @@ Andere Projekte</example>
    <!-- Hilfestellung für Kommasetzung -->
    <!-- ====================================================================== -->
    <category id="HILFESTELLUNG_KOMMASETZUNG" name="Hilfestellung für Kommasetzung">
-        
+
+        <rule id="ADJ_SUB_VER_KOMMA_ADJ_SUB" name="Falsches Komma in z. B. '... erfordert, harte Stuhlrollen.'">
+           <pattern>
+               <token postag_regexp="yes" postag="ADJ:.*"/>
+               <token postag_regexp="yes" postag="SUB:.*"/>
+               <token postag_regexp="yes" postag="VER:.*"/>
+               <marker>
+                   <token>,</token>
+               </marker>
+               <token postag_regexp="yes" postag="ADJ:.*"/>
+               <token postag_regexp="yes" postag="SUB:.*"/>
+               <token postag="SENT_END"/>
+           </pattern>
+           <message>Das Komma scheint hier überflüssig zu sein.</message>
+           <suggestion></suggestion>
+           <example correction="">Ein weicher Teppichboden erfordert<marker>,</marker> harte Stuhlrollen.</example>
+        </rule>
         <rulegroup id="KOMMA_INFINITIVGRUPPEN" name="Komma vor Infinitivgruppen mit 'als', 'anstatt', 'außer', 'ohne', 'statt', 'um'">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule>
