@@ -13394,6 +13394,26 @@ USA
                 <example>Either you or he is wrong.</example>
                 <example>I thought you and he were happy.</example>
             </rule>
+            <!--rule>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">,|:|what|wh([oy]|ere|ose|ich|ether)|how</exception></token>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
+                        <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                    </marker>
+                    <token min="0">then</token>
+                    <token>I</token>
+                    <token postag="VB.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Use a comma before '\3' if it connects two independent clauses.</message>
+                <suggestion>\2, \3</suggestion>
+                <example correction="Spanish, and">He speaks <marker>Spanish and</marker> I speak Italian.</example>
+                <example>Last Sunday, <marker>Mary and</marker> I went to the zoo.</example>
+                <example>Where are <marker>Mary and</marker> I going?</example>
+                <example>She asked where <marker>Mary and</marker> I were going.</example>
+                <example>When we were kids, Tom and I did a lot of things together.</example>
+            </rule-->
         </rulegroup>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
