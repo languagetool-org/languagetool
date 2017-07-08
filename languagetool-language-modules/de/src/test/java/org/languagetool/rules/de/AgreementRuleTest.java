@@ -138,6 +138,7 @@ public class AgreementRuleTest {
     assertGood("Das erfordert Können.");
     assertGood("Ist das Kunst?");
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
+    assertGood("Es sollte nicht viele solcher Bilder geben");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
