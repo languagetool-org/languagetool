@@ -181,6 +181,13 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ART:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:.*").build(),
         new PatternTokenBuilder().pos("UNKNOWN").build()
+    ),
+    Arrays.asList( // "Er fragte, ob das Spaß macht."
+        new PatternTokenBuilder().csToken(",").build(),
+        new PatternTokenBuilder().posRegex("KON:UNT|ADV:INR").build(),
+        new PatternTokenBuilder().csToken("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build(),
+        new PatternTokenBuilder().posRegex("VER:3:SIN.*").build()
     )
   );
 

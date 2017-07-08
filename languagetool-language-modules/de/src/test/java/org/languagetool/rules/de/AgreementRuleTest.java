@@ -84,6 +84,7 @@ public class AgreementRuleTest {
     assertGood("Kern einer jeden Tragödie ist es, ..");
     assertGood("Das wenige Sekunden alte Baby schrie laut.");
     assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
+    assertGood("Er fragte, ob das Spaß macht.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
