@@ -6627,7 +6627,7 @@ USA
         <rulegroup id="DISCUSS_ABOUT" name="wrong preposition: 'discuss about something' (discuss something)">
             <rule>
                 <pattern>
-                    <token regexp="yes">discuss(ed|ing)?</token>
+                    <token inflected="yes">discuss</token>
                     <token>about</token>
                 </pattern>
                 <message>Consider using <suggestion>\1</suggestion> or <suggestion><match no="1" regexp_match="discuss" regexp_replace="talk"/> \2</suggestion>.</message>
@@ -13365,7 +13365,7 @@ USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">\W+|s?he</token>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
                         <token case_sensitive="yes" regexp="yes">and|but|or</token>
                     </marker>
                     <token min="0">then</token>
@@ -13377,6 +13377,7 @@ USA
                 <example correction="Tim, and">I love <marker>Tim and</marker> he loves me.</example>
                 <example>No one is obliged to do more than what he or she can.</example>
                 <example>Either you or he is wrong.</example>
+                <example>I thought you and he were happy.</example>
             </rule>
         </rulegroup>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
