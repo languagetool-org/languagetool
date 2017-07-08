@@ -32737,7 +32737,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -32748,7 +32748,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -32831,7 +32831,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token>,</token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -32843,7 +32843,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token>,</token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -32899,7 +32899,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
-                    <token regexp="yes">anstatt|ohne|so|sondern|außer|nicht</token>
+                    <token regexp="yes">anstatt|ohne|so(ndern)?|außer|nicht</token>
                     <token skip="-1">dass</token>
                     </marker>
                 </pattern>
@@ -33028,11 +33028,11 @@ Andere Projekte</example>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes" skip="-1">
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:INF:.*|PA2:.*" postag_regexp="yes"/>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -33060,13 +33060,13 @@ Andere Projekte</example>
 <!-- Komma nach Nebensatz   -->
             <rule>
                 <antipattern>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes" skip="-1">
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:INF:.*|PA2:.*" postag_regexp="yes">
                         <exception postag="ART:.*" postag_regexp="yes"/>
                     </token>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" skip="-1">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -33114,17 +33114,17 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes" skip="-1">
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:INF:.*|PA2:.*" postag_regexp="yes"/>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes" skip="-1">
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token postag="VER:AUX:.*|VER:MOD:.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <antipattern>
@@ -33252,7 +33252,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33265,7 +33265,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token regexp="yes">der|die|das|dem|den </token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token skip="-1" regexp="yes">rund|etwa|ungefähr|insgesamt|über|knapp|mehr|weniger
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -33279,7 +33279,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="EIG:.*|NEG:.*|ABK:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33293,7 +33293,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token regexp="yes">der|die|das|dem|den</token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -33367,7 +33367,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33380,7 +33380,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token regexp="yes">der|die|das|dem|den </token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token skip="-1" regexp="yes">rund|etwa|ungefähr|insgesamt|über|knapp|mehr|weniger
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -33394,7 +33394,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33408,7 +33408,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
-                    <token regexp="yes">der|die|das|dem|den</token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token postag="PA[12].*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -33452,7 +33452,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33466,7 +33466,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33481,7 +33481,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token regexp="yes">der|die|das|dem|den</token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -33540,7 +33540,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|PRP:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33558,7 +33558,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token skip="-1" regexp="yes">der|die|das|dem|den
+                    <token skip="-1" regexp="yes">d(e[mnr]|ie|as)
                         <exception scope="next" postag="VER:.*|EIG:.*|ART:.*|ADV:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes"/>
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
@@ -33573,7 +33573,7 @@ Andere Projekte</example>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token regexp="yes">der|die|das|dem|den</token>
+                    <token regexp="yes">d(e[mnr]|ie|as)</token>
                     <token postag="PA1.*|PA2.*" postag_regexp="yes"/>
                     <token skip="-1" postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
