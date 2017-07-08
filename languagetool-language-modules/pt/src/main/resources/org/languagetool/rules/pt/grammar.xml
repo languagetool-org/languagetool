@@ -19599,6 +19599,88 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+        <rulegroup id="EQUAL_OR_X" name="&gt;= (≥)">
+          <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+            <rule>
+                <regexp>&gt;=</regexp>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>≥</suggestion>
+        <suggestion>≧</suggestion>
+                <example>1 = 1</example>
+                <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+            </rule>
+            <!--rule> FIXME &lt; sequence is not being properly escaped. Verify interpreter.
+              <pattern>
+                <token>&lt;</token>
+                <token>=</token>
+                <token negate="yes">></token>
+              </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>≤</suggestion>
+        <suggestion>≦</suggestion>
+              <example>1 ≤ 3</example>
+              <example type="incorrect">1 <marker>&gt;=</marker> 3</example>
+            </rule-->
+        </rulegroup>
+         
+        <rulegroup id="ARROWS" name="-&gt; (→)">
+          <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+            <rule>
+                <pattern>
+                    <token negate="yes">&lt;</token>
+                    <marker>
+                        <token regexp="yes">(\-|=){1,2}</token>
+                        <token>&gt;</token>
+                    </marker>
+                </pattern>
+                <message>Pretende utilizar um seta?</message>
+        <suggestion>≥</suggestion>
+                <suggestion>→</suggestion>
+                <suggestion>⇾</suggestion>
+                <suggestion>⇉</suggestion>
+                <suggestion>⇒</suggestion>
+                <suggestion>⇨</suggestion>
+                <suggestion>⇛</suggestion>
+                <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Ponto 1</example>
+            </rule>
+            <!--rule> FIXME &lt; equence is not being properly escaped. Verify interpreter.
+              <pattern>
+                    <marker>
+                <token>&lt;</token>
+                <token regexp="yes">(\-|=){1,2}</token>
+                    </marker>
+                <token negate="yes">&gt;</token>
+              </pattern>
+              <message>Pretende utilizar um seta?</message>
+                <suggestion>≤</suggestion>
+                <suggestion>←</suggestion>
+                <suggestion>⇽</suggestion>
+                <suggestion>⇇</suggestion>
+                <suggestion>⇐</suggestion>
+                <suggestion>⇦</suggestion>
+                <suggestion>⇚</suggestion>
+              <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+              <example >A ← B</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>&lt;</token>
+                <token regexp="yes">\-|=</token>
+                <token>&gt;</token>
+              </pattern>
+              <message>Pretende utilizar um seta?</message>
+                <suggestion>↔</suggestion>
+                <suggestion>⇿</suggestion>
+                <suggestion>⇄</suggestion>
+                <suggestion>⇆</suggestion>
+                <suggestion>⇋</suggestion>
+                <suggestion>⇌</suggestion>
+                <suggestion>⇔</suggestion>
+              <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+              <example>A ⇔ B</example>
+            </rule-->
+        </rulegroup>
+
   <rulegroup id='YEAR_NUMBER_FORMAT' name="Formatação de números: anos">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
