@@ -315,18 +315,33 @@ USA
             <example correction="these">That's why the two countries look as they do <marker>theses</marker> days.</example>
             <example>There are universities that are dedicated just to this field, thousands of people doing theses on Picasso, for example.</example>
         </rule>
-        <rule id="CONFUSION_OF_ME_I" name="confusion of me/I">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token/>
-                <token>and</token>
-                <marker><token>me</token></marker>
-                <token postag="VB.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Did you mean <suggestion>I</suggestion>?</message>
-            <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
-            <example correction="I">Tim and <marker>me</marker> work together.</example>
-        </rule>
+        <rulegroup id="CONFUSION_OF_ME_I" name="confusion of me/I">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token>and</token>
+                    <marker><token>me</token></marker>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>I</suggestion>?</message>
+                <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
+                <example correction="I">Tim and <marker>me</marker> work together.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="IN"/>
+                    <token/>
+                    <token>and</token>
+                    <marker><token>I</token></marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4" regexp_match="I" regexp_replace="me" case_conversion="startlower"/></suggestion>?</message>
+                <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
+                <example correction="me">He gave it to Tim and <marker>I</marker>.</example>
+                <example>We need to talk, just you and I.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_OUR_OUT" name="confusion of our/out">
             <pattern>
                 <token>we</token>
