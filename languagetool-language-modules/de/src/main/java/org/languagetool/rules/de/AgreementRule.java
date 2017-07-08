@@ -189,7 +189,7 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("SUB:.*").build(),
         new PatternTokenBuilder().posRegex("VER:3:SIN.*").build()
     ),
-    Arrays.asList( // "Es soll viele solcher Bilder"
+    Arrays.asList( // "Es gibt viele solcher Bilder"
         new PatternTokenBuilder().tokenRegex("viele|wenige|einige|mehrere").build(),
         new PatternTokenBuilder().csToken("solcher").build(),
        new PatternTokenBuilder().posRegex("SUB:GEN:PLU:.*").build()
