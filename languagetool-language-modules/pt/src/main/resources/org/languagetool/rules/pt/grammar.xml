@@ -36,6 +36,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+    <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
 
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
 
@@ -4074,30 +4075,6 @@ title="Easy editing stylesheet" ?>
       <example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
     </rule>
 
-    <!-- POR pôr -->
-    <rulegroup id='POR' name="Confusão: por - pôr">
-	 <rule>
-      <pattern>
-		  <token>de</token>
-		  <marker>
-			<token>por</token>
-		  </marker>
-	  </pattern>
-      <message>Substitua por <suggestion>pôr</suggestion>.</message>
-      <example correction="pôr">Temos de <marker>por</marker> os pratos na mesa!</example>	  
-	 </rule>
-	 <rule>
-	  <pattern>
-		  <marker>
-			<token>por</token>
-		  </marker>		  
-          <token>em</token>  
-      </pattern>
-      <message>Substitua por <suggestion>pôr</suggestion>.</message>
-      <example correction="pôr">Temos de <marker>por</marker> em prática tudo o que aprendemos!</example>
-     </rule>
-	</rulegroup>
-	
     <!-- POR CAUSA QUE porque -->
     <rule id='POR_CAUSA_QUE' name="Confusão: por causa - porque">
       <pattern>
@@ -4220,11 +4197,11 @@ title="Easy editing stylesheet" ?>
     <!-- RECOMENDÁVEL DE recomendável -->
     <rule id='RECOMENDÁVEL_DE' name="recomendável">
       <pattern>
-          <token>é</token>
-		  <marker>
-			<token>recomendável</token>
-			<token>de</token>
-          </marker>
+          <token inflected='yes'>ser</token>
+        <marker>
+          <token inflected='yes' regexp='yes'>recomendável|recomendar</token>
+          <token>de</token>
+        </marker>
       </pattern>
       <message>Substitua por <suggestion>recomendável</suggestion>.</message>
       <example correction="recomendável">É <marker>recomendável de</marker> fazer um backup mensal.</example>
@@ -19445,6 +19422,37 @@ TODO Write better examples
     </rule>
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
+
+  <rulegroup id='POR' name="Confusão: por - pôr">
+    <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
+    <rule>
+      <antipattern>
+          <token>por</token>
+          <token regexp='yes'>&adverbios_lugar;</token>
+          <token postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+        <marker>
+          <token>por</token>
+        </marker>
+      </pattern>
+      <message>Se se refere ao verbo, substitua por <suggestion>pôr</suggestion>.</message>
+      <example correction="pôr">Temos de <marker>por</marker> os pratos na mesa!</example>
+      <example>A sua importância é atestada pelo facto de por lá passar uma das vias romanas.</example>	  
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+        </marker>		  
+          <token>em</token>  
+      </pattern>
+      <message>Substitua por <suggestion>pôr</suggestion>.</message>
+      <example correction="pôr">Temos de <marker>por</marker> em prática tudo o que aprendemos!</example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
