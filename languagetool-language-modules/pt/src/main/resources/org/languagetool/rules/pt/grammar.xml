@@ -4261,29 +4261,18 @@ title="Easy editing stylesheet" ?>
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
     </rule>
 
-    <!-- UM BAIXO-ASSINADO um abaixo-assinado -->
     <rule id='UM_BAIXO-ASSINADO' name="Um abaixo-assinado">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
           <token>um</token>
           <token>baixo</token>
-          <token regexp='yes'>-|–|—</token>
+          <token min='0' regexp='yes'>-|–|—</token>
           <token>assinado</token>
       </pattern>
       <message>Substitua por <suggestion>um abaixo-assinado</suggestion>.</message>
       <example correction="um abaixo-assinado">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
     </rule>
 
-    <!-- UM TERRÍVEL DOR uma terrível dor TODO Covered by general agreement rules. Remove after release.
-    <rule id='UM_TERRÍVEL_DOR' name="Uma terrível dor">
-      <pattern>
-          <token>um</token>
-          <token>terrível</token>
-          <token>dor</token>
-      </pattern>
-      <message>Substitua por <suggestion>uma terrível dor</suggestion>.</message>
-      <example correction="uma terrível dor">Tenho <marker>um terrível dor</marker> de cabeça.</example>
-    </rule>
--->
     <!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
       <pattern>
@@ -19453,7 +19442,7 @@ TODO Write better examples
 
  <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
-  <rulegroup id='GENERAL_NUMBER_FORMAT' name="Formatação de números e anos: 10 341 330">
+  <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formatação de números: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
       <short>Erro tipográfico</short>
@@ -19500,7 +19489,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id='SI_UNITS_EXPONENT' name="Unidades do Sistema Internacional: km2/km²">
+  <rulegroup id='SI_UNITS_EXPONENT' name="Matemático: Unidades do Sistema Internacional: km2/km²">
     <!-- Created by Tiago F. Santos, 2017-05-12 -->
       <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
       <short>Erro tipográfico</short>
@@ -19596,7 +19585,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id='MULTIPLICATION_SIGN' name="Sinal de multiplicação: x - × ">
+  <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × ">
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
     <rule>
       <antipattern>
@@ -19648,7 +19637,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id='PLUS_MINUS' name="Sinais matemáticos: +- - ± ">
+  <rulegroup id='PLUS_MINUS' name="Matemático: +- - ± ">
     <!-- Created by Tiago F. Santos, 2017-03-28 -->
     <rule>
       <pattern>
@@ -19670,7 +19659,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id="EQUAL_OR_X" name="&gt;= (≥)">
+  <rulegroup id="EQUAL_OR_X" name="Matemático: &gt;= (≥)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
       <regexp>&gt;=</regexp>
@@ -19791,7 +19780,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Evitar apóstrofe em decimais">
+    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemático: Evitar apóstrofe em decimais">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
       <antipattern>
           <token regexp="yes">\d{1,2}\,\d+</token>
@@ -19821,7 +19810,7 @@ TODO Write better examples
       <example>41º 12’12” N.</example>
     </rule>
 
-    <rule id='PERCENT_WITHOUT_SPACE' name="Remover espaço em percentagens (3%)" default="on">
+    <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espaço em percentagens (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
           <token regexp="yes">[\d.,]+<exception regexp="yes">[.,]</exception></token>
@@ -19836,7 +19825,7 @@ TODO Write better examples
       <example>Paga 25%.</example>
     </rule>
 
-    <rule id='PERCENT_WITH_SPACE' name="Acrescentar espaço em percentagens (3 %)" default="off">
+    <rule id='PERCENT_WITH_SPACE' name="Matemático: Acrescentar espaço em percentagens (3 %)" default="off">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
           <token regexp="yes">[\d.,]+[%‰‱]</token>
@@ -20127,7 +20116,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='DEGREE_SYMBOL' name="símbol de grau (°)">
+    <rule id='DEGREE_SYMBOL' name="Matemático: Símbolo de grau (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
       <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
       <message>Se está a indicar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
@@ -20141,7 +20130,7 @@ TODO Write better examples
     <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
     </rule>
 
-    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Abreviaturas de unidades de medida">
+    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemático: Abreviaturas de unidades de medida">
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
           <token regexp="yes">\d+</token>
@@ -20154,7 +20143,7 @@ TODO Write better examples
       <example correction="kg">São 2 <marker>kgs</marker> de maças.</example>
     </rule>
 
-    <rule id='KELVIN' name="kelvin (no graus)">
+    <rule id='KELVIN' name="Matemático: Kelvin (sem graus)">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
       <message>Kelvin não utiliza o sinal de grau.</message>
@@ -20165,7 +20154,7 @@ TODO Write better examples
       <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
     </rule>
 
-  <rulegroup id='DEGREE_MINUTES_SECONDS' name="Tipografia de graus, minutos e segundos: 50°45′ 20″">
+  <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemático: Tipografia de graus, minutos e segundos: 50°45′ 20″">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule>
       <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
