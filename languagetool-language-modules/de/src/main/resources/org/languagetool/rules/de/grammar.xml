@@ -31575,6 +31575,59 @@ Andere Projekte</example>
             <example>Er zitterte ob Marias Schlagfertigkeit.</example>
             <example>Sie fragte: "Wer küsste wen?"</example>
         </rule>
+        <rulegroup id="DOPPELTE_SATZZEICHEN" name="Doppelte Satzzeichen">
+            <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token regexp="yes">!|\?|,|;</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token regexp="yes">!|\?|,|;</token>
+                </antipattern>
+                 <antipattern>
+                    <token regexp="yes">([a-zäöü])|([0-9])|(ok)|([0-9][0-9])</token>
+                    <token>.</token>
+                    <token regexp="yes">!|\?|,|;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">\.|,|;</token>
+                    <token regexp="yes">!|\?|,|;</token>
+                    </marker>
+                </pattern>
+                <message>Sollte hier nur ein Satzzeichen stehen?</message>
+                <suggestion>\1</suggestion>
+                <suggestion>\2</suggestion>
+                <example correction='.|!' type="incorrect">Die Zahl der ins Ausland reisenden Schüler nimmt gegenwärtig zu<marker>.!</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">!|\?|,|;</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">!|\?|,|;</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">!|\?|,|;</token>
+                    <token regexp="yes">\.|,|;</token>
+                    </marker>
+                </pattern>
+                <message>Sollte hier nur ein Satzzeichen stehen?</message>
+                <suggestion>\1</suggestion>
+                <suggestion>\2</suggestion>
+                <example correction='?|.' type="incorrect">Die Zahl der ins Ausland reisenden Schüler nimmt gegenwärtig zu<marker>?.</marker></example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -34342,6 +34395,242 @@ Andere Projekte</example>
                 <example>Staaten wie Südkorea, Singapur und Brasilien signalisierten ihre Zustimmung.</example>
                 <example>Der Süßwassermangel, mit dem wir weltweit konfrontiert sein werden, rührt von großer Verschwendung her.</example>
                 <example>Was immer das in drei, fünf oder zehn Jahren bedeuten mag.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
+            <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">fallen|finden</token>
+                    <token>schwer</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">fallen|hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">fangen</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token postag="VER:.*" postag_regexp="yes">
+                        <exception postag="VER:(AUX|MOD).*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen|versuchen|geben</exception>
+                    </token>
+                    <token>
+                        <exception regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                    </token>
+                    <token skip="-1">
+                        <exception regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                        <exception scope="next" regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception scope="next" regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                    </token>
+                    <token>zu
+                        <exception scope="previous" postag="VER.*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein Komma vor der Infinitivgruppe einfügen? (In den meisten Fällen ist dies optional)</message>
+                <example type="incorrect">ich <marker>empfinde es entspannend mit einem guten Buch am Kamin zu sitzen</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">fallen|finden</token>
+                    <token>schwer</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">fallen|hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">fangen</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token postag="VER:.*" postag_regexp="yes">
+                        <exception postag="VER:(AUX|MOD).*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen|versuchen|geben|drohen</exception>
+                    </token>
+                    <token>
+                        <exception regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                    </token>
+                    <token skip="-1">
+                        <exception regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                        <exception scope="next" regexp="yes">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        <exception scope="next" regexp="yes">als|anstatt|außer|ohne|statt|um</exception>
+                    </token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein Komma vor der Infinitivgruppe einfügen? (In den meisten Fällen ist dies optional)</message>
+                <example type="incorrect">Ich <marker>hielt es für gerechtfertigt seiner Meinung zuzustimmen</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_NACH_INFINITIVGRUPPEN_OPT" name="Optional: Komma nach Infinitivgruppen" default="off">
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                    <token/>
+                    <token regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                    <token postag="VER:PA2.*" postag_regexp="yes"/>
+                    <token postag="VER:AUX.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>zu</token>
+                    <token skip="-1" postag="VER:INF.*" postag_regexp="yes">
+                        <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                    </token>
+                    </marker>
+                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Möchten Sie ein Komma hinter der Infinitivgruppe einfügen? (In den meisten Fällen ist dies optional)</message>
+                <suggestion>\1 \2,</suggestion>
+                <example correction="zu urteilen," type="incorrect">Ihrem Ruf nach <marker>zu urteilen</marker> scheint sie für die Arbeit gut geeignet zu sein.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                    <token/>
+                    <token regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token skip="-1" postag="VER:EIZ:.*" postag_regexp="yes">
+                        <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                    </token>
+                    </marker>
+                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA1:.*|PA2:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Möchten Sie ein Komma hinter der Infinitivgruppe einfügen? (In den meisten Fällen ist dies optional)</message>
+                <suggestion>\1,</suggestion>
+                <example correction="auszudenken," type="incorrect">Sich einen Alternativplan <marker>auszudenken</marker> ist häufig schwierig.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene Rechtschreibung laut Duden">
+        <rulegroup id="F_ANSTATT_PH" name="Worte mit F anstatt Ph">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes" case_sensitive="yes"> Phantas.* </token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Phantas(.*)" regexp_replace="Fantas$1"/></suggestion> verwenden?</message>
+                <example correction="Fantasie" type="incorrect">Er hat eine blühende <marker>Phantasie</marker>.</example>
+		<example correction="Fantasien" type="incorrect">Er entwickelte wilde <marker>Phantasien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes" case_sensitive="yes"> phantas.* </token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="phantas(.*)" regexp_replace="fantas$1"/></suggestion> verwenden?</message>
+                <example correction="fantastische" type="incorrect">Es ist eine <marker>phantastische</marker> Landschaft.</example>
+		<example correction="fantasievolle" type="incorrect">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes"> geograph.* </token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)eograph(.*)" regexp_replace="$1eograf$2"/></suggestion> verwenden?</message>
+                <example correction="geografischen" type="incorrect">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
+                <example correction="Geografie" type="incorrect">Sie hat <marker>Geographie</marker> studiert.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token> zuhause </token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)uhause" regexp_replace="$1u Hause"/></suggestion> verwenden?</message>
+                <example correction="Zu Hause" type="incorrect"><marker>Zuhause</marker> ist es doch am schönsten.</example>
+		<example correction="zu Hause" type="incorrect">Seit gestern sind sie wieder <marker>zuhause</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">hilfesuchende?[mnrs]?</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="[Hh]ilfesuchend(e?[mnrs]?)" regexp_replace="Hilfe suchend$1"/></suggestion> verwenden?</message>
+                <example correction="Hilfe suchend" type="incorrect">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <regexp>\bmit Hilfe\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)it Hilfe" regexp_replace="$1ithilfe"/></suggestion> verwenden?</message>
+                <example correction="Mithilfe" type="incorrect"><marker>Mit Hilfe</marker> einer Kettensäge brachte er den Baum zu Fall.</example>
+		<example correction="mithilfe" type="incorrect">Sie fand das ein passenderes Wort <marker>mit Hilfe</marker> des Synonymlexikons.</example>
+            </rule>
+            <rule>
+                <regexp>\bvon Seiten\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)on Seiten" regexp_replace="$1onseiten"/></suggestion> verwenden?</message>
+                <example correction="Vonseiten" type="incorrect"><marker>Von Seiten</marker> seines Vaters war keine große Hilfe zu erwarten.</example>
+            </rule>
+            <rule>
+                <regexp>\bin Frage\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)n Frage" regexp_replace="$1nfrage"/></suggestion> verwenden?</message>
+                <example correction="infrage" type="incorrect">Eine Teilung kommt nicht <marker>in Frage</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>\bin Stand\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)n Stand" regexp_replace="$1nstand"/></suggestion> verwenden?</message>
+                <example correction="instand" type="incorrect">Er setzte den Oldtimer wieder <marker>in Stand</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>\bzu G(runde|unsten)\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)u G(runde|unsten)" regexp_replace="$1ug$2"/></suggestion> verwenden?</message>
+                <example correction="zugunsten" type="incorrect">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>
+                <example correction="zugrunde" type="incorrect">Für die Berechnung wurde eine grobe Abschäzung <marker>zu Grunde</marker> gelegt.</example>
+            </rule>
+            <rule>
+                <regexp>\bzu S(tande|chulden)\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)u S(tande|chulden)" regexp_replace="$1us$2"/></suggestion> verwenden?</message>
+                <example correction="zuschulden" type="incorrect">Sie hatte sich nichts <marker>zu Schulden</marker> kommen lassen.</example>
+                <example correction="zustande" type="incorrect">An diesem Tag brachte er nichts <marker>zu Stande</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>\bso (dass|genannte[mnrs]?)\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
+                <example correction="sodass" type="incorrect">Sie stellte sich in den Eingang, <marker>so dass</marker> kein Weg an ihr vorbei führte.</example>
+                <example correction="sogenannte" type="incorrect">Die <marker>so genannte</marker> Gerichtsverhandlung empfand er als blanker Hohn.</example>
             </rule>
         </rulegroup>
     </category>
