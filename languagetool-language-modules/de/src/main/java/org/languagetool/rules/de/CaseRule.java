@@ -260,6 +260,7 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Str",
     "Auszubildende",
     "Auszubildender",
     "Gelehrte",
