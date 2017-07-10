@@ -5578,7 +5578,7 @@ title="Easy editing stylesheet" ?>
       <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
     </rule>
 
-  <rulegroup id='ETC_USAGE' name="Regras de utilização de etc.">
+  <rulegroup id='ETC_USAGE' name="Abreviaturas: etc.">
     <!--  Created by Tiago F. Santos, 30-01-2017 -->
       <url>http://pt.wikihow.com/Usar-%22Etc.%22-Corretamente</url>
       <short>Erro de pontuação</short>
@@ -5652,7 +5652,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='ET_AL' name="Regras de utilização de et al.">
+    <rule id='ET_AL' name="Abreviaturas: et al.">
     <!--       Created by Tiago F. Santos,  2017-02-21      -->
       <pattern>
         <marker>
@@ -5670,7 +5670,7 @@ title="Easy editing stylesheet" ?>
       <example correction="et al.">SANTOS, T.F. <marker>et al</marker> (2005),...</example>
     </rule>
 
-  <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Pontuação em abreviaturas">
+  <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abreviaturas: Pontuação">
     <!--       Based on the Catalan version, Tiago F. Santos,  2017-02-18      -->
     <!--          Wordlist from https://gerrit.libreoffice.org/#/c/29277/       -->
     <rule>
@@ -5799,6 +5799,18 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='DOUBLE_PUNCTUATION' name="Pontuação duplicada">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
+      <antipattern><!-- indexes -->
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+      </antipattern>
+      <antipattern><!-- ellipsis -->
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+      </antipattern>
     <rule>
       <regexp>[.][.][.][.]</regexp>
       <message>Pontuação duplicada</message>
@@ -5806,11 +5818,6 @@ title="Easy editing stylesheet" ?>
       <example correction='…'>A situação financeira era estável<marker>....</marker></example>
     </rule>
     <rule>
-      <antipattern>
-          <token regexp='yes'>[.]</token>
-          <token regexp='yes'>[.]</token>
-          <token regexp='yes'>[.]</token>
-      </antipattern>
       <pattern>
           <token regexp='yes'>[.]</token>
           <token regexp='yes'>[.]</token>
@@ -5830,11 +5837,6 @@ title="Easy editing stylesheet" ?>
       <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
     </rule>
     <rule>
-      <antipattern>
-          <token regexp='yes'>[.]</token>
-          <token regexp='yes'>[.]</token>
-          <token regexp='yes'>[.]</token>
-      </antipattern>
       <antipattern>
           <token regexp='yes'>[!]</token>
           <token regexp='yes'>[?]</token>
@@ -5856,7 +5858,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuar interrogações: Porquê?">
+  <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação interrogações: Porquê?">
       <antipattern>
           <token>.</token>
           <token>.</token>
@@ -5907,7 +5909,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuar interjeições: Olá!">
+  <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!">
     <!--  Created by Tiago F. Santos, 2017-04-28      -->
     <rule>
       <pattern>
