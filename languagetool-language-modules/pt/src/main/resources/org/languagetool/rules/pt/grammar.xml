@@ -19585,6 +19585,37 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="SPACES_BETWEEN_OPERATORS" name="Matemático: Espaço entre operadores">
+    <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-09 -->
+      <antipattern>    <!-- time exception: -->
+          <token regexp="yes">([01]?[0-9]|2[0-4])[0-9]?</token>
+          <token>:</token>
+          <token regexp="yes">[0-5][0-9]</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">([0-9]+[a-z]*)
+            <exception scope="previous" regexp="yes">escalas?</exception>
+            <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
+          </token>
+          <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+          <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+<exception regexp="yes">\d\dh</exception></token>
+        </marker>
+          <token negate="yes">h</token>
+      </pattern>
+      <message>Separe as fórmulas com espaços (protegidos).</message>
+        <suggestion>\1 \2 \3</suggestion>
+      <example correction="5 * 5"><marker>5*5</marker>.</example>
+      <example correction="3a = 2"><marker>3a=2</marker>.</example>
+      <example>Um mapa na escala 1:80000.</example>
+      <example>Tenho uma reunião às 7:00 h.</example>
+      <example>Tenho uma reunião às 7:00h.</example>
+      <example>Enviado a 2014-01-23 10:32 :</example>
+      <example>a = 2 · x² + 5</example>
+      <example>4,5 × 2,5</example>
+      <example>Entre as 9:00 e as 16:45.</example>
+    </rule>
+
   <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × ">
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
     <rule>
