@@ -182,6 +182,11 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().token("Außenring").build(),
         new PatternTokenBuilder().token("Autobahn").build()
     ),
+    Arrays.asList( // "Ehre, wem Ehre gebührt"
+        new PatternTokenBuilder().csToken(",").build(),
+        new PatternTokenBuilder().csToken("wem").build(),
+        new PatternTokenBuilder().csToken("Ehre").build()
+    ),
     Arrays.asList(
         new PatternTokenBuilder().token("Eurovision").build(),
         new PatternTokenBuilder().token("Song").build(),
@@ -406,7 +411,7 @@ public class AgreementRule extends Rule {
   /**
    * Search for modifiers (such as "sehr", "1,4 Meter") which can expand a
    * determiner - adjective - noun group ("ein hohes Haus" -> "ein sehr hohes Haus",
-   * "ein 500 Meter hoher Haus") and return the index of the first non-modifier token ("Haus")
+   * "ein 500 Meter hohes Haus") and return the index of the first non-modifier token ("Haus")
    * @param startAt index of array where to start searching for modifier
    * @param tokens
    * @return index of first non-modifier token
