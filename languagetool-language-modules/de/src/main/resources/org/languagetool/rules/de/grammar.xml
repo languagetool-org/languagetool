@@ -27865,6 +27865,22 @@ Andere Projekte</example>
                 <example>Die Einnahmen bewahrst am besten du auf.</example>
                 <example>Die Einnahmen bewahrt man am besten sicher auf.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="(EIG|SUB):NOM:.*" postag_regexp="yes"><exception postag="VER:.*" postag_regexp="yes"/></token>
+                    <token>und</token>
+                    <token postag="(EIG|SUB):NOM:.*" postag_regexp="yes"><exception postag="VER:.*" postag_regexp="yes"/></token>
+                    <marker><token postag="VER:.*:SIN:.*" postag_regexp="yes"/></marker>
+                    <token postag="PRO:IND:AKK:.*|NEG" postag_regexp="yes" skip="-1"/>
+                    <token postag="SENT_END"><exception>!</exception></token>
+                </pattern>
+                <message>Prüfen Sie, ob hier die Pluralform des Prädikats zu verwenden ist.</message>
+                <example correction="">Tom und Markus <marker>solle</marker> nicht zusammen spielen.</example>
+                <example>Tom und Markus <marker>mag</marker> ich nicht.</example>
+                <example>Weit und breit <marker>war</marker> niemand zu sehen.</example>
+                <example>Recht und Gerechtigkeit erwartet nicht vom Kaiser!</example>
+            </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
             <pattern>
