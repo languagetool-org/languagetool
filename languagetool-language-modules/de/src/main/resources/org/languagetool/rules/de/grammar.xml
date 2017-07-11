@@ -31589,7 +31589,12 @@ Andere Projekte</example>
                     <token regexp="yes">!|\?|,|;</token>
                 </antipattern>
                  <antipattern>
-                    <token regexp="yes">([a-zäöü])|([0-9])|(ok)|([0-9][0-9])</token>
+                    <token regexp="yes">([a-zäöü])|([0-9])|([0-9][0-9])</token>
+                    <token>.</token>
+                    <token regexp="yes">!|\?|,|;</token>
+                </antipattern>
+               <antipattern>
+                    <token postag=".*ABK.*|UNKNOWN" postag_regexp="yes"/>
                     <token>.</token>
                     <token regexp="yes">!|\?|,|;</token>
                 </antipattern>
@@ -31603,6 +31608,12 @@ Andere Projekte</example>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
                 <example correction='.|!' type="incorrect">Die Zahl der ins Ausland reisenden Schüler nimmt gegenwärtig zu<marker>.!</marker></example>
+                <example>Sie studierte das Leben Alexander des IV.!</example>
+                <example>Er startete als 128.!</example>
+                <example>Testeten sie das Mittel an Hunden, Katzen, etc.?</example>
+                <example>Vereinigte Fachverl., Mainz 48.</example>
+                <example>(1919-1920; Neue Folge 1921-1933, 1946 ff., Österreich)</example>
+                <example>eK (e. K., e. Kfr., e. Kfm.) – eingetragene/r Kauffrau/Kaufmann</example>
             </rule>
             <rule>
                 <antipattern>
@@ -34565,12 +34576,22 @@ Andere Projekte</example>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
             <url>http://www.duden.de/hilfe/rechtschreibung</url>
             <rule>
+                <antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token case_sensitive="yes">Zuhause</token>
+                </antipattern>
                 <pattern>
                     <token>zuhause</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>zu Hause</suggestion> verwenden?</message>
                 <example correction="Zu Hause" type="incorrect"><marker>Zuhause</marker> ist es doch am schönsten.</example>
-		<example correction="zu Hause" type="incorrect">Seit gestern sind sie wieder <marker>zuhause</marker>.</example>
+                <example correction="zu Hause" type="incorrect">Seit gestern sind sie wieder <marker>zuhause</marker>.</example>
+                <example correction="zu Hause" type="incorrect">Jetzt ist er <marker>zuhause</marker>.</example>
+                <example>Wessen Zuhause ist das?</example>
+                <example>Was war dein Zuhause?</example>
+                <example>Das Kloster ist das Zuhause des Mönchs.</example>
+                <example>Es war ihr Zuhause.</example>
+                <example>Wenn du etwas früher von Zuhause aufgebrochen wärst, wärst du punktlich gewesen.</example>
             </rule>
             <rule>
                 <pattern>
