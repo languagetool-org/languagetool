@@ -92,6 +92,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, lt); // "Au-pair" from spelling.txt 
     assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, lt); // "Netflix" from spelling.txt
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
+    assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
   }
 
   @Test
