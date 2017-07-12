@@ -265,9 +265,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Partys");
     } else if (word.equals("Babies")) {
       return Collections.singletonList("Babys");
-    // Jan: I don't think the following is correct
-    // } else if (word.equals("Barbies")) {
-      // return Collections.singletonList("Barbys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
     } else if (!StringTools.startsWithUppercase(word)) {
