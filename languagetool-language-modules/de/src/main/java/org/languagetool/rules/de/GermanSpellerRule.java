@@ -259,6 +259,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("nannten");
     } else if (word.equals("Hobbies")) {
       return Collections.singletonList("Hobbys");
+    } else if (word.equals("Parties")) {
+      return Collections.singletonList("Partys");
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
