@@ -233,6 +233,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String w = StringUtils.removeEnd(word, ".");
     if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
+    } else if ("WIFI".equals(w) || "wifi".equals(w)) {
+      return Collections.singletonList("Wi-Fi");
     } else if ("desweiteren".equals(w)) {
       return Collections.singletonList("des Weiteren");
     } else if ("wieviel".equals(w)) {
@@ -263,8 +265,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Partys");
     } else if (word.equals("Babies")) {
       return Collections.singletonList("Babys");
-    } else if (word.equals("Barbies")) {
-      return Collections.singletonList("Barbys");
+    // Jan: I don't think the following is correct
+    // } else if (word.equals("Barbies")) {
+      // return Collections.singletonList("Barbys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
     } else if (!StringTools.startsWithUppercase(word)) {
