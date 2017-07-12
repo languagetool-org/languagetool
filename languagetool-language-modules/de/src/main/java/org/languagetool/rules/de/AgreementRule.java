@@ -183,9 +183,9 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().token("Autobahn").build()
     ),
     Arrays.asList( // "Ehre, wem Ehre gebührt"
-        new PatternTokenBuilder().csToken(",").build(),
-        new PatternTokenBuilder().csToken("wem").build(),
-        new PatternTokenBuilder().csToken("Ehre").build()
+        new PatternTokenBuilder().tokenRegex("[dw]em").build(),
+        new PatternTokenBuilder().csToken("Ehre").build(),
+        new PatternTokenBuilder().csToken("gebührt").build()
     ),
     Arrays.asList(
         new PatternTokenBuilder().token("Eurovision").build(),
@@ -215,7 +215,10 @@ public class AgreementRule extends Rule {
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
     "besonders",
     "fast",
-    "sehr"
+    "geradezu",
+    "sehr",
+    "überaus",
+    "ziemlich"
   ));
 
 
@@ -398,7 +401,7 @@ public class AgreementRule extends Rule {
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -418,8 +421,9 @@ public class AgreementRule extends Rule {
    */
   int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
     if ((startAt + 1) < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
-      return startAt + 1;
-    } else if ((startAt + 1) < tokens.length && StringUtils.isNumeric(tokens[startAt].getToken())) {
+      startAt++;
+    }
+    if ((startAt + 1) < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
       int posAfterModifier = startAt + 1;
       if ((startAt + 3) < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
         posAfterModifier = startAt + 3;
