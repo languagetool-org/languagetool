@@ -48,7 +48,7 @@ public class SuggestionRegressionTest {
     JLanguageTool lt = new JLanguageTool(german);
     for (String line : lines) {
       if (line.startsWith("#")) {
-        result.append(line);
+        result.append(line).append("\n");
         continue;
       }
       String[] parts = line.split(" => ?");
