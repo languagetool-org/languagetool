@@ -55,8 +55,8 @@ public class GermanSpellerRuleTest {
   @Test
   public void testSortSuggestion() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("Fehler", "fehl er", "fehle r")).toString(),
-            is("[Fehler, fehl er]"));
+    assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("fehla", "xxx", "Fehler")).toString(),
+            is("[Fehler, fehla, xxx]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
             is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
   }
@@ -153,7 +153,7 @@ public class GermanSpellerRuleTest {
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit, konfliktbereite l]"));
   }
 
   @Test
@@ -328,7 +328,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
     assertCorrectionsByOrder(rule, "müßte", "müsste");
-    assertCorrectionsByOrder(rule, "schmohren", "schmoren");
+    assertCorrectionsByOrder(rule, "schmohren", "Lehmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
     assertCorrectionsByOrder(rule, "ueber", "über");
@@ -337,7 +337,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
     assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "is", "iss", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "is", "in", "im", "ist");  // 'ist' should actually be preferred...
   }
   
   @Test

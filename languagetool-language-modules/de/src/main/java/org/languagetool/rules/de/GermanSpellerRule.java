@@ -44,40 +44,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
   private static final int SUGGESTION_MIN_LENGTH = 2;
-  private static final List<Replacement> REPL = Arrays.asList(
-      // see de_DE.aff:
-      new Replacement("f", "ph"),
-      new Replacement("ph", "f"),
-      new Replacement("ß", "ss"),
-      new Replacement("ss", "ß"),
-      new Replacement("s", "ss"),
-      new Replacement("ss", "s"),
-      new Replacement("i", "ie"),
-      new Replacement("ie", "i"),
-      new Replacement("ee", "e"),
-      new Replacement("o", "oh"),
-      new Replacement("oh", "o"),
-      new Replacement("a", "ah"),
-      new Replacement("ah", "a"),
-      new Replacement("e", "eh"),
-      new Replacement("eh", "e"),
-      new Replacement("ae", "ä"),
-      new Replacement("oe", "ö"),
-      new Replacement("ue", "ü"),
-      new Replacement("Ae", "Ä"),
-      new Replacement("Oe", "Ö"),
-      new Replacement("Ue", "Ü"),
-      new Replacement("d", "t"),
-      new Replacement("t", "d"),
-      new Replacement("th", "t"),
-      new Replacement("t", "th"),
-      new Replacement("r", "rh"),
-      new Replacement("ch", "k"),
-      new Replacement("k", "ch"),
-      // not in de_DE.aff (not clear what uppercase replacement we need...):
-      new Replacement("F", "Ph"),
-      new Replacement("Ph", "F")
-  );
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -206,12 +172,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     suggestions.removeIf(s -> s.length() > 1 && s.startsWith("-"));
   }
 
-  // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
-  // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
-    List<String> sorted1 = sortByReplacements(misspelling, suggestions);
-    return sortByCase(misspelling, sorted1);
+    List<String> result = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      if (misspelling.equalsIgnoreCase(suggestion)) {
+        // this should be preferred - only case differs:
+        result.add(0, suggestion);
+      } else {
+        result.add(suggestion);
+      }
+    }
+    return result;
   }
 
   @Override
@@ -481,43 +453,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return hasIgnoredWord;
-  }
-
-  private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
-    List<String> result = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      boolean moveSuggestionToTop = false;
-      for (Replacement replacement : REPL) {
-        String modifiedMisspelling = misspelling.replace(replacement.key, replacement.value);
-        boolean equalsAfterReplacement = modifiedMisspelling.equals(suggestion);
-        if (equalsAfterReplacement) {
-          moveSuggestionToTop = true;
-          break;
-        }
-      }
-      if (!ignoreSuggestion(suggestion)) {
-        if (moveSuggestionToTop) {
-          // this should be preferred, as the replacements make it equal to the suggestion:
-          result.add(0, suggestion);
-        } else {
-          result.add(suggestion);
-        }
-      }
-    }
-    return result;
-  }
-
-  private List<String> sortByCase(String misspelling, List<String> suggestions) {
-    List<String> result = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      if (misspelling.equalsIgnoreCase(suggestion)) {
-        // this should be preferred - only case differs:
-        result.add(0, suggestion);
-      } else {
-        result.add(suggestion);
-      }
-    }
-    return result;
   }
 
   private boolean ignoreSuggestion(String suggestion) {
