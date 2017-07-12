@@ -5843,12 +5843,16 @@ title="Easy editing stylesheet" ?>
       <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
     </rule>
     <rule>
-      <antipattern>
-          <token regexp='yes'>[!]</token>
-          <token regexp='yes'>[?]</token>
+      <antipattern><!-- dealt by rule #2 -->
+          <token>.</token>
+          <token>.</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>[.]</token>
+          <token>!</token>
+          <token regexp='yes'>\?</token>
+      </antipattern>
+      <antipattern>
+          <token>.</token>
           <token regexp='yes'>[,;]<exception postag='SENT_END'/></token>
       </antipattern>
       <pattern>
