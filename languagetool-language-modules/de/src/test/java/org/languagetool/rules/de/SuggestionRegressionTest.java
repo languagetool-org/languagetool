@@ -47,7 +47,7 @@ public class SuggestionRegressionTest {
     StringBuilder result = new StringBuilder();
     JLanguageTool lt = new JLanguageTool(german);
     for (String line : lines) {
-      String[] parts = line.split(" => ");
+      String[] parts = line.split(" => ?");
       String word = parts[0];
       if (rule.match(lt.analyzeText(word).get(0)).length == 0) {
         continue;
