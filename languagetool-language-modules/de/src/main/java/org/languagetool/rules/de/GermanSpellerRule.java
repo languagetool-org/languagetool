@@ -251,6 +251,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(word.replaceFirst("standart$", "standard"));
     } else if (word.endsWith("standarts")) {
       return Collections.singletonList(word.replaceFirst("standarts$", "standards"));
+    } else if (word.endsWith("parties")) {
+      return Collections.singletonList(word.replaceFirst("parties$", "partys"));
+    } else if (word.endsWith("derbies")) {
+      return Collections.singletonList(word.replaceFirst("derbies$", "derbys"));
+    } else if (word.endsWith("stories")) {
+      return Collections.singletonList(word.replaceFirst("stories$", "storys"));
     } else if (word.equals("Rolladen")) {
       return Collections.singletonList("Rollladen");
     } else if (word.equals("Maßname")) {
@@ -259,15 +265,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Maßnahmen");
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
+    } else if (word.equals("Stories")) {
+      return Collections.singletonList("Storys");
+    } else if (word.equals("Lobbies")) {
+      return Collections.singletonList("Lobbys");
     } else if (word.equals("Hobbies")) {
       return Collections.singletonList("Hobbys");
     } else if (word.equals("Parties")) {
       return Collections.singletonList("Partys");
     } else if (word.equals("Babies")) {
       return Collections.singletonList("Babys");
-    // Jan: I don't think the following is correct
-    // } else if (word.equals("Barbies")) {
-      // return Collections.singletonList("Barbys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
     } else if (!StringTools.startsWithUppercase(word)) {
