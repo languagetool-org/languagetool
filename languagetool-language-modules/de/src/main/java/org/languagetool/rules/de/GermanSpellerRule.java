@@ -209,6 +209,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Wi-Fi");
     } else if ("desweiteren".equals(w)) {
       return Collections.singletonList("des Weiteren");
+    } else if ("ausversehen".equals(w)) {
+      return Collections.singletonList("aus Versehen");
     } else if ("wieviel".equals(w)) {
       return Collections.singletonList("wie viel");
     } else if ("wieviele".equals(w)) {
