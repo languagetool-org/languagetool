@@ -752,6 +752,7 @@ public class CaseRule extends Rule {
       return false;
     }
 
+    // "Das ist zu Prüfen." but not "Das geht zu Herzen."
     if ("zu".equals(tokens[pos-1].getToken()) &&
       !tokens[pos].matchesPosTagRegex(".*(NEU|MAS|FEM)$") &&
       lowercaseReadings != null &&
