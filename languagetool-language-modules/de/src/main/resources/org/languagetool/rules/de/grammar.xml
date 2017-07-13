@@ -8577,7 +8577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>statt</token>
-                <token regexp="yes">finden|findet|fand|fanden|gefunden</token>
+                <token regexp="yes">finde[nt]|fand(en)?|gefunden</token>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>statt<match no="2"/></suggestion>?</message>
             <example correction="stattfindet">Wo das Fest das <marker>statt findet</marker>, ist noch nicht klar.</example>
@@ -12759,10 +12759,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>schöne</marker> Wochenende.</example>
             <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
         </rule>
+        <rule id="ZU_ALLEM" name="zu Allem (allem) bereit">
+            <pattern>
+                <token>zu</token>
+                <marker>
+                    <token case_sensitive="yes">Allem</token>
+                </marker>
+                <token>bereit</token>
+            </pattern>
+            <message>'Allem' wird in der Wendung 'zu allem bereit' hier kleingeschrieben.</message>
+            <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+            <short>&prgk;.</short>
+            <example correction="allem">Ich bin zu <marker>Allem</marker> bereit.</example>
+        </rule>
         <rule id="DER_BESTE" name="der beste (Beste) sein">
             <pattern case_sensitive="yes">
                 <token skip="3" postag="SENT_START"/>
-                <token regexp="yes">der|die|das</token>
+                <token regexp="yes">d(er|ie|as)</token>
                 <marker>
                    <token>beste</token>
                 </marker>
