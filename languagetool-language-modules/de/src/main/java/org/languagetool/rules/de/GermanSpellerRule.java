@@ -203,20 +203,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");
-    if ("unzwar".equals(w)) {
-      return Collections.singletonList("und zwar");
-    } else if ("WIFI".equals(w) || "wifi".equals(w)) {
+    if ("WIFI".equals(w) || "wifi".equals(w)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("desweiteren".equals(w)) {
       return Collections.singletonList("des Weiteren");
     } else if ("ausversehen".equals(w)) {
       return Collections.singletonList("aus Versehen");
-    } else if ("wieviel".equals(w)) {
-      return Collections.singletonList("wie viel");
-    } else if ("wieviele".equals(w)) {
-      return Collections.singletonList("wie viele");
-    } else if ("wievielen".equals(w)) {
-      return Collections.singletonList("wie vielen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {

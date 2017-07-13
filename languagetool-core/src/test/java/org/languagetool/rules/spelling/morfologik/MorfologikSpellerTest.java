@@ -21,6 +21,7 @@ package org.languagetool.rules.spelling.morfologik;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -59,4 +60,15 @@ public class MorfologikSpellerTest {
 
     assertThat(spellerDist2.getSuggestions("wordoxix").toString(), is("[]"));
   }
+
+  @Test
+  public void testFilterOnceCharWords() throws IOException {
+    MorfologikSpeller speller = new MorfologikSpeller("/xx/spelling/test.dict");
+    assertThat(speller.filterOneCharWords(Arrays.asList()), is(Arrays.asList()));
+    assertThat(speller.filterOneCharWords(Arrays.asList("", "blah")), is(Arrays.asList("", "blah")));
+    assertThat(speller.filterOneCharWords(Arrays.asList("foo foo", "blah")), is(Arrays.asList("foo foo", "blah")));
+    assertThat(speller.filterOneCharWords(Arrays.asList("foo x", "blah")), is(Arrays.asList("blah")));
+    assertThat(speller.filterOneCharWords(Arrays.asList("foo x", "bla h")), is(Arrays.asList()));
+  }
+  
 }
