@@ -93,6 +93,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, lt); // "Netflix" from spelling.txt
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
     assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("Emailacount", "E-Mail-Account", rule, lt);
   }
 
   @Test

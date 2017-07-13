@@ -256,7 +256,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
     } else if (word.matches("Email[a-zäöü]{5,}")) {
-      return Collections.singletonList("E-Mail-"+Character.toUpperCase(word.charAt(5))+word.substring(6));
+      String suffix = word.substring(5);
+      if (hunspellDict.misspelled(suffix)) {
+        List<String> suffixSuggestions = hunspellDict.suggest(suffix);
+        suffix = suffixSuggestions.isEmpty() ? suffix : suffixSuggestions.get(0);
+      }
+      return Collections.singletonList("E-Mail-"+Character.toUpperCase(suffix.charAt(0))+suffix.substring(1));
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
