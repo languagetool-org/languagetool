@@ -751,6 +751,13 @@ public class CaseRule extends Rule {
     if (pos <= 1) {
       return false;
     }
+
+    if ("zu".equals(tokens[pos-1].getToken()) &&
+      !tokens[pos].matchesPosTagRegex(".*(NEU|MAS|FEM)$") &&
+      lowercaseReadings != null &&
+      lowercaseReadings.hasPartialPosTag("VER:INF:")) {
+      return true;
+    }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
     boolean isPotentialError = pos < tokens.length - 3
         && tokens[pos+1].getToken().equals(",")
