@@ -242,6 +242,7 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
     assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
   }
   
   @Test

@@ -414,6 +414,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
+    if (!StringTools.startsWithUppercase(word) && !word.matches("(nord|ost|süd|west).*")) {
+      // otherwise stuff like "rumfangreichen" gets accepted
+      return false;
+    }
     String[] words = word.split("-");
     if (words.length < 2) {
       // non-hyphenated compound (e.g., "Feynmandiagramm"):
