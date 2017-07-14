@@ -34,10 +34,7 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -358,6 +355,51 @@ public class GermanSpellerRuleTest {
     Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
     Speller speller = new Speller(dict, 2);
     System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?
+  }
+
+  @Test
+  @Ignore("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
+  public void testMorfologikSpeller2() throws Exception {
+    Dictionary dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
+    runTests(dict, "Fux");
+  }
+
+  @Test
+  @Ignore("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
+  public void testMorfologikSpellerWithSpellingTxt() throws Exception {
+    String inputWord = "Fux";  // expected to work (i.e. suggest 'Fuchs') with a maxDist=1 thanks to replacement-pairs, but doesn't
+    //String inputWord = "Fuxen";  // works as expected
+    //String inputWord = "Verschpatüng"; // works as expected
+    List<String> dictWords = Arrays.asList("Bla", "Blubb", "Fuchs", "Fuchsen", "Verspätung");
+    List<byte[]> dictWordsAsBytes = new ArrayList<>();
+    for (String entry : dictWords) {
+      dictWordsAsBytes.add(entry.getBytes("utf-8"));
+    }
+    dictWordsAsBytes.sort(FSABuilder.LEXICAL_ORDERING);
+    FSA fsa = FSABuilder.build(dictWordsAsBytes);
+    ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+    ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+    String infoFile = "fsa.dict.speller.replacement-pairs=x chs,sch s\n" +
+                      "fsa.dict.encoder=SUFFIX\n" +
+                      "fsa.dict.separator=+\n" +
+                      "fsa.dict.encoding=utf-8\n" +
+                      "fsa.dict.speller.ignore-diacritics=false\n";
+    InputStream is = new ByteArrayInputStream(infoFile.getBytes("utf-8"));
+    Dictionary dict = Dictionary.read(fsaInStream, is);
+    runTests(dict, inputWord);
+  }
+
+  private void runTests(Dictionary dict, String input) {
+    Speller speller1 = new Speller(dict);
+    System.out.println(input + " isMisspelled()     : " + speller1.isMisspelled(input));
+    System.out.println(input + " isInDictionary()   : " + speller1.isInDictionary(input));
+    System.out.println(input + " getFrequency()     : " + speller1.getFrequency(input));
+    System.out.println(input + " replaceRunOnWords(): " + speller1.replaceRunOnWords(input));
+    for (int maxDist = 1; maxDist <= 3; maxDist++) {
+      Speller speller = new Speller(dict, maxDist);
+      List<String> replacements = speller.findReplacements(input);
+      System.out.println("maxDist=" + maxDist + ": " + input + " => " + replacements);
+    }
   }
 
   private Dictionary getDictionary(List<byte[]> lines, InputStream infoFile) throws IOException {
