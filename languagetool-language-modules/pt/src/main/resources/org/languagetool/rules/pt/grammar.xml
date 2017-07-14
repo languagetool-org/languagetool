@@ -5850,6 +5850,11 @@ title="Easy editing stylesheet" ?>
       <example>A situação financeira era estável<marker>...</marker></example>
     </rule>
     <rule>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
           <token><match no="0"/></token>
@@ -5857,6 +5862,7 @@ title="Easy editing stylesheet" ?>
       <message>Pontuação duplicada</message>
         <suggestion>\1</suggestion>
       <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
+      <example>------------</example>
     </rule>
     <rule>
       <antipattern><!-- dealt by rule #2 -->
@@ -20002,6 +20008,11 @@ TODO Write better examples
     </rule>
     <rule>
       <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp='yes'>-|–</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -20016,6 +20027,7 @@ TODO Write better examples
         <suggestion>\1 — \3</suggestion>
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
+      <example>-------------</example>
     </rule>
   </rulegroup>
 
