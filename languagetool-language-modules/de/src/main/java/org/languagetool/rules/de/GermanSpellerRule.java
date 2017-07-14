@@ -44,40 +44,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
   private static final int SUGGESTION_MIN_LENGTH = 2;
-  private static final List<Replacement> REPL = Arrays.asList(
-      // see de_DE.aff:
-      new Replacement("f", "ph"),
-      new Replacement("ph", "f"),
-      new Replacement("ß", "ss"),
-      new Replacement("ss", "ß"),
-      new Replacement("s", "ss"),
-      new Replacement("ss", "s"),
-      new Replacement("i", "ie"),
-      new Replacement("ie", "i"),
-      new Replacement("ee", "e"),
-      new Replacement("o", "oh"),
-      new Replacement("oh", "o"),
-      new Replacement("a", "ah"),
-      new Replacement("ah", "a"),
-      new Replacement("e", "eh"),
-      new Replacement("eh", "e"),
-      new Replacement("ae", "ä"),
-      new Replacement("oe", "ö"),
-      new Replacement("ue", "ü"),
-      new Replacement("Ae", "Ä"),
-      new Replacement("Oe", "Ö"),
-      new Replacement("Ue", "Ü"),
-      new Replacement("d", "t"),
-      new Replacement("t", "d"),
-      new Replacement("th", "t"),
-      new Replacement("t", "th"),
-      new Replacement("r", "rh"),
-      new Replacement("ch", "k"),
-      new Replacement("k", "ch"),
-      // not in de_DE.aff (not clear what uppercase replacement we need...):
-      new Replacement("F", "Ph"),
-      new Replacement("Ph", "F")
-  );
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -206,12 +172,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     suggestions.removeIf(s -> s.length() > 1 && s.startsWith("-"));
   }
 
-  // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
-  // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
-    List<String> sorted1 = sortByReplacements(misspelling, suggestions);
-    return sortByCase(misspelling, sorted1);
+    List<String> result = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      if (misspelling.equalsIgnoreCase(suggestion)) {
+        // this should be preferred - only case differs:
+        result.add(0, suggestion);
+      } else {
+        result.add(suggestion);
+      }
+    }
+    return result;
   }
 
   @Override
@@ -231,16 +203,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");
-    if ("unzwar".equals(w)) {
-      return Collections.singletonList("und zwar");
+    if ("WIFI".equals(w) || "wifi".equals(w)) {
+      return Collections.singletonList("Wi-Fi");
     } else if ("desweiteren".equals(w)) {
       return Collections.singletonList("des Weiteren");
-    } else if ("wieviel".equals(w)) {
-      return Collections.singletonList("wie viel");
-    } else if ("wieviele".equals(w)) {
-      return Collections.singletonList("wie viele");
-    } else if ("wievielen".equals(w)) {
-      return Collections.singletonList("wie vielen");
+    } else if ("ausversehen".equals(w)) {
+      return Collections.singletonList("aus Versehen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
@@ -249,6 +217,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(word.replaceFirst("standart$", "standard"));
     } else if (word.endsWith("standarts")) {
       return Collections.singletonList(word.replaceFirst("standarts$", "standards"));
+    } else if (word.endsWith("parties")) {
+      return Collections.singletonList(word.replaceFirst("parties$", "partys"));
+    } else if (word.endsWith("derbies")) {
+      return Collections.singletonList(word.replaceFirst("derbies$", "derbys"));
+    } else if (word.endsWith("stories")) {
+      return Collections.singletonList(word.replaceFirst("stories$", "storys"));
+    } else if (word.endsWith("tip")) {
+      return Collections.singletonList(word.replaceFirst("tip$", "tipp"));
+    } else if (word.endsWith("tips")) {
+      return Collections.singletonList(word.replaceFirst("tips$", "tipps"));
+    } else if (word.endsWith("oullie")) {
+      return Collections.singletonList(word.replaceFirst("oullie$", "ouille"));
+    } else if (word.startsWith("Bundstift")) {
+      return Collections.singletonList(word.replaceFirst("^Bundstift", "Buntstift"));
+    } else if (word.equals("ca")) {
+      return Collections.singletonList("ca.");
+    } else if (word.equals("Jezt")) {
+      return Collections.singletonList("Jetzt");
     } else if (word.equals("Rolladen")) {
       return Collections.singletonList("Rollladen");
     } else if (word.equals("Maßname")) {
@@ -257,8 +243,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Maßnahmen");
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
+    } else if (word.equals("Stories")) {
+      return Collections.singletonList("Storys");
+    } else if (word.equals("Lobbies")) {
+      return Collections.singletonList("Lobbys");
     } else if (word.equals("Hobbies")) {
       return Collections.singletonList("Hobbys");
+    } else if (word.equals("Parties")) {
+      return Collections.singletonList("Partys");
+    } else if (word.equals("Babies")) {
+      return Collections.singletonList("Babys");
+    } else if (word.equals("Ladies")) {
+      return Collections.singletonList("Ladys");
+    } else if (word.matches("Email[a-zäöü]{5,}")) {
+      String suffix = word.substring(5);
+      if (hunspellDict.misspelled(suffix)) {
+        List<String> suffixSuggestions = hunspellDict.suggest(suffix);
+        suffix = suffixSuggestions.isEmpty() ? suffix : suffixSuggestions.get(0);
+      }
+      return Collections.singletonList("E-Mail-"+Character.toUpperCase(suffix.charAt(0))+suffix.substring(1));
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
@@ -411,6 +414,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
+    if (!StringTools.startsWithUppercase(word) && !word.matches("(nord|ost|süd|west).*")) {
+      // otherwise stuff like "rumfangreichen" gets accepted
+      return false;
+    }
     String[] words = word.split("-");
     if (words.length < 2) {
       // non-hyphenated compound (e.g., "Feynmandiagramm"):
@@ -473,43 +480,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return hasIgnoredWord;
-  }
-
-  private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
-    List<String> result = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      boolean moveSuggestionToTop = false;
-      for (Replacement replacement : REPL) {
-        String modifiedMisspelling = misspelling.replace(replacement.key, replacement.value);
-        boolean equalsAfterReplacement = modifiedMisspelling.equals(suggestion);
-        if (equalsAfterReplacement) {
-          moveSuggestionToTop = true;
-          break;
-        }
-      }
-      if (!ignoreSuggestion(suggestion)) {
-        if (moveSuggestionToTop) {
-          // this should be preferred, as the replacements make it equal to the suggestion:
-          result.add(0, suggestion);
-        } else {
-          result.add(suggestion);
-        }
-      }
-    }
-    return result;
-  }
-
-  private List<String> sortByCase(String misspelling, List<String> suggestions) {
-    List<String> result = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      if (misspelling.equalsIgnoreCase(suggestion)) {
-        // this should be preferred - only case differs:
-        result.add(0, suggestion);
-      } else {
-        result.add(suggestion);
-      }
-    }
-    return result;
   }
 
   private boolean ignoreSuggestion(String suggestion) {

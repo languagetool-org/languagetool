@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -87,8 +88,8 @@ public class MorfologikSpeller {
 
   public List<String> getSuggestions(String word) {
     List<String> suggestions = new ArrayList<>();
+    suggestions.addAll(filterOneCharWords(speller.replaceRunOnWords(word)));
     suggestions.addAll(speller.findReplacements(word));
-    suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
@@ -107,6 +108,18 @@ public class MorfologikSpeller {
       }
     }
     return suggestions;
+  }
+
+  List<String> filterOneCharWords(List<String> suggestions) {
+    List<String> filtered = new ArrayList<>();
+    // as single characters are valid "words", the algorithm sometimes suggests useless items like "Wal t", remove them:
+    for (String suggestion : suggestions) {
+      String[] parts = suggestion.split(" ");
+      if (Arrays.stream(parts).noneMatch(k -> k.length() == 1)) {
+        filtered.add(suggestion);
+      }
+    }
+    return filtered;
   }
 
   /**

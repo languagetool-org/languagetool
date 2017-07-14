@@ -318,6 +318,11 @@ public class AgreementRuleTest {
     assertBad("An der rote Ampel.");
     assertBad("An der rotes Ampel.");
     assertBad("An der rotem Ampel.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte eine sehr schweren Infektion.");
+    assertBad("Ein fast 5 Meter hohem Haus.");
+    assertBad("Ein fünf Meter hohem Haus.");
     // TODO: not yet detected:
     //assertBad("An der rot Ampel.");
   }

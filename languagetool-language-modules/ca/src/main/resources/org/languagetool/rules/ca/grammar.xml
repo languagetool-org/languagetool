@@ -22696,6 +22696,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Dient|Diga|Digau|Diguem|Diguen|Digues|Digueu|Digui|Diguin|Dir|Dis"><marker>Diguéssim</marker>-li-ho.</example>
                 <example>Diguem-li-ho.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="VMSP2P0." postag_regexp="yes"><exception postag="VMM02P0." postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si és un imperatiu, cal escriure <suggestion><match no="2" postag="(VMSP2P0.)" postag_regexp="yes" postag_replace="VMM02P0."/></suggestion>?</message>
+                <example correction="Enteneu"><marker>Entengueu</marker> que és així.</example>
+                <example correction="Coneixeu"><marker>Conegueu</marker> la nostra associació.</example>
+                <example>Vegeu què passa</example>
+                <example>Sigueu bons.</example>
+                <example>Estigueu bons.</example>
+            </rule>
         </rulegroup>
         <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
         <rulegroup id="PRONOMS_FEBLES_ORDENACIO" name="Ordenació dels pronoms febles: *li se, *hi us">

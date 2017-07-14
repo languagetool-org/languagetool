@@ -2530,6 +2530,22 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id="FOLHA_A_4" name="Papel A 4 (A4)">
+    <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2017-07-13      -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>folhas?|papel|papeis|tamanhos?|DIN</token>
+        <marker>
+          <token regexp="yes">[a-d]</token>
+          <token min='0'>-</token>
+          <token regexp="yes">[0-8]</token>
+        </marker>
+      </pattern>
+      <message>Se se refere à dimenção do papel escreva <suggestion><match no="2" case_conversion="startupper"/>\4</suggestion>?</message>
+      <example correction="A3">O caderno de papel cavalinho tamanho <marker>A 3</marker> é o mais recomendado.</example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
@@ -5843,12 +5859,16 @@ title="Easy editing stylesheet" ?>
       <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
     </rule>
     <rule>
-      <antipattern>
-          <token regexp='yes'>[!]</token>
-          <token regexp='yes'>[?]</token>
+      <antipattern><!-- dealt by rule #2 -->
+          <token>.</token>
+          <token>.</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>[.]</token>
+          <token>!</token>
+          <token regexp='yes'>\?</token>
+      </antipattern>
+      <antipattern>
+          <token>.</token>
           <token regexp='yes'>[,;]<exception postag='SENT_END'/></token>
       </antipattern>
       <pattern>

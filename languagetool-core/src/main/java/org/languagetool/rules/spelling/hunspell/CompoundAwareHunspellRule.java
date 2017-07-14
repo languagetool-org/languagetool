@@ -136,18 +136,6 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return suggestions;
   }
 
-  private void filterDupes(List<String> words) {
-    Set<String> seen = new HashSet<>();
-    Iterator<String> iterator = words.iterator();
-    while (iterator.hasNext()) {
-      String word = iterator.next();
-      if (seen.contains(word)) {
-        iterator.remove();
-      }
-      seen.add(word);
-    }
-  }
-
   // avoid over-accepting words, as the Morfologik approach above might construct
   // compound words with parts that are correct but the compound is not correct (e.g. "Arbeit + Amt = Arbeitamt"):
   private List<String> getCorrectWords(List<String> wordsOrPhrases) {

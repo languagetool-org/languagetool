@@ -47,9 +47,14 @@ public class SuggestionRegressionTest {
     StringBuilder result = new StringBuilder();
     JLanguageTool lt = new JLanguageTool(german);
     for (String line : lines) {
-      String[] parts = line.split(" => ");
+      if (line.startsWith("#")) {
+        result.append(line).append("\n");
+        continue;
+      }
+      String[] parts = line.split(" => ?");
       String word = parts[0];
       if (rule.match(lt.analyzeText(word).get(0)).length == 0) {
+        System.out.println("No error, removing from file: " + word);
         continue;
       }
       List<String> oldSuggestions = parts.length > 1 ? Arrays.asList(parts[1].split(", ")) : Collections.emptyList();

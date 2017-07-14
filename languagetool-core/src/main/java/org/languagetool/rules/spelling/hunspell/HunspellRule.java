@@ -26,10 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
@@ -106,6 +103,7 @@ public class HunspellRule extends SpellingCheckRule {
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
           filterSuggestions(suggestions);
+          filterDupes(suggestions);
           ruleMatch.setSuggestedReplacements(suggestions);
         }
         ruleMatches.add(ruleMatch);
@@ -122,6 +120,18 @@ public class HunspellRule extends SpellingCheckRule {
       isAlphabetic = Character.isAlphabetic(word.charAt(0));
     }
     return (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
+  }
+  
+  void filterDupes(List<String> words) {
+    Set<String> seen = new HashSet<>();
+    Iterator<String> iterator = words.iterator();
+    while (iterator.hasNext()) {
+      String word = iterator.next();
+      if (seen.contains(word)) {
+        iterator.remove();
+      }
+      seen.add(word);
+    }
   }
 
   private String removeTrailingDot(String word) {
