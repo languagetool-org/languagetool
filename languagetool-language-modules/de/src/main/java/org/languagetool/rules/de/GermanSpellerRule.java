@@ -227,6 +227,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(word.replaceFirst("tip$", "tipp"));
     } else if (word.endsWith("tips")) {
       return Collections.singletonList(word.replaceFirst("tips$", "tipps"));
+    } else if (word.endsWith("oullie")) {
+      return Collections.singletonList(word.replaceFirst("oullie$", "ouille"));
+    } else if (word.startsWith("Bundstift")) {
+      return Collections.singletonList(word.replaceFirst("^Bundstift", "Buntstift"));
+    } else if (word.equals("ca")) {
+      return Collections.singletonList("ca.");
+    } else if (word.equals("Jezt")) {
+      return Collections.singletonList("Jetzt");
     } else if (word.equals("Rolladen")) {
       return Collections.singletonList("Rollladen");
     } else if (word.equals("Maßname")) {
