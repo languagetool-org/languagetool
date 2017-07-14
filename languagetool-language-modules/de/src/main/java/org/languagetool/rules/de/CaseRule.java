@@ -202,7 +202,7 @@ public class CaseRule extends Rule {
         // "Entscheiden 42,5 Millionen Stimmberechtigte über..."
         regex("Million(en)?"),
         posRegex("SUB:.*:ADJ")
-     ) 
+     )
   );
 
   private static PatternToken token(String token) {
