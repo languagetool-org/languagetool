@@ -211,8 +211,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("aus Versehen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
-    } else if ("einzigste".equals(w)) {
-      return Collections.singletonList("einzige");
+    } else if (word.matches("einzigste[mnrs]?")) {
+      return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
     } else if (word.endsWith("standart")) {
       return Collections.singletonList(word.replaceFirst("standart$", "standard"));
     } else if (word.endsWith("standarts")) {
@@ -228,7 +228,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.endsWith("tips")) {
       return Collections.singletonList(word.replaceFirst("tips$", "tipps"));
     } else if (word.endsWith("oullie")) {
-      return Collections.singletonList(word.replaceFirst("oullie$", "ouille"));
+      String suggestion = word.replaceFirst("oullie$", "ouille");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.startsWith("Bundstift")) {
       return Collections.singletonList(word.replaceFirst("^Bundstift", "Buntstift"));
     } else if (word.equals("ca")) {
