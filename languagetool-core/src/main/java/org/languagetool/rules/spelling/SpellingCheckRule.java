@@ -120,7 +120,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * Get additional suggestions added before other suggestions (note the rule may choose to
-   * re-order the suggestions anyway).
+   * re-order the suggestions anyway). Only add suggestions here that you know are spelled correctly,
+   * they will not be checked again before being shown to the user.
    */
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
