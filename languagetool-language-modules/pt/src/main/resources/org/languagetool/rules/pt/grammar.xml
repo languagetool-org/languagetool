@@ -3215,7 +3215,6 @@ title="Easy editing stylesheet" ?>
       <example correction="dar os bons-dias">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
     </rule>
 
-    <!-- DE CERTO decerto -->
     <rule id='DE_CERTO' name="Decerto">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -3229,8 +3228,8 @@ title="Easy editing stylesheet" ?>
       <example correction="decerto">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
     </rule>
 
-    <!-- DE CIMA/ALTO ABAIXO de cima/alto a baixo -->
     <rule id='DE_CIMA-ALTO_ABAIXO' name="De cima/alto a baixo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token regexp="yes">cima|alto</token>
@@ -3242,8 +3241,8 @@ title="Easy editing stylesheet" ?>
       <example correction="a baixo">Ela observou o Rui de alto <marker>abaixo</marker>.</example>
     </rule>
 
-    <!-- DE FORMA A QUE para que -->
     <rule id='DE_FORMA_A_QUE' name="Para que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token>forma</token>
@@ -3254,17 +3253,16 @@ title="Easy editing stylesheet" ?>
       <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
 
-    <!-- DE IMPACTO ECOLÓGICA de impacto ecológico -->
     <rule id='DE_IMPACTO_ECOLÓGICA' name="De impacto ecológico">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
-          <token>impacto</token>
-        <marker>
-          <token>ecológica</token>
-        </marker>
+          <token regexp='yes'>impactos?</token>
+          <token regexp='yes'>ecológicas?</token>
       </pattern>
-      <message>Substitua por <suggestion>ecológico</suggestion>.</message>
-      <example correction="ecológico">Temos riscos de impacto <marker>ecológica</marker>.</example>
+      <message>Substitua por <suggestion>\1 \2 ecológico<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+      <short>Erro de concordância.</short>
+      <example correction="de impacto ecológico">Temos riscos <marker>de impacto ecológica</marker>.</example>
     </rule>
 
     <!-- DE MANEIRA A QUE de maneira que -->
@@ -19906,6 +19904,11 @@ TODO Write better examples
   <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
@@ -19921,6 +19924,7 @@ TODO Write better examples
       <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
       <example>— É o seu presente de aniversário, minha filha.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
     <rule>
       <antipattern>
@@ -19941,6 +19945,7 @@ TODO Write better examples
       <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
       <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
     <rule>
       <pattern>
@@ -19954,12 +19959,18 @@ TODO Write better examples
       <short>Nesta situação deve utilizar o meio-travessão.</short>
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
   </rulegroup>
 
   <rulegroup id='DASH_SPACE_RULES' name="Travessão em enumerações" default="on">
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
       <short>Erro tipográfico</short>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag="SENT_START"/>
@@ -19984,6 +19995,7 @@ TODO Write better examples
       <example>—Saltar</example>
       <example>—Correr</example>
       <example>—Rastejar</example>
+      <example>---------------------------------------</example>
     </rule>
   </rulegroup>
 
