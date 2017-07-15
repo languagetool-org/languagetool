@@ -1888,7 +1888,7 @@ title="Easy editing stylesheet" ?>
       <example>Para mim, estudar é um sacrifício.</example>
     </rule>
 
-  <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>
+  <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
     <rule>
       <antipattern>
@@ -1948,6 +1948,20 @@ title="Easy editing stylesheet" ?>
       <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros…</example>
     </rule>
   </rulegroup>
+
+    <rule id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
+      <pattern>
+          <token postag='SPS00'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
+          <token postag='SPS00'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
+      </pattern>
+      <message>Duas preposição seguidas. Verifique.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+      <example correction="em|de">Coloque <marker>em de</marker> paralelo fora para dentro.</example>
+    </rule>
 
   <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="off">
     <!--    Localized by Tiago F. Santos, from english grammar.xml, 2016-11-29      -->
@@ -19444,7 +19458,7 @@ TODO Write better examples
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
 
-  <rulegroup id='POR' name="Confusão: por - pôr">
+  <rulegroup id='CONFUSION_POR' name="Confusão: por - pôr">
     <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
     <rule>
       <antipattern>
