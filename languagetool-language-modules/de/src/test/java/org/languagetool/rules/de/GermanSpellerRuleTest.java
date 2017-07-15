@@ -152,7 +152,7 @@ public class GermanSpellerRuleTest {
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit, konfliktbereite l]"));
   }
 
   @Test
@@ -317,7 +317,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wieviele", "wie viele");
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
-      
+
     // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
     // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
     // because jwordsplitter doesn't use the same dictionary as Hunspell:

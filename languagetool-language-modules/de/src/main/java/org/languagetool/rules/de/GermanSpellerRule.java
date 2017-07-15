@@ -179,6 +179,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (misspelling.equalsIgnoreCase(suggestion)) {
         // this should be preferred - only case differs:
         result.add(0, suggestion);
+      } else if (suggestion.contains(" ") && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
+        // prefer "vor allem", but not "konfliktbereite l" etc:
+        result.add(0, suggestion);
       } else {
         result.add(suggestion);
       }
@@ -325,6 +328,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return Collections.emptyList();
+  }
+
+  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+    return suggestions;
   }
 
   // Get a correct suggestion for invalid words like greifte, denkte, gehte: useful for
