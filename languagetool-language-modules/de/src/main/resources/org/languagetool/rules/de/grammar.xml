@@ -27851,7 +27851,7 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token postag="SUB:NOM:PLU:..." postag_regexp="yes"></token>
-                    <token postag="VER:.*:SIN:.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="VER:.*:SIN:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">dass|weil|obwohl</exception></token>
                     <token postag="(SUB|PRO):.*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -27867,6 +27867,7 @@ Andere Projekte</example>
                 <example correction="">Die <marker>Schüler soll</marker> nicht überfordert werden.</example>
                 <example correction="">Die <marker>Frauen wurde</marker> nicht gefragt.</example>
                 <example correction="">Die meisten <marker>Frauen wurde</marker> nicht gefragt.</example>
+                <example correction="">Die <marker>Änderungen führe</marker> dazu, dass er das Geld verliert.</example>
                 <example>Die Zusammenhänge veranschaulicht Grafik 1.</example>
                 <example>Die Zusammenhänge veranschaulicht die folgende Grafik.</example>
                 <example>Die Leiter ist aus Metall.</example>
