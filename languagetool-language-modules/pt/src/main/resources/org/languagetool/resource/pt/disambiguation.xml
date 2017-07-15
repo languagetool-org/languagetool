@@ -684,6 +684,23 @@
       <example type="untouched">Durante seu reinado, os Durrani consolidaram em uma só nação.</example>
     </rule>
 
+    <rule id="S_V" name="Preposição + Verbo">
+    <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
+      <pattern>
+          <token postag="SP.+" postag_regexp="yes">
+            <exception postag="SP.+" postag_regexp="yes" negate_pos='yes'/></token>
+        <marker>
+        <and>
+          <token postag="V.+" postag_regexp="yes"/>
+          <token postag="N.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="N.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
+      <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
+    </rule>
+
     <!--D_AN Atrás de um determinante, está o nome e não o adjetivo-->
     <!--  Localized from Spanish by Tiago F. Santos, 2017-07-15    -->
     <rule id="D_AN" name="Art + Nom/Adj = Nom">
