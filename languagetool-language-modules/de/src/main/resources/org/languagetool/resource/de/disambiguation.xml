@@ -5,6 +5,9 @@
 German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
+  <!DOCTYPE rules [
+    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat)iges">
+]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -171,28 +174,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_1">
         <pattern>
-            <token regexp="yes">(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:NEU:GRU:IND"/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_2">
         <pattern>
-            <token regexp="yes">(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:NEU:GRU:IND "/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_3">
         <pattern>
-            <token regexp="yes">(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:NEU:GRU:SOL "/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_4">
         <pattern>
-            <token regexp="yes">(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:NEU:GRU:SOL "/></disambig>
     </rule>
