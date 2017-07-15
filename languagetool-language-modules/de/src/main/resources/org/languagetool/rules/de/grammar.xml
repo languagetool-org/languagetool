@@ -27825,6 +27825,28 @@ Andere Projekte</example>
                 <example><marker>Meine Mutter</marker> ist unglücklich gestürzt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="OBJECT_AGREEMENT" name="falscher Kasus des Objekts">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">ich|du|e[rs]|sie|wir|ihr</token>
+                    <token regexp="yes">ha(ben?|s?t|tten?|ttest)</token>
+                    <marker>
+                        <token postag="ART:.*" postag_regexp="yes"><exception postag=".*:(DAT|AKK):.*" postag_regexp="yes"></exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes" min="0"></token>
+                        <token postag="SUB:.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="PA2:PRD:GRU:VER"/>
+                </pattern>
+                <message>Prüfen Sie, ob hier der Akkusativ oder Dativ zu verwenden ist.</message>
+                <example>Ich habe <marker>der Frau</marker> geholfen.</example>
+                <example>Ich habe <marker>einem alten Mann</marker> geholfen.</example>
+                <example correction="">Sie hat <marker>der Mähdrescher</marker> gesehen.</example>
+                <example>Sie hat <marker>den Mähdrescher</marker> gesehen.</example>
+                <example>Sie hatte <marker>die Mädchen</marker> gesehen.</example>
+                <example>Bei ihr hat der Blitz eingeschlagen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUBJECT_VERB_AGREEMENT" name="fehlende Übereinstimmung zwischen Subjekt und Prädikat">
             <rule>
                 <antipattern>
