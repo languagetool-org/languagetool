@@ -13849,7 +13849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- the regex below matches singular nouns of female gender that can also be verb forms -->
             <rule>
                 <pattern>
-                <token regexp="yes" negate="yes">ich|er|sie|es|ihr</token>
+                <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
                     </marker>
@@ -14037,7 +14037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">aus|in</token>
-                    <token regexp="yes">erster|zweiter</token>
+                    <token regexp="yes">(ers|zwei|drit|vier)ter</token>
                     <marker>
                         <token case_sensitive="yes">ehe</token>
                     </marker>
@@ -14230,14 +14230,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[iI]n</token>
                     <token>aller</token>
                     <marker>
-                        <token>stille</token>
+                        <token regexp="yes">stille|Stie?le</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Stille</suggestion>&subende;</message>
+                <message>Ist hier das Nomen <suggestion>Stille</suggestion> (= Ruhe) gemeint?</message>
                 <url>https://de.wiktionary.org/wiki/Stille</url>
                 <short>&prgk;.</short>
                 <example>Es war eine <marker>stille</marker> Nacht.</example>
                 <example correction="Stille">Sie wurde in aller <marker>stille</marker> beigesetzt.</example>
+                <example correction="Stille">Sie wurde in aller <marker>Stile</marker> beigesetzt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="INNERES_SUBST" name="'im inneren (Inneren) des Körpers' etc.">
