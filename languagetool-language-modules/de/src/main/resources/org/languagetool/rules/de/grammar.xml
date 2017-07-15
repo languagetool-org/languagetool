@@ -12759,18 +12759,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>schöne</marker> Wochenende.</example>
             <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
         </rule>
-        <rule id="ZU_ALLEM" name="zu Allem (allem) bereit">
+        <rule id="ZU_ALLEM" name="zu Allem (allem)">
             <pattern>
                 <token>zu</token>
                 <marker>
                     <token case_sensitive="yes">Allem</token>
                 </marker>
-                <token>bereit</token>
             </pattern>
-            <message>'Allem' wird in der Wendung 'zu allem bereit' kleingeschrieben.</message>
-            <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+            <message>In der Wendung 'zu allem' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
             <short>&prgk;.</short>
             <example correction="allem">Ich bin zu <marker>Allem</marker> bereit.</example>
+            <example correction="allem">Er gibt zu <marker>Allem</marker> seine Meinung ab.</example>
         </rule>
         <rule id="DER_BESTE" name="der beste (Beste) sein">
             <pattern case_sensitive="yes">
@@ -17091,19 +17090,6 @@ Andere Projekte</example>
                     <marker>
                         <token>schule</token>
                     </marker>
-                    <token inflected="yes">gehen</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Schule</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Schule">Ich bin dort zur <marker>schule</marker> gegangen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">gehen</token>
-                    <token>zur</token>
-                    <marker>
-                        <token>schule</token>
-                    </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Schule</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -17111,20 +17097,6 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>in</token>
-                    <token>die</token>
-                    <marker>
-                        <token>schule</token>
-                    </marker>
-                    <token inflected="yes">gehen</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Schule</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Schule">Ich bin dort in die <marker>schule</marker> gegangen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">gehen</token>
                     <token>in</token>
                     <token>die</token>
                     <marker>
