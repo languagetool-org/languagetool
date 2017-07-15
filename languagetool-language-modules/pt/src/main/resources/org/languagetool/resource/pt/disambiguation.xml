@@ -700,6 +700,22 @@
       <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
     </rule>
+    
+    <rule id="SD_V" name="Contração + Verbo">
+    <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
+      <pattern>
+                    <token regexp='yes'>(d|n|pel)(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+        <marker>
+        <and>
+          <token postag="V.+" postag_regexp="yes"/>
+          <token postag="N.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="N.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
+      <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
+    </rule>
 
     <!--D_AN Atrás de um determinante, está o nome e não o adjetivo-->
     <!--  Localized from Spanish by Tiago F. Santos, 2017-07-15    -->
