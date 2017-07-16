@@ -10,10 +10,15 @@
     (https://github.com/languagetool-org/languagetool/issues/725)
 
 #### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, pronominal collocations and paronyms detection
+    - typography: number and mathematical symbol formatting improvements
+    - syntax: new category and fragment detection improvements
+  * disambiguation improvements
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
-
+    - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
 ## 3.8 (2017-06-27)
 
