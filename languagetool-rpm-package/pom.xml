@@ -78,6 +78,11 @@
 									<ruleset>default-ruleset</ruleset>
 								</entry>
 								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/${parent.project.name}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-commandline.jar</name>
 									<file>../${parent.project.name}-commandline/target/${parent.project.name}-commandline-${project.version}.jar</file>
 									<ruleset>default-ruleset</ruleset>
@@ -274,11 +279,11 @@
 									<ruleset>default-ruleset</ruleset>
 								</entry>
 								<!-- Serbian (sr) -->
-								<!-- <entry>
+								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sr.jar</name>
 									<file>../${parent.project.name}-language-modules/sr/target/${language.name}-sr-${project.version}.jar</file>
 									<ruleset>default-ruleset</ruleset>
-								</entry> -->
+								</entry>
 								<!-- sv -->
 								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sv.jar</name>
@@ -344,7 +349,8 @@
 									<ruleset>default-ruleset</ruleset>
 								</entry>
 								<!-- All wikipedia's dependencies -->
-								<!-- The only reason they are listed here explicitly is to avoid packing main LT jars twice -->
+								<!-- The only reason they are listed here explicitly is to avoid 
+									packing main LT jars twice -->
 								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/annotations.jar</name>
 									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/annotations.jar</file>
@@ -600,7 +606,7 @@
 									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/openregex.jar</file>
 									<ruleset>default-ruleset</ruleset>
 								</entry>
-								
+
 								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/ptk-common.jar</name>
 									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/ptk-common.jar</file>
@@ -649,15 +655,15 @@
 								<!-- Shell scripts and configuration files -->
 								<!-- Shell script to run LT server -->
 								<entry>
-									<name>/usr/bin/lt-server</name>
-									<file>src/main/resources/lt-server</file>
+									<name>/usr/bin/ltserver</name>
+									<file>src/main/resources/ltserver</file>
 									<ruleset>default-ruleset</ruleset>
 									<mode>0755</mode>
 								</entry>
 								<!-- Shell script for running LT command-line tool -->
 								<entry>
-									<name>/usr/bin/lt-cmd</name>
-									<file>src/main/resources/lt-cmd</file>
+									<name>/usr/bin/ltcmd</name>
+									<file>src/main/resources/ltcmd</file>
 									<ruleset>default-ruleset</ruleset>
 									<mode>0755</mode>
 								</entry>
