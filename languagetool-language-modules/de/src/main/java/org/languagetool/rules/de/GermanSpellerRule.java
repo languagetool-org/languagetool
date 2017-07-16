@@ -208,12 +208,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String w = StringUtils.removeEnd(word, ".");
     if ("WIFI".equals(w) || "wifi".equals(w)) {
       return Collections.singletonList("Wi-Fi");
-    } else if ("desweiteren".equals(w)) {
-      return Collections.singletonList("des Weiteren");
     } else if ("ausversehen".equals(w)) {
       return Collections.singletonList("aus Versehen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
+    } else if (w.matches(desweitere[nm])) {
+      return Collections.singletonList("des Weiteren");
     } else if (word.matches("einzigste[mnrs]?")) {
       return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
     } else if (word.endsWith("standart")) {
