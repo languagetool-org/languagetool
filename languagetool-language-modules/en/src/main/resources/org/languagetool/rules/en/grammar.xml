@@ -6131,12 +6131,21 @@ USA
                 <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
-                <token min="0" regexp="yes">even|really</token>
+                <token min="0" regexp="yes">even|really|actually</token>
                 <token regexp="yes">what|who|where|how|which|whose|whether</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
             <example correction="">I <marker>don't even what</marker> this means.</example>
+        </rule>
+        <rule id="CAN_WHAT" name="missing verb (can what / can see what)">
+            <pattern>
+                <token regexp="yes">can|must|should</token>
+                <token min="0" regexp="yes">even|really|actually</token>
+                <token regexp="yes">what|who|where|how|which|whose|whether</token>
+            </pattern>
+            <message>Please check whether a verb is missing here.</message>
+            <example correction="">You <marker>should really how</marker> it works.</example>
         </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
@@ -15125,6 +15134,20 @@ USA
                 <message>Did you mean <suggestion>shall</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="shall">We <marker>shell</marker> overcome.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">How|Wh(at|y)</token>
+                    <marker>
+                        <token>shell</token>
+                    </marker>
+                    <token regexp="yes">we|I|one</token>
+                    <token postag="VBP?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>shall</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="shall">What <marker>shell</marker> I do?</example>
             </rule>
         </rulegroup>
         <rule id="I_HERD" name="I herd (heard)">
