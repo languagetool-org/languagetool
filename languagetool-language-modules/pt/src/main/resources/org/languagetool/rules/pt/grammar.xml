@@ -545,6 +545,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='on'>
+    <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
@@ -566,11 +567,17 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
+        <marker>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
+            <exception>sede</exception>
             <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(NC|A..).S.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).S.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).S.+'/>
+            <exception regexp='yes'>maioria|minoria|propriedade</exception></token>
+        </marker>
+          <token>
+            <exception regexp='yes'>e|-</exception></token>
       </pattern>
       <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
         <suggestion>\1 <match no="2" postag="(NC|A..)(.)S(.+)" postag_replace='$1$2P$3' postag_regexp="yes"/></suggestion>
@@ -580,6 +587,11 @@ title="Easy editing stylesheet" ?>
       <example>Constituiu-se a Capitania Real de São José do Rio Negro pela Carta-régia de 3 de março de 17…</example>
       <example>As roupas deles são bem parecidas com as dos nossos ancestrais.</example>
       <example>Os principais rios são Paraná (o maior), Pilcomayo, Paraguai, Bermejo, Colorado…</example>
+      <example>Os brancos de origem europeia são minoria.</example>
+      <example>Os acompanhamentos da guerra são miséria e tristeza.</example>
+      <example>A fronte, bochechas e região do ouvido são azul-acinzentados.</example>
+      <example>O bico é inteiramente preto e os pés são marrom-escuros a pretos.</example>
+      <example>Os seus nomes são Tom e Ken.</example>
     </rule>
   </rulegroup>
 
@@ -2274,10 +2286,19 @@ title="Easy editing stylesheet" ?>
 
     <rule id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
+      <antipattern><!-- XXX Better handled by CONFUSION_POR rule -->
+          <token>de</token>
+          <token>por</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token regexp='yes'>de|que</token>
+      </antipattern>
       <pattern>
           <token postag='SPS00'>
             <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
           <token postag='SPS00'>
+            <exception regexp='yes' case_sensitive='yes'>a|A|De|Sem</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
       </pattern>
       <message>Duas preposição seguidas. Verifique.</message>
@@ -2285,6 +2306,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2</suggestion>
       <example correction="em|de">Coloque <marker>em de</marker> paralelo fora para dentro.</example>
       <example>Coloque <marker>em</marker> paralelo de fora para dentro.</example>
+      <example>A dissecação de animais antecedeu a de seres humanos.</example>
     </rule>
 
   <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="off">
