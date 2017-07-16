@@ -6099,6 +6099,33 @@ USA
             <example>I wonder where Tom is and who he's with.</example>
             <example>I found out who Tom's father is.</example>
         </rule>
+        <rule id="IF_THERE" name="missing verb after 'if there'">
+            <antipattern>
+                <token>if</token>
+                <token>there</token>
+                <token postag="RB"/>
+                <token postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>if<exception scope="previous">as</exception></token>
+                <marker>
+                    <token>there</token>
+                    <token>
+                        <exception postag="VB.*|MD" postag_regexp="yes"/>
+                        <exception regexp="yes">[´`'’]</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Please check whether a verb is missing here or whether 'there' should be 'their'.</message>
+            <suggestion>their \3</suggestion>
+            <example correction="their demands">The workers have also threatened that if <marker>there demands</marker> are not met, they will go on strike again.</example>
+            <example correction="their one">If <marker>there one</marker> who has influenced my thinking, it is my mother.</example>
+            <example>If <marker>there even are</marker> people more beautiful than you , there won' t be many of them </example>
+            <example>If <marker>there'</marker>s anything out of place then please take a closer look.</example>
+            <example>I wanted to see if <marker>there really was</marker> someone out there.</example>
+            <example>I wonder if <marker>there will</marker> be a man brave enough to fight hom.</example>
+            <example>We shall meet again in Petersburg, as if there we had buried the sun.</example>
+        </rule>
         <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
             <pattern>
                 <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
