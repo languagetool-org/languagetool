@@ -403,6 +403,18 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
+    <rule id="PP_D_V" name="Pronome + Pronome + Verbo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
+      <pattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+        <marker>
+          <token regexp='yes'>[nv]?[ao]s?</token>
+        </marker>
+          <token postag="V.+" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="PP.+"/>
+    </rule>
+
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
     <rule>
@@ -688,7 +700,7 @@
     <rule id="S_V" name="Preposição + Verbo">
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <pattern>
-          <token postag="SPS00" postag_regexp="yes">
+          <token postag="SPS00" postag_regexp="no">
             <exception postag="SP.+" postag_regexp="yes" negate_pos='yes'/></token>
         <marker>
         <and>
