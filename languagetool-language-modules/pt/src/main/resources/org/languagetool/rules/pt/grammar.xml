@@ -49,9 +49,10 @@ title="Easy editing stylesheet" ?>
     <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
     <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
+    <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
-    <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar|viver">
+    <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|assemelhar|semelhar|ser|virar|viver">
     <!ENTITY verbos_transitivos_diretos "abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar" >
 
     <!ENTITY adj_nomes_paronimos_a "(ábsona|ábsono|acárida|acárido|ácaro|ácera|ácero|ácida|ácido|adágio|ádito|áfia|áfio|áfrica|áfrico|ágrafa|ágrafo|água|algália|álvidro|amálgama|amásia|amásio|análise|aniversário|apanágio|ápoda|ápode|ápodo|árbitra|árbitro|ária|árica|árico|árvore|áscua|ásia|ática|ático|átropa|átropo|ávila|áxila|azáfama|bálsamo|báscula|básculo|bátega|cábula|cádmio|cálamo|cálculo|cantárida|cantáride|cápsula|cárcere|cárdia|cárie|catálise|catálogo|comissária|comissário|contágio|contrária|contrário|dádiva|diálise|dicionário|eficácia|empresária|empresário|enxárcia|epigramática|epigramático|estádio|estágio|fábrica|fábula|falácia|gábia|gálica|gálico|gárrulo|gástrula|gázua|ginástica|ginástico|gládio|gramática|gramático|grávida|grávido|hábito|hálito|hemodiálise|hilária|hilário|inventário|jáculo|lácera|lácero|lágrima|lápida|lápide|larápia|larápio|lástima|látego|lázara|lázaro|mácula|máfia|mágica|mágico|mágoa|máscara|mático|mátria|pábulo|página|pálio|parágrafo|parálise|pária|páscoa|pátina|pátio|perdulária|perdulário|plácida|plácido|plácito|plágio|posfácio|prática|prático|prefácio|presságio|prontuário|psicanálise|rábano|rábia|rábida|rábido|rábula|rádio|ráfia|ressábio|sábia|sáculo|salário|sátura|secretária|secretário|selvática|selvático|subsecretária|subsecretário|sumária|sumário|tábula|tráfega|tráfego|tráfico|válida|válido|vária|viático|voluntária|voluntário)s?" >
@@ -543,13 +544,14 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='off'><!-- TODO default='on' after chunker or enumeration disambiguation -->
+  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='on'>
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
-            <exception postag_regexp='yes' postag='V.[NP].+'/></token>
+            <exception postag_regexp='yes' postag='V.[NP].+'/>
+            <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(NC|A..).P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).P.+'/></token>
       </pattern>
@@ -565,7 +567,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
-            <exception postag_regexp='yes' postag='V.[NP].+'/></token>
+            <exception postag_regexp='yes' postag='V.[NP].+'/>
+            <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(NC|A..).S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).S.+'/></token>
       </pattern>
@@ -1284,12 +1287,14 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
+          <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Com alguns pronomes indefinidos devem utilizar a próclise.</message>
-        <suggestion>\1 \4 \2</suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
+      <example correction='Todos eles se admiram'><marker>Todos eles admiram-se</marker> da sua perseverança.</example>
       <example correction='Todos se admiram'><marker>Todos admiram-se</marker> da sua perseverança.</example>
       <example correction='algo me persuadiu'>Foi então que <marker>algo persuadiu-me</marker> a continuar.</example>
     </rule>
@@ -1297,6 +1302,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
+          <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
@@ -1304,8 +1310,9 @@ title="Easy editing stylesheet" ?>
           <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
       </pattern>
       <message>Certos pronomes relativos, conjunções subordinativas e advérbios  devem ser seguidos de próclise.</message>
-        <suggestion>\1 \4 \2</suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
       <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker> essa notícia?</example>
+      <example correction='que ela lhe tenha'>É natural <marker>que ela tenha-lhe</marker> dado notícia.</example>
     </rule>
     <rule>
       <pattern>
