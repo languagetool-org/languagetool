@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script creates classpath and runs LT at command line
+# This script creates classpath and starts LT GUI
 
 # Source shell variables for command-line tool
 . /etc/languagetool/lt.conf
@@ -19,4 +19,4 @@ function create_lt_class_path() {
 
 create_lt_class_path
 
-${LT_JAVA_HOME}/bin/java ${LT_JAVA_OPTS} -cp ${LT_CP} org.languagetool.commandline.Main $*
+${LT_JAVA_HOME}/bin/java ${LT_JAVA_OPTS} ${LT_GUI_OPTS} -cp ${LT_CP} org.languagetool.gui.Main $*

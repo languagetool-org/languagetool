@@ -45,7 +45,7 @@ check_status() {
 
 # Create options
 function build_lt_options() {
-	LT_OPTIONS="-cp ${LT_CP}"
+	LT_OPTIONS="${LT_JAVA_OPTS} -cp ${LT_CP}"
 	if [ ! -z "${LT_SECURE_SERVER}" -a "${LT_SECURE_SERVER}" -eq 1 ]; then
 		LT_OPTIONS="${LT_OPTIONS} org.languagetool.server.HTTPSServer"
 	else
