@@ -2182,6 +2182,35 @@ title="Easy editing stylesheet" ?>
 
  <category id='SYNTAX' name='Sintaxe' type='grammar'>
 
+    <rule id="NO_VERB" name="Síntaxe: ausência de verbo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
+      <antipattern><!-- XXX holophrases -->
+          <token min='1' max='3'/>
+          <token>!</token>
+      </antipattern>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token postag='[^V].+' postag_regexp='yes' skip="-1">
+            <exception scope="next" postag='V.+' postag_regexp='yes'/></token>
+        <and>
+          <token postag='_PUNCT'/>
+          <token postag='SENT_END'/>
+        </and>
+      </pattern>
+      <message>Esta frase não tem verbo. Confirme que não é uma holófrase.</message>
+      <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
+      <short>Frase sem verbo.</short>
+      <example type="incorrect"><marker>Isto um exemplo.</marker></example>
+      <example type="correct"><marker>Isto é um exemplo.</marker></example>
+      <example><marker>Isto -  Um exemplo</marker></example><!-- XXX Possível título -->
+      <example>Tem marcação com o Dr. Mário?</example>
+      <example type="incorrect"><marker>Não marcação com o Dr. Mário.</marker></example>
+      <example type="correct">Não tem marcação com o Dr. Mário.</example>
+      <example>Temos muito tempo.</example>
+      <example>Basta!</example>
+      <example>Ó Meu Deus!</example>
+    </rule>
+
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
     <rule>
