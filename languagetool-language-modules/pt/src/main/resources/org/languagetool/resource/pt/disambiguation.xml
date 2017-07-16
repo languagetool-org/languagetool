@@ -16,6 +16,7 @@
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
+    <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
@@ -687,7 +688,7 @@
     <rule id="S_V" name="Preposição + Verbo">
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <pattern>
-          <token postag="SP.+" postag_regexp="yes">
+          <token postag="SPS00" postag_regexp="yes">
             <exception postag="SP.+" postag_regexp="yes" negate_pos='yes'/></token>
         <marker>
         <and>
@@ -696,15 +697,16 @@
         </and>
         </marker>
       </pattern>
-      <disambig action="filter" postag="N.+"/>
-      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
+      <disambig action="remove" postag="V.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
     </rule>
     
     <rule id="SD_V" name="Contração + Verbo">
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <pattern>
-          <token regexp='yes'>(d|n|pel)(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+          <token regexp='yes'>(d|n|pel)(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)
+            <exception>nos</exception></token>
         <marker>
         <and>
           <token postag="V.+" postag_regexp="yes"/>
@@ -712,29 +714,9 @@
         </and>
         </marker>
       </pattern>
-      <disambig action="filter" postag="N.+"/>
-      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
+      <disambig action="remove" postag="V.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
-    </rule>
-
-    <!--D_AN Atrás de um determinante, está o nome e não o adjetivo-->
-    <!--  Localized from Spanish by Tiago F. Santos, 2017-07-15    -->
-    <rule id="D_AN" name="Art + Nom/Adj = Nom">
-      <pattern>
-          <token postag="D.+" postag_regexp="yes">
-            <exception postag="R.+" postag_regexp="yes"/></token>
-        <marker>
-        <and>
-          <token postag="N.+" postag_regexp="yes"/>
-          <token postag="A.+" postag_regexp="yes"/>
-          <token negate_pos="yes" postag="V.+" postag_regexp="yes"/>
-        </and>
-        </marker>
-          <token negate_pos="yes" postag="N.+" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="filter" postag="N.+"/>
-      <example inputform="branco[branco/AQ0MS0,branco/NCMS000]" outputform="branco[branco/NCMS000]" type="ambiguous">O <marker>branco</marker> fica-lhe bem.</example>
-      <example type="untouched">Eram demasiado sinistros.</example>
     </rule>
 
     <!-- D_N Quando está diante de um nome, trata-se de um determinante.-->
@@ -762,7 +744,6 @@
           </unify>
         </marker>
       </pattern>
-
       <disambig action="unify"/>
     <!--Example: seu irmão-->
     </rule>
