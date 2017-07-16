@@ -212,7 +212,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("aus Versehen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
-    } else if (w.matches(desweitere[nm])) {
+    } else if (w.matches("desweitere[nm]")) {
       return Collections.singletonList("des Weiteren");
     } else if (word.matches("einzigste[mnrs]?")) {
       return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
