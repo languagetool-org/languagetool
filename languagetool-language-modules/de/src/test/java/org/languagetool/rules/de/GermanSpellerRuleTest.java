@@ -96,23 +96,26 @@ public class GermanSpellerRuleTest {
   @Test
   public void testAddIgnoreWords() throws Exception {
     MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    Set<String> set = new HashSet<>();
-    rule.addIgnoreWords("Fußelmappse", set);
-    assertTrue(set.contains("Fußelmappse"));
-    rule.addIgnoreWords("Fußelmappse/N", set);
-    assertTrue(set.contains("Fußelmappse"));
-    assertTrue(set.contains("Fußelmappsen"));
-    rule.addIgnoreWords("Toggeltröt/NS", set);
-    assertTrue(set.contains("Toggeltröt"));
-    assertTrue(set.contains("Toggeltröts"));
-    assertTrue(set.contains("Toggeltrötn"));
-    rule.addIgnoreWords("Toggeltröt/NS", set);
+    rule.addIgnoreWords("Fußelmappse");
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertCorrect("Fußelmappse", rule, lt);
+    rule.addIgnoreWords("Fußelmappse/N");
+    assertCorrect("Fußelmappse", rule, lt);
+    assertCorrect("Fußelmappsen", rule, lt);
+    rule.addIgnoreWords("Toggeltröt/NS");
+    assertCorrect("Toggeltröt", rule, lt);
+    assertCorrect("Toggeltröts", rule, lt);
+    assertCorrect("Toggeltrötn", rule, lt);
     MyGermanSpellerRule ruleCH = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    ruleCH.addIgnoreWords("Fußelmappse/N", set);
-    assertTrue(set.contains("Fusselmappse"));
-    assertTrue(set.contains("Fusselmappsen"));
+    ruleCH.addIgnoreWords("Fußelmappse/N");
+    assertCorrect("Fusselmappse", ruleCH, lt);
+    assertCorrect("Fusselmappsen", ruleCH, lt);
   }
-  
+
+  private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(0));
+  }
+
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));

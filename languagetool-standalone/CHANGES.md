@@ -8,6 +8,9 @@
     more words, especially compounds (de-DE only so far, not yet active for
     de-AT and de-CH)
     (https://github.com/languagetool-org/languagetool/issues/725)
+  * added special dictionary extension files `spelling-de-AT.txt` and
+    `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
+    to `spelling.txt`
 
 #### Portuguese
   * added and improved grammar and style rules, including:

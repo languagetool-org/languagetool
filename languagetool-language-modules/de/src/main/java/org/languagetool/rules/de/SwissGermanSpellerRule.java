@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
- *
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,34 +16,31 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.rules.de;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.de.SwissGermanSpellerRule;
+import org.languagetool.language.German;
+import org.languagetool.rules.spelling.CachingWordListLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-@SuppressWarnings("deprecation")
-public class SwissGerman extends German {
+/**
+ * @since 3.9
+ */
+public class SwissGermanSpellerRule extends GermanSpellerRule {
 
-  @Override
-  public String[] getCountries() {
-    return new String[]{"CH"};
+  private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+  
+  public SwissGermanSpellerRule(ResourceBundle messages, German language) {
+    super(messages, language);
   }
 
   @Override
-  public String getName() {
-    return "German (Swiss)";
-  }
-
-  @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
-    rules.add(new SwissGermanSpellerRule(messages, this));
-    return rules;
+  protected void init() throws IOException {
+    super.init();
+    for (String ignoreWord : wordListLoader.loadWords("/de/hunspell/spelling-de-CH.txt")) {
+      addIgnoreWords(ignoreWord);
+    }
   }
   
 }

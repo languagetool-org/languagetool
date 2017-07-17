@@ -209,10 +209,10 @@ public abstract class SpellingCheckRule extends Rule {
   
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
-      addIgnoreWords(ignoreWord, wordsToBeIgnored);
+      addIgnoreWords(ignoreWord);
     }
     for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
-      addIgnoreWords(ignoreWord, wordsToBeIgnored);
+      addIgnoreWords(ignoreWord);
     }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
@@ -272,10 +272,9 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * @param line the line as read from {@code spelling.txt}.
-   * @param wordsToBeIgnored the set of words to be ignored
-   * @since 2.9
+   * @since 2.9, signature modified in 3.9
    */
-  protected void addIgnoreWords(String line, Set<String> wordsToBeIgnored) {
+  protected void addIgnoreWords(String line) {
     // if line consists of several words (separated by " "), a DisambiguationPatternRule
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker

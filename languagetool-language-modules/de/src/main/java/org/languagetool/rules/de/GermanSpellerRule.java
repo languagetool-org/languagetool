@@ -104,7 +104,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected void addIgnoreWords(String origLine, Set<String> wordsToBeIgnored) {
+  protected void addIgnoreWords(String origLine) {
     String line;
     if (language.getShortCodeWithCountryAndVariant().equals("de-CH")) {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
@@ -115,7 +115,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     List<String> words = expandLine(line);
     for (String word : words) {
-      super.addIgnoreWords(word, wordsToBeIgnored);
+      super.addIgnoreWords(word);
     }
   }
 
