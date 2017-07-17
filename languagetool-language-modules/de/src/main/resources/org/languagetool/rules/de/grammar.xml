@@ -31651,11 +31651,16 @@ Andere Projekte</example>
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typographie">
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])</regexp>
+            <regexp>(\w+) ([!?:])(?!-?[()/])</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
             <example correction="eins:">Ein weicher Teppichboden erfordert vor allem <marker>eins :</marker> harte Stuhlrollen.</example>
+            <example>So sieht’s aus :-)</example>
+            <example>So sieht’s aus :)</example>
+            <example>So sieht’s aus :(</example>
+            <example>So sieht’s aus :-/</example>
+            <example>So sieht’s aus :/</example>
         </rule>
         <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
             <regexp> - </regexp>
