@@ -210,6 +210,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Wi-Fi");
     } else if ("ausversehen".equals(w)) {
       return Collections.singletonList("aus Versehen");
+    } else if ("getz".equals(w)) {
+      return Collections.singletonList("jetzt");
+    } if ("getz".equals(w)) {
+      return Collections.singletonList("geht's");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
     } else if (w.matches("desweitere[nm]")) {
