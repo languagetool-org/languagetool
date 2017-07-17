@@ -20699,16 +20699,28 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
+  <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
     <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
-      <regexp>(\p{L}) ([!?:;,….])</regexp>
+    <rule>
+      <regexp>(\p{L}) ([!?«,….])</regexp>
       <message>Remova o espaço antes da pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
-      <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
       <example correction="a.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a rod<marker>a .</marker></example>
     </rule>
+    <rule>
+      <regexp>(\p{L}) ([:;])(?!-?[()/])</regexp>
+      <message>Remova o espaço antes da pontuação.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
+      <example>Um sorriso :-)</example>
+      <example>Um sorriso :)</example>
+      <example>Um sorriso :(</example>
+      <example>Um sorriso :-/</example>
+      <example>Um sorriso :/</example>
+    </rule>
+  </rulegroup>
 
  </category>
 
