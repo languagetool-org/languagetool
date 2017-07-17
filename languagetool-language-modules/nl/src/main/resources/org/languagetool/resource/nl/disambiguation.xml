@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool
-Copyright (C) 2008 Ruud Baars
+Copyright (C) 2008-2017 Ruud Baars, TaalTik
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -394,8 +394,190 @@ Copyright (C) 2008 Ruud Baars
     <disambig action="add"><wd pos="PN"/></disambig>
   </rule>  
   
-  <!-- REAL DISAMBIGUATION --> 
-  <!-- NN2 and AJci -->
+  <!-- REAL DISAMBIGUATION =================================================================== --> 
+
+  <!-- all in order of frequency of probability -->
+
+  <!-- ~De~{NN1}|964830|~De~{VB1}|0|1:964830 -->
+  <rule id="NN1_VB1_01" name="de NN1">
+	  <pattern>
+		  <token>de</token>
+		  <marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VB1"/></disambig>
+  </rule>
+
+  <!-- ~een~{NN1}~van|417037|~een~{VB1}~van|0|1:417037 -->
+  <!-- ~het~{NN1}~van|374434|~het~{VB1}~van|0|1:374434 -->
+  <rule id="NN1_VB1_x02" name="de NN1 van">
+	  <pattern>
+		  <token regexp="yes">de|een</token>
+		  <marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+		  <token>van</token>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VB1"/></disambig>
+  </rule>
+  
+  <!-- ~{VBh1}~ik|374296|~{VBpe}~ik|0|1:374296 -->
+  <!-- ~{VBh1}~het|267353|~{VBpe}~het|0|1:267353 -->
+  <rule id="VBh1_VBpe_01" name="VBH1 ik">
+	  <pattern>
+		  <marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+		  <token regexp="yes">ik|het</token>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBpe"/></disambig>
+  </rule>
+
+  <!-- ~uw~{NN1}|279531|~uw~{VB1}|0|1:279531 -->
+  <!-- ~Een~{NN1}|245989|~Een~{VB1}|0|1:245989 -->
+  <rule id="NN1_VB1_03" name="uw NN1">
+	  <pattern>
+		  <token regexp="yes">uw|een</token>
+		  <marker><and><token postag="NN1([dh]){0,1}" postag_regexp="yes"/><token postag="VB1"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBpe"/></disambig>
+  </rule>
+
+  <!-- ~Ik~{VBh1}|257756|~Ik~{VBpe}|0|1:257756 -->
+  <rule id="VBh1_VBpe_02" name="ik VBh1">
+	  <pattern>
+		  <token regexp="yes">ik|het</token>
+		  <marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBpe"/></disambig>
+  </rule>
+  
+  <!-- ~{VBh1}~de|240746|~{VBpe}~de|0|1:240746 -->
+  <rule id="VBh1_VBpe_03" name="VBh1 de">
+	  <pattern>
+		  <marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+		  <token>de</token>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBpe"/></disambig>
+  </rule>
+  
+  
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->  
+  
+  <rule id="NN2_VBi_1" name="te werkwoord ">
+	  <pattern>
+		  <token>te</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="NN2"/></disambig>
+  </rule>
+
+  <rule id="NN2_VBi_2" name="het werkwoord van">
+     <pattern>
+        <token>het</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		  <token>van</token>
+     </pattern>
+     <disambig action="remove"><wd pos="NN2"/></disambig>
+  </rule>
+
+  <rule id="NN2_VBi_3" name="kunnen werkwoord.">
+     <pattern>
+        <token regexp="yes">kunnen|kan</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		  <token regexp="yes">[.!]</token>
+     </pattern>
+     <disambig action="remove"><wd pos="NN2"/></disambig>
+  </rule>
+  
+  <rule id="NN2_VBi_4" name="de NN2">
+     <pattern>
+        <token>de</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+     <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+
+  <rule id="NN2_VBi_5" name="de AJe NN2">
+     <pattern>
+        <token>de</token>
+        <token postag="AJe"><exception negate_pos="yes" postag="AJe"/></token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+     <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  
+  <rule id="NN2_VBi_6" name="te kunnen VBi">
+     <pattern>
+        <token>te</token>
+        <token regexp="yes">kunnen|willen|moeten|laten</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+     <disambig action="remove"><wd pos="NN2"/></disambig>
+  </rule>
+  <!--   ~de~{VBqe}~{NN2} (76619) <===> ~de~{VBqe}~{VBi} (0) : 1 -->
+  <rule id="NN2_VBi_7" name="de lopende NN2">
+	  <pattern>
+		  <token>de</token>
+		  <token postag="VBqe"/>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  <!-- ~en~{AJe}~{NN2} (38376) <===> ~en~{AJe}~{VBi} (0) : 1 -->
+  <rule id="NN2_VBi_8" name="de lopende NN2">
+	  <pattern>
+		  <token>en</token>
+		  <token postag="AJe"/>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  <!-- ~van~deze~{NN2} (38053) <===> ~van~deze~{VBi} (0) : 1 -->
+  <rule id="NN2_VBi_9" name="van deze NN2">
+	  <pattern>
+		  <token>van</token>
+		  <token>deze</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  <!-- ~van~{AJe}~{NN2} (37152) <===> ~van~{AJe}~{VBi} (0) : 1 -->
+  <rule id="NN2_VBi_10" name="van AJe NN2">
+	  <pattern>
+		  <token>van</token>
+		  <token postag="AJe"/>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  <!-- ~voor~{NN2}~die (28869) <===> ~voor~{VBi}~die (0) : 1 -->
+  <rule id="NN2_VBi_11" name="voor NN2 die">
+	  <pattern>
+		  <token>van</token>
+		  <marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		  <token>die</token>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VBi"/></disambig>
+  </rule>
+  
+  <!-- NN1 / VB1 =============================================== -->
+  <!-- ~in~het~{NN1} (299195) <===> ~in~het~{VB1} (0) : 1 -->
+  <!-- ~op~het~{NN1} (201918) <===> ~op~het~{VB1} (0) : 1 -->
+  <rule id="NN1_VB1_3" name="op het NN1">
+	  <pattern>
+		  <token regexp="yes">in|op</token>
+		  <token regexp="yes">de|een</token>
+		  <marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+	  </pattern>
+	  <disambig action="remove"><wd pos="VB1"/></disambig>
+  </rule>
+  
+
+  <rule id="NN1_VB1_02" name="VB1 je">
+     <pattern>
+		  <marker><and><token postag="VB1"/><token postag="NN1(d|h){0,1}" postag_regexp="yes"/></and></marker>
+		  <token regexp="yes">je|ik</token>
+     </pattern>
+     <disambig action="remove"><wd pos="NN1(d|h){0,1}"/></disambig>
+  </rule>
+  <!-- ???????????? hier was ik gebleven ???????????????????????????????????? -->  
+  <!-- NN2 and AJci ====================================================== -->
   <rule name="iets + NN2/AJci => drop NN2" id="IETS_AJci_NN2">
     <pattern>
         <token>iets</token>

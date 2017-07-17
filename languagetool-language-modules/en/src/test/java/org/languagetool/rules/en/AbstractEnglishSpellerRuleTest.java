@@ -62,7 +62,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("accomodation", "accommodation");
     assertFirstMatch("foriegn", "foreign");
     assertFirstMatch("chemcial", "chemical");
-    //assertFirstMatch("developement", "development");
+    assertFirstMatch("developement", "development");
     assertFirstMatch("maintainance", "maintenance");
     assertFirstMatch("restaraunt", "restaurant");
     assertFirstMatch("garentee", "guarantee");

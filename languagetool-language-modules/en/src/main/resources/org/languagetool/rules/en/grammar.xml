@@ -1951,25 +1951,14 @@ USA
                     <marker>
                         <token>lets</token>
                     </marker>
+                    <token min="0">all</token>
                     <token postag="VBP?|RB?" postag_regexp="yes"/>
                 </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
+                <message>Did you mean <suggestion><match no="2" regexp_match="s" regexp_replace=""/>'s</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="Let's"><marker>Lets</marker> go home.</example>
                 <example>It lets you sleep all night.</example>
-                <example correction="Let's">It's up to you three so <marker>lets</marker> hear your ideas</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START|CC|;" postag_regexp="yes"/>
-                    <marker>
-                        <token>lets</token>
-                    </marker>
-                    <token>all</token>
-                    <token postag="VBP?|RB?" postag_regexp="yes"/>
-                </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
-                <short>Possible typo</short>
+                <example correction="let's">It's up to you three so <marker>lets</marker> hear your ideas</example>
                 <example correction="Let's"><marker>Lets</marker> all go home.</example>
                 <example>It lets you sleep all night.</example>
             </rule>
@@ -6110,17 +6099,53 @@ USA
             <example>I wonder where Tom is and who he's with.</example>
             <example>I found out who Tom's father is.</example>
         </rule>
+        <rule id="IF_THERE" name="missing verb after 'if there'">
+            <antipattern>
+                <token>if</token>
+                <token>there</token>
+                <token postag="RB"/>
+                <token postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>if<exception scope="previous">as</exception></token>
+                <marker>
+                    <token>there</token>
+                    <token>
+                        <exception postag="VB.*|MD" postag_regexp="yes"/>
+                        <exception regexp="yes">[´`'’]</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Please check whether a verb is missing here or whether 'there' should be 'their'.</message>
+            <suggestion>their \3</suggestion>
+            <example correction="their demands">The workers have also threatened that if <marker>there demands</marker> are not met, they will go on strike again.</example>
+            <example correction="their one">If <marker>there one</marker> who has influenced my thinking, it is my mother.</example>
+            <example>If <marker>there even are</marker> people more beautiful than you, there won't be many of them </example>
+            <example>If <marker>there'</marker>s anything out of place then please take a closer look.</example>
+            <example>I wanted to see if <marker>there really was</marker> someone out there.</example>
+            <example>I wonder if <marker>there will</marker> be a man brave enough to fight him.</example>
+            <example>We shall meet again in Petersburg, as if there we had buried the sun.</example>
+        </rule>
         <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
             <pattern>
                 <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
-                <token min="0" regexp="yes">even|really</token>
+                <token min="0" regexp="yes">even|really|actually</token>
                 <token regexp="yes">what|who|where|how|which|whose|whether</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
             <example correction="">I <marker>don't even what</marker> this means.</example>
+        </rule>
+        <rule id="CAN_WHAT" name="missing verb (can what / can see what)">
+            <pattern>
+                <token regexp="yes">can|must|should</token>
+                <token min="0" regexp="yes">even|really|actually</token>
+                <token regexp="yes">what|who|where|how|which|whose|whether</token>
+            </pattern>
+            <message>Please check whether a verb is missing here.</message>
+            <example correction="">You <marker>should really how</marker> it works.</example>
         </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
@@ -14639,7 +14664,7 @@ USA
                 <token postag="SENT_START"/>
                 <token>That</token>
                 <token>being</token>
-                <token regexp="yes">sa[dt]</token>
+                <token regexp="yes">sa[dt]|aid</token>
             </pattern>
             <message>Did you mean <suggestion>That being said</suggestion>?</message>
             <example correction="That being said"><marker>That being sad</marker> ...</example>
@@ -15109,6 +15134,20 @@ USA
                 <message>Did you mean <suggestion>shall</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="shall">We <marker>shell</marker> overcome.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">How|Wh(at|y)</token>
+                    <marker>
+                        <token>shell</token>
+                    </marker>
+                    <token regexp="yes">we|I|one</token>
+                    <token postag="VBP?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>shall</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="shall">What <marker>shell</marker> I do?</example>
             </rule>
         </rulegroup>
         <rule id="I_HERD" name="I herd (heard)">
@@ -17790,11 +17829,12 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token>morning</token>
+                    <token min="0">.</token>
                 </marker>
                 </pattern>
                 <message>Consider using <suggestion>A.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="A.M.">It's 5 <marker>A.M. in the morning</marker>.</example>
+                <example correction="A.M.">It's 5 <marker>A.M. in the morning.</marker></example>
                 <example>It's 5 A.M.</example>
             </rule>
         </rulegroup>
@@ -17832,11 +17872,12 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token regexp="yes">evening|afternoon</token>
+                    <token min="0">.</token>
                     </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="P.M.">It's 5 <marker>P.M. in the afternoon</marker>.</example>
+                <example correction="P.M.">It's 5 <marker>P.M. in the afternoon.</marker></example>
                 <example>It's 5 P.M.</example>
             </rule>
             <rule>
@@ -17849,11 +17890,12 @@ USA
                     <token>.</token>
                     <token>at</token>
                     <token>night</token>
+                    <token min="0">.</token>
                 </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="P.M.">It's 1 <marker>P.M. at night</marker>.</example>
+                <example correction="P.M.">It's 1 <marker>P.M. at night.</marker></example>
                 <example>It's 5 P.M.</example>
             </rule>
         </rulegroup>

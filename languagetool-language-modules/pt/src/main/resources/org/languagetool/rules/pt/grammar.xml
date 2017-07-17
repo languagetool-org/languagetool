@@ -49,9 +49,10 @@ title="Easy editing stylesheet" ?>
     <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
     <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
+    <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
-    <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar|viver">
+    <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|assemelhar|semelhar|ser|virar|viver">
     <!ENTITY verbos_transitivos_diretos "abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar" >
 
     <!ENTITY adj_nomes_paronimos_a "(ábsona|ábsono|acárida|acárido|ácaro|ácera|ácero|ácida|ácido|adágio|ádito|áfia|áfio|áfrica|áfrico|ágrafa|ágrafo|água|algália|álvidro|amálgama|amásia|amásio|análise|aniversário|apanágio|ápoda|ápode|ápodo|árbitra|árbitro|ária|árica|árico|árvore|áscua|ásia|ática|ático|átropa|átropo|ávila|áxila|azáfama|bálsamo|báscula|básculo|bátega|cábula|cádmio|cálamo|cálculo|cantárida|cantáride|cápsula|cárcere|cárdia|cárie|catálise|catálogo|comissária|comissário|contágio|contrária|contrário|dádiva|diálise|dicionário|eficácia|empresária|empresário|enxárcia|epigramática|epigramático|estádio|estágio|fábrica|fábula|falácia|gábia|gálica|gálico|gárrulo|gástrula|gázua|ginástica|ginástico|gládio|gramática|gramático|grávida|grávido|hábito|hálito|hemodiálise|hilária|hilário|inventário|jáculo|lácera|lácero|lágrima|lápida|lápide|larápia|larápio|lástima|látego|lázara|lázaro|mácula|máfia|mágica|mágico|mágoa|máscara|mático|mátria|pábulo|página|pálio|parágrafo|parálise|pária|páscoa|pátina|pátio|perdulária|perdulário|plácida|plácido|plácito|plágio|posfácio|prática|prático|prefácio|presságio|prontuário|psicanálise|rábano|rábia|rábida|rábido|rábula|rádio|ráfia|ressábio|sábia|sáculo|salário|sátura|secretária|secretário|selvática|selvático|subsecretária|subsecretário|sumária|sumário|tábula|tráfega|tráfego|tráfico|válida|válido|vária|viático|voluntária|voluntário)s?" >
@@ -543,13 +544,15 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='off'><!-- TODO default='on' after chunker or enumeration disambiguation -->
+  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='on'>
+    <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
-            <exception postag_regexp='yes' postag='V.[NP].+'/></token>
+            <exception postag_regexp='yes' postag='V.[NP].+'/>
+            <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(NC|A..).P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).P.+'/></token>
       </pattern>
@@ -564,10 +567,17 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
+        <marker>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
-            <exception postag_regexp='yes' postag='V.[NP].+'/></token>
+            <exception postag_regexp='yes' postag='V.[NP].+'/>
+            <exception>sede</exception>
+            <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(NC|A..).S.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).S.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(NC|A..).S.+'/>
+            <exception regexp='yes'>maioria|minoria|propriedade</exception></token>
+        </marker>
+          <token>
+            <exception regexp='yes'>e|-</exception></token>
       </pattern>
       <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
         <suggestion>\1 <match no="2" postag="(NC|A..)(.)S(.+)" postag_replace='$1$2P$3' postag_regexp="yes"/></suggestion>
@@ -577,6 +587,11 @@ title="Easy editing stylesheet" ?>
       <example>Constituiu-se a Capitania Real de São José do Rio Negro pela Carta-régia de 3 de março de 17…</example>
       <example>As roupas deles são bem parecidas com as dos nossos ancestrais.</example>
       <example>Os principais rios são Paraná (o maior), Pilcomayo, Paraguai, Bermejo, Colorado…</example>
+      <example>Os brancos de origem europeia são minoria.</example>
+      <example>Os acompanhamentos da guerra são miséria e tristeza.</example>
+      <example>A fronte, bochechas e região do ouvido são azul-acinzentados.</example>
+      <example>O bico é inteiramente preto e os pés são marrom-escuros a pretos.</example>
+      <example>Os seus nomes são Tom e Ken.</example>
     </rule>
   </rulegroup>
 
@@ -1284,12 +1299,14 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
+          <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Com alguns pronomes indefinidos devem utilizar a próclise.</message>
-        <suggestion>\1 \4 \2</suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
+      <example correction='Todos eles se admiram'><marker>Todos eles admiram-se</marker> da sua perseverança.</example>
       <example correction='Todos se admiram'><marker>Todos admiram-se</marker> da sua perseverança.</example>
       <example correction='algo me persuadiu'>Foi então que <marker>algo persuadiu-me</marker> a continuar.</example>
     </rule>
@@ -1297,6 +1314,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
+          <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>-|–|—</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
@@ -1304,8 +1322,9 @@ title="Easy editing stylesheet" ?>
           <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
       </pattern>
       <message>Certos pronomes relativos, conjunções subordinativas e advérbios  devem ser seguidos de próclise.</message>
-        <suggestion>\1 \4 \2</suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
       <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker> essa notícia?</example>
+      <example correction='que ela lhe tenha'>É natural <marker>que ela tenha-lhe</marker> dado notícia.</example>
     </rule>
     <rule>
       <pattern>
@@ -1888,214 +1907,6 @@ title="Easy editing stylesheet" ?>
       <example>Para mim, estudar é um sacrifício.</example>
     </rule>
 
-  <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Possível fragmento - dois artigos seguidos' default='on'>
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
-    <rule>
-      <antipattern>
-          <token>entre</token>
-          <token regexp='yes'>uma?</token>
-          <token>a</token>
-      </antipattern>
-      <antipattern>
-          <token regexp='yes'>uma?</token>
-          <token>a</token>
-          <token regexp='yes'>uma?</token>
-      </antipattern>
-      <pattern>
-          <token negate='yes'>-</token>
-        <marker>
-          <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?|numa?s?|nuns|pel[ao]s?</token>
-          <token regexp='yes'>as?|os?|uma?s?|uns|algu[mn]a?s?|n[oa]s?</token>
-        </marker>
-      </pattern>
-      <message>Possível fragmento.</message>
-        <suggestion>\2</suggestion>
-        <suggestion>\3</suggestion>
-        <suggestion>\2, \3</suggestion>
-      <example correction='o|um|o, um'>Foi <marker>o um</marker> erro de digitação.</example>
-      <example>"(…) levando-o a investigar mais longe."</example>
-      <example>As casas antigas foram demolidas para dar espaço a um supermercado.</example>
-      <example>Um a um.</example>
-      <example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
-      <example>As línguas oficiais são as das antigas metrópoles —</example>
-      <example>Portugal foi um dos últimos países a adotar o novo método, </example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token regexp='yes'>[nd][oa]s?</token>
-          <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?</token>
-      </antipattern>
-      <antipattern>
-          <token regexp='yes'>algu[mn]a?s?</token>
-          <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?|[nd][oa]s?</token>
-      </antipattern>
-      <pattern>
-          <token negate='yes'>-</token>
-        <marker>
-          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
-          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
-        </marker>
-      </pattern>
-      <message>Possível fragmento.</message>
-        <suggestion>\2</suggestion>
-        <suggestion>\3</suggestion>
-        <suggestion>\2, \3</suggestion>
-      <example correction='dele|dela|dele, dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
-      <example>Alguns destes animais são efetivamente mortos, e outros são pos…</example>
-      <example>Eu não quero perder as minhas ideias, mesmo que algumas delas sejam um pouco extremas.</example>
-      <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu…</example>
-      <example>Não há novidade alguma nos meus olhos espantados.</example>
-      <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros…</example>
-    </rule>
-  </rulegroup>
-
-  <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="off">
-    <!--    Localized by Tiago F. Santos, from english grammar.xml, 2016-11-29      -->
-      <url>http://viva-read.com/article/tipos-de-fragmentos-de-frases</url>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token postag='C.|R.' postag_regexp='yes'/>
-          <token skip='-1'/>
-          <token regexp='yes'>[,;:!\?]</token>
-      </antipattern>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token postag='C.|R.' postag_regexp='yes'/>
-          <token skip='-1'/>
-          <token postag='CC'/>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token postag='SENT_START'/>
-          <token postag='C.|R.' postag_regexp='yes' skip="-1">
-            <exception negate_pos='yes' postag='C.|R.' postag_regexp='yes'/>
-          </token>
-        </marker>
-          <token postag='SENT_END'/>
-      </pattern>
-      <message>“\2” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
-      <short>Falta uma vírgula ou a frase é um fragmento</short>
-      <example correction=""><marker>Apesar</marker> de o cão gostar de ladrar.</example>
-      <example correction=""><marker>Depois</marker> de jantar.</example>
-      <example>Apesar de o cão ladrar muito, continua a ser um cão simpático.</example>
-      <example>Vamos ao cinema, depois de jantar.</example>
-      <example>Não, não é nada longe.</example>
-      <example>Não posso andar, porque estou com a perna quebrada.</example>
-      <example>Cerca de mil pessoas participaram na manifestação.</example>
-      <example>Segundo: os crioulo (pessoas de descendência espanhola…</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Mesmo|Então|Portanto</token>
-          <token regexp='yes' min='0'>[,:]</token>
-          <token postag='C.|R.' postag_regexp='yes' skip='-1'/>
-          <token regexp='yes'>[,;:!\?]</token>
-      </antipattern>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Mesmo|Então|Portanto</token>
-          <token regexp='yes' min='0'>[,:]</token>
-          <token postag='C.|R.' postag_regexp='yes' skip='-1'/>
-          <token postag='CC'/>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Mesmo|Então|Portanto</token>
-          <token regexp='yes' min='0'>[,:]</token>
-          <token postag='C.|R.' postag_regexp='yes' skip='-1'>
-          </token>
-        </marker>
-          <token postag='SENT_END'/>
-      </pattern>
-      <message>“\2<match no='3' include_skipped='all'/> \4” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
-      <short>Falta uma vírgula ou a frase é um fragmento</short>
-      <example correction=""><marker>Mesmo se</marker> o cão gosta de ladrar.</example>
-      <example>Mesmo se o cão gosta de ladrar, continua a ser simpático.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
-          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
-          <token regexp='yes'>[,;:!\?]</token>
-      </antipattern>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
-          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
-          <token postag='CC'/>
-      </antipattern>
-      <pattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
-          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
-          <token postag='SENT_END'/>
-      </pattern>
-      <message>“\2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
-      <short>Falta uma vírgula ou a frase é um fragmento</short>
-      <example correction=""><marker>Desde que o cão ladre.</marker></example>
-      <example>Desde que o cão ladre, consegue guardar a casa.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>De|A|Considerando|Contando</token>
-          <token skip='-1' regexp='yes'>que|menos|quer</token>
-          <token regexp='yes'>[,;:!\?]</token>
-      </antipattern>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>De|A|Considerando|Contando</token>
-          <token skip='-1' regexp='yes'>que|menos|quer</token>
-          <token postag='CC'/>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>De|A|Considerando|Contando</token>
-          <token skip='-1' regexp='yes'>que|menos|quer</token>
-        </marker>
-          <token postag='SENT_END'/>
-      </pattern>
-      <message>“\2 \3” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
-      <short>Falta uma vírgula ou a frase é um fragmento</short>
-      <example correction=""><marker>Considerando que</marker> o cão guarda a minha casa.</example>
-      <example>Considerando que o cão guarda a minha casa, eu não me importo que ladre alto.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
-          <token regexp='yes'>vez|modo|quer|menos|em</token>
-          <token skip='-1' regexp='yes'>a|que|conta</token>
-          <token regexp='yes'>[,;:!\?]</token>
-      </antipattern>
-      <antipattern>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
-          <token regexp='yes'>vez|modo|quer|menos|em</token>
-          <token skip='-1' regexp='yes'>a|que|conta</token>
-          <token postag='CC'/>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token postag='SENT_START'/>
-          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
-          <token regexp='yes'>vez|modo|quer|menos|em</token>
-          <token skip='-1' regexp='yes'>a|que|conta</token>
-        </marker>
-          <token postag='SENT_END'/>
-      </pattern>
-      <message>“\2 \3 \4”  no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
-      <short>Falta uma vírgula ou a frase é um fragmento</short>
-      <example correction=""><marker>Tendo em conta</marker> que o cão guarda a casa.</example>
-      <example>Tendo em conta que o cão guarda a casa, ladrando ruidosamente.</example>
-    </rule>
-  </rulegroup>
-
     <rule id='FORMAL_COM_NÓS' name="Expressões 'com nós'">
     <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
       <pattern>
@@ -2382,6 +2193,269 @@ title="Easy editing stylesheet" ?>
  </category>
 
  <category id='SYNTAX' name='Sintaxe' type='grammar'>
+
+    <rule id="NO_VERB" name="Síntaxe: ausência de verbo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
+      <pattern>
+          <token postag='SENT_START'/>
+          <token postag='[^V].+' postag_regexp='yes' min='2'/>
+          <token postag='[^V].+' postag_regexp='yes' skip="-1">
+            <exception scope="next" postag='V.+' postag_regexp='yes'/></token>
+        <and>
+          <token postag='_PUNCT'/>
+          <token postag='SENT_END'/>
+        </and>
+      </pattern>
+      <message>Esta frase não tem verbo. Confirme que não é uma holófrase.</message>
+      <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
+      <short>Frase sem verbo.</short>
+      <example type="incorrect"><marker>Isto um exemplo.</marker></example>
+      <example type="incorrect"><marker>Isto um exemplo!</marker></example>
+      <example type="correct"><marker>Isto é um exemplo.</marker></example>
+      <example><marker>Isto -  Um exemplo</marker></example><!-- XXX Possível título -->
+      <example>Tem marcação com o Dr. Mário?</example>
+      <example type="incorrect"><marker>Não marcação com o Dr. Mário.</marker></example>
+      <example type="correct">Não tem marcação com o Dr. Mário.</example>
+      <example>Temos muito tempo.</example>
+      <example>Sim.</example>
+      <example>Basta!</example>
+      <example>Ó Meu Deus!</example>
+      <example type="incorrect"><marker>Este exemplo também.</marker></example>
+      <example type="correct"><marker>Este exemplo também está.</marker></example>
+    </rule>
+
+  <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
+    <rule>
+      <antipattern>
+          <token>entre</token>
+          <token regexp='yes'>uma?</token>
+          <token>a</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>uma?</token>
+          <token>a</token>
+          <token regexp='yes'>uma?</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes'>-</token>
+        <marker>
+          <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?|numa?s?|nuns|pel[ao]s?</token>
+          <token regexp='yes'>as?|os?|uma?s?|uns|algu[mn]a?s?|n[oa]s?</token>
+        </marker>
+      </pattern>
+      <message>Possível fragmento.</message>
+        <suggestion>\2</suggestion>
+        <suggestion>\3</suggestion>
+        <suggestion>\2, \3</suggestion>
+      <example correction='o|um|o, um'>Foi <marker>o um</marker> erro de digitação.</example>
+      <example>"(…) levando-o a investigar mais longe."</example>
+      <example>As casas antigas foram demolidas para dar espaço a um supermercado.</example>
+      <example>Um a um.</example>
+      <example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
+      <example>As línguas oficiais são as das antigas metrópoles —</example>
+      <example>Portugal foi um dos últimos países a adotar o novo método, </example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>[nd][oa]s?</token>
+          <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>algu[mn]a?s?</token>
+          <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?|[nd][oa]s?</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes'>-</token>
+        <marker>
+          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
+          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
+        </marker>
+      </pattern>
+      <message>Possível fragmento.</message>
+        <suggestion>\2</suggestion>
+        <suggestion>\3</suggestion>
+        <suggestion>\2, \3</suggestion>
+      <example correction='dele|dela|dele, dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
+      <example>Alguns destes animais são efetivamente mortos, e outros são pos…</example>
+      <example>Eu não quero perder as minhas ideias, mesmo que algumas delas sejam um pouco extremas.</example>
+      <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu…</example>
+      <example>Não há novidade alguma nos meus olhos espantados.</example>
+      <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros…</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
+      <antipattern><!-- XXX Better handled by CONFUSION_POR rule -->
+          <token>de</token>
+          <token>por</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token regexp='yes'>de|que</token>
+      </antipattern>
+      <pattern>
+          <token postag='SPS00'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
+          <token postag='SPS00'>
+            <exception regexp='yes' case_sensitive='yes'>a|A|De|Sem</exception>
+            <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
+      </pattern>
+      <message>Duas preposição seguidas. Verifique.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+      <example correction="em|de">Coloque <marker>em de</marker> paralelo fora para dentro.</example>
+      <example>Coloque <marker>em</marker> paralelo de fora para dentro.</example>
+      <example>A dissecação de animais antecedeu a de seres humanos.</example>
+    </rule>
+
+  <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="off">
+    <!--    Localized by Tiago F. Santos, from english grammar.xml, 2016-11-29      -->
+      <url>http://viva-read.com/article/tipos-de-fragmentos-de-frases</url>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='C.|R.' postag_regexp='yes'/>
+          <token skip='-1'/>
+          <token regexp='yes'>[,;:!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='C.|R.' postag_regexp='yes'/>
+          <token skip='-1'/>
+          <token postag='CC'/>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag='SENT_START'/>
+          <token postag='C.|R.' postag_regexp='yes' skip="-1">
+            <exception negate_pos='yes' postag='C.|R.' postag_regexp='yes'/>
+          </token>
+        </marker>
+          <token postag='SENT_END'/>
+      </pattern>
+      <message>“\2” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <short>Falta uma vírgula ou a frase é um fragmento</short>
+      <example correction=""><marker>Apesar</marker> de o cão gostar de ladrar.</example>
+      <example correction=""><marker>Depois</marker> de jantar.</example>
+      <example>Apesar de o cão ladrar muito, continua a ser um cão simpático.</example>
+      <example>Vamos ao cinema, depois de jantar.</example>
+      <example>Não, não é nada longe.</example>
+      <example>Não posso andar, porque estou com a perna quebrada.</example>
+      <example>Cerca de mil pessoas participaram na manifestação.</example>
+      <example>Segundo: os crioulo (pessoas de descendência espanhola…</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Mesmo|Então|Portanto</token>
+          <token regexp='yes' min='0'>[,:]</token>
+          <token postag='C.|R.' postag_regexp='yes' skip='-1'/>
+          <token regexp='yes'>[,;:!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Mesmo|Então|Portanto</token>
+          <token regexp='yes' min='0'>[,:]</token>
+          <token postag='C.|R.' postag_regexp='yes' skip='-1'/>
+          <token postag='CC'/>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Mesmo|Então|Portanto</token>
+          <token regexp='yes' min='0'>[,:]</token>
+          <token postag='C.|R.' postag_regexp='yes' skip='-1'>
+          </token>
+        </marker>
+          <token postag='SENT_END'/>
+      </pattern>
+      <message>“\2<match no='3' include_skipped='all'/> \4” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <short>Falta uma vírgula ou a frase é um fragmento</short>
+      <example correction=""><marker>Mesmo se</marker> o cão gosta de ladrar.</example>
+      <example>Mesmo se o cão gosta de ladrar, continua a ser simpático.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
+          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
+          <token regexp='yes'>[,;:!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
+          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
+          <token postag='CC'/>
+      </antipattern>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
+          <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
+          <token postag='SENT_END'/>
+      </pattern>
+      <message>“\2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <short>Falta uma vírgula ou a frase é um fragmento</short>
+      <example correction=""><marker>Desde que o cão ladre.</marker></example>
+      <example>Desde que o cão ladre, consegue guardar a casa.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>De|A|Considerando|Contando</token>
+          <token skip='-1' regexp='yes'>que|menos|quer</token>
+          <token regexp='yes'>[,;:!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>De|A|Considerando|Contando</token>
+          <token skip='-1' regexp='yes'>que|menos|quer</token>
+          <token postag='CC'/>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>De|A|Considerando|Contando</token>
+          <token skip='-1' regexp='yes'>que|menos|quer</token>
+        </marker>
+          <token postag='SENT_END'/>
+      </pattern>
+      <message>“\2 \3” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <short>Falta uma vírgula ou a frase é um fragmento</short>
+      <example correction=""><marker>Considerando que</marker> o cão guarda a minha casa.</example>
+      <example>Considerando que o cão guarda a minha casa, eu não me importo que ladre alto.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
+          <token regexp='yes'>vez|modo|quer|menos|em</token>
+          <token skip='-1' regexp='yes'>a|que|conta</token>
+          <token regexp='yes'>[,;:!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
+          <token regexp='yes'>vez|modo|quer|menos|em</token>
+          <token skip='-1' regexp='yes'>a|que|conta</token>
+          <token postag='CC'/>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
+          <token regexp='yes'>vez|modo|quer|menos|em</token>
+          <token skip='-1' regexp='yes'>a|que|conta</token>
+        </marker>
+          <token postag='SENT_END'/>
+      </pattern>
+      <message>“\2 \3 \4”  no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <short>Falta uma vírgula ou a frase é um fragmento</short>
+      <example correction=""><marker>Tendo em conta</marker> que o cão guarda a casa.</example>
+      <example>Tendo em conta que o cão guarda a casa, ladrando ruidosamente.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="DE_MANEIRA_ADVERBIO_MODO" name="Síntaxe: 'de modo' + advébio de modo">
     <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
@@ -3215,7 +3289,6 @@ title="Easy editing stylesheet" ?>
       <example correction="dar os bons-dias">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
     </rule>
 
-    <!-- DE CERTO decerto -->
     <rule id='DE_CERTO' name="Decerto">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -3229,8 +3302,8 @@ title="Easy editing stylesheet" ?>
       <example correction="decerto">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
     </rule>
 
-    <!-- DE CIMA/ALTO ABAIXO de cima/alto a baixo -->
     <rule id='DE_CIMA-ALTO_ABAIXO' name="De cima/alto a baixo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token regexp="yes">cima|alto</token>
@@ -3242,8 +3315,8 @@ title="Easy editing stylesheet" ?>
       <example correction="a baixo">Ela observou o Rui de alto <marker>abaixo</marker>.</example>
     </rule>
 
-    <!-- DE FORMA A QUE para que -->
     <rule id='DE_FORMA_A_QUE' name="Para que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token>forma</token>
@@ -3254,45 +3327,33 @@ title="Easy editing stylesheet" ?>
       <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
 
-    <!-- DE IMPACTO ECOLÓGICA de impacto ecológico -->
     <rule id='DE_IMPACTO_ECOLÓGICA' name="De impacto ecológico">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
-          <token>impacto</token>
-        <marker>
-          <token>ecológica</token>
-        </marker>
+          <token regexp='yes'>impactos?</token>
+          <token regexp='yes'>ecológicas?</token>
       </pattern>
-      <message>Substitua por <suggestion>ecológico</suggestion>.</message>
-      <example correction="ecológico">Temos riscos de impacto <marker>ecológica</marker>.</example>
+      <message>Substitua por <suggestion>\1 \2 ecológico<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+      <short>Erro de concordância.</short>
+      <example correction="de impacto ecológico">Temos riscos <marker>de impacto ecológica</marker>.</example>
     </rule>
 
-    <!-- DE MANEIRA A QUE de maneira que -->
     <rule id='DE_MANEIRA_A_QUE' name="De maneira que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
-          <token>maneira</token>
-          <token>a</token>
+          <token regexp='yes'>maneira|modo</token>
+          <token regexp='yes'>a|à|de</token>
           <token>que</token>
       </pattern>
-      <message>Substitua por <suggestion>de maneira que</suggestion>.</message>
+      <message>Substitua por <suggestion>de \2 que</suggestion>.</message>
       <example correction="de maneira que">Isto é feito <marker>de maneira a que</marker> os cidadãos possam ser livres.</example>
-    </rule>
-
-    <!-- DE MODO A QUE de modo que -->
-    <rule id='DE_MODO_A_QUE' name="De modo que">
-      <pattern>
-          <token>de</token>
-          <token>modo</token>
-          <token>a</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>de modo que</suggestion>.</message>
       <example correction="de modo que">Isto é feito <marker>de modo a que</marker> os cidadãos possam ser livres.</example>
     </rule>
 
-    <!-- DE VÊS EM QUANDO de vez em quando -->
     <rule id='DE_VÊS_EM_QUANDO' name="De vez em quando">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token>vês</token>
@@ -3304,19 +3365,20 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='DECRETO_DE_LEI' name="Decreto-lei">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
       <pattern>
           <token regexp='yes'>decretos?</token>
           <token>de</token>
           <token>lei</token>
       </pattern>
-      <message>Substitua por <suggestion>decreto-lei</suggestion>.</message>
+      <message>Substitua por <suggestion>\1-lei</suggestion>.</message>
       <example correction="decreto-lei">Saiu um novo <marker>decreto de lei</marker>.</example>
     </rule>
     <rule>
       <pattern>
           <token>decretos</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' min='0'>-|–|—</token>
           <token>lei</token>
       </pattern>
       <message>Substitua por <suggestion>decretos-leis</suggestion>.</message>
@@ -3324,8 +3386,8 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <!-- DÊS DO desde o -->
     <rule id='DÊS_DO' name="Desde o">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>dês</token>
           <token regexp='yes'>dos?</token>
@@ -3335,21 +3397,19 @@ title="Easy editing stylesheet" ?>
       <example correction="desde os">Isto acontece <marker>dês dos</marker> tempos da minha avó.</example>
     </rule>
 
-    <!-- DESDE QUE HAJAM desde que haja -->
     <rule id='DESDE_QUE_HAJAM' name="Desde que haja">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>desde</token>
           <token>que</token>
-        <marker>
           <token>hajam</token>
-        </marker>
       </pattern>
-      <message>Substitua por <suggestion>haja</suggestion>.</message>
-      <example correction="haja">Isso é possível desde que <marker>hajam</marker> condições.</example>
+      <message>Substitua por <suggestion>\1 \2 haja</suggestion>.</message>
+      <example correction="desde que haja">Isso é possível <marker>desde que hajam</marker> condições.</example>
     </rule>
 
-    <!-- DEVE DE deve -->
     <rule id='DEVE_DE' name="Deve">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>dever
             <exception regexp='yes'>dever|deveres</exception></token>
@@ -3362,27 +3422,15 @@ title="Easy editing stylesheet" ?>
       <example>Consagrava-se dia e noite aos deveres de seu ministério.</example>
     </rule>
 
-    <!-- DIAGNÓSTICO RESERVADO prognóstico reservado -->
     <rule id='DIAGNÓSTICO_RESERVADO' name="Prognóstico reservado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-        <marker>
-          <token>diagnóstico</token>
-        </marker>
-          <token>reservado</token>
+          <token regexp='yes'>diagnósticos?</token>
+          <token regexp='yes'>reservados?</token>
       </pattern>
-      <message>Substitua por <suggestion>prognóstico</suggestion>.</message>
-      <example correction="prognóstico">A Ana mantém-se com <marker>diagnóstico</marker> reservado.</example>
-    </rule>
-
-    <!-- É SUPOSTO QUE supõe-se que -->
-    <rule id='É_SUPOSTO_QUE' name="Supõe-se que">
-      <pattern>
-          <token>é</token>
-          <token>suposto</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>supõe-se que</suggestion>.</message>
-      <example correction="supõe-se que">Assim, <marker>é suposto que</marker> aconteça.</example>
+      <message>Substitua por <suggestion>prognóstico<match no='1' regexp_match='(diagnóstico)(s?)' regexp_replace='$2'/> \2</suggestion>.</message>
+      <example correction="prognóstico reservado">A Ana mantém-se com <marker>diagnóstico reservado</marker>.</example>
+      <example correction="prognósticos reservados">Temos <marker>diagnósticos reservados</marker>.</example>
     </rule>
 
     <!-- E MAS TARDE e mais tarde -->
@@ -5850,6 +5898,11 @@ title="Easy editing stylesheet" ?>
       <example>A situação financeira era estável<marker>...</marker></example>
     </rule>
     <rule>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
           <token><match no="0"/></token>
@@ -5857,6 +5910,7 @@ title="Easy editing stylesheet" ?>
       <message>Pontuação duplicada</message>
         <suggestion>\1</suggestion>
       <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
+      <example>------------</example>
     </rule>
     <rule>
       <antipattern><!-- dealt by rule #2 -->
@@ -19440,7 +19494,7 @@ TODO Write better examples
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
 
-  <rulegroup id='POR' name="Confusão: por - pôr">
+  <rulegroup id='CONFUSION_POR' name="Confusão: por - pôr">
     <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
     <rule>
       <antipattern>
@@ -19840,7 +19894,7 @@ TODO Write better examples
   </rulegroup>
 
     <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemático: Evitar apóstrofe em decimais">
-    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+    <!--  Based on Catalan version, by Tiago F. Santos, 2017-02-27      -->
       <antipattern>
           <token regexp="yes">\d{1,2}\,\d+</token>
           <token spacebefore="no" regexp="yes">['`’‘]</token>
@@ -19900,6 +19954,11 @@ TODO Write better examples
   <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
@@ -19915,6 +19974,7 @@ TODO Write better examples
       <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
       <example>— É o seu presente de aniversário, minha filha.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
     <rule>
       <antipattern>
@@ -19935,6 +19995,7 @@ TODO Write better examples
       <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
       <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
     <rule>
       <pattern>
@@ -19948,12 +20009,18 @@ TODO Write better examples
       <short>Nesta situação deve utilizar o meio-travessão.</short>
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
       <example>1139–1385 — Formação do Reino de Portugal</example>
+      <example>---------------------------------------</example>
     </rule>
   </rulegroup>
 
   <rulegroup id='DASH_SPACE_RULES' name="Travessão em enumerações" default="on">
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
       <short>Erro tipográfico</short>
+      <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag="SENT_START"/>
@@ -19978,6 +20045,7 @@ TODO Write better examples
       <example>—Saltar</example>
       <example>—Correr</example>
       <example>—Rastejar</example>
+      <example>---------------------------------------</example>
     </rule>
   </rulegroup>
 
@@ -20002,6 +20070,11 @@ TODO Write better examples
     </rule>
     <rule>
       <antipattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp='yes'>-|–</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -20016,6 +20089,7 @@ TODO Write better examples
         <suggestion>\1 — \3</suggestion>
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
+      <example>-------------</example>
     </rule>
   </rulegroup>
 
@@ -20624,16 +20698,28 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
+  <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
     <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
-      <regexp>(\p{L}) ([!?:;,….])</regexp>
+    <rule>
+      <regexp>(\p{L}) ([!?«,….])</regexp>
       <message>Remova o espaço antes da pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
-      <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
       <example correction="a.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a rod<marker>a .</marker></example>
     </rule>
+    <rule>
+      <regexp>(\p{L}) ([:;])(?!-?[()/])</regexp>
+      <message>Remova o espaço antes da pontuação.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
+      <example>Um sorriso :-)</example>
+      <example>Um sorriso :)</example>
+      <example>Um sorriso :(</example>
+      <example>Um sorriso :-/</example>
+      <example>Um sorriso :/</example>
+    </rule>
+  </rulegroup>
 
  </category>
 
@@ -22386,6 +22472,17 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id='É_SUPOSTO_QUE' name="Supõe-se que">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>é</token>
+          <token>suposto</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>supõe-se que</suggestion>.</message>
+      <example correction="supõe-se que">Assim, <marker>é suposto que</marker> aconteça.</example>
+    </rule>
+
     <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
     <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
       <pattern>
@@ -22762,16 +22859,16 @@ TODO Write better examples
       </antipattern>
       <antipattern> <!-- tabelas, figuras, etc.  -->
         <marker>
-          <token inflected="yes" regexp="yes">(revis|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token inflected="yes" regexp="yes">GNOME|(revis|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
           <token min="0" regexp="yes" inflected="yes">ac?tual|anterior|antiga|nova</token>
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>
       <antipattern>
         <marker>
-          <token inflected="yes" regexp="yes">(revis|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token inflected="yes" regexp="yes">GNOME|(revis|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
           <token regexp="yes">\d+\.\d+</token>
-          <token regexp="yes">e|ou|,</token>
+          <token regexp="yes">e|ou|,|-|–</token>
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>
@@ -22827,6 +22924,7 @@ TODO Write better examples
       <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
       <example>Esse número diminuiu para 300.000 em 1939.</example>
       <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
+      <example>GNOME 3.16 – 3.20 Committer</example>
     </rule>
     <rule>
       <pattern>

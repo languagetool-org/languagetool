@@ -104,7 +104,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected void addIgnoreWords(String origLine, Set<String> wordsToBeIgnored) {
+  protected void addIgnoreWords(String origLine) {
     String line;
     if (language.getShortCodeWithCountryAndVariant().equals("de-CH")) {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
@@ -115,7 +115,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     List<String> words = expandLine(line);
     for (String word : words) {
-      super.addIgnoreWords(word, wordsToBeIgnored);
+      super.addIgnoreWords(word);
     }
   }
 
@@ -179,6 +179,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (misspelling.equalsIgnoreCase(suggestion)) {
         // this should be preferred - only case differs:
         result.add(0, suggestion);
+      } else if (suggestion.contains(" ") && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
+        // prefer "vor allem", but not "konfliktbereite l" etc:
+        result.add(0, suggestion);
       } else {
         result.add(suggestion);
       }
@@ -205,14 +208,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String w = StringUtils.removeEnd(word, ".");
     if ("WIFI".equals(w) || "wifi".equals(w)) {
       return Collections.singletonList("Wi-Fi");
-    } else if ("desweiteren".equals(w)) {
-      return Collections.singletonList("des Weiteren");
     } else if ("ausversehen".equals(w)) {
       return Collections.singletonList("aus Versehen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
-    } else if ("einzigste".equals(w)) {
-      return Collections.singletonList("einzige");
+    } else if (w.matches("desweitere[nm]")) {
+      return Collections.singletonList("des Weiteren");
+    } else if (word.matches("einzigste[mnrs]?")) {
+      return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
     } else if (word.endsWith("standart")) {
       return Collections.singletonList(word.replaceFirst("standart$", "standard"));
     } else if (word.endsWith("standarts")) {
@@ -228,7 +231,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.endsWith("tips")) {
       return Collections.singletonList(word.replaceFirst("tips$", "tipps"));
     } else if (word.endsWith("oullie")) {
-      return Collections.singletonList(word.replaceFirst("oullie$", "ouille"));
+      String suggestion = word.replaceFirst("oullie$", "ouille");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.startsWith("Bundstift")) {
       return Collections.singletonList(word.replaceFirst("^Bundstift", "Buntstift"));
     } else if (word.equals("ca")) {
@@ -255,6 +261,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Babys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
+    } else if (word.matches("legen[td]lich")) {
+      return Collections.singletonList("lediglich");
     } else if (word.matches("Email[a-zäöü]{5,}")) {
       String suffix = word.substring(5);
       if (hunspellDict.misspelled(suffix)) {
@@ -320,6 +328,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return Collections.emptyList();
+  }
+
+  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+    return suggestions;
   }
 
   // Get a correct suggestion for invalid words like greifte, denkte, gehte: useful for

@@ -16,6 +16,7 @@
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
+    <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
@@ -402,6 +403,18 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
+    <rule id="PP_D_V" name="Pronome + Pronome + Verbo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
+      <pattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+        <marker>
+          <token regexp='yes'>[nv]?[ao]s?</token>
+        </marker>
+          <token postag="V.+" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="PP.+"/>
+    </rule>
+
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
     <rule>
@@ -565,7 +578,7 @@
       <pattern>
           <token postag="N.+" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
         <marker>
-          <token postag="S.+" postag_regexp="yes"/>
+          <token postag="SP.+" postag_regexp="yes"/>
         </marker>
           <token postag="[NA].+" postag_regexp="yes"/>
       </pattern>
@@ -675,7 +688,8 @@
           <token postag="[PN].+" postag_regexp="yes"/>
         </and>
         </marker>
-          <token postag="V.+" postag_regexp="yes"><exception negate_pos='yes' postag="V.+" postag_regexp="yes"/></token>
+          <token postag="V.+" postag_regexp="yes">
+            <exception negate_pos='yes' postag="V.+" postag_regexp="yes"/></token>
       </pattern>
       <disambig action="filter" postag="P.+|N.+"/>
       <example type="untouched">Muito obrigada por esta viagem maravilhosa.</example>
@@ -683,24 +697,39 @@
       <example type="untouched">Durante seu reinado, os Durrani consolidaram em uma só nação.</example>
     </rule>
 
-    <!--D_AN Atrás de um determinante, está o nome e não o adjetivo-->
-    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos
-    <rule id="D_AN" name="Art + Nom/Adj = Nom">
+    <rule id="S_V" name="Preposição + Verbo">
+    <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <pattern>
-          <token postag="D.+" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/></token>
+          <token postag="SPS00" postag_regexp="no">
+            <exception postag="SP.+" postag_regexp="yes" negate_pos='yes'/></token>
         <marker>
         <and>
+          <token postag="V.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"/>
-          <token postag="A.+" postag_regexp="yes"/>
-          <token negate_pos="yes" postag="V.+" postag_regexp="yes"/>
         </and>
         </marker>
-          <token negate_pos="yes" postag="N.+" postag_regexp="yes"/>
       </pattern>
-      <disambig action="filter" postag="N.+"/>
-      <example inputform="branca[branco/AQ0FS0,branco/NCFS000]" outputform="branca[branco/NCFS000]" type="ambiguous">Não gosto da camisa <marker>branca</marker>.</example>
-      <example type="untouched">Eram demasiado sinistros.</example>
-    </rule>		-->
+      <disambig action="remove" postag="V.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
+      <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
+    </rule>
+    
+    <rule id="SD_V" name="Contração + Verbo">
+    <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
+      <pattern>
+          <token regexp='yes'>(d|n|pel)(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)
+            <exception>nos</exception></token>
+        <marker>
+        <and>
+          <token postag="V.+" postag_regexp="yes"/>
+          <token postag="N.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.+"/>
+      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
+      <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
+    </rule>
 
     <!-- D_N Quando está diante de um nome, trata-se de um determinante.-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -727,7 +756,6 @@
           </unify>
         </marker>
       </pattern>
-
       <disambig action="unify"/>
     <!--Example: seu irmão-->
     </rule>
@@ -1684,6 +1712,12 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Ignore punctuation" id="IGNORE_PUNCTUATION">
+      <pattern>
+          <token postag='_PUNCT'/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS">
     <!-- Ported from English disambiguation.xml -->
       <pattern case_sensitive="yes">
@@ -1691,4 +1725,5 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    
 </rules>

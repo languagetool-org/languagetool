@@ -8,12 +8,20 @@
     more words, especially compounds (de-DE only so far, not yet active for
     de-AT and de-CH)
     (https://github.com/languagetool-org/languagetool/issues/725)
+  * added special dictionary extension files `spelling-de-AT.txt` and
+    `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
+    to `spelling.txt`
 
 #### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, pronominal collocations and paronyms detection
+    - typography: number and mathematical symbol formatting improvements
+    - syntax: new category and fragment detection improvements
+  * disambiguation improvements
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
-
+    - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
 ## 3.8 (2017-06-27)
 

@@ -207,7 +207,18 @@ public class AgreementRule extends Rule {
     Arrays.asList( // "Es gibt viele solcher Bilder"
         new PatternTokenBuilder().tokenRegex("viele|wenige|einige|mehrere").build(),
         new PatternTokenBuilder().csToken("solcher").build(),
-       new PatternTokenBuilder().posRegex("SUB:GEN:PLU:.*").build()
+        new PatternTokenBuilder().posRegex("SUB:GEN:PLU:.*").build()
+    ),
+    Arrays.asList( // "der französischen First Lady"
+        new PatternTokenBuilder().tokenRegex("[dD](ie|er)").build(),
+        new PatternTokenBuilder().csToken("First").build(),
+        new PatternTokenBuilder().csToken("Lady").build()
+    ),
+    Arrays.asList( // "der französischen First Lady"
+        new PatternTokenBuilder().tokenRegex("[dD](ie|er)").build(),
+        new PatternTokenBuilder().posRegex("ADJ:.*").build(),
+        new PatternTokenBuilder().csToken("First").build(),
+        new PatternTokenBuilder().csToken("Lady").build()
     )
   );
 
