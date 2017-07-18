@@ -561,6 +561,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="1" postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
     <!--<example correction='é rosa|são rosas'>Isto <marker>é rosas</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='é trevo|são trevos'>Isto <marker>é trevos</marker>, Senhor. São trevos.</example>
+    <!--example correction="são funcionais|é funcional">Os correctores gramaticais <marker>é funcionais</marker>.</example XXX add after disambiguating funcionais-->
       <example>Tal Estado, ainda que proletário, somente faria permanecer antigas estruturas de dominação de uma parcela da populaç…</example>
       <example>Eles têm sido bons vizinhos até hoje.</example>
       <example>Nós devemos aprender a viver juntos como irmãos, ou vamos morrer juntos como tolos.</example>
@@ -584,6 +585,9 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="1" postag="(V....)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
     <!--<example correction='são rosas|é rosa'>Isto <marker>são rosa</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='são trevos|é trevo'>Isto <marker>são trevo</marker>, Senhor. São trevos.</example>
+      <example correction="forem necessárias|for necessária">Quando <marker>forem necessária</marker> novas medidas.</example>
+      <example correction="forem necessários|for necessária">Quando <marker>forem necessário</marker> mais meios.</example>
+      <example correction="forem urgentes|for urgente">Todos os exames que <marker>forem urgente</marker> serão marcados.</example>
       <example>Constituiu-se a Capitania Real de São José do Rio Negro pela Carta-régia de 3 de março de 17…</example>
       <example>As roupas deles são bem parecidas com as dos nossos ancestrais.</example>
       <example>Os principais rios são Paraná (o maior), Pilcomayo, Paraguai, Bermejo, Colorado…</example>
@@ -2032,7 +2036,8 @@ title="Easy editing stylesheet" ?>
     <!--          Tiago F. Santos Rules Ending          ****END**** -->
     <!-- ********************************************************** -->
 
-    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
+    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM
+    XXX Covered by LINKING_VERB_PREDICATE_AGREEMENT. Remove after release.
   <rulegroup id='FOREM-ADJECTIVE' name="Erro de concordância de número FOREM + ADJ">
       <short>Erro de concordância de número</short>
     <rule>
@@ -2047,7 +2052,7 @@ title="Easy editing stylesheet" ?>
       <example correction="necessários">Quando forem <marker>necessário</marker> mais meios.</example>
       <example correction="urgentes">Todos os exames que forem <marker>urgente</marker> serão marcados.</example>
     </rule>
-  </rulegroup>
+  </rulegroup>-->
 
     <!-- Concordance error plural - É + PLURAL -->
     <rule id='É_PLURAL' name="Erro de concordância de número É+PLURAL">
@@ -2187,6 +2192,41 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
       <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='IR_CONTRACTION_NOUN' name="Ir + na/no + nome">
+    <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
+      <antipattern>
+          <token inflected='yes'>ir
+            <exception regexp='yes'>foi|fora|indo</exception></token>
+          <token regexp='yes'>na</token>
+          <token regexp='yes'>&dias_semana;</token>
+      </antipattern>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ir
+            <exception regexp='yes'>foi|fora|indo</exception></token>
+          <token>na</token>
+          <token postag='N.F.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
+      <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
+      <example>Tenho de <marker>ir à praia</marker>.</example>
+      <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
+      <example>Ele disse que quem estabelece a % de incapacidade é o médico a que vou na sexta.<example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>ir
+            <exception regexp='yes'>foi|fora|indo</exception></token>
+          <token>no</token>
+          <token postag='N.M.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>\1 ao \3</suggestion>.</message>
+      <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
+      <example>Tenho de <marker>ir ao ginásio</marker>.</example>
+      <example>Quero viajar para fora no ano que vem.</example>
     </rule>
   </rulegroup>
 
@@ -3753,34 +3793,6 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>arriar</suggestion>.</message>
       <example correction="arriar">Vamos <marker>arrear</marker> a vela.</example>
     </rule>
-
-    <!-- IR NA PRAIA ir à praia -->
-  <rulegroup id='IR_CONTRACTION_NOUN' name="Ir + na/no + nome">
-    <rule>
-      <pattern>
-          <token inflected='yes'>ir
-            <exception regexp='yes'>foi|fora|indo</exception></token>
-          <token>na</token>
-          <token postag='N.F.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
-      <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
-      <example>Tenho de <marker>ir à praia</marker>.</example>
-      <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected='yes'>ir
-            <exception regexp='yes'>foi|fora|indo</exception></token>
-          <token>no</token>
-          <token postag='N.M.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Substitua por <suggestion>\1 ao \3</suggestion>.</message>
-      <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
-      <example>Tenho de <marker>ir ao ginásio</marker>.</example>
-      <example>Quero viajar para fora no ano que vem.</example>
-    </rule>
-  </rulegroup>
 
     <!-- HÁ SUA à sua -->
     <rule id='HÁ_SUA' name="Confusão: há/à + DETERMINANTE POSSESSIVO">
