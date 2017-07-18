@@ -26681,12 +26681,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AUTOIMMOLAR" name="autoimmolar">
             <pattern>
-                <token inflected="yes">autoimmolar</token>
+                <token inflected="yes" regexp="yes">auto(immolar|inculpar|suïcidar)</token>
             </pattern>
             <message>Verb mal construït.</message>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">immolar</match></suggestion>
+            <suggestion><match no="1" regexp_match="(?i)auto(.*)" regexp_replace="$1"/></suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/autoimmolar-se</url>
             <example correction="immolà">s'<marker>autoimmolà</marker></example>
+            <example correction="inculpà">s'<marker>autoinculpà</marker></example>
         </rule>
         <rule id="AUTOINFRINGIR" name="autoinfringir">
             <pattern>
@@ -34482,7 +34483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes">de</token>
                     <token min="0" postag="DA.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">lord|comerç|diputat|representant</token>
+                    <token inflected="yes" regexp="yes">lord|comerç|diputat|representant|expansió|màquina</token>
                 </pattern>
                 <message>Paraula incorrecta en aquest context.</message>
                 <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>

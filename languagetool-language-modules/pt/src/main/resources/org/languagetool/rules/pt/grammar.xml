@@ -2196,11 +2196,18 @@ title="Easy editing stylesheet" ?>
 
     <rule id="NO_VERB" name="Síntaxe: ausência de verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token max='3'/>
+          <token>!</token>
+      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token postag='[^V].+' postag_regexp='yes' min='2'/>
-          <token postag='[^V].+' postag_regexp='yes' skip="-1">
-            <exception scope="next" postag='V.+' postag_regexp='yes'/></token>
+          <token min='2'>
+            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+          <token skip='-1'>
+            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
+            <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
         <and>
           <token postag='_PUNCT'/>
           <token postag='SENT_END'/>
@@ -2210,7 +2217,7 @@ title="Easy editing stylesheet" ?>
       <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
       <short>Frase sem verbo.</short>
       <example type="incorrect"><marker>Isto um exemplo.</marker></example>
-      <example type="incorrect"><marker>Isto um exemplo!</marker></example>
+      <!--example type="incorrect"><marker>Isto um exemplo!</marker></example-->
       <example type="correct"><marker>Isto é um exemplo.</marker></example>
       <example><marker>Isto -  Um exemplo</marker></example><!-- XXX Possível título -->
       <example>Tem marcação com o Dr. Mário?</example>
@@ -2222,6 +2229,12 @@ title="Easy editing stylesheet" ?>
       <example>Ó Meu Deus!</example>
       <example type="incorrect"><marker>Este exemplo também.</marker></example>
       <example type="correct"><marker>Este exemplo também está.</marker></example>
+      <example>Tu tinhas um bocado de tempo.</example>
+      <example>Quem compra este tipo de arte?</example>
+      <example>Esses dois campos representam a união de disciplinas de astronomia e química.</example>
+      <example>Não vale a pena.</example>
+      <example>Certo, isto está bem. Este exemplo está correto. Certo que este também.</example>
+      <example>Este exemplo está correto. Este segundo também. Este terceiro exemplo não.</example>
     </rule>
 
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>

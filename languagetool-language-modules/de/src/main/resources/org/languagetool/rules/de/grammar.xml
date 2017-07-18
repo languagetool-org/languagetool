@@ -9116,60 +9116,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>bekanntermaßen</suggestion> im Sinne von 'bekanntlich' wird zusammengeschrieben.</message>
             <example correction="Bekanntermaßen"><marker>Bekannter Maßen</marker> sind viele einfach depressiv.</example>
         </rule>
-        <rule id="IM_STANDE" name="im Stande (imstande) sein" default="off">
-            <pattern>
-                <token>im</token>
-                <token>Stande</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1stande</suggestion> sein'.</message>
-            <url>http://www.duden.de/rechtschreibung/imstande</url>
-            <short>&getrennt;.</short>
-            <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
-            <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
-        </rule>
-        <rule id="IN_FRAGE_II" name="in Frage (infrage) stellen/kommen" default="off">
-            <pattern>
-                <token>in</token>
-                <token>Frage</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1frage</suggestion> stellen/kommen'.</message>
-            <url>http://www.duden.de/rechtschreibung/infrage</url>
-            <short>&getrennt;.</short>
-            <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
-            <example correction="infrage">Sie stellte seine Glaubwürdigkeit <marker>in Frage</marker>.</example>
-        </rule>
-        <rule id="ZU_GRUNDE" name="zu Grunde (zugrunde) gehen/richten" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Grunde</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1grunde</suggestion> gehen/richten'.</message>
-            <url>http://www.duden.de/rechtschreibung/zugrunde</url>
-            <short>&getrennt;.</short>
-            <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
-            <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
-        </rule>
-        <rule id="ZU_RATE_II" name="zu Rate (zurate) ziehen" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Rate</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rate</suggestion> ziehen'.</message>
-            <url>http://www.duden.de/rechtschreibung/zurate</url>
-            <short>&getrennt;.</short>
-            <example correction="zurate">Sie zog ihn <marker>zu Rate</marker>.</example>
-            <example>Ziehen Sie ihn bitte <marker>zurate</marker>.</example>
-        </rule>
-        <rule id="ZU_RANDE" name="zu Rande (zurande) kommen" default="off">
-            <pattern>
-                <token>zu</token>
-                <token>Rande</token>
-            </pattern>
-            <message>Die vom Duden empfohlene Schreibweise lautet '<suggestion>\1rande</suggestion> kommen'.</message>
-            <url>http://www.duden.de/rechtschreibung/zurande</url>
-            <short>&getrennt;.</short>
-            <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
-        </rule>
         <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
             <url>http://www.duden.de/sprachwissen/sprachratgeber/verben-mit-dem-bestandteil-schwarz</url>
             <rule>
@@ -9235,13 +9181,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token/>
                     <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
                 </antipattern>
                 <antipattern>
                     <token>;</token>
                     <token/>
                     <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
@@ -9294,7 +9240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>;</exception><exception>:</exception></token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
@@ -9375,7 +9321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token>zu</token>
-                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
@@ -9513,7 +9459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9532,7 +9478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9554,7 +9500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9579,7 +9525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
                             <exception scope="next">Seit</exception>
                         </token>
-                        <token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+                        <token regexp="yes">gestern|vor(hin|gestern|vorgestern)</token>
                         <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
@@ -9800,7 +9746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes" min="0">de[mnrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">\d\d?</token>
@@ -34572,15 +34518,123 @@ Andere Projekte</example>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="phantas(.*)" regexp_replace="fantas$1"/></suggestion> verwenden?</message>
                 <example correction="fantastische" type="incorrect">Es ist eine <marker>phantastische</marker> Landschaft.</example>
-		<example correction="fantasievolle" type="incorrect">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
+                <example correction="fantasievolle" type="incorrect">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
+            </rule>
+            <!-- TODO? see http://www.duden.de/rechtschreibung/Graph_Darstellung_Mathematik
+            <rule>
+                <antipattern>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(misch|matisch|ologisch).*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">.*graph.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
+                <example correction="geografischen" type="incorrect">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
+                <example correction="Geografie" type="incorrect">Sie hat <marker>Geographie</marker> studiert.</example>
+                <example correction="Graf" type="incorrect">Die Abbildung zeigt den <marker>Graph</marker> der genannten Funktion.</example>
+                <example correction="Kryptografie" type="incorrect">Sie galt als Spezialistin für <marker>Kryptographie</marker> in ihrem Unternehmen.</example>
+            </rule>
+            -->
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Photograph.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Photograph(.*)" regexp_replace="Fotograf$1"/></suggestion> verwenden?</message>
+                <example correction="Fotografien" type="incorrect">Sie sammelte <marker>Photographien</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">geograph.*</token>
+                    <token regexp="yes" case_sensitive="yes">.*photograph.*</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)eograph(.*)" regexp_replace="$1eograf$2"/></suggestion> verwenden?</message>
-                <example correction="geografischen" type="incorrect">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
-                <example correction="Geografie" type="incorrect">Sie hat <marker>Geographie</marker> studiert.</example>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)photograph(.*)" regexp_replace="$1fotograf$2"/></suggestion> verwenden?</message>
+                <example correction="Familienfotografien" type="incorrect">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Photograph.*|Photon|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Pho(to|n).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
+                <example correction="Fotoalbum" type="incorrect">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|Smartphone.*|Al­lo­phon.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">.*pho(to|n).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)pho(.*)" regexp_replace="$1fo$2"/></suggestion> verwenden?</message>
+                <example correction="Familienfotos" type="incorrect">Ihr gelangen immer wieder wundervolle <marker>Familienphotos</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PH_ANSTATT_F" name="Worte mit Ph anstatt F">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Fonograf.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Fono.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Fono(.*)" regexp_replace="Phono$1"/></suggestion> verwenden?</message>
+                <example correction="Phonotypistin" type="incorrect">Sie arbeitete als <marker>Fonotypistin</marker>.</example>
+                <example correction="Phonologie" type="incorrect">Sie befasste sich mit <marker>Fonologie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Fonograf.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Fonograf(.*)" regexp_replace="Phonograph$1"/></suggestion> verwenden?</message>
+                <example correction="Phonograph" type="incorrect">Die Aufnahme wurde mit einem <marker>Fonograf</marker> erstellt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">fonograf.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">fono.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="fono(.*)" regexp_replace="phono$1"/></suggestion> verwenden?</message>
+                <example correction="phonogene" type="incorrect">Er verfügt über eine <marker>fonogene</marker> Stimme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">fonograf.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="fonograf(.*)" regexp_replace="phonograph$1"/></suggestion> verwenden?</message>
+                <example correction="phonographisches" type="incorrect">Ein <marker>fonografisches</marker> System bietet gegenüber einem logografischen den Vorteil eines kleinen Zeicheninventars und somit der verhältnismäßig leichten Erlernung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="I_ANSTATT_Y" name="Worte mit I anstatt Y">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*oxyd.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)xyd(.*)" regexp_replace="$1$2xid$3"/></suggestion> verwenden?</message>
+                <example correction="Kohlendioxidvergiftung" type="incorrect">Er zog sich eine <marker>Kohlendioxydvergiftung</marker> zu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Z_ANSTATT_T" name="Worte mit Z anstatt T">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(demen|poten|essen)tiell.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)tiell(.*)" regexp_replace="$1ziell$2"/></suggestion> verwenden?</message>
+                <example correction="essenziell" type="incorrect">Diese Aussage ist <marker>essentiell</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(poten|differen)tial.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)tial(.*)" regexp_replace="$1zial$2"/></suggestion> verwenden?</message>
+                <example correction="Potenzial" type="incorrect">Diese Erfindung hat viel <marker>Potential</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
@@ -34610,6 +34664,39 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="[Hh]ilfesuchend(e?[mnrs]?)" regexp_replace="Hilfe suchend$1"/></suggestion> verwenden?</message>
                 <example correction="Hilfe suchend" type="incorrect">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rot(lackiert|geschminckt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint).*|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?).*|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?).*|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
+                <example correction="Rot lackierte" type="incorrect"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
+                <example correction="weiß getünchte" type="incorrect">In dieser Gegend fiel das <marker>weißgetünchte</marker> Haus sofort ins Auge.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">tief((dring|blick|häng|sitz|steh|reich|geh|greif)end|beleidigt|betroffen|verschneit|bewegt|empfunden|gekränkt|erschüttert|gekühlt|betrübt).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ief(.*)" regexp_replace="$1ief $2"/></suggestion> verwenden?</message>
+                <example correction="Tief hängende" type="incorrect"><marker>Tiefhängende</marker> Früchte sollte man zuerst ernten.</example>
+                <example correction="tief betrübt" type="incorrect">Er war <marker>tiefbetrübt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">viel(geliebt|genannt|besucht|gereist|gefragt|umjubelt|besungen|gebraucht|beachtet|umworben|umstritten|gescholten|gelobt|gepriesen|gelesen|beschworen|gekauft|zitiert|befahren|gerühmt|diskutiert|beschäftigt|besprochen|geschmäht).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)iel(.*)" regexp_replace="$1iel $2"/></suggestion> verwenden?</message>
+                <example correction="viel beschäftigten" type="incorrect">Er zählt zu den <marker>vielbeschäftigten</marker> Stars.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Nicht(deutsch(sprachl|sprech)?|organisiert|berufstätig|behindert)e[nr]?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)icht(.*)" regexp_replace="$1icht $2"/></suggestion> verwenden?</message>
+                <example correction="nicht rostendem" type="incorrect">Der Träger besteht aus <marker>nichtrostendem</marker> Stahl.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung">
             <url>http://www.duden.de/hilfe/rechtschreibung</url>
@@ -34625,24 +34712,29 @@ Andere Projekte</example>
                 <example correction="Vonseiten" type="incorrect"><marker>Von Seiten</marker> seines Vaters war keine große Hilfe zu erwarten.</example>
             </rule>
             <rule>
-                <regexp>\bin Frage\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>infrage</suggestion> verwenden?</message>
+                <pattern>
+                    <token>in</token>
+                    <token case_sensitive="yes" regexp="yes">Frage|Stand</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="infrage" type="incorrect">Eine Teilung kommt nicht <marker>in Frage</marker>.</example>
-            </rule>
-            <rule>
-                <regexp>\bin Stand\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>instand</suggestion> verwenden?</message>
+                <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
+                <example correction="infrage">Sie stellte seine Glaubwürdigkeit <marker>in Frage</marker>.</example>
                 <example correction="instand" type="incorrect">Er setzte den Oldtimer wieder <marker>in Stand</marker>.</example>
             </rule>
             <rule>
-                <regexp>\bzu G(runde|unsten)\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)u G(runde|unsten)" regexp_replace="$1ug$2"/></suggestion> verwenden?</message>
+                <pattern>
+                    <token>zu</token>
+                    <token case_sensitive="yes" regexp="yes">Grunde|Gunsten|Rate|Rande|Stande|Schulden</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="zugunsten" type="incorrect">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>
                 <example correction="zugrunde" type="incorrect">Für die Berechnung wurde eine grobe Abschäzung <marker>zu Grunde</marker> gelegt.</example>
-            </rule>
-            <rule>
-                <regexp>\bzu S(tande|chulden)\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)u S(tande|chulden)" regexp_replace="$1us$2"/></suggestion> verwenden?</message>
+                <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
+                <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
+                <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
+                <example correction="zurate">Sie zog ihn <marker>zu Rate</marker>.</example>
+                <example>Ziehen Sie ihn bitte <marker>zurate</marker>.</example>
                 <example correction="zuschulden" type="incorrect">Sie hatte sich nichts <marker>zu Schulden</marker> kommen lassen.</example>
                 <example correction="zustande" type="incorrect">An diesem Tag brachte er nichts <marker>zu Stande</marker>.</example>
             </rule>
@@ -34651,6 +34743,34 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
                 <example correction="sodass" type="incorrect">Sie stellte sich in den Eingang, <marker>so dass</marker> kein Weg an ihr vorbei führte.</example>
                 <example correction="sogenannte" type="incorrect">Die <marker>so genannte</marker> Gerichtsverhandlung empfand er als blanker Hohn.</example>
+            </rule>
+            <rule>
+                <regexp>\bviel (verheiß|sag|versprech)end\w*\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)iel (.*)" regexp_replace="$1iel$2"/></suggestion> verwenden?</message>
+                <example correction="vielsagenden" type="incorrect">Sie warf ihm einen <marker>viel sagenden</marker> Blick zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nicht</token>
+                    <token case_sensitive="yes" regexp="yes">Zutreffendes|Gewünschtes|(Sesshaft|Berufstätig|Geschäftsfähig)e[nr]?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" case_conversion ="startupper"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="Nichtsesshafter" type="incorrect">Er galt als <marker>Nicht Sesshafter</marker>.</example>
+                <example correction="Nichtzutreffendes" type="incorrect"><marker>Nicht Zutreffendes</marker> bitte streichen.</example>
+            </rule>
+            <rule>
+                <regexp>\becht (silbern|golden)\w*\b</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)cht (.*)" regexp_replace="$1cht$2"/></suggestion> verwenden?</message>
+                <example correction="echtgoldene" type="incorrect">Er trug eine <marker>echt goldene</marker> Uhr.</example>
+            </rule>
+            <rule>
+                <pattern>
+                     <token>im</token>
+                     <token>Stande</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>\1stande</suggestion> verwenden?</message>
+                <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
+                <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
             </rule>
         </rulegroup>
     </category>
