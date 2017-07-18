@@ -9525,7 +9525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
                             <exception scope="next">Seit</exception>
                         </token>
-                        <token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+                        <token regexp="yes">((vor)?vor)?gestern|vorhin</token>
                         <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
@@ -9540,6 +9540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
                 <short>Falsche Zeitform</short>
+                <example correction="Vorvorgestern Besuchte|Vorvorgestern besuchte|Vorvorgestern besuchtet"><marker>Vorvorgestern besucht</marker> er seine Oma.</example>
                 <example correction="Gestern schneite|Gestern schneitet"><marker>Gestern schneit</marker> es ein wenig.</example>
                 <example>Ich habe mein Rad <marker>gestern</marker> repariert.</example>
                 <example>Rate mal, wer mich <marker>gestern besucht</marker> hat.</example>
