@@ -9181,13 +9181,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token/>
                     <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
                 </antipattern>
                 <antipattern>
                     <token>;</token>
                     <token/>
                     <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" regexp="yes">vo[mn]</token>
@@ -9240,7 +9240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>;</exception><exception>:</exception></token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
-                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                        <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
@@ -9321,7 +9321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token>zu</token>
-                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
@@ -9459,7 +9459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9478,7 +9478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9500,7 +9500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
-                            <exception regexp="yes">eine|einen</exception>
+                            <exception regexp="yes">einen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9525,7 +9525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
                             <exception scope="next">Seit</exception>
                         </token>
-                        <token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+                        <token regexp="yes">gestern|vor(hin|gestern|vorgestern)</token>
                         <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
@@ -9746,7 +9746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes" min="0">de[mnrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">\d\d?</token>
@@ -34522,7 +34522,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*pho[nt]ograph.*|graphe(misch|matisch|ologisch).*</token>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(en|em)?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">.*graph.*</token>
@@ -34530,7 +34530,7 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
                 <example correction="geografischen" type="incorrect">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
                 <example correction="Geografie" type="incorrect">Sie hat <marker>Geographie</marker> studiert.</example>
-                <example correction="Graf" type="incorrect">Die Abbildung zeigt den <marker>Graph</marker> der genannten Funktion.</example>
+                <example>Die Abbildung zeigt den <marker>Graph</marker> der genannten Funktion.</example>
                 <example correction="Kryptografie" type="incorrect">Sie galt als Spezialistin für <marker>Kryptographie</marker> in ihrem Unternehmen.</example>
             </rule>
             <rule>
@@ -34551,7 +34551,7 @@ Andere Projekte</example>
         <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F">
             <rule>
                 <antipattern>
-                    <token regexp="yes">Photograph.*|Photon|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                    <token regexp="yes">Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Pho(to|n).*</token>
@@ -34664,11 +34664,12 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminckt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint).*|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?).*|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?).*|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend).*</token>
+                    <token regexp="yes">rot(lackiert|geschminckt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <example correction="Rot lackierte" type="incorrect"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
                 <example correction="weiß getünchte" type="incorrect">In dieser Gegend fiel das <marker>weißgetünchte</marker> Haus sofort ins Auge.</example>
+                <example>Der typische rosafarbene Ton verschwindet in Richtung zu einer starken Gelbfärbung.</example>
             </rule>
             <rule>
                 <pattern>

@@ -36,6 +36,11 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
   }
 
   @Override
+  public String getId() {
+    return "SWISS_GERMAN_SPELLER_RULE";
+  }
+
+  @Override
   protected void init() throws IOException {
     super.init();
     for (String ignoreWord : wordListLoader.loadWords("/de/hunspell/spelling-de-CH.txt")) {
