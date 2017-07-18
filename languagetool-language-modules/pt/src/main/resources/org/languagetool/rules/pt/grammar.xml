@@ -25,7 +25,7 @@ title="Easy editing stylesheet" ?>
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
- 
+
 -->
   <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -190,7 +190,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
       <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
-    <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example> 
+    <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example>
                XXX testrules.sh says this example has no detectable errors but they appear in the Standalone tool. Verify with regression testing -->
     </rule>
     <rule>
@@ -1876,7 +1876,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
     <rule id="LP_NAO_A" name="Confusão: A - Há">
-    <!-- Based on Lightproof by Tiago F. Santos, 2017-07-05 -->    
+    <!-- Based on Lightproof by Tiago F. Santos, 2017-07-05 -->
       <antipattern>
           <token regexp='yes'>diga|digam|digo|dirá|dirão|diremos|diria|diriam|disse|dissemos|disseram|dizem|diz|dizer|dizia|diziam|do|e|no|o|ou|para|pro|sonoro|um</token>
           <token>não</token>
@@ -2055,7 +2055,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>é</token>
         </marker>
-          <token postag_regexp="yes" postag="A...P.+"></token>
+          <token postag_regexp="yes" postag="A...P.+"/>
       </pattern>
       <message>Erro de concordância de número.</message>
         <suggestion>são</suggestion>
@@ -2069,7 +2069,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>quem</token>
         <marker>
-          <token postag="V...3P.+"></token>
+          <token postag="V...3P.+"/>
         </marker>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag=""(V...3)P(.+)"" postag_replace="$1S$2"/></suggestion></message>
@@ -2086,9 +2086,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
         <marker>
-          <token postag_regexp='yes' postag="NCFP.+"></token>
+          <token postag_regexp='yes' postag="NCFP.+"/>
         </marker>
-          <token postag_regexp='yes' postag="V...3S.+"></token>
+          <token postag_regexp='yes' postag="V...3S.+"/>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)FP(.+)" postag_replace="$1FS$2"/></suggestion></message>
       <example correction="vaca">A <marker>vacas</marker> está no pasto.</example>
@@ -2097,9 +2097,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>as</token>
         <marker>
-          <token postag_regexp='yes' postag="NCFS.+"></token>
+          <token postag_regexp='yes' postag="NCFS.+"/>
         </marker>
-          <token postag_regexp='yes' postag="V...3P.+"></token>
+          <token postag_regexp='yes' postag="V...3P.+"/>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)FS(.+)" postag_replace="$1FP$2"/></suggestion></message>
       <example correction="vacas">As <marker>vaca</marker> estão no pasto.</example>
@@ -2108,9 +2108,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>o</token>
         <marker>
-          <token postag_regexp='yes' postag="NCMP.+"></token>
+          <token postag_regexp='yes' postag="NCMP.+"/>
         </marker>
-          <token postag_regexp='yes' postag="V...3S."></token>
+          <token postag_regexp='yes' postag="V...3S."/>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)MP(.+)" postag_replace="$1MS$2"/></suggestion></message>
       <example correction="boi">O <marker>bois</marker> está no pasto.</example>
@@ -2119,9 +2119,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>os</token>
         <marker>
-          <token postag_regexp='yes' postag="NCMS.+"></token>
+          <token postag_regexp='yes' postag="NCMS.+"/>
         </marker>
-          <token postag_regexp='yes' postag="V...3P."></token>
+          <token postag_regexp='yes' postag="V...3P."/>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(N.)MS(.+)" postag_replace="$1MP$2"/></suggestion></message>
       <example correction="bois">Os <marker>boi</marker> estão no pasto.</example>
@@ -2133,7 +2133,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
           <token>gente</token>
-          <token postag_regexp='yes' postag="V...1P.+"></token>
+          <token postag_regexp='yes' postag="V...1P.+"/>
       </pattern>
       <message>Erro de concordância de número: <suggestion>\1 \2 <match no="3" postag_regexp= "yes" postag="(V...)1P(.+)" postag_replace="$13S$2"/></suggestion></message>
       <short>Erro de concordância de número</short>
@@ -2149,7 +2149,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>-|–|—</token>
           <token>se</token>
         </marker>
-          <token postag_regexp="yes"  postag="(N..|A...)P.+"></token>
+          <token postag_regexp="yes"  postag="(N..|A...)P.+"/>
       </pattern>
       <message>Erro de concordância de número.</message>
         <suggestion>procuram-se</suggestion>
@@ -2217,7 +2217,7 @@ title="Easy editing stylesheet" ?>
       <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
       <short>Frase sem verbo.</short>
       <example type="incorrect"><marker>Isto um exemplo.</marker></example>
-      <!--example type="incorrect"><marker>Isto um exemplo!</marker></example-->
+    <!--example type="incorrect"><marker>Isto um exemplo!</marker></example-->
       <example type="correct"><marker>Isto é um exemplo.</marker></example>
       <example><marker>Isto -  Um exemplo</marker></example><!-- XXX Possível título -->
       <example>Tem marcação com o Dr. Mário?</example>
@@ -2710,7 +2710,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>criam</token>
         </marker>
-          <token postag="VMN0000"></token>
+          <token postag="VMN0000"/>
       </pattern>
       <message>Substitua por <suggestion>queriam</suggestion>.</message>
       <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
@@ -2731,7 +2731,7 @@ title="Easy editing stylesheet" ?>
     <rule id='DE_PRESSA' name="Confusão: de pressa - depressa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token postag_regexp="yes" postag="(N..|A...)S.+"></token>
+          <token postag_regexp="yes" postag="(N..|A...)S.+"/>
         <marker>
           <token>de</token>
           <token>pressa</token>
@@ -2744,7 +2744,7 @@ title="Easy editing stylesheet" ?>
     <rule id='DE_VAGAR' name="Confusão: de vagar - devagar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token postag_regexp="yes" postag="(N..|A...)S.+"></token>
+          <token postag_regexp="yes" postag="(N..|A...)S.+"/>
         <marker>
           <token>de</token>
           <token>vagar</token>
@@ -3525,16 +3525,16 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp="yes">o|a|um|uma</token>
-          <token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"></token>
+          <token postag_regexp="yes" postag="NPMSS00|NPFSS00|NCMS000|NCFS000"/>
         <marker>
           <token>esta</token>
         </marker>
-          <token postag="SPS00"></token>
+          <token postag="SPS00"/>
       </pattern>
       <message>Substitua por <suggestion>está</suggestion>.</message>
       <example correction="está">O Rui <marker>esta</marker> de saída.</example>
     </rule>
-	
+
   </rulegroup>
 
     <!-- ESTAR SOBRE O EFEITO DE estar sob o efeito de -->
@@ -3549,10 +3549,10 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">efeitos?</token>
           <token regexp="yes">de|dos?|das?</token>
       </pattern>
-      <message>Substitua por <suggestion>sob</suggestion>.</message>        
+      <message>Substitua por <suggestion>sob</suggestion>.</message>
       <example correction="sob">Ele estava <marker>sobre</marker> o efeito de drogas.</example>
-    </rule>	  
-  
+    </rule>
+
     <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
     <rule id='ESTAR-ESTÃO_A_PLURAL' name="Usar infinitivo ESTAR/ESTÃO + A + INFINITIVO">
       <pattern>
@@ -3574,7 +3574,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>fazem</token>
         </marker>
-          <token></token>
+          <token/>
           <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
       <message>Substitua por <suggestion>faz</suggestion>.</message>
@@ -3712,7 +3712,7 @@ title="Easy editing stylesheet" ?>
     <!-- AI aí -->
     <rule id='AI' name="Confusão: ai - aí">
       <pattern>
-          <token postag_regexp="yes" postag="SPS00|V.+"></token>
+          <token postag_regexp="yes" postag="SPS00|V.+"/>
         <marker>
           <token>ai</token>
         </marker>
@@ -3999,7 +3999,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>o</token>
           <token>mas</token>
-          <token postag_regexp="yes" postag="RG|A..[CM]S.+"></token>
+          <token postag_regexp="yes" postag="RG|A..[CM]S.+"/>
       </pattern>
       <message>Substitua por <suggestion>\1 mais \3</suggestion>.</message>
       <example correction="o mais rapidamente">Quero resultados <marker>o mas rapidamente</marker> possível</example>
@@ -4076,7 +4076,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>o</token>
           <token>mais</token>
-          <token postag="AQ0CP0"></token>
+          <token postag="AQ0CP0"/>
         <marker>
           <token>possíveis</token>
         </marker>
@@ -4218,7 +4218,7 @@ title="Easy editing stylesheet" ?>
     <rule id='PREÇOS_ADJ_ECONÓMICOS' name="Preços + adj + baixos">
       <pattern>
           <token>preços</token>
-          <token postag="RG"></token>
+          <token postag="RG"/>
         <marker>
           <token>económicos</token>
         </marker>
@@ -4270,7 +4270,7 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>quem não está</suggestion>.</message>
       <example correction="quem não está">Excelente para <marker>quem não esta</marker> doente.</example>
     </rule>
-	
+
     <rule id='RECOMENDÁVEL_DE' name="recomendável">
     <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
       <pattern>
@@ -4283,7 +4283,7 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>recomendável</suggestion>.</message>
       <example correction="recomendável">É <marker>recomendável de</marker> fazer um backup mensal.</example>
     </rule>
-	
+
     <!-- RIU-ME rio-me -->
     <rule id='RIU-ME' name="Confusão: rio-me">
       <pattern>
@@ -4512,7 +4512,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>tiver.*</token>
         </marker>
           <token>a</token>
-          <token postag="VMN0000"></token>
+          <token postag="VMN0000"/>
       </pattern>
       <message>Substitua por <suggestion><match no='1' regexp_match='(tiver)(.*)' regexp_replace='estiver$2'/></suggestion>.</message>
       <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
@@ -4530,7 +4530,7 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
         </marker>
         <or>
-          <token postag="AQ0MS0"></token>
+          <token postag="AQ0MS0"/>
           <token>Latim</token>
         </or>
       </pattern>
@@ -4545,11 +4545,11 @@ title="Easy editing stylesheet" ?>
     <!-- DAÍ de aí -->
     <rule id='DAÍ' name="De aí">
       <pattern>
-          <token postag="VMN0000"></token>
+          <token postag="VMN0000"/>
         <marker>
           <token>daí</token>
         </marker>
-          <token postag="VMN0000"></token>
+          <token postag="VMN0000"/>
       </pattern>
       <message>Será que quis dizer <suggestion>de aí</suggestion>?</message>
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
@@ -4589,8 +4589,8 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token>onde</token>
         </marker>
-          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'></token>
-          <token negate_pos='yes' postag='V.+' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'/>
+          <token negate_pos='yes' postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer <suggestion>aonde</suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4601,7 +4601,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
           <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
+          <token postag='V.N.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>de</token>
@@ -4619,8 +4619,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">onde</token>
         </marker>
-          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'></token>
-          <token min='0' negate_pos='yes' postag='V.+' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'/>
+          <token min='0' negate_pos='yes' postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer <suggestion>donde</suggestion>?</message>
       <example correction='donde'><marker>de onde</marker>.</example>
@@ -4671,8 +4671,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token postag='(V.+)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
+          <token postag='(V.+)' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>de</token>
@@ -4690,7 +4690,7 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
           <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'></token>
+          <token postag='V.N.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>em</token>
@@ -4745,8 +4745,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token postag='(V.+)' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
+          <token postag='(V.+)' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>em</token>
@@ -5005,7 +5005,7 @@ title="Easy editing stylesheet" ?>
           <token>pois</token>
         </marker>
           <token><exception regexp="yes">[!.,;:–—\(]</exception></token>
-          <token></token>
+          <token/>
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \2,</suggestion></message>
       <example correction="é, pois,">Ela <marker>é pois</marker> do Norte.</example>
@@ -5029,7 +5029,7 @@ title="Easy editing stylesheet" ?>
           <token>pois</token>
         </marker>
           <token><exception regexp="yes">[!.,;:–—\(]</exception></token>
-          <token></token>
+          <token/>
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \3,</suggestion></message>
       <example correction="é, pois,">Ela <marker>é, pois</marker> do Norte.</example>
@@ -5041,7 +5041,7 @@ title="Easy editing stylesheet" ?>
           <token>pois</token>
         </marker>
           <token>,</token>
-          <token></token>
+          <token/>
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \2</suggestion></message>
       <example correction="é, pois">Ela <marker>é pois</marker>, do Norte.</example>
@@ -6267,7 +6267,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <pattern>
           <token>como</token>
           <token regexp='yes'>lhes?|vos|te</token>
-          <token postag_regexp='yes' postag='V.+'></token>
+          <token postag_regexp='yes' postag='V.+'/>
           <token>a</token>
           <token regexp='yes'>vocês?</token>
       </pattern>
@@ -6275,7 +6275,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
         <suggestion>\1 \2 \3</suggestion>
       <example correction="como lhes disse">Façam <marker>como lhes disse a vocês</marker>.</example>
     </rule>
-	
+
     <!-- Verb EXPORTAR + PARA FORA > Verb exportar -->
     <rule id='EXPORTAR_PARA_FORA' name="Exportar">
       <pattern>
@@ -6361,9 +6361,9 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       </pattern>
       <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
       <example correction="aos meus pais">Obrigado <marker>à minha mãe e pai</marker>.</example>
-    </rule>	
-  </rulegroup>  
-		
+    </rule>
+  </rulegroup>
+
     <!-- MAIS MELHOR melhor -->
     <rule id='MAIS_MELHOR' name="Melhor">
       <pattern>
@@ -8237,7 +8237,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='REDUNDANCY_29_PREFERIR' name='Pleonasmo: preferir mais'>
       <pattern>
           <token inflected='yes'>preferir</token>
-          <token min='0' regexp='yes'>muito|muitíssimo</token>		
+          <token min='0' regexp='yes'>muito|muitíssimo</token>
           <token>mais</token>
       </pattern>
       <message>Pleonasmo. Substitua por: </message>
@@ -19521,11 +19521,11 @@ TODO Write better examples
       </pattern>
       <message>Se se refere ao verbo, substitua por <suggestion>de pôr</suggestion>.</message>
       <example correction="de pôr">Temos <marker>de por</marker> os pratos na mesa!</example>
-      <example>A sua importância é atestada pelo facto de por lá passar uma das vias romanas.</example>	  
+      <example>A sua importância é atestada pelo facto de por lá passar uma das vias romanas.</example>
     </rule>
     <rule>
       <pattern>
-          <token>por</token>  
+          <token>por</token>
           <token>em</token>
       </pattern>
       <message>Substitua por <suggestion>pôr em</suggestion>.</message>
@@ -19808,7 +19808,7 @@ TODO Write better examples
       <example type="incorrect">1 <marker>&gt;=</marker> 3</example>
             </rule-->
   </rulegroup>
-         
+
   <rulegroup id="ARROWS" name="-&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
@@ -21479,7 +21479,7 @@ TODO Write better examples
           <token postag="SENT_START"/>
           <token regexp="yes">[\d,.]+</token>
           <token postag='SENT_END'/>
-      </antipattern>      
+      </antipattern>
       <pattern>
         <marker>
           <token postag="SENT_START"/>
@@ -21628,13 +21628,13 @@ TODO Write better examples
           <token>enquanto</token>
         <marker>
           <token>possa</token>
-        </marker>		  
+        </marker>
           <token>ser</token>
       </pattern>
       <message>Substitua por <suggestion>puder</suggestion>.</message>
       <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
-    </rule>		
-	
+    </rule>
+
     <rule id='ENQUANTO_QUE' name="Expressão: Enquanto">
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
@@ -21644,7 +21644,7 @@ TODO Write better examples
       <message>Substitua por <suggestion>enquanto</suggestion>.</message>
       <example correction="enquanto">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
     </rule>
-	
+
     <rule id='EVIDENTEMENTE_QUE' name="Expressão: Evidentemente">
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
@@ -21653,7 +21653,7 @@ TODO Write better examples
       </pattern>
       <message>Substitua por <suggestion>evidentemente</suggestion>.</message>
       <example correction="evidentemente">O Rui <marker>evidentemente que</marker> cometeu um erro.</example>
-    </rule>	
+    </rule>
 
  </category>
  <category id='FORMAL_SPEECH' name="Linguagem Formal" type="style">
@@ -22631,12 +22631,12 @@ TODO Write better examples
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag="V.+"></token>
+          <token postag_regexp='yes' postag="V.+"/>
         <marker>
           <token>montes</token>
           <token>de</token>
-        </marker>  
-          <token postag_regexp='yes' postag="N.MS.+"></token>
+        </marker>
+          <token postag_regexp='yes' postag="N.MS.+"/>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imenso</suggestion>
@@ -22644,25 +22644,25 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag="V.+"></token>
+          <token postag_regexp='yes' postag="V.+"/>
         <marker>
           <token>montes</token>
           <token>de</token>
-        </marker>  
-          <token postag_regexp='yes' postag="N.MP.+"></token>
+        </marker>
+          <token postag_regexp='yes' postag="N.MP.+"/>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imensos</suggestion>
-      <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>	  
+      <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag="V.+"></token>
+          <token postag_regexp='yes' postag="V.+"/>
         <marker>
           <token>montes</token>
           <token>de</token>
-        </marker>  
-          <token postag_regexp='yes' postag="N.FS.+"></token>
+        </marker>
+          <token postag_regexp='yes' postag="N.FS.+"/>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imensa</suggestion>
@@ -22670,16 +22670,16 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag="V.+"></token>
+          <token postag_regexp='yes' postag="V.+"/>
         <marker>
           <token>montes</token>
           <token>de</token>
-        </marker>  
-          <token postag_regexp='yes' postag="N.FP.+"></token>
+        </marker>
+          <token postag_regexp='yes' postag="N.FP.+"/>
       </pattern>
       <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
         <suggestion>imensas</suggestion>
-      <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>	  
+      <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
     </rule>
   </rulegroup>
 
@@ -22817,8 +22817,8 @@ TODO Write better examples
       </pattern>
       <message>Substitua por <suggestion><match no='1' postag='V.+'>percorrer</match></suggestion>.</message>
       <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
-    </rule>  
-  
+    </rule>
+
     <!-- ATAQUES EM MASSA ataques em grande escala -->
     <rule id='ATAQUES_EM_MASSA' name="Ataques em grande escala">
       <pattern>
@@ -22828,8 +22828,8 @@ TODO Write better examples
       </pattern>
       <message>Substitua por <suggestion>\1 em grande escala</suggestion>.</message>
       <example correction="ataques em grande escala">As botnets fazem <marker>ataques em massa</marker>.</example>
-    </rule>  
-  
+    </rule>
+
   <rulegroup id='DECIMAL_COMMA' name="Utilização de vírgula como separador de decimais" default="on">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
@@ -22901,7 +22901,7 @@ TODO Write better examples
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>
-    <!--<antipattern>   Livros da Bíblia 
+    <!--<antipattern>   Livros da Bíblia
         <marker>
           <token postag="_abrev_biblia"/>
           <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
@@ -23015,8 +23015,8 @@ TODO Write better examples
       </pattern>
       <message>Substitua por <suggestion>usurpação de \3</suggestion>.</message>
       <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
-    </rule>  
-  
+    </rule>
+
     <rule id='OPENING_INTERROGATION' name="Sinal de interrogação inicial" default="on">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
@@ -23068,14 +23068,14 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token>medicina</token>          
+          <token>medicina</token>
           <token>chinesa</token>
           <token>antiga</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
         <suggestion>medicina tradicional Chinesa</suggestion>
       <example correction="medicina tradicional Chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
-    </rule>	
+    </rule>
   </rulegroup>
 
   <rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
@@ -23092,14 +23092,14 @@ TODO Write better examples
     <rule>
       <pattern>
           <token>intestino</token>
-          <token>pequeno</token>		  
+          <token>pequeno</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
         <suggestion>intestino delgado</suggestion>
       <example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
     </rule>
   </rulegroup>
-  
+
   <rulegroup id='TRAZEDORES_DA_JUSTIÇA' name="Erro de tradução: 'justiceiro(s)'">
       <short>Erro de tradução.</short>
     <rule>
@@ -23123,7 +23123,7 @@ TODO Write better examples
       <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
     </rule>
   </rulegroup>
-    
+
     <rule id='UM_TAMANHO_SERVE_PARA_TODOS' name="Erro de tradução: 'tamanho único'">
       <pattern>
           <token>um</token>
@@ -25352,5 +25352,5 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
- </category> 
+ </category>
 </rules>
