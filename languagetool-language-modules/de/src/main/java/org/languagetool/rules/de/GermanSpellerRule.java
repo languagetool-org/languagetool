@@ -206,6 +206,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");
+    String suggestion = "";
     if ("WIFI".equals(w) || "wifi".equals(w)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("ausversehen".equals(w)) {
@@ -219,26 +220,50 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("einzigste[mnrs]?")) {
       return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
     } else if (word.endsWith("standart")) {
-      return Collections.singletonList(word.replaceFirst("standart$", "standard"));
+      suggestion = word.replaceFirst("standart$", "standard");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("standarts")) {
-      return Collections.singletonList(word.replaceFirst("standarts$", "standards"));
+      suggestion = word.replaceFirst("standarts$", "standards");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("parties")) {
-      return Collections.singletonList(word.replaceFirst("parties$", "partys"));
+      suggestion = word.replaceFirst("parties$", "partys");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("derbies")) {
-      return Collections.singletonList(word.replaceFirst("derbies$", "derbys"));
+      suggestion = word.replaceFirst("derbies$", "derbys");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("stories")) {
-      return Collections.singletonList(word.replaceFirst("stories$", "storys"));
+      suggestion = word.replaceFirst("stories$", "storys");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("tip")) {
-      return Collections.singletonList(word.replaceFirst("tip$", "tipp"));
+      suggestion = word.replaceFirst("tip$", "tipp");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("tips")) {
-      return Collections.singletonList(word.replaceFirst("tips$", "tipps"));
+      suggestion = word.replaceFirst("tips$", "tipps");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("oullie")) {
-      String suggestion = word.replaceFirst("oullie$", "ouille");
+      suggestion = word.replaceFirst("oullie$", "ouille");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
     } else if (word.startsWith("Bundstift")) {
-      return Collections.singletonList(word.replaceFirst("^Bundstift", "Buntstift"));
+      suggestion = word.replaceFirst("^Bundstift", "Buntstift");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.equals("ca")) {
       return Collections.singletonList("ca.");
     } else if (word.equals("Jezt")) {
