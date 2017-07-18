@@ -265,6 +265,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Ladys");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
+    } else if (word.matches("Erdogans?$")) {
+      return Collections.singletonList(word.replaceFirst("^Erdogan", "Erdoğan"));
     } else if (word.matches("Email[a-zäöü]{5,}")) {
       String suffix = word.substring(5);
       if (hunspellDict.misspelled(suffix)) {
