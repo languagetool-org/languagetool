@@ -8,4 +8,7 @@ sed -ri 's/^[ \t]*(<\/?(antipattern|pattern|regexp|filter|message|url|short|exam
 sed -ri 's/^[ \t]*(<\/?(token|unify))/          \1/' $@
 sed -ri 's/^[ \t]*(<\/?(exception|feature))/            \1/' $@
 
+sed -ri 's/(<token[^>]*?)><\/token>/\1\/>/' $@
+sed -ri 's/[ \t]+\r?$/\r/' $@
+
 echo $@' indented'
