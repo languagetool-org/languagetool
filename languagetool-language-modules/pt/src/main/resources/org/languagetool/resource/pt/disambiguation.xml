@@ -25,7 +25,7 @@
     <!ENTITY numero_por_extenso_FS "uma|dezena">
     <!ENTITY numero_por_extenso_MP "uns|dois|centos?|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)os|(mi|bi|tri|quadri)lh?i?ões">
     <!ENTITY numero_por_extenso_FP "umas|duas|dezenas|dúzias|centenas|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)as">
-  
+
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -78,46 +78,46 @@
     <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
     <rule id="nomeproprio2palavras_filtra" name="nome proprio 3 palavras">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
-          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras" name="nome proprio 3 palavras">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
         <marker>
           <token/>
         </marker>
-          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="add"><wd lemma="NP" pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio4palavras" name="nome proprio 4 palavras">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
         <marker>
           <token/>
           <token/>
         </marker>
-          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="add"><wd lemma="NP" pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras_filtra" name="nome proprio 3 palavras">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
           <token postag="NP00000"/>
-          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio4palavras-filtra" name="nome proprio 4 palavras">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
           <token postag="NP00000"/>
           <token postag="NP00000"/>
-          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"></token>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
@@ -713,7 +713,7 @@
       <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
     </rule>
-    
+
     <rule id="SD_V" name="Contração + Verbo">
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <pattern>
@@ -765,7 +765,7 @@
       <pattern>
           <token regexp="yes">[.,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
       </pattern>
-      <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
+      <disambig action="add"><wd pos="_PUNCT"/></disambig>
     </rule>
 
     <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
@@ -1712,9 +1712,11 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Ignore punctuation" id="IGNORE_PUNCTUATION">
+    <rule name="Ignore separators" id="IGNORE_SEPARATORS">
       <pattern>
-          <token postag='_PUNCT'/>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -1725,5 +1727,5 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    
+
 </rules>
