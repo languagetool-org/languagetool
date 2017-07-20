@@ -204,7 +204,6 @@ public class HunspellRule extends SpellingCheckRule {
 
   private void addIgnoreWords() throws IOException {
     hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
     List<String> ignoreLines = Resources.readLines(ignoreUrl, Charsets.UTF_8);
     for (String ignoreLine : ignoreLines) {

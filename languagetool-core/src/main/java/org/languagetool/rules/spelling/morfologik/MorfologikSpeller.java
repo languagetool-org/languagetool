@@ -81,7 +81,6 @@ public class MorfologikSpeller {
   public boolean isMisspelled(String word) {
     return word.length() > 0 
             && !SpellingCheckRule.LANGUAGETOOL.equals(word)
-            && !SpellingCheckRule.LANGUAGETOOL_FX.equals(word)
             && speller.isMisspelled(word);
   }
 
