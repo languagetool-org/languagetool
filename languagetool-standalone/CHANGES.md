@@ -2,6 +2,9 @@
 
 ## 3.9-SNAPSHOT (release planned for 2017-09-26)
 
+#### French
+  * upgraded dictionaries to Dicollecte-6.1
+
 #### German
   * added and improved rules
   * spell checker suggestions have been improved a lot by considering
