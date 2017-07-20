@@ -264,6 +264,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.equals("zuende")) {
+      return Collections.singletonList("zu Ende");
+    } else if (word.equals("zumindestens")) {
+      return Collections.singletonList("zumindest");
     } else if (word.equals("ca")) {
       return Collections.singletonList("ca.");
     } else if (word.equals("Jezt")) {
