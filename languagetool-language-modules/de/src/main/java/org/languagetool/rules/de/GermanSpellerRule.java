@@ -166,6 +166,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         suggestions.set(i, s.replace("ß", "ss"));
       }
     }
+    // Remove suggestions like "Mafiosi s":
+    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> k.length() == 1));
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
@@ -179,8 +181,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (misspelling.equalsIgnoreCase(suggestion)) {
         // this should be preferred - only case differs:
         result.add(0, suggestion);
-      } else if (suggestion.contains(" ") && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
-        // prefer "vor allem", but not "konfliktbereite l" etc:
+      } else if (suggestion.contains(" ")) {
+        // prefer e.g. "vor allem":
         result.add(0, suggestion);
       } else {
         result.add(suggestion);

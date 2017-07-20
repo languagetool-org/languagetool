@@ -50,6 +50,23 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void filterForLanguage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
+    rule.filterForLanguage(list1);
+    assertThat(list1, is(Arrays.asList("foo")));
+
+    List<String> list2 = new ArrayList<>(Arrays.asList("-bar", "foo"));
+    rule.filterForLanguage(list2);
+    assertThat(list2, is(Arrays.asList("foo")));
+
+    GermanSpellerRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    List<String> list3 = new ArrayList<>(Arrays.asList("Muße", "foo"));
+    ruleCH.filterForLanguage(list3);
+    assertThat(list3, is(Arrays.asList("Musse", "foo")));
+  }
+
+  @Test
   public void testSortSuggestion() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("fehla", "xxx", "Fehler")).toString(),
@@ -155,7 +172,7 @@ public class GermanSpellerRuleTest {
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit, konfliktbereite l]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
   }
 
   @Test
