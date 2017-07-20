@@ -129,6 +129,7 @@ public class CaseRuleTest {
     assertBad("Der Brief wird am Mittwoch in Brüssel Übergeben.");
     assertBad("Damit sollen sie die Versorgung in der Region Übernehmen.");
     assertBad("Die Unfallursache scheint geklärt, ein Lichtsignal wurde Überfahren.");
+    assertBad("Der Lenker hatte die Höchstgeschwindigkeit um 76 km/h Überschritten.");
     assertGood("Ich möchte zwei Kilo Zwiebeln.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
