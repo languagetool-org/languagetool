@@ -299,6 +299,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         suffix = suffixSuggestions.isEmpty() ? suffix : suffixSuggestions.get(0);
       }
       return Collections.singletonList("E-Mail-"+Character.toUpperCase(suffix.charAt(0))+suffix.substring(1));
+    } else if (word.equals("wiederspiegeln")) {
+      return Collections.singletonList("widerspiegeln");
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
