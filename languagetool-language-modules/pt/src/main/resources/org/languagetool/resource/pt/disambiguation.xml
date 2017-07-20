@@ -765,7 +765,7 @@
       <pattern>
           <token regexp="yes">[.,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
       </pattern>
-      <disambig action="add"><wd pos="_PUNCT"/></disambig>
+      <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
     </rule>
 
     <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
@@ -1705,14 +1705,22 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-  </rulegroup>
-    <rule name="Ignore spelling of abreviations with numbers" id="IGNORE_SPELLING_OF_SPECIAL_ABREVIATIONS">
+    <rule>
       <pattern>
           <token regexp="yes">[2345]D</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Ignore separators" id="IGNORE_SEPARATORS">
+    <rule>
+      <pattern>
+        <marker>
+          <token case_sensitive="yes" regexp="yes">\p{Lu}</token>
+        </marker>
+          <token>.</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
       <pattern>
           <token>-</token>
           <token>-</token>
@@ -1720,12 +1728,13 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS">
+    <rule>
     <!-- Ported from English disambiguation.xml -->
       <pattern case_sensitive="yes">
           <token regexp="yes">(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)(⁻)?(¹|²|³)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+  </rulegroup>
 
 </rules>

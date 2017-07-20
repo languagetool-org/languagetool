@@ -264,6 +264,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.equals("zuende")) {
+      return Collections.singletonList("zu Ende");
+    } else if (word.equals("zumindestens")) {
+      return Collections.singletonList("zumindest");
     } else if (word.equals("ca")) {
       return Collections.singletonList("ca.");
     } else if (word.equals("Jezt")) {
@@ -290,6 +294,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Ladys");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
+    } else if (word.matches("rosane[mnrs]?$")) {
+      return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
+    } else if (word.matches("geupdate[dt]$")) {
+      return Collections.singletonList("upgedatet");
+    } else if (word.matches("näste[mnrs]?$")) {
+      return Collections.singletonList(word.replaceFirst("^näs", "nächs"));
     } else if (word.matches("Erdogans?$")) {
       return Collections.singletonList(word.replaceFirst("^Erdogan", "Erdoğan"));
     } else if (word.matches("Email[a-zäöü]{5,}")) {
