@@ -108,6 +108,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
     assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
     assertFirstSuggestion("Emailacount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("millionmal", "Million Mal", rule, lt);
+    assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
+    assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
+    assertFirstSuggestion("rosanen", "rosa", rule, lt);
   }
 
   @Test
