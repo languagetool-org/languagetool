@@ -296,6 +296,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Ladys");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
+    } else if (word.matches("[mM]illion(en)?mal")) {
+      suggestion = word.replaceFirst("^million", "Million");
+      suggestion = suggestion.replaceFirst("mal$", "");
+      return Collections.singletonList(suggestion + " Mal");
+    } else if (word.equals("ok")) {
+      return Arrays.asList("okay", "O.\u202fK."); // Duden-like suggestion with no-break space
+    } else if (word.matches("[aA]wa")) {
+      return Arrays.asList("AWA", "ach was", "aber");
+    } else if (word.equals("ch")) {
+      return Collections.singletonList("ich");
     } else if (word.matches("rosane[mnrs]?$")) {
       return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
     } else if (word.matches("geupdate[dt]$")) {
