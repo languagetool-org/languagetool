@@ -765,7 +765,7 @@
       <pattern>
           <token regexp="yes">[.,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
       </pattern>
-      <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
+      <disambig action="add"><wd pos="_PUNCT"/></disambig>
     </rule>
 
     <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
@@ -1725,6 +1725,14 @@
           <token>-</token>
           <token>-</token>
           <token>-</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>\d+</token>
+          <token>.</token>
+          <token spacebefore="no" regexp='yes'>[ºª][sˢ]?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
