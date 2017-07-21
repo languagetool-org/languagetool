@@ -2072,14 +2072,37 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
+        <marker>
           <token regexp='yes'>aproximadamente|quase</token>
           <token regexp='yes'>\d+[1-9]</token>
+        </marker>
+          <token><exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
         <suggestion>\1 <match no='2' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
-        <suggestion>\3</suggestion>
+        <suggestion>\2</suggestion>
       <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
       <example correction="aproximadamente 10|11">Faltam <marker>aproximadamente 11</marker> dias para as férias.</example>
+      <example>Tem aproximadamente 14 mil anos e foi encontrado numa gruta do Paleolítico Superior</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token>volta</token>
+          <token>de</token>
+          <token regexp='yes'>\d+[1-9]
+            <exception regexp='yes'>\d5</exception></token>
+        </marker>
+          <token><exception regexp='yes'>&multiplicadores;</exception></token>
+      </pattern>
+      <message>Se está a fazer uma aproximação, utilize números redondos</message>
+        <suggestion>\1 \2 \3 <match no='4' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\4</suggestion>
+      <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
+      <example correction="por volta de 10|11">Faltam <marker>por volta de 11</marker> dias para as férias.</example>
+      <example>Corresponde a população residente na cidade, porém por volta de 41,2% corresponde a residentes da Província de Bueno</example>
+      <example>Tem por volta de 14 mil anos e foi encontrado numa gruta do Paleolítico Superior</example>
     </rule>
   </rulegroup>
 
@@ -5998,7 +6021,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token>.</token>
-          <token regexp='yes'>[,;]<exception postag='SENT_END'/></token>
+          <token regexp='yes'>[,;:]<exception postag='SENT_END'/></token>
       </antipattern>
       <pattern>
           <token regexp="yes">[.,;:!?…]</token>
@@ -6010,6 +6033,7 @@ title="Easy editing stylesheet" ?>
       <example correction=',|.'>A situação financeira era estável<marker>,.</marker>e a fazenda garantia um bom rendimento.</example>
       <example>…cana-de-açúcar, cacau, tomate, críticos, etc., para exportação.</example>
       <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith Di…</example>
+      <example>Ex.: Sua Excelência saíu à rua</example>
     </rule>
   </rulegroup>
 
@@ -6301,21 +6325,21 @@ use REPEATED_WORDS_3X as a fallback		 	-->
 
  <category id='REDUNDANCY' name="Redundância">
 
-    <!-- ANTES PREFIRO prefiro -->
     <rule id='ANTES_PREFIRO' name="Prefiro">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>antes</token>
-          <token>prefiro</token>
+          <token inflected='yes'>preferir</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
-        <suggestion>prefiro</suggestion>
+        <suggestion>\2</suggestion>
       <example correction="prefiro">Eu <marker>antes prefiro</marker> a outra solução.</example>
     </rule>
 
-    <!-- CEREJAL DE CEREJEIRAS cerejal -->
     <rule id='CEREJAL_DE_CEREJEIRAS' name="Cerejal">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token>cerejal</token>
+          <token regexp='yes'>cerej(al|ais)</token>
           <token>de</token>
           <token>cerejeiras</token>
       </pattern>
@@ -6324,8 +6348,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
-    <!-- COMO LHES + VERB + A VOCÊS como lhes + VERB -->
     <rule id="COMO_LHES_VERB_A_VOCÊS" name="Como lhes VERB">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>como</token>
           <token regexp='yes'>lhes?|vos|te</token>
@@ -6338,8 +6362,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="como lhes disse">Façam <marker>como lhes disse a vocês</marker>.</example>
     </rule>
 
-    <!-- Verb EXPORTAR + PARA FORA > Verb exportar -->
     <rule id='EXPORTAR_PARA_FORA' name="Exportar">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected="yes">exportar</token>
           <token regexp='yes'>pa?ra</token>
@@ -6350,10 +6374,10 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
     </rule>
 
-    <!-- HEMORRAGIA DE SANGUE hemorragia -->
     <rule id='HEMORRAGIA_DE_SANGUE' name="Hemorragia">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token>hemorragia</token>
+          <token regexp='yes'>hemorragias?</token>
           <token>de</token>
           <token>sangue</token>
       </pattern>
@@ -6375,6 +6399,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
 
   <rulegroup id='MÃE_E_PAI' name="pais">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <short>Redundância no neutro.</short>
     <rule>
       <pattern>
@@ -6426,32 +6451,40 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
   </rulegroup>
 
-    <!-- MAIS MELHOR melhor -->
     <rule id='MAIS_MELHOR' name="Melhor">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
+          <token>
+            <exception regexp='yes'>quanto[ao]s?</exception></token>
+        <marker>
           <token>mais</token>
-          <token>melhor</token>
+          <token regexp='yes'>melhor(es)?</token>
+        </marker>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>melhor</suggestion>
       <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
     </rule>
 
-    <!-- MAIS PIOR pior -->
     <rule id='MAIS_PIOR' name="Pior">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
+          <token>
+            <exception regexp='yes'>quanto[ao]s?</exception></token>
+        <marker>
           <token>mais</token>
-          <token>pior</token>
+          <token regexp='yes'>pior(es)?</token>
+        </marker>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>pior</suggestion>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
 
-    <!-- QUADRILHA DE LADRÕES quadrilha -->
     <rule id='QUADRILHA_DE_LADRÕES' name="Quadrilha">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token>quadrilha</token>
+          <token regexp='yes'>quadrilhas?</token>
           <token>de</token>
           <token>ladrões</token>
       </pattern>
@@ -6460,15 +6493,15 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
 
-    <!-- BEBÉ(S) RECÉM-NASCIDO(S)  recém-nascido(s) -->
     <rule id='BEBÉ-S_RECÉM-NASCIDO-S' name="recém-nascido(s)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp='yes'>bebés?</token>
           <token>recém</token>
-          <token>-</token>
-          <token regexp='yes'>nascidos?|nascidas?</token>
+          <token min='0'>-</token>
+          <token regexp='yes'>nascid[ao]s?</token>
       </pattern>
-      <message>Substitua por <suggestion>\2\3\4</suggestion>.</message>
+      <message>Substitua por <suggestion>\2-\4</suggestion>.</message>
       <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
     </rule>
 
@@ -21505,7 +21538,7 @@ TODO Write better examples
           <token>fazer</token>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
-        <suggestion>fará</suggestion>
+        <suggestion>far<match no='1' regexp_match='ir(.+)' regexp_replace='$1'/></suggestion>
       <example correction='fará'>Ele <marker>irá fazer</marker> o seu trabalho corretamente.</example>
     </rule>
     <rule>
