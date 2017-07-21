@@ -121,7 +121,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Erros de concordância de género (geral)">
     <!--            General gender concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-      <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
     <rule>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
@@ -395,8 +395,13 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Erros de concordância de número (geral)">
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-      <url>https://pt.wikipedia.org/wiki/Concord%C3%A2ncia_nominal</url>
+      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
     <rule>
+      <antipattern>
+          <token>os</token>
+          <token regexp='yes'>mais|menores|maiores|melhores|piores</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
@@ -417,6 +422,7 @@ title="Easy editing stylesheet" ?>
       <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
+      <example>Calças, as mais rasgadas possível!</example>
     </rule>
     <rule>
       <pattern>
@@ -439,6 +445,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>tod[oa]</token>
           <token>ouvidos</token>
       </antipattern>
+      <antipattern>
+          <token>o</token>
+          <token regexp='yes'>mais|menor|maior|pior|melhor</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|de|-</token>
         <marker>
@@ -455,8 +466,9 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
-      <example type='correct'>Sou todo ouvidos</example>
-      <example type='correct'>Uso óculos desde os 6 anos,</example>
+      <example>Sou todo ouvidos</example>
+      <example>Uso óculos desde os 6 anos,</example>
+      <example>Calças, o mais possível rasgadas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -782,7 +794,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Erros de concordância verbal (geral)">
     <!--              General verbal concordance errors           -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
-      <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
+      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_verbal</url>
     <rule>
       <antipattern>
           <token/>
@@ -934,6 +946,13 @@ title="Easy editing stylesheet" ?>
       <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token postag_regexp='yes' postag='(N..|A...)S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)S.+'/></token>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token max='2' postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
@@ -948,6 +967,8 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
       <example correction='O médico novo saiu|O médico novo saíra'><marker>O médico novo saíram</marker> sem saber como dar a notícia.</example>
+      <example>A sua polidez e o seu empenho fizeram com que todos o admirassem.</example>
+      <example>O amor ou o ódio estão presentes.</example>
     </rule>
   </rulegroup>
 
