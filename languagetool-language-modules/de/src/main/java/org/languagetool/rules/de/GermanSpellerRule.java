@@ -294,6 +294,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Babys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
+    } else if (word.matches("[mM]issionarie?sie?rung")) {
+      return Collections.singletonList("Missionierung");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
     } else if (word.matches("[mM]illion(en)?mal")) {
