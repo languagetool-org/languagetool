@@ -181,7 +181,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CP.+'/></token>
           <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM].+|VM[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>uma|mas</exception>
+            <exception regexp='yes'>uma|mas|média</exception>
           </token>
         </marker>
           <token>
@@ -195,6 +195,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
       <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
+      <example>Existe cada vez mais pressão nos média para apresentem conteúdos de qualidade.</example>
     <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example>
                XXX testrules.sh says this example has no detectable errors but they appear in the Standalone tool. Verify with regression testing -->
     </rule>
@@ -5068,19 +5069,7 @@ title="Easy editing stylesheet" ?>
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
   <rulegroup id='COMMA_1' name="Vírgula antes conjunção">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-    <!-- <rule>
-      <pattern>
-        <marker>
-          <token>ou</token>
-          <token min='0'>,</token>
-          <token>seja</token>
-        </marker>
-          <token negate="yes">,</token>
-      </pattern>
-      <message>Usar vírgula: <suggestion>\1 \3,</suggestion></message>
-      <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
-    </rule>-->
-    <rule>
+    <!--rule> XXX Covered by VERB_COMMA_CONJUNCTION. Remove after release.
       <pattern>
         <marker>
           <token><exception regexp="yes">[,;:–—\(]</exception>
@@ -5090,20 +5079,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
       <example correction="chocolate,">Eu adoro <marker>chocolate</marker> mas faz engordar.</example>
-    </rule>
-    <!--
-    <rule>
-      <pattern>
-        <marker>
-          <token><exception regexp="yes">[,;:–—\(]</exception></token>
-        </marker>
-          <token>no</token>
-          <token>entanto</token>
-      </pattern>
-      <message>Usar vírgula: <suggestion>\1,</suggestion></message>
-      <example correction="chocolate,">Eu adoro <marker>chocolate</marker> no entanto faz engordar.</example>
-    </rule>
-    -->
+    </rule-->
     <rule>
       <pattern>
         <marker>
@@ -5350,9 +5326,14 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
+        <marker>
           <token>
             <exception postag_regexp='yes' postag='_PUNCT|SENT_START'/></token>
-          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>[.!?]</exception>
+            <exception postag='SENT_END'/></token>
       </pattern>
       <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
         <suggestion>\1, <match no='2' case_conversion="startlower"/></suggestion>
@@ -5360,6 +5341,7 @@ title="Easy editing stylesheet" ?>
       <example correction="distinção, portanto">Foi feito com <marker>distinção portanto</marker>, está bem feito.</example>
       <example correction="distinção, outrossim">Foi feito com <marker>distinção outrossim</marker>, que está bem feito.</example>
       <example correction="e, aliás">Foi feito com distinção <marker>e aliás</marker>, está bem feito.</example>
+      <example correction="chocolate, mas">Eu adoro <marker>chocolate mas</marker> faz engordar.</example>
     </rule>
     <rule>
       <pattern>
@@ -5985,7 +5967,7 @@ title="Easy editing stylesheet" ?>
     <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
     <rule>
       <regexp>(\d+)[ºo]\.?([sˢ]?)\.?</regexp>
-      <message>A abreviatura deste ordinal é: <suggestion>\1.º\2</suggestion>.</message>
+      <message>A abreviatura deste ordinal é: <suggestion>\1.º\2</suggestion>. Note que graus não são ordinais.</message>
       <example correction="12.º">O premiado é o <marker>12o</marker>da lista.</example>
       <example correction="12.º">O premiado é o <marker>12o.</marker>da lista.</example>
     </rule>
@@ -20095,7 +20077,7 @@ TODO Write better examples
           <token regexp="yes">[\d.,]+<exception regexp="yes">[.,]</exception></token>
           <token spacebefore="yes" regexp="yes">[%‰‱]</token>
       </pattern>
-      <message>Escriva a percentagem sem espaços (estilo padrão).</message>
+      <message>Escreva a percentagem sem espaços (estilo padrão).</message>
         <suggestion>\1\2</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
       <example correction="23,5%">A taxa é de <marker>23,5 %</marker>.</example>
@@ -20558,7 +20540,7 @@ TODO Write better examples
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-    <rule id='TRADEMARK' name="(TM) em vez de ™">
+    <rule id='TRADEMARK' name="Tipografia: Trademark - ™">
       <pattern case_sensitive='yes'>
           <token regexp='yes'>\p{Lu}.*</token>
         <marker>
@@ -20572,7 +20554,7 @@ TODO Write better examples
       <example correction='™'>O novo produto é de Escolha Executiva<marker>(TM)</marker> Plus.</example>
     </rule>
 
-    <rule id='R_SYMBOL' name="(R) em vez de ®">
+    <rule id='R_SYMBOL' name="Tipografia: Marca Registada - ®">
       <antipattern case_sensitive="yes">
         <marker>
           <token>(</token>
@@ -20605,7 +20587,7 @@ TODO Write better examples
       <example>Estes são Richard Burr (D) e Kay Hagan (R).</example>
     </rule>
 
-    <rule id='COPYRIGHT' name="(c) em vez de ©" type="typographical">
+    <rule id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
       <antipattern>
           <token>(</token>
           <token>a</token>
