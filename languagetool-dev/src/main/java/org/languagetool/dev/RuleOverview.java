@@ -70,7 +70,7 @@ public final class RuleOverview {
     System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
-    System.out.println("  <th valign='bottom' width=\"200\">Language</th>");
+    System.out.println("  <th valign='bottom' width=\"180\">Language</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
@@ -80,6 +80,7 @@ public final class RuleOverview {
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
+    System.out.println("  <th valign='bottom' width=\"20\">Short code</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
     System.out.println("<tbody>");
@@ -185,7 +186,9 @@ public final class RuleOverview {
         maintainerInfo = "<span class='previousMaintainer'><br>previous maintainer: " + maintainerInfo + "</span>";
       }
       System.out.print("<td valign=\"top\" align=\"left\">" + maintainerText + maintainerInfo + "</td>");
-      
+
+      System.out.print("<td valign=\"top\" align=\"left\">" + langCode + "</td>");
+
       System.out.println("</tr>");    
     }
       
