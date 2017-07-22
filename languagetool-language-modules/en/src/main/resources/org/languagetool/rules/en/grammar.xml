@@ -13400,6 +13400,10 @@ USA
         <rulegroup id="COMMA_COMPOUND_SENTENCE" name="comma between independent clauses">
             <rule>
                 <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
                     <token skip="2">either</token>
                     <token>or</token>
                 </antipattern>
@@ -13411,10 +13415,11 @@ USA
                     <token min="0">then</token>
                     <token regexp="yes">s?he|we|they</token>
                 </pattern>
-                <message>Use a comma before '\2' if it connects two independent clauses.</message>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
                 <suggestion>\1, \2</suggestion>
                 <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
-                <example correction="Tim, and">I love <marker>Tim and</marker> he loves me.</example>
+                <example correction="car, but">She purchased the <marker>car but</marker> she declined the extended warranty.</example>
+                <example>I love <marker>Tim and</marker> he loves me.</example>
                 <example>No one is obliged to do more than what he or she can.</example>
                 <example>Either you or he is wrong.</example>
                 <example>I thought you and he were happy.</example>
@@ -13431,7 +13436,7 @@ USA
                     <token postag="VB.*" postag_regexp="yes" skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
-                <message>Use a comma before '\3' if it connects two independent clauses.</message>
+                <message>Use a comma before '\3' if it connects two independent clauses (unless they are closely connected and short).</message>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Spanish, and">He speaks <marker>Spanish and</marker> I speak Italian.</example>
                 <example>Last Sunday, <marker>Mary and</marker> I went to the zoo.</example>
