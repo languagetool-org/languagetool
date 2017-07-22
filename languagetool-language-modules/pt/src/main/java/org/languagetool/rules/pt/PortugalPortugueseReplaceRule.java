@@ -65,7 +65,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Palavras brasileiras facilmente confundidas com as de Portugal";
+    return "Brasileirismo: 1. palavras confundidas com as de Portugal";
   }
 
   @Override

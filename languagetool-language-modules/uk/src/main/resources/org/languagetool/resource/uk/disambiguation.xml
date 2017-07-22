@@ -492,13 +492,17 @@
       <marker>
         <token>та</token>
       </marker>
-      <token><exception postag_regexp="yes" postag="noun.*?:f:v_naz.*"/></token>
+      <token>
+        <exception postag_regexp="yes" postag="noun.*?:f:v_naz.*"/>
+        <exception regexp="yes">[йі]</exception>
+      </token>
     </pattern>
     <disambig><match no="1" postag="conj.*|part.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
         inputform="та[та/conj:coord,та/part,той/adj:f:v_naz:&amp;pron:dem]"
         outputform="та[та/conj:coord,та/part]">садки <marker>та</marker> ясла</example>
     <example type="untouched">та жінка</example>
+    <example type="untouched">та й інша</example>
     <!-- TODO:
     <example type="untouched">та сама фігура</example>
     <example type="untouched">та зелена спідниця</example>
@@ -846,16 +850,30 @@
     <example type="untouched">В Ван приїхав султан.</example>
   </rule>
 
-  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR">
+  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR1">
     <pattern case_sensitive="yes">
       <marker>
         <token>Кот</token>
       </marker>
       <token regexp="yes">д['ʼ’]Івуар.*</token>
     </pattern>
-    <disambig><match no="1" postag="transl"/></disambig>
-    <example type="ambiguous" 
-        inputform="Кот[Кот/noun:anim:m:v_naz:prop:lname]"
+    <disambig action="add"><wd lemma="Кот" pos="transl">Кот</wd></disambig>
+    <example type="ambiguous"
+        inputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname]"
+        outputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname,Кот/transl]"
+            >до <marker>Кот</marker> д'Івуара</example>
+    <example type="untouched">Приїхав Василь Кот.</example>
+  </rule>
+  <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR2">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>Кот</token>
+      </marker>
+      <token regexp="yes">д['ʼ’]Івуар.*</token>
+    </pattern>
+    <disambig><match no="1" postag="transl" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="Кот[Кот/noun:anim:f:v_dav:nv:np:prop:lname,Кот/noun:anim:f:v_kly:nv:np:prop:lname,Кот/noun:anim:f:v_mis:nv:np:prop:lname,Кот/noun:anim:f:v_naz:nv:np:prop:lname,Кот/noun:anim:f:v_oru:nv:np:prop:lname,Кот/noun:anim:f:v_rod:nv:np:prop:lname,Кот/noun:anim:f:v_zna:nv:np:prop:lname,Кот/noun:anim:m:v_naz:prop:lname,Кот/transl]"
         outputform="Кот[Кот/transl]"
             >до <marker>Кот</marker> д'Івуара</example>
     <example type="untouched">Приїхав Василь Кот.</example>
@@ -959,6 +977,20 @@
             >з грудня минулого <marker>року</marker>.</example>
     <example type="untouched">від класичної та етнічної до авангардного року.</example>
     <example type="untouched">з 2003 року.</example>
+  </rule>
+
+  <rule name="Ректи" id="REKTY">
+    <pattern>
+      <marker>
+        <token>рік</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="verb:imperf:past.*"/>
+    <example type="ambiguous"
+        inputform="рік[ректи/verb:imperf:past:m,рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
+        outputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
+            >минулий <marker>рік</marker>.</example>
+    <example type="untouched">минулого року.</example>
   </rule>
 
   <!-- TOOD: redo when dictionary updated

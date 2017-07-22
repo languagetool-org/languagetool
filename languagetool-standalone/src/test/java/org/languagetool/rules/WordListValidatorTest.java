@@ -53,6 +53,7 @@ public class WordListValidatorTest {
           "Dvořák/S",
           "Erdoğan/S",
           "Ångström",
+          "µm",
           "'Ndrangheta"
   ));
 

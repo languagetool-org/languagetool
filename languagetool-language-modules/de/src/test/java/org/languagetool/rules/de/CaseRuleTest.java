@@ -104,7 +104,15 @@ public class CaseRuleTest {
     assertGood("Er führt Böses im Schilde.");
     assertGood("Es gab Überlebende.");
     assertGood("'Wir werden das stoppen.'");
+    assertGood("Wahre Liebe muss das aushalten.");
+    assertGood("Du kannst das machen.");
+    assertGood("Vor dem Aus stehen.");
+    assertGood("Ich Armer!");
+    assertGood("Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden.");
 
+    assertBad("Sie Vertraute niemandem.");
+    assertBad("Beten Lernt man in Nöten.");
+    assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
     assertBad("Er sammelt Große und kleine Tassen.");
@@ -121,6 +129,7 @@ public class CaseRuleTest {
     assertBad("Der Brief wird am Mittwoch in Brüssel Übergeben.");
     assertBad("Damit sollen sie die Versorgung in der Region Übernehmen.");
     assertBad("Die Unfallursache scheint geklärt, ein Lichtsignal wurde Überfahren.");
+    assertBad("Der Lenker hatte die Höchstgeschwindigkeit um 76 km/h Überschritten.");
     assertGood("Ich möchte zwei Kilo Zwiebeln.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");

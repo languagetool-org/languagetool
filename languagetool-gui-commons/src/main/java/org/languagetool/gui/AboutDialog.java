@@ -66,7 +66,7 @@ public class AboutDialog {
             + "<p>LanguageTool %s (%s)<br>"
             + "Copyright (C) 2005-2017 the LanguageTool community and Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
-            + "<a href=\"http://www.languagetool.org\">http://www.languagetool.org</a><br>"
+            + "<a href=\"https://www.languagetool.org\">https://www.languagetool.org</a><br>"
             + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"
             + "<p>Maintainers or former maintainers of the language modules -<br>"
             + "(*) means language is unmaintained in LanguageTool:</p><br>"

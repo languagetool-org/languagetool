@@ -83,6 +83,9 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     filterDupes(suggestions);
     filterForLanguage(suggestions);
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    // This is probably be the right place to sort suggestions by probability:
+    //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de")));
+    //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
@@ -114,6 +117,14 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           if (!isMisspelled(candidate)) {
             candidates.add(candidate);
           }
+          // Arbeidszimmer -> Arbeitszimmer:
+          if (partCount < parts.size()-1 && part.endsWith("s") && suggestion.endsWith("-")) {
+            partsCopy.set(partCount, suggestion.substring(0, suggestion.length()-1));
+            String infixCandidate = String.join("", partsCopy);
+            if (!isMisspelled(infixCandidate)) {
+              candidates.add(infixCandidate);
+            }
+          }
         }
       }
       // What if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??
@@ -126,18 +137,6 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     return suggestions;
-  }
-
-  private void filterDupes(List<String> words) {
-    Set<String> seen = new HashSet<>();
-    Iterator<String> iterator = words.iterator();
-    while (iterator.hasNext()) {
-      String word = iterator.next();
-      if (seen.contains(word)) {
-        iterator.remove();
-      }
-      seen.add(word);
-    }
   }
 
   // avoid over-accepting words, as the Morfologik approach above might construct

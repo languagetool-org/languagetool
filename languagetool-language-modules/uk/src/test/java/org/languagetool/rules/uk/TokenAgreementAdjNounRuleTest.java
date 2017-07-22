@@ -32,10 +32,10 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class TokenInflectionAgreementRuleTest {
+public class TokenAgreementAdjNounRuleTest {
 
   private JLanguageTool langTool;
-  private TokenInflectionAgreementRule rule;
+  private TokenAgreementAdjNounRule rule;
 
 //  static {
 //    System.setProperty("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug", "true");
@@ -43,7 +43,7 @@ public class TokenInflectionAgreementRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    rule = new TokenInflectionAgreementRule(TestTools.getMessages("uk"));
+    rule = new TokenAgreementAdjNounRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
 //    TokenInflectionAgreementRule.DEBUG = true;
   }
@@ -342,6 +342,7 @@ public class TokenInflectionAgreementRuleTest {
     assertEmptyMatch("а також курдську частини");
     assertEmptyMatch("Чорного і Азовського морів");
     assertEmptyMatch("коринфський з іонійським ордери");
+    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
     //TODO:
     //assertEmptyMatch("практично відсутні транспорт, гомінкі базари");
 

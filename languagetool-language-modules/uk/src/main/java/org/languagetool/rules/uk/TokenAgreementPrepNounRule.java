@@ -49,7 +49,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * 
  * @author Andriy Rysin
  */
-public class TokenAgreementRule extends Rule {
+public class TokenAgreementPrepNounRule extends Rule {
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
   private static final String REQUIRE_VIDMINOK_SUBSTR = ":rv_";
   private static final String VIDMINOK_SUBSTR = ":v_";
@@ -60,29 +60,26 @@ public class TokenAgreementRule extends Rule {
 
   private final Ukrainian ukrainian = new Ukrainian();
 
-  private static final Set<String> STREETS = new HashSet<>(Arrays.asList(
-      "Штрассе", "штрассе", "Авеню", "авеню", "Стріт", "стріт", "Сьоркл", "Сквер"
-      ));
   private static final Set<String> NAMES = new HashSet<>(Arrays.asList(
       "ім'я", "прізвище"
       ));
 
-  public TokenAgreementRule(ResourceBundle messages) throws IOException {
+  public TokenAgreementPrepNounRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override
   public final String getId() {
-    return "UK_TOKEN_AGREEMENT";
+    return "UK_PREP_NOUN_INFLECTION_AGREEMENT";
   }
 
   @Override
   public String getDescription() {
-    return "Узгодження слів у реченні";
+    return "Узгодження прийменника та іменника у реченні";
   }
 
   public String getShort() {
-    return "Узгодження слів у реченні";
+    return "Узгодження прийменника та іменника";
   }
 
   @Override
@@ -267,7 +264,7 @@ public class TokenAgreementRule extends Rule {
           //          continue; // "у Конан Дойла", "у Робін Гуда"
 
           if( isCapitalized( token ) 
-              && STREETS.contains( tokens[i+1].getAnalyzedToken(0).getToken()) ) {
+              && LemmaHelper.CITY_AVENU.contains( tokens[i+1].getAnalyzedToken(0).getToken().toLowerCase() ) ) {
             reqTokenReadings = null;
             continue;
           }

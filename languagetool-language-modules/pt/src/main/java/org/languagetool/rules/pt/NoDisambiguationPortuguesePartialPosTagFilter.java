@@ -31,7 +31,6 @@ import java.util.List;
 /**
  * A {@link PartialPosTagFilter} for Portuguese that does not run the disambiguator.
  * @since 3.8
- * @see PortuguesePartialPosTagFilter
  */
 public class NoDisambiguationPortuguesePartialPosTagFilter extends PartialPosTagFilter {
 

@@ -1,10 +1,43 @@
 # LanguageTool Change Log
 
-## 3.8-SNAPSHOT (release planned for 2017-06-27)
+## 3.9-SNAPSHOT (release planned for 2017-09-26)
+
+#### French
+  * upgraded dictionaries to Dicollecte-6.1
+
+#### German
+  * added and improved rules
+  * spell checker suggestions have been improved a lot by considering
+    more words, especially compounds (de-DE only so far, not yet active for
+    de-AT and de-CH)
+    (https://github.com/languagetool-org/languagetool/issues/725)
+  * added special dictionary extension files `spelling-de-AT.txt` and
+    `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
+    to `spelling.txt`
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, pronominal collocations and paronyms detection
+    - typography: number and mathematical symbol formatting improvements
+    - syntax: new category and fragment detection improvements
+  * disambiguation improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
+
+## 3.8 (2017-06-27)
 
 #### Catalan
   * added and improved rules
   * updated dictionary and rules for official names of Valencian municipalities
+
+#### Chinese
+  * added one rule
+
+#### Dutch
+  * added many rules (by Ruud Baars)
+  * spelling dictionary update
 
 #### English
   * added and improved rules
@@ -31,14 +64,25 @@
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
-  * spell checking exceptions for common Latin, English and French expressions, species scientific names,
+  * spell checking exceptions for common Latin, English, and French expressions, species scientific names,
     and famous personalities
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
     - [pt-BR]        VERO version 2.1.4
 
+#### Russian
+  * added and improved rules
+
 #### Slovak
   * major rule updates by Matúš Matula
+
+#### Ukrainian
+  * Significant dictionary update:
+    - thousands of new words
+    - some inflection adjustments
+  * Improved dynamic tagging for compound words
+  * Many new rules (barbarism, grammar, and spelling)
+  * New noun-verb agreement rule
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
@@ -50,7 +94,7 @@
 
 #### Internal
   * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
-    line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
+    line are converted to a `DisambiguationPatternRule` in which each word is a case-sensitive
     and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
     the spell checker)
 
