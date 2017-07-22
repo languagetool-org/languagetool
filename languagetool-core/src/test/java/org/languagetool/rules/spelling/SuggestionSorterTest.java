@@ -33,6 +33,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SuggestionSorterTest {
   
   @Test
+  @Ignore("interferes with LuceneSingleIndexLanguageModel")
   public void testSort() {
     URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
     try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
