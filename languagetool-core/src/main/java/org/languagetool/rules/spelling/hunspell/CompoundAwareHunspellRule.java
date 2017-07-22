@@ -83,6 +83,9 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     filterDupes(suggestions);
     filterForLanguage(suggestions);
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    // This is probably be the right place to sort suggestions by probability:
+    //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de")));
+    //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
