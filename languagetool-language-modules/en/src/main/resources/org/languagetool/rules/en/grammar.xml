@@ -13397,6 +13397,54 @@ USA
             <example>For Christ’s sake!</example>
             <example>For pity’s sake!</example>
         </rule>
+        <rulegroup id="COMMA_TAG_QUESTION" name="comma before tag question">
+          <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">wh(y|at|ich|ere|en|o(se|m)?)|how</token>
+                    <token postag="SENT_END">?</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes" skip="-1">Aren?|Didn?|Don?|Doesn?|Isn?|W(eren?|asn?|ill|on|ouldn?)|Can|(Sh|C|W)ouldn?</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token regexp="yes" skip="-1">Didn?|Don?|Doesn?|Isn?|W(eren?|asn?|ill|on|ouldn?)</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|wh.*|how|can|did|to?|or|I|[cw]ouldn't|shouldn?|(wi)?ll|won</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">aren?|isn?|do(es)?n?|ha(s|ve)n?|can|did|wasn?|will|won|(sh|w|c)ouldn?</token>
+                    <token case_sensitive="yes" regexp="yes" min="0">['’`´‘]</token>
+                    <token case_sensitive="yes" min="0">t</token>
+                    <token case_sensitive="yes" regexp="yes">s?he|it|you|they|we|I</token>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>A comma shold precede the tag question (i.e., the yes/no-question at the end).</message>
+                <suggestion>\1,</suggestion>
+                <url>https://www.thoughtco.com/tag-question-grammar-1692523</url>
+                <example correction="coming,">She isn't <marker>coming</marker> is she?</example>
+                <example correction="you,">He didn't know <marker>you</marker> did he?</example>
+                <example correction="book,">She was reading a <marker>book</marker> wasn't she?</example>
+                <example correction="come,">Ann and Tim will <marker>come</marker> won't they?</example>
+                <example correction="left,">She has already <marker>left</marker> hasn't she?</example>
+                <example correction="drive,">You can <marker>drive</marker> can't you?</example>
+                <example>Do you know how to do it?</example>
+                <example>What floor is it?</example>
+                <example>How would I do it?</example>
+                <example>Did she tell you why she did it?</example>
+                <example>Can anybody do it?</example>
+                <example>Are you sure Tom didn't do it?</example>
+                <example>Do you know where Tom is or don't you?</example>
+                <example>Are you sure Tom didn't do it?</example>
+                <example>Why can't they do it?</example>
+                <example>If you could do it, would you do it?</example>
+                <example>Excuse me, how much is it?</example>
+                <example>So this will do it?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMMA_COMPOUND_SENTENCE" name="comma between independent clauses">
             <rule>
                 <antipattern>
@@ -13407,10 +13455,20 @@ USA
                     <token skip="2">either</token>
                     <token>or</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">and|but</token>
+                    <token min="0">even</token>
+                    <token regexp="yes">so|yet</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token case_sensitive="yes" regexp="yes">and|but|nor|or|so|yet</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token negate="yes" regexp="yes">\W+|s?he|you</token>
-                        <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                        <token case_sensitive="yes" regexp="yes">and|but|nor|or|so|yet</token>
                     </marker>
                     <token min="0">then</token>
                     <token regexp="yes">s?he|we|they</token>
@@ -13423,6 +13481,26 @@ USA
                 <example>No one is obliged to do more than what he or she can.</example>
                 <example>Either you or he is wrong.</example>
                 <example>I thought you and he were happy.</example>
+                <example>Tom couldn't find anybody to go with him, and so he went by himself.</example>
+                <example>Just so we're clear, that was Tom's idea, not mine.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
+                        <token case_sensitive="yes">and</token>
+                    </marker>
+                    <token regexp="yes">so|yet</token>
+                    <token regexp="yes">s?he|we|they</token>
+                </pattern>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\1, \2</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="enough, and">Bill didn't work hard <marker>enough and</marker> so he failed..</example>
             </rule>
             <!--rule>
                 <pattern>
