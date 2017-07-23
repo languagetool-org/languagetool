@@ -9396,6 +9396,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>4.000.519 = vier Millionen fünfhundertneunzehn</example>
             </rule>
         </rulegroup>
+        <rule id="HINZU" name="confusion of bed/bad">
+            <pattern>
+                <marker><token>hinzu</token></marker>
+                <token postag=".*:DAT:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>hin zu</suggestion>?</message>
+            <example correction="hin zu">Es gelang ihm, <marker>hinzu</marker> den Türen zu torkeln.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
