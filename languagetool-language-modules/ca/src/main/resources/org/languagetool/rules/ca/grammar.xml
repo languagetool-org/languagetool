@@ -11336,14 +11336,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ANYS_I_MITJA" name="anys i *mitjà/mig">
             <pattern>
-                <token regexp="yes">anys?</token>
+                <token inflected="yes" regexp="yes">&unitats_temps;|temporada|curs</token>
                 <token>i</token>
                 <marker>
-                    <token>mitjà</token>
+                    <token regexp="yes">mitjà|mitjana</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>mig</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC([MF]).*" postag_regexp="yes" postag_replace="AQ0$1S0">mig</match></suggestion>?</message>
             <example correction="mig">Durant tres anys i <marker>mitjà</marker>.</example>
+            <example correction="mitja">Durant tres temporades i <marker>mitjana</marker>.</example>
         </rule>
         <rulegroup id="CRIDAR_ANOMENAR" name="cridar/anomenar">
             <antipattern>
