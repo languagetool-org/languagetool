@@ -13438,7 +13438,6 @@ USA
                 <example>Can anybody do it?</example>
                 <example>Are you sure Tom didn't do it?</example>
                 <example>Do you know where Tom is or don't you?</example>
-                <example>Are you sure Tom didn't do it?</example>
                 <example>Why can't they do it?</example>
                 <example>If you could do it, would you do it?</example>
                 <example>Excuse me, how much is it?</example>
@@ -13495,12 +13494,30 @@ USA
                         <token case_sensitive="yes">and</token>
                     </marker>
                     <token regexp="yes">so|yet</token>
-                    <token regexp="yes">s?he|we|they</token>
+                    <token regexp="yes">s?he|we|they|I</token>
                 </pattern>
                 <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
                 <suggestion>\1, \2</suggestion>
                 <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
-                <example correction="enough, and">Bill didn't work hard <marker>enough and</marker> so he failed..</example>
+                <example correction="enough, and">Bill didn't work hard <marker>enough and</marker> so he failed.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|and</token>
+                        <token regexp="yes">so|yet</token>
+                    </marker>
+                    <token>I</token>
+                </pattern>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\1, \2</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="money, so">I need to borrow some <marker>money so</marker> I can buy some medicine for Tom.</example>
+                <example>I want a wife and children, and so I need a house.</example>
             </rule>
             <!--rule>
                 <pattern>
