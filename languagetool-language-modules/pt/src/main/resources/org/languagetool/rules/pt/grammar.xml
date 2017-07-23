@@ -3582,17 +3582,6 @@ title="Easy editing stylesheet" ?>
       <example correction="prognósticos reservados">Temos <marker>diagnósticos reservados</marker>.</example>
     </rule>
 
-    <!-- E MAS TARDE e mais tarde -->
-    <rule id='E_MAS_TARDE' name="E mais tarde">
-      <pattern>
-          <token>e</token>
-          <token>mas</token>
-          <token>tarde</token>
-      </pattern>
-      <message>Substitua por <suggestion>e mais tarde</suggestion>.</message>
-      <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
-    </rule>
-
     <!-- EM VÊS DE/DA/DAS/DO/DOS em vez de/da/das/do/dos -->
     <rule id='EM_VÊS_DE_DA_DAS_DO_DOS' name="Confusão: vês - vez">
       <pattern>
@@ -3788,85 +3777,6 @@ title="Easy editing stylesheet" ?>
       <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
     </rule>
 
-    <rule id='HÁ-ATRÁS' name="Há n tempo atrás">
-      <pattern>
-          <token>há</token>
-          <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-          <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'/></token>
-          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
-          <token>atrás</token>
-      </pattern>
-      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all" /> <match no="2" include_skipped="all" /> <match no="3" include_skipped="all" /> <match no="4" include_skipped="all" /></suggestion>.</message>
-      <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
-    </rule>
-
-    <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
-    <rule id='À-HÁ_N_TEMPO' name="Há n tempo">
-      <antipattern>
-          <token>à</token>
-          <token>última</token>
-          <token>hora</token>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token>à</token>
-        </marker>
-          <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
-          <token skip="4">
-            <exception scope='next' postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
-            <exception postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
-            <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
-          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
-      </pattern>
-      <message>Substitua por <suggestion>há</suggestion>.</message>
-      <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
-      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
-      <example>No entanto, antes de vir à Terra por qualquer período de tempo.</example>
-    </rule>
-
-    <rule id='HÁ-DIRECTION' name="Confusão: Há + Direção">
-    <!-- Created by Tiago F. Santos, 2017-03-09    -->
-      <pattern>
-          <token>há</token>
-          <token regexp='yes'>frente|trás|esquerda|direita</token>
-      </pattern>
-      <message>Substitua por <suggestion>à \2</suggestion>.</message>
-      <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
-    </rule>
-
-    <!-- À QUE há que -->
-    <rule id='À_QUE' name="Confusão: à que - há que">
-      <pattern>
-          <token>à</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>há que</suggestion>.</message>
-      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
-    </rule>
-
-
-    <!-- AI aí -->
-    <rule id='AI' name="Confusão: ai - aí">
-      <pattern>
-          <token postag_regexp="yes" postag="SPS00|V.+"/>
-        <marker>
-          <token>ai</token>
-        </marker>
-      </pattern>
-      <message>Substitua por <suggestion>aí</suggestion>.</message>
-      <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
-    </rule>
-
-    <!-- HÁS VEZES às vezes -->
-    <rule id='HÁS_VEZES' name="Confusão: hás vezes - às vezes">
-      <pattern>
-          <token>hás</token>
-          <token>vezes</token>
-      </pattern>
-      <message>Substitua por <suggestion>às vezes</suggestion>.</message>
-      <example correction="às vezes">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
-    </rule>
-
     <!-- HOUVERAM MUITOS houve muitos -->
     <rule id='HOUVERAM_MUITOS' name="Houve muitos">
       <pattern>
@@ -3888,17 +3798,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>arriar</suggestion>.</message>
       <example correction="arriar">Vamos <marker>arrear</marker> a vela.</example>
-    </rule>
-
-    <!-- HÁ SUA à sua -->
-    <rule id='HÁ_SUA' name="Confusão: há/à + DETERMINANTE POSSESSIVO">
-      <pattern>
-          <token>há</token>
-          <token postag='DP.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Substitua por <suggestion>à \2</suggestion>.</message>
-      <example correction="à sua">Ele deu uma mãozinha <marker>há sua</marker> família.</example>
-      <example correction="à tua">Dá uma mãozinha <marker>há tua</marker> família.</example>
     </rule>
 
     <!-- MAIOR maiores -->
@@ -6435,6 +6334,19 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
       <example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
+    </rule>
+
+    <rule id='HÁ-ATRÁS' name="Há n tempo atrás">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>há</token>
+          <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
+          <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'/></token>
+          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
+          <token>atrás</token>
+      </pattern>
+      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all" /> <match no="2" include_skipped="all" /> <match no="3" include_skipped="all" /> <match no="4" include_skipped="all" /></suggestion>.</message>
+      <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
 
     <rule id='HEMORRAGIA_DE_SANGUE' name="Hemorragia">
@@ -11769,7 +11681,84 @@ o tomate'>
       <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
     </rule>
 
-  <rulegroup id='TRAZ_TRÁS' name="Confusão: traz-trás">
+    <rule id='HÁ_SUA' name="Confusão: há/à + DETERMINANTE POSSESSIVO">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>há</token>
+          <token postag='DP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
+      <example correction="à sua">Ele deu uma mãozinha <marker>há sua</marker> família.</example>
+      <example correction="à tua">Dá uma mãozinha <marker>há tua</marker> família.</example>
+    </rule>
+
+    <rule id='À-HÁ_N_TEMPO' name="Confusão: há/à (há n tempo)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <antipattern>
+          <token>à</token>
+          <token>última</token>
+          <token>hora</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token>à</token>
+        </marker>
+          <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
+          <token skip="4">
+            <exception scope='next' postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
+            <exception postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
+            <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
+          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
+      </pattern>
+      <message>Substitua por <suggestion>há</suggestion>.</message>
+      <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
+      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
+      <example>No entanto, antes de vir à Terra por qualquer período de tempo.</example>
+    </rule>
+
+    <rule id='HÁ-DIRECTION' name="Confusão: Há + Direção">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>há</token>
+          <token regexp='yes'>frente|trás|esquerda|direita</token>
+      </pattern>
+      <message>Substitua por <suggestion>à \2</suggestion>.</message>
+      <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
+    </rule>
+
+    <rule id='À_QUE' name="Confusão: à que - há que">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>à</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>há que</suggestion>.</message>
+      <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
+    </rule>
+
+    <rule id='AI' name="Confusão: ai - aí">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token postag_regexp="yes" postag="SPS00|V.+"/>
+        <marker>
+          <token>ai</token>
+        </marker>
+      </pattern>
+      <message>Substitua por <suggestion>aí</suggestion>.</message>
+      <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
+    </rule>
+
+    <rule id='HÁS_VEZES' name="Confusão: hás vezes - às vezes">
+    <!-- Created by Tiago F. Santos, 2017-03-09    -->
+      <pattern>
+          <token>hás</token>
+          <token>vezes</token>
+      </pattern>
+      <message>Substitua por <suggestion>às vezes</suggestion>.</message>
+      <example correction="às vezes">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
+    </rule>
+
+  <rulegroup id='TRAZ_TRÁS' name="Confusão: traz - trás">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
       <pattern>
@@ -11782,7 +11771,6 @@ o tomate'>
       <example correction="trás">A Ana deve viajar no banco de <marker>traz</marker>.</example>
     </rule>
     <rule>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <antipattern>
           <token>trás</token>
           <token regexp='yes'>-|–|—</token>
@@ -11801,6 +11789,17 @@ o tomate'>
       <example>Universidade de Trás-os-Montes e Alto Douro</example>
     </rule>
   </rulegroup>
+
+    <rule id='E_MAS_TARDE' name="Confusão: mas tarde - mais tarde">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token regexp='yes'>e|porque|então</token>
+          <token>mas</token>
+          <token>tarde</token>
+      </pattern>
+      <message>Substitua por <suggestion>e mais tarde</suggestion>.</message>
+      <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
+    </rule>
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
