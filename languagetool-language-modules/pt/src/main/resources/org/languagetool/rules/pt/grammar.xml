@@ -38,7 +38,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
 
-    <!ENTITY separadores_de_oracoes "[,;:–—\(]">
+    <!ENTITY separadores_de_oracoes "[,;:–—\(]|\-">
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
@@ -20892,8 +20892,8 @@ TODO Write better examples
   <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
     <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
     <rule>
-      <regexp>(\p{L}) ([!?«,….])</regexp>
-      <message>Remova o espaço antes da pontuação.</message>
+      <regexp>(\p{L}) ([!?»”’,….])</regexp>
+      <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
       <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
@@ -20901,7 +20901,7 @@ TODO Write better examples
     </rule>
     <rule>
       <regexp>(\p{L}) ([:;])(?!-?[()/])</regexp>
-      <message>Remova o espaço antes da pontuação.</message>
+      <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
       <example>Um sorriso :-)</example>
@@ -21675,6 +21675,12 @@ TODO Write better examples
           <token regexp="yes">[\d,.]+</token>
           <token postag='SENT_END'/>
       </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+</token>
+          <token>/</token>
+          <token regexp="yes">\d+</token>
+      </antipattern>
       <pattern>
         <marker>
           <token postag="SENT_START"/>
@@ -21694,6 +21700,7 @@ TODO Write better examples
       <example><marker>1.2.</marker> Introdução</example>
       <example><marker>1.3.—</marker> Introdução</example>
       <example>50-30</example>
+      <example>25/12/2017</example>
     </rule>
 
     <!--          Style rules from English grammar.xml      - START-->
@@ -23037,10 +23044,6 @@ TODO Write better examples
           <token regexp="yes">\d{1,2}\.\d{1,2}</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">\d{3}\.\d{3}</token>
-          <token><exception regexp='yes'>\d+</exception></token>
-      </antipattern>
-      <antipattern>
           <token regexp="yes">\d{1,3}\.\d{3}\.\d{3}</token>
       </antipattern>
       <antipattern>
@@ -23110,7 +23113,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp="yes">\d+\.\d+
-            <exception regexp="yes">\d{1,2}\.\d{3}</exception></token>
+            <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
       </pattern>
       <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
@@ -23137,6 +23140,7 @@ TODO Write better examples
       <example>Esse número diminuiu para 300.000 em 1939.</example>
       <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
       <example>GNOME 3.16 – 3.20 Committer</example>
+      <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
     </rule>
     <rule>
       <pattern>
@@ -23146,6 +23150,7 @@ TODO Write better examples
         <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
         <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
       <example correction="11,231|11 231"><marker>11.231</marker></example>
+      <example correction="111,231|111 231"><marker>111.231</marker></example>
       <example><marker>9.5</marker></example>
       <example>És de <marker>9.5</marker>.</example>
       <example><marker>9349.5</marker></example>
@@ -25552,4 +25557,5 @@ TODO Write better examples
   </rulegroup>
 
  </category>
+
 </rules>
