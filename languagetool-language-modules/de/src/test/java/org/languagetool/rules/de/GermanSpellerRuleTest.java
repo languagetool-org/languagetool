@@ -376,7 +376,10 @@ public class GermanSpellerRuleTest {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
     lines.add("ist".getBytes());
-    byte[] info = "fsa.dict.separator=+\nfsa.dict.encoding=utf-8\nfsa.dict.frequency-included=true".getBytes();
+    byte[] info = ("fsa.dict.separator=+\n" +
+                   "fsa.dict.encoding=utf-8\n" +
+                   "fsa.dict.frequency-included=true\n" +
+                   "fsa.dict.encoder=SUFFIX").getBytes();
     Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
     Speller speller = new Speller(dict, 2);
     System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?
