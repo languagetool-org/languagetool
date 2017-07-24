@@ -112,6 +112,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
     assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
     assertFirstSuggestion("rosanen", "rosa", rule, lt);
+    assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
+    assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
   }
 
   @Test

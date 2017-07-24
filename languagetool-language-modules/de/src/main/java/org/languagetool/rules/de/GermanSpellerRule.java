@@ -308,6 +308,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("AWA", "ach was", "aber");
     } else if (word.equals("ch")) {
       return Collections.singletonList("ich");
+    } else if (word.matches("aufgehangen(e[mnrs]?)?$")) {
+      return Collections.singletonList(word.replaceFirst("hangen", "hängt"));
     } else if (word.matches("rosane[mnrs]?$")) {
       return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
     } else if (word.matches("geupdate[dt]$")) {
