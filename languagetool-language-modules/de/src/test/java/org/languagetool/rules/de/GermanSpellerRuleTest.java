@@ -320,10 +320,7 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
-    
-    // use to work with jwordsplitter 3.4: too many other suggestions with Levenshtein=2
-    //assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
-    //assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
     assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
@@ -333,7 +330,9 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
-    
+    assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+
     assertCorrection(rule, "Arbeidszimmer", "Arbeitszimmer");
     assertCorrection(rule, "Postleidzahl", "Postleitzahl");
     assertCorrection(rule, "vorallem", "vor allem");
@@ -341,11 +340,6 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wieviele", "wie viele");
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
-
-    // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
-    // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
-    // because jwordsplitter doesn't use the same dictionary as Hunspell:
-    // assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
 
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
