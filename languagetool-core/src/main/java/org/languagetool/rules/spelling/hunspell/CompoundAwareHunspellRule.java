@@ -35,14 +35,14 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   private static final int MAX_SUGGESTIONS = 20;
   
-  private final CompoundWordTokenizer wordSplitter;
+  private final CompoundWordTokenizer compoundSplitter;
   private final MorfologikMultiSpeller morfoSpeller;
 
   protected abstract void filterForLanguage(List<String> suggestions);
 
-  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikMultiSpeller morfoSpeller) {
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller) {
     super(messages, language);
-    this.wordSplitter = wordSplitter;
+    this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }
 
@@ -90,7 +90,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   }
 
   protected List<String> getCandidates(String word) {
-    return wordSplitter.tokenize(word);
+    return compoundSplitter.tokenize(word);
   }
 
   protected List<String> getCandidates(List<String> parts) {
