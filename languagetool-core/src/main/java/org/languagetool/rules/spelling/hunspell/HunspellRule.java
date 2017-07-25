@@ -191,7 +191,6 @@ public class HunspellRule extends SpellingCheckRule {
         hunspellDict = null;
       } else {
         hunspellDict = Hunspell.getInstance().getDictionary(path);
-
         if (!"".equals(hunspellDict.getWordChars())) {
           wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }

@@ -349,6 +349,19 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testGetSuggestionWithPunctuation() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
+    assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
+    assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
+    // commas etc. are actually not part of the word, so the suggestion doesn't include them:
+    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+    assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
+  }
+  
+  @Test
   public void testGetSuggestionOrder() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first

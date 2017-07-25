@@ -61,6 +61,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> simpleSuggestions = getCorrectWords(candidates);
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
+    handleWordEndPunctuation(".", word, noSplitSuggestions);
+    handleWordEndPunctuation("...", word, noSplitSuggestions);
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
       List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
@@ -87,6 +89,16 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de")));
     //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
+  }
+
+  private void handleWordEndPunctuation(String punct, String word, List<String> noSplitSuggestions) {
+    if (word.endsWith(punct)) {
+      // e.g. "informationnen." - the dot is a word char in hunspell, so it needs special treatment here
+      List<String> tmp = morfoSpeller.getSuggestions(word.substring(0, word.length()-punct.length()));
+      for (String s : tmp) {
+        noSplitSuggestions.add(s + punct);
+      }
+    }
   }
 
   protected List<String> getCandidates(String word) {
