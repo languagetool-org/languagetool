@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
-    <!ENTITY context_FALLAR "TSJ.*|recurs|judici|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
+    <!ENTITY context_FALLAR "TSJ.*|recurs|judici|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
     <!ENTITY context_FER_SE_AMB "soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_OSCAR "nominar|nominació|guanyar|guanyador|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar|premiar|guió|guionista|coguionista|cinematogràfic|obtenir|interpretació|reconeixement|carrera|dramàtic">
@@ -9583,7 +9583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>gens</token>
+                    <token regexp="yes" inflected="yes">gens|molt|gaire</token>
                     <token inflected="yes">de</token>
                 </marker>
             </antipattern>
@@ -9645,6 +9645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou requerit d'amors</example>
                 <example>no hi va haver necessitat de canviar la bandera</example>
                 <example>Necessita de mitjana 500 kg.</example>
+                <example>No necessitaran "molt de personal".</example>
                 <!-- requeria del Consell executiu la presentació d'un projecte
                     que hom requereix dels alumnes
                     necessita molt de l'agricultura intensiva.
@@ -29126,7 +29127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token skip="2" inflected="yes">acabar</token>
                         <token skip="4">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
+                    <token regexp="yes" inflected="yes">dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
                 <suggestion>(eliminar)</suggestion>
@@ -36520,7 +36521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5">fallar<exception postag="_GN_F." postag_regexp="yes"/></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">&context_FALLAR;</token>
+                    <token inflected="yes" regexp="yes">&context_FALLAR;|procés</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictaminar</match></suggestion>
@@ -36537,7 +36538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="5">&context_FALLAR;</token>
+                    <token inflected="yes" regexp="yes" skip="5">&context_FALLAR;|procés</token>
                     <marker>
                         <token inflected="yes">fallar<exception postag="_GN_F." postag_regexp="yes"/></token>
                     </marker>
@@ -36555,7 +36556,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dictaminar|dictar|pronunciar|sentenciar|adjudicar|concedir|atorgar|decidir">El jutge va <marker>fallar</marker> així.</example>
                 <example correction="dictaminaren|dictaren|pronunciaren|sentenciaren|adjudicaren|concediren|atorgaren|decidiren">Els jutges <marker>fallaren</marker> en favor d'Ermessenda</example>
                 <example>En el procés s'han trobat moltes fallades.</example>
-
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="5">fallada</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_FALLAR;</token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion>decisió</suggestion>
+                <suggestion>part dispositiva</suggestion>
+                <suggestion>sentència</suggestion>
+                <example correction="decisió|part dispositiva|sentència">Ha aparegut la <marker>fallada</marker> del jutjat.</example>
+                <example>Possibles fallades en el procés.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="5">&context_FALLAR;</token>
+                    <marker>
+                        <token inflected="yes">fallada</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion>decisió</suggestion>
+                <suggestion>part dispositiva</suggestion>
+                <suggestion>sentència</suggestion>
+                <example correction="decisió|part dispositiva|sentència">El jutge ha emès una <marker>fallada</marker>.</example>
+                <example>En el procés s'han trobat moltes fallades.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COLGAR_PENJAR" name="colgar / penjar">
