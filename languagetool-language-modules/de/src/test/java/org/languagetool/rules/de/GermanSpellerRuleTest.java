@@ -356,9 +356,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
     assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
     assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
-    // commas etc. are actually not part of the word, so the suggestion doesn't include them:
-    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
     assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
+    //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
+    // commas are actually not part of the word, so the suggestion doesn't include them:
+    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
   }
   
   @Test
