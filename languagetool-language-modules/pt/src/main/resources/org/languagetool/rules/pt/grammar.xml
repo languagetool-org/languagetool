@@ -2334,18 +2334,39 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern><!-- long holophrases -->
           <token postag='SENT_START'/>
+          <token max='2'/>
+          <token regexp='yes'>[.!?]</token>
+      </antipattern>
+      <antipattern><!-- long holophrases -->
+          <token postag='SENT_START'/>
+          <token postag='_PUNCT'/>
+          <token max='3'/>
+          <token regexp='yes'>[.!?]</token>
+      </antipattern>
+      <antipattern><!-- long holophrases -->
+          <token postag='SENT_START'/>
+          <token/>
+          <token postag='_PUNCT'/>
+          <token max='2'/>
+          <token regexp='yes'>[.!?]</token>
+      </antipattern>
+      <antipattern><!-- long holophrases -->
+          <token postag='SENT_START'/>
+          <token postag='_PUNCT'/>
+          <token/>
+          <token postag='_PUNCT'/>
+          <token max='2'/>
+          <token regexp='yes'>[.!?]</token>
+      </antipattern>
+      <antipattern><!-- long holophrases -->
+          <token postag='SENT_START'/>
           <token max='4'/>
           <token>!</token>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token postag='_PUNCT' min='0'/>
-          <token>
+          <token min='2'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-          <token postag='_PUNCT' min='0'/>
-          <token>
-            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-          <token postag='_PUNCT' min='0'/>
           <token skip='-1'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
             <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
