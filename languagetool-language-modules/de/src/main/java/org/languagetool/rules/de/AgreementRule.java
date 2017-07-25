@@ -76,6 +76,12 @@ public class AgreementRule extends Rule {
   }
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
+      new PatternTokenBuilder().posRegex("VER:.*").build(),
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().tokenRegex("nächste[ns]?").build(),
+      new PatternTokenBuilder().tokenRegex("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Woche|Monat|Jahr").build()
+    ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("(?i:ist|war)").build(),
       new PatternTokenBuilder().token("das").build(),
