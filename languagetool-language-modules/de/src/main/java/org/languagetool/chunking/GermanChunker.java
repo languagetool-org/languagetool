@@ -116,7 +116,7 @@ public class GermanChunker implements Chunker {
       // "In christlichen, islamischen und jüdischen Traditionen":
       build("<pos=ADJ> <,> <chunk=B-NP> <chunk=I-NP>* <und|sowie> <NP>", NPP),
       // "ein Hund und eine Katze":
-      build("<chunk=B-NP & !regex=jede[rs]?> <chunk=I-NP>* <und|sowie> <NP>", NPP),
+      build("<chunk=B-NP & !regex=jede[rs]?> <chunk=I-NP>* <und|sowie> <pos=ADV>? <NP>", NPP),
       // "größte und erfolgreichste Erfindung" (fixes mistagging introduced above):
       build("<pos=ADJ> <und|sowie> <chunk=B-NP & !pos=PLU> <chunk=I-NP>*", NPS, true),
       // "deren Bestimmung und Funktion" (fixes mistagging introduced above):
