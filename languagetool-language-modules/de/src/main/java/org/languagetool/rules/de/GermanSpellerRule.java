@@ -295,6 +295,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
     } else if (word.equals("Hallochen")) {
+      return Arrays.asList("Hallöchen", "hallöchen");
+    } else if (word.equals("hallochen")) {
       return Collections.singletonList("hallöchen");
     } else if (word.matches("[mM]issionarie?sie?rung")) {
       return Collections.singletonList("Missionierung");
