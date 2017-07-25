@@ -2332,15 +2332,20 @@ title="Easy editing stylesheet" ?>
 
     <rule id="NO_VERB" name="Síntaxe: ausência de verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
-      <antipattern><!-- holophrases -->
+      <antipattern><!-- long holophrases -->
           <token postag='SENT_START'/>
-          <token max='3'/>
+          <token max='4'/>
           <token>!</token>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token min='2'>
+          <token postag='_PUNCT' min='0'/>
+          <token>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+          <token postag='_PUNCT' min='0'/>
+          <token>
+            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+          <token postag='_PUNCT' min='0'/>
           <token skip='-1'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
             <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
@@ -2360,9 +2365,11 @@ title="Easy editing stylesheet" ?>
       <example type="incorrect"><marker>Não marcação com o Dr. Mário.</marker></example>
       <example type="correct">Não tem marcação com o Dr. Mário.</example>
       <example>Temos muito tempo.</example>
-      <example>Sim.</example>
+      <example>Sim, senhor.</example>
+      <example>— Sim, senhor Bastos.</example>
       <example>Basta!</example>
       <example>Ó Meu Deus!</example>
+      <example>Ó Deus do Céu!</example>
       <example type="incorrect"><marker>Este exemplo também.</marker></example>
       <example type="correct"><marker>Este exemplo também está.</marker></example>
       <example>Tu tinhas um bocado de tempo.</example>
@@ -6075,6 +6082,7 @@ title="Easy editing stylesheet" ?>
       <example correction="logo!|logo?|logo!?">Até <marker>logo.</marker></example>
       <example correction="Ah!|Ah?|Ah!?"><marker>Ah,</marker> quando eles se encontrarão novamente?</example>
       <example>Agradecido, mas não rendido.</example>
+      <example>Francamente, ela não vê por que deveria haver alguém mais</example>
     </rule>
     <rule>
       <pattern>
@@ -6345,7 +6353,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
           <token>atrás</token>
       </pattern>
-      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all" /> <match no="2" include_skipped="all" /> <match no="3" include_skipped="all" /> <match no="4" include_skipped="all" /></suggestion>.</message>
+      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all"/> <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
       <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
 
