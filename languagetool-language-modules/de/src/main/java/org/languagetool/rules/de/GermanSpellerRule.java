@@ -300,6 +300,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("hallöchen");
     } else if (word.matches("[mM]issionarie?sie?rung")) {
       return Collections.singletonList("Missionierung");
+    } else if (word.matches("[sS]chee?selonge?")) {
+      return Collections.singletonList("Chaiselongue");
+    } else if (word.matches("Re[kc]amiere")) {
+      return Collections.singletonList("Récamière");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
     } else if (word.matches("[mM]illion(en)?mal")) {
