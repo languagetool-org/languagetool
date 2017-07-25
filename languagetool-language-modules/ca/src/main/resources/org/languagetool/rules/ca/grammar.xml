@@ -9583,7 +9583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">gens|molt|gaire</token>
+                    <token>gens</token>
                     <token inflected="yes">de</token>
                 </marker>
             </antipattern>
@@ -9645,7 +9645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou requerit d'amors</example>
                 <example>no hi va haver necessitat de canviar la bandera</example>
                 <example>Necessita de mitjana 500 kg.</example>
-                <example>No necessitaran "molt de personal".</example>
+                <!--<example>No necessitaran "molt de personal".</example> problema de desambiguació: personal (nom/adj)-->
                 <!-- requeria del Consell executiu la presentació d'un projecte
                     que hom requereix dels alumnes
                     necessita molt de l'agricultura intensiva.
@@ -29125,7 +29125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token skip="2" inflected="yes">acabar</token>
-                        <token skip="4">amb</token>
+                        <token skip="4">amb<exception scope="next" regexp="yes" inflected="yes">mort|fi|final</exception></token>
                     </marker>
                     <token regexp="yes" inflected="yes">dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
                 </pattern>
@@ -29143,7 +29143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar amb</marker> els abusos.</example>
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">estan <marker>acabant amb</marker> aquesta situació</example>
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
-                <example>Cal posar fi als abusos.</example>
+                <example>Acaba amb la fi del regnat d'Alexandre.</example>
             </rule>
             <rule>
                 <pattern>
@@ -45292,7 +45292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PREFERENCIES_VERBS_VALENCIANS" name="Algunes formes verbals preferibles: vam, cantara, sent, sàpia...">
             <rule>
                 <pattern>
-                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*|NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Usem preferentment les formes en -r- de l'imperfet de subjuntiu.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"></match></suggestion>
@@ -45305,6 +45305,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>amb un grau d’execució comprés entre el 80 % i el 100 %.</example>
                 <example>Programa d’Estabilitat remés pel Govern en funcions</example>
                 <example>al cap de sis mesos d’haver-se comés</example>
+                <example>Tomàs, el seu germà</example>
+                <example>Lluís Garcia</example>
             </rule>
             <rule>
                 <pattern>
