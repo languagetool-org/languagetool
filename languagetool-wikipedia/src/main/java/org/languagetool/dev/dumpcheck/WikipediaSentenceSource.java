@@ -46,7 +46,8 @@ public class WikipediaSentenceSource extends SentenceSource {
 
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
-  
+  private static final int MAX_ARTICLE_SIZE = 100_000;
+
   private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
   private final Tokenizer sentenceTokenizer;
@@ -54,6 +55,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   private final Language language;
 
   private int articleCount = 0;
+  private int skipCount = 0;
   private int namespaceSkipCount = 0;
   private int redirectSkipCount = 0;
 
@@ -120,7 +122,7 @@ public class WikipediaSentenceSource extends SentenceSource {
             title = event.asCharacters().getData();
             articleCount++;
             if (articleCount % 100 == 0) {
-              System.out.println("Article: " + articleCount);
+              System.out.println("Article: " + articleCount + " (skipped so far: " + skipCount + ")");
             }
             break;
           case "ns":
@@ -146,6 +148,11 @@ public class WikipediaSentenceSource extends SentenceSource {
     while (event.isCharacters()) {
       sb.append(event.asCharacters().getData());
       event = reader.nextEvent();
+      if (sb.length() > MAX_ARTICLE_SIZE) {
+        System.out.println("Skipping " + title + ", longer than " + MAX_ARTICLE_SIZE + " chars");
+        skipCount++;
+        return;
+      }
     }
     try {
       if (sb.toString().trim().toLowerCase().startsWith("#redirect")) {
