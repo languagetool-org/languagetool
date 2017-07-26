@@ -38,8 +38,10 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
 
-    <!ENTITY separadores_de_oracoes "[,;:–—\(]|\-">
+    <!ENTITY separadores_de_oracoes "[,;:–—\(«]|\-">
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
+    <!ENTITY hifen "[-‑]">
+    <!ENTITY tracos_de_separacao "[-‑]|–|—">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -325,7 +327,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion>o \2</suggestion>
@@ -386,7 +388,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(A..|N.|Z.)F.+' postag_regexp='yes' negate_pos='yes'/>
             <exception regexp='yes'>uma|umas|e|ser|nome|termo</exception></token>
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion>a \2</suggestion>
@@ -464,7 +466,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
@@ -486,7 +488,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
@@ -507,7 +509,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
@@ -522,7 +524,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
         </marker>
-          <token negate='yes' regexp='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
@@ -640,7 +642,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>belas?</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>arte</token>
       </pattern>
       <message>Esta expressão é invariável.</message>
@@ -705,12 +707,12 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern case_sensitive='yes'>
           <token>
-            <exception>-</exception></token>
+            <exception regexp='yes'>&hifen;</exception></token>
         <marker>
           <token regexp='yes'>pós|neves</token>
         </marker>
           <token>
-            <exception>-</exception></token>
+            <exception regexp='yes'>&hifen;</exception></token>
       </pattern>
       <message>Esta expressão é invariável.</message>
         <suggestion><match no='2' regexp_match='(.*)s$' regexp_replace='$1'/></suggestion>
@@ -801,9 +803,9 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_verbal</url>
       <antipattern>
           <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
-          <token spacebefore='no'>-</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token spacebefore='no'>-</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no'/>
       </antipattern>
       <antipattern>
@@ -921,7 +923,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>vós|vocês</token>
+          <token>vós</token>
           <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
           <token postag='VM[CIS].([13]P|[123]S).' postag_regexp='yes'>
             <exception postag='VM[CIS].2P0' postag_regexp='yes'/></token>
@@ -930,7 +932,6 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(VM[CIS].)..(.)' postag_replace='$1\2P$2' postag_regexp='yes'/></suggestion>
       <example correction='Vós passeai|Vós passeais'><marker>Vós passeiam</marker> na praia.</example>
       <example type="correct">Vós passeais na praia.</example>
-      <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
     </rule>
     <rule>
       <antipattern>
@@ -952,6 +953,7 @@ title="Easy editing stylesheet" ?>
       <example type="correct">Eles e elas passeiam na praia.</example>
       <example type="correct">Eu e elas vamos ao parque</example>
       <example>Pobres e ricos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
+      <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
     </rule>
     <rule>
       <pattern>
@@ -1065,7 +1067,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token postag_regexp='yes' postag='V....S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V....S.+'/></token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>se</token>
           <token min='0' max='3' postag_regexp='yes' postag='R.'/>
           <token postag_regexp='yes' postag='D...P.+' min='0'>
@@ -1083,7 +1085,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag_regexp='yes' postag='V....P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V....P.+'/></token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>se</token>
           <token min='0' max='3' postag_regexp='yes' postag='R.'/>
           <token postag_regexp='yes' postag='D...S.+' min='0'>
@@ -1197,7 +1199,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
           <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(m|ão|õe)$</token>
-          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
       <message>As ênclises terminadas em m, ão ou õe exigem alteração do pronome.</message>
@@ -1211,7 +1213,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
           <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(r|s|z)$</token>
-          <token regexp='yes' spacebefore='no'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token regexp='yes' spacebefore='no'>[oa]s?</token>
       </pattern>
       <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
@@ -1228,7 +1230,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&negacoes;</token>
           <token postag_regexp='yes' postag='V.+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>As negações colocam o pronome antes do verbo.</message>
@@ -1243,7 +1245,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes'>(algum|nenhum)a?</token>
           <token postag_regexp='yes' postag='V.+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>As negações colocam o pronome antes do verbo.</message>
@@ -1316,7 +1318,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token min='0' regexp='yes'>me|te|se|vos</token>
           <token inflected='yes'>habituar</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0' regexp='yes'>me|te|se|nos|vos</token>
           <token>com</token>
       </pattern>
@@ -1413,7 +1415,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Com alguns pronomes indefinidos devem utilizar a próclise.</message>
@@ -1428,7 +1430,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
         </marker>
           <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
@@ -1442,7 +1444,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>"só", "ora" e "quer" devem ser seguidos de próclise.</message><!-- TODO Review "ou",  -->
@@ -1454,7 +1456,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>nenhu[mn]a?s?</token>
           <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </pattern>
       <message>As palavras de sentido negativo devem ser seguidas de próclise.</message>
@@ -1608,7 +1610,7 @@ title="Easy editing stylesheet" ?>
     <rule id='INF_PP_QUE' name="Infinitivo do tipo convencer + pron.pers + que">
       <pattern>
           <token regexp="yes">(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp="yes">(me|te|lh[ea][s]?|se|nos|os)</token>
           <token>que</token>
       </pattern>
@@ -1677,7 +1679,7 @@ title="Easy editing stylesheet" ?>
     <rule id='V3_DE_QUE' name="Verbo na 3a pessoa + de que">
       <pattern>
           <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
           <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
@@ -1753,7 +1755,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>m(á|au)s?</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>(acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|estar|executad|habituad|humorad|informad|intencionad|limp)[ao]s?</token>
       </pattern>
       <message>Esta palavra hifenizada utiliza «mal».</message>
@@ -1765,7 +1767,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>mal</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>(caratism|grad|olhad|sens|vizinh|tom|ton|carác?ter|humor)[aoe]?s?</token>
       </pattern>
       <message>Esta palavra hifenizada utiliza «mau».</message>
@@ -1921,7 +1923,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token case_sensitive='no' regexp='yes'>(&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>feira</token>
           <token>à</token>
           <token case_sensitive='no' regexp='yes'>(&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
@@ -1959,7 +1961,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token inflected='yes'>candidatar</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>[mts]e|[nv]os</token>
           <token regexp='yes'>as?</token>
         </marker>
@@ -2284,7 +2286,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>procura</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>se</token>
         </marker>
           <token postag_regexp="yes"  postag="(N..|A...)P.+"/>
@@ -2452,7 +2454,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>uma?</token>
       </antipattern>
       <pattern>
-          <token negate='yes'>-</token>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
         <marker>
           <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?|numa?s?|nuns|pel[ao]s?</token>
           <token regexp='yes'>as?|os?|uma?s?|uns|algu[mn]a?s?|n[oa]s?</token>
@@ -2466,6 +2469,7 @@ title="Easy editing stylesheet" ?>
       <example>"(…) levando-o a investigar mais longe."</example>
       <example>As casas antigas foram demolidas para dar espaço a um supermercado.</example>
       <example>Um a um.</example>
+      <example>Isto diz‑nos o quê?</example>
       <example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
       <example>As línguas oficiais são as das antigas metrópoles —</example>
       <example>Portugal foi um dos últimos países a adotar o novo método, </example>
@@ -2480,7 +2484,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?|[nd][oa]s?</token>
       </antipattern>
       <pattern>
-          <token negate='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
           <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
           <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
@@ -2810,7 +2814,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>folhas?|papel|papeis|tamanhos?|DIN</token>
         <marker>
           <token regexp="yes">[a-d]</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp="yes">[0-8]</token>
         </marker>
       </pattern>
@@ -3004,7 +3008,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>a</token>
           <token>guarda</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>nocturno</token>
       </pattern>
       <message>Substitua por <suggestion>a guarda-nocturna</suggestion>.</message>
@@ -3216,7 +3220,7 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>andares</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>modelos</token>
       </pattern>
       <message>Substitua por <suggestion>andares-modelo</suggestion>.</message>
@@ -3284,7 +3288,7 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp='yes'>abr[aei]r?</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>mos</token>
       </pattern>
       <message>Substitua por <suggestion>\1mos</suggestion>.</message>
@@ -3372,7 +3376,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>auto</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>falante</token>
       </pattern>
       <message>Substitua por <suggestion>altifalante</suggestion>.</message>
@@ -3381,7 +3385,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>auto</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>falantes</token>
       </pattern>
       <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
@@ -3393,7 +3397,7 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>bolos</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>rei</token>
       </pattern>
       <message>Substitua por <suggestion>bolos-reis</suggestion>.</message>
@@ -3577,7 +3581,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>decretos</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>lei</token>
       </pattern>
       <message>Substitua por <suggestion>decretos-leis</suggestion>.</message>
@@ -3649,7 +3653,7 @@ title="Easy editing stylesheet" ?>
     <rule id='ENTRAS_TE' name="Confusão: entras te - entraste">
       <pattern>
           <token>entras</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token>te</token>
       </pattern>
       <message>Substitua por <suggestion>entraste</suggestion>.</message>
@@ -3660,7 +3664,7 @@ title="Easy editing stylesheet" ?>
     <rule id='ESQUECEU-SE_QUE' name="Esqueceu-se de que">
       <pattern>
           <token inflected="yes">esquecer</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>se</token>
           <token>que</token>
       </pattern>
@@ -3760,7 +3764,7 @@ title="Easy editing stylesheet" ?>
     <rule id='FALARAM-SE_DE' name="Falou-se de">
       <pattern>
           <token>falaram</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>se</token>
           <token>de</token>
       </pattern>
@@ -3820,7 +3824,7 @@ title="Easy editing stylesheet" ?>
     <rule id='GUARDAS-CHUVAS' name="Guarda-chuvas">
       <pattern>
           <token>guardas</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp='yes'>chuvas?</token>
       </pattern>
       <message>Substitua por <suggestion>guarda-chuvas</suggestion>.</message>
@@ -3916,7 +3920,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>meio</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>irmã</token>
       </pattern>
       <message>Substitua por <suggestion>meia-irmã</suggestion>.</message>
@@ -4099,7 +4103,7 @@ title="Easy editing stylesheet" ?>
     <rule id='PALAVRAS-CHAVES' name="Palavras-chave">
       <pattern>
           <token>palavras</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>chaves</token>
       </pattern>
       <message>Substitua por <suggestion>palavras-chave</suggestion>.</message>
@@ -4202,7 +4206,7 @@ title="Easy editing stylesheet" ?>
     <rule id='PODERIAM-SE' name="Poder-se-iam">
       <pattern>
           <token>poderiam</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>se</token>
       </pattern>
       <message>Substitua por <suggestion>poder-se-iam</suggestion>.</message>
@@ -4252,7 +4256,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token>em</token>
           <token regexp='yes' inflected="yes">convidar|convidá</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp="yes" min='0'>los?|vos|te</token>
       </pattern>
       <message>Substitua por <suggestion>gosto</suggestion>.</message>
@@ -4345,7 +4349,7 @@ title="Easy editing stylesheet" ?>
     <rule id='RIU-ME' name="Confusão: rio-me">
       <pattern>
           <token>riu</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>me</token>
       </pattern>
       <message>Substitua por <suggestion>rio-me</suggestion>.</message>
@@ -4400,7 +4404,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>um</token>
           <token>baixo</token>
-          <token min='0' regexp='yes'>-|–|—</token>
+          <token min='0' regexp='yes'>&tracos_de_separacao;</token>
           <token>assinado</token>
       </pattern>
       <message>Substitua por <suggestion>um abaixo-assinado</suggestion>.</message>
@@ -6003,9 +6007,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token>-</token>
-          <token>-</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
       <pattern>
           <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
@@ -6174,9 +6178,9 @@ title="Easy editing stylesheet" ?>
 use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
           <token regexp='yes'>cara|dia|face|frente|passo|porta|tempos?|terra|t[éê]te</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[àa]o?</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>cara|dia|face|frente|passo|porta|tempos?|terra|t[éê]te</token>
       </antipattern>
       <antipattern>
@@ -6192,7 +6196,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       </antipattern>
       <pattern>
           <token>
-            <exception>-</exception></token>
+            <exception regexp='yes'>&hifen;</exception></token>
           <token skip='-1'/>
         <marker>
           <token><match no="1"/>
@@ -6202,7 +6206,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
-          <token negate='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>Para melhorar o texto, procure variar mais os termos utilizados.</message>
       <url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url>
@@ -6236,7 +6240,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
       <pattern>
           <token>
-            <exception>-</exception></token>
+            <exception regexp='yes'>&hifen;</exception></token>
           <token skip='-1'/>
           <token><match no="1"/></token>
           <token skip='-1'/>
@@ -6248,7 +6252,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
-          <token negate='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>Para melhorar o texto, procure variar mais os termos utilizados.</message>
       <url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url>
@@ -6540,7 +6544,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <pattern>
           <token regexp='yes'>bebés?</token>
           <token>recém</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>nascid[ao]s?</token>
       </pattern>
       <message>Substitua por <suggestion>\2-\4</suggestion>.</message>
@@ -7347,7 +7351,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='REDUNDANCY_SUICIDOU' name="Suicidar(-se) a si mesmo">
       <pattern>
           <token inflected='yes' regexp='yes'>suicidar|suicidou</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>se</token>
           <token>a</token>
           <token>si</token>
@@ -8987,7 +8991,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_18_LEVANTAR' name='levantar com o pé esquerdo'>
       <pattern>
           <token inflected='yes'>levantar</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>se</token>
           <token>com</token>
           <token>o</token>
@@ -9616,7 +9620,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_240_ARMAR-SE' name='armar-se até aos dentes|armado até aos dentes|armado até os dentes'>
       <pattern>
           <token inflected='yes' regexp='yes'>armar|armado</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>se</token>
           <token>até</token>
           <token regexp='yes'>a?os</token>
@@ -10167,7 +10171,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='CLICHE_346_COROAR' name='coroar de êxito'>
       <pattern>
           <token inflected='yes'>coroar</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0' regexp='yes'>[mts]e</token>
           <token>de</token>
           <token regexp='yes'>êxitos?</token>
@@ -11364,7 +11368,7 @@ o tomate'>
           <token inflected='yes'>ser</token>
           <token regexp='yes'>uma?s?|uns</token>
           <token regexp='yes'>joão|zés?</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>ninguém</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
@@ -11378,7 +11382,7 @@ o tomate'>
           <token inflected='yes'>ser</token>
           <token regexp='yes'>uma?s?|uns</token>
           <token>troca</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>tintas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
@@ -11391,13 +11395,13 @@ o tomate'>
           <token inflected='yes'>ser</token>
           <token regexp='yes'>uma?s?|uns</token>
           <token>maria</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>vai</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>com</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>as</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>outras</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
@@ -11568,7 +11572,7 @@ o tomate'>
     <rule id='CLICHE_449_TRAIR-SE' name='trair-se pela emoção'>
       <pattern>
           <token inflected='yes'>trair</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>se</token>
           <token>pela</token>
           <token>emoção</token>
@@ -11827,9 +11831,9 @@ o tomate'>
     <rule>
       <antipattern>
           <token>trás</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>os</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token>montes</token>
       </antipattern>
       <pattern>
@@ -11874,7 +11878,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_a;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -11898,7 +11902,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jactância|manigância|pânria|substância</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -11922,7 +11926,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_e;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -11946,7 +11950,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_eh;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -11970,7 +11974,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_i;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -11994,7 +11998,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_o;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -12018,7 +12022,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>&adj_nomes_paronimos_u;</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
@@ -19655,7 +19659,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp='yes'>(abelha|amostra|arte|bateria|boa|chave|coluna|divina|galeria|ideia|lição|linha|madre|mola|obra|parede|própria|rainha|senha|suprema|unha|velha|viga)s?|lições</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>mestres?</token>
       </pattern>
       <message>Confusão de termos.</message>
@@ -19779,9 +19783,9 @@ TODO Write better examples
           <token postag='SENT_END' regexp="yes">\d{4}</token>
       </antipattern>
       <antipattern>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token regexp="yes">\d+</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
       <pattern>
         <marker>
@@ -19992,7 +19996,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token>+</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
       </pattern>
       <message>Prefira o símbolo tipográfico.</message>
         <suggestion>±</suggestion>
@@ -20000,7 +20004,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>+</token>
       </pattern>
       <message>Prefira o símbolo tipográfico.</message>
@@ -20192,9 +20196,9 @@ TODO Write better examples
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
       <antipattern>
-          <token>-</token>
-          <token>-</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
     <rule>
       <pattern>
@@ -20262,9 +20266,9 @@ TODO Write better examples
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
       <short>Erro tipográfico</short>
       <antipattern>
-          <token>-</token>
-          <token>-</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
     <rule>
       <pattern>
@@ -20303,7 +20307,7 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token regexp='yes'>\p{L}+</token>
-          <token spacebefore="yes" regexp='yes'>-|–|—</token>
+          <token spacebefore="yes" regexp='yes'>&tracos_de_separacao;</token>
           <token spacebefore="no" regexp='yes'>\p{L}+</token>
       </pattern>
       <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
@@ -20315,9 +20319,9 @@ TODO Write better examples
     </rule>
     <rule>
       <antipattern>
-          <token>-</token>
-          <token>-</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -20326,7 +20330,7 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token/>
-          <token spacebefore="no" regexp='yes'>-|–|—</token>
+          <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
           <token spacebefore="yes"/>
       </pattern>
       <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
@@ -20973,7 +20977,7 @@ TODO Write better examples
     <rule id='UBUNTU' name="Nome de Produto: Ubuntu-16.10 → Ubuntu-16.10">
       <pattern>
           <token regexp="yes">([klx]|ed)?ubuntu</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token regexp="yes">\d\d\.\d</token>
       </pattern>
       <message>Pretende dizer <suggestion>\1\2<match no='3' regexp_match='(\d\d)\.(\d)' regexp_replace='$1\.0$2'/></suggestion>?</message>
@@ -20990,7 +20994,7 @@ TODO Write better examples
     <rule id='SQLITE' name="Nome de Produto: SQLite">
       <pattern>
           <token>sql</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token regexp="yes">l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
       </pattern>
       <message>Pretende dizer <suggestion>SQLite</suggestion>?</message>
@@ -21098,7 +21102,7 @@ TODO Write better examples
     <rule id='LIBREOFFICE' name="Nome de produto: 'Libre Office (LibreOffice)'">
       <pattern>
           <token>Libre</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token>Office</token>
       </pattern>
       <message>Pretende referir-se ao programa <suggestion>LibreOffice</suggestion>?</message>
@@ -21324,7 +21328,7 @@ TODO Write better examples
       <pattern>
     <!-- "Segunda-Feira, 7 de outubro de 2014" -->
           <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>feira</token>
           <token min="0">,</token>
           <token regexp="yes">\d\d?</token>
@@ -21345,7 +21349,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>feira</token>
           <token min="0">,</token>
           <token regexp="yes">\d\d?</token>
@@ -21702,7 +21706,7 @@ TODO Write better examples
       <pattern>
           <token postag='V...3.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
-          <token spacebefore='no'>-</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no'>se</token>
       </pattern>
       <message>Evite a voz passiva.</message>
@@ -21943,7 +21947,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token>tão</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
           <token>pouco</token>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico.</message>
@@ -22007,7 +22011,7 @@ TODO Write better examples
     <rule>
       <antipattern>
           <token regexp="yes">pr[oó]</token>
-          <token>-</token>
+          <token regexp='yes'>&hifen;</token>
       </antipattern>
       <pattern>
           <token regexp="yes">(&informal;)s?</token>
@@ -22516,7 +22520,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token inflected='yes'>bobear</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token min='0'>se</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
@@ -22587,7 +22591,7 @@ TODO Write better examples
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>basear</token>
-          <token regexp='yes' min='0'>-|–|—</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
           <token>se</token>
           <token>em</token>
       </pattern>
