@@ -43,7 +43,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós|vocês?">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
-    <!ENTITY pronomes_ambiguos "[ao]s?|mas|se">
+    <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
 
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     
@@ -1305,6 +1305,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
           <token regexp='yes'>d[eao]s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='_PUNCT'/>
+          <token>Este</token>
       </antipattern>
       <pattern case_sensitive='yes'>
           <token>
