@@ -119,6 +119,9 @@ public class WikipediaSentenceSource extends SentenceSource {
             event = reader.nextEvent();
             title = event.asCharacters().getData();
             articleCount++;
+            if (articleCount % 100 == 0) {
+              System.out.println("Article: " + articleCount);
+            }
             break;
           case "ns":
             event = reader.nextEvent();
