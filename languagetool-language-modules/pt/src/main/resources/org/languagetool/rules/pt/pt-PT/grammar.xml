@@ -276,6 +276,12 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>[ao]s?</token>
           <token postag='V.+' postag_regexp='yes'></token>
       </antipattern>
+      <antipattern>
+          <token inflected='yes'>dar</token>
+          <token>por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+          <token>a</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
@@ -287,6 +293,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Nós convidamo-lo'><marker>Nós o convidamos</marker> para a inauguração.</example>
       <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
       <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
+      <example>Demos por nós a extinguir o fogo.</example>
     </rule>
     <rule>
       <antipattern>
@@ -885,38 +892,6 @@ title="Easy editing stylesheet" ?>
         <suggestion>si</suggestion>
       <example correction="O Senhor|A Senhora|O Excelentíssimo|A Excelentíssima|Si"><marker>Você</marker> tenha mais atenção ao promenor.</example>
       <example correction="o Senhor|a Senhora|o Excelentíssimo|a Excelentíssima|si">Depois peço a <marker>você</marker> para me ajudar.</example>
-    </rule>
-  </rulegroup>
-  
-  <rulegroup id='FORMAL_A_GENTE' name="Expressões de 'a gente'">
-    <rule>
-      <pattern>
-          <token negate='yes'>com</token>
-        <marker>
-          <token>a</token>
-          <token>gente</token>
-        </marker>
-          <token postag="V.+" postag_regexp='yes'/>
-      </pattern>
-      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover  ou substituí-lo pelo pronome maistratamente adequado.</message>
-        <suggestion></suggestion>
-        <suggestion>nós</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
-      <short>Linguagem informal</short>
-      <example correction="|Nós"><marker>A gente</marker> é que sabe.</example>
-      <example correction="|nós">E depois, <marker>a gente</marker> comeu e bebeu que nem uns loucos.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>com</token>
-          <token>a</token>
-          <token>gente</token>
-      </pattern>
-      <message>O uso de "com a gente" é informal.</message>
-        <suggestion>connosco</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
-      <short>Linguagem informal</short>
-      <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
     </rule>
   </rulegroup>
 
