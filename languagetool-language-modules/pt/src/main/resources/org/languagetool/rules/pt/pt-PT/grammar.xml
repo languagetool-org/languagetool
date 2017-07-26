@@ -34,6 +34,9 @@ title="Easy editing stylesheet" ?>
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
+    <!ENTITY hifen "[-‑]">
+    <!ENTITY tracos_de_separacao "[-‑]|–|—">
+
     <!ENTITY pontos_cardeais "norte|sul|l?este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
@@ -324,6 +327,10 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">(sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
+      <antipattern>
+          <token regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
+          <token regexp="yes">["“]</token>
+      </antipattern>
       <pattern>
           <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
           <token postag='DP.*' postag_regexp='yes'></token>
@@ -337,6 +344,7 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
       <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
       <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>
+      <example>Apesar de reafirmar que vai prosseguir o “seu dever” no acolhimento às vagas de migrantes.</example>
     <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
     </rule>
 
@@ -831,7 +839,7 @@ title="Easy editing stylesheet" ?>
         FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
       <antipattern>
           <token postag="V.+" postag_regexp='yes'>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token>se</token>
       </antipattern>
       <pattern>
@@ -986,7 +994,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes' case_sensitive="yes">[^hrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
@@ -1018,7 +1026,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>infra|intra|supra|ultra|mega</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1028,7 +1036,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>extra</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
       </pattern>
       <message>Neste contexto deve unir as palavras.</message>
@@ -1048,7 +1056,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>tele</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[^ehrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1067,7 +1075,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[^ihrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1086,7 +1094,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1097,7 +1105,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>r.+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1107,7 +1115,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>s.+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1138,7 +1146,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>ob|sub</token>
     <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1158,7 +1166,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>circum|pan</token>
-          <token min='0'>-</token>
+          <token min='0' regexp='yes'>&hifen;</token>
           <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1203,7 +1211,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>ouros|copas|espadas|paus|trunfos?</token>
       </antipattern>
       <pattern>
-          <token negate='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
           <token regexp='yes'>eis?|ás?|ão</token>
           <token min='0' regexp='yes'>-|–|—</token>
@@ -1399,7 +1407,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&pontos_cardeais;
             <exception>este</exception></token>
         </marker>
-          <token negate='yes'>-</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
