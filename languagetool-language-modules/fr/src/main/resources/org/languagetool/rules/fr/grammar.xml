@@ -11206,18 +11206,20 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
+          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">du?|des?|en</exception></token>
           <token postag="[NR].* p" postag_regexp="yes">
             <exception regexp="yes">[mt]oi|[nvt]ous|eux</exception>
             <exception postag="[NZ].* sp?" postag_regexp="yes"/>
           </token>
           <token>qui</token>
+          <token min="0">ne</token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne plurielle.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne plurielle.</message>
         <example correction="">Celles qui <marker>travaille</marker> ici</example>
+        <example correction="">Les personnes qui ne <marker>mange</marker> pas.</example>
         <example>Celles qui travaillent ici</example>
         <example correction="">Les gens qui <marker>discutes</marker> là</example>
         <example>Les gens qui discutent là</example>
@@ -11253,14 +11255,16 @@ though, and has since been slightly modified)-->
             <exception postag="[NJ].* s?p" postag_regexp="yes"/>
           </token>
           <token>qui</token>
+          <token min="0">ne</token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
         <example correction="">Celle qui <marker>travaillent</marker> ici</example>
         <example>Celle qui travaille ici</example>
         <example correction="">La femme qui <marker>viens</marker> ici</example>
+        <example correction="">La femme qui ne <marker>demandes</marker> rien...</example>
         <example>La femme qui vient ici</example>
         <example>Eux qui jouent ici</example>
         <example>Quelques jeux vidéo qui ont marqué les années 80.</example>
