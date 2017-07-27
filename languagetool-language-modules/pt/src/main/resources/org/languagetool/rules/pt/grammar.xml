@@ -18741,17 +18741,6 @@ TODO Write better examples
       <example correction='o número'><marker>o numero</marker>.</example>
       <example correction='os números'><marker>os numeros</marker>.</example>
     </rule>
-    <rule id='PARONYM_VIAJEM_605' name='Parónimo: viajem'>
-      <pattern>
-          <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>viaje(m|ns)</token>
-      </pattern>
-      <message>Esta palavra é a ação de viajar. Se pretende referir-se ao ato de viajar, deve utilizar a forma com 'g'.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='j' regexp_replace='g'/></suggestion>
-      <example correction='A viagem'><marker>A viajem</marker> com 1 500 regras, parece que ainda agora começou.</example>
-      <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
-    </rule>
     <rule id='PARONYM_CALCULO_606' name='Parónimo: calculo'>
       <pattern>
           <token regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</token>
@@ -19651,6 +19640,47 @@ TODO Write better examples
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion>revólver<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction="revólver">grande <marker>revolver</marker></example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='HOMONYM_VERB_NOUN_CONFUSION' name='Confusão: homónimos verbo no lugar do nome'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-26 -->
+      <short>Confusão de verbo com nome.</short>
+    <rule id='HOMONYM_VIAJEM_1' name='Homónimo: viajem - viagem'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>viaje(m|ns)</token>
+      </pattern>
+      <message>Esta palavra é a ação de viajar. Se pretende referir-se ao ato de viajar, deve utilizar a forma com 'g'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='j' regexp_replace='g'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/viagem</url>
+      <example correction='A viagem'><marker>A viajem</marker> com 1 500 regras, parece que ainda agora começou.</example>
+      <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
+    </rule>
+    <rule id='HOMONYM_PROFETISA_2' name='Homónimo: profetisa - profetiza'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>profetizas?</token>
+      </pattern>
+      <message>Esta palavra é a ação de divulgar profecias. Se pretende referir-se à pessoa que as profere, deve utilizar a forma com 's'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='z' regexp_replace='s'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/profetisa</url>
+      <example correction='A profetisa'><marker>A profetiza</marker> tinha muitos devotos.</example>
+      <example correction='as profetisas'>Naquela época, <marker>as profetizas</marker> eram populares.</example>
+    </rule>
+    <rule id='HOMONYM_ESTIRPE_3' name='Homónimo: estirpe - extirpes'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>extirpes?</token>
+      </pattern>
+      <message>Esta palavra é a ação de remover as vísceras. Se pretende referir-se raiz ou linhagem, deve utilizar a forma com 's'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='x' regexp_replace='s'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/estirpe</url>
+      <example correction='A estirpe'><marker>A extirpe</marker> do H1N1 tem grande capacidade de propagação.</example>
+      <example correction='As estirpes'><marker>As extirpes</marker> destas raças de cães são adequadas à sua personalidade.</example>
     </rule>
   </rulegroup>
 
