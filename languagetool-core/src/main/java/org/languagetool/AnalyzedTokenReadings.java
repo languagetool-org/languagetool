@@ -49,6 +49,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
+  private boolean isPosTagUnknown;
 
   // If true, then the token is marked up as immune against tests:
   // it should never be matched by any rule. Used to have generalized
@@ -84,6 +85,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isSentStart = SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());
     isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
+    isPosTagUnknown = tokens.size() == 1 && tokens.get(0).getPOSTag() == null;
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
@@ -388,6 +390,14 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return isIgnoredBySpeller;
   }
 
+  /**
+   * Test if the token's POStag equals null.
+   * @return true if the token does not have a POStag
+   * @since 3.9
+   */
+  public boolean isPosTagUnknown() {
+    return isPosTagUnknown;
+  }
 
   /**
    * Sets the flag on AnalyzedTokens to make matching

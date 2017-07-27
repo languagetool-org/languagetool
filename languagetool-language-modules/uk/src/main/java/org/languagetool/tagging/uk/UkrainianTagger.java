@@ -41,7 +41,7 @@ public class UkrainianTagger extends BaseTagger {
   
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
-  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ][\u2013][а-яіїєґ]");
+  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9][\u2013][а-яіїєґ]");
   
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;

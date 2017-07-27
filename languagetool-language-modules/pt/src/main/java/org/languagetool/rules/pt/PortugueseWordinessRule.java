@@ -38,9 +38,9 @@ import java.net.URL;
  * @author Tiago F. Santos 
  * @since 3.8
  */
-public class PortugueseWordynessRule extends AbstractSimpleReplaceRule2 {
+public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PT_WORDYNESS_REPLACE = "PT_WORDYNESS_REPLACE";
+  public static final String PT_WORDINESS_REPLACE = "PT_WORDINESS_REPLACE";
 
   private static final String FILE_NAME = "/pt/wordiness.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
@@ -50,7 +50,7 @@ public class PortugueseWordynessRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public PortugueseWordynessRule(ResourceBundle messages) throws IOException {
+  public PortugueseWordinessRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -60,7 +60,7 @@ public class PortugueseWordynessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public final String getId() {
-    return PT_WORDYNESS_REPLACE;
+    return PT_WORDINESS_REPLACE;
   }
 
   @Override

@@ -39,24 +39,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queries an OpenNMT server.
+ * Queries an OpenNMT server started like this:
+ * {@code th tools/rest_translation_server.lua -replace_unk -model ...}
  */
 @Experimental
 public class OpenNMTRule extends Rule {
 
-  private final static String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
+  private static final String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
   
   private final String serverUrl;
   private final ObjectMapper mapper = new ObjectMapper();
 
   /**
-   * @param serverUrl defaults to {@code http://127.0.0.1:7784/translator/translate}
+   * @param serverUrl URL of the OpenNMT server, like {@code http://127.0.0.1:7784/translator/translate}
    */
   public OpenNMTRule(String serverUrl) {
     this.serverUrl = serverUrl;
     setDefaultOff();
   }
 
+  /**
+   * Expects an OpenNMT server running at http://127.0.0.1:7784/translator/translate
+   */
   public OpenNMTRule() {
     this(defaultServerUrl);
   }
@@ -150,6 +154,7 @@ public class OpenNMTRule extends Rule {
     conn.setDoOutput(true);
     try {
       try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+        //System.out.println("POSTING: " + json);
         dos.write(json.getBytes("utf-8"));
       }
     } catch (IOException e) {

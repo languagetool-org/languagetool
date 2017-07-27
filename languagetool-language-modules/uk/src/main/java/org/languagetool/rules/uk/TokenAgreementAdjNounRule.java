@@ -48,7 +48,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * 
  * @author Andriy Rysin
  */
-public class TokenInflectionAgreementRule extends Rule {
+public class TokenAgreementAdjNounRule extends Rule {
   
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
@@ -59,7 +59,7 @@ public class TokenInflectionAgreementRule extends Rule {
 
   private final Ukrainian ukrainian = new Ukrainian();
 
-  public TokenInflectionAgreementRule(ResourceBundle messages) throws IOException {
+  public TokenAgreementAdjNounRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
 //    setDefaultOff();
   }
@@ -195,7 +195,7 @@ public class TokenInflectionAgreementRule extends Rule {
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
 
-        if( TokenInflectionExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, adjTokenReadings, slaveTokenReadings) ) {
+        if( TokenAgreementAdjNounExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, adjTokenReadings, slaveTokenReadings) ) {
           adjTokenReadings.clear();
           continue;
         }

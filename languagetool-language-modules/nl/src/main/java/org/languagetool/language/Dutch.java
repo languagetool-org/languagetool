@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.CompoundRule;
 import org.languagetool.rules.nl.DutchWrongWordInContextRule;
@@ -112,6 +113,11 @@ public class Dutch extends Language {
   }
 
   @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
@@ -127,5 +133,4 @@ public class Dutch extends Language {
             new SimpleReplaceRule(messages)
     );
   }
-
 }

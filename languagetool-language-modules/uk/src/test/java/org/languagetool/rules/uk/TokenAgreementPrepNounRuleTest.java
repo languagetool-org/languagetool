@@ -34,14 +34,14 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class TokenAgreementRuleTest {
+public class TokenAgreementPrepNounRuleTest {
 
   private JLanguageTool langTool;
-  private TokenAgreementRule rule;
+  private TokenAgreementPrepNounRule rule;
 
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementRule(TestTools.getMessages("uk"));
+    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
   }
   

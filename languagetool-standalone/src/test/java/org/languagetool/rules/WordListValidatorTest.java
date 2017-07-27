@@ -38,6 +38,7 @@ public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
           "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòôÈÉÁÀÓÒãñíîş" +
+          "âêôõû" +  // for Portuguese
           "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
           "Śśōżúï" +
           "·" +   // for Catalan
@@ -51,6 +52,8 @@ public class WordListValidatorTest {
           "Hidschāb/S",
           "Dvořák/S",
           "Erdoğan/S",
+          "Ångström",
+          "µm",
           "'Ndrangheta"
   ));
 

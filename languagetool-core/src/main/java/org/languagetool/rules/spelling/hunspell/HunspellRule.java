@@ -26,10 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
@@ -106,6 +103,7 @@ public class HunspellRule extends SpellingCheckRule {
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
           filterSuggestions(suggestions);
+          filterDupes(suggestions);
           ruleMatch.setSuggestedReplacements(suggestions);
         }
         ruleMatches.add(ruleMatch);
@@ -122,6 +120,18 @@ public class HunspellRule extends SpellingCheckRule {
       isAlphabetic = Character.isAlphabetic(word.charAt(0));
     }
     return (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
+  }
+  
+  void filterDupes(List<String> words) {
+    Set<String> seen = new HashSet<>();
+    Iterator<String> iterator = words.iterator();
+    while (iterator.hasNext()) {
+      String word = iterator.next();
+      if (seen.contains(word)) {
+        iterator.remove();
+      }
+      seen.add(word);
+    }
   }
 
   private String removeTrailingDot(String word) {
@@ -181,11 +191,9 @@ public class HunspellRule extends SpellingCheckRule {
         hunspellDict = null;
       } else {
         hunspellDict = Hunspell.getInstance().getDictionary(path);
-
         if (!"".equals(hunspellDict.getWordChars())) {
           wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }
-
         addIgnoreWords();
       }
     }
@@ -195,7 +203,6 @@ public class HunspellRule extends SpellingCheckRule {
 
   private void addIgnoreWords() throws IOException {
     hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
     List<String> ignoreLines = Resources.readLines(ignoreUrl, Charsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
@@ -212,7 +219,7 @@ public class HunspellRule extends SpellingCheckRule {
     String dictionaryPath;
     //in the webstart, java EE or OSGi bundle version, we need to copy the files outside the jar
     //to the local temporary directory
-    if ("jar".equals(dictURL.getProtocol()) || "vfs".equals(dictURL.getProtocol()) || "bundle".equals(dictURL.getProtocol())) {
+    if ("jar".equals(dictURL.getProtocol()) || "vfs".equals(dictURL.getProtocol()) || "bundle".equals(dictURL.getProtocol()) || "bundleresource".equals(dictURL.getProtocol())) {
       File tempDir = new File(System.getProperty("java.io.tmpdir"));
       File tempDicFile = new File(tempDir, dicName + ".dic");
       JLanguageTool.addTemporaryFile(tempDicFile);

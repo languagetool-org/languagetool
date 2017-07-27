@@ -22,11 +22,13 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -42,22 +44,22 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @author Andriy Rysin
  * @since 3.6
  */
-public class TokenVerbAgreementRule extends Rule {
+public class TokenAgreementNounVerbRule extends Rule {
   private static final Pattern VERB_INFLECTION_PATTERN = Pattern.compile(":([mfnps])(:([123])?|$)");
-  private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
+  private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_naz)");
   private static final Pattern NOUN_PERSON_PATTERN = Pattern.compile(":([123])");
   static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenVerbAgreementRule.debug");
 //  private static final Logger logger = LoggerFactory.getLogger(TokenVerbAgreementRule.class);
 
 
-  public TokenVerbAgreementRule(ResourceBundle messages) throws IOException {
+  public TokenAgreementNounVerbRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
-    setDefaultOff();
+//    setDefaultOff();
   }
 
   @Override
   public final String getId() {
-    return "UK_NOUN_VERB_AGREEMENT";
+    return "UK_NOUN_VERB_INFLECTION_AGREEMENT";
   }
 
   @Override
@@ -172,7 +174,7 @@ public class TokenVerbAgreementRule extends Rule {
       }
 
       if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking\n\t{}\n\t{}", nounTokenReadings, verbTokenReadings));
+        System.err.println(MessageFormat.format("=== Checking\n\t{0}\n\t{1}", nounTokenReadings, verbTokenReadings));
       }
 
       // perform the check
@@ -182,23 +184,24 @@ public class TokenVerbAgreementRule extends Rule {
       List<Inflection> slaveInflections = getVerbInflections(verbTokenReadings);
 
       if( DEBUG ) {
-        System.err.println(MessageFormat.format("\t\t{}\n\t{}", masterInflections, slaveInflections));
+        System.err.println(MessageFormat.format("\t\t{0}\n\t{1}", masterInflections, slaveInflections));
       }
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
-        if( TokenVerbAgreementExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, nounTokenReadings, verbTokenReadings)) {
+        if( TokenAgreementNounVerbExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, nounTokenReadings, verbTokenReadings)) {
           nounTokenReadings.clear();
           break;
         }
 
         if( DEBUG ) {
-          System.err.println(MessageFormat.format("=== Found noun/verb mismatch\n\t{}\n\t{}",
+          System.err.println(MessageFormat.format("=== Found noun/verb mismatch\n\t{0}\n\t{1}",
             nounAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + nounAnalyzedTokenReadings,
             verbTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + verbTokenReadings));
         }
         
         String msg = String.format("Неузгоджені іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
-            nounTokenReadings.get(0).getToken(), masterInflections, verbTokenReadings.get(0).getToken(), slaveInflections);
+            nounTokenReadings.get(0).getToken(), formatInflections(masterInflections, true), 
+            verbTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
         RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         ruleMatches.add(potentialRuleMatch);
       }
@@ -207,6 +210,37 @@ public class TokenVerbAgreementRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+
+  private static String formatInflections(List<Inflection> inflections, boolean noun) {
+
+    Collections.sort(inflections);
+
+    List<String> list = new ArrayList<>();
+
+    for (Inflection inflection : inflections) {
+      String str = "";
+      if (inflection.gender != null) {
+        str = PosTagHelper.GENDER_MAP.get(inflection.gender);
+      }
+      else {
+        if( inflection.person != null ) {
+          str = PosTagHelper.PERSON_MAP.get(inflection.person);
+        }
+        if( inflection.plural != null ) {
+          if( str.length() > 0 ) {
+            str += " ";
+          }
+          str += PosTagHelper.GENDER_MAP.get(inflection.plural);
+        }
+      }
+      list.add(str);
+    }
+
+    LinkedHashSet<String> uniqeList = new LinkedHashSet<>(list);
+
+    return StringUtils.join(uniqeList, ", ");
   }
 
 
@@ -219,8 +253,13 @@ public class TokenVerbAgreementRule extends Rule {
       if( posTag == null || ! posTag.startsWith("verb") )
         continue;
 
-      if( posTag.contains(":inf") || posTag.contains(":impers") ) {
+      if( posTag.contains(":inf") ) {
         verbGenders.add(new Inflection("i", null));
+        continue;
+      }
+
+      if( posTag.contains(":impers") ) {
+        verbGenders.add(new Inflection("o", null));
         continue;
       }
 
@@ -237,7 +276,7 @@ public class TokenVerbAgreementRule extends Rule {
   }
 
 
-  private static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings) {
+  static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings) {
     List<Inflection> slaveInflections = new ArrayList<>();
     for (AnalyzedToken token: nounTokenReadings) {
       String posTag2 = token.getPOSTag();
@@ -266,7 +305,7 @@ public class TokenVerbAgreementRule extends Rule {
     );
   }
 
-  static class Inflection {
+  static class Inflection implements Comparable<Inflection> {
     final String gender;
     final String plural;
     final String person;
@@ -305,7 +344,8 @@ public class TokenVerbAgreementRule extends Rule {
       
       if( gender != null && other.gender != null ) {
 
-        // infinitive matches all for now
+        // infinitive matches all for now, otherwise too many false positives
+        // e.g. чи могла вона програти
         if( gender.equals("i") || other.gender.equals("i") )
           return true;
 
@@ -332,6 +372,19 @@ public class TokenVerbAgreementRule extends Rule {
         return "Gender: " + gender + "/" + plural + "/" + person;
     }
 
+    @Override
+    public int compareTo(Inflection o) {
+      Integer thisOrder = gender != null ? InflectionHelper.GEN_ORDER.get(gender) : 0;
+      Integer otherOrder = o.gender != null ? InflectionHelper.GEN_ORDER.get(o.gender) : 0;
+      
+      int compared = thisOrder.compareTo(otherOrder);
+//      if( compared != 0 )
+        return compared;
+      
+//      compared = VIDM_ORDER.get(_case).compareTo(VIDM_ORDER.get(o._case));
+//      return compared;
+    }
+  
 
   }
 

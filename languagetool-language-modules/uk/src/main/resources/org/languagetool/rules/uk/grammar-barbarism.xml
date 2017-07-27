@@ -1853,6 +1853,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="ODYN_I_TOY_ZHE" name="Один і той же" default="off">
+      <pattern>
+       <token inflected='yes'>один</token>
+       <token regexp='yes'>і|й</token>
+       <token inflected='yes'>той</token>
+       <token regexp='yes'>же|ж</token>
+      </pattern>
+      <message>Вираз "\1 \2 \3 \4" не характерний українській мові. Варто вживати <suggestion>той самий</suggestion>, <suggestion>один і той самий</suggestion></message>
+      <url>https://r2u.org.ua/node/213</url>
+      <example correction="той самий|один і той самий">Представники різних рас і народів по-різному реагують на <marker>один і той же</marker> препарат</example>
+      <example correction="Той самий|Один і той самий"><marker>Один і той же</marker> одяг можу носити півроку</example>
+      <example>Конституція також передбачає випадки, коли один і той самий закон повинен бути підтриманий Верховною Радою та народом</example>
+    </rule>
+
+    <rule id="ODYN_NA_ODYM" name="Один на один">
+      <pattern>
+        <token>один</token>
+        <token>на</token>
+        <token>один</token>
+      </pattern>
+      <message>Вираз "\1 \2 \3" не характерний українській мові. Варто вживати <suggestion>сам на сам</suggestion>, <suggestion>віч-на-віч</suggestion>, <suggestion>сам один</suggestion></message>
+      <url>http://stalivyrazy.org.ua/everyfile.php?transfer=folders/o/odin.html</url>
+      <example correction="сам на сам|віч-на-віч|сам один">Якщо потрібно з кимось порадитись, то це треба робити <marker>один на один</marker>.</example>
+      <example correction="сам на сам|віч-на-віч|сам один">Ми лишилися <marker>один на один</marker> зі своїми викликами.</example>
+      <example>Сам на сам із ринком</example>
+    </rule>
+
+    <rule id="ODYN_CHAS" name="Один час">
+      <pattern>
+        <token negate='yes'>в</token>
+        <marker>
+          <token>один</token>
+          <token>час</token>
+        </marker>
+      </pattern>
+      <message>Вираз "\2 \3" в контексті "\2 \3 було..." не характерний українській мові. Варто вживати <suggestion>свого часу</suggestion>, <suggestion>певний час</suggestion>, <suggestion>деякий час</suggestion></message>
+      <example correction="свого часу|певний час|деякий час"><marker>один час</marker></example>
+      <example correction="свого часу|певний час|деякий час">Питаннях шлюбу, <marker>один час</marker> намагалася "приборкати" римська католицька церква</example>
+      <example>Багато людей в одному місці й в один час</example>
+    </rule>
+
     <rule id="VSI_DO_YEDYNOHO" name="Всі до єдиного">
       <pattern>
         <token inflected="yes" postag_regexp="yes" postag="adj:p:.*" regexp="yes">у?весь</token>
@@ -4432,24 +4473,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-<!--
-    <rulegroup id="BUTY_PRAVYM" name="Бути правим">
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-            <token inflected="yes" regexp="yes">оливковий|рослинний|соняшниковий|пальмовий|бавовняний|етеровий|ефірний|кедровий|кіпарисовий|обліпиховий|ріпаковий|рапсовий|соєвий</token>
-            <token inflected="yes">масло</token>
-          </unify>
-        </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олія</suggestion></message>
-        <example correction="рослинна олія">полити <marker>рослинним маслом</marker>.</example>
-        <example correction="оливкова олія">полити <marker>оливковим маслом</marker>.</example>
-      </rule>
-    </rulegroup>
--->
-
     <rulegroup id="DVA_CHOBOTY" name="Два чоботи пара">
       <rule>
         <pattern>
@@ -4469,6 +4492,156 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="NE_V_SYLAH" name="Не в силах">
+      <rule>
+        <pattern>
+          <token>не</token>
+          <token>в</token>
+          <token>силах</token>
+        </pattern>
+        <message>Правильно: <suggestion>не мати сили</suggestion></message>
+        <suggestion>не мати снаги</suggestion>
+        <suggestion>несила (кому)</suggestion>
+        <suggestion>неспромога (кому)</suggestion>
+        <suggestion>не здужати</suggestion>
+        <suggestion>не спроможним бути</suggestion>
+        <example correction="не мати сили|не мати снаги|несила (кому)|неспромога (кому)|не здужати|не спроможним бути">геть <marker>не в силах</marker> протистояти.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">удар|атака</token>
+          <token min="0"/>
+          <token>по</token>
+          <token>силах</token>
+        </antipattern>
+        <antipattern>
+          <token>силах</token>
+          <token regexp="yes">АТО|НАТО</token>
+        </antipattern>
+        <pattern>
+          <token>по</token>
+          <token>силах</token>
+        </pattern>
+        <message>Правильно: <suggestion>до снаги</suggestion></message>
+        <suggestion>несила (кому)</suggestion>
+        <suggestion>не під силу</suggestion>
+        <suggestion>не здужати</suggestion>
+        <suggestion>не подужати</suggestion>
+        <example correction="до снаги|несила (кому)|не під силу|не здужати|не подужати">геть не <marker>по силах</marker> йому.</example>
+        <example>б'ють по силах АТО</example>
+        <example>ударів НАТО по силах Талібану</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="BUTY_PRAVYM" name="Бути правим">
+      <rule>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token postag_regexp="yes" postag="noun:.*:v_rod.*">
+          <!--
+            <exception postag_regexp="yes" postag="noun:.*:v_(naz|oru).*"/>
+          -->
+          </token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="number"/>
+
+              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*:n">бути
+                <exception>суть</exception>
+              </token>
+              <token inflected="yes" postag_regexp="yes" postag="adj.*:v_(naz|oru).*">правий</token>
+            </unify>
+          </marker>
+          <token>
+            <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="noun.*:v_(naz|oru).*">рука|політик|партія|сила|консерватор</exception>
+            <exception inflected="yes">качати</exception>
+            <exception postag_regexp="yes" postag="verb:.*:inf.*"/>
+          </token>
+        </pattern>
+        <message>У значенні «такий, що правильно мислить, діє» правильно: <suggestion>мати рацію</suggestion></message>
+        <suggestion>мати слушність</suggestion>
+        <suggestion>(чиясь) правда</suggestion>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">може <marker>бути правим</marker> лише тому.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">класики <marker>були праві</marker>.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">він <marker>був правий</marker>.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">вона <marker>буде права</marker>.</example>
+        <example>співак є правою рукою дизайнера Анни</example>
+        <example>зверху була права рука</example>
+        <example>не було правого сидіння</example>
+        <example>буде права качати</example>
+        <example>у них не було права</example>
+        <example>у них були права й привілеї</example>
+        <example>завтра не буде права нарікати</example>
+        <example>найважливішими є права людини</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ROZUMIYETSA_INSERT" name="Розуміється, як вставне слово">
+      <rule>
+        <pattern>
+          <token regexp="yes">[,—–-]</token>
+          <marker>
+            <token>розуміється</token>
+          </marker>
+          <token min="0">ж</token>
+          <token regexp="yes">[,!]</token>
+        </pattern>
+        <message>Правильно: <suggestion>певна річ</suggestion>, <suggestion>звичайно</suggestion></message>
+        <suggestion>звісно</suggestion>
+        <suggestion>певне</suggestion>
+        <example correction="певна річ|звичайно|звісно|певне">Гуляння, <marker>розуміється</marker>, було не на сухо.</example>
+        <example>Він розуміється на таких речах.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="POVEZLO_VS_POSCHATYLO" name="Повезло і пощастило">
+      <pattern>
+        <token>повезло</token>
+      </pattern>
+      <message>Замість безособової форми «<match no="1"/>» варто писати <suggestion>пощастило</suggestion>, <suggestion>поталанило</suggestion>, <suggestion>пофортунило</suggestion></message>
+      <example correction="пощастило|поталанило|пофортунило">А якщо тобі <marker>повезло</marker> і ти ухопив живого</example>
+      <!--
+      <example>Наше авто - через північний перевал повезло мене з товаришами в гори</example>
+      <example>Чудовисько повезло мене до своєї хатини</example>
+      -->
+    </rule>
+
+    <rulegroup id="PO_KRAINIY_MIRI" name="По крайній мірі та принаймні">
+      <rule>
+        <pattern>
+          <marker>
+            <token>по</token>
+            <token>крайній</token>
+            <token>мірі</token>
+          </marker>
+          <token postag='num.*' postag_regexp='yes' negate_pos='yes'/>
+        </pattern>
+        <message>Правильно: <suggestion>принаймні</suggestion></message>
+        <suggestion>хоча б</suggestion>
+        <suggestion>бодай</suggestion>
+        <example correction="принаймні|хоча б|бодай">У нас люди <marker>по крайній мірі</marker> не голодують</example>
+        <example correction="принаймні|хоча б|бодай">Ця цифра буде <marker>по крайній мірі</marker> удвічі більшою</example>
+      </rule>
+    
+      <rule>
+        <pattern>
+          <marker>
+            <token>по</token>
+            <token>крайній</token>
+            <token>мірі</token>
+          </marker>
+          <token postag="num.*" postag_regexp='yes'/>
+        </pattern>
+        <message>Правильно: <suggestion>щонайменше</suggestion> або <suggestion>принаймні</suggestion></message>
+        <suggestion>хоча б</suggestion>
+        <suggestion>бодай</suggestion>
+        <example correction='щонайменше|принаймні|хоча б|бодай'>Довкола неї було <marker>по крайній мірі</marker> десять залицяльників</example>
+        <example correction='щонайменше|принаймні|хоча б|бодай'>Для повноцінної роботи дільниці там має працювати <marker>по крайній мірі</marker> 15 - 16 осіб</example>
+      </rule>
+    </rulegroup>
+    
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
         <antipattern>
