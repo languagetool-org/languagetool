@@ -35,14 +35,14 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   private static final int MAX_SUGGESTIONS = 20;
   
-  private final CompoundWordTokenizer wordSplitter;
+  private final CompoundWordTokenizer compoundSplitter;
   private final MorfologikMultiSpeller morfoSpeller;
 
   protected abstract void filterForLanguage(List<String> suggestions);
 
-  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikMultiSpeller morfoSpeller) {
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller) {
     super(messages, language);
-    this.wordSplitter = wordSplitter;
+    this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }
 
@@ -61,6 +61,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> simpleSuggestions = getCorrectWords(candidates);
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
+    handleWordEndPunctuation(".", word, noSplitSuggestions);
+    handleWordEndPunctuation("...", word, noSplitSuggestions);
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
       List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
@@ -89,8 +91,18 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
+  private void handleWordEndPunctuation(String punct, String word, List<String> noSplitSuggestions) {
+    if (word.endsWith(punct)) {
+      // e.g. "informationnen." - the dot is a word char in hunspell, so it needs special treatment here
+      List<String> tmp = morfoSpeller.getSuggestions(word.substring(0, word.length()-punct.length()));
+      for (String s : tmp) {
+        noSplitSuggestions.add(s + punct);
+      }
+    }
+  }
+
   protected List<String> getCandidates(String word) {
-    return wordSplitter.tokenize(word);
+    return compoundSplitter.tokenize(word);
   }
 
   protected List<String> getCandidates(List<String> parts) {

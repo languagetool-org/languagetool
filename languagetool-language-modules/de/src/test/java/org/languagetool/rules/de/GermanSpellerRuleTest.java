@@ -112,6 +112,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
     assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
     assertFirstSuggestion("rosanen", "rosa", rule, lt);
+    assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
+    assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
   }
 
   @Test
@@ -320,10 +322,7 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
-    
-    // use to work with jwordsplitter 3.4: too many other suggestions with Levenshtein=2
-    //assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
-    //assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
     assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
@@ -333,7 +332,9 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
-    
+    assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+
     assertCorrection(rule, "Arbeidszimmer", "Arbeitszimmer");
     assertCorrection(rule, "Postleidzahl", "Postleitzahl");
     assertCorrection(rule, "vorallem", "vor allem");
@@ -342,16 +343,25 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
 
-    // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
-    // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
-    // because jwordsplitter doesn't use the same dictionary as Hunspell:
-    // assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
-
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
     //assertCorrection(rule, "Handselvertretertreffn", "Handelsvertretertreffen");
   }
 
+  @Test
+  public void testGetSuggestionWithPunctuation() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
+    assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
+    assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
+    assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
+    //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
+    // commas are actually not part of the word, so the suggestion doesn't include them:
+    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+  }
+  
   @Test
   public void testGetSuggestionOrder() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
@@ -376,7 +386,10 @@ public class GermanSpellerRuleTest {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
     lines.add("ist".getBytes());
-    byte[] info = "fsa.dict.separator=+\nfsa.dict.encoding=utf-8\nfsa.dict.frequency-included=true".getBytes();
+    byte[] info = ("fsa.dict.separator=+\n" +
+                   "fsa.dict.encoding=utf-8\n" +
+                   "fsa.dict.frequency-included=true\n" +
+                   "fsa.dict.encoder=SUFFIX").getBytes();
     Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
     Speller speller = new Speller(dict, 2);
     System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?

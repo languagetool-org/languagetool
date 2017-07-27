@@ -48,6 +48,15 @@
         </equivalence>
       </unification>
 
+    <rule id="WORKAROUND_MISSING_ADVERBS_POS" name="fix missing POS in adverbes">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-24  -->
+      <pattern>
+          <token regexp="yes" postag='UNKNOWN|I|RG' postag_regexp='yes'>.*mente$</token>
+      </pattern>
+      <disambig action="add"><wd pos="RM"/></disambig>
+      <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>
+    </rule>
+
     <!--		multiwords.txt related			-->
   <rulegroup id="WORKAROUND_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
     <!-- 	Workaround retrieved from Catalan grammar.xml	-->
@@ -763,7 +772,7 @@
     <rule id="PUNCT" name="pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
-          <token regexp="yes">[.,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
+          <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
       </pattern>
       <disambig action="add"><wd pos="_PUNCT"/></disambig>
     </rule>

@@ -294,8 +294,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Babys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
+    } else if (word.equals("Hallochen")) {
+      return Arrays.asList("Hallöchen", "hallöchen");
+    } else if (word.equals("hallochen")) {
+      return Collections.singletonList("hallöchen");
     } else if (word.matches("[mM]issionarie?sie?rung")) {
       return Collections.singletonList("Missionierung");
+    } else if (word.matches("[sS]chee?selonge?")) {
+      return Collections.singletonList("Chaiselongue");
+    } else if (word.matches("Re[kc]amiere")) {
+      return Collections.singletonList("Récamière");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
     } else if (word.matches("[mM]illion(en)?mal")) {
@@ -308,6 +316,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("AWA", "ach was", "aber");
     } else if (word.equals("ch")) {
       return Collections.singletonList("ich");
+    } else if (word.matches("aufgehangen(e[mnrs]?)?$")) {
+      return Collections.singletonList(word.replaceFirst("hangen", "hängt"));
     } else if (word.matches("rosane[mnrs]?$")) {
       return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
     } else if (word.matches("geupdate[dt]$")) {
