@@ -46,7 +46,7 @@ public class WikipediaSentenceSource extends SentenceSource {
 
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
-  private static final int MAX_ARTICLE_SIZE = 100_000;
+  private static final int MAX_ARTICLE_SIZE = -1;
 
   private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
@@ -148,7 +148,7 @@ public class WikipediaSentenceSource extends SentenceSource {
     while (event.isCharacters()) {
       sb.append(event.asCharacters().getData());
       event = reader.nextEvent();
-      if (sb.length() > MAX_ARTICLE_SIZE) {
+      if (MAX_ARTICLE_SIZE != -1 && sb.length() > MAX_ARTICLE_SIZE) {
         System.out.println("Skipping " + title + ", longer than " + MAX_ARTICLE_SIZE + " chars");
         skipCount++;
         return;
