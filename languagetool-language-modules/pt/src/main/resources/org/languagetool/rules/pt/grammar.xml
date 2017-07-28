@@ -33,10 +33,12 @@ title="Easy editing stylesheet" ?>
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
     <!ENTITY partes_do_dia "manhã|matina|tarde|noite">
-    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio|tempo|temporada)s?|mês|meses">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
+
+    <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|escola|estilo|filme|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|rio|rua|serra|taça|tema|tipo|universidade">
 
     <!ENTITY separadores_de_oracoes "[,;:–—\(«]|\-">
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
@@ -97,23 +99,23 @@ title="Easy editing stylesheet" ?>
 
       <unification feature="gender">
         <equivalence type="masc">
-          <token postag="(N.|[ADP]..|V.....)[MC].*" postag_regexp="yes"/>
+          <token postag="(N.|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
         </equivalence>
 
         <equivalence type="fem">
-          <token postag="(N.|[ADP]..|V.....)[FC].*" postag_regexp="yes"/>
+          <token postag="(N.|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
         </equivalence>
       </unification>
 
       <unification feature="person">
         <equivalence type="first">
-          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+          <token postag="(V...|PP)1.+" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="second">
-          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+          <token postag="(V...|PP)2.+" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="third">
-          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+          <token postag="(V...|PP)3.+" postag_regexp="yes"/>
         </equivalence>
       </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
@@ -128,12 +130,20 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
     <rule>
+      <antipattern>
+          <unify><!-- TODO Review performance impact after regression tests -->
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>e|ser|são|termo|nome|reino</exception></token>
+            <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
           <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
           <token postag='(N.|A..)F.+' postag_regexp='yes'>
@@ -154,6 +164,7 @@ title="Easy editing stylesheet" ?>
       <example correction='uma sanduíche|um (sanduíche)'>Estão comendo <marker>um sanduíche</marker>.</example>
       <example correction="uma terrível dor|um terrível (dor)">Tenho <marker>um terrível dor</marker> na cabeça.</example>
       <example correction="uma grande erupção|um grande (erupção)">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo...</example>
+      <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
     </rule>
     <rule>
       <pattern>
@@ -176,6 +187,14 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
     </rule>
     <rule>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>(&precede_nome_proprio;)s</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
@@ -201,8 +220,8 @@ title="Easy editing stylesheet" ?>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
       <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
       <example>Existe cada vez mais pressão nos média para que apresentem conteúdos de qualidade.</example>
-    <!--<example correction="das grandes descobertas|dos grandes (descobertas)">A maioria <marker>dos grandes descobertas</marker> científicas são nada menos que a descoberta do ób...</example>
-               XXX testrules.sh says this example has no detectable errors but they appear in the Standalone tool. Verify with regression testing -->
+      <example>Os rios Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
+      <example correction="As escolas|Os (escolas)"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
     </rule>
     <rule>
       <pattern>
@@ -227,6 +246,14 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>zonas?</token>
           <token>euro</token>
       </antipattern>
@@ -235,7 +262,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade|rua|ilha|lei|copa</exception></token>
+            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
           <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
           <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
@@ -253,6 +280,7 @@ title="Easy editing stylesheet" ?>
       <example>Uma vaca está no pasto.</example>
       <example correction="um terrível inchaço|uma terrível (inchaço)">Tenho <marker>uma terrível inchaço</marker> na cabeça.</example>
       <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
+      <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
     </rule>
     <rule>
       <pattern>
@@ -273,6 +301,14 @@ title="Easy editing stylesheet" ?>
       <example correction='Alguma vaca'><marker>Alguma boi</marker> está no pasto.</example>
     </rule>
     <rule>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>(&precede_nome_proprio;)s</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
@@ -295,6 +331,9 @@ title="Easy editing stylesheet" ?>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
       <example correction="os milhares|as (milhares)">Vejam <marker>as milhares</marker> de mulheres.</example>
+      <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
+      <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example>
+      <example correction="Os rios|As (rios)"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
     </rule>
     <rule>
       <pattern>
@@ -313,6 +352,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+      <example correction="das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób...</example>
       <example correction='Algumas vacas'><marker>Algumas bois</marker> estão no pasto.</example>
     </rule>
   </rulegroup>
@@ -404,6 +444,10 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
     <rule>
       <antipattern>
+          <token regexp='yes'>(&precede_nome_proprio;)s</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
           <token>os</token>
           <token regexp='yes'>mais|menores|maiores|melhores|piores</token>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
@@ -429,6 +473,7 @@ title="Easy editing stylesheet" ?>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
       <example>Calças, as mais rasgadas possível!</example>
+      <example>Os montes Evereste, K2 e Kanchenjunga são os mais altos do mundo.</example>
     </rule>
     <rule>
       <pattern>
@@ -447,6 +492,10 @@ title="Easy editing stylesheet" ?>
       <example correction='dos pais'>É o orgulho <marker>dos pai</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
       <antipattern>
           <token regexp='yes'>tod[oa]</token>
           <token>ouvidos</token>
@@ -475,6 +524,7 @@ title="Easy editing stylesheet" ?>
       <example>Sou todo ouvidos</example>
       <example>Uso óculos desde os 6 anos,</example>
       <example>Calças, o mais possível rasgadas.</example>
+      <example>O Monte Camarões é o vulcão mais ativo do oeste africano, tendo numerosas erupções registadas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -497,6 +547,10 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
           <token>a</token> <!-- FIXME Improve disambiguator for a as SP cases -->
           <token>docentes</token>
       </antipattern>
@@ -515,6 +569,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
+      <example>O programa Lendas do Futuro é bom?</example>
     </rule>
     <rule>
       <pattern>
@@ -532,6 +587,10 @@ title="Easy editing stylesheet" ?>
       <example correction='numa espécie|numas espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>(&precede_nome_proprio;)s</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|-</token>
         <marker>
@@ -548,6 +607,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> \3</suggestion>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
+      <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
     </rule>
     <rule>
       <pattern>
@@ -1110,6 +1170,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
+          <token postag='NP.+|_PUNCT' postag_regexp='yes' min='0' max='2'/>
         <marker>
           <token inflected='yes' regexp='yes' postag_regexp='yes' postag='V....P.+'>fazer|ir|poder</token>
           <token min='0' max='3' postag_regexp='yes' postag='(D|R|C|Z).+'/>
@@ -1117,9 +1178,11 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>O verbo fazer permanece no singular, quando indica tempo.</message>
-        <suggestion><match no='2' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> <match no='3' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='3' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/> <match no='4' include_skipped='all'/> \5</suggestion>
       <example correction='Faz muitos anos|Fá muitos anos'><marker>Fazem muitos anos</marker> que não a vejo.</example><!-- TODO Re-tag mesoclisis particles in synthesis dictionary (e.g. fá, fê) -->
+      <example correction='Faz muitos anos|Fá muitos anos'>«<marker>Fazem muitos anos</marker> que não a vejo.</example>
       <example correction='Fez vinte e um anos|Fizera vinte e um anos|Fê vinte e um anos'><marker>Fizeram vinte e um anos</marker> que não a vejo.</example>
+      <example correction="faz duas semanas|fá duas semanas">Rui, <marker>fazem duas semanas</marker> que não falamos.</example>
     </rule>
     <rule>
       <pattern>
@@ -3747,7 +3810,8 @@ title="Easy editing stylesheet" ?>
       <example correction="pedir">Alguns carteiros estão a <marker>pedirem</marker> a reforma.</example>
     </rule>
 
-    <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ -->
+    <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ
+    XXX Covered by IMPERSONAL_FAZER_TIME_EXPRESSION. Remove after release.
     <rule id='FAZEM' name="Faz">
       <pattern>
         <marker>
@@ -3758,7 +3822,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>faz</suggestion>.</message>
       <example correction="faz">Rui, <marker>fazem</marker> duas semanas que não falamos.</example>
-    </rule>
+    </rule> -->
 
     <!-- FALARAM-SE DE falou-se de -->
     <rule id='FALARAM-SE_DE' name="Falou-se de">
@@ -6400,7 +6464,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token>há</token>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
           <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS]..0' postag_regexp='yes'/></token>
-          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
+          <token regexp="yes">&expressoes_de_tempo;</token>
           <token>atrás</token>
       </pattern>
       <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all"/> <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
@@ -11766,7 +11830,7 @@ o tomate'>
             <exception scope='next' postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
             <exception postag='(VM[CIS][CFIMPS].|NP).+' postag_regexp='yes'/>
             <exception regexp='yes'>frente|trás|esquerda|direita</exception></token>
-          <token regexp="yes">&expressoes_de_tempo;|tempos?</token>
+          <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
       <message>Substitua por <suggestion>há</suggestion>.</message>
       <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
