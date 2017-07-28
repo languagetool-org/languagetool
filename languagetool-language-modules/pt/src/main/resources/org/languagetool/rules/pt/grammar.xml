@@ -19716,35 +19716,124 @@ TODO Write better examples
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>viaje(m|ns)</token>
       </pattern>
-      <message>Esta palavra é a ação de viajar. Se pretende referir-se ao ato de viajar, deve utilizar a forma com 'g'.</message>
+      <message>Esta palavra refere-se à ação de viajar. Se pretende referir-se ao ato de viajar, deve utilizar a forma com 'g'.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='j' regexp_replace='g'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/viagem</url>
       <example correction='A viagem'><marker>A viajem</marker> com 1 500 regras, parece que ainda agora começou.</example>
       <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
     </rule>
-    <rule id='HOMONYM_PROFETISA_2' name='Homónimo: profetisa - profetiza'>
+    <rule id='HOMONYM_VIAGEM_2' name='Homónimo: viagem - viajem'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+          <token regexp='yes'>viage(m|ns)</token>
+      </pattern>
+      <message>Esta palavra refere-se ao ato de viajar. Se pretende referir-se à ação de viajar, deve utilizar a forma com 'j'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/viajar</url>
+      <example correction='Viajem'><marker>Viagem</marker> tanto quanto possam.</example>
+    </rule>
+    <rule id='HOMONYM_PROFETISA_3' name='Homónimo: profetisa - profetiza'>
       <pattern>
           <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>profetizas?</token>
       </pattern>
-      <message>Esta palavra é a ação de divulgar profecias. Se pretende referir-se à pessoa que as profere, deve utilizar a forma com 's'.</message>
+      <message>Esta palavra refere-se à ação de divulgar profecias. Se pretende referir-se à pessoa que as profere, deve utilizar a forma com 's'.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='z' regexp_replace='s'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/profetisa</url>
       <example correction='A profetisa'><marker>A profetiza</marker> tinha muitos devotos.</example>
       <example correction='as profetisas'>Naquela época, <marker>as profetizas</marker> eram populares.</example>
     </rule>
-    <rule id='HOMONYM_ESTIRPE_3' name='Homónimo: estirpe - extirpes'>
+    <rule id='HOMONYM_PROFETIZA_4' name='Homónimo: profetiza - profetisa'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+          <token regexp='yes'>profetisas?</token>
+      </pattern>
+      <message>Esta palavra refere-se à pessoa que faz afirmações sobre o futuro. Se pretende referir-se à ação de divulgar profecias, deve utilizar a forma com 'x'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='isa' regexp_replace='iza'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/profetizar</url>
+      <example correction='profeta profetiza'>O <marker>profeta profetisa</marker>.</example>
+      <example correction='que profetizas'>Aquilo <marker>que profetisas</marker> não faz sentido.</example>
+    </rule>
+    <rule id='HOMONYM_ESTIRPE_5' name='Homónimo: estirpe - extirpes'>
       <pattern>
           <token regexp='yes'>(d|n|outr|pel)?as?|(alg|d|n)?umas?</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>extirpes?</token>
       </pattern>
-      <message>Esta palavra é a ação de remover as vísceras. Se pretende referir-se raiz ou linhagem, deve utilizar a forma com 's'.</message>
+      <message>Esta palavra refere-se à ação de remover as vísceras. Se pretende referir-se a raiz ou linhagem, deve utilizar a forma com 's'.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='x' regexp_replace='s'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/estirpe</url>
       <example correction='A estirpe'><marker>A extirpe</marker> do H1N1 tem grande capacidade de propagação.</example>
       <example correction='As estirpes'><marker>As extirpes</marker> destas raças de cães são adequadas à sua personalidade.</example>
+    </rule>
+    <rule id='HOMONYM_EXTIRPE_6' name='Homónimo: extirpe - estirpes'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+          <token regexp='yes'>estirpes?</token>
+      </pattern>
+      <message>Esta palavra refere-se a raiz ou linhagem. Se pretende referir-se à ação de remover as vísceras, deve utilizar a forma com 'x'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='st' regexp_replace='xt'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/extirpar</url>
+      <example correction='Não extirpes'><marker>Não estirpes</marker> a caça antes de chegar a casa.</example>
+    </rule>
+    <rule id='HOMONYM_CINTO_7' name='Homónimo: sinto - cinto'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)
+            <exception>o</exception></token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>sint[ao]s?</token>
+      </pattern>
+      <message>Esta palavra refere-se à ação de emocionar. Se pretende referir-se a um tipo de fivela, deve utilizar a forma com 'c'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='sint' regexp_replace='cint'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/cinto</url>
+      <example correction='uma cinta'>O personagem tinha <marker>uma sinta</marker> a tira-colo.</example>
+      <example correction='Umas cintas'><marker>Umas sintas</marker> devem fixar o banco ao lugar.</example>
+      <example correction='um cinto'>Quero <marker>um sinto</marker> mais formal, castanho.</example>
+    </rule>
+    <rule id='HOMONYM_SINTO_8' name='Homónimo: sinto - cinto'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+          <token regexp='yes'>cint[ao]s?</token>
+      </pattern>
+      <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
+        <suggestion>\1 <match no='2' regexp_match='[Cc]int' regexp_replace='sint'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/sentir</url>
+      <example correction='ele sinta'>Não que <marker>ele cinta</marker> culpa pelo sucedido.</example>
+      <example correction='te sintas'>Não <marker>te cintas</marker> necessidade de aceitar a promoção.</example>
+      <example correction='Sinto'><marker>Cinto</marker> muito.</example>
+    </rule>
+    <rule id='HOMONYM_ACO_9' name='Homónimo: aço - asso'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?os?|de|(alg|d|n)?(um|uns)</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>assos?</token>
+      </pattern>
+      <message>Esta palavra refere-se à ação de cozinhar. Se pretende referir-se à liga metálica, deve utilizar a forma com 'ç'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='ass' regexp_replace='aç'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/aço</url>
+      <example correction='de aço'>Uma porta <marker>de asso</marker>.</example>
+      <example correction='Os aços'><marker>Os assos</marker> produzidos aqui tem características especiais.</example>
+    </rule>
+    <rule id='HOMONYM_ASSO_10' name='Homónimo: asso - aço'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+          <token regexp='yes'>aços?</token>
+      </pattern>
+      <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
+        <suggestion>\1 <match no='2' regexp_match='aç' regexp_replace='ass'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/assar</url>
+      <example correction='eu asso'>Se ganharmos o campeonato, <marker>eu aço</marker> um porco. Juro, carago!</example>
     </rule>
   </rulegroup>
 
