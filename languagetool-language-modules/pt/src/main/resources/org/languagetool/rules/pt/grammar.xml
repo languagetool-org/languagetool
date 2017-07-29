@@ -3905,6 +3905,20 @@ title="Easy editing stylesheet" ?>
       <example correction="houve muitos">No passado <marker>houveram muitos</marker> muitos acidentes.</example>
     </rule>
 
+    <rule id='JÁ_MAIS' name="Confusão: já mais - jamais">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+		<token><exception>há</exception></token>	    
+		<token><exception postag_regexp='yes' postag='V.+'></exception></token>		
+        <marker>
+          <token>já</token>
+		  <token>mais</token>
+        </marker>
+      </pattern>
+      <message>Substitua por <suggestion>jamais</suggestion>.</message>
+      <example correction="jamais">Eu <marker>já mais</marker> faria mal a um animal.</example>
+    </rule>	
+	
     <!-- ARREAR A/AS VELA/S BANDEIRA/S arriar a/as vela/s bandeira/s -->
     <rule id='ARREAR_A_AS_VELA_S_BANDEIRA_S' name="Confusão: arrear - arriar">
       <pattern>
