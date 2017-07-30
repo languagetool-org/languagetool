@@ -19900,6 +19900,41 @@ TODO Write better examples
       <url>https://pt.wiktionary.org/wiki/assar</url>
       <example correction='eu asso'>Se ganharmos o campeonato, <marker>eu aço</marker> um porco. Juro, carago!</example>
     </rule>
+    <rule id='HOMONYM_SERRA_11' name='Homónimo: serra - cerra'>
+      <pattern>
+          <token regexp='yes'>(d|n|outr|pel)?as?|de|(alg|d|n)?umas?</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>cerras?</token>
+      </pattern>
+      <message>Esta palavra refere-se à ação de cerrar (p.ex. com uma serrar). Se pretende referir-se ao instrumento ou a uma montanha, deve utilizar a forma com 's'.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='c' regexp_replace='s'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/serra</url>
+      <example correction='de serra'><marker>de cerra</marker>.</example>
+      <example correction='As serras'><marker>As cerras</marker> produzidas aqui têm características especiais.</example>
+    </rule>
+    <rule id='HOMONYM_SERRA_11_2' name='Homónimo: serra - cerra (2)'>
+      <pattern>
+          <token regexp='yes'>cerras?</token>
+          <token regexp='yes' min='0'>d[eao]s?</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <message>Esta palavra refere-se à ação de cerrar (p.ex. com uma serrar). Se pretende referir-se ao instrumento ou a uma montanha, deve utilizar a forma com 's'.</message>
+        <suggestion><match no='1' regexp_match='[Cc]e' regexp_replace='se'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/serra</url>
+      <example correction='Serra da Estrela'><marker>Cerra da Estrela</marker></example>
+    </rule>
+    <rule id='HOMONYM_CERRA_12' name='Homónimo: cerra - serra'>
+      <pattern>
+          <token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
+            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
+          <token regexp='yes'>serras?</token>
+      </pattern>
+      <message>Esta palavra refere-se a uma montanha ou instrumento de corte. Se pretende referir-se à ação de cortar, deve utilizar a forma com 'c'.</message>
+        <suggestion>\1 <match no='2' regexp_match='se' regexp_replace='ce'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/cerrar</url>
+      <example correction='carpinteiro cerra'>O <marker>carpinteiro serra</marker>-te isso à medida.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='MESTRE_MESTRA' name='Confusão: mestre -> mestra'>
