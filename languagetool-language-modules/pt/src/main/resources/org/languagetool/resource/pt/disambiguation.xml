@@ -474,6 +474,17 @@
     </rule>
   </rulegroup>
 
+    <rule id="NAO_ADVERB" name="Não como advérbio">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-28  -->
+      <pattern>
+        <marker>
+          <token>não</token>
+        </marker>
+          <token postag_regexp='yes' postag='(R|V).+'/>
+      </pattern>
+      <disambig action="filter" postag="R.+"/>
+    </rule>
+
   <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com 'tal'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
     <rule>
