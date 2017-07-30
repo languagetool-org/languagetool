@@ -12460,6 +12460,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ATENDRE_ATENIR" name="ens *atenem/atenim a">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>a</token>
+                        <token inflected="yes" regexp="yes">tot|ningú|jo|tu|ell</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" skip="1">us|ens|vos</token>
                     <marker>
@@ -12472,6 +12478,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="atenim">Si ens <marker>atenem</marker> als resultats.</example>
                 <example correction="atingut">Ens hem <marker>atès</marker> a les conseqüències.</example>
                 <example correction="atenir|atindre">Ens vam <marker>atendre</marker> a les conseqüències.</example>
+                <example>No us podrem atendre a tots.</example>
+                <example>No us podrem atendre a vosaltres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12516,7 +12524,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>atenent</token>
                         <token>a</token>
                     </marker>
-                    <token><exception inflected="yes" regexp="yes">tot|ningú</exception></token>
                 </pattern>
                 <message>En el sentit de "tenir en compte" el verb "atendre" és transitiu.</message>
                 <suggestion>atenent</suggestion>
