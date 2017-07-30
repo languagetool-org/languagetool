@@ -38,7 +38,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
 
-    <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|escola|estilo|filme|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|rio|rua|serra|taça|tema|tipo|universidade">
+    <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estilo|filme|fundação|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|tema|tipo|universidade">
+    <!ENTITY divisas "euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]">
 
     <!ENTITY separadores_de_oracoes "[,;:–—\(«]|\-">
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
@@ -53,6 +54,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões">
     <!ENTITY multiplicadores "(dúzia|dezena|centena)s?|mil|milhar(es)?|(milh|bilh?i)(ão|ões)">
     <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
+    <!ENTITY unidades_de_medida_por_extenso "(quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?">
     <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
@@ -91,7 +93,6 @@ title="Easy editing stylesheet" ?>
         <equivalence type="singular">
           <token postag="(N..|[ADP]...|V....)S.+" postag_regexp="yes"/>
         </equivalence>
-
         <equivalence type="plural">
           <token postag="(N..|[ADP]...|V....)P.+" postag_regexp="yes"/>
         </equivalence>
@@ -101,7 +102,6 @@ title="Easy editing stylesheet" ?>
         <equivalence type="masc">
           <token postag="(N.|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
         </equivalence>
-
         <equivalence type="fem">
           <token postag="(N.|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
         </equivalence>
@@ -139,7 +139,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]S.+|VM[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -152,7 +152,7 @@ title="Easy editing stylesheet" ?>
           </token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -168,7 +168,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
           <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
@@ -179,7 +179,7 @@ title="Easy editing stylesheet" ?>
           </token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
@@ -196,7 +196,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)MP.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CF]P.+|VM[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -209,7 +209,7 @@ title="Easy editing stylesheet" ?>
           </token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -225,7 +225,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
           <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
@@ -236,7 +236,7 @@ title="Easy editing stylesheet" ?>
           </token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
@@ -245,6 +245,10 @@ title="Easy editing stylesheet" ?>
       <example correction='Nos (mil)'><marker>Nos mil</marker> e uma noites.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>indústria</token>
+          <token>automóvel</token>
+      </antipattern>
       <antipattern>
           <unify>
             <feature id="gender"/><feature id="number"/>
@@ -258,7 +262,7 @@ title="Easy editing stylesheet" ?>
           <token>euro</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]S.+|VM[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -270,7 +274,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -284,7 +288,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
           <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
@@ -294,7 +298,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
@@ -310,7 +314,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|P[ID]0|NC|A..|Z.)FP.+' postag_regexp='yes'>
             <exception postag='(N.|A..|Z.)[CM]P.+|VM[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -322,7 +326,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|P[ID]0|NC|A..|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -337,7 +341,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
@@ -348,7 +352,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
@@ -453,7 +457,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|NC|A..|Z.)[MC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -463,7 +467,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> \3</suggestion>
@@ -477,7 +481,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
           <token postag='(N.|A..|DP.|Z.)[MC]S.+' postag_regexp='yes'>
@@ -485,7 +489,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">há|são|ser|haver|devido|média|mídia</exception></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
@@ -506,7 +510,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|ou|de|-</token>
+          <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[MC]P.+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
@@ -532,7 +536,7 @@ title="Easy editing stylesheet" ?>
           <token>ouvidos</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|ou|de|-</token>
+          <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
           <token postag='(N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
@@ -555,7 +559,7 @@ title="Easy editing stylesheet" ?>
           <token>docentes</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
@@ -573,7 +577,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
           <token postag='(N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
@@ -592,7 +596,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -601,7 +605,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> \3</suggestion>
@@ -611,7 +615,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|-</token>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
@@ -619,7 +623,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|-</exception></token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
@@ -661,7 +665,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>maioria|minoria|propriedade</exception></token>
         </marker>
           <token>
-            <exception regexp='yes'>e|-</exception></token>
+            <exception regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
         <suggestion>\1 <match no="2" postag="(NC|A..)(.)S(.+)" postag_replace='$1$2P$3' postag_regexp="yes"/></suggestion>
@@ -873,6 +877,10 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token regexp='yes'>&expressoes_de_tempo;</token>
       </antipattern>
+      <antipattern><!--https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/e-que/3319 -->
+           <token>é</token>
+           <token>que</token>
+      </antipattern>
     <rule>
       <antipattern>
           <token/>
@@ -892,6 +900,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(VM[CIS].)..(.)' postag_replace='$1\1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
       <example>Eu preocupar-me-ia, talvez, com esta manifestação de ignorância.</example>
+      <example>Eu é que fiz.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1001,6 +1010,11 @@ title="Easy editing stylesheet" ?>
           <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
           <token postag='VM[CIS].1P0' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>uma?|nenhuma?|ninguém|nada|tudo</token>
+          <token>de</token>
+          <token regexp='yes'>eles|elas|vocês</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>eles|elas|vocês</token>
           <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
@@ -1010,12 +1024,21 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(VM[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
       <example correction='elas passeiam'>Eles e <marker>elas passeamos</marker> na praia.</example>
+      <example correction='Vocês não leram'><marker>Vocês não leu</marker> as notícias?</example>
+      <example>Um de vocês não leu as notícias.</example>
       <example type="correct">Eles e elas passeiam na praia.</example>
       <example type="correct">Eu e elas vamos ao parque</example>
       <example>Pobres e ricos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
+      <example>Um de vocês não leu as notícias.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>uma?|nenhuma?|ninguém|nada|tudo</token>
+          <token regexp='yes'>[dn][eao]s?</token>
+          <token postag_regexp='yes' postag='D...P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -1030,9 +1053,12 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(VM[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
       <example correction='Os médicos saíram'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
+      <example correction='meus amigos não bebem'>Os <marker>meus amigos não bebe</marker> café.</example>
+      <example>Nenhum dos meus amigos bebe café.</example>
       <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
       <example>Outros governos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Este trabalho deu os primeiros passos há um ano.</example>
+      <example>Cada um dos seus alunos expressou a sua opinião.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1076,7 +1102,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='SPS00.+'/></token>
-          <token>e</token>
+          <token regexp='yes'>e|nem</token>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='SPS00.+'/>
             <exception regexp='yes'>um|uma|uns|umas|a|o|as|os|não</exception>
@@ -1490,7 +1516,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>ainda|ali|aqui|acolá|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
+          <token regexp='yes'>ainda|ali|aqui|acolá|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>&tracos_de_separacao;</token>
@@ -2063,11 +2089,12 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>não</token>
           <token regexp='yes'>a|à</token>
-          <token regexp='yes'>[a-z]+ade|[a-zç]+ão|[a-z]+eir[ao]|[a-zçáéíóú]+ito|[a-z]+iv[ao]|[a-zç]+ões|[a-z]+nte|[a-z]+nto|[a-zêâáíó]+ci[ao]|[a-zç]+ras|[a-zç]+res|[a-zçáéíóú]+ri[ao][a-zçáéíóú]+ri[ao]s|[a-zçáéíóú]+tos|abertura|abrigo|academias|acordo|acúmulo|admirar|aforismos|agenda|agricultura|água|aí|ainda|ajuda|ajuste|alarme|álbum|alcaide|aldeias|alface|algas|algum|alguma|alguns|ali|alma|almoço|alta|alternativas|alvará|amanuense|amargura|ambulantes|amigos|amor|amplas|animais|ânimo|anos|ao|apenas|apetite|aplausos|apoio|apoios|aposta|aquela|aquelas|aquele|aqueles|aqui|área|aristocracias|arma|arte|artista|árvore|arvoredo|as|aspas|assadura|assim|assistentes|atalhos|ataque|ataques|até|ateus|atmosfera|atraso|atrasos|aulas|automóvel|autor|avanço|azar|azuis|bagatelas|baia|baile|balança|balas|baliza|bálsamo|bananas|banco|bando|banheiros|banhos|banquetes|barco|barracas|base|beijo|bela|beleza|belos|bem|bernarda|bicho|birra|boa|bogas|bom|bombas|bonança|bonde|bons|bonzo|borda|bota|botequim|braço|braços|bruxas|buracos|cá|cabeça|cabotino|cabreiros|caça|cachaça|cachorrinho|cagaço|calçado|cálculo|caldeiradas|calor|cama|camarada|camas|camelos|caminho|caminhos|camisas|campo|cantinho|caos|capas|capitães|capitais|capital|capricho|caprichos|carácter|caramujo|carne|carro|carros|carta|cartas|cartilha|casa|casas|casca|caso|casos|castelhanos|castelo|castigo|catarse|caudal|causas|cavalo|cavalos|cego|cegonha|centro|cerimônia|certas|certeza|certezas|céu|chá|chama|chamariz|chance|chaves|chefe|chefes|cheiros|cheques|choque|chuva|cinco|cineasta|cinema|cinemas|cipó|ciúmes|claro-escuro|classe|clientela|clima|clube|coadjutor|cobertura|cobra|cobrança|coiros|coisa|coisa-ruim|com|combate|comida|como|companhia|compromisso|comum|confiança|conforto|conselhos|consenso|contestar|contrabandistas|controle|cousa|cova|crase|criados|crianças|criatura|crime|crimes|criminoso|crise|culpado|cultura|cura|dados|data|de|decerto|dentro|denúncias|desar|descanso|desculpa|desculpas|desejar|desemprego|deserto|desgraçado|desleixo|desordem|despedida|dessas|destino|desvios|detalhes|deus|deuses|dever|dez|dia|diabos|diálogo|dias|dieta|diferença|diferenças|dificuldades|diploma|direc?tor|disfarce|disso|disto|divergências|dívida|dividendos|divina|divinas|do|doce|doçura|doença|doenças|dois|dolo|domingo|dor|dormimos|dormir|dous|doutrina|doutros|drama|droga|duas|duques|dúvida|duvidar|dúvidas|e|é|economia|egoísmo|elefantes|em|embargo|empadas|empates|empatia|empenho|empenhos|emplastro|emprego|encarregados|encontro|energia|enfermidades|engano|enganos|entre|epidemia|epidemias|episódio|época|épocas|equipe|equipes|ermos|erro|erros|erva|escândalo|escapar|escolas|escolha|escravos|esforços|espaço|espaços|espécies|esperança|essa|esse|esses|esta|estatísticas|este|estes|estômago|estratégias|estúdios|estudos|evidências|exagero|exemplo|falar|falta|família|fato|fé|febre|férias|festa|festas|fidalgos|filósofo|fim|fome|força|forças|forma|formas|fórmula|fórmulas|fortuna|fugir|fumo|futuro|garantia|garantias|gonçalinho|gosto|governo|graça|grades|grande|grandes|grupos|hipótese|hoje|homem|homens|honra|ideologias|igual|imagens|impossíveis|indícios|inimigo|interesse|já|jogos|jornais|justiça|lá|leis?|liames|limite|limites|linguagem|livro|livros|lixo|lua|lugar|luta|lutas|luz|mágoa|maior|mais|mal|malandro|males|manhãs|mãos|margem|mas|máscara|médico|médicos|medida|medo|meio|meios|melhor|mendigo|menina|mesas|mesmo|método|métodos|milagre|mister|moça|modelo|modelos|moléstia|molhos|morte|motivos|motorista|mudanças|muita|muitas|mulher|música|na|nada|nas|nascentes|negar|negros|nela|nele|neles|nem|nenhum|nenhuma|nenhuns|nessa|nesta|neste|ninguém|nisso|no|noite|nome|nomes|nos|notas|notícias|novidades|novos|números|o|obstáculos|ofensa|olhos|onde|ordem|ou|ouro|outra|outro|outros|paciência|pai|país|palavra|papel|para|partido|partidos|passagem|peixe|penedos|perda|perigo|períodos|perplexidades|perspectivas|pesar|pessoa|pessoal|pessoas|piolhos|pior|pistas|planos|poder|poesia|pois|polícias|política|políticas|por|porém|porque|portugueses|posse|pota|povo|praxe|prazer|prazo|pressa|pressas|princípio|princípios|problema|problemas|prodígio|programa|progresso|protetor|prova|provas|público|quaisquer|qualquer|quase|que|quem|raças|raciocínios|racismo|rapaz|receio|receitas|recuos|recurso|recursos|referências|reforma|refugiados|registo|registro|registros|regra|rei|remédio|remorso|reservas|resposta|respostas|riqueza|risco|riscos|rosas|rua|saída|salas|sangue|segredo|segredos|segunda|seis|sempre|senador|sentido|sentir|sequer|ser|sereia|serviço|simpatia|sinais|sinal|só|sobre|social|sol|som|sono|subsídios|subtilezas|surf|tal|talvez|também|tanta|tarefa|tecnologia|temor|tempo|terapêutica|terra|testemunhas|tipo|todo|tolo|trabalho|tráfico|tragédia|três|trevas|tristeza|tristezas|tropa|um|uma|umas|utopias|vacilar|vacina|vaga|vagas|vaidades|valor|vedetas|ver|verdadeiros|versos|vestígio|véu|vida|vingança|vinho|vislumbrar|vizinhos|volta|voltas|voz</token>
+          <token regexp='yes'>abertura|abrigo|academias|acordo|acúmulo|admirar|aforismos|agenda|agricultura|água|aí|ainda|ajuda|ajuste|alarme|álbum|alcaide|aldeias|alface|algas|algum|alguma|alguns|ali|alma|almoço|alta|alternativas|alvará|amanuense|amargura|ambulantes|amigos|amor|amplas|animais|ânimo|anos|ao|apenas|apetite|aplausos|apoio|apoios|aposta|aquela|aquelas|aquele|aqueles|aqui|área|aristocracias|arma|arte|artista|árvore|arvoredo|as|aspas|assadura|assim|assistentes|atalhos|ataque|ataques|até|ateus|atmosfera|atraso|atrasos|aulas|automóvel|autor|avanço|azar|azuis|bagatelas|baia|baile|balança|balas|baliza|bálsamo|bananas|banco|bando|banheiros|banhos|banquetes|barco|barracas|base|beijo|bela|beleza|belos|bem|bernarda|bicho|birra|boa|bogas|bom|bombas|bonança|bonde|bons|bonzo|borda|bota|botequim|braço|braços|bruxas|buracos|cá|cabeça|cabotino|cabreiros|caça|cachaça|cachorrinho|cagaço|calçado|cálculo|caldeiradas|calor|cama|camarada|camas|camelos|caminho|caminhos|camisas|campo|cantinho|caos|capas|capitães|capitais|capital|capricho|caprichos|carácter|caramujo|carne|carro|carros|carta|cartas|cartilha|casa|casas|casca|caso|casos|castelhanos|castelo|castigo|catarse|caudal|causas|cavalo|cavalos|cego|cegonha|centro|cerimônia|certas|certeza|certezas|céu|chá|chama|chamariz|chance|chaves|chefe|chefes|cheiros|cheques|choque|chuva|cinco|cineasta|cinema|cinemas|cipó|ciúmes|claro-escuro|classe|clientela|clima|clube|coadjutor|cobertura|cobra|cobrança|coiros|coisa|coisa-ruim|com|combate|comida|como|companhia|compromisso|comum|confiança|conforto|conselhos|consenso|contestar|contrabandistas|controle|cousa|cova|crase|criados|crianças|criatura|crime|crimes|criminoso|crise|culpado|cultura|cura|dados|data|de|decerto|dentro|denúncias|desar|descanso|desculpa|desculpas|desejar|desemprego|deserto|desgraçado|desleixo|desordem|despedida|dessas|destino|desvios|detalhes|deus|deuses|dever|dez|dia|diabos|diálogo|dias|dieta|diferença|diferenças|dificuldades|diploma|direc?tor|disfarce|disso|disto|divergências|dívida|dividendos|divina|divinas|do|doce|doçura|doença|doenças|dois|dolo|domingo|dor|dormimos|dormir|dous|doutrina|doutros|drama|droga|duas|duques|dúvida|duvidar|dúvidas|e|é|economia|egoísmo|elefantes|em|embargo|empadas|empates|empatia|empenho|empenhos|emplastro|emprego|encarregados|encontro|energia|enfermidades|engano|enganos|entre|epidemia|epidemias|episódio|época|épocas|equipe|equipes|ermos|erro|erros|erva|escândalo|escapar|escolas|escolha|escravos|esforços|espaço|espaços|espécies|esperança|essa|esse|esses|esta|estatísticas|este|estes|estômago|estratégias|estúdios|estudos|evidências|exagero|exemplo|falar|falta|família|fato|fé|febre|férias|festa|festas|fidalgos|filósofo|fim|fome|força|forças|forma|formas|fórmula|fórmulas|fortuna|fugir|fumo|futuro|garantia|garantias|gonçalinho|gosto|governo|graça|grades|grande|grandes|grupos|hipótese|hoje|homem|homens|honra|ideologias|igual|imagens|impossíveis|indícios|inimigo|interesse|já|jogos|jornais|justiça|lá|leis?|liames|limite|limites|linguagem|livro|livros|lixo|lua|lugar|luta|lutas|luz|mágoa|maior|mais|mal|malandro|males|manhãs|mãos|margem|mas|máscara|médico|médicos|medida|medo|meio|meios|melhor|mendigo|menina|mesas|mesmo|método|métodos|milagre|mister|moça|modelo|modelos|moléstia|molhos|morte|motivos|motorista|mudanças|muita|muitas|mulher|música|na|nada|nas|nascentes|negar|negros|nela|nele|neles|nem|nenhum|nenhuma|nenhuns|nessa|nesta|neste|ninguém|nisso|no|noite|nome|nomes|nos|notas|notícias|novidades|novos|números|o|obstáculos|ofensa|olhos|onde|ordem|ou|ouro|outra|outro|outros|paciência|pai|país|palavra|papel|para|partido|partidos|passagem|peixe|penedos|perda|perigo|períodos|perplexidades|perspectivas|pesar|pessoa|pessoal|pessoas|piolhos|pior|pistas|planos|poder|poesia|pois|polícias|política|políticas|por|porém|porque|portugueses|posse|pota|povo|praxe|prazer|prazo|pressa|pressas|princípio|princípios|problema|problemas|prodígio|programa|progresso|protetor|prova|provas|público|quaisquer|qualquer|quase|que|quem|raças|raciocínios|racismo|rapaz|receio|receitas|recuos|recurso|recursos|referências|reforma|refugiados|registo|registro|registros|regra|rei|remédio|remorso|reservas|resposta|respostas|riqueza|risco|riscos|rosas|rua|saída|salas|sangue|segredo|segredos|segunda|seis|sempre|senador|sentido|sentir|sequer|ser|sereia|serviço|simpatia|sinais|sinal|só|sobre|social|sol|som|sono|subsídios|subtilezas|surf|tal|talvez|também|tanta|tarefa|tecnologia|temor|tempo|terapêutica|terra|testemunhas|tipo|todo|tolo|trabalho|tráfico|tragédia|três|trevas|tristeza|tristezas|tropa|um|uma|umas|utopias|vacilar|vacina|vaga|vagas|vaidades|valor|vedetas|ver|verdadeiros|versos|vestígio|véu|vida|vingança|vinho|vislumbrar|vizinhos|volta|voltas|voz</token>
       </pattern>
-      <message>As formas do verbo haver têm sempre 'h'.</message>
+      <message>Falta uma vírgula, ou há confunsão de palavras. As formas do verbo haver têm sempre 'h'.</message>
         <suggestion>\1 há \3</suggestion>
-      <example correction='Não há paciência'><marker>Não a paciência</marker> para este tipo de coisas</example>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não há paciência|Não, a paciência'><marker>Não a paciência</marker> para este tipo de coisas</example>
       <example>Digam não à droga.</example>
     </rule>
 
@@ -3918,7 +3945,7 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>jamais</suggestion>.</message>
       <example correction="jamais">Eu <marker>já mais</marker> faria mal a um animal.</example>
     </rule>	
-	
+
     <!-- ARREAR A/AS VELA/S BANDEIRA/S arriar a/as vela/s bandeira/s -->
     <rule id='ARREAR_A_AS_VELA_S_BANDEIRA_S' name="Confusão: arrear - arriar">
       <pattern>
@@ -4392,7 +4419,7 @@ title="Easy editing stylesheet" ?>
     <!-- QUANTO MUITO quando muito -->
     <rule id='QUANTO_MUITO' name="Confusão: quanto - quando">
 	<!--      Created by Marco A.G.Pinto      -->
-      <pattern>
+     <pattern>
           <token>quanto</token>
           <token>muito</token>
       </pattern>
@@ -4400,7 +4427,7 @@ title="Easy editing stylesheet" ?>
 	  <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/quando-muito-e-nao-quanto-muito/87</url>
       <example correction="quando muito">Não posso ir, <marker>quanto muito</marker> vou noutro dia.</example>
     </rule>
-	
+
     <!-- QUANDO PODER quando puder -->
     <rule id='QUANDO_PODER' name="Confusão: poder - puder">
       <pattern>
@@ -5906,7 +5933,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">(?-i)[ad]C|DJ</exception>
             <exception regexp="yes">(?-i)\p{Lu}+</exception></token>
         </marker>
-          <token><exception regexp='yes'>\.|-</exception></token>
+          <token><exception regexp='yes'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion><match no="1"/>.</suggestion>
@@ -5924,7 +5951,7 @@ title="Easy editing stylesheet" ?>
           <token>.</token>
           <token regexp="yes">a|C|m|ft|yd|adv|aport|nom|parl|port|red|verb|p|cont|mod|sag|f|e|s|v|perf|pr|t|fl|k|ae|al|ext|B|D|Exa|Exas|Sa|Sas</token>
         </marker>
-          <token><exception regexp='yes'>\.|-</exception></token>
+          <token><exception regexp='yes'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion>\1.\3.</suggestion>
@@ -6284,6 +6311,11 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token regexp='yes'>em|pa?ra</token>
           <token><match no="1"/></token>
       </antipattern>
+      <antipattern>
+          <token/>
+          <token>e</token>
+          <token><match no="0"/></token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -6292,7 +6324,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token><match no="1"/>
             <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-            <exception regexp='yes'>são|euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]</exception>
+            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -6318,6 +6350,8 @@ use REPEATED_WORDS_3X as a fallback		 	-->
       <example correction="">Andou de estação sim em <marker>estação</marker> não à procura dela.</example>
       <example>Cerca de 42% de todos os judeus residem em Israel e cerca de 42% nos Estados Unidos e Canadá, com a maioria restante na Europa.</example>
       <example>Não estou totalmente satisfeito com a situação, mas regras são regras", disse Bolt.</example>
+      <example>Hectares e hectares de terra ardida.</example>
+      <example>Bateu o recorde na prova dos cem metros, muito antes de ter considerado competir nos quatrocentos metros barreiras.</example>
     </rule>
 
     <rule id='REPEATED_WORDS_3X' name="Palavras repetidas (3x)" default='on' type='style'>
@@ -6338,7 +6372,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token><match no="1"/>
             <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
-            <exception regexp='yes'>são|euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]</exception>
+            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -6816,6 +6850,11 @@ tokenizer spreadsheet in the forum	     -->
       <example correction='tentar|esforçar'><marker>fazer um esforço</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>planos?</token>
+          <token>de</token>
+          <token regexp='yes'>(negócio|trabelho)s?</token>
+      </antipattern>
       <pattern>
           <token inflected='yes'>fazer</token>
           <token min='0'>um</token>
@@ -19752,8 +19791,8 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
-          <token regexp='yes'>viage(m|ns)</token>
+            <exception postag='(A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
+          <token>viagem</token>
       </pattern>
       <message>Esta palavra refere-se ao ato de viajar. Se pretende referir-se à ação de viajar, deve utilizar a forma com 'j'.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
@@ -19776,7 +19815,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>profetisas?</token>
       </pattern>
       <message>Esta palavra refere-se à pessoa que faz afirmações sobre o futuro. Se pretende referir-se à ação de divulgar profecias, deve utilizar a forma com 'x'.</message>
@@ -19801,7 +19840,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP|V).+' postag_regexp='yes'/></token>
           <token regexp='yes'>estirpes?</token>
       </pattern>
       <message>Esta palavra refere-se a raiz ou linhagem. Se pretende referir-se à ação de remover as vísceras, deve utilizar a forma com 'x'.</message>
@@ -19827,7 +19866,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
           <token regexp='yes'>cint[ao]s?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
@@ -19847,13 +19886,13 @@ TODO Write better examples
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='ass' regexp_replace='aç'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/aço</url>
       <example correction='de aço'>Uma porta <marker>de asso</marker>.</example>
-      <example correction='Os aços'><marker>Os assos</marker> produzidos aqui tem características especiais.</example>
+      <example correction='Os aços'><marker>Os assos</marker> produzidos aqui têm características especiais.</example>
     </rule>
     <rule id='HOMONYM_ASSO_10' name='Homónimo: asso - aço'>
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
           <token regexp='yes'>aços?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
@@ -23386,7 +23425,7 @@ TODO Write better examples
         <marker>
           <token inflected="yes" regexp="yes">GNOME|(revis|vers|resolu|sec?ç)(ão|ões)|(decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
           <token regexp="yes">\d+\.\d+</token>
-          <token regexp="yes">e|ou|,|-|–</token>
+          <token regexp="yes">e|ou|,|&hifen;|–</token>
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>
