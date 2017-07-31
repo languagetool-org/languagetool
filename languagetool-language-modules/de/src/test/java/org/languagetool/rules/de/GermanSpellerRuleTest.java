@@ -377,7 +377,9 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
     assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "is", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "is", "IS", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "Fux", "Fuchs");  // fixed in morfologik 2.1.4
+    assertCorrectionsByOrder(rule, "schänken", "Schänken");  // "schenken" is missing
   }
   
   @Test
