@@ -335,7 +335,7 @@ title="Easy editing stylesheet" ?>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
       <example correction="os milhares|as (milhares)">Vejam <marker>as milhares</marker> de mulheres.</example>
-      <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
+    <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
       <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example>
       <example correction="Os rios|As (rios)"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
     </rule>
@@ -878,8 +878,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&expressoes_de_tempo;</token>
       </antipattern>
       <antipattern><!--https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/e-que/3319 -->
-           <token>é</token>
-           <token>que</token>
+          <token>é</token>
+          <token>que</token>
       </antipattern>
     <rule>
       <antipattern>
@@ -3988,16 +3988,16 @@ title="Easy editing stylesheet" ?>
     <rule id='JÁ_MAIS' name="Confusão: já mais - jamais">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-		<token><exception>há</exception></token>	    
-		<token><exception postag_regexp='yes' postag='V.+'></exception></token>		
+          <token><exception>há</exception></token>
+          <token><exception postag_regexp='yes' postag='V.+'/></token>
         <marker>
           <token>já</token>
-		  <token>mais</token>
+          <token>mais</token>
         </marker>
       </pattern>
       <message>Substitua por <suggestion>jamais</suggestion>.</message>
       <example correction="jamais">Eu <marker>já mais</marker> faria mal a um animal.</example>
-    </rule>	
+    </rule>
 
     <!-- ARREAR A/AS VELA/S BANDEIRA/S arriar a/as vela/s bandeira/s -->
     <rule id='ARREAR_A_AS_VELA_S_BANDEIRA_S' name="Confusão: arrear - arriar">
@@ -4471,13 +4471,13 @@ title="Easy editing stylesheet" ?>
 
     <!-- QUANTO MUITO quando muito -->
     <rule id='QUANTO_MUITO' name="Confusão: quanto - quando">
-	<!--      Created by Marco A.G.Pinto      -->
-     <pattern>
+    <!--      Created by Marco A.G.Pinto      -->
+      <pattern>
           <token>quanto</token>
           <token>muito</token>
       </pattern>
       <message>Substitua por <suggestion>quando muito</suggestion>.</message>
-	  <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/quando-muito-e-nao-quanto-muito/87</url>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/quando-muito-e-nao-quanto-muito/87</url>
       <example correction="quando muito">Não posso ir, <marker>quanto muito</marker> vou noutro dia.</example>
     </rule>
 
@@ -22421,7 +22421,7 @@ TODO Write better examples
           <token postag="V.+" postag_regexp='yes'/>
       </pattern>
       <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover  ou substituí-lo pelo pronome de tratamente mais adequado.</message>
-        <suggestion></suggestion>
+        <suggestion/>
         <suggestion>nós</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
       <short>Linguagem informal</short>
