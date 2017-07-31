@@ -6565,14 +6565,33 @@ USA
             <example correction="played">They had <marker>play</marker> the game</example>
         </rule>
         <rule id="I_AM" name="missing 'am' in 'I am'">
+            <antipattern>
+                <token regexp="yes">said|thought</token>
+                <token>I</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="NN|NN:UN?"><exception postag="VBG"/></token>
+                <token>I</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>I<exception scope="previous" postag_regexp="yes" postag="VBG|VBP"/></token>
+                    <token>I<exception scope="previous" postag="NNP"/><exception scope="previous">was</exception></token>
                 </marker>
                 <token postag='VBG'/>
             </pattern>
             <message>Did you mean <suggestion>I am</suggestion>?</message>
             <example correction="I am"><marker>I</marker> looking into the problem.</example>
+            <example correction="I am">I'm not saying <marker>I</marker> rooting for him as such. I'm a Republican.</example>
+            <example><marker>I am</marker> looking into the problem.</example>
+            <example>Was <marker>I</marker> working hard?</example>
+            <example>Was <marker>I</marker> working hard.</example><!-- Missing question mark, but that is a different problem. -->
+            <example>What was <marker>I</marker> looking at?</example>
+            <example>"What larks!", said <marker>I</marker> laughing with joy.</example>
+            <example>If a Grade <marker>I</marker> building is not maintained satisfactorily, the Council must…</example>
+            <example>This is shown in Table <marker>I</marker> using a simple calculation.</example>
+            <example>After the incident, his division <marker>I</marker> coaching career was at an end.</example>
+            <example>Students who enrolled in Financial Accounting or Intermediate <marker>I</marker> Accounting at the university must…</example>
+            <example>…but in these cases, grade <marker>I</marker> retaining clips are necessary.</example>
         </rule>
         <rule id="AM_I" name="missing 'I' in 'am I'">
             <pattern>
@@ -12824,6 +12843,23 @@ USA
             <message>Please check whether a word is missing between '\1' and '\2' or whether '\1' is the correct determiner.</message>
             <example correction=""><marker>The</marker> is the best day of my life.</example>
             <example correction=""><marker>The</marker> are the best.</example>
+        </rule>
+        <rule id="BE_I_BE_GERUND" name="'BE I BE GERUND'"><!-- https://github.com/languagetool-org/languagetool/issues/754 -->
+            <pattern>
+                <token inflected="yes">be</token>
+                <token>I</token>
+                <token inflected="yes">be</token>
+                <token postag="VBG"/>
+            </pattern>
+            <message>Possible grammar error. Make sure that '\1 \2 \3 \4' is correct.</message>
+            <example correction="">What <marker>was I am doing</marker> again?</example>
+            <example correction="">I don't know <marker>was I be going</marker>.</example>
+            <example correction="">... but <marker>be I was making</marker> my life hard.</example>
+            <example>What <marker>was I doing</marker> again?</example>
+            <example><marker>Was I being</marker> stupid?</example>
+            <example>"<marker>Am I being</marker> a diva?" she asked.</example>
+            <example>The thing with me <marker>is I am</marker> a team player.</example>
+            <example>The reason I'm in Washington <marker>is I was</marker> at the Federal Trade Commission earlier today.</example>
         </rule>
     </category>
 
