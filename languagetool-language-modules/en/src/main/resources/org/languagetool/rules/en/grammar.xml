@@ -10938,65 +10938,82 @@ USA
             <message>Did you mean <suggestion>\1 to \2</suggestion>?</message>
             <example correction="ought to say">We <marker>ought say</marker> the truth.</example>
         </rule>
-        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
+        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she' or a pronoun">
             <short>Agreement error</short>
             <rule>
                 <antipattern>
-                    <token>with</token>
-                    <token regexp="yes">every(one|body)</token>
+                    <token regexp="yes">with(out)?</token>
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
                     <token postag="VBG"/>
                 </antipattern>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">He <marker>walk</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">He <marker>walk</marker> to the building every day.</example>
+                <example>He <marker>walks</marker> to the building every day.</example>
                 <example>He cannot hear you.</example>
                 <example>She came in through the back door lest she be seen.</example>
-                <example correction="enters">Somebody <marker>enter</marker> the building.</example>
+                <example correction="enters|entered">Somebody <marker>enter</marker> the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example>His medics insist he rest for several more months.</example>
                 <example>He stole out of the house without anyone seeing him.</example>
                 <example>He <marker>walked</marker> to the building.</example>
                 <example>I find it hard to understand how anyone seeking a position in public life could demonstrate...</example>
                 <example>He was busy, he said, in having someone submit to a monkey-gland operation.</example>
                 <example>What's he going to do?</example>
-                <example correction="hates">Everybody <marker>hate</marker> to hear bad news.</example>
+                <example correction="hates|hated">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example type="triggers_error">Nobody move!</example>
                 <example>The bride came into the room, with everyone staring at her.</example>
+                <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
+                <example>Only supply information that you are comfortable with anyone <marker>seeing</marker>.</example>
+                <example correction="likes|liked">Everybody <marker>liking</marker> my new suit.</example>
+                <example type="triggers_error">I don't want anyone <marker>touching</marker> my car.</example>
+                <example type="triggers_error">Anybody <marker>touching</marker> my car will get a black eye!</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
-                    <token regexp="yes">s?he|some(one|body)|nobody|anyone</token>
+                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
                         <token>t</token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>.</message>
-                <example correction="doesn't">He <marker>don't</marker> like fish.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>, <suggestion><match no="3" postag="VBD"/>n<match no="4"/><match no="5"/></suggestion>.</message>
+                <example correction="doesn't|didn't">He <marker>don't</marker> like fish.</example>
+                <example correction="doesn't|didn't">At her party, everybody <marker>don't</marker> like the music.</example>
+                <example correction="doesn't|didn't">At my party, nobody <marker>don't</marker> like the music.</example>
+                <example>He <marker>doesn't</marker> like fish.</example>
+                <example>She <marker>didn't</marker> like fish when she was young, but she likes it now.</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
-                    <token regexp="yes">s?he|some(one|body)|nobody|anyone|every(body|one)</token>
+                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <token postag="RB"><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">He always <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody usually <marker>enter</marker> the building.</example>
-                <example>He <marker>walked</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">He always <marker>walk</marker> to the building.</example>
+                <example correction="enters|entered">Somebody usually <marker>enter</marker> the building.</example>
+                <example>He always <marker>walks</marker> to the building.</example>
+                <example>He always <marker>walked</marker> to the building.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">with(out)?</token>
+                    <token regexp="yes">some(one|body)|nobody|anyone</token>
+                    <token>else</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">some(one|body)|nobody|anyone</token>
@@ -11005,12 +11022,14 @@ USA
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Someone else <marker>walk</marker> to the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
+                <example correction="enters|entered">Somebody else <marker>enter</marker> the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example>Nobody else <marker>walks</marker> to the building.</example>
-                <example correction="walks">Someone else <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody else <marker>enter</marker> the building.</example>
                 <example>Nobody <marker>walked</marker> to the building.</example>
                 <example type="triggers_error">They did not meet with anyone else while in Germany.</example>
+                <example>Annie was uncomfortable with anyone else <marker>being</marker> in charge.</example>
+                <example type="triggers_error">... and anyone else <marker>finding</marker> the work too difficult must tell the manager.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11022,11 +11041,11 @@ USA
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
-                <example>Nobody else <marker>walks</marker> to the building.</example>
-                <example correction="walks">Someone else always <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody else usually <marker>enter</marker> the building.</example>
-                <example>Nobody <marker>walked</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="5" postag="VBZ"/></suggestion>, <suggestion><match no="5" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Someone else always <marker>walk</marker> to the building.</example>
+                <example correction="enters|entered">Somebody else usually <marker>enter</marker> the building.</example>
+                <example>Nobody else usually <marker>walks</marker> to the building.</example>
+                <example>Somebody else occasionally <marker>walked</marker> to the building.</example>
             </rule>
             <!--  subjunctive with 'that' -->
             <rule>
@@ -11038,9 +11057,9 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
                 <example>She recommended that he <marker>walk</marker> to the building.</example>
-                <example correction="walk">She stipulates that he <marker>walking</marker> to the building.</example>
+                <example correction="walk">She recommended that he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
             </rule>
             <!--  subjunctive without 'that' -->
@@ -11052,9 +11071,9 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>The word '<match no="2"/>' in subjunctive clause must be used with a base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
                 <example>She recommended he <marker>walk</marker> to the building.</example>
-                <example correction="walk">She stipulates he <marker>walking</marker> to the building.</example>
+                <example correction="walk">She recommended he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
                 <example>What is he doing here at this hour?</example>
                 <example>And why was she crying?</example>
@@ -11083,8 +11102,8 @@ USA
                     </marker>
                     <token postag="IN|DT" postag_regexp="yes"/>
                 </pattern>
-                <message>The proper name in singular (<match no="2"/>) must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">Ann <marker>walk</marker> to the building.</example>
+                <message>The singular proper name '<match no="2"/>' must be used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Ann <marker>walk</marker> to the building.</example>
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
