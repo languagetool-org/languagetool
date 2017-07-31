@@ -12459,13 +12459,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ATENDRE_ATENIR" name="ens *atenem/atenim a">
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token inflected="yes" regexp="yes">tot|ningú|jo|tu|ell</token>
+                </marker>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <marker>
-                        <token>a</token>
-                        <token inflected="yes" regexp="yes">tot|ningú|jo|tu|ell</token>
-                    </marker>
-                </antipattern>
                 <pattern>
                     <token regexp="yes" skip="1">us|ens|vos</token>
                     <marker>
@@ -12530,6 +12530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>atenint-nos a</suggestion>
                 <suggestion>tenint en compte</suggestion>
                 <example correction="Atenent|Atenint-nos a|Tenint en compte"><marker>Atenent a</marker> aquesta qüestió.</example>
+                <example>Atenent a tots els clients</example>
             </rule>
         </rulegroup>
         <rule id="ALTES_ALTRES" name="altes/altres">
