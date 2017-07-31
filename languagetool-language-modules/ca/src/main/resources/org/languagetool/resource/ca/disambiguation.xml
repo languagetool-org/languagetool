@@ -9461,11 +9461,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="NoVerb2" name="no verb si no és en grup verbal">
         <pattern>
             <and>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">senzilles|senzilla|disperses|diputats?|diputad(a|es)|negativa|negatives|terminis?|brossa|ultra|rica<exception postag="_GV_"/></token>
-                <token postag="[^V].*" postag_regexp="yes"/>
+                <token postag="V.[^P].*" postag_regexp="yes" regexp="yes">senzilles|senzilla|disperses|diputats?|diputad(a|es)|negativa|negatives|terminis?|brossa|ultra|rica|estesa|esteses<exception postag="_GV_"/></token>
+                <token postag="[^V].*|V.P.*" postag_regexp="yes"/>
             </and>
         </pattern>
-        <disambig action="filter" postag="[^V].*"/>
+        <disambig action="filter" postag="[^V].*|V.P.*"/>
     </rule>
     <rulegroup id="Verb_adverbi" name="Verb i adverbi: encara sóc, sóc encara">
         <rule> <!--  ATENCIÓ: quan el verb és també substantiu, poden haver-hi problemes: encara es "troba". Les excepcions no són fiables
