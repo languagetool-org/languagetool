@@ -21,6 +21,8 @@
     - typography: number and mathematical symbol formatting improvements
     - syntax: new category and fragment detection improvements
   * disambiguation improvements
+  * false friends support added
+    - Portuguese to Galician (16 new pairs)
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
