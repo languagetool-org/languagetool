@@ -225,6 +225,11 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ADJ:.*").build(),
         new PatternTokenBuilder().csToken("First").build(),
         new PatternTokenBuilder().csToken("Lady").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().tokenRegex("[dD]e[rn]").build(),
+        new PatternTokenBuilder().csToken("Gold").build(),
+        new PatternTokenBuilder().csToken("Cup").build()
     )
   );
 
