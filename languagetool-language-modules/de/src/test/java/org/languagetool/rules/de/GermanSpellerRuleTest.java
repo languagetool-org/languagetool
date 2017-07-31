@@ -407,10 +407,8 @@ public class GermanSpellerRuleTest {
   @Test
   @Ignore("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
   public void testMorfologikSpellerWithSpellingTxt() throws Exception {
-    String inputWord = "Fux";  // expected to work (i.e. suggest 'Fuchs') with a maxDist=1 thanks to replacement-pairs, but doesn't
-    //String inputWord = "Fuxen";  // works as expected
-    //String inputWord = "Verschpatüng"; // works as expected
-    List<String> dictWords = Arrays.asList("Bla", "Blubb", "Fuchs", "Fuchsen", "Verspätung");
+    String inputWord = "schänken";  // expected to work (i.e. also suggest 'schenken'), but doesn't
+    List<String> dictWords = Arrays.asList("schenken", "Schänken");
     List<byte[]> dictWordsAsBytes = new ArrayList<>();
     for (String entry : dictWords) {
       dictWordsAsBytes.add(entry.getBytes("utf-8"));
@@ -419,7 +417,7 @@ public class GermanSpellerRuleTest {
     FSA fsa = FSABuilder.build(dictWordsAsBytes);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
     ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-    String infoFile = "fsa.dict.speller.replacement-pairs=x chs,sch s\n" +
+    String infoFile = "fsa.dict.speller.replacement-pairs=ä e\n" +
                       "fsa.dict.encoder=SUFFIX\n" +
                       "fsa.dict.separator=+\n" +
                       "fsa.dict.encoding=utf-8\n" +
