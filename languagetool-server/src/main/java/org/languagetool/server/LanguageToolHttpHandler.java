@@ -173,7 +173,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       }
     } catch (SocketException e1) {
-      throw new RuntimeException("Could not get the servers own IP addresses", e1);
+      throw new RuntimeException("Could not get the server's own IP addresses", e1);
     }
     return ownIps;
   }
