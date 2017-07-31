@@ -10,5 +10,7 @@ sed -ri 's/^[ \t]*(<\/?(exception|feature))/            \1/' $@
 
 sed -ri 's/(<(token|exception|suggestion|match|disambig|feature|wd)[^>]*?)><\/\2>/\1\/>/' $@
 sed -ri 's/[ \t]+\r?$/\r/' $@
+sed -ri 's/" >/">/' $@
+sed -ri 's/ \/>/\/>/' $@
 
 echo $@' indented'

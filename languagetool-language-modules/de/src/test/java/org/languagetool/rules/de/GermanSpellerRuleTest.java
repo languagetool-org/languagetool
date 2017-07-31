@@ -50,6 +50,23 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void filterForLanguage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
+    rule.filterForLanguage(list1);
+    assertThat(list1, is(Arrays.asList("foo")));
+
+    List<String> list2 = new ArrayList<>(Arrays.asList("-bar", "foo"));
+    rule.filterForLanguage(list2);
+    assertThat(list2, is(Arrays.asList("foo")));
+
+    GermanSpellerRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    List<String> list3 = new ArrayList<>(Arrays.asList("Muße", "foo"));
+    ruleCH.filterForLanguage(list3);
+    assertThat(list3, is(Arrays.asList("Musse", "foo")));
+  }
+
+  @Test
   public void testSortSuggestion() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("fehla", "xxx", "Fehler")).toString(),
@@ -91,6 +108,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
     assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
     assertFirstSuggestion("Emailacount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("millionmal", "Million Mal", rule, lt);
+    assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
+    assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
+    assertFirstSuggestion("rosanen", "rosa", rule, lt);
+    assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
+    assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
   }
 
   @Test
@@ -155,7 +178,7 @@ public class GermanSpellerRuleTest {
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
-               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit, konfliktbereite l]"));
+               is("[konfliktbereiten, konfliktbereite, konfliktbereiter, konfliktbereitem, konfliktbereites, konfliktbereit]"));
   }
 
   @Test
@@ -299,10 +322,7 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
-    
-    // use to work with jwordsplitter 3.4: too many other suggestions with Levenshtein=2
-    //assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
-    //assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
     assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
@@ -312,7 +332,9 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
-    
+    assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+
     assertCorrection(rule, "Arbeidszimmer", "Arbeitszimmer");
     assertCorrection(rule, "Postleidzahl", "Postleitzahl");
     assertCorrection(rule, "vorallem", "vor allem");
@@ -321,16 +343,25 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
 
-    // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
-    // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
-    // because jwordsplitter doesn't use the same dictionary as Hunspell:
-    // assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
-
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
     //assertCorrection(rule, "Handselvertretertreffn", "Handelsvertretertreffen");
   }
 
+  @Test
+  public void testGetSuggestionWithPunctuation() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
+    assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
+    assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
+    assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
+    //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
+    // commas are actually not part of the word, so the suggestion doesn't include them:
+    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+  }
+  
   @Test
   public void testGetSuggestionOrder() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
@@ -355,7 +386,10 @@ public class GermanSpellerRuleTest {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
     lines.add("ist".getBytes());
-    byte[] info = "fsa.dict.separator=+\nfsa.dict.encoding=utf-8\nfsa.dict.frequency-included=true".getBytes();
+    byte[] info = ("fsa.dict.separator=+\n" +
+                   "fsa.dict.encoding=utf-8\n" +
+                   "fsa.dict.frequency-included=true\n" +
+                   "fsa.dict.encoder=SUFFIX").getBytes();
     Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
     Speller speller = new Speller(dict, 2);
     System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?

@@ -9396,6 +9396,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>4.000.519 = vier Millionen fünfhundertneunzehn</example>
             </rule>
         </rulegroup>
+        <rule id="HINZU" name="confusion of bed/bad">
+            <pattern>
+                <marker><token>hinzu</token></marker>
+                <token postag=".*:DAT:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>hin zu</suggestion>?</message>
+            <example correction="hin zu">Es gelang ihm, <marker>hinzu</marker> den Türen zu torkeln.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -27781,6 +27789,22 @@ Andere Projekte</example>
                 <example>Bei ihr hat der Blitz eingeschlagen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PRP_ADJ_AGREEMENT" name="falscher Kasus/Numerus/Genus des Adjektivs">
+            <rule>
+                <pattern>
+                    <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                    <token postag="ART:.*" postag_regexp="yes"/>
+                    <marker><token postag="ADJ:PRD:GRU"><exception>wenig</exception></token></marker>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Prüfen Sie die Übereinstimmung von Kasus, Numerus und Genus zwischen '\3' und '\4'.</message>
+                <suggestion>\3e</suggestion>
+                <suggestion>\3en</suggestion>
+                <suggestion>\3es</suggestion>
+                <example correction="rote|roten|rotes">Er wartet an der <marker>rot</marker> Ampel.</example>
+                <example correction="große|großen|großes">Er wohnt in einem <marker>groß</marker> Haus.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUBJECT_VERB_AGREEMENT" name="fehlende Übereinstimmung zwischen Subjekt und Prädikat">
             <rule>
                 <antipattern>
@@ -34690,6 +34714,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">hoch((technis|dot|motiv|industralis|spezialis|qualifiz|kompliz|dos)iert|acht|schätz|besteuert|bezahlt|verschuldet|radioaktiv|spannend|liegend|gespannt|aufgeschossen|entwickelt|beansprucht|gelegen|angesehen|konzentriert)(e[nrs]?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)och(.*)" regexp_replace="$1och $2"/></suggestion> verwenden?</message>
+                <example correction="hoch komplizierte">Es handelt sich um eine <marker>hochkomplizierte</marker> Angelegenheit.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">viel(geliebt|genannt|besucht|gereist|gefragt|umjubelt|besungen|gebraucht|beachtet|umworben|umstritten|gescholten|gelobt|gepriesen|gelesen|beschworen|gekauft|zitiert|befahren|gerühmt|diskutiert|beschäftigt|besprochen|geschmäht).*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)iel(.*)" regexp_replace="$1iel $2"/></suggestion> verwenden?</message>
@@ -34700,11 +34731,18 @@ Andere Projekte</example>
                     <token case_sensitive="yes" regexp="yes">Nicht(deutsch(sprachl|sprech)?|organisiert|berufstätig|behindert)e[nr]?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|es|em)?</token>
+                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)icht(.*)" regexp_replace="$1icht $2"/></suggestion> verwenden?</message>
                 <example correction="nicht rostendem">Der Träger besteht aus <marker>nichtrostendem</marker> Stahl.</example>
                 <example>NEhelG – Nichtehelichengesetz</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">frei(finanziert|laufend|lebend|stehend|werdend)(e[mnrs]?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)rei(.*)" regexp_replace="$1rei $2"/></suggestion> verwenden?</message>
+                <example correction="frei stehendes">Der Makler bot ihnen ein <marker>freistehendes</marker> Haus an.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung">
@@ -34732,9 +34770,34 @@ Andere Projekte</example>
                 <example correction="instand">Er setzte den Oldtimer wieder <marker>in Stand</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>auf</token>
+                    <token skip="-1">Grund</token>
+                    <token inflected="yes">laufen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">laufen</token>
+                    <token>auf</token>
+                    <token>Grund</token>
+                </antipattern>
+                <pattern>
+                    <token>auf</token>
+                    <token case_sensitive="yes" regexp="yes">Grund|Seiten</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="Aufgrund"><marker>Auf Grund</marker> des schlechten Wetters haben wir unseren Ausflug abgesagt.</example>
+                <example>Der Tanker ist auf Grund gelaufen</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>von</token>
+                    <token>Tag</token>
+                    <token>zu</token>
+                    <token>Tage</token>
+                </antipattern>
                 <pattern>
                     <token>zu</token>
-                    <token case_sensitive="yes" regexp="yes">Grunde|Gunsten|Rate|Rande|Stande|Schulden</token>
+                    <token case_sensitive="yes" regexp="yes">Grunde|Gunsten|Rate|Rande|Stande|Schulden|Seiten|Lasten|Leide|Schanden|Nutze|Mute|Ungunsten|Wege|Tage</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="zugunsten">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>
@@ -34780,6 +34843,25 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>\1stande</suggestion> verwenden?</message>
                 <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
                 <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>frei</token>
+                    <token case_sensitive="yes"  inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schaufeln|kämpfen|legen|kratzen|räumen</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="freihatte">Sie genoß es, dass sie <marker>frei hatte</marker>.</example>
+                <example correction="freihaben">Ich würde auch gern <marker>frei haben</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>hoch</token>
+                    <token case_sensitive="yes"  regexp="yes">(geehrt|gelobt|geachtet|beglückt|begabt|geschätzt)(e[nrs]?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="hochgeschätzten">Sie gehörte zu den <marker>hoch geschätzten</marker> Gästen.</example>
+                <example correction="hochbegabt">Sie galt als <marker>hoch begabt</marker>.</example>
             </rule>
         </rulegroup>
     </category>

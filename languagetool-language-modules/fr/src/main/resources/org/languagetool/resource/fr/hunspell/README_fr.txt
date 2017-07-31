@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    DICTIONNAIRES ORTHOGRAPHIQUES FRANÇAIS
-   version 6.0.2
+   version 6.1
 
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte : http://www.dicollecte.org/

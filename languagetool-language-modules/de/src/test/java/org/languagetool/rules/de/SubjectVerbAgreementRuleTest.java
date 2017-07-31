@@ -407,7 +407,8 @@ public class SubjectVerbAgreementRuleTest {
         "Er ahnt nicht, dass sie und sein Sohn ein Paar sind.",
         "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt.",
         "Der See und das Marschland sind ein Naturschutzgebiet",
-        "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden."
+        "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
+        "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

@@ -166,6 +166,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         suggestions.set(i, s.replace("ß", "ss"));
       }
     }
+    // Remove suggestions like "Mafiosi s":
+    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> k.length() == 1));
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
@@ -179,8 +181,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (misspelling.equalsIgnoreCase(suggestion)) {
         // this should be preferred - only case differs:
         result.add(0, suggestion);
-      } else if (suggestion.contains(" ") && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
-        // prefer "vor allem", but not "konfliktbereite l" etc:
+      } else if (suggestion.contains(" ")) {
+        // prefer e.g. "vor allem":
         result.add(0, suggestion);
       } else {
         result.add(suggestion);
@@ -292,8 +294,30 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Babys");
     } else if (word.equals("Ladies")) {
       return Collections.singletonList("Ladys");
+    } else if (word.equals("Hallochen")) {
+      return Arrays.asList("Hallöchen", "hallöchen");
+    } else if (word.equals("hallochen")) {
+      return Collections.singletonList("hallöchen");
+    } else if (word.matches("[mM]issionarie?sie?rung")) {
+      return Collections.singletonList("Missionierung");
+    } else if (word.matches("[sS]chee?selonge?")) {
+      return Collections.singletonList("Chaiselongue");
+    } else if (word.matches("Re[kc]amiere")) {
+      return Collections.singletonList("Récamière");
     } else if (word.matches("legen[td]lich")) {
       return Collections.singletonList("lediglich");
+    } else if (word.matches("[mM]illion(en)?mal")) {
+      suggestion = word.replaceFirst("^million", "Million");
+      suggestion = suggestion.replaceFirst("mal$", "");
+      return Collections.singletonList(suggestion + " Mal");
+    } else if (word.equals("ok")) {
+      return Arrays.asList("okay", "O.\u202fK."); // Duden-like suggestion with no-break space
+    } else if (word.matches("[aA]wa")) {
+      return Arrays.asList("AWA", "ach was", "aber");
+    } else if (word.equals("ch")) {
+      return Collections.singletonList("ich");
+    } else if (word.matches("aufgehangen(e[mnrs]?)?$")) {
+      return Collections.singletonList(word.replaceFirst("hangen", "hängt"));
     } else if (word.matches("rosane[mnrs]?$")) {
       return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
     } else if (word.matches("geupdate[dt]$")) {
