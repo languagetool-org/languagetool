@@ -9404,6 +9404,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>hin zu</suggestion>?</message>
             <example correction="hin zu">Es gelang ihm, <marker>hinzu</marker> den Türen zu torkeln.</example>
         </rule>
+        <rule id="ZUSAMMENSCHREIBUNG_ZURÜCK" name="Zusammenschreibung von Verben mit dem Präfix 'zurück'">
+            <antipattern>
+                <token>hin</token>
+                <token>und</token>
+                <token>zurück</token>
+            </antipattern>
+            <antipattern>
+                <token>Weg</token>
+                <token>zurück</token>
+                <token case_sensitive="yes" inflected="yes" regexp="yes">finden|suchen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SUB:.*|EIG:.*" postag_regexp="yes"/>
+                <token>und</token>
+                <token>zurück</token>
+            </antipattern>
+            <pattern>
+                <token>zurück</token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Bitte überrüfen Sie die Zusammenschreibung! Meinten Sie<suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion>?</message>
+            <example correction="zurückgegeben">Sie hatte das Buch bereits <marker>zurück gegeben</marker>.</example>
+            <example>Wir müssen den Weg <marker>zurück finden</marker>.</example>
+            <example>Sie sind mit dem Auto nach Paris und <marker>zurück gefahren</marker>.</example>
+        </rule>
+        <rule id="ZUSAMMENSCHREIBUNG_HER" name="Zusammenschreibung von Verben mit dem Präfix 'her', 'hervor', 'umher', etc.">
+            <antipattern>
+                <token>hin</token>
+                <token>und</token>
+                <token>her</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">vo[nm]<exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                <token>her</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">(um)?her(vor|bei|nieder|über|unter)?</token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">hin.*</exception></token>
+            </pattern>
+            <message>Bitte überrüfen Sie die Zusammenschreibung! Meinten Sie<suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion>?</message>
+            <example correction="hervorgeholt">Sie hatte das Buch bereits <marker>hervor geholt</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -34739,6 +34781,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">frisch((ge)?macht?|gebacken)(e[mnrs]?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)risch(.*)" regexp_replace="$1risch $2"/></suggestion> verwenden?</message>
+                <example correction="frisch gebackenes">Er kaufte ein <marker>frischgebackenes</marker> Brot.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">frei(finanziert|laufend|lebend|stehend|werdend)(e[mnrs]?)?</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)rei(.*)" regexp_replace="$1rei $2"/></suggestion> verwenden?</message>
@@ -34847,21 +34896,37 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>frei</token>
-                    <token case_sensitive="yes"  inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schaufeln|kämpfen|legen|kratzen|räumen</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schaufeln|kämpfen|legen|kratzen|räumen</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="freihatte">Sie genoß es, dass sie <marker>frei hatte</marker>.</example>
                 <example correction="freihaben">Ich würde auch gern <marker>frei haben</marker>.</example>
             </rule>
-
             <rule>
                 <pattern>
                     <token>hoch</token>
-                    <token case_sensitive="yes"  regexp="yes">(geehrt|gelobt|geachtet|beglückt|begabt|geschätzt)(e[nrs]?)?</token>
+                    <token case_sensitive="yes" regexp="yes">(geehrt|gelobt|geachtet|beglückt|begabt|geschätzt)(e[nrs]?)?</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="hochgeschätzten">Sie gehörte zu den <marker>hoch geschätzten</marker> Gästen.</example>
                 <example correction="hochbegabt">Sie galt als <marker>hoch begabt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">wohl</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">fühlen|ergehen</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="wohlfühlen">Sie sollen sich <marker>wohl fühlen</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">wohl</token>
+                    <token case_sensitive="yes" regexp="yes">(verwahrt|getan|duftend|riechend|versorgt|überlegt|durchdacht|bekannt|dosiertsituiert|geordnet|erhalten|klingend|ausgewogen|tönend|bedacht|lautend|gesetzt|erwogen|beraten|verstanden|formuliert|behütet|geformt|schmeckend|unterrichtet|begründet|genährt|erzogen|vorbereitet|geraten|temperiert|proportioniert|)(e[nrs]?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="wohlerzogenes">Es war ein <marker>wohl erzogenes</marker> Kind.</example>
+                <example correction="wohltemperierten">Sie genoss den <marker>wohl temperierten</marker> Wein.</example>
             </rule>
         </rulegroup>
     </category>
