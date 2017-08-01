@@ -131,7 +131,7 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
     <rule>
       <antipattern>
-          <unify><!-- TODO Review performance impact after regression tests -->
+          <unify>
             <feature id="gender"/><feature id="number"/>
           <token/>
           <token regexp='yes'>&precede_nome_proprio;</token>
@@ -764,7 +764,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(falsi|humil|sinceri|leal|bon|cari|mal)dades|fés|pratas|cobres|platinas|brisas|fomes|lenhas|oxig[éê]nios|plebes|profundidades|(cristian|islam|protestant|bud|hindu|xaman|satan|naz)[ií]smos</token>
       </pattern>
       <message>Esta palavra costuma ser apenas referida no singular.</message>
-        <suggestion><match no='1' regexp_match='(.*)s$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
       <example correction="prata">Ele tinha muitas <marker>pratas</marker> da casa.</example>
     </rule>
@@ -779,7 +779,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>&hifen;</exception></token>
       </pattern>
       <message>Esta expressão é invariável.</message>
-        <suggestion><match no='2' regexp_match='(.*)s$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='2' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
       <example correction="pó">Passou o dia a limpar os <marker>pós</marker> da casa.</example>
       <example>Correntes pós-clássicas</example>
@@ -848,17 +848,18 @@ title="Easy editing stylesheet" ?>
       <example correction='mesmo que tenha'>O Jorge nega <marker>mesmo que tem</marker> falado com ela.</example>
       <example correction='Tomara que seja'><marker>Tomara que é</marker> verdade.</example>
     </rule>
-    <!--rule>
+    <rule>
       <pattern>
-          <token regexp='yes'>tomara|embora</token>
+          <token postag_regexp='yes' postag='SENT_START|_PUNCT'/>
+          <token>embora</token><!-- XXX consider tomara-->
           <token postag_regexp='yes' postag='V.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+'/></token>
       </pattern>
       <message>Hipóteses introduzem o conjuntivo.</message>
-        <suggestion>\1 <match no='2' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+        <suggestion>\2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Embora seja'><marker>Embora é</marker> verdade, não me agrada.</example>
-    </rule-->
+    </rule>
   </rulegroup>
 
   <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Erros de concordância verbal (geral)">
@@ -868,9 +869,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
           <token spacebefore='no' regexp='yes'>&hifen;</token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
-          <token spacebefore='no'/>
       </antipattern>
       <antipattern>
           <token>há</token>
@@ -883,12 +883,8 @@ title="Easy editing stylesheet" ?>
       </antipattern>
     <rule>
       <antipattern>
-          <token/>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token>eu</token>
-          <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
-          <token postag='VM[CIS].([23]S|[123]P).' postag_regexp='yes'>
-            <exception postag='VM[CIS].1S0' postag_regexp='yes'/></token>
       </antipattern>
       <pattern>
           <token>eu</token>
@@ -904,12 +900,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token/>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token>tu</token>
-          <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
-          <token postag='VM[CIS].([13]S|[123]P).' postag_regexp='yes'>
-            <exception postag='VM[CIS].2S0' postag_regexp='yes'/></token>
       </antipattern>
       <pattern>
           <token>tu</token>
@@ -924,13 +916,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token/>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token regexp="yes">ele|ela|você</token>
-          <token min="0" max="2" postag='R.+' postag_regexp='yes'/>
-          <token postag='VM[CIS].([12]S|[123]P).' postag_regexp='yes'>
-            <exception postag='VM[CIS].3S0' postag_regexp='yes'/>
-            <exception>como</exception></token>
       </antipattern>
       <pattern>
           <token regexp="yes">ele|ela|você</token>
@@ -1062,8 +1049,14 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token postag_regexp='yes' postag='(N..|A...)S.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(N..|A...)S.+'/></token>
+          <token regexp='yes' case_sensitive='yes'>el[ea]s?</token>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token max='2' postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+      </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='[AN].+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/></token>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token max='2' postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
@@ -1085,6 +1078,7 @@ title="Easy editing stylesheet" ?>
       <example>A sua polidez e o seu empenho fizeram com que todos o admirassem.</example>
       <example>O amor ou o ódio estão presentes.</example>
       <example>Outro governo preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
+      <example>Dizem que ela e o marido não concordam em nada.</example>
     </rule>
   </rulegroup>
 
@@ -1504,11 +1498,11 @@ title="Easy editing stylesheet" ?>
       <short>Erro de colocação pronominal.</short>
     <rule>
       <pattern>
-          <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
+          <token regexp='yes'>tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes'>&tracos_de_separacao;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token regexp='yes'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
       </pattern>
       <message>Com alguns pronomes indefinidos devem utilizar a próclise.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
@@ -1522,8 +1516,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>ainda|ali|aqui|acolá|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>&tracos_de_separacao;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
         </marker>
           <token negate_pos='yes' postag_regexp='yes' postag='V.+'/>
       </pattern>
@@ -1536,8 +1530,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>&tracos_de_separacao;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
       </pattern>
       <message>"só", "ora" e "quer" devem ser seguidos de próclise.</message><!-- TODO Review "ou",  -->
         <suggestion>\1 \4 \2</suggestion>
@@ -1545,11 +1539,12 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>nenhu[mn]a?s?</token>
-          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
+          <token regexp='yes'>nenhu[mn]a?s?|&negacoes;</token>
+          <token postag_regexp='yes' postag='N.+' min='0'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>&tracos_de_separacao;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
       </pattern>
       <message>As palavras de sentido negativo devem ser seguidas de próclise.</message>
         <suggestion>\1 \2 \5 \3</suggestion>
@@ -2129,15 +2124,16 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>si|consigo</token>
+          <token>si</token> <!-- XXX consigo removed. consigo->conseguir -->
           <token postag_regexp='yes' postag='V.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
         <suggestion>você \2</suggestion>
-      <example correction='consigo, pode|você pode'>Confesso, quem fala <marker>consigo pode</marker> ter dificuldade em acompanhar.</example>
-      <example>Para ti, estudar é um sacrifício.</example>
+      <example correction='si, pode|você pode'>Confesso, quem fala de <marker>si pode</marker> ter dificuldade em acompanhar.</example>
+      <!--example correction='consigo, pode|você pode'>Confesso, quem fala <marker>consigo pode</marker> ter dificuldade em acompanhar.</example-->
+      <example>Para si, estudar é um sacrifício.</example>
     </rule>
     <rule>
       <pattern>
@@ -2149,7 +2145,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1, \2</suggestion>
         <suggestion>nós \2</suggestion>
       <example correction='connosco, pode|nós pode'>Confesso, quem fala <marker>connosco pode</marker> ser difícil de acompanhar.</example>
-      <example>Fui claro cara connosco, estudar é um sacrifício.</example>
+      <example>Fui claro connosco, estudar é um sacrifício.</example>
     </rule>
     <rule>
       <pattern>
@@ -2161,7 +2157,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1, \2</suggestion>
         <suggestion>vós \2</suggestion>
       <example correction='convosco, pode|vós pode'>Confesso, quem fala <marker>convosco pode</marker> ser difícil de acompanhar.</example>
-      <example>Fui claro cara convosco, estudar é um sacrifício.</example>
+      <example>Fui claro convosco, estudar é um sacrifício.</example>
     </rule>
   </rulegroup>
 
@@ -5496,7 +5492,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2,</suggestion>
       <example correction="não obstante,">Foi feito com distinção, <marker>não obstante</marker> está bem feito.</example>
     </rule>
-    <rule>
+    <!--rule>
       <pattern>
         <marker>
           <token>a</token>
@@ -5508,7 +5504,7 @@ title="Easy editing stylesheet" ?>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
       <example correction="a saber,">Foi feito com distinção, <marker>a saber</marker> está bem feito.</example>
-    </rule>
+    </rule-->
     <rule>
       <pattern>
         <marker>
@@ -6375,7 +6371,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token skip='-1'/>
         <marker>
           <token><match no="1"/>
-            <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
+            <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>ser|estar|haver</exception>
             <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
@@ -19868,7 +19864,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D|SP).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>profetisas?</token>
       </pattern>
       <message>Esta palavra refere-se à pessoa que faz afirmações sobre o futuro. Se pretende referir-se à ação de divulgar profecias, deve utilizar a forma com 'x'.</message>
@@ -19893,7 +19889,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D|SP|V).+' postag_regexp='yes'/></token>
+            <exception postag='(A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>estirpes?</token>
       </pattern>
       <message>Esta palavra refere-se a raiz ou linhagem. Se pretende referir-se à ação de remover as vísceras, deve utilizar a forma com 'x'.</message>
@@ -19918,8 +19914,8 @@ TODO Write better examples
     <rule id='HOMONYM_SINTO_8' name='Homónimo: sinto - cinto'>
       <pattern>
           <token>
-            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)|\-</exception>
+            <exception postag='(A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
           <token regexp='yes'>cint[ao]s?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
@@ -19928,6 +19924,7 @@ TODO Write better examples
       <example correction='ele sinta'>Não que <marker>ele cinta</marker> culpa pelo sucedido.</example>
       <example correction='te sintas'>Não <marker>te cintas</marker> necessidade de aceitar a promoção.</example>
       <example correction='Sinto'><marker>Cinto</marker> muito.</example>
+      <example>Araçari-de-cinta-dupla</example>
     </rule>
     <rule id='HOMONYM_ACO_9' name='Homónimo: aço - asso'>
       <pattern>
@@ -19945,13 +19942,14 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
+            <exception postag='(A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>aços?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
         <suggestion>\1 <match no='2' regexp_match='aç' regexp_replace='ass'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/assar</url>
       <example correction='eu asso'>Se ganharmos o campeonato, <marker>eu aço</marker> um porco. Juro, carago!</example>
+      <example>A indústria de automóveis, aço, petroquímica, computadores, aeronaves..</example>
     </rule>
     <rule id='HOMONYM_SERRA_11' name='Homónimo: serra - cerra'>
       <pattern>
@@ -19979,14 +19977,15 @@ TODO Write better examples
     <rule id='HOMONYM_CERRA_12' name='Homónimo: cerra - serra'>
       <pattern>
           <token>
-            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)</exception>
-            <exception postag='(A|D|SP).+' postag_regexp='yes'/></token>
+            <exception regexp='yes'>(d|n|outr|pel)?[ao]s?|de|(alg|d|n)?(um(a|as)?|uns)|\-</exception>
+            <exception postag='(A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>serras?</token>
       </pattern>
       <message>Esta palavra refere-se a uma montanha ou instrumento de corte. Se pretende referir-se à ação de cortar, deve utilizar a forma com 'c'.</message>
         <suggestion>\1 <match no='2' regexp_match='se' regexp_replace='ce'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/cerrar</url>
       <example correction='carpinteiro cerra'>O <marker>carpinteiro serra</marker>-te isso à medida.</example>
+      <example>Formigueiro-da-serra</example>
     </rule>
   </rulegroup>
 
