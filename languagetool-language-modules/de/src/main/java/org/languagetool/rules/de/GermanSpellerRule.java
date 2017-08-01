@@ -312,6 +312,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(suggestion + " Mal");
     } else if (word.equals("ok")) {
       return Arrays.asList("okay", "O.\u202fK."); // Duden-like suggestion with no-break space
+    } else if (word.equals("Germanistiker")) {
+      return Arrays.asList("Germanist", "Germanisten");
+    } else if (word.matches("Germanistiker[ns]")) {
+      return Collections.singletonList("Germanisten");
+    } else if (word.matches("Germanistikerin(nen)?")) {
+      return Collections.singletonList(word.replaceFirst("Germanistiker", "Germanist"));
     } else if (word.matches("[aA]wa")) {
       return Arrays.asList("AWA", "ach was", "aber");
     } else if (word.equals("ch")) {

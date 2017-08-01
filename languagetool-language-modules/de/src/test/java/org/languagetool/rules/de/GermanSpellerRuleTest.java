@@ -114,6 +114,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("rosanen", "rosa", rule, lt);
     assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
     assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
+    assertFirstSuggestion("Germanistiker", "Germanist", rule, lt);
+    assertFirstSuggestion("Germanistikern", "Germanisten", rule, lt);
+    assertFirstSuggestion("Germanistikerin", "Germanistin", rule, lt);
   }
 
   @Test
