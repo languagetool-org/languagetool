@@ -11091,6 +11091,23 @@ USA
                     <token postag="NNP" chunk="I-NP-singular"/><!-- Philippine -->
                     <token chunk="E-NP-singular"/><!-- company -->
                 </antipattern>
+                <antipattern>
+                    <token chunk="I-NP-singular"/><!-- fourteenth (and also refer to the "Subhan-Allah" examples). -->
+                    <token chunk="I-NP-singular"/><!-- century -->
+                    <token postag="NNP" chunk="E-NP-singular"/><!-- BC -->
+                </antipattern>
+                <antipattern>
+                    <token>his</token>
+                    <token postag="NNP" chunk="I-NP-plural"/><!-- Huxley -->
+                    <token chunk="E-NP-plural"/><!-- lecture -->
+                </antipattern>
+                <antipattern>
+                    <token postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/><!-- This token is one of the exceptions in the first token in the pattern. -->
+                    <token postag="NNP"/><!-- Republican -->
+                    <token>/</token>
+                    <token postag="NNP" chunk="I-NP-singular"/><!-- Unionist -->
+                    <token chunk="E-NP-singular"/><!-- platform -->
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -11118,6 +11135,16 @@ USA
                 <example>The library and <marker>Medical Center</marker> are to the north.</example>
                 <example>The present <marker>Federal program</marker> of vocational education began in 1917.</example>
                 <example>Before 2009, it was the only <marker>Philippine company</marker> to do so.</example>
+                <example>The Ugaritic tablets from the fourteenth century BC <marker>preserve</marker> the alphabet in two sequences.</example>
+                <example>He rebounded from his Wimbledon <marker>defeat</marker> by winning the US Open.</example><!-- The chunker identifies 'his' as B-NP-plural and 'lecture' as E-NP-plural. -->
+                <example>The amendment became part of the Republican / Unionist <marker>platform</marker> in the election of 1864.</example>
+                <example>The amendment became part of the Republican/Unionist <marker>platform</marker> in the election of 1864.</example>
+                <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
+                <example type="triggers_error">… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
+                <example type="triggers_error">We elected Jeffrey <marker>captain</marker> of our team.</example>
+                <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
+                <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
+                <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
