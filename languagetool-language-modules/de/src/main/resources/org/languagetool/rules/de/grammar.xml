@@ -9678,7 +9678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token regexp="yes">nächste[ns]?</token>
-                        <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                        <token regexp="yes">&wochentage;|Woche(nende)?|Monat|Jahr</token>
                         <token postag="VER:.*:PRT.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
@@ -10061,7 +10061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geschah am <marker>30.10.</marker>.</example>
             </rule>
             <rule>
-                <regexp>3[01]\. (Februar|Feb)</regexp>
+                <regexp>3[01]\. Feb(ruar)?</regexp>
                 <message>Der Februar hat nur 28 Tage (bzw. 29 in Schaltjahren).</message>
                 <example correction="">Es geschah am <marker>31. Februar</marker>.</example>
                 <example correction="">Es geschah am <marker>30. Februar</marker>.</example>
