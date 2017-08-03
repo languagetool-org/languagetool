@@ -322,6 +322,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Worüber");
     } else if (word.equals("par")) {
       return Collections.singletonList("paar");
+    } else if (word.equals("Zynik")) {
+      return Collections.singletonList("Zynismus");
     } else if (word.matches("[aA]wa")) {
       return Arrays.asList("AWA", "ach was", "aber");
     } else if (word.equals("ch")) {
