@@ -318,6 +318,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Germanisten");
     } else if (word.matches("Germanistikerin(nen)?")) {
       return Collections.singletonList(word.replaceFirst("Germanistiker", "Germanist"));
+    } else if (word.matches("[eE]rhöherung")) {
+      return Collections.singletonList("Erhöhung"));
+    } else if (word.matches("[eE]rhöherungen")) {
+      return Collections.singletonList("Erhöhungen"));
     } else if (word.equals("Wöruber")) {
       return Collections.singletonList("Worüber");
     } else if (word.equals("par")) {
