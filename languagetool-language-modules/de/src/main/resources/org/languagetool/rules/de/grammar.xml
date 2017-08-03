@@ -9243,7 +9243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
-                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -9500,6 +9500,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ZUSAMMENSCHREIBUNG_HIN" name="Zusammenschreibung von Verben mit dem Präfix 'hin', 'hinzu', etc.">
             <antipattern>
+                <token>hinzu</token>
+                <token>kommt</token>
+                <token>,</token>
+                <token>dass</token>
+            </antipattern>
+            <antipattern>
                 <token>überall</token>
                 <token>hin</token>
             </antipattern>
@@ -9542,6 +9548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung! Meinten Sie <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion>?</message>
             <example correction="hineingegangen">Er ist bereits <marker>hinein gegangen</marker>.</example>
+            <example>Hinzu kommt, dass es gelogen ist.</example>
         </rule>
         <rulegroup id="ZUSAMMENSCHREIBUNG_VORAUS" name="Zusammenschreibung von Verben mit dem Präfix 'voraus', 'vorweg', etc.">
             <rule>
