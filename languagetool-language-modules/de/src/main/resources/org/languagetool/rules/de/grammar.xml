@@ -9585,6 +9585,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vorwärtsgedrängt">Von der Menge wurde sie <marker>vorwärts gedrängt</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="ZUSAMMENSCHREIBUNG_UEBER" name="Zusammenschreibung von Verben mit dem Präfix 'über'">
+            <antipattern>
+                <token regexp="yes">ganze[mnrs]?</token>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+                <token>über</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">Tag|Nacht|Abend|Sommer|Winter|Frühling|Herbst|Minute|Stunde|Woche|Monat|Jahr(hundert|tausend)?</token>
+                <token>über</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">gehen</token>
+                <token>über</token>
+            </antipattern>
+            <pattern>
+                <token>über</token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL.*|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Bitte überprüfen Sie die Zusammenschreibung! Meinten Sie <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion>?</message>
+            <example correction="übergeben">Der Junge hat sich <marker>über geben</marker>.</example>
+            <example correction="überdehnt">Sie hat sich hat den Fuß <marker>über dehnt</marker>.</example>
+            <example>Jahrhunderte <marker>über schlief</marker> das Ungeheuer in seiner Höhle.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -32651,15 +32674,69 @@ Andere Projekte</example>
                 <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
                 <example correction="zu, sondern">Warum nicht er nicht <marker>zu sondern</marker> ab?</example>
             </rule>
-            <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor Erläuterung" default="off">
-<!-- Sonderfälle noch nicht behandelt, deshalb deafult="off"  -->
+            <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor nachgestellter Erläuterung">
+                <antipattern>
+                    <token>ist</token>
+                    <token>der</token>
+                    <token>Preis</token>
+                    <token>einschließlich</token>
+                </antipattern>
+                <antipattern>
+                    <token>dabei</token>
+                    <token>insbesondere</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token regexp="yes">['´’]</token>
+                    <token>s</token>
+                    <token>also</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token>das</token>
+                    <token>nämlich</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token>also</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token regexp="yes">jetzt|dann</token>
+                    <token>also</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token postag="PRO:.*|EIG:.*" postag_regexp="yes"/>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–|—</token>
+                    <token/>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                    <token regexp="yes">\.|\?|!|:</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                    <token><exception regexp="yes">,|;|-|–|\(|„|“</exception></token>
-                    <token regexp="yes">nämlich|insbesondere</token>
+                    <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|“|bis|und|oder|sondern</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
+                    <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|also<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
                     </marker>
+                    <token regexp="yes">\.|\?|!|:</token>
                 </pattern>
-                <message>Wollen Sie ein Komma vor '\2' setzen?</message>
+                <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Jahreszeiten, nämlich">Es gibt vier <marker>Jahreszeiten nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
                 <example>Es gibt vier <marker>Jahreszeiten, nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
