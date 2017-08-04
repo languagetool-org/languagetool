@@ -1389,8 +1389,9 @@ title="Easy editing stylesheet" ?>
       <example>Nem sequer vi o que estava a fazer.</example>
     </rule>
 
-    <rule id='NEGATIVE_VERB_NENHUM' name="Negativas que requerem 'Nenhum'">
+  <rulegroup id='GRAMMATICAL_DOUBLE_NEGATIVES' name="Duplas negativas">
     <!--      Created by Tiago F. Santos, 2017-07-07      -->
+    <rule>
       <pattern>
           <token regexp='yes'>&negacoes;</token>
           <token postag='V.+' postag_regexp='yes'/>
@@ -1401,6 +1402,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2 nenhuma</suggestion>
       <example correction='Não fez nenhum|Não fez nenhuma'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
       <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
@@ -2562,7 +2564,7 @@ title="Easy editing stylesheet" ?>
           <token max='2'/>
           <token regexp='yes'>[.!?]</token>
       </antipattern>
-      <antipattern><!-- long holophrases -->
+      <antipattern><!-- simple holophrases -->
           <token postag='SENT_START'/>
           <token postag='_PUNCT'/>
           <token/>
@@ -2574,6 +2576,14 @@ title="Easy editing stylesheet" ?>
           <token postag='SENT_START'/>
           <token max='4'/>
           <token>!</token>
+      </antipattern>
+      <antipattern><!-- XXX LibreOffice specific antipattern -->
+      <!-- TODO Libreoffice plug-in tokenizes enumerations differently, so, it triggers an error that does not exist in the LT-server, nor LT-standalone. Verify. -->
+          <token postag='SENT_START'/>
+          <token regexp='yes'>\d{2}|\p{L}</token>
+          <token regexp='yes'>[\.\)]</token>
+          <token max='3'/>
+          <token regexp='yes'>[.!?]</token>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
@@ -2612,6 +2622,10 @@ title="Easy editing stylesheet" ?>
       <example>Certo, isto está bem. Este exemplo está correto. Certo que este também.</example>
       <example>Este exemplo está correto. Este segundo também. Este terceiro exemplo não.</example>
       <example>Os melhores cumprimentos,</example>
+      <example><marker>A.1.</marker> Primeiro Anexo</example>
+      <example><marker>9.7.1.</marker> Subcapítulo</example>
+      <example>A) Primeiro Anexo.</example>
+      <example>a) Primeiro Anexo.</example>
     </rule>
 
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
@@ -4828,8 +4842,9 @@ title="Easy editing stylesheet" ?>
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
     </rule>
 
-  <rulegroup type='grammar' id='CONTRACOES' name="Contrações">
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
+  <rulegroup type='grammar' id='CONTRACOES' name="Contrações" default='off'>
+    <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
+      <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
       <short>Utilize a contração.</short>
     <!--     Created by Tiago F. Santos, on 2016-10-31  ****START**** -->
     <rule id='CONTRACAO_À' name='A + a'>
@@ -4866,7 +4881,6 @@ title="Easy editing stylesheet" ?>
           <token negate_pos='yes' postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer <suggestion>aonde</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='aonde'><marker>a onde</marker>.</example>
     </rule>
     <rule id='CONTRACAO_DELA' name='De + ela'>
@@ -4898,7 +4912,7 @@ title="Easy editing stylesheet" ?>
       <message>Será que quis dizer <suggestion>donde</suggestion>?</message>
       <example correction='donde'><marker>de onde</marker>.</example>
     </rule>
-    <rule default='on' id='CONTRACAO_DACOLÁ' name='De + artigos'>
+    <rule default='off' id='CONTRACAO_DACOLÁ' name='De + artigos'>
       <pattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>acolá|aí|ali|aquel[ae]s?|aqui(lo)?|es[st][ae]s?|entre|is[st]o</token>
@@ -4952,7 +4966,6 @@ title="Easy editing stylesheet" ?>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
       <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
       <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
@@ -4981,7 +4994,6 @@ title="Easy editing stylesheet" ?>
           <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|entre|is[st]o|onde</token>
       </pattern>
       <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
-      <url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
       <example correction='na'><marker>em a</marker>.</example>
       <example correction='naquela'><marker>em aquela</marker>.</example>
       <example correction='naquelas'><marker>em aquelas</marker>.</example>
@@ -5026,7 +5038,6 @@ title="Easy editing stylesheet" ?>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
       </pattern>
       <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
       <example correction='num'><marker>em um</marker> belo dia.</example>
       <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
       <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>

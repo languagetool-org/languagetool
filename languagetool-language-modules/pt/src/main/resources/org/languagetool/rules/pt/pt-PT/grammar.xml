@@ -470,11 +470,12 @@ title="Easy editing stylesheet" ?>
 
  <category id="CONTRACTIONS" name="Contrações">
 
-  <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
+  <rulegroup type='grammar' id="CONTRACOES" name="Contrações" default='off'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-      <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
+    <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
+      <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
       <short>Utilize a contração.</short>
-    <rule default='on' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
+    <rule default='off' id='CONTRACAO_DOUTREM' name='De + outro/outrem'>
       <pattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
@@ -486,7 +487,7 @@ title="Easy editing stylesheet" ?>
       <example correction='doutra'><marker>de outra</marker>.</example>
       <example correction='doutras'><marker>de outras</marker>.</example>
     </rule>
-    <rule default='on' id='CONTRACAO_DUM' name='De + um/uns'>
+    <rule default='off' id='CONTRACAO_DUM' name='De + um/uns'>
       <antipattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
@@ -503,7 +504,7 @@ title="Easy editing stylesheet" ?>
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
       <example correction='duns'><marker>de uns</marker> rios.</example>
     </rule>
-    <rule default='on' id='CONTRACAO_NUM' name='Em + um/uns'>
+    <rule default='off' id='CONTRACAO_NUM' name='Em + um/uns'>
       <antipattern>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
