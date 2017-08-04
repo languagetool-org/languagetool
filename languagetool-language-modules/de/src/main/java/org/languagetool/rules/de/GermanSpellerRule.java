@@ -166,8 +166,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         suggestions.set(i, s.replace("ß", "ss"));
       }
     }
-    // Remove suggestions like "Mafiosi s":
-    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> k.length() == 1));
+    // Remove suggestions like "Mafiosi s" and "Mafiosi s.":
+    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> k.matches("\\w\\p{Punct}?")));
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
