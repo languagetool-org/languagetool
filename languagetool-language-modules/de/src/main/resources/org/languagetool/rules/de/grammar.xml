@@ -32864,6 +32864,15 @@ Andere Projekte</example>
                     <token>insbesondere</token>
                 </antipattern>
                 <antipattern>
+                    <token>insbesondere</token>
+                    <token>in</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token>insbesondere</token>
+                </antipattern>
+                <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
                     <token postag="PRO:.*" postag_regexp="yes"/>
                     <token regexp="yes">['´’]</token>
@@ -32886,6 +32895,10 @@ Andere Projekte</example>
                     <token postag="PRO:.*" postag_regexp="yes"/>
                     <token postag="VER.*" postag_regexp="yes"/>
                     <token regexp="yes">jetzt|dann</token>
+                    <token>also</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">sein</token>
                     <token>also</token>
                 </antipattern>
                 <antipattern>
@@ -32912,12 +32925,17 @@ Andere Projekte</example>
                     <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|“|bis|und|oder|sondern</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
                     <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|also<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token regexp="yes">\.|\?|!|:</token>
+                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Jahreszeiten, nämlich">Es gibt vier <marker>Jahreszeiten nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
                 <example>Es gibt vier <marker>Jahreszeiten, nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
+                <example>Als Wissenschaft vom Erleben und Verhalten des Menschen einschließlich der biologischen bzw. neurowissenschaftlichen Grundlagen ist die Psychologie von vornherein interdisziplinär ausgerichtet.</example>
+                <example>Die aristotelische Philosophie widerspricht der christlichen Lehre insbesondere in zwei Punkten: Sie verneint die Schöpfung und die Unsterblichkeit der Seele.</example>
+                <example>Den größten Einfluss hatte Aristoteles im 20. Jahrhundert in der Ethik (Tugendethik) und der politischen Philosophie (in Deutschland insbesondere in der Schule um Joachim Ritter, im angelsächsischen Raum im Kommunitarismus).</example>
+                <example>Bei starker Produktionsauslastung und stabiler Nachfrage scheuen Unternehmen insbesondere längere Arbeitskämpfe.</example>
+                <example>Diese beiden Aussagen lassen sich ihrerseits nicht mehr in weitere Aussagen zerlegen, sind aus aussagenlogischer Sicht also elementar oder atomar.</example>
             </rule>
             <rule id="KOMMA_VOR_UND_ODER" name="Fehlerhaftes Komma vor 'und' oder 'oder'">
                 <antipattern>
