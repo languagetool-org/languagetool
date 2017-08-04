@@ -1402,6 +1402,28 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2 nenhuma</suggestion>
       <example correction='Não fez nenhum|Não fez nenhuma'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>alguém</token>
+      </pattern>
+      <message>Esta situação requer a utilização de 'ninguém'.</message>
+        <suggestion>\1 \2 ninguém</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não vi ninguém|Não, vi alguém'><marker>Não vi alguém</marker> em casa.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>algo</token>
+      </pattern>
+      <message>Esta situação requer a utilização de 'ninguém'.</message>
+        <suggestion>\1 \2 nada</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não quero nada|Não, quero algo'><marker>Não quero algo</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
