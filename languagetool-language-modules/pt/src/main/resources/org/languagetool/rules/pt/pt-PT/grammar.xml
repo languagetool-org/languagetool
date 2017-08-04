@@ -318,9 +318,10 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
+  <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
     <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
     <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
+    <rule>
       <antipattern>
           <token inflected="yes">ser</token>
           <token postag='DP.*' postag_regexp='yes'></token>
@@ -334,7 +335,7 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">["“]</token>
       </antipattern>
       <pattern>
-          <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
+          <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|de em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
           <token postag='DP.*' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer:</message>
@@ -349,6 +350,35 @@ title="Easy editing stylesheet" ?>
       <example>Apesar de reafirmar que vai prosseguir o “seu dever” no acolhimento às vagas de migrantes.</example>
     <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
     </rule>
+    <rule>
+      <antipattern>
+          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">&pronomes_de_tratamento;</token>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token postag='DP.*' postag_regexp='yes'></token>
+      </pattern>
+      <message>Será que quis dizer:</message>
+        <suggestion>d<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+      <example correction='da sua'>Leve a cesta <marker>de sua</marker> irmã.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">&pronomes_de_tratamento;</token>
+      </antipattern>
+      <pattern>
+          <token>em</token>
+          <token postag='DP.*' postag_regexp='yes'></token>
+      </pattern>
+      <message>Será que quis dizer:</message>
+        <suggestion>n<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+      <example correction='na sua'>Leve <marker>em sua</marker> cesta.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='AVOID_GERUND' name='Evitar o Gerúndio (perifrásico)' default='on' type='style'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
