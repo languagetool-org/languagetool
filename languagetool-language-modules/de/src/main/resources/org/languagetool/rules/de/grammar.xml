@@ -27133,11 +27133,12 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker><token>bedenken</token></marker>
-                    <token>gegen</token>
+                    <token inflected="yes" regexp="yes">gegen|haben</token>
                 </pattern>
                 <message>Meinten Sie das Hauptwort 'die <suggestion><match no="1" case_conversion="startupper"/></suggestion>?</message>
                 <short>&prgk;.</short>
                 <example correction="Bedenken">Die <marker>bedenken</marker> gegen das Projekt sind unbegründet.</example>
+                <example correction="Bedenken">Weil sie <marker>bedenken</marker> hatte, verbot sie es.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -27148,6 +27149,18 @@ Andere Projekte</example>
                 <message>Meinten Sie das Verb '<suggestion><match no="3" case_conversion="startlower"/></suggestion>?</message>
                 <short>&prgk;.</short>
                 <example correction="bedenken">Er gab zu <marker>Bedenken</marker>, dass eine lange Pause erforderlich wäre.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UNTERTAN" name="Untertan (untertan)">
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes">Untertan</token></marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>In der Wendung 'sich etwas <suggestion><match no="1" case_conversion="startlower"/></suggestion> machen' (=beherrschen) handelt es sich bei 'untertan' ein Adjektiv, das kleingeschreiben werden muss.</message>
+                <short>&prgk;.</short>
+                <example correction="untertan">Der Mensch hat sich die Erde <marker>Untertan</marker> gemacht.</example>
             </rule>
         </rulegroup>
     </category>
