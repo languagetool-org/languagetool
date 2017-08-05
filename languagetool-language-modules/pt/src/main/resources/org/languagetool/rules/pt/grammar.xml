@@ -4896,6 +4896,86 @@ title="Easy editing stylesheet" ?>
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
     </rule>
 
+  <rulegroup type='grammar' id='CONTRACOES_OBRIGATORIAS' name="Contrações obrigatórias">
+    <!--     Created by Tiago F. Santos, on 2016-10-31   -->
+      <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
+      <short>Utilize a contração.</short>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>as?</token>
+      </antipattern>
+      <pattern>
+          <token>a</token>
+          <token regexp='yes'>as?|aquel[ae]s?|aquilo</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion><match no='2' regexp_match='^a(.*)' regexp_replace='à$1'/></suggestion>?</message>
+      <example correction='à'><marker>a a</marker>.</example>
+      <example correction='às'><marker>a as</marker>.</example>
+      <example correction='àquela'><marker>a aquela</marker>.</example>
+      <example correction='àquelas'><marker>a aquelas</marker>.</example>
+      <example correction='àquele'><marker>a aquele</marker>.</example>
+      <example correction='àqueles'><marker>a aqueles</marker>.</example>
+      <example correction='àquilo'><marker>a aquilo</marker>.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>os?</token>
+      </antipattern>
+      <pattern>
+          <token>a</token>
+          <token regexp='yes'>os?|diante</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>a\2</suggestion>?</message>
+      <example correction='ao'><marker>a o</marker>.</example>
+      <example correction='aos'><marker>a os</marker>.</example>
+      <example correction='adiante'><marker>a diante</marker>.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
+          <token postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token regexp='yes'>[ao]s?</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>d\2</suggestion>?</message>
+      <example correction='da'><marker>de a</marker>.</example>
+      <example>A forma melhor de o escrever, é esta.</example>
+      <example correction='das'><marker>de as</marker>.</example>
+      <example correction='do'><marker>de o</marker>.</example>
+      <example correction='dos'><marker>de os</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>em</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|entre|is[st]o</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
+      <example correction='na'><marker>em a</marker>.</example>
+      <example correction='naquela'><marker>em aquela</marker>.</example>
+      <example correction='naquelas'><marker>em aquelas</marker>.</example>
+      <example correction='naquele'><marker>em aquele</marker>.</example>
+      <example correction='naqueles'><marker>em aqueles</marker>.</example>
+      <example correction='naquilo'><marker>em aquilo</marker>.</example>
+      <example correction='nas'><marker>em as</marker>.</example>
+      <example correction='nessa'><marker>em essa</marker>.</example>
+      <example correction='nessas'><marker>em essas</marker>.</example>
+      <example correction='nesse'><marker>em esse</marker>.</example>
+      <example correction='nesses'><marker>em esses</marker>.</example>
+      <example correction='nesta'><marker>em esta</marker>.</example>
+      <example correction='nestas'><marker>em estas</marker>.</example>
+      <example correction='neste'><marker>em este</marker>.</example>
+      <example correction='nestes'><marker>em estes</marker>.</example>
+      <example correction='nisso'><marker>em isso</marker>.</example>
+      <example correction='nisto'><marker>em isto</marker>.</example>
+      <example correction='no'><marker>em o</marker>.</example>
+      <example correction='nos'><marker>em os</marker>.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup type='grammar' id='CONTRACOES' name="Contrações opcionais" default='off'>
     <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
