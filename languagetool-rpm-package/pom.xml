@@ -19,17 +19,64 @@
 	</properties>
 
 	<description>
-		Language Tool
+		LanguageTool is a proofreading service for more than 20 languages.
 	</description>
-	<url>http://languagetool.org</url>
+	<url>https://www.languagetool.org</url>
 
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<id>prepare-lt-conf-sample</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${project.basedir}/src/main/resources/templates/lt.conf.sample.template</file>
+							<outputFile>target/lt.conf.sample</outputFile>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>$MVN_LT_HOME_PLACEHOLDER$</token>
+									<value>/usr/share/java/${parent.project.name}-${project.version}</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>prepare-lt-systemd-service</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${project.basedir}/src/main/resources/templates/${parent.project.name}.service.template</file>
+							<outputFile>target/${parent.project.name}.service</outputFile>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>$MVN_LT_HOME_PLACEHOLDER$</token>
+									<value>/usr/share/java/${parent.project.name}-${project.version}</value>
+								</replacement>
+								<replacement>
+									<token>$MVN_LT_VERSION_PLACEHOLDER$</token>
+									<value>${project.version}</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>de.dentrassi.maven</groupId>
 				<artifactId>rpm</artifactId>
 				<version>0.9.2</version>
-
 				<executions>
 					<execution>
 						<goals>
@@ -56,8 +103,8 @@
 												<type>directory</type>
 											</when>
 											<mode>755</mode>
-											<user>root</user>
-											<group>root</group>
+											<user>ltuser</user>
+											<group>ltuser</group>
 										</rule>
 
 										<rule>
@@ -65,13 +112,18 @@
 												<type>file</type>
 											</when>
 											<mode>444</mode>
-											<user>root</user>
-											<group>root</group>
+											<user>ltuser</user>
+											<group>ltuser</group>
 										</rule>
 									</rules>
 								</ruleset>
 							</rulesets>
 							<entries>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}</name>
+									<ruleset>default-ruleset</ruleset>
+									<directory>true</directory>
+								</entry>
 								<entry>
 									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/hunspell-native-libs.jar</name>
 									<file>../hunspell-native-libs/target/hunspell-native-libs-${project.version}.jar</file>
@@ -655,55 +707,90 @@
 								<!-- Shell scripts and configuration files -->
 								<!-- Shell script to run LT server -->
 								<entry>
-									<name>/usr/bin/ltserver</name>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/ltserver</name>
 									<file>src/main/resources/ltserver</file>
 									<ruleset>default-ruleset</ruleset>
+									<mode>0750</mode>
+								</entry>
+								<!-- Shell script for running LT command-line tool, GUI and other 
+									stuff -->
+								<entry>
+									<name>/usr/bin/ltshell</name>
+									<file>src/main/resources/ltshell</file>
+									<ruleset>default-ruleset</ruleset>
 									<mode>0755</mode>
 								</entry>
-								<!-- Shell script for running LT command-line tool -->
+								<!-- Links to LTshell - same idea as in BusyBox. Many commands are 
+									aliases to one executable -->
 								<entry>
 									<name>/usr/bin/ltcmd</name>
-									<file>src/main/resources/ltcmd</file>
-									<ruleset>default-ruleset</ruleset>
-									<mode>0755</mode>
+									<linkTo>ltshell</linkTo>
 								</entry>
-								<!-- Shell script for running LT GUI -->
 								<entry>
 									<name>/usr/bin/ltgui</name>
-									<file>src/main/resources/ltgui</file>
-									<ruleset>default-ruleset</ruleset>
-									<mode>0755</mode>
+									<linkTo>ltshell</linkTo>
+								</entry>
+								<entry>
+									<name>/usr/bin/ltdictbld</name>
+									<linkTo>ltshell</linkTo>
 								</entry>
 								<!-- Systemd file for systems supporting it -->
 								<entry>
 									<name>/usr/lib/systemd/system/${parent.project.name}.service</name>
-									<file>src/main/resources/${parent.project.name}.service</file>
+									<file>target/${parent.project.name}.service</file>
 									<ruleset>default-ruleset</ruleset>
-									<mode>0755</mode>
 								</entry>
 								<!-- Configuration directory -->
 								<entry>
 									<name>/etc/${parent.project.name}</name>
-									<collect>
-										<from>src/main/resources/etc</from>
-									</collect>
 									<ruleset>default-ruleset</ruleset>
+									<directory>true</directory>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/lt.conf.sample</name>
+									<file>target/lt.conf.sample</file> <!-- Replaced values -->
+									<ruleset>default-ruleset</ruleset>
+									<configuration>true</configuration>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/server.properties.sample</name>
+									<file>src/main/resources/server.properties.sample</file>
+									<ruleset>default-ruleset</ruleset>
+									<configuration>true</configuration>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/makekeystore.sh</name>
+									<file>src/main/resources/makekeystore.sh</file>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0755</mode>
 								</entry>
 								<!-- Log directory -->
 								<entry>
 									<name>/var/log/${parent.project.name}</name>
 									<directory>true</directory>
 									<ruleset>default-ruleset</ruleset>
-									<mode>0777</mode>
+									<mode>0755</mode>
 								</entry>
 								<!-- Run directory -->
 								<entry>
 									<name>/var/run/${parent.project.name}</name>
 									<directory>true</directory>
 									<ruleset>default-ruleset</ruleset>
-									<mode>0777</mode>
+									<mode>0755</mode>
 								</entry>
 							</entries>
+							<beforeInstallation>
+								<script>
+									id ltuser >/dev/null 2>&amp;1
+									if [ $? -eq 1 ]; then
+									useradd ltuser \
+									-d
+									/usr/share/java/${parent.project.name}-${project.version} \
+									-c
+									"Language Tool Technical User" -M -s /bin/false -U
+									fi
+								</script>
+							</beforeInstallation>
 						</configuration>
 					</execution>
 				</executions>
