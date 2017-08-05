@@ -159,6 +159,13 @@ title="Easy editing stylesheet" ?>
     <!--            General gender concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+      <antipattern case_sensitive='yes'><!-- XXX Proper names exception -->
+          <unify negate='yes'>
+            <feature id="gender"/><feature id="number"/>
+          <token regexp='yes'>\p{Lu}.+</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+          </unify>
+      </antipattern>
     <rule>
       <antipattern>
           <unify>
@@ -176,7 +183,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
           <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(N.|A..|Z.)CS.+'/></token>
-          <token postag='(N.|A..)F.+' postag_regexp='yes'>
+          <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
             <exception postag='(N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
@@ -476,6 +483,13 @@ title="Easy editing stylesheet" ?>
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+      <antipattern case_sensitive='yes'>
+          <unify negate='yes'><!-- XXX Proper names exception -->
+            <feature id="gender"/><feature id="number"/>
+          <token regexp='yes'>\p{Lu}.+</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+          </unify>
+      </antipattern>
     <rule>
       <antipattern>
           <token regexp='yes'>(&precede_nome_proprio;)s</token>
@@ -1403,7 +1417,8 @@ title="Easy editing stylesheet" ?>
       <message>Esta situação requer a utilização de 'nenhum(a)'.</message>
         <suggestion>\1 \2 nenhum</suggestion>
         <suggestion>\1 \2 nenhuma</suggestion>
-      <example correction='Não fez nenhum|Não fez nenhuma'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não fez nenhum|Não fez nenhuma|Não, fez qualquer'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
     </rule>
     <rule>
       <pattern>
@@ -4881,15 +4896,19 @@ title="Easy editing stylesheet" ?>
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
     </rule>
 
-  <rulegroup type='grammar' id='CONTRACOES' name="Contrações" default='off'>
+  <rulegroup type='grammar' id='CONTRACOES' name="Contrações opcionais" default='off'>
     <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
       <short>Utilize a contração.</short>
     <!--     Created by Tiago F. Santos, on 2016-10-31  ****START**** -->
     <rule id='CONTRACAO_À' name='A + a'>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>as?</token>
+      </antipattern>
       <pattern>
           <token>a</token>
-          <token regexp='yes'>as?|aquel[ae]s?|aquilo</token>
+          <token regexp='yes'>as?|aquel[ae]s?|aquilo|os?|diante</token>
       </pattern>
       <message>Será que quis dizer <suggestion><match no='2' regexp_match='^a(.*)' regexp_replace='à$1'/></suggestion>?</message>
       <example correction='à'><marker>a a</marker>.</example>
@@ -4901,6 +4920,10 @@ title="Easy editing stylesheet" ?>
       <example correction='às'><marker>a as</marker>.</example>
     </rule>
     <rule id='CONTRACAO_ADIANTE' name='A + diante'>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>os?</token>
+      </antipattern>
       <pattern>
           <token>a</token>
           <token regexp='yes'>os?|diante</token>
@@ -6445,7 +6468,7 @@ use REPEATED_WORDS_3X as a fallback		 	-->
           <token><match no="1"/>
             <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
+            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>\d*['"/\|%]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
