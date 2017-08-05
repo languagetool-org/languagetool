@@ -500,12 +500,12 @@ title="Easy editing stylesheet" ?>
 
  <category id="CONTRACTIONS" name="Contrações">
 
-  <rulegroup type='grammar' id="CONTRACOES" name="Contrações" default='off'>
+  <rulegroup type='grammar' id="CONTRACOES" name="Contrações" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
     <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
       <short>Utilize a contração.</short>
-    <rule id='CONTRACAO_DOUTREM' name='De + outro/outrem'><!--  default='off' -->
+    <rule id='CONTRACAO_DOUTREM' name='De + outro/outrem' default='off'>
       <pattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
@@ -517,7 +517,7 @@ title="Easy editing stylesheet" ?>
       <example correction='doutra'><marker>de outra</marker>.</example>
       <example correction='doutras'><marker>de outras</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_DUM' name='De + um/uns'><!--  default='off' -->
+    <rule id='CONTRACAO_DUM' name='De + um/uns' default='off'>
       <antipattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
@@ -534,7 +534,7 @@ title="Easy editing stylesheet" ?>
       <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
       <example correction='duns'><marker>de uns</marker> rios.</example>
     </rule>
-    <rule id='CONTRACAO_NUM' name='Em + um/uns'><!--  default='off' -->
+    <rule id='CONTRACAO_NUM' name='Em + um/uns' default='on'>
       <antipattern>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
@@ -731,6 +731,12 @@ title="Easy editing stylesheet" ?>
       <example correction='gozou'>Ela o <marker>xingou</marker> por não cortar o gramado.</example><!-- TODO Add xingar POSs to tagger -->
       <example>os rios Juruá, Purus, Madeira, Tapajós e Xingu.</example>
     </rule>
+    <rule id='BRASILEIRISMO_18_CANCER' name='Brasileirismo: cancêr'>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>c[aâ]ncer.*</token>
+      </pattern>
+      <message>Se não se está a referir à constelação, esta é uma expressão de Português do Brasil.</message>
+      <example correction='gozou'>O <marker>câncer</marker> é um problema grave de saúde pública.</example>
   </rulegroup>
 
  </category>
