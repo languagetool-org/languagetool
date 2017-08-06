@@ -321,6 +321,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
     <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
     <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
+      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
     <rule>
       <antipattern>
           <token inflected="yes">ser</token>
@@ -331,16 +332,16 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">[ao]s?|uma?s?|uns|por|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
+          <token regexp="yes">[ao]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
           <token regexp="yes">["“]</token>
       </antipattern>
       <pattern>
-          <token><exception regexp="yes">[ao]s?|uma?s?|uns|por|de em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
+          <token>
+            <exception regexp="yes">[ao]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
           <token postag='DP.*' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>\1 <match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
-      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
       <example correction='honrou a sua'>Augusto <marker>honrou sua</marker> memória com um magnífico funeral.</example>
       <example correction='Leve a sua'><marker>Leve sua</marker> irmã no carro.</example>
       <example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
@@ -355,13 +356,16 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">(sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token regexp="yes">["“]</token>
+      </antipattern>
       <pattern>
           <token>de</token>
           <token postag='DP.*' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>d<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
-      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
       <example correction='da sua'>Leve a cesta <marker>de sua</marker> irmã.</example>
     </rule>
     <rule>
@@ -369,13 +373,16 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">(sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
+      <antipattern>
+          <token>em</token>
+          <token regexp="yes">["“]</token>
+      </antipattern>
       <pattern>
           <token>em</token>
           <token postag='DP.*' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>n<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
-      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
       <example correction='na sua'>Leve <marker>em sua</marker> cesta.</example>
     </rule>
   </rulegroup>
@@ -446,8 +453,8 @@ title="Easy editing stylesheet" ?>
       <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
     </rule>
 
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
   <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
     <rule>
       <pattern>
           <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
@@ -475,7 +482,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
     <rule>
       <pattern>
-          <token regexp="yes">o|de|do</token>
+          <token regexp="yes">(d|n|outr|pel)?os?|(alg|d|n)?(um|uns)|em</token>
         <marker>
           <token>controle</token>
         </marker>
@@ -487,12 +494,10 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>sob</token>
-        <marker>
           <token>controle</token>
-        </marker>
       </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
+      <message>Grafia do Brasil. Substitua por <suggestion>sob controlo</suggestion>.</message>
+      <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
     </rule>
   </rulegroup>
 
@@ -739,6 +744,14 @@ title="Easy editing stylesheet" ?>
       <example type='incorrect'>O <marker>câncer</marker> é um problema grave de saúde pública.</example>
       <example type='correct'>O <marker>cancro</marker> é um problema grave de saúde pública.</example>
     </rule>
+    <rule id='BRASILEIRISMO_19_TIMES' name='Brasileirismo: time - equipa'>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>times?</token>
+      </pattern>
+      <message>Esta é uma expressão de Português do Brasil para '<suggestion>equipa<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>', ou inglesa para '<suggestion>tempo<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>'.</message>
+      <example correction='equipas|tempos'>Nossos <marker>times</marker> vão jogar hoje.</example>
+      <example>O jornal The <marker>Times</marker> é britânica.</example>
+    </rule>
   </rulegroup>
 
  </category>
@@ -881,7 +894,7 @@ title="Easy editing stylesheet" ?>
         FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
       <antipattern>
           <token postag="V.+" postag_regexp='yes'>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token>se</token>
       </antipattern>
       <pattern>
@@ -1004,8 +1017,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
-          <token min='0' regexp='yes'>&hifen;</token>
-          <token regexp='yes' case_sensitive="yes">[^hrs].+</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes' case_sensitive="yes" spacebefore='no'>[^hrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
         <suggestion>\1\3</suggestion>
@@ -1036,7 +1049,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>infra|intra|supra|ultra|mega</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1046,7 +1059,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>extra</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
       </pattern>
       <message>Neste contexto deve unir as palavras.</message>
@@ -1066,7 +1079,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>tele</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ehrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1085,7 +1098,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ihrs].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1104,7 +1117,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1115,7 +1128,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>r.+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1123,14 +1136,19 @@ title="Easy editing stylesheet" ?>
       <example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>retro</token>
+          <token>satanás</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>s.+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1s\3</suggestion>
       <example correction='multissecular'>Esta é uma história <marker>multi secular</marker>.</example>
+      <example>Vade retro satanás!</example>
     </rule>
     <rule>
       <pattern>
@@ -1156,7 +1174,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>ob|sub</token>
     <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
@@ -1176,7 +1194,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>circum|pan</token>
-          <token min='0' regexp='yes'>&hifen;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>

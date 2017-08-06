@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
@@ -78,17 +79,17 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
-    if (text.length() > config.maxTextLength) {
+    if (aText.getPlainText().length() > config.maxTextLength) {
       throw new TextTooLongException("Your text exceeds this server's limit of " + config.maxTextLength +
-              " characters (it's " + text.length() + " characters). Please submit a shorter text.");
+              " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
-    Language lang = getLanguage(text, parameters, preferredVariants);
+    Language lang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
@@ -118,7 +119,7 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(text, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(aText, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
       }
     });
     boolean incompleteResult = false;
@@ -141,7 +142,7 @@ abstract class TextChecker {
         String message = "Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() +
-                         ", " + text.length() + " characters of text, system load: " + loadInfo + ")";
+                         ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running it seems, so make a copy
@@ -153,7 +154,7 @@ abstract class TextChecker {
     }
 
     setHeaders(httpExchange);
-    String response = getResponse(text, lang, motherTongue, matches, incompleteResult);
+    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, incompleteResult);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
@@ -178,26 +179,26 @@ abstract class TextChecker {
       count++;
     }
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
-    print("Check done: " + text.length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
+    print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
   }
 
   protected void checkParams(Map<String, String> parameters) {
-    if (parameters.get("text") == null) {
-      throw new IllegalArgumentException("Missing 'text' parameter");
+    if (parameters.get("text") == null && parameters.get("data") == null) {
+      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
     }
   }
 
-  private List<RuleMatch> getRuleMatches(String text, Language lang,
+  private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, QueryParams params, RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
     }
     JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
-    return lt.check(text, listener);
+    return lt.check(aText, listener);
   }
 
   @NotNull

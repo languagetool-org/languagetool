@@ -503,6 +503,14 @@ public class JLanguageTool {
   }
   
   /**
+   * @since 3.9
+   */
+  @Experimental
+  public List<RuleMatch> check(AnnotatedText text, RuleMatchListener listener) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL, listener);
+  }
+  
+  /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * @param annotatedText The text to be checked, created with {@link AnnotatedTextBuilder}. 

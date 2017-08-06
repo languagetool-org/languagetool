@@ -28,6 +28,9 @@
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
     - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
+#### Russian
+  * spelling dictionary update
+
 #### Java API
   * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
     document-level meta data. This might be used by rules in the future.
