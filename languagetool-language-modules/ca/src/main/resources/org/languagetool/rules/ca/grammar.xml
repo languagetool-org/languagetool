@@ -14983,7 +14983,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">ingenis?</token>
             </pattern>
-            <message>Possible confusió. "Ingeni" només és correcte en el sentit de "plantació de canya de sucre".</message>
+            <message>Possible confusió. "Ingeni" s'usa normalment en el sentit de "plantació de canya de sucre".</message>
             <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="enginy$1"/></suggestion>
             <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="giny$1"/></suggestion>
             <short>Possible confusió</short>
@@ -33023,17 +33023,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amb prou feines|amb penes i treballs"><marker>a dures penes</marker></example>
             <example>amb prou feines</example>
         </rule>
-        <rule id="TOT_I_AIXI" name="tot i així" default="off">
-            <pattern>
-                <token>tot</token>
-                <token>i</token>
-                <token>així</token>
-            </pattern>
-            <message>Val més dir: <suggestion>així i tot</suggestion> o <suggestion>tot i això</suggestion>.</message>
-            <short>Expressió preferible</short>
-            <example correction="així i tot|tot i això"><marker>tot i així</marker></example>
-            <example>així i tot</example>
-        </rule>
         <rule id="NO_TENIR_PER_QUE" name="no tenir per què">
             <pattern>
                 <token>no</token>
@@ -39179,6 +39168,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="TOT_I_AIXI" name="tot i així">
+            <pattern>
+                <token>tot</token>
+                <token>i</token>
+                <token>així</token>
+            </pattern>
+            <message>Expressió preferible.</message>
+            <suggestion>així i tot</suggestion>
+            <suggestion>tot i això</suggestion>
+            <example correction="així i tot|tot i això"><marker>tot i així</marker></example>
+            <example>així i tot</example>
+        </rule>
         <rulegroup id="SER_ESSER" name="Exigeix ser (verb) / ésser (nom)">
             <antipattern>
                 <marker>
