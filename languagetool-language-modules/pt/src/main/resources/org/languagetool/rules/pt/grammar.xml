@@ -19727,6 +19727,61 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='HOMOPHONE_AS_CARD' name='Homófonas: ás -> às'>
+    <!-- Created by Tiago F. Santos, 2017-08-05 -->
+      <url>https://pt.wiktionary.org/wiki/senso</url>
+      <short>Confusão de termos.</short>
+    <rule>
+      <pattern>
+          <token>às</token>
+          <token regexp='yes'>de|na</token>
+          <token regexp='yes'>manga|&naipes;</token>
+      </pattern>
+      <message>Confusão de termos. A carta escreve-se com acento agudo.</message>
+        <suggestion>ás \2 \3</suggestion>
+      <example correction='ás na manga'>Será que tem um <marker>às na manga</marker>?</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>às</token>
+          <token regexp='yes'>d[ao]s?</token>
+      </pattern>
+      <message>Confusão de termos. Um indivíduo valoroso escreve-se com acento agudo.</message>
+        <suggestion>ás \2</suggestion>
+      <example correction='ás do'>Foi reconhecido como "<marker>às do</marker> volante".</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='D..MS.+'/>
+          <token>às</token>
+      </pattern>
+      <message>Confusão de termos. A carta escreve-se com acento agudo.</message>
+        <suggestion>\1 ás</suggestion>
+      <example correction='um ás'>Será que tem <marker>um às</marker>?</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>ás</token>
+          <token regexp='yes'>de|na</token>
+          <token regexp='yes'>manga|copas|o[iu]ros|espadas|paus</token>
+      </antipattern>
+      <antipattern>
+          <token>às</token>
+          <token regexp='yes'>d[ao]s?</token>
+      </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='D..MS.+'/>
+          <token>ás</token>
+      </antipattern>
+      <pattern>
+          <token>ás</token>
+      </pattern>
+      <message>Confusão de termos. A contração (a+as) escreve-se com acento grave.</message>
+        <suggestion>às</suggestion>
+      <example correction='às'>Ele saiu <marker>ás</marker> cinco horas.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='CENSO_SENSO' name='Confusão: senso -> censo'>
     <!-- Created by Tiago F. Santos, 2017-04-19, based on LightProof rule -->
       <url>https://pt.wiktionary.org/wiki/senso</url>
