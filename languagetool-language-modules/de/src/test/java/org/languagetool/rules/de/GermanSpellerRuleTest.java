@@ -191,8 +191,12 @@ public class GermanSpellerRuleTest {
     assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));            // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));           // from spelling.txt with suffix
+    assertFalse(ruleGermany.doIgnoreWord("wichtelmännchen"));           // from spelling.txt, no reason to accept it as lowercase
+    assertFalse(ruleGermany.doIgnoreWord("wichtelmännchens"));          // from spelling.txt with suffix, no reason to accept it as lowercase
     assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));                 // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));               // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("Vorgehängt"));                 // from spelling.txt, it's lowercase there but we accept uppercase
+    assertTrue(ruleGermany.doIgnoreWord("Vorgehängten"));               // from spelling.txt with suffix, it's lowercase there but we accept uppercase
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-vorgehängt")); // from spelling.txt formed hyphenated compound
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-Au-pair"));    // from spelling.txt formed hyphenated compound
     assertTrue(ruleGermany.doIgnoreWord("Fermi-Dirac-Statistik"));      // from spelling.txt formed hyphenated compound
