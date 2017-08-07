@@ -63,7 +63,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    setConvertsCase(true);
   }
 
   @Override

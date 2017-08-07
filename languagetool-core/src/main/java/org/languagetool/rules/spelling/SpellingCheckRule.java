@@ -180,6 +180,9 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Used to check whether the dictionary will use case conversions for
+   * spell checking.
+   * @return true if the dictionary converts case
    * @since 2.5
    * @deprecated deprecated as there's no internal use in LT, complain and describe your use case if you need this (deprecated since 3.9)
    */
@@ -188,9 +191,8 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * Used to determine whether the ignore word list should be considered semi case-insensitive, i.e.
-   * whether lowercase words should also be accepted with an uppercase first letter (useful to accept
-   * words at the start of a sentence).
+   * Used to determine whether the dictionary will use case conversions for
+   * spell checking.
    * @param convertsCase if true, then conversions are used.
    * @since 2.5
    */
