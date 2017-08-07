@@ -184,6 +184,7 @@ public abstract class SpellingCheckRule extends Rule {
    * spell checking.
    * @return true if the dictionary converts case
    * @since 2.5
+   * @deprecated deprecated as there's no internal use in LT, complain and describe your use case if you need this (deprecated since 3.9)
    */
   public boolean isConvertsCase() {
     return convertsCase;
