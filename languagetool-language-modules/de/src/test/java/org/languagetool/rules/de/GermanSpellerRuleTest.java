@@ -120,6 +120,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Germanistikern", "Germanisten", rule, lt);
     assertFirstSuggestion("Germanistikerin", "Germanistin", rule, lt);
     assertFirstSuggestion("erhöherung", "Erhöhung", rule, lt);
+    assertFirstSuggestion("aufjedenfall", "auf jeden Fall", rule, lt);
+    assertFirstSuggestion("Aufjedenfall", "Auf jeden Fall", rule, lt);
   }
 
   @Test

@@ -321,6 +321,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Erhöhung");
     } else if (word.matches("[eE]rhöherungen")) {
       return Collections.singletonList("Erhöhungen");
+    } else if (word.matches("[aA]ufjedenfall")) {
+      suggestion = word.replaceFirst("jedenfall$", "");
+      return Collections.singletonList(suggestion + " jeden Fall");
     } else if (word.equals("Wöruber")) {
       return Collections.singletonList("Worüber");
     } else if (word.equals("par")) {
