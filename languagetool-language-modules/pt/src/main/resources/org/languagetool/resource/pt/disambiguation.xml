@@ -16,6 +16,8 @@
     <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
     <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
 
+    <!ENTITY hifen "[-‑]">
+
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
@@ -54,7 +56,7 @@
     <rule id="WORKAROUND_MISSING_ADVERBS_POS" name="fix missing POS in adverbes">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-24  -->
       <pattern>
-          <token regexp="yes" postag='UNKNOWN|I|RG' postag_regexp='yes'>.*mente$</token>
+          <token regexp="yes" postag='I|RG' postag_regexp='yes'>.*mente$</token>
       </pattern>
       <disambig action="add"><wd pos="RM"/></disambig>
       <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>
@@ -436,8 +438,9 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
-    <rule id="PAST_PARTICIPLE" name="Filtrar particípio passado">
+  <rulegroup id="PAST_PARTICIPLE" name="Filtrar particípio passado">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-02  -->
+    <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</token>
         <marker>
@@ -448,6 +451,7 @@
       <example inputform="cometido[cometer/VMP00SM,cometido/AQ0MS0]" outputform="cometido[cometer/VMP00SM]" type="ambiguous">Todos tinham <marker>cometido</marker> graves erros.</example>
       <example inputform="desrespeitado[desrespeitado/AQ0MS0,desrespeitar/VMP00SM]" outputform="desrespeitado[desrespeitar/VMP00SM]" type="ambiguous">Ela tinha <marker>desrespeitado</marker> todos com a sua infantilidade.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
