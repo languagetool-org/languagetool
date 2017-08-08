@@ -700,6 +700,9 @@ public class CaseRule extends Rule {
         	// avoid false alarm for "Wahre Liebe muss das aushalten."
             continue;
           }
+          if (tokens[i-1].matchesPosTagRegex("PRP:.*|ADV:MOD") && nextToken.matchesPosTagRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")) {
+            continue; // ignore: vor Betreten des Hauses
+          }
         }
         if (isPrevProbablyRelativePronoun(tokens, i)) {
           continue;
