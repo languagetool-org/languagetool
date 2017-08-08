@@ -1689,7 +1689,7 @@ title="Easy editing stylesheet" ?>
           <token>porque</token>
           <token regexp='yes'>d(a|e|o|isso|este|esta|ess[ea]|isto|aquilo|aquela|aquele)s?</token>
       </pattern>
-      <message>Confusão de termos. Pretende dizer:</message>
+      <message>Possível confusão de termos. Pretende dizer:</message>
         <suggestion>\1 porquê \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="o porquê dessa">Preciso de saber <marker>o porque dessa</marker> decisão.</example>
@@ -1701,7 +1701,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>qu[eê]</token>
           <token regexp='yes'>d(a|e|o|isso|este|esta|ess[ea]|isto|aquilo|aquela|aquele)s?</token>
       </pattern>
-      <message>Confusão de termos. Pretende dizer:</message>
+      <message>Possível confusão de termos. Pretende dizer:</message>
         <suggestion>\1 porquê \4</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="o porquê dessa">Preciso de saber <marker>o por quê dessa</marker> decisão.</example>
@@ -1718,7 +1718,7 @@ title="Easy editing stylesheet" ?>
           <token>,</token>
         </or>
       </pattern>
-      <message>Confusão de termos. Pretende dizer:</message>
+      <message>Possível confusão de termos. Pretende dizer:</message>
         <suggestion>\1 porque</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="até porque">Não é bem assim, <marker>até por que</marker> uma reparação deste tipo não é dispendiosa.</example>
@@ -1732,7 +1732,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token regexp='yes'>[ao]s?|não|eu|tu|[vn]ós|el[ea]s?</token>
       </pattern>
-      <message>Confusão de termos. Pretende dizer:</message>
+      <message>Possível confusão de termos. Pretende dizer:</message>
         <suggestion>\1 porque</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="é porque">Isto <marker>é por que</marker> a atitude não agrada.</example>
@@ -1746,7 +1746,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token regexp='yes'>[ao]s?|não|eu|tu|[vn]ós|el[ea]s?</token>
       </pattern>
-      <message>Confusão de termos. Pretende dizer:</message>
+      <message>Possível confusão de termos. Pretende dizer:</message>
         <suggestion>\1 porque</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="Só porque"><marker>Só por que</marker> as casas estão vazias, não quer dizer que não tenham dono.</example>
@@ -2322,7 +2322,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token>mais</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Possível confusão de termos.</message>
         <suggestion>\1 \2\3</suggestion>
       <example correction='Os demais'><marker>Os de mais</marker> intervenientes na conversa, tiveram que ficar calados.</example>
     </rule>
@@ -2965,8 +2965,8 @@ title="Easy editing stylesheet" ?>
 
  <category id='CASING' name='Capitalização' type='grammar'>
 
-    <rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios' default='off'>
-    <!--  Created by Tiago F. Santos, 2017-02-XX      -->
+    <!--rule id='PROPER_NOUNS_CASING' type='grammar' name='Capitalização de nomes próprios' default='off'>
+    <  Created by Tiago F. Santos, 2017-02-XX      >
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='NP.+' regexp='yes'>\p{Ll}+
             <exception negate_pos='yes' postag_regexp='yes' postag='NP.+'/></token>
@@ -2975,7 +2975,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
       <example correction='António'>Santo <marker>antónio</marker>, São João e São Pedro são os três santos populares mais festejados pelo povo português parque são reservados.</example>
       <example>Santo António, São João e São Pedro são os três santos populares mais festejados pelo povo português.</example>
-    </rule>
+    </rule-->
 
   <rulegroup id='COMPOUND_PROPER_NOUNS_CASING' name="Capitalizar nomes próprios compostos...">
     <!--  Localized from English grammar.xml, by Tiago F. Santos, 2017-05-09      -->
@@ -3767,18 +3767,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>a baixo</suggestion>.</message>
       <example correction="a baixo">Ela observou o Rui de alto <marker>abaixo</marker>.</example>
-    </rule>
-
-    <rule id='DE_FORMA_A_QUE' name="Para que">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>de</token>
-          <token>forma</token>
-          <token>a</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>para que</suggestion>.</message>
-      <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
 
     <rule id='DE_IMPACTO_ECOLÓGICA' name="De impacto ecológico">
@@ -7318,6 +7306,17 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion><match no='1' postag='V.+'>sugerir</match></suggestion>
       <example correction='lembrar|sugerir'><marker>trazer à mente</marker>.</example>
     </rule>
+    <rule>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>de</token>
+          <token>forma</token>
+          <token>a</token>
+          <token>que</token>
+      </pattern>
+      <message>Substitua por <suggestion>para que</suggestion>.</message>
+      <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup type='style' id='PLEONASMOS' name="Pleonasmo: Pleonasmos">
@@ -8974,7 +8973,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
   </rulegroup>
 
-    <rule id='UM_OUTRO' name="outro">
+    <rule id='UM_OUTRO' name="Determinantes redundantes: Um + outro">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
 		<token>um</token>
@@ -8984,7 +8983,7 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>outro</suggestion>
       <example correction='outro'>A Ana tem <marker>um outro</marker> curso.</example>
     </rule>  
-	
+
  </category>
 
  <category id='CLICHES' name="Frases-feitas e expressões idiomáticas" type='style'>
@@ -12175,8 +12174,8 @@ o tomate'>
           <token>à</token>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
           <token skip="4">
-            <exception scope='next' postag='(V.[CIS][CFIMPS].|NP|DP).+' postag_regexp='yes'/>
-            <exception postag='(V.[CIS][CFIMPS].|NP|DP).+' postag_regexp='yes'/>
+            <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes' scope='next'/>
+            <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes'/>
             <exception regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</exception></token>
           <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
@@ -12192,7 +12191,7 @@ o tomate'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>há</token>
-          <token regexp='yes'>frente|trás|esquerda|direita</token>
+          <token regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</token>
       </pattern>
       <message>Substitua por <suggestion>à \2</suggestion>.</message>
       <example correction='à frente'>Algumas pessoas e ideias parecem fora do lugar ou <marker>há frente</marker> do seu tempo.</example>
@@ -19723,7 +19722,7 @@ TODO Write better examples
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>mestres?</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Possível confusão de termos.</message>
         <suggestion>\1\2<match no='3' regexp_match='mestre(s?)' regexp_replace='mestra$1' include_skipped='all'/></suggestion>
       <example correction='chave-mestra'><marker>chave-mestre</marker>.</example>
     </rule>
@@ -19732,7 +19731,7 @@ TODO Write better examples
           <token regexp='yes'>(abelha|amostra|arte|bateria|boa|chave|coluna|divina|galeria|ideia|lição|linha|madre|mola|obra|parede|própria|rainha|senha|suprema|unha|velha|viga)s?|lições</token>
           <token regexp='yes'>mestres?</token>
       </pattern>
-      <message>Confusão de termos.</message>
+      <message>Possível confusão de termos.</message>
         <suggestion>\1 <match no='2' regexp_match='mestre(s?)' regexp_replace='mestra$1' include_skipped='all'/></suggestion>
       <example correction='vigas mestras'><marker>vigas mestres</marker>.</example>
     </rule>
@@ -19741,23 +19740,27 @@ TODO Write better examples
   <rulegroup id='HOMOPHONE_AS_CARD' name='Homófonas: ás -> às'>
     <!-- Created by Tiago F. Santos, 2017-08-05 -->
       <url>https://pt.wiktionary.org/wiki/senso</url>
-      <short>Confusão de termos.</short>
+      <short>Possível confusão de termos.</short>
     <rule>
       <pattern>
           <token>às</token>
           <token regexp='yes'>de|na</token>
           <token regexp='yes'>manga|&naipes;</token>
       </pattern>
-      <message>Confusão de termos. A carta escreve-se com acento agudo.</message>
+      <message>Possível confusão de termos. A carta escreve-se com acento agudo.</message>
         <suggestion>ás \2 \3</suggestion>
       <example correction='ás na manga'>Será que tem um <marker>às na manga</marker>?</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>(parecedida|semelhante)s?</token>
+          <token>às</token>
+      </antipattern>
       <pattern>
           <token>às</token>
           <token regexp='yes'>d[ao]s?</token>
       </pattern>
-      <message>Confusão de termos. Um indivíduo valoroso escreve-se com acento agudo.</message>
+      <message>Possível confusão de termos. Um indivíduo valoroso escreve-se com acento agudo.</message>
         <suggestion>ás \2</suggestion>
       <example correction='ás do'>Foi reconhecido como "<marker>às do</marker> volante".</example>
     </rule>
@@ -19766,7 +19769,7 @@ TODO Write better examples
           <token postag_regexp='yes' postag='D..MS.+'/>
           <token>às</token>
       </pattern>
-      <message>Confusão de termos. A carta escreve-se com acento agudo.</message>
+      <message>Possível confusão de termos. A carta escreve-se com acento agudo.</message>
         <suggestion>\1 ás</suggestion>
       <example correction='um ás'>Será que tem <marker>um às</marker>?</example>
     </rule>
@@ -19777,17 +19780,17 @@ TODO Write better examples
           <token regexp='yes'>manga|copas|o[iu]ros|espadas|paus</token>
       </antipattern>
       <antipattern>
-          <token>às</token>
-          <token regexp='yes'>d[ao]s?</token>
+          <token postag_regexp='yes' postag='D..MS.+'/>
+          <token>ás</token>
       </antipattern>
       <antipattern>
-          <token postag_regexp='yes' postag='D..MS.+'/>
+          <token>-</token>
           <token>ás</token>
       </antipattern>
       <pattern>
           <token>ás</token>
       </pattern>
-      <message>Confusão de termos. A contração (a+as) escreve-se com acento grave.</message>
+      <message>Possível confusão de termos. A contração (a+as) escreve-se com acento grave.</message>
         <suggestion>às</suggestion>
       <example correction='às'>Ele saiu <marker>ás</marker> cinco horas.</example>
     </rule>
@@ -19796,13 +19799,13 @@ TODO Write better examples
   <rulegroup id='CENSO_SENSO' name='Confusão: senso -> censo'>
     <!-- Created by Tiago F. Santos, 2017-04-19, based on LightProof rule -->
       <url>https://pt.wiktionary.org/wiki/senso</url>
-      <short>Confusão de termos.</short>
+      <short>Possível confusão de termos.</short>
     <rule>
       <pattern>
           <token regexp='yes'>sensos?</token>
           <token regexp='yes'>demográficos?|escolar(es)?|(estadu|nacion)(al|ais)|\d{1,3}</token>
       </pattern>
-      <message>Confusão de termos. Senso refere-se aos sentidos ou a um juízo.</message>
+      <message>Possível confusão de termos. Senso refere-se aos sentidos ou a um juízo.</message>
         <suggestion><match no='1' regexp_match='senso(s?)' regexp_replace='censo$1' include_skipped='all'/> \2</suggestion>
       <example correction='censos demográficos'>Os <marker>sensos demográficos</marker> têm particular interesse para a coordenação dos governos.</example>
     </rule>
@@ -19811,7 +19814,7 @@ TODO Write better examples
           <token regexp='yes'>últimos?</token>
           <token regexp='yes'>sensos?</token>
       </pattern>
-      <message>Confusão de termos. Senso refere-se aos sentidos.</message>
+      <message>Possível confusão de termos. Senso refere-se aos sentidos.</message>
         <suggestion>\1 <match no='2' regexp_match='senso(s?)' regexp_replace='censo$1' include_skipped='all'/></suggestion>
       <example correction='último censo'>O <marker>último senso</marker> foi bem sucedido.</example>
     </rule>
@@ -19820,7 +19823,7 @@ TODO Write better examples
           <token regexp='yes'>bom|mau</token>
           <token>censo</token>
       </pattern>
-      <message>Confusão de termos. Um censo é uma recolha de dados.</message>
+      <message>Possível confusão de termos. Um censo é uma recolha de dados.</message>
         <suggestion>\1 <match no='2' regexp_match='censo(s?)' regexp_replace='senso$1' include_skipped='all'/></suggestion>
       <example correction='bom senso'>É uma questão de <marker>bom censo</marker>.</example>
     </rule>
@@ -19829,7 +19832,7 @@ TODO Write better examples
           <token>censo</token>
           <token regexp='yes'>com[uú]m</token>
       </pattern>
-      <message>Confusão de termos. Um censo é uma recolha de dados.</message>
+      <message>Possível confusão de termos. Um censo é uma recolha de dados.</message>
         <suggestion><match no='1' regexp_match='censo(s?)' regexp_replace='senso$1' include_skipped='all'/> \2</suggestion>
       <example correction='senso comum'>Hoje em dia, <marker>censo comum</marker> é um conceito muito vago.</example>
     </rule>
@@ -19842,10 +19845,10 @@ TODO Write better examples
           <token>de</token>
           <token regexp='yes'>([0-9,\.]+?%|alguém|aparelho|conexão|dados|gordura|mandato|memória|peso|potência|safra|senha|sina(l|is)|tempo|vaga|volume)s?</token>
       </pattern>
-      <message>Confusão de termos. Perca é utilizado para se referir a um peixe ou a uma forma verbal do verbo perder.</message>
+      <message>Possível confusão de termos. Perca é utilizado para se referir a um peixe ou a uma forma verbal do verbo perder.</message>
         <suggestion><match no='1' regexp_match='perca(s?)' regexp_replace='perda$1' include_skipped='all'/> \2 \3</suggestion>
       <url>https://pt.wiktionary.org/wiki/perca</url>
-      <short>Confusão de termos.</short>
+      <short>Possível confusão de termos.</short>
       <example correction='perdas de 0,5%'>Certo tipo de depósitos tem <marker>percas de 0,5%</marker> ao ano.</example>
     </rule>
     <!--          Tiago F. Santos Rules End             ****END**** -->
