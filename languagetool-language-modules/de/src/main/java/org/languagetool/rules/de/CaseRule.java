@@ -1052,6 +1052,12 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
         && !(isFollowedByPossessiveIndicator && hasPartialTag(lowercaseReadings, "ADJ", "VER")) // "Wacht auf, Verdammte dieser Welt!"
         && !(prevToken != null && prevToken.hasPosTag("KON:UNT") && !hasNounReading(nextReadings) && !nextReadings.hasPosTag("KON:NEB"))) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
+      // Another check to avoid false alarms for "eine Gruppe Aufständischer starb"
+      if (!isPrecededByVerb && lowercaseReadings != null && prevToken != null) {
+        if (prevToken.hasPartialPosTag("SUB:") && lowercaseReadings.matchesPosTagRegex("(ADJ|PA2):GEN:PLU:MAS:GRU:SOL.*")) {
+          return nextReadings != null && !nextReadings.hasPartialPosTag("SUB:");
+        }
+      }
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (!hasPartialTag(prevPrevToken, "ART", "PRP", "ZAL")) {
         return false;
