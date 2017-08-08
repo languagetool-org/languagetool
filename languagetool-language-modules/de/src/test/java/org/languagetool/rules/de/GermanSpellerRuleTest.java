@@ -94,6 +94,8 @@ public class GermanSpellerRuleTest {
     assertThat(matches2[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"));
     assertThat(matches3[0].getSuggestedReplacements().size(), is(0));
+    RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("Ist Ventrolateral"));
+    assertThat(matches4[0].getSuggestedReplacements().size(), is(0));
     assertFirstSuggestion("denkte", "dachte", rule, lt);
     assertFirstSuggestion("schwimmte", "schwamm", rule, lt);
     assertFirstSuggestion("gehte", "ging", rule, lt);
