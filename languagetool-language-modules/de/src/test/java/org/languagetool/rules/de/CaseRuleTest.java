@@ -111,6 +111,7 @@ public class CaseRuleTest {
     assertGood("Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden.");
     assertGood("Bei einer Veranstaltung Rechtsextremer passierte es.");
     assertGood("Eine Gruppe Betrunkener singt.");
+    assertGood("Bei Betreten des Hauses.");
 
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
