@@ -1934,16 +1934,27 @@ USA
                 <example correction="he'll">And <marker>hell</marker> be there.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp='yes'>['‘"“]</token>
+                    <token>shell</token>
+                    <token/>
+                    <token spacebefore='no' regexp='yes'>['’"”]</token>
+                </antipattern>
                 <pattern>
-                    <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne</exception>shell</token></marker>
+                    <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne|Unix|Linux</exception>shell</token></marker>
                     <token postag="VB"><exception regexp="yes">people|fish</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>she'll</suggestion>?</message>
                 <short>Possible typo</short>
-                <example>This is an egg shell.</example>
+                <example>This is an egg <marker>shell</marker>.</example>
                 <example>How does the shell know which directory it's in?</example>
                 <example>Shell people did not, strictly speaking, breathe.</example>
+                <example>… or run programs from the Unix <marker>shell</marker> prompt.</example>
+                <example>How to prompt for Yes/No/Cancel input in a Linux <marker>shell</marker> script.</example>
+                <example>You should see the Unix command prompt, also known as the "<marker>shell</marker> prompt", appearing at the left side of…</example>
+                <example type="triggers_error">Coloring your prompt with tput and <marker>shell</marker> escape code.</example>
                 <example correction="She'll"><marker>Shell</marker> be there.</example>
+                <example correction="she'll">Mary will prompt the manager. Please tell John <marker>shell</marker> prompt the manager.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LETS_LET" name="let's (lets)">
