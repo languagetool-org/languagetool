@@ -43,7 +43,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
   private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
-  private static final int SUGGESTION_MIN_LENGTH = 2;
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -208,7 +207,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");
-    String suggestion = "";
+    String suggestion;
     if ("WIFI".equals(w) || "wifi".equals(w)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("ausversehen".equals(w)) {
@@ -417,10 +416,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return Collections.emptyList();
   }
 
-  protected List<String> orderSuggestions(List<String> suggestions, String word) {
-    return suggestions;
-  }
-
   // Get a correct suggestion for invalid words like greifte, denkte, gehte: useful for
   // non-native speakers and cannot be found by just looking for similar words.
   @Nullable
@@ -579,27 +574,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return hasIgnoredWord;
-  }
-
-  private boolean ignoreSuggestion(String suggestion) {
-    String[] parts = suggestion.split(" ");
-    if (parts.length > 1) {
-      for (String part : parts) {
-        if (part.length() < SUGGESTION_MIN_LENGTH) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private static class Replacement {
-    final String key;
-    final String value;
-    private Replacement(String key, String value) {
-      this.key = key;
-      this.value = value;
-    }
   }
 
   static class ExpandingReader extends BufferedReader {
