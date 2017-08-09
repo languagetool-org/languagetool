@@ -1374,6 +1374,23 @@ title="Easy editing stylesheet" ?>
       <example>A maioria dos corais na parte Norte da Grande Barreira estão mortos.</example>
     </rule>
 
+    <rule id="POLO_CAPITALIZATION" name="AO90: Polo Norte/Sul">
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-08-08 -->
+      <antipattern case_sensitive='yes'>
+          <token regexp='yes'>P[oó]lo</token>
+          <token regexp='yes'>Norte|Sul</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>p[oó]lo</token>
+          <token regexp='yes'>norte|sul</token>
+      </pattern>
+      <message>Segundo o AO90, deve capitalizar esta expressão geográfica.</message>
+         <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Polo Norte">O <marker>polo norte</marker> é no Ártico.</example>
+      <example correction="Polo Sul">O <marker>polo Sul</marker> é no Antártico.</example>
+      <example>O <marker>Polo Norte</marker> é no Ártico.</example>
+    </rule>
+
     <rule id="AVÉ_MARIA" name="AO90: ave Maria">
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-09 -->
       <pattern>
