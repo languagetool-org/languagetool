@@ -2592,25 +2592,31 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes'>ir
             <exception regexp='yes'>foi|fora|indo</exception></token>
           <token>na</token>
-          <token postag='N.F.+' postag_regexp='yes'/>
+          <token postag='N.F.+' postag_regexp='yes'>
+            <exception regexp='yes'>primeira|última</exception>
+            <exception postag='Z.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
       <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
       <example>Tenho de <marker>ir à praia</marker>.</example>
       <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
       <example>Ele disse que quem estabelece a % de incapacidade é o médico a que vou na sexta.</example>
+      <example>Já vou na quarta versão.</example>
     </rule>
     <rule>
       <pattern>
           <token inflected='yes'>ir
             <exception regexp='yes'>foi|fora|indo</exception></token>
           <token>no</token>
-          <token postag='N.M.+' postag_regexp='yes'/>
+          <token postag='N.M.+' postag_regexp='yes'>
+            <exception regexp='yes'>primeiro|último</exception>
+            <exception postag='Z.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Substitua por <suggestion>\1 ao \3</suggestion>.</message>
       <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
       <example>Tenho de <marker>ir ao ginásio</marker>.</example>
       <example>Quero viajar para fora no ano que vem.</example>
+      <example>Já vou no último capítulo.</example>
     </rule>
   </rulegroup>
 
@@ -2714,6 +2720,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>uma?</token>
           <token>a</token>
           <token regexp='yes'>uma?</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>pelos?</token>
+          <token regexp='yes'>n[oa]s?</token>
       </antipattern>
       <pattern>
           <token>
@@ -4940,8 +4950,12 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
+        <marker>
           <token>de</token>
           <token regexp='yes' case_sensitive='yes'>[ao]s?</token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Será que quis dizer <suggestion>d\2</suggestion>?</message>
       <example correction='da'><marker>de a</marker>.</example>
@@ -4950,6 +4964,23 @@ title="Easy editing stylesheet" ?>
       <example correction='do'><marker>de o</marker>.</example>
       <example correction='dos'><marker>de os</marker>.</example>
     </rule>
+    <!--<rule id='CONTRACAO_DUM' name='De + um/uns' default='off'>
+      <antipattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'></token>
+      </antipattern>
+      <pattern>
+          <token>de</token>
+          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+      </pattern>
+      <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+      <example correction='dum'><marker>de um</marker> calmo dia.</example>
+      <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
+      <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
+      <example correction='duns'><marker>de uns</marker> rios.</example>
+    </rule>-->
     <rule>
       <pattern>
           <token>em</token>
@@ -5124,15 +5155,13 @@ title="Easy editing stylesheet" ?>
           <token>facto</token>
           <token>de</token>
       </antipattern>
-      <antipattern>
-          <token>de</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
-          <token postag='(V.+)' postag_regexp='yes'/>
-      </antipattern>
       <pattern>
+        <marker>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+        </marker>
+          <token postag='(N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
@@ -5196,15 +5225,13 @@ title="Easy editing stylesheet" ?>
       <example correction='noutros'><marker>em outros</marker>.</example>
     </rule>
     <rule id='CONTRACAO_NUM' name='Em + um/uns'><!--default='off' -->
-      <antipattern>
-          <token>em</token>
-          <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
-          <token postag='(V.+)' postag_regexp='yes'/>
-      </antipattern>
       <pattern>
+        <marker>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+        </marker>
+          <token postag='(N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <example correction='num'><marker>em um</marker> belo dia.</example>
