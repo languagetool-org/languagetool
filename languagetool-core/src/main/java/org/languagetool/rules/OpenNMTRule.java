@@ -92,11 +92,12 @@ public class OpenNMTRule extends Rule {
       // TODO: whitespace is introduced and needs to be properly removed - we should use the 'src'
       // key for comparison, but we'll still need to clean up when using the suggestion...
       String cleanTranslation = translation.replaceAll(" ([.,;:])", "$1");
-      if (!cleanTranslation.equals(sentence.getText())) {
+      String sentenceText = sentence.getText();
+      if (!cleanTranslation.equals(sentenceText)) {
         List<RuleMatch> ruleMatches = new ArrayList<>();
-        int from = getFirstDiffPosition(sentence.getText(), cleanTranslation);
-        int to = getLastDiffPosition(sentence.getText(), cleanTranslation);
-        int replacementTo = getLastDiffPosition(cleanTranslation, sentence.getText());
+        int from = getLeftWordBoundary(sentenceText, getFirstDiffPosition(sentenceText, cleanTranslation));
+        int to = getRightWordBoundary(sentenceText, getLastDiffPosition(sentenceText, cleanTranslation));
+        int replacementTo = getRightWordBoundary(cleanTranslation, getLastDiffPosition(cleanTranslation, sentenceText));
         String message = "OpenNMT suggests that this might(!) be better phrased differently, please check.";
         RuleMatch ruleMatch = new RuleMatch(this, from, to, message);
         ruleMatch.setSuggestedReplacement(cleanTranslation.substring(from, replacementTo)); 
@@ -128,16 +129,38 @@ public class OpenNMTRule extends Rule {
   }
 
   int getLastDiffPosition(String text1, String text2) {
-    StringBuilder reverse1 = new StringBuilder(text1).reverse();
-    StringBuilder reverse2 = new StringBuilder(text2).reverse();
-    int diffPos = getFirstDiffPosition(reverse1.toString(), reverse2.toString());
-    if (diffPos != -1) {
-      return text1.length() - diffPos;
+    StringBuilder reverse1 = new StringBuilder(text1.trim()).reverse();
+    StringBuilder reverse2 = new StringBuilder(text2.trim()).reverse();
+    int revDiffPos = getFirstDiffPosition(reverse1.toString(), reverse2.toString());
+    if (revDiffPos != -1) {
+      return text1.length() - revDiffPos;
     } else {
       return -1;
     }
   }
 
+  int getLeftWordBoundary(String text, int pos) {
+    while (pos >= 1) {
+      if (Character.isAlphabetic(text.charAt(pos - 1))) {
+        pos--;
+      } else {
+        break;
+      }
+    }
+    return pos;
+  }
+  
+  int getRightWordBoundary(String text, int pos) {
+    while (pos < text.length()) {
+      if (Character.isAlphabetic(text.charAt(pos))) {
+        pos++;
+      } else {
+        break;
+      }
+    }
+    return pos;
+  }
+  
   private String createJson(AnalyzedSentence sentence) throws JsonProcessingException {
     ArrayNode list = mapper.createArrayNode();
     ObjectNode node = list.addObject();
