@@ -151,7 +151,7 @@ public class OpenNMTRule extends Rule {
   }
   
   int getRightWordBoundary(String text, int pos) {
-    while (pos < text.length()) {
+    while (pos >= 0 && pos < text.length()) {
       if (Character.isAlphabetic(text.charAt(pos))) {
         pos++;
       } else {
