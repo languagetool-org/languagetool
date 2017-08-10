@@ -65,8 +65,43 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("goldenen?"),
-      token("Hochzeit")
+      regex("Goldenen?"),
+      regex("Hochzeit|Hochzeiten")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Graue[nr]?"),
+      regex("Star|Eminenz")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Große[nr]?"),
+      regex("Strafkammer|Latinums?")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      token("Guten"),
+      token("Tag")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Höheren?"),
+      regex("Schule|Mathematik")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Künstliche[nr]?"),
+      token("Intelligenz")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Neuen?"),
+      token("Jahr(s|es)?|Linken?")
+    ),
+    Arrays.asList(
+      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("Roten?"),
+      token("Grütze")
     ),
     Arrays.asList(
       regex("Vereinigte[ns]?"),

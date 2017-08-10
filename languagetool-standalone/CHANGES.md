@@ -14,6 +14,8 @@
   * added special dictionary extension files `spelling-de-AT.txt` and
     `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
     to `spelling.txt`
+  * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
+    6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
 
 #### Portuguese
   * added and improved grammar and style rules, including:
