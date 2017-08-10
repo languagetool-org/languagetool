@@ -63,6 +63,12 @@ public class CaseRule extends Rule {
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
+      // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+      regex("goldenen?"),
+      token("Hochzeit")
+    ),
+    Arrays.asList(
       regex("Vereinigte[ns]?"),
       regex("Staaten|Königreiche?s?")
     ),
