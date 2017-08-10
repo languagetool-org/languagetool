@@ -284,7 +284,7 @@ public class CaseRule extends Rule {
   }
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
-      "viel", "nichts", "wenig", "zuviel"));
+      "viel", "nichts", "wenig"));
 
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
       "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"));
