@@ -14478,6 +14478,11 @@ USA
             <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
             <url>https://en.wikipedia.org/wiki/Dash#Em_dash</url>
             <rule>
+                <antipattern>
+                    <!-- typical signature delimiter in emails -->
+                    <token>-</token>
+                    <token>-</token>
+                </antipattern>
                 <pattern>
                     <token postag='SENT_START'/>
                     <token min='0' regexp='yes'>["«»“”]</token>
