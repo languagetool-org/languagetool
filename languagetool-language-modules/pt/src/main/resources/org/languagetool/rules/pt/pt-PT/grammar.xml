@@ -97,7 +97,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
       <pattern>
           <token regexp='yes'>efeitos?</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>estufas?</token>
       </pattern>
       <message>Esta expressão não é hifenizada.</message>
@@ -166,7 +166,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>nenhu[mn]a?s?</token>
           <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
           <token postag_regexp='yes' postag='V.[^N].+'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </antipattern>
       <antipattern>
@@ -405,7 +405,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token postag='PP.*' postag_regexp='yes'/>
           <token postag='V.G0+' postag_regexp='yes'>
             <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
@@ -865,7 +865,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag="V.+" postag_regexp='yes'/>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>te</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -881,7 +881,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
             <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -1034,7 +1034,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>não|quase</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token/>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto. Pretende dizer </message>
@@ -1226,7 +1226,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>heis?|hás?|hão</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>de</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, esta forma já não é hifenizada.</message>
@@ -1262,7 +1262,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>às?</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>de</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, o verbo haver não é hifenizado nem leva 'h'.</message>
@@ -1325,7 +1325,7 @@ title="Easy editing stylesheet" ?>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
           <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
         </marker>
       </pattern>
@@ -1442,7 +1442,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
-          <token regexp='yes'>-|–|—</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
