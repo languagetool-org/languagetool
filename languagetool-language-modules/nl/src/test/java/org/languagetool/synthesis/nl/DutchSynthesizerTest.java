@@ -35,12 +35,12 @@ public class DutchSynthesizerTest {
     assertEquals(synth.synthesize(dummyToken("blablabla"), 
         "blablabla").length, 0);
     
-    assertEquals("[zwommen]", Arrays.toString(synth.synthesize(dummyToken("zwemmen"), "VBh")));
-    assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "NN2")));
-    assertEquals("[hebt, heeft]", Arrays.toString(synth.synthesize(dummyToken("hebben"), "VB3", true)));
+    assertEquals("[zwommen]", Arrays.toString(synth.synthesize(dummyToken("zwemmen"), "WKW:VLT:INF")));
+    assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "ZNW:MRV:DE_")));
+    assertEquals("[hebt, heeft]", Arrays.toString(synth.synthesize(dummyToken("hebben"), "WKW:TGW:3EP", true)));
     //with regular expressions
-    assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp", true)));    
-    assertEquals("[doorsein, doorseint, doorseinden, doorseinde, doorseinen, doorgeseind, doorgeseinde]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
+    assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "WKW:VTD:ONV", true)));    
+    assertEquals("[doorseine, doorseinenden, doorseinend, doorseinende, doorseint, doorsein, doorseinen, doorseinde, doorseinden, doorgeseind, doorgeseinde, doorgeseinden]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "WKW.*", true)));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

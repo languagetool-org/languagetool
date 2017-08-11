@@ -1,487 +1,684 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool
-Copyright (C) 2008 Ruud Baars
+Copyright (C) 2008-2017 Ruud Baars, TaalTik
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-
-  <!-- SPELLING IGNORES -->
-  <!-- ROMEINSE GETALLEN -->
-  <rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
-    <pattern case_sensitive="yes">
-	  <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- rangtelnummers -->
-  <rule name="ignore -ste" id="SPELLER_NUMBERS_RANKING">
-    <pattern>
-	  <token regexp="yes">[0-9]{1,10}(ste|de|e)</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- alle 'woorden' zonder letters -->
-  <rule name="ignore 0-1 etc" id="SPELLER_NONWORDS">
-    <pattern>
-	  <token regexp="yes">[^a-zA-Z]{1,80}</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-  
-  <!-- mailadressen en twitternamen -->
-  <rule name="ignore @" id="SPELLER_AT">
-    <pattern>
-	  <token regexp="yes">.*@.*</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-  
-  <!-- straten etc -->
-  <rule name="ignore adresses" id="SPELLER_STREETS">
-    <pattern>
-	  <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*(straat|plein|steeg|allee|boulevard|weg|wijk)</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- FC Twente etc. -->
-  <rule name="ignore clubs" id="SPELLER_FC_CLUB">
-    <pattern>
-      <marker>
-      <token>FC</token>
-      </marker>
-      <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-
-  <!-- wegnummers van NL en Vlaanderen -->
-  <rule name="ignore numbers of roads" id="SPELLER_ROAD_NUMBERS">
-    <pattern>
-      <token regexp="yes" case_sensitive="yes">A[0-9]{1,3}|N[0-9]{1,3}|s[0-9]{3}|R[0-9]|B[0-9]{3}</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-  
-  <!-- straten etc -->
-  <rule name="ignore parts of proper names" id="SPELLER_NEDERLANDSCHE">
-    <pattern>
-      <marker>
-	<token>Nederlandsche</token>
-      </marker>
-      <token case_sensitive="yes">Bank</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-
-  <!-- domains etc -->
-  <rule name="ignore parts of domains" id="SPELLER_DOMAINS_a">
-    <pattern>
-      <marker>
-      <token regexp="yes">[A-Za-z0-9]{3,50}</token>
-      </marker>
-      <token spacebefore="no">.</token>
-      <token spacebefore="no" regexp="yes">[A-Za-z0-9]{3,50}</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-  
-  <rule name="ignore parts of domains" id="SPELLER_DOMAINS_b">
-    <pattern>
-      <token regexp="yes">[A-Za-z0-9]{3,50}</token>
-      <token spacebefore="no">.</token>
-      <marker>
-      <token spacebefore="no" regexp="yes">[A-Za-z0-9]{2,50}</token>
-    </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-  
-    <!-- bijv naamw met getal-->
-  <rule name="getal-ig" id="SPELLER_NUMBER_IG">
-    <pattern>
-	<token regexp="yes">[0-9]{1,3}[-](jarig|jarige|tal|tallen)</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-  
-  <!-- social media en andere woordgroepen -->
-  <rule name="social media etc" id="SPELLER_SOCIAL_MEDIA">
-    <pattern>
-      <marker>
-      <token>social</token>
-      </marker>
-      <token>media</token>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>  
-  
-  <!-- social media en andere woordgroepen -->
-  <rule name="nota bene" id="SPELLER_NOTA_BENE">
-    <pattern>
-      <token>nota</token>
-      <marker>
-      <token>bene</token>
-    </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- social media en andere woordgroepen -->
-  <rule name="per se" id="SPELLER_PER_SE">
-    <pattern>
-      <token>per</token>
-      <marker>
-      <token>se</token>
-      </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- Tel Aviv-->
-  <rule name="Tel Aviv" id="SPELLER_TEL_AVIV">
-    <pattern case_sensitive="yes">
-      <token>Tel</token>
-      <marker>
-      <token>Aviv</token>
-    </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-
-  <!-- Tel Aviv-->
-  <rule name="New York etc." id="SPELLER_NEW_X">
-    <pattern case_sensitive="yes">
-      <token>New</token>
-      <marker>
-      <token regexp="yes">York|Orleans|Yorkse|Yorks</token>
-    </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>  
-  </rule>
-  
-  <!-- ZELFSTANDIGE NAAMWOORDEN -->
-  <!-- ~je duidt op verkleinwoord behalve ~ije (~vrije vooral) en ~nje (oranje, spanje)-->
-  <rule name="guess NN1r" id="NN1r">
-    <pattern>
-      <token regexp="yes">[a-z].*je<exception postag="NN1r"/><exception regexp="yes">.*(ije|nje)</exception></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1r"/></disambig>
-  </rule>
-
-  <!-- ~jes duidt op verkleinwoord meervoud, of op vorm als kalmpjes -->
-  <rule name="guess NN2r" id="NN2r">
-    <pattern>
-      <token regexp="yes">[a-z].*jes<exception postag="NN2r"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2r"/></disambig>
-  </rule>
-
-  <!-- verklaar tot znw enkelvoud, de -->
-  <!-- van schap zijn uitzonderingen die 'het' zijn -->
-  <rule name="guess NN1d" id="NN1d_1">
-    <pattern>
-      <token regexp="yes">[a-z].*(heid|teit|ing|tie|groep|stand|ctie|ctuur|itect|prefect|markt|racht|ijst|elaar|kaart)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1d"/></disambig>
-  </rule>
-  <rule name="guess NN1d" id="NN1d_2">
-    <pattern>
-      <token regexp="yes">[a-z].*(plaats|wagen|dienst|ode|ogie|zweem|[^c]zeem|ector|missie|atiek|ruimte)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1d"/></disambig>
-  </rule>
-
-  <!-- 
-  verklaar tot znw enkelvoud, het 
-  vooral nuttig voor al die samenstellingen die niet in de taggin dictionary staan
-  -->
-  
-  <rule name="guess NN1h" id="NN1h_1">
-    <pattern>
-      <token regexp="yes">[a-z].*(geding|beding|gramma|ement|beleid|gebied|proces|zoek|drijf|project|effect|aspect|dialect|defect|traject|object|insect|iveau|model)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1h"/></disambig>
-  </rule>
-  
-  <rule name="guess NN1h" id="NN1h_2">
-    <pattern>
-      <token regexp="yes">[a-z].*(trum|gebeuren|eczeem|oedeem|morfeem|embleem|probleem|systeem|[bg]edrag)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1h"/></disambig>
-  </rule> 
-   
-  <!-- verklaar tot meervoud als het einde daarop wijst -->
-  <!-- cten kan ook vt zijn, dat moet er later weer uitgehaald worden -->
-  
-  <rule name="guess NN2" id="GUESS_NN2_n">
-    <pattern>
-      <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <token regexp="yes">[a-z].*(hed|eit|ing|ct|em|ent|del|oek|iek|ant|ond|iev|and|spor|essor|ator|actor|ector)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-  
-  <rule name="guess NN2" id="GUESS_NN2_n2">
-    <pattern>
-      <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <!-- TODO bekken is een lastige, die moet nog verwerkt worden -->
-      
-      <token regexp="yes">[a-z].*(kantor|motor|ell|ett|ist|ort|ard|ijn|ann|ijv|erk|oep|kost|post|orm|rag|akk|ass|[dghlrt]ekk|spekk)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-
-  <rule name="guess NN2" id="GUESS_NN2_s">
-    <pattern>
-      <!-- 's -->
-      <marker>
-      <token regexp="yes">.*'s</token>
-    </marker>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-  
-  <rule name="guess ZnwGen" id="GUESS_ZnwGen">
-    <pattern>
-      <marker>
-      <token regexp="yes">.*'s</token>
-      </marker>
-    <token></token>
-    </pattern>
-    <disambig action="add"><wd pos="ZnwGen"/></disambig>
-  </rule>
-  
-  <rule name="guess NN2" id="GUESS_NN2_n3">
-    <pattern>
-      <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <!-- TODO bekken is een lastige, die moet nog verwerkt worden -->
-      <token regexp="yes">[a-z].*([dflsm]ag|([ns])hag|zag|[bgkhmostvz]ur|[dghklt]eur|iss|gebied|lied|rt|ijz|dienst|winst|[gk]unst)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-  
-  <rule name="guess NN2" id="GUESS_NN2_s_a">
-    <pattern>
-      <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <token regexp="yes">[a-z].*('|sie|tie|ster|der|egel|(geg|l|st)even|(sp|st)aander|[lmrt]ander|schender|kalender|hoender|zender)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-
-  <rule name="guess NN2" id="GUESS_NN2_s_b">
-    <pattern>
-<!--       <token negate="yes">iets</token> -->
-      <marker>
-      <token regexp="yes" postag="UNKNOWN">.*ers</token>
-    </marker>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>
-  
-  <rule name="guess NN2" id="GUESS_NN2_s_2">
-    <pattern>
-      <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <token regexp="yes">[a-z].*(inder)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>  
-  <!--  BIJVOEGLIJKE NAAMWOORDEN -->
-  
-  <rule name="guess AJn" id="AJn">
-    <pattern>
-      <token regexp="yes">[a-z].*(ig|ijk|baar|isch)<exception postag="AJn"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJn"/></disambig>
-  </rule>
-  
-  <rule name="guess AJi" id="AJi">
-    <pattern>
-      <token>iets</token>
-      <marker>
-      <token regexp="yes">[a-z].*(igs|ijks|baars|isch)<exception postag="AJi"/></token>
-      </marker>
-    </pattern>
-    <disambig action="add"><wd pos="AJi"/></disambig>
-  </rule>
-
-  <rule name="guess AJe" id="AJe">
-    <pattern>
-      <token regexp="yes">[a-z].*(ige|ijke|bare|ische)<exception postag="AJe"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJe"/></disambig>
-  </rule>
-  
-  <rule name="guess AJcn" id="AJcn">
-    <pattern>
-      <token regexp="yes">[a-z].*(iger|ijker|baarder|ischer)<exception postag="AJcn"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJcn"/></disambig>
-  </rule>
-
-  <rule name="guess AJce" id="AJce">
-    <pattern>
-      <token regexp="yes">[a-z].*(igere|ijkere|baardere|ischere)<exception postag="AJce"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJce"/></disambig>
-  </rule>
-  
-  <rule name="guess AJci" id="AJci">
-    <pattern>
-      <token>iets</token>
-      <marker>
-      <token regexp="yes">[a-z].*(ig|ijk|d|st|isch)ers<exception postag="AJci"/></token>
-    </marker>
-    </pattern>
-    <disambig action="add"><wd pos="AJci"/></disambig>
-  </rule>  
-
-  <rule name="guess AJsn" id="AJsn">
-    <pattern>
-      <token regexp="yes">[a-z].*(igst|ijkst|baarst|ijst)<exception postag="AJsn"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJsn"/></disambig>
-  </rule>
-  
-  <rule name="guess AJse" id="AJse">
-    <pattern>
-      <token regexp="yes">[a-z].*(igste|ijkste|baarste|ijste)<exception postag="AJse"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="AJse"/></disambig>
-  </rule>
-
-  <!-- WERKWOORDSVORMEN -->
-  <rule name="guess VB3" id="VB3">
-    <pattern>
-      <token regexp="yes">[a-z].*(dt)<exception postag="VB3"/></token>
-    </pattern>
-    <disambig action="add"><wd pos="VB3"/></disambig>
-  </rule>
-  
-  <!-- GETALLEN -->
-  
-  <rule name="guess number" id="NUMBERS">
-    <pattern>
-      <token regexp="yes">[0-9]*</token>
-    </pattern>
-    <disambig action="add"><wd pos="NM"/></disambig>
-  </rule>  
-
-  <rule name="guess number" id="NUMBERS_RANKING">
-    <pattern>
-      <token regexp="yes">[0-9]{1,}(e|de|ste)</token>
-    </pattern>
-    <disambig action="add"><wd pos="NMr"/></disambig>
-  </rule>  
-  
-  <!-- EIGENNAMEN? -->  
-  
-  <rule name="guess proper name" id="PROPER_NAME">
-    <pattern>
-      <token regexp="yes" case_sensitive="yes">[A-Z][a-z].{4,}</token>
-    </pattern>
-    <disambig action="add"><wd pos="PN"/></disambig>
-  </rule>  
-  
-  <!-- REAL DISAMBIGUATION --> 
-  <!-- NN2 and AJci -->
-  <rule name="iets + NN2/AJci => drop NN2" id="IETS_AJci_NN2">
-    <pattern>
-        <token>iets</token>
-        <marker>
-            <token postag="NN2"/>
-        </marker>
-    </pattern>
-    <disambig action="remove"><wd pos="NN2"/></disambig>
-  </rule>
-
-  <rule name="de .*(en|s) die => NN2" id="DE_XEN_DIE_NN2">
-    <!-- guess as plural -->
-    <pattern>
-        <token>de</token>
-        <marker>
-	  <token postag="UNKNOWN" regexp="yes">.*(en|s)</token>
-        </marker>
-        <token>die</token>
-    </pattern>
-    <disambig action="add"><wd pos="NN2"/></disambig>
-  </rule>  
-  
-  <!-- what is left is problably NN1d -->
-  <rule name="de .. die => NN2" id="DE_X_DIE_NN1d">
-    <!-- guess as single (even when it is an adjective, this is probably right -->
-    <pattern>
-        <token>de</token>
-        <marker>
-	  <token postag="UNKNOWN"/>
-        </marker>
-        <token>die</token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1d"/></disambig>
-  </rule>  
-  
-  <rule name="een .. die => NN1d" id="EEN_X_DIE_NN1d">
-    <!-- guess as single (even when it is an adjective, this is probably right -->
-    <pattern>
-        <token>een</token>
-        <marker>
-	  <token postag="UNKNOWN"><exception regexp="yes">van|door|in|naar</exception></token>
-        </marker>
-        <token>die</token>
-    </pattern>
-    <disambig action="add"><wd pos="NN1d"/></disambig>
-  </rule>  
-  
-  <rule id="DE_X_VAN_a" name="De NN2/VBi van => NN2">
-    <pattern>
-      <token>de</token>
-      <token postag="VBi"/>
-      <token>van</token>
-    </pattern>    
-    <disambig action="remove"><wd pos="VBi"/></disambig>
-    <!-- add NN2 ?? -->
-  </rule>   
-  
-  <!-- IMMUNIZING SOME WIKIPEDIA CONSTRUCTIONS THAT GENERATE ERRORS IN WIKICHECK -->
-  <rule name="x=quote" id="Wikipedia_1">
-    <pattern>
-      <token regexp="yes">image|name|width</token>
-      <token>=</token>
-      <token>"</token>
-      <token></token>      
-    </pattern>
-    <disambig action="immunize"/>
-  </rule>
-  <rule name="[[" id="Wikipedia_3">
-    <pattern>
-      <token>[</token>
-      <token>[</token>
-    </pattern>
-    <disambig action="immunize"/>
-  </rule>
-  <rule name="]]" id="Wikipedia_4">
-    <pattern>
-      <token>]</token>
-      <token>]</token>
-    </pattern>
-    <disambig action="immunize"/>
-  </rule>
-  <rule name="==" id="Wikipedia_5">
-    <pattern>
-      <token>=</token>
-      <token>=</token>
-    </pattern>
-    <disambig action="immunize"/>
-  </rule>
-  <rule name="= Heading =" id="Wikipedia_6">
-    <pattern>
-      <token>=</token>
-      <token>Heading</token>
-      <token>=</token>
-    </pattern>
-    <disambig action="immunize"/>
-  </rule>  
+		 xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+	
+	<!-- SPELLING IGNORES -->
+	<!-- ROMEINSE GETALLEN -->
+	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- rangtelnummers -->
+	<rule name="ignore -ste" id="SPELLER_NUMBERS_RANKING">
+		<pattern>
+			<token regexp="yes">[0-9]{1,10}(ste|de|e)</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- alle 'woorden' zonder letters -->
+	<rule name="ignore 0-1 etc" id="SPELLER_NONWORDS">
+		<pattern>
+			<token regexp="yes">[^a-zA-Z]{1,80}</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- mailadressen en twitternamen -->
+	<rule name="ignore @" id="SPELLER_AT">
+		<pattern>
+			<token regexp="yes">.*@.*</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- straten etc -->
+	<rule name="ignore adresses" id="SPELLER_STREETS">
+		<pattern>
+			<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*(straat|plein|steeg|allee|boulevard|weg|wijk)</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- FC Twente etc. -->
+	<rule name="ignore clubs" id="SPELLER_FC_CLUB">
+		<pattern>
+			<marker>
+				<token>FC</token>
+			</marker>
+			<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- wegnummers van NL en Vlaanderen -->
+	<rule name="ignore numbers of roads" id="SPELLER_ROAD_NUMBERS">
+		<pattern>
+			<token regexp="yes" case_sensitive="yes">A[0-9]{1,3}|N[0-9]{1,3}|s[0-9]{3}|R[0-9]|B[0-9]{3}</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- straten etc -->
+	<rule name="ignore parts of proper names" id="SPELLER_NEDERLANDSCHE">
+		<pattern>
+			<marker>
+				<token>Nederlandsche</token>
+			</marker>
+			<token case_sensitive="yes">Bank</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- domains etc -->
+	<rule name="ignore parts of domains" id="SPELLER_DOMAINS_a">
+		<pattern>
+			<marker>
+				<token regexp="yes">[A-Za-z0-9]{3,50}</token>
+			</marker>
+			<token spacebefore="no">.</token>
+			<token spacebefore="no" regexp="yes">[A-Za-z0-9]{3,50}</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<rule name="ignore parts of domains" id="SPELLER_DOMAINS_b">
+		<pattern>
+			<token regexp="yes">[A-Za-z0-9]{3,50}</token>
+			<token spacebefore="no">.</token>
+			<marker>
+				<token spacebefore="no" regexp="yes">[A-Za-z0-9]{2,50}</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- bijv naamw met getal-->
+	<rule name="getal-ig" id="SPELLER_NUMBER_IG">
+		<pattern>
+			<token regexp="yes">[0-9]{1,3}[-](jarig|jarige|tal|tallen)</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- social media en andere woordgroepen -->
+	<rule name="social media etc" id="SPELLER_SOCIAL_MEDIA">
+		<pattern>
+			<marker>
+				<token>social</token>
+			</marker>
+			<token>media</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>  
+	
+	<!-- social media en andere woordgroepen -->
+	<rule name="nota bene" id="SPELLER_NOTA_BENE">
+		<pattern>
+			<token>nota</token>
+			<marker>
+				<token>bene</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- social media en andere woordgroepen -->
+	<rule name="per se" id="SPELLER_PER_SE">
+		<pattern>
+			<token>per</token>
+			<marker>
+				<token>se</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- Tel Aviv-->
+	<rule name="Tel Aviv" id="SPELLER_TEL_AVIV">
+		<pattern case_sensitive="yes">
+			<token>Tel</token>
+			<marker>
+				<token>Aviv</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- Tel Aviv-->
+	<rule name="New York etc." id="SPELLER_NEW_X">
+		<pattern case_sensitive="yes">
+			<token>New</token>
+			<marker>
+				<token regexp="yes">York|Orleans|Yorkse|Yorks</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>  
+	</rule>
+	
+	<!-- ZELFSTANDIGE NAAMWOORDEN -->
+	<!-- ~je duidt op verkleinwoord behalve ~ije (~vrije vooral) en ~nje (oranje, spanje)-->
+	<rule name="guess NN1r" id="NN1r">
+		<pattern>
+			<token regexp="yes">[a-z].*je<exception postag="NN1r"/><exception regexp="yes">.*(ije|nje)</exception></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1r"/></disambig>
+	</rule>
+	
+	<!-- ~jes duidt op verkleinwoord meervoud, of op vorm als kalmpjes -->
+	<rule name="guess NN2r" id="NN2r">
+		<pattern>
+			<token regexp="yes">[a-z].*jes<exception postag="NN2r"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2r"/></disambig>
+	</rule>
+	
+	<!-- ~jdde duidt op vt -->
+	<rule name="guess VBh1" id="VBh1">
+		<pattern>
+			<token regexp="yes">[a-z].*dde<exception postag="VBh1"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="VBh1"/></disambig>
+	</rule>
+	
+	<!-- verklaar tot znw enkelvoud, de -->
+	<!-- van schap zijn uitzonderingen die 'het' zijn -->
+	<rule name="guess NN1d" id="NN1d_1">
+		<pattern>
+			<token regexp="yes">[a-z].*(heid|teit|ing|tie|groep|stand|ctie|ctuur|itect|prefect|markt|racht|ijst|elaar|kaart)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1d"/></disambig>
+	</rule>
+	<rule name="guess NN1d" id="NN1d_2">
+		<pattern>
+			<token regexp="yes">[a-z].*(plaats|wagen|dienst|ode|ogie|zweem|[^c]zeem|ector|missie|atiek|ruimte)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1d"/></disambig>
+	</rule>
+	
+	<!-- 
+	verklaar tot znw enkelvoud, het 
+	vooral nuttig voor al die samenstellingen die niet in de taggin dictionary staan
+	-->
+	
+	<rule name="guess NN1h" id="NN1h_1">
+		<pattern>
+			<token regexp="yes">[a-z].*(geding|beding|gramma|ement|beleid|gebied|proces|zoek|drijf|project|effect|aspect|dialect|defect|traject|object|insect|iveau|model)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1h"/></disambig>
+	</rule>
+	
+	<rule name="guess NN1h" id="NN1h_2">
+		<pattern>
+			<token regexp="yes">[a-z].*(trum|gebeuren|eczeem|oedeem|morfeem|embleem|probleem|systeem|[bg]edrag)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1h"/></disambig>
+	</rule> 
+	
+	<!-- verklaar tot meervoud als het einde daarop wijst -->
+	<!-- cten kan ook vt zijn, dat moet er later weer uitgehaald worden -->
+	
+	<rule name="guess NN2" id="GUESS_NN2_n">
+		<pattern>
+			<!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
+			<token regexp="yes">[a-z].*(hed|eit|ing|ct|em|ent|del|oek|iek|ant|ond|iev|and|spor|essor|ator|actor|ector)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_n2">
+		<pattern>
+			<!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
+			<!-- TODO bekken is een lastige, die moet nog verwerkt worden -->
+			
+			<token regexp="yes">[a-z].*(kantor|motor|ell|ett|ist|ort|ard|ijn|ann|ijv|erk|oep|kost|post|orm|rag|akk|ass|[dghlrt]ekk|spekk)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_s">
+		<pattern>
+			<!-- 's -->
+			<marker>
+				<token regexp="yes">[aeiouy]'s$</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess ZnwGen" id="GUESS_ZnwGen">
+		<pattern>
+			<marker>
+				<token regexp="yes">.*'s</token>
+			</marker>
+			<token></token>
+		</pattern>
+		<disambig action="add"><wd pos="ZnwGen"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_n3">
+		<pattern>
+			<!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
+			<!-- TODO bekken is een lastige, die moet nog verwerkt worden -->
+			<token regexp="yes">[a-z].*([dflsm]ag|([ns])hag|zag|[bgkhmostvz]ur|[dghklt]eur|iss|gebied|lied|rt|ijz|dienst|winst|[gk]unst)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_s_a">
+		<pattern>
+			<!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
+			<token regexp="yes">[a-z].*('|sie|tie|ster|der|egel|(geg|l|st)even|(sp|st)aander|[lmrt]ander|schender|kalender|hoender|zender)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_s_b">
+		<pattern>
+			<!--       <token negate="yes">iets</token> -->
+			<marker>
+				<token regexp="yes" postag="UNKNOWN">.*ers</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="guess NN2" id="GUESS_NN2_s_2">
+		<pattern>
+			<!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
+			<token regexp="yes">[a-z].*(inder)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>  
+	<!--  BIJVOEGLIJKE NAAMWOORDEN -->
+	
+	<rule name="guess AJn" id="AJn">
+		<pattern>
+			<token regexp="yes">[a-z].*(ig|ijk|baar|isch)<exception postag="AJn"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJn"/></disambig>
+	</rule>
+	
+	<rule name="guess AJi" id="AJi">
+		<pattern>
+			<token>iets</token>
+			<marker>
+				<token regexp="yes">[a-z].*(igs|ijks|baars|isch)<exception postag="AJi"/></token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="AJi"/></disambig>
+	</rule>
+	
+	<rule name="guess AJe" id="AJe">
+		<pattern>
+			<token regexp="yes">[a-z].*(ige|ijke|bare|ische)<exception postag="AJe"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJe"/></disambig>
+	</rule>
+	
+	<rule name="guess AJcn" id="AJcn">
+		<pattern>
+			<token regexp="yes">[a-z].*(iger|ijker|baarder|ischer)<exception postag="AJcn"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJcn"/></disambig>
+	</rule>
+	
+	<rule name="guess AJce" id="AJce">
+		<pattern>
+			<token regexp="yes">[a-z].*(igere|ijkere|baardere|ischere)<exception postag="AJce"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJce"/></disambig>
+	</rule>
+	
+	<rule name="guess AJci" id="AJci">
+		<pattern>
+			<token>iets</token>
+			<marker>
+				<token regexp="yes">[a-z].*(ig|ijk|d|st|isch)ers<exception postag="AJci"/></token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="AJci"/></disambig>
+	</rule>  
+	
+	<rule name="guess AJsn" id="AJsn">
+		<pattern>
+			<token regexp="yes">[a-z].*(igst|ijkst|baarst|ijst)<exception postag="AJsn"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJsn"/></disambig>
+	</rule>
+	
+	<rule name="guess AJse" id="AJse">
+		<pattern>
+			<token regexp="yes">[a-z].*(igste|ijkste|baarste|ijste)<exception postag="AJse"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="AJse"/></disambig>
+	</rule>
+	
+	<!-- WERKWOORDSVORMEN -->
+	<rule name="guess VB3" id="VB3">
+		<pattern>
+			<token regexp="yes">[a-z].*(dt)<exception postag="VB3"/></token>
+		</pattern>
+		<disambig action="add"><wd pos="VB3"/></disambig>
+	</rule>
+	
+	<!-- GETALLEN -->
+	
+	<rule name="guess number" id="NUMBERS">
+		<pattern>
+			<token regexp="yes">[0-9]*</token>
+		</pattern>
+		<disambig action="add"><wd pos="NM"/></disambig>
+	</rule>  
+	
+	<rule name="guess number" id="NUMBERS_RANKING">
+		<pattern>
+			<token regexp="yes">[0-9]{1,}(e|de|ste)</token>
+		</pattern>
+		<disambig action="add"><wd pos="NMr"/></disambig>
+	</rule>  
+	
+	<!-- EIGENNAMEN? -->  
+	
+	<rule name="guess proper name" id="PROPER_NAME">
+		<pattern>
+			<token regexp="yes" case_sensitive="yes">[A-Z][a-z].{4,}</token>
+		</pattern>
+		<disambig action="add"><wd pos="PN"/></disambig>
+	</rule>  
+	
+	<!-- REAL DISAMBIGUATION =================================================================== --> 
+	
+	<!-- all in order of frequency of probability -->
+	
+	<!-- ~De~{NN1}|964830|~De~{VB1}|0|1:964830 -->
+	<rule id="NN1_VB1_01" name="de NN1">
+		<pattern>
+			<token>de</token>
+			<marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VB1"/></disambig>
+	</rule>
+	
+	<!-- ~een~{NN1}~van|417037|~een~{VB1}~van|0|1:417037 -->
+	<!-- ~het~{NN1}~van|374434|~het~{VB1}~van|0|1:374434 -->
+	<rule id="NN1_VB1_x02" name="de NN1 van">
+		<pattern>
+			<token regexp="yes">de|een</token>
+			<marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+			<token>van</token>
+		</pattern>
+		<disambig action="remove"><wd pos="VB1"/></disambig>
+	</rule>
+	
+	<!-- ~{VBh1}~ik|374296|~{VBpe}~ik|0|1:374296 -->
+	<!-- ~{VBh1}~het|267353|~{VBpe}~het|0|1:267353 -->
+	<rule id="VBh1_VBpe_01" name="VBH1 ik">
+		<pattern>
+			<marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+			<token regexp="yes">ik|het</token>
+		</pattern>
+		<disambig action="remove"><wd pos="VBpe"/></disambig>
+	</rule>
+	
+	<!-- ~uw~{NN1}|279531|~uw~{VB1}|0|1:279531 -->
+	<!-- ~Een~{NN1}|245989|~Een~{VB1}|0|1:245989 -->
+	<rule id="NN1_VB1_03" name="uw NN1">
+		<pattern>
+			<token regexp="yes">uw|een</token>
+			<marker><and><token postag="NN1([dh]){0,1}" postag_regexp="yes"/><token postag="VB1"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBpe"/></disambig>
+	</rule>
+	
+	<!-- ~Ik~{VBh1}|257756|~Ik~{VBpe}|0|1:257756 -->
+	<rule id="VBh1_VBpe_02" name="ik VBh1">
+		<pattern>
+			<token regexp="yes">ik|het</token>
+			<marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBpe"/></disambig>
+	</rule>
+	
+	<!-- ~{VBh1}~de|240746|~{VBpe}~de|0|1:240746 -->
+	<rule id="VBh1_VBpe_03" name="VBh1 de">
+		<pattern>
+			<marker><and><token postag="VBh1"/><token postag="VBpe"/></and></marker>
+			<token>de</token>
+		</pattern>
+		<disambig action="remove"><wd pos="VBpe"/></disambig>
+	</rule>
+	
+	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->  
+	
+	<rule id="NN2_VBi_1" name="te werkwoord ">
+		<pattern>
+			<token>te</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule id="NN2_VBi_2" name="het werkwoord van">
+		<pattern>
+			<token>het</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+			<token>van</token>
+		</pattern>
+		<disambig action="remove"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule id="NN2_VBi_3" name="kunnen werkwoord.">
+		<pattern>
+			<token regexp="yes">kunnen|kan</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+			<token regexp="yes">[.!]</token>
+		</pattern>
+		<disambig action="remove"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule id="NN2_VBi_4" name="de NN2">
+		<pattern>
+			<token>de</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	
+	<rule id="NN2_VBi_5" name="de AJe NN2">
+		<pattern>
+			<token>de</token>
+			<token postag="AJe"><exception negate_pos="yes" postag="AJe"/></token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	
+	<rule id="NN2_VBi_6" name="te kunnen VBi">
+		<pattern>
+			<token>te</token>
+			<token regexp="yes">kunnen|willen|moeten|laten</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="NN2"/></disambig>
+	</rule>
+	<!--   ~de~{VBqe}~{NN2} (76619) <===> ~de~{VBqe}~{VBi} (0) : 1 -->
+	<rule id="NN2_VBi_7" name="de lopende NN2">
+		<pattern>
+			<token>de</token>
+			<token postag="VBqe"/>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	<!-- ~en~{AJe}~{NN2} (38376) <===> ~en~{AJe}~{VBi} (0) : 1 -->
+	<rule id="NN2_VBi_8" name="de lopende NN2">
+		<pattern>
+			<token>en</token>
+			<token postag="AJe"/>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	<!-- ~van~deze~{NN2} (38053) <===> ~van~deze~{VBi} (0) : 1 -->
+	<rule id="NN2_VBi_9" name="van deze NN2">
+		<pattern>
+			<token>van</token>
+			<token>deze</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	<!-- ~van~{AJe}~{NN2} (37152) <===> ~van~{AJe}~{VBi} (0) : 1 -->
+	<rule id="NN2_VBi_10" name="van AJe NN2">
+		<pattern>
+			<token>van</token>
+			<token postag="AJe"/>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	<!-- ~voor~{NN2}~die (28869) <===> ~voor~{VBi}~die (0) : 1 -->
+	<rule id="NN2_VBi_11" name="voor NN2 die">
+		<pattern>
+			<token>van</token>
+			<marker><and><token postag="NN2"/><token postag="VBi"/></and></marker>
+			<token>die</token>
+		</pattern>
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+	</rule>
+	
+	<!-- NN1 / VB1 =============================================== -->
+	<!-- ~in~het~{NN1} (299195) <===> ~in~het~{VB1} (0) : 1 -->
+	<!-- ~op~het~{NN1} (201918) <===> ~op~het~{VB1} (0) : 1 -->
+	<rule id="NN1_VB1_3" name="op het NN1">
+		<pattern>
+			<token regexp="yes">in|op</token>
+			<token regexp="yes">de|een</token>
+			<marker><and><token postag="NN1"/><token postag="VB1"/></and></marker>
+		</pattern>
+		<disambig action="remove"><wd pos="VB1"/></disambig>
+	</rule>
+	
+	
+	<rule id="NN1_VB1_02" name="VB1 je">
+		<pattern>
+			<marker><and><token postag="VB1"/><token postag="NN1(d|h){0,1}" postag_regexp="yes"/></and></marker>
+			<token regexp="yes">je|ik</token>
+		</pattern>
+		<disambig action="remove"><wd pos="NN1(d|h){0,1}"/></disambig>
+	</rule>
+	<!-- ???????????? hier was ik gebleven ???????????????????????????????????? -->  
+	<!-- NN2 and AJci ====================================================== -->
+	<rule name="iets + NN2/AJci => drop NN2" id="IETS_AJci_NN2">
+		<pattern>
+			<token>iets</token>
+			<marker>
+				<token postag="NN2"/>
+			</marker>
+		</pattern>
+		<disambig action="remove"><wd pos="NN2"/></disambig>
+	</rule>
+	
+	<rule name="de .*(en|s) die => NN2" id="DE_XEN_DIE_NN2">
+		<!-- guess as plural -->
+		<pattern>
+			<token>de</token>
+			<marker>
+				<token postag="UNKNOWN" regexp="yes">.*(en|s)</token>
+			</marker>
+			<token>die</token>
+		</pattern>
+		<disambig action="add"><wd pos="NN2"/></disambig>
+	</rule>  
+	
+	<!-- what is left is problably NN1d -->
+	<rule name="de .. die => NN2" id="DE_X_DIE_NN1d">
+		<!-- guess as single (even when it is an adjective, this is probably right -->
+		<pattern>
+			<token>de</token>
+			<marker>
+				<token postag="UNKNOWN"/>
+			</marker>
+			<token>die</token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1d"/></disambig>
+	</rule>  
+	
+	<rule name="een .. die => NN1d" id="EEN_X_DIE_NN1d">
+		<!-- guess as single (even when it is an adjective, this is probably right -->
+		<pattern>
+			<token>een</token>
+			<marker>
+				<token postag="UNKNOWN"><exception regexp="yes">van|door|in|naar</exception></token>
+			</marker>
+			<token>die</token>
+		</pattern>
+		<disambig action="add"><wd pos="NN1d"/></disambig>
+	</rule>  
+	
+	<rule id="DE_X_VAN_a" name="De NN2/VBi van => NN2">
+		<pattern>
+			<token>de</token>
+			<token postag="VBi"/>
+			<token>van</token>
+		</pattern>    
+		<disambig action="remove"><wd pos="VBi"/></disambig>
+		<!-- add NN2 ?? -->
+	</rule>   
+	
+	<!-- IMMUNIZING SOME WIKIPEDIA CONSTRUCTIONS THAT GENERATE ERRORS IN WIKICHECK -->
+	<rule name="x=quote" id="Wikipedia_1">
+		<pattern>
+			<token regexp="yes">image|name|width</token>
+			<token>=</token>
+			<token>"</token>
+			<token></token>      
+		</pattern>
+		<disambig action="immunize"/>
+	</rule>
+	<rule name="[[" id="Wikipedia_3">
+		<pattern>
+			<token>[</token>
+			<token>[</token>
+		</pattern>
+		<disambig action="immunize"/>
+	</rule>
+	<rule name="]]" id="Wikipedia_4">
+		<pattern>
+			<token>]</token>
+			<token>]</token>
+		</pattern>
+		<disambig action="immunize"/>
+	</rule>
+	<rule name="==" id="Wikipedia_5">
+		<pattern>
+			<token>=</token>
+			<token>=</token>
+		</pattern>
+		<disambig action="immunize"/>
+	</rule>
+	<rule name="= Heading =" id="Wikipedia_6">
+		<pattern>
+			<token>=</token>
+			<token>Heading</token>
+			<token>=</token>
+		</pattern>
+		<disambig action="immunize"/>
+	</rule>  
+	
+	<!-- IMMUNIZING SOME COMMON EXCEPTIONS -->
+	<rule name="niet_meer" id="NIET_MEER">
+		<pattern><token>niet</token><token>meer</token></pattern>
+		<disambig action="immunize"/>
+	</rule>
+	
 </rules>

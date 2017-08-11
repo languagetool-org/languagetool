@@ -44,7 +44,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern QUOTE_START = Pattern.compile("[\"'„»«“‘]");
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Pattern SENTENCE_END2 = Pattern.compile("[.?!…]");
-  private static final Pattern DUTCH_SPECIAL_CASE = Pattern.compile("k|m|n|r|s|t");
+  private static final Pattern DUTCH_SPECIAL_CASE = Pattern.compile("[kmnrst]");
 
   private final Language language;
 

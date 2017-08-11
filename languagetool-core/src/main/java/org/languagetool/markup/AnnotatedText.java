@@ -32,14 +32,30 @@ import java.util.Objects;
  */
 public class AnnotatedText {
 
-  private final List<TextPart> parts;
-  private final Map<Integer,Integer> mapping;  // plain text position to original text (with markup) position
-
-  AnnotatedText(List<TextPart> parts, Map<Integer,Integer> mapping) {
-    this.parts = Objects.requireNonNull(parts);
-    this.mapping = Objects.requireNonNull(mapping);
+  /**
+   * @since 3.9
+   */
+  public enum MetaDataKey {
+    DocumentTitle,
+    EmailToAddress,
+    EmailNumberOfAttachments
   }
 
+  private final List<TextPart> parts;
+  private final Map<Integer,Integer> mapping;  // plain text position to original text (with markup) position
+  private final Map<MetaDataKey, String> metaData;
+  private final Map<String, String> customMetaData;
+
+  AnnotatedText(List<TextPart> parts, Map<Integer, Integer> mapping, Map<MetaDataKey, String> metaData, Map<String, String> customMetaData) {
+    this.parts = Objects.requireNonNull(parts);
+    this.mapping = Objects.requireNonNull(mapping);
+    this.metaData = Objects.requireNonNull(metaData);
+    this.customMetaData = Objects.requireNonNull(customMetaData);
+  }
+
+  /**
+   * Get the plain text, without markup.
+   */
   public String getPlainText() {
     StringBuilder sb = new StringBuilder();
     for (TextPart part : parts) {
@@ -85,8 +101,23 @@ public class AnnotatedText {
     return bestMatch + minDiff;
   }
 
+  /**
+   * @since 3.9
+   */
+  public String getGlobalMetaData(String key, String defaultValue) {
+    return customMetaData.getOrDefault(key, defaultValue);
+  }
+
+  /**
+   * @since 3.9
+   */
+  public String getGlobalMetaData(MetaDataKey key, String defaultValue) {
+    return metaData.getOrDefault(key, defaultValue);
+  }
+
   @Override
   public String toString() {
     return StringUtils.join(parts, "");
   }
+  
 }

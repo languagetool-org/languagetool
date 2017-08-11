@@ -81,7 +81,6 @@ public class MorfologikSpeller {
   public boolean isMisspelled(String word) {
     return word.length() > 0 
             && !SpellingCheckRule.LANGUAGETOOL.equals(word)
-            && !SpellingCheckRule.LANGUAGETOOL_FX.equals(word)
             && speller.isMisspelled(word);
   }
 
@@ -93,6 +92,10 @@ public class MorfologikSpeller {
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
         String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions.get(i));
+        // do not use capitalized word if it matches the original word or it's mixed case
+        if (uppercaseFirst.equals(word) || StringTools.isMixedCase(suggestions.get(i))) {
+          uppercaseFirst = suggestions.get(i);
+        }
         // remove capitalized duplicates
         int auxIndex = suggestions.indexOf(uppercaseFirst);
         if (auxIndex > i) {
