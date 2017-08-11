@@ -153,6 +153,26 @@ title="Easy editing stylesheet" ?>
           <phraseref idref="DIALOG_CITATION"/>
       </includephrases>
     </phrase>
+    <phrase id="YESTERDAYS">
+          <token regexp="yes">(?i)(ante)?ontem</token>
+    </phrase>
+    <phrase id="PAST_EXPRESSIONS">
+          <token regexp='yes'>(?i)n?as?</token>
+          <token regexp='yes'>&expressoes_de_tempo;|estação|estações</token>
+          <token regexp='yes'>(passad|recordad|lembrad)[ao]s?</token>
+    </phrase>
+    <phrase id="INVERTED_PAST_EXPRESSIONS">
+          <token regexp='yes'>(?i)n?as?</token>
+          <token regexp='yes'>(passad|recordad|lembrad)[ao]s?</token>
+          <token regexp='yes'>&expressoes_de_tempo;|estação|estações</token>
+    </phrase>
+    <phrase id="ALL_PAST_EXPRESSIONS"><!-- FIXME handling of token variable token size is not done in suggestions -->
+      <includephrases>
+          <phraseref idref="YESTERDAYS"/>
+          <phraseref idref="PAST_EXPRESSIONS"/>
+          <phraseref idref="INVERTED_PAST_EXPRESSIONS"/>
+      </includephrases>
+    </phrase>
   </phrases>
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
@@ -769,7 +789,7 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
       <example correction="belas-artes">É uma bom exemple de <marker>bela-arte</marker>.</example>
     </rule>
-    <!--rule>< XXX Confirme which version is correct, if any. 
+    <!--rule>< XXX Confirme which version is correct, if any.
                    This version is disabled since it is no longer on Wikipedia>
       <pattern>
           <token>à</token>
@@ -1252,6 +1272,65 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/>\2\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
       <example correction='juntara-se a família|juntou-se a família'>A ele <marker>juntaram-se a família</marker>.</example>
       <example>A ele <marker>juntaram-se uma amiga</marker> e a família.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
+    <rule>
+      <pattern>
+          <phraseref idref="ALL_PAST_EXPRESSIONS"/>
+          <token min='0' skip='4'/>
+          <token postag="V.IF3P.+" postag_regexp="yes" regexp="yes">.+?rão</token>
+      </pattern>
+      <message>Esta infleção refere-se ao futuro. Se pretende referir-se ao passado subsitua '-ão' por '-am'</message>
+      <short>Tempo verbal incorreto.</short>
+      <example correction=""><marker>Anteontem, enviarão</marker> os livros antes do fecho.</example>
+    <!-- FIXME token index doesn't work with variable size phrases -->
+      <example correction=""><marker>A semana passada, os editores enviarão</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na passada semana enviarão</marker> os livros antes do fecho.</example>
+      <example>Na próxima semana envirão os livros antes do fecho.</example>
+    </rule>
+    <!--rule>
+               FIXME Caused by: java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+               skip followed by phraseref
+      <pattern>
+          <token postag="V.IF3P.+" postag_regexp="yes" regexp="yes">.+?rão</token>
+          <token skip='4'/>
+          <phraseref idref="ALL_PAST_EXPRESSIONS"/>
+      </pattern>
+      <message>Esta infleção refere-se ao futuro. Se pretende referir-se ao passado subsitua 'ão' por 'am'</message>
+      <short>Tempo verbal incorreto.</short>
+      <example correction=""><marker>Enviarão os livros anteontem</marker>, antes do fecho.</example>
+      <example correction=""><marker>os editores enviarão, a semana passada, </marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Enviarão os livros na passada semana</marker>, antes do fecho.</example>
+      <example>Envirão os livros na próxima semana, antes do fecho.</example>
+            </rule-->
+    <rule>
+      <pattern>
+          <phraseref idref="ALL_PAST_EXPRESSIONS"/>
+          <token min='0' skip='4'/>
+          <token postag="V.IF[23]S.+" postag_regexp="yes" regexp="yes">.+?rás?</token>
+      </pattern>
+      <message>Esta infleção refere-se ao futuro. Se pretende referir-se ao passado subsitua '-rá' por '-ra'</message>
+      <short>Tempo verbal incorreto.</short>
+      <example correction=""><marker>Anteontem, enviará</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>A semana passada, os editores enviarás</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na passada semana enviarás</marker> os livros antes do fecho.</example>
+      <example>Na próxima semana envirão os livros antes do fecho.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <phraseref idref="ALL_PAST_EXPRESSIONS"/>
+          <token min='0' skip='4'/>
+          <token postag="V.IF2P.+" postag_regexp="yes" regexp="yes">.+?[^áêíéô]reis</token> <!-- TODO add a function equivalente to 'tr' -->
+      </pattern>
+      <message>Esta infleção refere-se ao futuro. Se pretende referir-se ao passado subsitua utilize a forma acentuada</message>
+      <short>Tempo verbal incorreto.</short>
+      <example correction=""><marker>Anteontem, enviareis</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>A semana passada, vós enviareis</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na passada semana enviareis</marker> os livros antes do fecho.</example>
+      <example>Na próxima semana envireis os livros antes do fecho.</example>
     </rule>
   </rulegroup>
 
@@ -2659,7 +2738,7 @@ title="Easy editing stylesheet" ?>
           <token>!</token>
       </antipattern>
       <antipattern><!-- XXX LibreOffice specific antipattern -->
-      <!-- TODO Libreoffice plug-in tokenizes enumerations differently, so, it triggers an error that does not exist in the LT-server, nor LT-standalone. Verify. -->
+    <!-- TODO Libreoffice plug-in tokenizes enumerations differently, so, it triggers an error that does not exist in the LT-server, nor LT-standalone. Verify. -->
           <token postag='SENT_START'/>
           <token regexp='yes'>\d{1,2}|\p{L}</token>
           <token regexp='yes'>[\.\)]</token>
@@ -4697,7 +4776,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>certo dia</suggestion>.</message>
       <example correction="certo dia">Tudo aconteceu <marker>um certo dia</marker> de manhã.</example>
-    </rule>	
+    </rule>
 
     <!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
@@ -4975,8 +5054,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'></token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>de</token>
@@ -6531,7 +6610,7 @@ title="Easy editing stylesheet" ?>
       <example correction="logo!|logo?|logo!?">Até <marker>logo.</marker></example>
       <example correction="Ah!|Ah?|Ah!?"><marker>Ah,</marker> quando eles se encontrarão novamente?</example>
       <example>Agradecido, mas não rendido.</example>
-      <!--example>Francamente, ela não vê por que deveria haver alguém mais</example-->
+    <!--example>Francamente, ela não vê por que deveria haver alguém mais</example-->
       <example>É uma explicação insuficiente, pois, há outra bem melhor: se tomarmos o…</example>
     </rule>
     <rule>
@@ -9011,13 +9090,13 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='UM_OUTRO' name="Determinantes redundantes: Um + outro">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-		<token>um</token>
-		<token>outro</token>		
+          <token>um</token>
+          <token>outro</token>
       </pattern>
       <message>Pleonasmo. Substitua por: </message>
         <suggestion>outro</suggestion>
       <example correction='outro'>A Ana tem <marker>um outro</marker> curso.</example>
-    </rule>  
+    </rule>
 
  </category>
 
@@ -13641,7 +13720,7 @@ o tomate'>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> estádio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-      <!--example correction='alguma estádia'><marker>alguma estadia</marker>.</example> TODO make rule with WrongWordinContext estádia vs estadia 
+    <!--example correction='alguma estádia'><marker>alguma estadia</marker>.</example> TODO make rule with WrongWordinContext estádia vs estadia
       <example correction='algumas estádias'><marker>algumas estadias</marker>.</example-->
       <example correction='do estádio'><marker>do estadio</marker>.</example>
       <example correction='dos estádios'><marker>dos estadios</marker>.</example>
@@ -15384,7 +15463,7 @@ o tomate'>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> secretário<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-      <!--example correction='da secretária'><marker>da secretaria</marker>.</example> TODO WrongWordinContext secretaria - secretária 
+    <!--example correction='da secretária'><marker>da secretaria</marker>.</example> TODO WrongWordinContext secretaria - secretária
       <example correction='das secretárias'><marker>das secretarias</marker>.</example-->
       <example correction='do secretário'><marker>do secretario</marker>.</example>
       <example correction='dos secretários'><marker>dos secretarios</marker>.</example>
