@@ -141,7 +141,7 @@ public class MorfologikMultiSpeller {
     for (MorfologikSpeller speller : spellers) {
       List<String> suggestions = speller.getSuggestions(word);
       for (String suggestion : suggestions) {
-        if (!result.contains(suggestion)) {
+        if (!result.contains(suggestion) && !suggestion.equals(word)) {
           result.add(suggestion);
         }
       }

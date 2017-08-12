@@ -48,6 +48,7 @@ public class HTTPServerTest {
       server.run();
       assertTrue(server.isRunning());
       runTestsV2();
+      runDataTests();
     } finally {
       server.stop();
       assertFalse(server.isRunning());
@@ -150,6 +151,20 @@ public class HTTPServerTest {
     assertTrue("Result: " + result7, result7.contains("\"en-US\""));
   }
 
+  private void runDataTests() throws IOException {
+    English english = new English();
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\"}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {}}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\"}}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\", \"EmailToAddress\": \"My name <foo@bar.org>\"}}", "").contains("EN_A_VS_AN"));
+    assertFalse(dataTextCheck(english, null,
+            "{\"text\": \"This is a test.\"}", "").contains("EN_A_VS_AN"));
+  }
+
   @Test
   public void testTimeout() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
@@ -248,20 +263,28 @@ public class HTTPServerTest {
   }
 
   protected String checkV1(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/", lang, motherTongue, text, "");
+    return plainTextCheck("/", lang, motherTongue, text, "");
   }
 
   protected String checkV2(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/v2/check", lang, motherTongue, text, "");
+    return plainTextCheck("/v2/check", lang, motherTongue, text, "");
   }
 
   private String checkV2(Language lang, String text, String parameters) throws IOException {
-    return check("/v2/check", lang, null, text, parameters);
+    return plainTextCheck("/v2/check", lang, null, text, parameters);
   }
 
-  private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+  private String plainTextCheck(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+    return check("text", urlPrefix, lang, motherTongue, text, parameters);
+  }
+
+  private String dataTextCheck(Language lang, Language motherTongue, String jsonData, String parameters) throws IOException {
+    return check("data", "/v2/check", lang, motherTongue, jsonData, parameters);
+  }
+
+  private String check(String typeName, String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
     String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCode());
-    urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    urlOptions += "&disabledRules=HUNSPELL_RULE&" + typeName + "=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }

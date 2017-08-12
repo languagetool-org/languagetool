@@ -40,7 +40,7 @@ public class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
-            "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.",
+            "Diese Wörter werden zusammengeschrieben oder mit Bindestrich getrennt.",
             "Zusammenschreibung von Wörtern");
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     addExamplePair(Example.wrong("Wenn es schlimmer wird, solltest Du zum <marker>HNO Arzt</marker> gehen."),
@@ -54,7 +54,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Zusammenschreibung von Wörtern, z.B. 'CD-ROM' statt 'CD ROM'";
+    return "Zusammenschreibung von Wörtern, z. B. 'CD-ROM' statt 'CD ROM'";
   }
 
   @Override

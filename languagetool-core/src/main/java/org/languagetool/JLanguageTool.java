@@ -503,6 +503,14 @@ public class JLanguageTool {
   }
   
   /**
+   * @since 3.9
+   */
+  @Experimental
+  public List<RuleMatch> check(AnnotatedText text, RuleMatchListener listener) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL, listener);
+  }
+  
+  /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * @param annotatedText The text to be checked, created with {@link AnnotatedTextBuilder}. 
@@ -967,7 +975,7 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
-          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);

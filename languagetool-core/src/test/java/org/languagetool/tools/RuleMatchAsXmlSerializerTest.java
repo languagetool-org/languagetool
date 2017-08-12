@@ -94,7 +94,7 @@ public class RuleMatchAsXmlSerializerTest {
     Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
     Matcher matcher = matchesPattern.matcher(xml);
-    assertTrue("Did not find expected '<matches>' element, got: " + xml, matcher.matches());
+    assertTrue("Did not find expected '<matches>' element ('" + matchesPattern + "'), got:\n" + xml, matcher.matches());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +

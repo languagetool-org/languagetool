@@ -34,10 +34,7 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -48,11 +45,32 @@ public class GermanSpellerRuleTest {
   private static final GermanyGerman GERMAN_DE = new GermanyGerman();
   private static final SwissGerman GERMAN_CH = new SwissGerman();
 
+  //
+  // NOTE: also manually run SuggestionRegressionTest when the suggestions are changing!
+  //
+  
+  @Test
+  public void filterForLanguage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
+    rule.filterForLanguage(list1);
+    assertThat(list1, is(Arrays.asList("foo")));
+
+    List<String> list2 = new ArrayList<>(Arrays.asList("-bar", "foo"));
+    rule.filterForLanguage(list2);
+    assertThat(list2, is(Arrays.asList("foo")));
+
+    GermanSpellerRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    List<String> list3 = new ArrayList<>(Arrays.asList("Muße", "foo"));
+    ruleCH.filterForLanguage(list3);
+    assertThat(list3, is(Arrays.asList("Musse", "foo")));
+  }
+
   @Test
   public void testSortSuggestion() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("Fehler", "fehl er", "fehle r")).toString(),
-            is("[Fehler, fehl er]"));
+    assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("fehla", "xxx", "Fehler")).toString(),
+            is("[Fehler, fehla, xxx]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
             is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
   }
@@ -76,6 +94,9 @@ public class GermanSpellerRuleTest {
     assertThat(matches2[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"));
     assertThat(matches3[0].getSuggestedReplacements().size(), is(0));
+    RuleMatch[] matches5 = rule.match(lt.getAnalyzedSentence("Ventrolateral"));
+    assertThat(matches5.length, is(0));
+    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
     assertFirstSuggestion("schwimmte", "schwamm", rule, lt);
     assertFirstSuggestion("gehte", "ging", rule, lt);
@@ -88,28 +109,47 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, lt); // "Au-pair" from spelling.txt 
     assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, lt); // "Netflix" from spelling.txt
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
+    assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("Emailacount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("millionmal", "Million Mal", rule, lt);
+    assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
+    assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
+    assertFirstSuggestion("rosanen", "rosa", rule, lt);
+    assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
+    assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
+    assertFirstSuggestion("Germanistiker", "Germanist", rule, lt);
+    assertFirstSuggestion("Germanistikern", "Germanisten", rule, lt);
+    assertFirstSuggestion("Germanistikerin", "Germanistin", rule, lt);
+    assertFirstSuggestion("erhöherung", "Erhöhung", rule, lt);
+    assertFirstSuggestion("aufjedenfall", "auf jeden Fall", rule, lt);
+    assertFirstSuggestion("Aufjedenfall", "Auf jeden Fall", rule, lt);
+    assertFirstSuggestion("funkzunierende", "funktionierende", rule, lt);
+    assertFirstSuggestion("funkzuniert", "funktioniert", rule, lt);
   }
 
   @Test
   public void testAddIgnoreWords() throws Exception {
     MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    Set<String> set = new HashSet<>();
-    rule.addIgnoreWords("Fußelmappse", set);
-    assertTrue(set.contains("Fußelmappse"));
-    rule.addIgnoreWords("Fußelmappse/N", set);
-    assertTrue(set.contains("Fußelmappse"));
-    assertTrue(set.contains("Fußelmappsen"));
-    rule.addIgnoreWords("Toggeltröt/NS", set);
-    assertTrue(set.contains("Toggeltröt"));
-    assertTrue(set.contains("Toggeltröts"));
-    assertTrue(set.contains("Toggeltrötn"));
-    rule.addIgnoreWords("Toggeltröt/NS", set);
+    rule.addIgnoreWords("Fußelmappse");
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertCorrect("Fußelmappse", rule, lt);
+    rule.addIgnoreWords("Fußelmappse/N");
+    assertCorrect("Fußelmappse", rule, lt);
+    assertCorrect("Fußelmappsen", rule, lt);
+    rule.addIgnoreWords("Toggeltröt/NS");
+    assertCorrect("Toggeltröt", rule, lt);
+    assertCorrect("Toggeltröts", rule, lt);
+    assertCorrect("Toggeltrötn", rule, lt);
     MyGermanSpellerRule ruleCH = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    ruleCH.addIgnoreWords("Fußelmappse/N", set);
-    assertTrue(set.contains("Fusselmappse"));
-    assertTrue(set.contains("Fusselmappsen"));
+    ruleCH.addIgnoreWords("Fußelmappse/N");
+    assertCorrect("Fusselmappse", ruleCH, lt);
+    assertCorrect("Fusselmappsen", ruleCH, lt);
   }
-  
+
+  private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(0));
+  }
+
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
@@ -158,8 +198,12 @@ public class GermanSpellerRuleTest {
     assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));            // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));           // from spelling.txt with suffix
+    assertFalse(ruleGermany.doIgnoreWord("wichtelmännchen"));           // from spelling.txt, no reason to accept it as lowercase
+    assertFalse(ruleGermany.doIgnoreWord("wichtelmännchens"));          // from spelling.txt with suffix, no reason to accept it as lowercase
     assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));                 // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));               // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("Vorgehängt"));                 // from spelling.txt, it's lowercase there but we accept uppercase at idx = 0
+    assertTrue(ruleGermany.doIgnoreWord("Vorgehängten"));               // from spelling.txt with suffix, it's lowercase there but we accept uppercase at idx = 0
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-vorgehängt")); // from spelling.txt formed hyphenated compound
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-Au-pair"));    // from spelling.txt formed hyphenated compound
     assertTrue(ruleGermany.doIgnoreWord("Fermi-Dirac-Statistik"));      // from spelling.txt formed hyphenated compound
@@ -239,6 +283,7 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
     assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
   }
   
   @Test
@@ -246,7 +291,7 @@ public class GermanSpellerRuleTest {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
 
     assertCorrection(rule, "Hauk", "Haus", "Haut");
-    assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn"); 
+    assertCorrection(rule, "Eisnbahn", "Eisbahn", "Eisenbahn"); 
     assertCorrection(rule, "Rechtschreipreform", "Rechtschreibreform");
     assertCorrection(rule, "Theatrekasse", "Theaterkasse");
     assertCorrection(rule, "Traprennen", "Trabrennen");
@@ -292,10 +337,7 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
-    
-    // use to work with jwordsplitter 3.4: too many other suggestions with Levenshtein=2
-    //assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
-    //assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
     assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
@@ -305,13 +347,16 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
-    
+    assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+
     assertCorrection(rule, "Arbeidszimmer", "Arbeitszimmer");
-      
-    // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
-    // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
-    // because jwordsplitter doesn't use the same dictionary as Hunspell:
-    // assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Postleidzahl", "Postleitzahl");
+    assertCorrection(rule, "vorallem", "vor allem");
+    assertCorrection(rule, "wieviel", "wie viel");
+    assertCorrection(rule, "wieviele", "wie viele");
+    assertCorrection(rule, "wievielen", "wie vielen");
+    assertCorrection(rule, "undzwar", "und zwar");
 
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
@@ -319,12 +364,26 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testGetSuggestionWithPunctuation() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
+    assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
+    assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
+    assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
+    //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
+    // commas are actually not part of the word, so the suggestion doesn't include them:
+    assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+  }
+  
+  @Test
   public void testGetSuggestionOrder() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
-    assertCorrectionsByOrder(rule, "müßte", "müsste");
-    assertCorrectionsByOrder(rule, "schmohren", "schmoren");
+    assertCorrectionsByOrder(rule, "müßte", "musste", "müsste");
+    assertCorrectionsByOrder(rule, "schmohren", "Lehmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
     assertCorrectionsByOrder(rule, "ueber", "über");
@@ -333,7 +392,9 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
     assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "is", "iss", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "is", "IS", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "Fux", "Fuchs");  // fixed in morfologik 2.1.4
+    assertCorrectionsByOrder(rule, "schänken", "Schänken");  // "schenken" is missing
   }
   
   @Test
@@ -342,10 +403,56 @@ public class GermanSpellerRuleTest {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
     lines.add("ist".getBytes());
-    byte[] info = "fsa.dict.separator=+\nfsa.dict.encoding=utf-8\nfsa.dict.frequency-included=true".getBytes();
+    byte[] info = ("fsa.dict.separator=+\n" +
+                   "fsa.dict.encoding=utf-8\n" +
+                   "fsa.dict.frequency-included=true\n" +
+                   "fsa.dict.encoder=SUFFIX").getBytes();
     Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
     Speller speller = new Speller(dict, 2);
     System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?
+  }
+
+  @Test
+  @Ignore("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
+  public void testMorfologikSpeller2() throws Exception {
+    Dictionary dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
+    runTests(dict, "Fux");
+  }
+
+  @Test
+  @Ignore("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
+  public void testMorfologikSpellerWithSpellingTxt() throws Exception {
+    String inputWord = "schänken";  // expected to work (i.e. also suggest 'schenken'), but doesn't
+    List<String> dictWords = Arrays.asList("schenken", "Schänken");
+    List<byte[]> dictWordsAsBytes = new ArrayList<>();
+    for (String entry : dictWords) {
+      dictWordsAsBytes.add(entry.getBytes("utf-8"));
+    }
+    dictWordsAsBytes.sort(FSABuilder.LEXICAL_ORDERING);
+    FSA fsa = FSABuilder.build(dictWordsAsBytes);
+    ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+    ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+    String infoFile = "fsa.dict.speller.replacement-pairs=ä e\n" +
+                      "fsa.dict.encoder=SUFFIX\n" +
+                      "fsa.dict.separator=+\n" +
+                      "fsa.dict.encoding=utf-8\n" +
+                      "fsa.dict.speller.ignore-diacritics=false\n";
+    InputStream is = new ByteArrayInputStream(infoFile.getBytes("utf-8"));
+    Dictionary dict = Dictionary.read(fsaInStream, is);
+    runTests(dict, inputWord);
+  }
+
+  private void runTests(Dictionary dict, String input) {
+    Speller speller1 = new Speller(dict);
+    System.out.println(input + " isMisspelled()     : " + speller1.isMisspelled(input));
+    System.out.println(input + " isInDictionary()   : " + speller1.isInDictionary(input));
+    System.out.println(input + " getFrequency()     : " + speller1.getFrequency(input));
+    System.out.println(input + " replaceRunOnWords(): " + speller1.replaceRunOnWords(input));
+    for (int maxDist = 1; maxDist <= 3; maxDist++) {
+      Speller speller = new Speller(dict, maxDist);
+      List<String> replacements = speller.findReplacements(input);
+      System.out.println("maxDist=" + maxDist + ": " + input + " => " + replacements);
+    }
   }
 
   private Dictionary getDictionary(List<byte[]> lines, InputStream infoFile) throws IOException {

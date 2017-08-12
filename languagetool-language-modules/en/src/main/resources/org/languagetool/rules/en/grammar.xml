@@ -79,6 +79,17 @@ USA
                 <example>I did not miss using an Android phone.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WORD_WAR" name="Word War (World War)">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Word</token>
+                    <token>War</token>
+                </pattern>
+                <message>Possible spelling error: Did you mean <suggestion>World War</suggestion></message>
+                <short>Possible typo</short>
+                <example correction="World War">He was a member of the anti-aircraft artillery during <marker>Word War</marker> II</example>
+            </rule>
+        </rulegroup>
         <rule id="WONT" name="wont (won't)">
             <pattern>
                 <marker>
@@ -295,7 +306,7 @@ USA
             <short>Possible typo</short>
             <example correction="as opposed to">Professional sports, <marker>as oppose to</marker> amateur sports , are sport s in which athletes receive payment for their performance</example>
         </rule>
-        <rule id="CONFUSION_OF_THEN_THAN" name="confusion of then/than">
+        <rule id="CONFUSION_OF_THEN_THAN" name="then (than)">
             <pattern>
                 <token>more</token>
                 <token postag="JJ" skip="-1"><exception scope="next" regexp="yes">,|than|–|;|:</exception></token>
@@ -305,7 +316,7 @@ USA
             <message>Did you mean <suggestion>than</suggestion>?</message>
             <example correction="than">It may be more expensive on some file systems <marker>then</marker> others.</example>
 		</rule>
-        <rule id="CONFUSION_OF_THESES_THESE" name="confusion of theses/these">
+        <rule id="CONFUSION_OF_THESES_THESE" name="theses (these)">
             <pattern>
                 <marker><token>theses</token></marker>
                 <token postag="NN.*" postag_regexp="yes"/>
@@ -315,19 +326,34 @@ USA
             <example correction="these">That's why the two countries look as they do <marker>theses</marker> days.</example>
             <example>There are universities that are dedicated just to this field, thousands of people doing theses on Picasso, for example.</example>
         </rule>
-        <rule id="CONFUSION_OF_ME_I" name="confusion of me/I">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token/>
-                <token>and</token>
-                <marker><token>me</token></marker>
-                <token postag="VB.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Did you mean <suggestion>I</suggestion>?</message>
-            <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
-            <example correction="I">Tim and <marker>me</marker> work together.</example>
-        </rule>
-        <rule id="CONFUSION_OF_OUR_OUT" name="confusion of our/out">
+        <rulegroup id="CONFUSION_OF_ME_I" name="me (I)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token>and</token>
+                    <marker><token>me</token></marker>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>I</suggestion>?</message>
+                <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
+                <example correction="I">Tim and <marker>me</marker> work together.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="IN"/>
+                    <token/>
+                    <token>and</token>
+                    <marker><token>I</token></marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4" regexp_match="I" regexp_replace="me" case_conversion="startlower"/></suggestion>?</message>
+                <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
+                <example correction="me">He gave it to Tim and <marker>I</marker>.</example>
+                <example>We need to talk, just you and I.</example>
+            </rule>
+        </rulegroup>
+        <rule id="CONFUSION_OF_OUR_OUT" name="out (our)">
             <pattern>
                 <token>we</token>
                 <token postag="VBD|VB|VBP" postag_regexp="yes"><exception regexp="yes">take|find|go|went</exception></token>
@@ -943,7 +969,7 @@ USA
                     <token>humans</token>
                     <token>beings</token>
                 </pattern>
-                <message>Possible typo. Did you mean: <suggestion>human \4</suggestion>?</message>
+                <message>Possible typo. Did you mean: <suggestion>human \2</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="human beings">We are all <marker>humans beings</marker>.</example>
             </rule>
@@ -1908,16 +1934,27 @@ USA
                 <example correction="he'll">And <marker>hell</marker> be there.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp='yes'>['‘"“]</token>
+                    <token>shell</token>
+                    <token/>
+                    <token spacebefore='no' regexp='yes'>['’"”]</token>
+                </antipattern>
                 <pattern>
-                    <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne</exception>shell</token></marker>
+                    <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne|Unix|Linux</exception>shell</token></marker>
                     <token postag="VB"><exception regexp="yes">people|fish</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>she'll</suggestion>?</message>
                 <short>Possible typo</short>
-                <example>This is an egg shell.</example>
+                <example>This is an egg <marker>shell</marker>.</example>
                 <example>How does the shell know which directory it's in?</example>
                 <example>Shell people did not, strictly speaking, breathe.</example>
+                <example>… or run programs from the Unix <marker>shell</marker> prompt.</example>
+                <example>How to prompt for Yes/No/Cancel input in a Linux <marker>shell</marker> script.</example>
+                <example>You should see the Unix command prompt, also known as the "<marker>shell</marker> prompt", appearing at the left side of…</example>
+                <example type="triggers_error">Coloring your prompt with tput and <marker>shell</marker> escape code.</example>
                 <example correction="She'll"><marker>Shell</marker> be there.</example>
+                <example correction="she'll">Mary will prompt the manager. Please tell John <marker>shell</marker> prompt the manager.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LETS_LET" name="let's (lets)">
@@ -1936,25 +1973,14 @@ USA
                     <marker>
                         <token>lets</token>
                     </marker>
+                    <token min="0">all</token>
                     <token postag="VBP?|RB?" postag_regexp="yes"/>
                 </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
+                <message>Did you mean <suggestion><match no="2" regexp_match="s" regexp_replace=""/>'s</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="Let's"><marker>Lets</marker> go home.</example>
                 <example>It lets you sleep all night.</example>
-                <example correction="Let's">It's up to you three so <marker>lets</marker> hear your ideas</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START|CC|;" postag_regexp="yes"/>
-                    <marker>
-                        <token>lets</token>
-                    </marker>
-                    <token>all</token>
-                    <token postag="VBP?|RB?" postag_regexp="yes"/>
-                </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
-                <short>Possible typo</short>
+                <example correction="let's">It's up to you three so <marker>lets</marker> hear your ideas</example>
                 <example correction="Let's"><marker>Lets</marker> all go home.</example>
                 <example>It lets you sleep all night.</example>
             </rule>
@@ -5830,7 +5856,7 @@ USA
             <short>Possible typo</short>
             <example correction="from time to time">He buys a car <marker>for time to time</marker>.</example>
         </rule>
-        <rule id="CONFUSION_OF_SAVE_SAFE_TO_IGNORE" name="confusion of save/safe to ignore">
+        <rule id="CONFUSION_OF_SAVE_SAFE_TO_IGNORE" name="save (safe) to ignore">
             <pattern>
                 <token>save</token>
                 <token>to</token>
@@ -6095,17 +6121,53 @@ USA
             <example>I wonder where Tom is and who he's with.</example>
             <example>I found out who Tom's father is.</example>
         </rule>
+        <rule id="IF_THERE" name="missing verb after 'if there'">
+            <antipattern>
+                <token>if</token>
+                <token>there</token>
+                <token postag="RB"/>
+                <token postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>if<exception scope="previous">as</exception></token>
+                <marker>
+                    <token>there</token>
+                    <token>
+                        <exception postag="VB.*|MD" postag_regexp="yes"/>
+                        <exception regexp="yes">[´`'’]</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Please check whether a verb is missing here or whether 'there' should be 'their'.</message>
+            <suggestion>their \3</suggestion>
+            <example correction="their demands">The workers have also threatened that if <marker>there demands</marker> are not met, they will go on strike again.</example>
+            <example correction="their one">If <marker>there one</marker> who has influenced my thinking, it is my mother.</example>
+            <example>If <marker>there even are</marker> people more beautiful than you, there won't be many of them </example>
+            <example>If <marker>there'</marker>s anything out of place then please take a closer look.</example>
+            <example>I wanted to see if <marker>there really was</marker> someone out there.</example>
+            <example>I wonder if <marker>there will</marker> be a man brave enough to fight him.</example>
+            <example>We shall meet again in Petersburg, as if there we had buried the sun.</example>
+        </rule>
         <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
             <pattern>
                 <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
-                <token min="0" regexp="yes">even|really</token>
+                <token min="0" regexp="yes">even|really|actually</token>
                 <token regexp="yes">what|who|where|how|which|whose|whether</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
             <example correction="">I <marker>don't even what</marker> this means.</example>
+        </rule>
+        <rule id="CAN_WHAT" name="missing verb (can what / can see what)">
+            <pattern>
+                <token regexp="yes">can|must|should</token>
+                <token min="0" regexp="yes">even|really|actually</token>
+                <token regexp="yes">what|who|where|how|which|whose|whether</token>
+            </pattern>
+            <message>Please check whether a verb is missing here.</message>
+            <example correction="">You <marker>should really how</marker> it works.</example>
         </rule>
         <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
             <pattern>
@@ -6296,6 +6358,7 @@ USA
             <message>Please check if the base form of the verb should be used here.</message>
             <suggestion><match no="4" postag="VB"/></suggestion>
             <example correction="move">We regularly <marker>moving</marker> a conversation from the forum to email.</example>
+            <example type="triggers_error">The charge Q is determined by a steady current I <marker>flowing</marker> for a time t.</example>
         </rule>
         <rule id="I_LIFE" name="I life (live)">
             <antipattern>
@@ -6513,17 +6576,37 @@ USA
             <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
             <example correction="played">They had <marker>play</marker> the game</example>
         </rule>
-        <rule id="I_AM" name="missing 'am' in 'I am'" >
+        <rule id="I_AM" name="missing 'am' in 'I am'">
+            <antipattern>
+                <token regexp="yes">said|thought</token>
+                <token>I</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="NN|NN:UN?"><exception postag="VBG"/></token>
+                <token>I</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>I<exception scope="previous" postag_regexp="yes" postag="VBG|VBP" /></token>
+                    <token>I<exception scope="previous" postag="NNP"/><exception scope="previous" regexp="yes">am|was</exception></token>
                 </marker>
                 <token postag='VBG'/>
             </pattern>
             <message>Did you mean <suggestion>I am</suggestion>?</message>
             <example correction="I am"><marker>I</marker> looking into the problem.</example>
+            <example correction="I am">I'm not saying <marker>I</marker> rooting for him as such. I'm a Republican.</example>
+            <example><marker>I am</marker> looking into the problem.</example>
+            <example>Was <marker>I</marker> working hard?</example>
+            <example>Was <marker>I</marker> working hard.</example><!-- Missing question mark, but that is a different problem. -->
+            <example>What was <marker>I</marker> looking at?</example>
+            <example>"What larks!", said <marker>I</marker> laughing with joy.</example>
+            <example>If a Grade <marker>I</marker> building is not maintained satisfactorily, the Council must…</example>
+            <example>This is shown in Table <marker>I</marker> using a simple calculation.</example>
+            <example>After the incident, his division <marker>I</marker> coaching career was at an end.</example>
+            <example>Students who enrolled in Financial Accounting or Intermediate <marker>I</marker> Accounting at the university must…</example>
+            <example>…but in these cases, grade <marker>I</marker> retaining clips are necessary.</example>
+            <example>Who am <marker>I</marker> talking with?</example>
         </rule>
-        <rule id="AM_I" name="missing 'I' in 'am I'" >
+        <rule id="AM_I" name="missing 'I' in 'am I'">
             <pattern>
                 <marker>
                     <token>am<exception scope="previous">I</exception></token>
@@ -6576,7 +6659,7 @@ USA
             <rule>
                 <pattern>
                     <token>do</token>
-                    <token > not</token>
+                    <token>not</token>
                     <token>need</token>
                     <marker>
                         <token postag='VB'><exception regexp='yes'>proof|fake|help</exception></token>
@@ -6610,7 +6693,7 @@ USA
                     <token postag='VBG'/>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="6" postag="VB" /></suggestion>?</message>
+            <message>Did you mean <suggestion><match no="6" postag="VB"/></suggestion>?</message>
             <example correction='grasp'>They think that it is not easy to <marker>grasping</marker> skills.</example>
         </rule>
         <rule id="BE_USE_TO_DO" name="be use (used) to">
@@ -6624,6 +6707,19 @@ USA
             <message>Did you mean <suggestion><match no="2" postag="VBD"/></suggestion>?</message>
             <example correction='used'>He is <marker>use</marker> to a vegetarian diet.</example>
         </rule>
+        <rulegroup id="DISCUSS_ABOUT" name="wrong preposition: 'discuss about something' (discuss something)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">discuss</token>
+                    <token>about</token>
+                </pattern>
+                <message>Consider using <suggestion>\1</suggestion> or <suggestion><match no="1" regexp_match="discuss" regexp_replace="talk"/> \2</suggestion>.</message>
+                <url>http://www.oxfordlearnersdictionaries.com/definition/english/discuss</url>
+                <short>Redundant preposition</short>
+                <example correction="discuss|talk about">Do you have a few minutes to <marker>discuss about</marker> this project?</example>
+                <example correction="discussed|talked about">Have you <marker>discussed about</marker> the project?</example>
+            </rule>
+        </rulegroup>
         <rule id="ON_ADDITION" name="wrong preposition: 'On addition' (In addition)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -6647,7 +6743,7 @@ USA
             <message>Did you mean <suggestion>to</suggestion>?</message>
             <example correction='to'>We can learn ways <marker>on</marker> manage complex relationships with colleagues.</example>
         </rule>
-        <rule id="ESSENTIAL_ESSENTIALLY" name="essentially" >
+        <rule id="ESSENTIAL_ESSENTIALLY" name="essentially">
             <pattern>
                 <marker>
                     <token>essential</token>
@@ -6657,7 +6753,7 @@ USA
             <message>Did you mean <suggestion>essentially</suggestion>?</message>
             <example correction="essentially">This is <marker>essential</marker> the same work</example>
         </rule>
-        <rule id="GAVE_GIVE" name="verb before 'gave'" >
+        <rule id="GAVE_GIVE" name="verb before 'gave'">
             <pattern>
                 <token postag='VB|VBP' postag_regexp='yes'><exception postag='NNP|NN|NNS' postag_regexp='yes'/></token>
                 <marker>
@@ -6668,7 +6764,7 @@ USA
             <message>Did you mean <suggestion>give</suggestion>?</message>
             <example correction="give">The updates do <marker>gave</marker> the correct date.</example>
         </rule>
-        <rule id="TO_WITHDRAWN" name="to/will before withdrawn" >
+        <rule id="TO_WITHDRAWN" name="to/will before withdrawn">
             <pattern>
                 <token regexp="yes">to|will</token>
                 <marker>
@@ -6749,7 +6845,7 @@ USA
                     <token postag='NN'/>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="4" postag="NNS" /></suggestion>?</message>
+            <message>Did you mean <suggestion><match no="4" postag="NNS"/></suggestion>?</message>
             <example correction='books'>There are many kinds of <marker>book</marker> in the shop.</example>
             <example type="correct">How Many Kinds Of Immigrant Visas Does It Take To Staff A Startup?</example>
         </rule>
@@ -6912,7 +7008,7 @@ USA
                     <marker>
                         <token>who</token>
                     </marker>
-                    <token><exception postag="PRP\$?|VB[ZD]|MD|W?DT|RB|NN.*|IN|CC|WP" postag_regexp="yes" />
+                    <token><exception postag="PRP\$?|VB[ZD]|MD|W?DT|RB|NN.*|IN|CC|WP" postag_regexp="yes"/>
                         <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>whom</suggestion>?</message>
@@ -6930,7 +7026,7 @@ USA
                     <marker>
                         <token>who</token>
                     </marker>
-                    <token postag="VB.|MD" postag_regexp="yes" />
+                    <token postag="VB.|MD" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>whom</suggestion>?</message>
                 <short>Possible typo</short>
@@ -7078,7 +7174,7 @@ USA
                 <token chunk="I-NP-singular" min="0"/>
                 <token chunk="E-NP-singular"/>
                 <marker>
-                    <token postag="VBZ" />
+                    <token postag="VBZ"/>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
@@ -7412,7 +7508,7 @@ USA
                     <token regexp="yes">['’]</token>
                     <token>t</token>
                     <marker>
-                        <token postag="VBZ" />
+                        <token postag="VBZ"/>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion><match no="4" postag="VB"/></suggestion>?</message>
@@ -7426,7 +7522,7 @@ USA
                     <token regexp="yes">do|will</token>
                     <token>not</token>
                     <marker>
-                        <token postag="VBZ" />
+                        <token postag="VBZ"/>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>?</message>
@@ -7444,7 +7540,7 @@ USA
                     <exception postag_regexp="yes" postag="VB|VBP|VBG|WP|CC"/>
                 </token>
                 <marker>
-                    <token postag="VBZ" ><exception postag="NNS"/></token>
+                    <token postag="VBZ"><exception postag="NNS"/></token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>? As 'do' is already inflected, the verb cannot also be inflected.</message>
@@ -7596,7 +7692,7 @@ USA
                 <token postag="PRP"/>
                 <marker>
                     <token postag="RB.*" postag_regexp="yes"><exception postag="IN|JJ" postag_regexp="yes"/><exception regexp="yes">too|also|way</exception></token>
-                    <token><exception postag="VB.*|,|\.|CC|IN|JJ|WP|MD|RB" postag_regexp="yes" /><exception regexp="yes">\(|\)|\[|\"</exception></token>
+                    <token><exception postag="VB.*|,|\.|CC|IN|JJ|WP|MD|RB" postag_regexp="yes"/><exception regexp="yes">\(|\)|\[|\"</exception></token>
                 </marker>
             </pattern>
             <message>A verb is probably missing after '\3'.</message>
@@ -10855,65 +10951,82 @@ USA
             <message>Did you mean <suggestion>\1 to \2</suggestion>?</message>
             <example correction="ought to say">We <marker>ought say</marker> the truth.</example>
         </rule>
-        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
+        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she' or a pronoun">
             <short>Agreement error</short>
             <rule>
                 <antipattern>
-                    <token>with</token>
-                    <token regexp="yes">every(one|body)</token>
+                    <token regexp="yes">with(out)?</token>
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
                     <token postag="VBG"/>
                 </antipattern>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">He <marker>walk</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">He <marker>walk</marker> to the building every day.</example>
+                <example>He <marker>walks</marker> to the building every day.</example>
                 <example>He cannot hear you.</example>
                 <example>She came in through the back door lest she be seen.</example>
-                <example correction="enters">Somebody <marker>enter</marker> the building.</example>
+                <example correction="enters|entered">Somebody <marker>enter</marker> the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example>His medics insist he rest for several more months.</example>
                 <example>He stole out of the house without anyone seeing him.</example>
                 <example>He <marker>walked</marker> to the building.</example>
                 <example>I find it hard to understand how anyone seeking a position in public life could demonstrate...</example>
                 <example>He was busy, he said, in having someone submit to a monkey-gland operation.</example>
                 <example>What's he going to do?</example>
-                <example correction="hates">Everybody <marker>hate</marker> to hear bad news.</example>
+                <example correction="hates|hated">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example type="triggers_error">Nobody move!</example>
                 <example>The bride came into the room, with everyone staring at her.</example>
+                <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
+                <example>Only supply information that you are comfortable with anyone <marker>seeing</marker>.</example>
+                <example correction="likes|liked">Everybody <marker>liking</marker> my new suit.</example>
+                <example type="triggers_error">I don't want anyone <marker>touching</marker> my car.</example>
+                <example type="triggers_error">Anybody <marker>touching</marker> my car will get a black eye!</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
-                    <token regexp="yes">s?he|some(one|body)|nobody|anyone</token>
+                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
                         <token>t</token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>.</message>
-                <example correction="doesn't">He <marker>don't</marker> like fish.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>, <suggestion><match no="3" postag="VBD"/>n<match no="4"/><match no="5"/></suggestion>.</message>
+                <example correction="doesn't|didn't">He <marker>don't</marker> like fish.</example>
+                <example correction="doesn't|didn't">At her party, everybody <marker>don't</marker> like the music.</example>
+                <example correction="doesn't|didn't">At my party, nobody <marker>don't</marker> like the music.</example>
+                <example>He <marker>doesn't</marker> like fish.</example>
+                <example>She <marker>didn't</marker> like fish when she was young, but she likes it now.</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
-                    <token regexp="yes">s?he|some(one|body)|nobody|anyone|every(body|one)</token>
+                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <token postag="RB"><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">He always <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody usually <marker>enter</marker> the building.</example>
-                <example>He <marker>walked</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">He always <marker>walk</marker> to the building.</example>
+                <example correction="enters|entered">Somebody usually <marker>enter</marker> the building.</example>
+                <example>He always <marker>walks</marker> to the building.</example>
+                <example>He always <marker>walked</marker> to the building.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">with(out)?</token>
+                    <token regexp="yes">some(one|body)|nobody|anyone</token>
+                    <token>else</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">some(one|body)|nobody|anyone</token>
@@ -10922,12 +11035,14 @@ USA
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Someone else <marker>walk</marker> to the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
+                <example correction="enters|entered">Somebody else <marker>enter</marker> the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example>Nobody else <marker>walks</marker> to the building.</example>
-                <example correction="walks">Someone else <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody else <marker>enter</marker> the building.</example>
                 <example>Nobody <marker>walked</marker> to the building.</example>
                 <example type="triggers_error">They did not meet with anyone else while in Germany.</example>
+                <example>Annie was uncomfortable with anyone else <marker>being</marker> in charge.</example>
+                <example type="triggers_error">... and anyone else <marker>finding</marker> the work too difficult must tell the manager.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10939,11 +11054,11 @@ USA
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
-                <example>Nobody else <marker>walks</marker> to the building.</example>
-                <example correction="walks">Someone else always <marker>walk</marker> to the building.</example>
-                <example correction="enters">Somebody else usually <marker>enter</marker> the building.</example>
-                <example>Nobody <marker>walked</marker> to the building.</example>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="5" postag="VBZ"/></suggestion>, <suggestion><match no="5" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Someone else always <marker>walk</marker> to the building.</example>
+                <example correction="enters|entered">Somebody else usually <marker>enter</marker> the building.</example>
+                <example>Nobody else usually <marker>walks</marker> to the building.</example>
+                <example>Somebody else occasionally <marker>walked</marker> to the building.</example>
             </rule>
             <!--  subjunctive with 'that' -->
             <rule>
@@ -10955,9 +11070,9 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
                 <example>She recommended that he <marker>walk</marker> to the building.</example>
-                <example correction="walk">She stipulates that he <marker>walking</marker> to the building.</example>
+                <example correction="walk">She recommended that he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
             </rule>
             <!--  subjunctive without 'that' -->
@@ -10969,9 +11084,9 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>The word '<match no="2"/>' in subjunctive clause must be used with a base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
                 <example>She recommended he <marker>walk</marker> to the building.</example>
-                <example correction="walk">She stipulates he <marker>walking</marker> to the building.</example>
+                <example correction="walk">She recommended he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
                 <example>What is he doing here at this hour?</example>
                 <example>And why was she crying?</example>
@@ -10987,6 +11102,23 @@ USA
                     <token postag="NNP" chunk="I-NP-singular"/><!-- Philippine -->
                     <token chunk="E-NP-singular"/><!-- company -->
                 </antipattern>
+                <antipattern>
+                    <token chunk="I-NP-singular"/><!-- fourteenth (and also refer to the "Subhan-Allah" examples). -->
+                    <token chunk="I-NP-singular"/><!-- century -->
+                    <token postag="NNP" chunk="E-NP-singular"/><!-- BC -->
+                </antipattern>
+                <antipattern>
+                    <token>his</token>
+                    <token postag="NNP" chunk="I-NP-plural"/><!-- Huxley -->
+                    <token chunk="E-NP-plural"/><!-- lecture -->
+                </antipattern>
+                <antipattern>
+                    <token postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/><!-- This token is one of the exceptions in the first token in the pattern. -->
+                    <token postag="NNP"/><!-- Republican -->
+                    <token>/</token>
+                    <token postag="NNP" chunk="I-NP-singular"/><!-- Unionist -->
+                    <token chunk="E-NP-singular"/><!-- platform -->
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -11000,8 +11132,8 @@ USA
                     </marker>
                     <token postag="IN|DT" postag_regexp="yes"/>
                 </pattern>
-                <message>The proper name in singular (<match no="2"/>) must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <example correction="walks">Ann <marker>walk</marker> to the building.</example>
+                <message>The singular proper name '<match no="2"/>' must be used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
+                <example correction="walks|walked">Ann <marker>walk</marker> to the building.</example>
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
@@ -11014,6 +11146,16 @@ USA
                 <example>The library and <marker>Medical Center</marker> are to the north.</example>
                 <example>The present <marker>Federal program</marker> of vocational education began in 1917.</example>
                 <example>Before 2009, it was the only <marker>Philippine company</marker> to do so.</example>
+                <example>The Ugaritic tablets from the fourteenth century BC <marker>preserve</marker> the alphabet in two sequences.</example>
+                <example>He rebounded from his Wimbledon <marker>defeat</marker> by winning the US Open.</example><!-- The chunker identifies 'his' as B-NP-plural and 'lecture' as E-NP-plural. -->
+                <example>The amendment became part of the Republican / Unionist <marker>platform</marker> in the election of 1864.</example>
+                <example>The amendment became part of the Republican/Unionist <marker>platform</marker> in the election of 1864.</example>
+                <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
+                <example type="triggers_error">… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
+                <example type="triggers_error">We elected Jeffrey <marker>captain</marker> of our team.</example>
+                <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
+                <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
+                <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -11680,7 +11822,7 @@ USA
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes" ><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="books">I have five <marker>book</marker>.</example>
             <example>I have five <marker>books</marker>.</example>
@@ -12120,21 +12262,21 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token postag='SENT_START'/>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
+                    <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>,|;|:|!|\?</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token postag='SENT_START'/>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
+                    <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- 'that' is not always a connective -->
                 <antipattern>
@@ -12157,12 +12299,12 @@ USA
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
-                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token postag='SENT_START'/>
+                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12182,32 +12324,32 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
+                        <token postag='SENT_START'/>
                         <token>even</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12222,31 +12364,31 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
+                        <token postag='SENT_START'/>
                         <token>So</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12260,34 +12402,34 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token postag=',|:' postag_regexp='yes' />
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token postag=',|:' postag_regexp='yes'/>
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token postag=',|:' postag_regexp='yes' />
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token postag=',|:' postag_regexp='yes'/>
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
+                        <token postag='SENT_START'/>
                         <token>So</token>
-                        <token postag=',|:' postag_regexp='yes' />
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token postag=',|:' postag_regexp='yes'/>
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3 \4” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12301,32 +12443,32 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3 \4” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12340,35 +12482,35 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token postag=',|:' postag_regexp='yes' />
+                    <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token postag=',|:' postag_regexp='yes' />
+                    <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If ir got past the antipatterns, then something is wrong -->
                 <pattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>So</token>
-                    <token postag=',|:' postag_regexp='yes' />
+                    <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3 \4 \5” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12379,7 +12521,7 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>In</token>
                     <token>order</token>
                     <token skip='-1'>that</token>
@@ -12388,21 +12530,21 @@ USA
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>In</token>
                     <token>order</token>
                     <token skip='-1'>that</token>
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
+                        <token postag='SENT_START'/>
                         <token>In</token>
                         <token>order</token>
-                        <token skip='-1' >that</token>
+                        <token skip='-1'>that</token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3 \4” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12413,26 +12555,26 @@ USA
             <rule>
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>Provided</token>
                     <token skip='-1'>that</token>
                     <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
-                    <token postag='SENT_START' />
+                    <token postag='SENT_START'/>
                     <token>Provided</token>
                     <token skip='-1'>that</token>
-                    <token postag='CC' />
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
-                        <token postag='SENT_START' />
+                        <token postag='SENT_START'/>
                         <token>Provided</token>
                         <token skip='-1'>that</token>
                     </marker>
-                    <token postag='SENT_END' />
+                    <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2 \3” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence. </message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -12760,6 +12902,23 @@ USA
             <message>Please check whether a word is missing between '\1' and '\2' or whether '\1' is the correct determiner.</message>
             <example correction=""><marker>The</marker> is the best day of my life.</example>
             <example correction=""><marker>The</marker> are the best.</example>
+        </rule>
+        <rule id="BE_I_BE_GERUND" name="'BE I BE GERUND'"><!-- https://github.com/languagetool-org/languagetool/issues/754 -->
+            <pattern>
+                <token inflected="yes">be</token>
+                <token>I</token>
+                <token inflected="yes">be</token>
+                <token postag="VBG"/>
+            </pattern>
+            <message>Possible grammar error. Make sure that '\1 \2 \3 \4' is correct.</message>
+            <example correction="">What <marker>was I am doing</marker> again?</example>
+            <example correction="">I don't know <marker>was I be going</marker>.</example>
+            <example correction="">... but <marker>be I was making</marker> my life hard.</example>
+            <example>What <marker>was I doing</marker> again?</example>
+            <example><marker>Was I being</marker> stupid?</example>
+            <example>"<marker>Am I being</marker> a diva?" she asked.</example>
+            <example>The thing with me <marker>is I am</marker> a team player.</example>
+            <example>The reason I'm in Washington <marker>is I was</marker> at the Federal Trade Commission earlier today.</example>
         </rule>
     </category>
 
@@ -13344,6 +13503,149 @@ USA
             <example>For Christ’s sake!</example>
             <example>For pity’s sake!</example>
         </rule>
+        <rulegroup id="COMMA_TAG_QUESTION" name="comma before tag question">
+          <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">wh(y|at|ich|ere|en|o(se|m)?)|how</token>
+                    <token postag="SENT_END">?</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes" skip="-1">Aren?|Didn?|Don?|Doesn?|Isn?|W(eren?|asn?|ill|on|ouldn?)|Can|(Sh|C|W)ouldn?</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token regexp="yes" skip="-1">Didn?|Don?|Doesn?|Isn?|W(eren?|asn?|ill|on|ouldn?)</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|wh.*|how|can|did|to?|or|I|[cw]ouldn't|shouldn?|(wi)?ll|won</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">aren?|isn?|do(es)?n?|ha(s|ve)n?|can|did|wasn?|will|won|(sh|w|c)ouldn?</token>
+                    <token case_sensitive="yes" regexp="yes" min="0">['’`´‘]</token>
+                    <token case_sensitive="yes" min="0">t</token>
+                    <token case_sensitive="yes" regexp="yes">s?he|it|you|they|we|I</token>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>A comma shold precede the tag question (i.e., the yes/no-question at the end).</message>
+                <suggestion>\1,</suggestion>
+                <url>https://www.thoughtco.com/tag-question-grammar-1692523</url>
+                <example correction="coming,">She isn't <marker>coming</marker> is she?</example>
+                <example correction="you,">He didn't know <marker>you</marker> did he?</example>
+                <example correction="book,">She was reading a <marker>book</marker> wasn't she?</example>
+                <example correction="come,">Ann and Tim will <marker>come</marker> won't they?</example>
+                <example correction="left,">She has already <marker>left</marker> hasn't she?</example>
+                <example correction="drive,">You can <marker>drive</marker> can't you?</example>
+                <example>Do you know how to do it?</example>
+                <example>What floor is it?</example>
+                <example>How would I do it?</example>
+                <example>Did she tell you why she did it?</example>
+                <example>Can anybody do it?</example>
+                <example>Are you sure Tom didn't do it?</example>
+                <example>Do you know where Tom is or don't you?</example>
+                <example>Why can't they do it?</example>
+                <example>If you could do it, would you do it?</example>
+                <example>Excuse me, how much is it?</example>
+                <example>So this will do it?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMMA_COMPOUND_SENTENCE" name="comma between independent clauses">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="2">either</token>
+                    <token>or</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">and|but</token>
+                    <token min="0">even</token>
+                    <token regexp="yes">so|yet</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token case_sensitive="yes" regexp="yes">and|but|n?or|so|yet</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
+                        <token case_sensitive="yes" regexp="yes">and|but|n?or|so|yet</token>
+                    </marker>
+                    <token min="0">then</token>
+                    <token regexp="yes">s?he|we|they</token>
+                </pattern>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\1, \2</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="car, but">She purchased the <marker>car but</marker> she declined the extended warranty.</example>
+                <example>I love <marker>Tim and</marker> he loves me.</example>
+                <example>No one is obliged to do more than what he or she can.</example>
+                <example>Either you or he is wrong.</example>
+                <example>I thought you and he were happy.</example>
+                <example>Tom couldn't find anybody to go with him, and so he went by himself.</example>
+                <example>Just so we're clear, that was Tom's idea, not mine.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
+                        <token case_sensitive="yes">and</token>
+                    </marker>
+                    <token regexp="yes">so|yet</token>
+                    <token regexp="yes">s?he|we|they|I</token>
+                </pattern>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\1, \2</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="enough, and">Bill didn't work hard <marker>enough and</marker> so he failed.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="9"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|and</token>
+                        <token regexp="yes">so|yet</token>
+                    </marker>
+                    <token>I</token>
+                </pattern>
+                <message>Use a comma before '\2' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\1, \2</suggestion>
+                <url>http://www.grammar-monster.com/lessons/commas_before_conjunctions.htm</url>
+                <example correction="money, so">I need to borrow some <marker>money so</marker> I can buy some medicine for Tom.</example>
+                <example>I want a wife and children, and so I need a house.</example>
+            </rule>
+            <!--rule>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">,|:|what|wh([oy]|ere|ose|ich|ether)|how</exception></token>
+                    <marker>
+                        <token negate="yes" regexp="yes">\W+|s?he|you</token>
+                        <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                    </marker>
+                    <token min="0">then</token>
+                    <token>I</token>
+                    <token postag="VB.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Use a comma before '\3' if it connects two independent clauses (unless they are closely connected and short).</message>
+                <suggestion>\2, \3</suggestion>
+                <example correction="Spanish, and">He speaks <marker>Spanish and</marker> I speak Italian.</example>
+                <example>Last Sunday, <marker>Mary and</marker> I went to the zoo.</example>
+                <example>Where are <marker>Mary and</marker> I going?</example>
+                <example>She asked where <marker>Mary and</marker> I were going.</example>
+                <example>When we were kids, Tom and I did a lot of things together.</example>
+            </rule-->
+        </rulegroup>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
                 <marker>
@@ -13547,7 +13849,7 @@ USA
                 <pattern>
                     <marker><token><exception regexp="yes">,|;|\(|-</exception></token>
                     <token regexp="yes">and|or|nor|but|so|yet</token></marker>
-                    <token regexp="yes" skip="-1">I|you|he|she|it|we|they|my|your|his|her|our|their|a|an|the|these|those|some|many|most<exception scope="next">and</exception><exception scope="next">,</exception></token>
+                    <token regexp="yes" skip="-1">I|you|he|she|it|we|they|my|your|his|her|our|their|an?|the|these|those|some|many|most<exception scope="next">and</exception><exception scope="next">,</exception></token>
                     <token postag="VB[DPZ]?" postag_regexp="yes"></token>
                 </pattern>
                 <message>If the conjunctions 'and', '(n)or, 'so', 'but', or 'yet' separate two independent clauses, a comma must precede them: <suggestion>\1, \2</suggestion></message>
@@ -13580,7 +13882,7 @@ USA
                 <antipattern>
                     <token postag="RB[RS]" postag_regexp="yes"/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13588,16 +13890,16 @@ USA
                     <token postag="NNP"/>
                     <token>and</token>
                     <token postag="NNP" skip="-1"/>
-                    <token >(</token>
-                    <token >editors</token>
-                    <token >)</token>
+                    <token>(</token>
+                    <token>editors</token>
+                    <token>)</token>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
                     <token skip="-1" regexp="yes">in|at|and</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13625,7 +13927,7 @@ USA
                 <antipattern>
                     <token postag="NNP"/>
                     <token regexp="yes">,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"><exception postag="NNPS?" postag_regexp="yes"></exception></token>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13635,7 +13937,7 @@ USA
                     <token>other</token>
                     <token>hand</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13695,7 +13997,7 @@ USA
                     <token>for</token>
                     <token regexp="yes">example|instance</token>
                     <token min="0">,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13711,7 +14013,7 @@ USA
                     <token regexp="yes">Next|Last</token>
                     <token/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -13719,19 +14021,19 @@ USA
                     <token postag="SENT_START"/>
                     <token regexp="yes" skip="-1">While|Since|After|With|In|Here|Although|Despite|Contrary|Meanwhile|Who|Which|What|Whenever|Where|When|But|Thanks</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
                 <pattern>
                       <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">yes|no|today|yesterday|tomorrow</exception><exception scope="previous" regexp="yes">/|:|other|both|and|or|two|must|can|way|be</exception></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"/>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Style preference: the serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\4, \5</suggestion></message>
@@ -13874,15 +14176,15 @@ USA
                 </antipattern>
                 <pattern>
                       <token>(</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token><exception>,</exception></token>
                 </pattern>
@@ -13912,15 +14214,15 @@ USA
                       <token>in</token>
                       <token>addition</token>
                       <token>to</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Style preference: the serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\8, \9</suggestion></message>
@@ -14176,6 +14478,11 @@ USA
             <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
             <url>https://en.wikipedia.org/wiki/Dash#Em_dash</url>
             <rule>
+                <antipattern>
+                    <!-- typical signature delimiter in emails -->
+                    <token>-</token>
+                    <token>-</token>
+                </antipattern>
                 <pattern>
                     <token postag='SENT_START'/>
                     <token min='0' regexp='yes'>["«»“”]</token>
@@ -14183,7 +14490,7 @@ USA
                         <token regexp='yes'>-|–</token>
                    </marker>
                 </pattern>
-                <message>In dialogues and enumerations you must use an m-dash.</message>
+                <message>Consider using an m-dash in dialogues and enumerations.</message>
                 <suggestion>—</suggestion>
                 <short>Use an m-dash.</short>
                 <example correction='—'><marker>-</marker> What is that, mother?</example>
@@ -14202,7 +14509,7 @@ USA
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>If you do not want to join two words, you must use an m-dash.</message>
+                <message>Consider using an m-dash if you do not want to join two words.</message>
                 <suggestion>—</suggestion>
                 <short>Use an m-dash.</short>
                 <example correction='—'>In these educational establishments there were enrollments <marker>-</marker> mostly from elementary school — and a total of teachers.</example>
@@ -14215,7 +14522,7 @@ USA
                     <token regexp='yes'>-|—</token>
                     <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                 </pattern>
-                <message>If you want to indicate a period of time, you must use an n-dash (half-dash).</message>
+                <message>Consider using an n-dash (half dash) if you want to indicate a period of time.</message>
                 <suggestion>\1 – \3</suggestion>
                 <suggestion>\1–\3</suggestion>
                 <short>Use an n-dash.</short>
@@ -14487,7 +14794,7 @@ USA
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
         </rule>
-        <rule id="NUMBER_OF_NNS" name="confusion of 'number or/of'">
+        <rule id="NUMBER_OF_NNS" name="number or (of)">
             <pattern>
                 <token>number</token>
                 <marker>
@@ -14551,7 +14858,7 @@ USA
                 <example correction="from">Are human beings any different <marker>then</marker> animals?</example>
             </rule>
         </rulegroup>
-        <rule id="CONFUSION_OF_HART_HEART" name="confusion of hard/heart">
+        <rule id="CONFUSION_OF_HART_HEART" name="hard (heart)">
             <pattern>
                 <token>at</token>
                 <token>the</token>
@@ -14563,17 +14870,17 @@ USA
             <message>Did you mean <suggestion>heart</suggestion>?</message>
             <example correction="heart">The questions of training and pay lie at the <marker>hard</marker> of the staffing problems.</example>
         </rule>
-        <rule id="THAT_BEING_SAID" name="confusion: That being sad (said)">
+        <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
                 <token>That</token>
                 <token>being</token>
-                <token regexp="yes">sa[dt]</token>
+                <token regexp="yes">sa[dt]|aid</token>
             </pattern>
             <message>Did you mean <suggestion>That being said</suggestion>?</message>
             <example correction="That being said"><marker>That being sad</marker> ...</example>
         </rule>
-        <rule id="SAID_SAD" name="confusion sad/said">
+        <rule id="SAID_SAD" name="sad (said)">
             <pattern>
                 <token><exception postag="VB.*" postag_regexp="yes"/></token>
                 <token postag="PRP"><exception postag="PRP$"/></token>
@@ -14600,7 +14907,7 @@ USA
             <example correction="on vacation">I'm <marker>at vacation</marker> at the seaside.</example>
             <example>Where did you go for vacation?</example>
         </rule>
-        <rule id="CONFUSION_DURING_FOR" name="confusion of during/for">
+        <rule id="CONFUSION_DURING_FOR" name="during (for)">
             <pattern>
                 <marker><token>during</token></marker>
                 <token>ages</token>
@@ -14610,7 +14917,7 @@ USA
             <example correction="for">I haven't seen him <marker>during</marker> ages.</example>
             <example>In that subgroup, the prevalence of HPV and high-risk HPV declined during ages 35 to 40.</example>
         </rule>
-        <rule id="MUST_MOST" name="confusion of must/most">
+        <rule id="MUST_MOST" name="must (most) of">
             <pattern>
                 <marker>
                     <token>must</token>
@@ -15039,6 +15346,20 @@ USA
                 <short>Possible typo</short>
                 <example correction="shall">We <marker>shell</marker> overcome.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">How|Wh(at|y)</token>
+                    <marker>
+                        <token>shell</token>
+                    </marker>
+                    <token regexp="yes">we|I|one</token>
+                    <token postag="VBP?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>shall</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="shall">What <marker>shell</marker> I do?</example>
+            </rule>
         </rulegroup>
         <rule id="I_HERD" name="I herd (heard)">
             <pattern>
@@ -15306,7 +15627,7 @@ USA
             <short>Possible typo</short>
             <example correction="sneak peek">Yahoo has released a <marker>sneak peak</marker> into Yahoo! BrowserPlus.</example>
         </rule>
-        <rule id="CONFUSION_OF_ANOTHER_IN_OTHER" name="confusion of another/in other">
+        <rule id="CONFUSION_OF_ANOTHER_IN_OTHER" name="another (in other)">
             <pattern>
                 <token>another</token>
                 <token>words</token>
@@ -15717,15 +16038,15 @@ USA
             <example correction="minute">The main plaza and town is located one <marker>minuet</marker> walking distance from the beach.</example>
             <example>Minuet for piano in G major, WoO 10/2 - Ludwig van Beethoven</example>
         </rule>
-        <rule id="LAWSUIT" name="law suit (lawsuit)" >
+        <rule id="LAWSUIT" name="law suit (lawsuit)">
             <pattern>
                 <token>law</token>
                 <token inflected='yes' regexp="yes">suit|suite</token>
             </pattern>
-            <message>Did you mean <suggestion>law<match no="2" regexp_match="suite" regexp_replace="suit" /></suggestion>?</message>
+            <message>Did you mean <suggestion>law<match no="2" regexp_match="suite" regexp_replace="suit"/></suggestion>?</message>
             <example correction="lawsuit">The plaintiff brought a <marker>law suit</marker> against the defendant</example>
         </rule>
-        <rule id="DEPENDENT" name="Dependent" >
+        <rule id="DEPENDENT" name="Dependent">
             <pattern>
                 <marker>
                     <token>dependant</token>
@@ -16014,7 +16335,7 @@ USA
             <example>There was a long time there where my feelings for him was hella twisted.</example>
             <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tattoo.</example>
         </rule>
-        <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
+        <rulegroup id="ALTER_BOY" name="alter (altar)">
             <rule>
                 <pattern>
                     <marker>
@@ -16055,7 +16376,7 @@ USA
                 <example>He will radically alter his work.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ADVERSE_AVERSE" name="confusion of adverse/averse">
+        <rulegroup id="ADVERSE_AVERSE" name="adverse (averse)">
             <rule>
                 <pattern>
                     <marker><token>adverse</token></marker>
@@ -16066,7 +16387,7 @@ USA
                 <example correction="averse">Are you <marker>adverse</marker> to eating horse meat?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
+        <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="decent (descent)">
             <rule>
                 <pattern>
                     <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
@@ -17034,7 +17355,7 @@ USA
                 <pattern>
                     <marker><token>since</token></marker>
                     <token postag="CD"/>
-                    <token regexp="yes">years|months|weeks|days|hours|minutes</token>
+                    <token regexp="yes">centuries|years|months|weeks|days|hours|minutes</token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>for</suggestion>? ('since' refers to a point in time, whereas 'for' refers to a period)</message>
@@ -17719,11 +18040,12 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token>morning</token>
+                    <token min="0">.</token>
                 </marker>
                 </pattern>
                 <message>Consider using <suggestion>A.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="A.M.">It's 5 <marker>A.M. in the morning</marker>.</example>
+                <example correction="A.M.">It's 5 <marker>A.M. in the morning.</marker></example>
                 <example>It's 5 A.M.</example>
             </rule>
         </rulegroup>
@@ -17761,11 +18083,12 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token regexp="yes">evening|afternoon</token>
+                    <token min="0">.</token>
                     </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="P.M.">It's 5 <marker>P.M. in the afternoon</marker>.</example>
+                <example correction="P.M.">It's 5 <marker>P.M. in the afternoon.</marker></example>
                 <example>It's 5 P.M.</example>
             </rule>
             <rule>
@@ -17778,11 +18101,12 @@ USA
                     <token>.</token>
                     <token>at</token>
                     <token>night</token>
+                    <token min="0">.</token>
                 </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
-                <example correction="P.M.">It's 1 <marker>P.M. at night</marker>.</example>
+                <example correction="P.M.">It's 1 <marker>P.M. at night.</marker></example>
                 <example>It's 5 P.M.</example>
             </rule>
         </rulegroup>
@@ -21765,7 +22089,7 @@ USA
             <url>http://euenglish.webs.com/</url>
             <short>EU English: actual</short>
             <example type="incorrect" correction="current|present">This appropriation is… based on the <marker>actual</marker> regulations and on the probable adjustments.</example>
-            <example type="correct" >This appropriation is… based on the <marker>current</marker> regulations and on the probable adjustments.</example>
+            <example type="correct">This appropriation is… based on the <marker>current</marker> regulations and on the probable adjustments.</example>
         </rule>
         <rule id="EUPUB_ADEQUATE" name="adequate">
             <pattern>
@@ -21942,7 +22266,7 @@ USA
         </rulegroup>
         <rule id="EUPUB_ASSIST_AT" name="assist at">
             <pattern>
-                <token inflected="yes" >assist</token>
+                <token inflected="yes">assist</token>
                 <token>at</token>
             </pattern>
             <message>'Assist at' is archaic in the meaning of 'attend'. Alternatives: <suggestion><match no="1" postag="V.*">attend</match></suggestion>, <suggestion>be present at</suggestion>.</message>

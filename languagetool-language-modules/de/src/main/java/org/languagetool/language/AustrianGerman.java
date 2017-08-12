@@ -19,13 +19,14 @@
 package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.de.GermanSpellerRule;
+import org.languagetool.rules.de.AustrianGermanSpellerRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("deprecation")
 public class AustrianGerman extends German {
 
   @Override
@@ -41,7 +42,7 @@ public class AustrianGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
-    rules.add(new GermanSpellerRule(messages, this));
+    rules.add(new AustrianGermanSpellerRule(messages, this));
     return rules;
   }
   

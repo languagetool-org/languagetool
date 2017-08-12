@@ -4578,6 +4578,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="ROZUMIYETSA_INSERT" name="Розуміється, як вставне слово">
+      <rule>
+        <pattern>
+          <token regexp="yes">[,—–-]</token>
+          <marker>
+            <token>розуміється</token>
+          </marker>
+          <token min="0">ж</token>
+          <token regexp="yes">[,!]</token>
+        </pattern>
+        <message>Правильно: <suggestion>певна річ</suggestion>, <suggestion>звичайно</suggestion></message>
+        <suggestion>звісно</suggestion>
+        <suggestion>певне</suggestion>
+        <example correction="певна річ|звичайно|звісно|певне">Гуляння, <marker>розуміється</marker>, було не на сухо.</example>
+        <example>Він розуміється на таких речах.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="POVEZLO_VS_POSCHATYLO" name="Повезло і пощастило">
+      <pattern>
+        <token>повезло</token>
+      </pattern>
+      <message>Замість безособової форми «<match no="1"/>» варто писати <suggestion>пощастило</suggestion>, <suggestion>поталанило</suggestion>, <suggestion>пофортунило</suggestion></message>
+      <example correction="пощастило|поталанило|пофортунило">А якщо тобі <marker>повезло</marker> і ти ухопив живого</example>
+      <!--
+      <example>Наше авто - через північний перевал повезло мене з товаришами в гори</example>
+      <example>Чудовисько повезло мене до своєї хатини</example>
+      -->
+    </rule>
+
+    <rulegroup id="PO_KRAINIY_MIRI" name="По крайній мірі та принаймні">
+      <rule>
+        <pattern>
+          <marker>
+            <token>по</token>
+            <token>крайній</token>
+            <token>мірі</token>
+          </marker>
+          <token postag='num.*' postag_regexp='yes' negate_pos='yes'/>
+        </pattern>
+        <message>Правильно: <suggestion>принаймні</suggestion></message>
+        <suggestion>хоча б</suggestion>
+        <suggestion>бодай</suggestion>
+        <example correction="принаймні|хоча б|бодай">У нас люди <marker>по крайній мірі</marker> не голодують</example>
+        <example correction="принаймні|хоча б|бодай">Ця цифра буде <marker>по крайній мірі</marker> удвічі більшою</example>
+      </rule>
+    
+      <rule>
+        <pattern>
+          <marker>
+            <token>по</token>
+            <token>крайній</token>
+            <token>мірі</token>
+          </marker>
+          <token postag="num.*" postag_regexp='yes'/>
+        </pattern>
+        <message>Правильно: <suggestion>щонайменше</suggestion> або <suggestion>принаймні</suggestion></message>
+        <suggestion>хоча б</suggestion>
+        <suggestion>бодай</suggestion>
+        <example correction='щонайменше|принаймні|хоча б|бодай'>Довкола неї було <marker>по крайній мірі</marker> десять залицяльників</example>
+        <example correction='щонайменше|принаймні|хоча б|бодай'>Для повноцінної роботи дільниці там має працювати <marker>по крайній мірі</marker> 15 - 16 осіб</example>
+      </rule>
+    </rulegroup>
+    
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
         <antipattern>

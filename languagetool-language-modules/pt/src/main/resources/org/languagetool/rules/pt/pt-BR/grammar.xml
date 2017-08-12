@@ -903,23 +903,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
   </rulegroup>
 
-    <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'><!-- TODO Converter mensagens para pt-BR -->
-	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+    <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
+      <antipattern case_sensitive='yes'>
+          <token>Médio</token>
+          <token>Oriente</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>em|n[ao]s?</token>
+          <token regexp='yes' case_sensitive='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
+          <token regexp='yes'>d[eao]s?</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='_PUNCT'/>
+          <token>Este</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
-        <token>
-          <exception regexp='yes'>[Pp]ólo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|-</exception>
-          <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
-       <marker>
-        <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
-          <exception postag_regexp='yes' postag='NP.+'/></token>
-       </marker>
+          <token>
+            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|-</exception>
+            <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
+        <marker>
+          <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
+            <exception postag_regexp='yes' postag='NP..[^G].+'/></token>
+        </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os pontos cardeais deixam de ser capitalizados, excepto se se referem a uma região específica.</message>
-      <suggestion><match no='2' case_conversion='alllower'/></suggestion>
+        <suggestion><match no='2' case_conversion='alllower'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='sul'>Trás-os-Montes é a <marker>Sul</marker> do rio Douro.</example>
       <example>Estas vão se reduzindo em direção ao Pólo Sul.</example>
+      <example>Rodeia o polo Sul, e por esse motivo está quase completamente coberto de gelo.</example>
       <example>Este elevador é capaz de carregar 10 pessoas por vez.</example>
+      <example>A maior parte dos corais no Norte da Grande Barreira estão mortos.</example>
+      <example>A maioria dos corais na parte Norte da Grande Barreira estão mortos.</example>
     </rule>
 
   </category>

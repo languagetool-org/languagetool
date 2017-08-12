@@ -45,8 +45,8 @@ public class DutchTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.",
-        "Dit/[dit]DTh -- is/[zijn]VB3 -- een/[een]DTe|een/[een]NM|een/[een]NM1|een/[een]NN1d -- Nederlandse/[Nederlandse]NN1 -- zin/[zin]NN1d|zin/[zinnen]VB1 -- om/[om]PRom -- het/[het]DTh -- programma/[programma]NN1h -- tje/[null]null -- te/[te]PRte -- testen/[test]NN2|testen/[testen]VBi", tokenizer, tagger);        
-    TestTools.myAssert("zwijnden","zwijnden/[zwijnen]VBh", tokenizer, tagger);        
+        "Dit/[null]null -- is/[is]ZNW:EKV|is/[zijn]WKW:TGW:3EP -- een/[een]GET|een/[een]ZNW:EKV:DE_ -- Nederlandse/[Nederlandse]ZNW:EKV -- zin/[zin]ZNW:EKV:DE_|zin/[zinnen]WKW:TGW:1EP -- om/[om]VRZ -- het/[null]null -- programma/[programma]ZNW:EKV:HET -- tje/[null]null -- te/[te]VRZ -- testen/[test]ZNW:MRV:DE_|testen/[testen]WKW:TGW:INF", tokenizer, tagger);        
+    TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);        
   }
 
 }

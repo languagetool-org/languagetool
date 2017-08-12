@@ -48,12 +48,35 @@ import java.util.Map;
  * @since 2.3
  */
 public class AnnotatedTextBuilder {
-  
+
   private final List<TextPart> parts = new ArrayList<>();
+  private final Map<AnnotatedText.MetaDataKey, String> metaData = new HashMap<>();
+  private final Map<String, String> customMetaData = new HashMap<>();
 
   public AnnotatedTextBuilder() {
   }
 
+  /**
+   * Add global meta data like document title or receiver name (when writing an email).
+   * Some rules may use this information.
+   * @since 3.9
+   */
+  public AnnotatedTextBuilder addGlobalMetaData(AnnotatedText.MetaDataKey key, String value) {
+    metaData.put(key, value);
+    return this;
+  }
+  
+  /**
+   * Add any global meta data about the document to be checked. Some rules may use this information.
+   * Unless you're using your own rules for which you know useful keys, you probably want to
+   * use {@link #addGlobalMetaData(AnnotatedText.MetaDataKey, String)}.
+   * @since 3.9
+   */
+  public AnnotatedTextBuilder addGlobalMetaData(String key, String value) {
+    customMetaData.put(key, value);
+    return this;
+  }
+  
   /**
    * Add a plain text snippet, to be checked by LanguageTool when using
    * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
@@ -89,7 +112,7 @@ public class AnnotatedTextBuilder {
       }
       mapping.put(plainTextPosition, totalPosition);
     }
-    return new AnnotatedText(parts, mapping);
+    return new AnnotatedText(parts, mapping, metaData, customMetaData);
   }
   
 }

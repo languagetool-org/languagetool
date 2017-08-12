@@ -39,24 +39,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queries an OpenNMT server.
+ * Queries an OpenNMT server started like this:
+ * {@code th tools/rest_translation_server.lua -replace_unk -model ...}
  */
 @Experimental
 public class OpenNMTRule extends Rule {
 
-  private final static String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
+  private static final String defaultServerUrl = "http://127.0.0.1:7784/translator/translate";
   
   private final String serverUrl;
   private final ObjectMapper mapper = new ObjectMapper();
 
   /**
-   * @param serverUrl defaults to {@code http://127.0.0.1:7784/translator/translate}
+   * @param serverUrl URL of the OpenNMT server, like {@code http://127.0.0.1:7784/translator/translate}
    */
   public OpenNMTRule(String serverUrl) {
     this.serverUrl = serverUrl;
     setDefaultOff();
   }
 
+  /**
+   * Expects an OpenNMT server running at http://127.0.0.1:7784/translator/translate
+   */
   public OpenNMTRule() {
     this(defaultServerUrl);
   }
@@ -88,11 +92,12 @@ public class OpenNMTRule extends Rule {
       // TODO: whitespace is introduced and needs to be properly removed - we should use the 'src'
       // key for comparison, but we'll still need to clean up when using the suggestion...
       String cleanTranslation = translation.replaceAll(" ([.,;:])", "$1");
-      if (!cleanTranslation.equals(sentence.getText())) {
+      String sentenceText = sentence.getText();
+      if (!cleanTranslation.equals(sentenceText)) {
         List<RuleMatch> ruleMatches = new ArrayList<>();
-        int from = getFirstDiffPosition(sentence.getText(), cleanTranslation);
-        int to = getLastDiffPosition(sentence.getText(), cleanTranslation);
-        int replacementTo = getLastDiffPosition(cleanTranslation, sentence.getText());
+        int from = getLeftWordBoundary(sentenceText, getFirstDiffPosition(sentenceText, cleanTranslation));
+        int to = getRightWordBoundary(sentenceText, getLastDiffPosition(sentenceText, cleanTranslation));
+        int replacementTo = getRightWordBoundary(cleanTranslation, getLastDiffPosition(cleanTranslation, sentenceText));
         String message = "OpenNMT suggests that this might(!) be better phrased differently, please check.";
         RuleMatch ruleMatch = new RuleMatch(this, from, to, message);
         ruleMatch.setSuggestedReplacement(cleanTranslation.substring(from, replacementTo)); 
@@ -124,16 +129,38 @@ public class OpenNMTRule extends Rule {
   }
 
   int getLastDiffPosition(String text1, String text2) {
-    StringBuilder reverse1 = new StringBuilder(text1).reverse();
-    StringBuilder reverse2 = new StringBuilder(text2).reverse();
-    int diffPos = getFirstDiffPosition(reverse1.toString(), reverse2.toString());
-    if (diffPos != -1) {
-      return text1.length() - diffPos;
+    StringBuilder reverse1 = new StringBuilder(text1.trim()).reverse();
+    StringBuilder reverse2 = new StringBuilder(text2.trim()).reverse();
+    int revDiffPos = getFirstDiffPosition(reverse1.toString(), reverse2.toString());
+    if (revDiffPos != -1) {
+      return text1.length() - revDiffPos;
     } else {
       return -1;
     }
   }
 
+  int getLeftWordBoundary(String text, int pos) {
+    while (pos >= 1) {
+      if (Character.isAlphabetic(text.charAt(pos - 1))) {
+        pos--;
+      } else {
+        break;
+      }
+    }
+    return pos;
+  }
+  
+  int getRightWordBoundary(String text, int pos) {
+    while (pos >= 0 && pos < text.length()) {
+      if (Character.isAlphabetic(text.charAt(pos))) {
+        pos++;
+      } else {
+        break;
+      }
+    }
+    return pos;
+  }
+  
   private String createJson(AnalyzedSentence sentence) throws JsonProcessingException {
     ArrayNode list = mapper.createArrayNode();
     ObjectNode node = list.addObject();
@@ -150,6 +177,7 @@ public class OpenNMTRule extends Rule {
     conn.setDoOutput(true);
     try {
       try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+        //System.out.println("POSTING: " + json);
         dos.write(json.getBytes("utf-8"));
       }
     } catch (IOException e) {

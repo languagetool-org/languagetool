@@ -198,7 +198,9 @@ public class Portuguese extends Language implements AutoCloseable {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
       case "DEGREE_MINUTES_SECONDS":    return 20;
-      case "INTERJECTIONS_PUNTUATION":  return  5;
+      case "INTERJECTIONS_PUNTUATION":  return 10;
+      case "CONFUSION_POR":             return  5;
+      case "HOMOPHONE_AS_CARD":         return  3;
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
       case "PT_MULTI_REPLACE":          return -10;
@@ -211,6 +213,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "INFORMALITIES":             return -27;
       case "PT_AGREEMENT_REPLACE":      return -35;
       case "HUNSPELL_RULE":             return -50;
+      case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
       case "T-V_DISTINCTION":           return -100;
