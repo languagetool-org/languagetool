@@ -38,7 +38,7 @@
 						</goals>
 						<configuration>
 							<file>${project.basedir}/src/main/resources/templates/lt.conf.sample.template</file>
-							<outputFile>target/lt.conf.sample</outputFile>
+							<outputFile>${project.build.directory}/lt.conf.sample</outputFile>
 							<regex>false</regex>
 							<replacements>
 								<replacement>
@@ -56,7 +56,7 @@
 						</goals>
 						<configuration>
 							<file>${project.basedir}/src/main/resources/templates/${parent.project.name}.service.template</file>
-							<outputFile>target/${parent.project.name}.service</outputFile>
+							<outputFile>${project.build.directory}/${parent.project.name}.service</outputFile>
 							<regex>false</regex>
 							<replacements>
 								<replacement>
@@ -737,7 +737,7 @@
 								<!-- Systemd file for systems supporting it -->
 								<entry>
 									<name>/usr/lib/systemd/system/${parent.project.name}.service</name>
-									<file>target/${parent.project.name}.service</file>
+									<file>${project.build.directory}/${parent.project.name}.service</file>
 									<ruleset>default-ruleset</ruleset>
 								</entry>
 								<!-- Configuration directory -->
@@ -748,7 +748,7 @@
 								</entry>
 								<entry>
 									<name>/etc/${parent.project.name}/lt.conf.sample</name>
-									<file>target/lt.conf.sample</file> <!-- Replaced values -->
+									<file>${project.build.directory}/lt.conf.sample</file> <!-- Replaced values -->
 									<ruleset>default-ruleset</ruleset>
 									<configuration>true</configuration>
 								</entry>
