@@ -1464,18 +1464,21 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
           <token min='0' skip='4'/>
-          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?</token>
+          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?
+            <exception regexp='yes'>para|fronteiras?</exception></token>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
       <example correction=""><marker>Amanhã, enviara</marker> os livros antes do fecho.</example>
       <example correction=""><marker>Na próxima semana, o editor enviara</marker> os livros antes do fecho.</example>
       <example correction=""><marker>Na próxima semana enviaras</marker> os livros antes do fecho.</example>
+      <example>A tendência na próxima década é para se acentuar o envelhecimento da população residen...</example>
       <example>Na passada semana envirás os livros antes do fecho.</example>
     </rule>
     <rule>
       <pattern>
         <marker>
-          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?</token>
+          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?
+            <exception regexp='yes'>para|fronteiras?</exception></token>
         </marker>
           <token min='0'>,</token>
           <!--token min='0' max='3'/-->
@@ -1487,7 +1490,8 @@ title="Easy editing stylesheet" ?>
     <!-- FIXME token index doesn't work with variable size phrases >
       <example correction="enviarão">Os editores <marker>enviaram</marker> na próxima semana os livros antes do fecho.</example> XXX This suggestion doesn't work
       <example correction="Enviarão"><marker>Enviaram</marker>, na próxima semana, os livros antes do fecho.</example> XXX This suggestion doesn't work -->
-      <example>Na semana passada enviara os livros antes do fecho.</example>
+      <example>Estou ocupado a preparar-me para amanhã.</example>
+      <example>Enviara, na semana passada, os livros antes do fecho.</example>
     </rule>
     <rule>
       <pattern>
