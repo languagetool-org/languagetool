@@ -25971,6 +25971,19 @@ Andere Projekte</example>
                 <example correction="Essen">Vor dem <marker>essen</marker> zwei Tabletten.</example>
                 <example correction="Öffnen">Nach dem <marker>öffnen</marker> bitte kühl lagern.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRP:.*|ADV:MOD" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VER:PA2:NON" regexp="yes">[a-zäöü].+</token>
+                    </marker>
+                    <token postag="(ART|PRO):(IND|DE[FM]|POS):GEN:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Das Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier substantiviert verwendet zu werden und muss dann großgeschrieben werden.</message>
+                <short>Substantivierte Verben werden großgeschrieben.</short>
+                <example correction="Betreten">Vor <marker>betreten</marker> des Hauses ziehen Sie bitte die Schuhe aus.</example>
+                <example correction="Verboten">Trotz <marker>verboten</marker> seiner Eltern tat er es.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GEWISSEN_SUBST" name="'auf dem gewissen (Gewissen)' etc.">
             <rule>
