@@ -21,6 +21,7 @@
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
+    <!ENTITY art_detecao_paronimos "(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)">
 
     <!ENTITY verbos_auxiliares_part_passado "ser|estar|ter|haver|ficar">
 
@@ -479,7 +480,8 @@
     <rule>
       <pattern>
         <marker>
-          <token postag="D..MS." postag_regexp="yes"/>
+          <token postag="D..MS." postag_regexp="yes">
+            <exception>o</exception></token>
           <token postag="NCMS000">ser</token>
         </marker>
       </pattern>
@@ -662,19 +664,40 @@
       <disambig action="filter" postag="N.+"/>
     </rule>
 
-    <rule id="AV" name="Det + Ver/Nom">
+  <rulegroup id="AV" name="Det + Ver/Nom">
+    <rule>
       <pattern>
-          <token regexp="yes">d?(um)?[ao]s?|[dn]?(um|uns)</token>
+          <token regexp="yes">&art_detecao_paronimos;</token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
-          <token postag="V.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes">
+            <exception postag="VMN0000"/></token>
         </and>
         </marker>
       </pattern>
       <disambig action="remove" postag="V.+"/>
       <example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example>
+      <example type="ambiguous" inputform="carpinteiro[carpinteiro/NCMS000,carpinteirar/VMIP1S0]" outputform="carpinteiro[carpinteiro/NCMS000">O <marker>carpinteiro</marker> serra-te isso à medida.</example>
+      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>
+      
     </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&art_detecao_paronimos;
+            <exception regexp='yes'>[ao]s?</exception></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="VMN0000"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.+"/>
+      <example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example>
+      <example type="ambiguous" inputform="carpinteiro[carpinteiro/NCMS000,carpinteirar/VMIP1S0]" outputform="carpinteiro[carpinteiro/NCMS000">O <marker>carpinteiro</marker> serra-te isso à medida</example>.
+    </rule>
+  </rulegroup>
 
     <!-- Verbo + Preposição: p.ex. 'a' como preposição depois do verbo	-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
