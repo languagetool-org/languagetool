@@ -5994,6 +5994,17 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="BE_WILL" name="will follows be ('he is would')">
+            <pattern>
+                <token postag="W(RB|P)" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes">be</token>
+                    <token inflected="yes" regexp="yes">will|must</token>
+                </marker>
+            </pattern>
+            <message>Please check whether one of these words is redundant.</message>
+            <example correction="">How <marker>is would</marker> this approach be useful?</example>
+        </rule>
         <rule id="RELY_ON" name="rely on">
             <antipattern>
                 <token regexp="yes">(up)?on</token>
@@ -6150,11 +6161,11 @@ USA
         </rule>
         <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
             <pattern>
-                <token regexp="yes">can|couldn|didn|doesn|don|hadn|hasn|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
+                <token regexp="yes">can|couldn|didn|doesn|don|ha[ds]n|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
                 <token min="0" regexp="yes">even|really|actually</token>
-                <token regexp="yes">what|who|where|how|which|whose|whether</token>
+                <token regexp="yes">wh(at|o|ere|ich|ose|ether)|how</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">One problem is that you often <marker>don't where</marker> a sentence starts and ends.</example>
@@ -6164,7 +6175,7 @@ USA
             <pattern>
                 <token regexp="yes">can|must|should</token>
                 <token min="0" regexp="yes">even|really|actually</token>
-                <token regexp="yes">what|who|where|how|which|whose|whether</token>
+                <token regexp="yes">wh(at|o|ere|ich|ose|ether)|how</token>
             </pattern>
             <message>Please check whether a verb is missing here.</message>
             <example correction="">You <marker>should really how</marker> it works.</example>
@@ -6173,7 +6184,7 @@ USA
             <pattern>
                 <marker>
                     <token postag_regexp="yes" postag="TO|RP"/>
-                    <token regexp="yes">I|he|she|we|they</token>
+                    <token regexp="yes">I|[hw]e|she|they</token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -6349,7 +6360,7 @@ USA
             </antipattern>
             <pattern>
                 <token><exception regexp="yes">am|are|is|t|re|was|were|with|without|of|in|to|much|find</exception><exception postag="VBP|VBD|VB|VBZ|VBG|VBN" postag_regexp="yes"/></token>
-                <token regexp="yes">I|you|he|she|it|we|they</token>
+                <token regexp="yes">I|you|[hw]e|she|it|they</token>
                 <token postag="RB" min="0"/>
                 <marker>
                     <token postag="VBG"><exception>being</exception></token>
@@ -6522,7 +6533,7 @@ USA
         </rule>
         <rule id="VE_HAVING" name="'ve having -> 've been having">
             <pattern>
-                <token regexp='yes'>could|would|should|you|i|we|they</token>
+                <token regexp='yes'>[cw]ould|should|you|i|we|they</token>
                 <marker>
                     <token spacebefore="no" regexp="yes">['`]</token>
                     <token>ve</token>
@@ -6569,7 +6580,7 @@ USA
                 <token>had</token>
                 <marker>
                     <token postag='VBP'>
-                        <exception postag='JJ|JJR|JJS|VBN' postag_regexp='yes'/><exception regexp="yes">become|lunch|dinner|breakfast|brunch</exception>
+                        <exception postag='JJ[RS]?|VBN' postag_regexp='yes'/><exception regexp="yes">become|lunch|dinner|breakfast|brunch</exception>
                     </token>
                 </marker>
             </pattern>
@@ -6734,7 +6745,7 @@ USA
         <rule id="LEARN_NNNNS_ON_DO" name="wrong preposition: 'learn sth on do' (to do)">
             <pattern>
                 <token inflected='yes'>learn</token>
-                <token postag='NN|NNS' postag_regexp='yes'><exception>tool</exception></token>
+                <token postag='NNS?' postag_regexp='yes'><exception>tool</exception></token>
                 <marker>
                     <token postag='IN'><exception>to</exception></token>
                 </marker>
@@ -6755,7 +6766,7 @@ USA
         </rule>
         <rule id="GAVE_GIVE" name="verb before 'gave'">
             <pattern>
-                <token postag='VB|VBP' postag_regexp='yes'><exception postag='NNP|NN|NNS' postag_regexp='yes'/></token>
+                <token postag='VBP?' postag_regexp='yes'><exception postag='NNP|NN|NNS' postag_regexp='yes'/></token>
                 <marker>
                     <token>gave</token>
                 </marker>
@@ -6806,7 +6817,7 @@ USA
         </rulegroup>
         <rule id="BE_FOND_TO" name="Wrong preposition: 'be fond to' (be fond of)">
             <pattern>
-                <token postag='VBP|VB' postag_regexp='yes'/>
+                <token postag='VBP?' postag_regexp='yes'/>
                 <token>fond</token>
                 <marker>
                     <token postag='IN'><exception>of</exception></token>
@@ -6908,14 +6919,14 @@ USA
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
-                <token regexp='yes'>a|an|the</token>
+                <token regexp='yes'>an?|the</token>
                 <token>alter</token>
             </antipattern>
             <pattern>
-                <token regexp='yes'>a|an|the</token>
+                <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <exception regexp="yes">commit|remix|long-running</exception>
-                    <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'/>
+                    <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
             <message>Maybe a wrong construction: a/the + infinitive</message>
@@ -7137,7 +7148,7 @@ USA
             <pattern>
                 <token postag="SENT_START"/>
                 <token min="0" regexp="yes">wh(at|ere)</token>
-                <token regexp="yes">Do|Does|did</token>
+                <token regexp="yes">Do(es)?|did</token>
                 <token postag="P?RP|NN.*" postag_regexp="yes"/>
                 <marker>
                     <token postag="VB[DZ]" postag_regexp="yes">
@@ -7537,7 +7548,7 @@ USA
             <pattern>
                 <token>does<exception scope="previous" postag="NNP"/></token>
                 <token>
-                    <exception regexp="yes">so|this|that|and|[:,]</exception>
+                    <exception regexp="yes">so|th(is|at)|and|[:,]</exception>
                     <exception postag_regexp="yes" postag="VB|VBP|VBG|WP|CC"/>
                 </token>
                 <marker>
@@ -7671,7 +7682,7 @@ USA
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"/></token>
                 <marker>
-                    <token regexp="yes">the|The|an|An|a</token>
+                    <token regexp="yes">the|The|an?|An</token>
                     <token regexp="yes">[,;]</token>
                 </marker>
             </pattern>
@@ -8083,7 +8094,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
@@ -8099,7 +8110,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
@@ -8114,7 +8125,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="JJ"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
@@ -8131,7 +8142,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
@@ -8148,7 +8159,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception>many</exception></token>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
@@ -8163,7 +8174,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
@@ -8177,7 +8188,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
@@ -8193,7 +8204,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
@@ -8210,7 +8221,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
@@ -8226,7 +8237,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
@@ -8243,7 +8254,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="JJ"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
@@ -8260,7 +8271,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
@@ -8898,7 +8909,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|God|do</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <marker>
                         <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
@@ -8912,7 +8923,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here|Oh|Hey|do</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8936,7 +8947,7 @@ USA
                     <token>that</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
@@ -8958,7 +8969,7 @@ USA
                     <token>that</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
                     <token skip="-1">,</token>
@@ -8974,7 +8985,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
@@ -8988,7 +8999,7 @@ USA
            </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">what|which|who|whose|where|when|whether</token>
+                    <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
                     <token skip="-1">,</token>
@@ -9424,7 +9435,7 @@ USA
                     <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
                     <token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">do|does|take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag="NN.*|JJ.*|POS.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="NN"><exception postag="DT|RB.*|RP|JJ.*|IN|CC|CD|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB|NN:UN?" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
+                        <token postag="NN"><exception postag="DT|RB.*|RP|JJ.*|IN|C[CD]|VB[DN]|MD|NNP|NNS|NNPS|PRP.*|WRB|NN:UN?" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*|CD" postag_regexp="yes"/></token>
                 </pattern>
