@@ -245,7 +245,7 @@ public class CaseRule extends Rule {
         posRegex("SUB:.*:ADJ")
      ),
      Arrays.asList(
-        // "Vor Betreten des" / "Trotz Verboten seine"
+        // "Vor Betreten des" / "Trotz Verboten seiner Eltern"
         posRegex("PRP:.*|ADV:MOD"),
         pos("VER:PA2:NON"),
         posRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")

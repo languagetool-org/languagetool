@@ -632,11 +632,30 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="add"><wd pos="SUB:NOM:PLU:FEM"/></disambig>
     </rule>
-        <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
+    <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
         <pattern>
             <token regexp="yes">\d{2,4}er</token>
         </pattern>
         <disambig action="add"><wd pos="SUB:GEN:PLU:FEM"/></disambig>
+    </rule>
+    <!-- Treat "60er" in "in den 60er Jahren" as adjective -->
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_1">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:DEF"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_2">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:IND"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_3">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:SOL"/></disambig>
     </rule>
 
     <!-- ============================================================================================================== -->
