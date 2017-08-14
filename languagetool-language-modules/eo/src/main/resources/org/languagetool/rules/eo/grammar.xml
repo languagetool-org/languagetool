@@ -5,6 +5,7 @@
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010-2014 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2017 Martin Bodin <martin.bodin@ens-lyon.org>
 
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
 de ĝia verkisto Bertilo Wennergren.
@@ -1961,59 +1962,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Verŝajne pluvetos morgaŭ.</example>
       </rule>
     </rulegroup>
-    <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
-      <pattern>
-        <token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes" skip="1">
-          <exception postag="X ndo"/>
-          <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[!?-–,;:«»“"()]</exception>
-          <exception scope="previous" postag="P .ak" postag_regexp="yes"/>
-        </token>
-        <token postag="V t[rn] .*" postag_regexp="yes" skip="2">
-          <exception scope="next" postag="[KP].*|[RO] akz.*|T .* k .*|V nt .*" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[!?-–,;:«»“"()]|ĉu|des|se|ol|ke|kiamaniere|,</exception>
-          <exception inflected="yes" regexp="yes">nomi|konsideri|kredi|trovi|opinii|taksi|senti|signifi</exception>
-        </token>
-        <marker>
-          <token postag="[ROAT] nak.*" postag_regexp="yes">
-            <exception postag="T .*e" postag_regexp="yes"/>
-            <exception regexp="yes">(?-i)[A-ZĈĜĤĴŜ].*|sola</exception>
-          </token>
-        </marker>
-      </pattern>
-      <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
-      <example correction="">Mi forgesis la <marker>akuzativo</marker>.</example>
-      <example>Mi forgesis la <marker>akuzativon</marker>.</example>
-      <example>Mi kantas kun amiko.</example>
-      <example>Mi klarigis kial li ne venis.</example>
-      <example>Mi trovis tie novan veturilon.</example>
-      <example>Ŝi faris lin idealisto.</example>
-      <example>Li sentis sin fremdulo.</example>
-      <example>Mi sentas ke li timas.</example>
-      <example>Tiu romano povas esti uzata kiel lernolibro.</example>
-      <example>Mi venos, diris li.</example>
-      <example>Mi ne scias sed mi kredas.</example>
-      <example>La lernejo en kiu li instruis estis fermita pro la krizo.</example>
-      <example>Ni entreprenas – li konfesis.</example>
-      <example correction="">Mi volas aĉeti la <marker>komputilo</marker>.</example>
-      <example>Mi volas esti la instruisto.</example>
-      <example>Vi povas kontroli ĉu Esperanto funkcias.</example>
-      <example>Mi dankas Barbara.</example>
-      <example>Kiun rolon laŭ vi havis la teamo ?</example>
-      <example>Tion oni nomas religio.</example>
-      <example>Tie loĝas mia amiko.</example>
-      <example>Kie loĝas la homo?</example>
-      <example>En la akvo ludas knaboj</example>
-      <example>Post vetero malbela lumas suno denove.</example>
-      <example>Ju pli ni havas des pli ni deziras.</example>
-      <example>Nenio pli teruras ol tertremo.</example>
-      <example>Jen la ĉambro en kiu manĝas centoj da infanoj.</example>
-      <example>Kion vi konsideras vera?</example>
-      <example>Li loĝas tie sola.</example>
-      <example>Mi trovas tion inteligenta.</example>
-      <example>Ni havis maltro por manĝi.</example>
-      <example>Li studis kiamaniere la birdoj flugas.</example>
-    </rule>
+    <rulegroup id="AKUZATIVO" name="ĝenerala problemo pri akuzativo">
+        <rule id="AKUZATIVA_TIKORELATIVO_RILATA_AL_NEAKUZATIVA_SUBSTANTIVO" name="Akuzativa “Ti”-korelativo rilata al neakuzativa substantivo.">
+            <pattern>
+                <token postag='V.* tr.*' postag_regexp='yes'></token>
+                <token postag='T.* akz.*' postag_regexp='yes'></token>
+                <marker>
+                    <token postag='O.* nak.*' postag_regexp='yes'></token>
+                </marker>
+            </pattern>
+            <message>Aspektas ke ‘<match no="2"/>’ rilatas al ‘<match no="3"/>’, sed ‘<match no="3"/>’ ne akuzativas: probable devintus esti ‘<suggestion><match no="3"/>n</suggestion>’.</message>
+            <short>Mankas akuzativo</short>
+            <example correction='frazon'>Mi ne ŝatas tiun <marker>frazo</marker>.</example>
+            <example>Mi ne ŝatas tiun frazon.</example>
+            <example correction='ideojn'>Kiu apogas tiajn <marker>ideoj</marker>?</example>
+            <example>Kiu apogas tiajn ideojn?</example>
+        </rule>
+        <rule id="NEAKUZATIVA_TIKORELATIVO_RILATA_AL_AKUZATIVA_SUBSTANTIVO" name="Neakuzativa “Ti”-korelativo rilata al akuzativa substantivo.">
+            <pattern>
+                <token postag='V.* tr.*' postag_regexp='yes'></token>
+                <marker>
+                    <token postag='T.* nak.*' postag_regexp='yes'></token>
+                </marker>
+                <token postag='O.* akz.*' postag_regexp='yes'></token>
+            </pattern>
+            <message>Aspektas ke ‘<match no="2"/>’ rilatas al ‘<match no="3"/>’, sed ‘<match no="2"/>’ ne akuzativas: probable devintus esti ‘<suggestion><match no="2"/>n</suggestion>’.</message>
+            <short>Mankas akuzativo</short>
+            <example correction='tiun'>Mi ne ŝatas <marker>tiu</marker> frazon.</example>
+            <example>Mi ne ŝatas tiun frazon.</example>
+            <example correction='tiajn'>Kiu apogas <marker>tiaj</marker> ideojn?</example>
+            <example>Kiu apogas tiajn ideojn?</example>
+        </rule>
+        <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
+            <pattern>
+                <token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes" skip="1">
+                    <exception postag="X ndo"/>
+                    <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
+                    <exception scope="next" regexp="yes">[!?-–,;:«»“"()]</exception>
+                    <exception scope="previous" postag="P .ak" postag_regexp="yes"/>
+                </token>
+                <token postag="V t[rn] .*" postag_regexp="yes" skip="2">
+                    <exception scope="next" postag="[KP].*|[RO] akz.*|T .* k .*|V nt .*" postag_regexp="yes"/>
+                    <exception scope="next" regexp="yes">[!?-–,;:«»“"()]|ĉu|des|se|ol|ke|kiamaniere|,</exception>
+                    <exception inflected="yes" regexp="yes">nomi|konsideri|kredi|trovi|opinii|taksi|senti|signifi</exception>
+                </token>
+                <marker>
+                    <token postag="[ROAT] nak.*" postag_regexp="yes">
+                        <exception postag="T .*e" postag_regexp="yes"/>
+                        <exception regexp="yes">(?-i)[A-ZĈĜĤĴŜ].*|sola</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
+            <example correction="">Mi forgesis la <marker>akuzativo</marker>.</example>
+            <example>Mi forgesis la <marker>akuzativon</marker>.</example>
+            <example>Mi kantas kun amiko.</example>
+            <example>Mi klarigis kial li ne venis.</example>
+            <example>Mi trovis tie novan veturilon.</example>
+            <example>Ŝi faris lin idealisto.</example>
+            <example>Li sentis sin fremdulo.</example>
+            <example>Mi sentas ke li timas.</example>
+            <example>Tiu romano povas esti uzata kiel lernolibro.</example>
+            <example>Mi venos, diris li.</example>
+            <example>Mi ne scias sed mi kredas.</example>
+            <example>La lernejo en kiu li instruis estis fermita pro la krizo.</example>
+            <example>Ni entreprenas – li konfesis.</example>
+            <example correction="">Mi volas aĉeti la <marker>komputilo</marker>.</example>
+            <example>Mi volas esti la instruisto.</example>
+            <example>Vi povas kontroli ĉu Esperanto funkcias.</example>
+            <example>Mi dankas Barbara.</example>
+            <example>Kiun rolon laŭ vi havis la teamo ?</example>
+            <example>Tion oni nomas religio.</example>
+            <example>Tie loĝas mia amiko.</example>
+            <example>Kie loĝas la homo?</example>
+            <example>En la akvo ludas knaboj</example>
+            <example>Post vetero malbela lumas suno denove.</example>
+            <example>Ju pli ni havas des pli ni deziras.</example>
+            <example>Nenio pli teruras ol tertremo.</example>
+            <example>Jen la ĉambro en kiu manĝas centoj da infanoj.</example>
+            <example>Kion vi konsideras vera?</example>
+            <example>Li loĝas tie sola.</example>
+            <example>Mi trovas tion inteligenta.</example>
+            <example>Ni havis maltro por manĝi.</example>
+            <example>Li studis kiamaniere la birdoj flugas.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="VTR_NAK" name="mankanta akuzativo">
       <rule>
         <pattern>
