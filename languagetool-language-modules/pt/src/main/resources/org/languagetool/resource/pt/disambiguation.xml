@@ -21,6 +21,7 @@
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
+    <!ENTITY art_detecao_paronimos "(d|n|pel)?(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)">
 
     <!ENTITY verbos_auxiliares_part_passado "ser|estar|ter|haver|ficar">
 
@@ -479,7 +480,8 @@
     <rule>
       <pattern>
         <marker>
-          <token postag="D..MS." postag_regexp="yes"/>
+          <token postag="D..MS." postag_regexp="yes">
+            <exception>o</exception></token>
           <token postag="NCMS000">ser</token>
         </marker>
       </pattern>
@@ -662,19 +664,39 @@
       <disambig action="filter" postag="N.+"/>
     </rule>
 
-    <rule id="AV" name="Det + Ver/Nom">
+  <rulegroup id="AV" name="Det + Ver/Nom">
+    <!-- Created by Tiago F. Santos, Portuguese rule  	-->
+    <rule>
       <pattern>
-          <token regexp="yes">d?(um)?[ao]s?|[dn]?(um|uns)</token>
+          <token regexp="yes">&art_detecao_paronimos;</token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
-          <token postag="V.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes">
+            <exception postag="VMN0000"/></token>
         </and>
         </marker>
       </pattern>
       <disambig action="remove" postag="V.+"/>
       <example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example>
+      <example type="ambiguous" inputform="carpinteiro[carpinteirar/VMIP1S0,carpinteiro/NCMS000]" outputform="carpinteiro[carpinteiro/NCMS000]">O <marker>carpinteiro</marker> serra-te isso à medida.</example>
+      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&art_detecao_paronimos;
+            <exception regexp='yes'>[ao]s?</exception></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="VMN0000"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.+"/>
+      <example type="ambiguous" inputform="jantar[jantar/NCMS000,jantar/VMN0000,jantar/VMSF1S0,jantar/VMSF3S0]" outputform="jantar[jantar/NCMS000]">Um <marker>jantar</marker> à lareira parece-me bem.</example>
+    </rule>
+  </rulegroup>
 
     <!-- Verbo + Preposição: p.ex. 'a' como preposição depois do verbo	-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
@@ -775,10 +797,11 @@
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
     </rule>
 
-    <rule id="SD_V" name="Contração + Verbo">
-    <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
+    <!--rule id="SD_V" name="Contração + Verbo"
+        XXX Made redundant by AV rule improvements. Remove after 3.9 release -->
+    <!-- 		Created by Tiago F. Santos, 2017-07-15		>
       <pattern>
-          <token regexp='yes'>(d|n|pel)(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)
+          <token regexp='yes'>&art_detecao_paronimos;
             <exception>nos</exception></token>
         <marker>
         <and>
@@ -790,7 +813,7 @@
       <disambig action="remove" postag="V.+"/>
       <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
-    </rule>
+    </rule-->
 
     <!-- D_N Quando está diante de um nome, trata-se de um determinante.-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->

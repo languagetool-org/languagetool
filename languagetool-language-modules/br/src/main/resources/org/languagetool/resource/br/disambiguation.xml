@@ -534,7 +534,7 @@ Copyright (C) 2011-2014 Dominique Pellé <dominique.pelle@gmail.com>
     </pattern>
     <disambig postag="J itg"/>
   </rule>
-  <rule id="RA" name="particule ra">
+  <rule id="RA_L" name="particule ra">
     <pattern>
       <token postag="SENT_START"/>
       <marker>
@@ -543,6 +543,14 @@ Copyright (C) 2011-2014 Dominique Pellé <dominique.pelle@gmail.com>
       <token postag="V (futu|conf) .*" postag_regexp="yes"/>
     </pattern>
     <disambig postag="L r"/>
+  </rule>
+  <rule id="RA_V" name="ra verbe">
+    <pattern>
+        <token postag="V inf"/>
+        <token>a</token>
+        <marker><token>ra</token></marker>
+    </pattern>
+    <disambig postag="V pres 3 s"/>
   </rule>
   <rule id="KOZH" name="kozh">
     <pattern>

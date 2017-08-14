@@ -18,7 +18,7 @@
     6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
 
 #### Portuguese
-  * added and improvements to grammar and style rules, including:
+  * added and improved grammar and style rules, including:
     - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements
     - typography: number and mathematical symbol formatting improvements
     - syntax: new category; fragment detection improvements

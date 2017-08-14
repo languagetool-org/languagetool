@@ -123,6 +123,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("erhöherung", "Erhöhung", rule, lt);
     assertFirstSuggestion("aufjedenfall", "auf jeden Fall", rule, lt);
     assertFirstSuggestion("Aufjedenfall", "Auf jeden Fall", rule, lt);
+    assertFirstSuggestion("funkzunierende", "funktionierende", rule, lt);
+    assertFirstSuggestion("funkzuniert", "funktioniert", rule, lt);
   }
 
   @Test

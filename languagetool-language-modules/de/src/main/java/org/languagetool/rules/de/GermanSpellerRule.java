@@ -324,6 +324,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[aA]ufjedenfall")) {
       suggestion = word.replaceFirst("jedenfall$", "");
       return Collections.singletonList(suggestion + " jeden Fall");
+    } else if (word.matches("^funk?z[ou]nier.+")) {
+      suggestion = word.replaceFirst("funk?z[ou]nier", "funktionier");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("Wöruber")) {
       return Collections.singletonList("Worüber");
     } else if (word.equals("par")) {

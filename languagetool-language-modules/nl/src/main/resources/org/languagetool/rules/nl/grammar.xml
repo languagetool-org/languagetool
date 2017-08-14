@@ -90,7 +90,7 @@ Ad random -> at random, willekeurig
 					<token regexp="yes">\d\d\d\d</token>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.DateCheckFilter" args="year:\4 month:\3 day:\2 weekDay:\1"/>
-				<message>\3 \4 \5 is geen \day, maar een {realDay}.</message>
+				<message>\2 \3 \4 is geen \day, maar een {realDay}.</message>
 				<example type="incorrect"><marker>Maandag 7 oktober 2014</marker>.</example>
 				<example><marker>Dinsdag 7 oktober 2014</marker>.</example>
 			</rule>
@@ -3783,13 +3783,12 @@ Ad random -> at random, willekeurig
 			</rule>
 		</rulegroup>
 		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman">
-			<!-- 2014-08-21 TaalTik -->
 			<rule>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">god|sinterklaas|kerstman</token>
 				</pattern>
-				<message>Wanneer u hier de unieke, enige echte, <match no="3"/> bedoelt, dan is <suggestion><match no="3" case_conversion="startupper"/></suggestion> correct.</message>
+				<message>Wanneer u hier de unieke, enige echte, <match no="1"/> bedoelt, dan is <suggestion><match no="1" case_conversion="startupper"/></suggestion> correct.</message>
 				<short>Hoofdletter?</short>
 				<example>Hij was echt <marker>Sinterklaas</marker>.</example>
 				<example correction="Kerstman">Hij was die dag <marker>kerstman</marker>.</example>
