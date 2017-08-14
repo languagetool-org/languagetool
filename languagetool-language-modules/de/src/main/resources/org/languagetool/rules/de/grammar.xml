@@ -27706,7 +27706,7 @@ Andere Projekte</example>
         </rule>
         <rule id="AM_DEM" name="am dem (an dem)">
             <pattern>
-                <token regexp="yes">am|im</token>
+                <token regexp="yes">[ai]m</token>
                 <token>dem</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="m$" regexp_replace="n"/> dem</suggestion>?</message>
@@ -27759,7 +27759,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
                     <marker>
-                        <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
+                        <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
                     </marker>
                     <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
                     <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -27794,9 +27794,9 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
                     <marker>
-                        <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
+                        <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
                     </marker>
                     <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
                     <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -28305,7 +28305,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token inflected="yes">sein</token>
                     <token>mit</token>
-                    <token regexp="yes">das|die</token>
+                    <token regexp="yes">d(as|ie)</token>
                 </antipattern>
                 <antipattern>
                     <token>bei</token>
