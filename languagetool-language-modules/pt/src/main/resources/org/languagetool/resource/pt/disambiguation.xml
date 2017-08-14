@@ -686,7 +686,7 @@
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
-            <exception regexp='yes'>as?|n?os</exception></token>
+            <exception regexp='yes'>[ao]s?|nos</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
@@ -1177,7 +1177,7 @@
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
-            <exception>1[&#37;&#8240;&#8241;]</exception></token>
+            <exception regexp='yes'>1[&#37;&#8240;&#8241;]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
@@ -1187,7 +1187,7 @@
       </pattern>
       <disambig action="replace"><wd pos="NCMC000"/></disambig>
     </rule>
-  </exception>
+  </rulegroup>
 
     <!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
     <rule id="NUMBER_DEGREE" name="número+graus">
