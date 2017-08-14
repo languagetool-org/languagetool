@@ -21,7 +21,7 @@
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
-    <!ENTITY art_detecao_paronimos "(d|n|pel)?(outr)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)">
+    <!ENTITY art_detecao_paronimos "(d|n|pel)?(outr)?[ao]s?|de|em|(alg|d|n)?(um(a|as)?|uns)">
 
     <!ENTITY verbos_auxiliares_part_passado "ser|estar|ter|haver|ficar">
 
@@ -668,7 +668,8 @@
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
     <rule>
       <pattern>
-          <token regexp="yes">&art_detecao_paronimos;</token>
+          <token regexp="yes">&art_detecao_paronimos;
+            <exception>nos</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
@@ -685,7 +686,7 @@
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
-            <exception regexp='yes'>[ao]s?</exception></token>
+            <exception regexp='yes'>as?|n?os</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
@@ -1172,34 +1173,40 @@
     </rule>
   </rulegroup>
 
-    <!-- FIXME Percentage number and gender agrees with the noun it refers to. Disambiguate better.
-    <rule id="PERCENTAGE" name="percentagens">
+  <rulegroup id="PERCENTAGE" name="percentagens">
+    <rule>
       <pattern>
-     TODO Requires tokenizer changes
-          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
+          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
+            <exception>1[&#37;&#8240;&#8241;]</exception></token>
       </pattern>
-      <disambig action="replace"><wd pos="NCMS000"/></disambig>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
--->
+    <rule>
+      <pattern>
+          <token regexp="yes">1 ?[&#37;&#8240;&#8241;]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMC000"/></disambig>
+    </rule>
+  </exception>
 
     <!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
     <rule id="NUMBER_DEGREE" name="número+graus">
       <pattern>
-          <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEWO]?</token>
+          <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEWO]?</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
 
     <rule id="DEGREE" name="graus">
       <pattern>
-          <token regexp="yes">°[CFKNSEWO]</token>
+          <token regexp="yes">[º°][CFKNSEWO]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
 
     <rule id="ONE_DEGREE" name="1 grau">
       <pattern>
-          <token regexp="yes">1[°′″‴][CFKNSEWO]?</token>
+          <token regexp="yes">1[º°′″‴][CFKNSEWO]?</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
     </rule>
