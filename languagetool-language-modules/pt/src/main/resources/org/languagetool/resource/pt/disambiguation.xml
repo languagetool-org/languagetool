@@ -1189,7 +1189,8 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="PERCENTAGE" name="percentagens">
+  <rulegroup id="PERCENTAGES" name="Percentagens">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
@@ -1206,6 +1207,7 @@
   </rulegroup>
 
   <rulegroup id="DEGREES" name="Graus">
+    <!-- Created by Tiago F. Santos, Portuguese rule  	-->
     <rule>
       <pattern>
           <token regexp="yes">1[º°′″‴][CFKNSEWO]?
@@ -1228,28 +1230,29 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="ORDINAL" name="Ordinais">
+  <rulegroup id="ORDINALS" name="Ordinais">
+    <!-- Created by Tiago F. Santos, Portuguese rule 	-->
     <rule>
       <pattern>
-          <token regexp='yes'>1\.?º</token>
+          <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d\.?º</token>
+          <token regexp="yes">\d+[\.&#57347;]?[oº][sˢ]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>1\.?ª</token>
+          <token regexp='yes'>\d+[\.&#57347;]?ª</token>
       </pattern>
       <disambig action="replace"><wd pos="NCFS000"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d\.?ª</token>
+          <token regexp="yes">\d+[\.&#57347;]?[aª][sˢ]?</token>
       </pattern>
       <disambig action="replace"><wd pos="NCFP000"/></disambig>
     </rule>
@@ -1865,9 +1868,7 @@
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>\d+</token>
-          <token>.</token>
-          <token spacebefore="no" regexp='yes'>[ºª][sˢ]?</token>
+          <token regexp='yes'>\d+.[ºª][sˢ]?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
