@@ -32,8 +32,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * A rule that matches known empty expresions. 
- * Portuguese implementations. Loads the list of words from
+ * A rule that matches known empty expressions. 
+ * Portuguese implementation. Loads the list of words from
  * <code>/pt/weaselwords.txt</code>.
  *
  * @author Tiago F. Santos 
