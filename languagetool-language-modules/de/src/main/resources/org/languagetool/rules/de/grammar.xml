@@ -12988,20 +12988,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Viele Grüße"><marker>Viele Grüße,</marker></example>
             </rule>
         </rulegroup>
-        <rule id="ANREDE_KOMMA" name="Fehlendes Komma nach der Anrede">
-            <!-- TODO not triggered if there is no punctuation mark at all -->
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <token>Sehr</token>
-                <token regexp="yes">geehrt.+</token>
-                <token regexp="yes">Frau|Herr</token>
-                <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+<exception regexp="yes">Dr|Prof</exception></token>
-                <token regexp="yes">\-|\.|:|\!|;</token>
-            </pattern>
-            <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
-            <short>Nach der Anredeformel sollte ein Komma stehen.</short>
-            <example correction="Sehr geehrter Herr Müller,"><marker>Sehr geehrter Herr Müller!</marker></example>
-        </rule>
+        <rulegroup id="ANREDE_KOMMA" name="Fehlendes Komma nach der Anrede">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrt.+</token>
+                    <token regexp="yes">Frau|Herr</token>
+                    <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+<exception regexp="yes">Dr|Prof</exception></token>
+                    <token regexp="yes">\-|\.|:|\!|;</token>
+                </pattern>
+                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
+                <short>Nach der Anredeformel sollte ein Komma stehen.</short>
+                <example correction="Sehr geehrter Herr Müller,"><marker>Sehr geehrter Herr Müller!</marker></example>
+            </rule>
+<!-- 
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrt.+</token>
+                    <token regexp="yes">Frau|Herr</token>
+                    <token regexp="yes" min="0">Prof|Dr</token>
+                    <token min="0">.</token>
+                    <marker>
+                        <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                    </marker>
+                    <token postag="SENT_END"><exception>,</exception></token>
+                </pattern>
+                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\7,</suggestion></message>
+                <short>Nach der Anredeformel sollte ein Komma stehen.</short>
+                <example correction="Sehr geehrter Herr Müller,"><marker>Sehr geehrter Herr Müller</marker></example>
+            </rule>
+ -->
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
