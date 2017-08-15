@@ -85,6 +85,7 @@ public class AgreementRuleTest {
     assertGood("Das wenige Sekunden alte Baby schrie laut.");
     assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
     assertGood("Er fragte, ob das Spaß macht.");
+    assertGood("Das viele Geld wird ihr helfen.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");

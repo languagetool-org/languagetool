@@ -230,6 +230,11 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().tokenRegex("[dD]e[rn]").build(),
         new PatternTokenBuilder().csToken("Gold").build(),
         new PatternTokenBuilder().csToken("Cup").build()
+    ),
+    Arrays.asList(
+        new PatternTokenBuilder().token("das").build(),
+        new PatternTokenBuilder().tokenRegex("viele|wenige").build(),
+        new PatternTokenBuilder().posRegex("SUB:.*").build()
     )
   );
 

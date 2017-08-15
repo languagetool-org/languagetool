@@ -25566,7 +25566,12 @@ Andere Projekte</example>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
-                    <token><exception postag="UNKNOWN"/><exception postag="SUB:NOM:SIN:NEU"/><exception postag="SUB:NOM:SIN:NEU:INF"/><exception postag="ADJ:.*" postag_regexp="yes"/></token>
+                    <token>
+                        <exception postag="UNKNOWN"/>
+                        <exception postag="SUB:NOM:SIN:NEU"/>
+                        <exception postag="SUB:NOM:SIN:NEU:INF"/>
+                        <exception postag="ADJ:.*|EIG:AKK:SIN:NEU:ART:.*" postag_regexp="yes"/>
+                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -25584,6 +25589,7 @@ Andere Projekte</example>
                 <example correction="Bestimmtes">Suchst du etwas <marker>bestimmtes</marker>?</example>
                 <example>Die Kirche weist eine Sakristei aus der Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
                 <example>Es hat für viel positives öffentliches Aufsehen gesorgt.</example>
+                <example>Zu viel deutsches Europa, zu wenig europäisches Deutschland.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
