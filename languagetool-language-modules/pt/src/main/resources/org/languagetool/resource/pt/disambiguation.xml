@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+
     <!--
- Portugues Disambiguation Rules for LanguageTool
- Copyright (C) 2016 Tiago F. Santos
+ Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
+ Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
 -->
   <!DOCTYPE rules [
     <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
@@ -1189,27 +1205,55 @@
     </rule>
   </rulegroup>
 
-    <!-- TODO º and ª symbols are oftenly confused in Wikipedia with the degree simbol (°). -->
-    <rule id="NUMBER_DEGREE" name="número+graus">
+  <rulegroup id="DEGREES" name="Graus">
+    <rule>
       <pattern>
-          <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEWO]?</token>
+          <token regexp="yes">1[º°′″‴][CFKNSEWO]?
+            <exception>1º</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEWO]?
+            <exception regexp='yes'>\d+º</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
-
-    <rule id="DEGREE" name="graus">
+    <rule>
       <pattern>
           <token regexp="yes">[º°][CFKNSEWO]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
+  </rulegroup>
 
-    <rule id="ONE_DEGREE" name="1 grau">
+  <rulegroup id="ORDINAL" name="Ordinais">
+    <rule>
       <pattern>
-          <token regexp="yes">1[º°′″‴][CFKNSEWO]?</token>
+          <token regexp='yes'>1\.?º</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d\.?º</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>1\.?ª</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d\.?ª</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000"/></disambig>
+    </rule>
+  </rulegroup>
 
     <!-- XXX Ignore Spelling Rules XXX -->
     <rule name="en vogue" id="EN_VOGUE">
