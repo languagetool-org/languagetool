@@ -35239,6 +35239,28 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)rei(.*)" regexp_replace="$1rei $2"/></suggestion> verwenden?</message>
                 <example correction="frei stehendes">Der Makler bot ihnen ein <marker>freistehendes</marker> Haus an.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">fertig(lesen|kochen|werden|bekommen)</token>
+                </pattern>
+                    <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertig(.*)" regexp_replace="$1ertig $2"/></suggestion> verwenden?</message>
+                    <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                </pattern>
+                    <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertigzu(.*)" regexp_replace="$1ertig zu $2"/></suggestion> verwenden?</message>
+                    <example correction="fertig zu werden">Es dauerte lange <marker>fertigzuwerden</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
+                <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung">
             <url>http://www.duden.de/hilfe/rechtschreibung</url>
@@ -35373,6 +35395,224 @@ Andere Projekte</example>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <example correction="wohlerzogenes">Es war ein <marker>wohl erzogenes</marker> Kind.</example>
                 <example correction="wohltemperierten">Sie genoss den <marker>wohl temperierten</marker> Wein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fertig</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">stellen|bringen|kriegen</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="fertigstellen">Es wird Zeit, dass sie es <marker>fertig stellen</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">
+
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Nicosia(.*)" regexp_replace="Nikosia$1"/></suggestion> verwenden?</message>
+                <example correction="Nikosia"><marker>Nicosia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Luksor.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Luksor(.*)" regexp_replace="Luxor$1"/></suggestion> verwenden?</message>
+                <example correction="Luxor"><marker>Luksor</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Québec.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Québec(.*)" regexp_replace="Quebec$1"/></suggestion> verwenden?</message>
+                <example correction="Quebec"><marker>Québec</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Duala.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Duala(.*)" regexp_replace="Douala$1"/></suggestion> verwenden?</message>
+                <example correction="Douala"><marker>Duala</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Aral|Michigan|Winnipeg|Onega|Barents|Ladoga|Oneida|Skutari|Tanganjika|Ontario)-See.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)-See(.*)" regexp_replace="$1see$2"/></suggestion> verwenden?</message>
+                <example correction="Aralsee"><marker>Aral-See</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nasca.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Nasca(.*)" regexp_replace="Nazca$1"/></suggestion> verwenden?</message>
+                <example correction="Nazca"><marker>Nasca</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nikaragua.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Nikaragua(.*)" regexp_replace="Nicaragua$1"/></suggestion> verwenden?</message>
+                <example correction="Nicaragua"><marker>Nikaragua</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Gasa(s|streifens?)?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Gasa(.*)" regexp_replace="Gaza$1"/></suggestion> verwenden?</message>
+                <example correction="Gaza"><marker>Gasa</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Troia.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Troia(.*)" regexp_replace="Troja$1"/></suggestion> verwenden?</message>
+                <example correction="Troja"><marker>Troia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">L</token>
+                    <token spacebefore="no">'</token>
+                    <token case_sensitive="yes" spacebefore="no" regexp="yes">viv.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="3" regexp_match="viv(.*)" regexp_replace="Lwiw$1"/></suggestion> verwenden?</message>
+                <example correction="Lwiw"><marker>L'viv</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Kuweit.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Kuweit(.*)" regexp_replace="Kuwait$1"/></suggestion> verwenden?</message>
+                <example correction="Kuwait"><marker>Kuweit</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Changjiang.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Changjiang(.*)" regexp_replace="Chang Ji­ang$1"/></suggestion> verwenden?</message>
+                <example correction="Chang Ji­ang"><marker>Changjiang</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">San</token>
+                    <token case_sensitive="yes" regexp="yes">Franzisko.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>San <match no="2" regexp_match="Franzisko(.*)" regexp_replace="Franzisco$1"/></suggestion> verwenden?</message>
+                <example correction="San Franzisco"><marker>San Franzisko</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Brasília.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Brasília(.*)" regexp_replace="Brasilia$1"/></suggestion> verwenden?</message>
+                <example correction="Brasilia"><marker>Brasília</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Shetland|Orkney|Langerhans)-Inseln.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)-Inseln(.*)" regexp_replace="$1inseln$2"/></suggestion> verwenden?</message>
+                <example correction="Shetlandinseln"><marker>Shetland-Inseln</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Szetschuan.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Szetschuan(.*)" regexp_replace="Szechuan$1"/></suggestion> verwenden?</message>
+                <example correction="Szechuan"><marker>Szetschuan</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Pompeis?</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Pompei(.*)" regexp_replace="Pompeji$1"/></suggestion> verwenden?</message>
+                <example correction="Pompeji"><marker>Pompei</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Yukatan.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Yukatan(.*)" regexp_replace="Yucatán$1"/></suggestion> verwenden?</message>
+                <example correction="Yucatán"><marker>Yukatan</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Mykenä.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Mykenä(.*)" regexp_replace="Mykene$1"/></suggestion> verwenden?</message>
+                <example correction="Mykene"><marker>Mykenä</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Avoda.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Avoda(.*)" regexp_replace="Awoda$1"/></suggestion> verwenden?</message>
+                <example correction="Awoda"><marker>Avoda</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Portoriko.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Portoriko(.*)" regexp_replace="Porto Rico$1"/></suggestion> verwenden?</message>
+                <example correction="Porto Rico"><marker>Portoriko</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Krischna.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Krischna(.*)" regexp_replace="Krishna$1"/></suggestion> verwenden?</message>
+                <example correction="Krishna"><marker>Krischna</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Kollargol.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Kollargol(.*)" regexp_replace="Collargol$1"/></suggestion> verwenden?</message>
+                <example correction="Collargol"><marker>Kollargol</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Hiroschima.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Hiroschima(.*)" regexp_replace="Hiroshima$1"/></suggestion> verwenden?</message>
+                <example correction="Hiroshima"><marker>Hiroschima</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Rhätien.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Rhätien(.*)" regexp_replace="Rätien$1"/></suggestion> verwenden?</message>
+                <example correction="Rätien"><marker>Rhätien</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka).*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(Dacca|Dakka)(.*)" regexp_replace="Dhaka$2"/></suggestion> verwenden?</message>
+                <example correction="Dhaka"><marker>Dakka</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Yukon-Territorium.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Yukon-Territorium(.*)" regexp_replace="Yukonterritorium$1"/></suggestion> verwenden?</message>
+                <example correction="Yukonterritorium"><marker>Yukon-Territorium</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Pfälzerwald.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Pfälzerwald(.*)" regexp_replace="Pfälzer Wald$1"/></suggestion> verwenden?</message>
+                <example correction="Pfälzer Wald"><marker>Pfälzerwald</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Posemukel.*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Posemukel(.*)" regexp_replace="Posemuckel$1"/></suggestion> verwenden?</message>
+                <example correction="Posemuckel"><marker>Posemukel</marker></example>
             </rule>
         </rulegroup>
     </category>
