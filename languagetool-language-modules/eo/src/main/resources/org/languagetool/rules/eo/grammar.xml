@@ -1971,12 +1971,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='O.* nak.*' postag_regexp='yes'></token>
                 </marker>
             </pattern>
-            <message>Aspektas ke ‘<match no="2"/>’ rilatas al ‘<match no="3"/>’, sed ‘<match no="3"/>’ ne akuzativas: probable devintus esti ‘<suggestion><match no="3"/>n</suggestion>’.</message>
+            <message>Ŝajnas, ke «<match no="2"/>» rilatas al «<match no="3"/>», sed «<match no="3"/>» ne akuzativas: probable devintus esti «<suggestion><match no="3"/>n</suggestion>».</message>
             <short>Mankas akuzativo</short>
             <example correction='frazon'>Mi ne ŝatas tiun <marker>frazo</marker>.</example>
-            <example>Mi ne ŝatas tiun frazon.</example>
             <example correction='ideojn'>Kiu apogas tiajn <marker>ideoj</marker>?</example>
-            <example>Kiu apogas tiajn ideojn?</example>
         </rule>
         <rule id="NEAKUZATIVA_TIKORELATIVO_RILATA_AL_AKUZATIVA_SUBSTANTIVO" name="Neakuzativa “Ti”-korelativo rilata al akuzativa substantivo.">
             <pattern>
@@ -1986,12 +1984,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag='O.* akz.*' postag_regexp='yes'></token>
             </pattern>
-            <message>Aspektas ke ‘<match no="2"/>’ rilatas al ‘<match no="3"/>’, sed ‘<match no="2"/>’ ne akuzativas: probable devintus esti ‘<suggestion><match no="2"/>n</suggestion>’.</message>
+            <message>Ŝajnas, ke «<match no="2"/>» rilatas al «<match no="3"/>», sed «<match no="2"/>» ne akuzativas: probable devintus esti «<suggestion><match no="2"/>n</suggestion>».</message>
             <short>Mankas akuzativo</short>
             <example correction='tiun'>Mi ne ŝatas <marker>tiu</marker> frazon.</example>
-            <example>Mi ne ŝatas tiun frazon.</example>
             <example correction='tiajn'>Kiu apogas <marker>tiaj</marker> ideojn?</example>
-            <example>Kiu apogas tiajn ideojn?</example>
         </rule>
         <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
             <pattern>
@@ -4080,16 +4076,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="simplan|facilan">Li donis <marker>malkomplikan</marker> respondon.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="HUMIDA" name="humida → malseka">
-      <rule>
-        <pattern>
-          <marker><token inflected="yes" regexp="yes">(ne|mal)?humid((umi|igi|iĝi)|(a|o|eco|ega|eta)j?n?)</token></marker>
-        </pattern>
-        <message>La vorto ‘humida’ estas ne estas oficiala esperanta vorto, kaj la vorto ‘malseka’ normale signifas ekzakte la saman. Ĉu vi intencis ‘<suggestion><match no="1" regexp_match="humid" regexp_replace="malsek"/></suggestion>’?</message>
-        <example correction="malseka">Tiu ĉi domo estas <marker>humida</marker>.</example>
-        <example correction="malsekecon">Mi ne ŝatas <marker>humidecon</marker>.</example>
-      </rule>
-    </rulegroup>
+    <!-- La vorto «humida» estas oficiala. Ĉu eblas facile trovi kuntekston en kiu ĝi estas misuzita?
+      <rulegroup id="HUMIDA" name="humida → malseka">
+        <rule>
+          <pattern>
+            <marker><token inflected="yes" regexp="yes">(ne|mal)?humid(um|ig|iĝ|ec|et|eg)[iao]</token></marker>
+          </pattern>
+          <message>La vorto «\1» ofte estas uzita en loko en kiu la vorto «<suggestion><match no="1" regexp_match="humid" regexp_replace="malsek"/></suggestion>» signifas la saman kaj plitaŭgas.</message>
+          <example correction="malseka">Tiu ĉi domo estas <marker>humida</marker>.</example>
+          <example correction="malsekecon">Mi ne ŝatas <marker>humidecon</marker>.</example>
+        </rule>
+      </rulegroup>
+    -->
     <rule id="KOMPLIKIGI" name="komplikigi → kompliki">
       <pattern>
         <token inflected="yes" regexp="yes">komplikigi|korektigi</token>
