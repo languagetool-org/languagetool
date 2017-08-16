@@ -125,6 +125,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Aufjedenfall", "Auf jeden Fall", rule, lt);
     assertFirstSuggestion("funkzunierende", "funktionierende", rule, lt);
     assertFirstSuggestion("funkzuniert", "funktioniert", rule, lt);
+    assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
+    // TODO: Does not work, possibly because 'Knoblauchmayonnaise' is a word
+    // from spelling.txt
+    // assertFirstSuggestion("Knoblauchmajonäse", "Knoblauchmayonnaise", rule, lt);
   }
 
   @Test
