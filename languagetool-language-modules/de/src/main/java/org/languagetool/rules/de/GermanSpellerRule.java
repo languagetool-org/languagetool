@@ -265,6 +265,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*[mM]ajonäse.*")) {
+      suggestion = word.replaceFirst("ajonäse", "ayonnaise");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.equals("zuende")) {
       return Collections.singletonList("zu Ende");
     } else if (word.equals("zumindestens")) {
