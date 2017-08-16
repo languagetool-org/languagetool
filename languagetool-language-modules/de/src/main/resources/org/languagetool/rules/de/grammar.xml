@@ -27841,7 +27841,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
                     <marker>
                         <token>des</token>
                         <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -27855,7 +27855,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
                     <marker>
                         <token>eines</token>
                         <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -27866,6 +27866,20 @@ Andere Projekte</example>
                 <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
                 <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
                 <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">seit|ab|nach|vor</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+                <example correction="dem">Seit <marker>den</marker> 13. Jahrhundert existiert diese Tradition.</example>
+                <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
+                <example >Wir haben für <marker>den</marker> 15. Februar verabredet.</example>
             </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
