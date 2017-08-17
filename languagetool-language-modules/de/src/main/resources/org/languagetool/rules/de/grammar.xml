@@ -12993,7 +12993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
-                    <token regexp="yes">geehrt.+</token>
+                    <token regexp="yes">geehrter?</token>
                     <token regexp="yes">Frau|Herr</token>
                     <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+<exception regexp="yes">Dr|Prof</exception></token>
                     <token regexp="yes">\-|\.|:|\!|;</token>
@@ -13015,7 +13015,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\7,</suggestion></message>
+                <example correction="Müller,">Sehr geehrte Frau Dr. <marker>Müller</marker></example>
                 <example correction="Müller,">Sehr geehrter Herr <marker>Müller</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token>geehrte</token>
+                    <token>Damen</token>
+                    <token>und</token>
+                    <marker>
+                        <token postag="SENT_END">Herren</token>
+                    </marker>
+                </pattern>
+                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>Herren,</suggestion></message>
+                <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
         </rulegroup>
     </category>
