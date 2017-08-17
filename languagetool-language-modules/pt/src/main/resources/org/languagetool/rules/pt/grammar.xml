@@ -1328,7 +1328,7 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
-      <!--short>Tempo verbal incorreto.</short-->
+    <!--short>Tempo verbal incorreto.</short-->
     <rule>
       <pattern>
           <phraseref idref="ALL_PAST_EXPRESSIONS"/>
@@ -1348,7 +1348,7 @@ title="Easy editing stylesheet" ?>
           <token postag="V.IF3P.+" postag_regexp="yes" regexp="yes">.+?rão</token>
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_PAST_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao futuro. Se pretende referir-se ao passado substitua '-ão' por '-am'.</message>
@@ -1388,7 +1388,7 @@ title="Easy editing stylesheet" ?>
           <token postag="V.IF[23]S.+" postag_regexp="yes" regexp="yes">.+?rás?</token>
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_PAST_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao futuro. Se pretende referir-se ao passado substitua '-rá' por '-ra'</message>
@@ -1414,7 +1414,7 @@ title="Easy editing stylesheet" ?>
           <token postag="V.IF2P.+" postag_regexp="yes" regexp="yes">.+?[^áêíéô]reis</token> <!-- TODO add a function equivalent to 'tr' -->
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_PAST_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao futuro. Se pretende referir-se ao passado utilize a forma acentuada.</message>
@@ -1425,7 +1425,7 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id="PAST_FUTURE_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
-      <!--short>Tempo verbal incorreto.</short-->
+    <!--short>Tempo verbal incorreto.</short-->
     <rule>
       <pattern>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
@@ -1445,7 +1445,7 @@ title="Easy editing stylesheet" ?>
           <token postag="V.I[PM]3P.+" postag_regexp="yes" regexp="yes">.+?ram</token>
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro substitua '-am' por '-ão'.</message>
@@ -1491,7 +1491,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>para|fronteiras?</exception></token>
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
@@ -1521,7 +1521,7 @@ title="Easy editing stylesheet" ?>
           <token postag="V.I[PM]2P.+" postag_regexp="yes" regexp="yes">.+?[áêíéô]reis</token>
         </marker>
           <token min='0'>,</token>
-          <!--token min='0' max='3'/-->
+    <!--token min='0' max='3'/-->
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro utilize a forma não acentuada.</message>
@@ -3451,16 +3451,16 @@ title="Easy editing stylesheet" ?>
     <rule id='DE_UM_MODO_GERAL' name="De modo geral">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-		  <token>de</token>
+          <token>de</token>
           <token>um</token>
           <token>modo</token>
-		  <token>geral</token>
+          <token>geral</token>
       </pattern>
       <message>Substitua por: </message>
         <suggestion>de modo geral</suggestion>
       <example correction='de modo geral'>Devemos ver isto <marker>de um modo geral</marker>.</example>
     </rule>
-	
+
     <rule id='CRIAM' name="Queriam + Infinitivo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -6628,16 +6628,16 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
     <rule>
       <pattern>
-        <token regexp='yes'>(\d+)[ºo]\.?([sˢ]?)</token>
-        <!--token min='0' spacebefore='no'>.</token-->
+          <token regexp='yes'>(\d+)[ºo]\.?([sˢ]?)</token>
+    <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
       <example correction="12.º">O premiado é o <marker>12o</marker> da lista.</example>
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>(\d+)\.o([sˢ]?)</token>
-        <!--token min='0' spacebefore='no'>.</token-->
+          <token regexp='yes'>(\d+)\.o([sˢ]?)</token>
+    <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.o([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
       <example correction="12.º">A entrada é a <marker>12.o</marker> da lista.</example>
@@ -6646,8 +6646,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>(\d+)[ªa]\.?([sˢ]?)</token>
-        <!--token min='0' spacebefore='no'>.</token-->
+          <token regexp='yes'>(\d+)[ªa]\.?([sˢ]?)</token>
+    <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ªa]\.?([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
       <example correction="12.ª">A entrada é a <marker>12ª</marker> da lista.</example>
@@ -6656,8 +6656,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>(\d+)\.a([sˢ]?)</token>
-        <!--token min='0' spacebefore='no'>.</token-->
+          <token regexp='yes'>(\d+)\.a([sˢ]?)</token>
+    <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.a([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
       <example correction="12.ª">A entrada é a <marker>12.a</marker> da lista.</example>
@@ -6666,18 +6666,18 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>(\d+\.[aoªº])s</token>
+          <token regexp='yes'>(\d+\.[aoªº])s</token>
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='s' regexp_replace='ˢ'/></suggestion>.</message>
       <example correction="12.ªˢ">A entrada é a <marker>12.ªs</marker> da lista.</example>
     </rule>
     <rule>
       <pattern>
-      <marker>
-        <token regexp='yes'>(\d+\.?[aoªº])[sˢ]?</token>
-        <token>.</token>
-      </marker>
-        <token regexp='yes'>\p{Ll}+|[,;]</token>
+        <marker>
+          <token regexp='yes'>(\d+\.?[aoªº])[sˢ]?</token>
+          <token>.</token>
+        </marker>
+          <token regexp='yes'>\p{Ll}+|[,;]</token>
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
       <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
@@ -20453,12 +20453,12 @@ TODO Write better examples
           <token>
             <exception case_sensitive='yes'>a</exception></token>
       </antipattern>
-      <antipattern><!-- XXX YYYY-XX-XX date formats -->
-          <token regexp="yes">\d{4}</token>
-          <token regexp="yes">–|&hifen;</token>
-          <token regexp="yes">\d{2}</token>
-          <token regexp="yes">–|&hifen;</token>
-          <token regexp="yes">\d{2}</token>
+      <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
+          <token regexp="yes">\d{2}|\d{4}</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d{2}</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
