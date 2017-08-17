@@ -21185,6 +21185,150 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="SEMICOLON_AND_QUOTES" name="Ponto e vírgula antes de aspas">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+      <antipattern>
+          <token regexp="yes">„|“|»|«|"</token>
+          <token>;</token>
+          <token regexp="yes">»|«|"|”|‘|‹|›|'>
+          </token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token>;</token>
+          <token spacebefore="no" regexp="yes">“|»|«|"|”|‘|‹|›|'</token>
+        </marker>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Geralmente, não se coloca ponto e vírgula antes de aspas.</message>
+      <example type="incorrect">“Não me incomode com sua tagarelice infantil<marker>;”</marker> disse Maria; “eu escrevo versos imortais.”</example>
+    </rule>
+
+  <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espaçamento em volta de aspas ou parênteses">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+    <rule>
+      <antipattern>
+          <token>,</token>
+          <token spacebefore="no" regexp="yes">»|«|"</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token regexp="yes">:|,|;</token>
+          <token regexp="yes">“|»|«|"|\)|\}</token>
+      </antipattern>
+      <pattern>
+        <or>
+          <token postag="SENT_START"/>
+          <token regexp="yes">:|,|;</token>
+        </or>
+        <marker>
+          <token regexp="yes">„|“|«|"|\(|\{</token>
+          <token spacebefore="yes"/>
+        </marker>
+      </pattern>
+      <message>Espaçamento incorreto.</message>
+        <suggestion>\2\3</suggestion>
+      <example correction="«O"><marker>« O</marker> jardim é verdadeiramente bonito», disse ela.</example>
+      <example correction="«O">Ela disse: <marker>« O</marker> jardim é verdadeiramente bonito.»</example>
+      <example correction="«é">«O jardim», disse ela, <marker>« é</marker> verdadeiramente bonito.»</example>
+      <example>A galinha diz "Quiquiriquiqui" o porco diz "Oinque, Oinque," o pato diz "Quá, Quá" e diz que o gato "Miau".</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>&abreviaturas;|ex</token>
+          <token spacebefore='no'>.</token>
+          <token regexp="yes">“|»|«|"|\)|\}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">[a-z]</token>
+          <token>.</token>
+          <token regexp="yes">“|»|«|"|\)|\}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token regexp="yes">\.|\?|!</token>
+          <token regexp="yes">“|»|«|"|\)|\}</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">\.|\?|!</token>
+          <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+        </marker>
+      </pattern>
+      <message>Espaçamento incorreto.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction=".»">«O jardim é verdadeiramente bonito<marker>. »</marker></example>
+      <example correction=".»">«O jardim», disse ele, «jardim é verdadeiramente bonito<marker>. »</marker></example>
+      <example>Algumas palavras inglesas têm duas grafias, p.ex. "gray" e "grey".</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token>,</token>
+          <token regexp="yes">“|»|«|"|\)|\}</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token/>
+          <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+        </marker>
+          <token>,</token>
+      </pattern>
+      <message>Espaçamento incorreto.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="bonito»">«O jardim é verdadeiramente <marker>bonito »</marker>, disse ela.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token spacebefore="yes" regexp="yes">“|‚|\(|\{</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Espaçamento incorreto.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="“O">Ela disse: <marker>“ O</marker> jardim é verdadeiramente bonito.”</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token/>
+          <token spacebefore="yes" regexp="yes">»|«|"|“|”|‹|›|‘|’|'</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Um dos espaços é desnecessário. Deve excluí-lo.</message>
+        <suggestion>\1\2 \3</suggestion>
+        <suggestion>\1 \2\3</suggestion>
+      <example correction="é' verdadeiramente|é 'verdadeiramente">O jardim <marker>é ' verdadeiramente</marker>' bonito.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id="SEMICOLON_COLON_SPACING" name="Espaços em falta: ':' e ';'">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+      <antipattern>
+          <token regexp="yes">“|«|"|\(</token>
+          <token regexp="yes">:|;</token>
+          <token regexp="yes">”|»|"|\)</token>
+      </antipattern>
+      <antipattern>
+          <token>;</token>
+          <token regexp="yes">“|»|«|"|”</token>
+          <token spacebefore="yes"/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">.*[0-9]</token>
+          <token>:</token>
+          <token regexp="yes">[0-9].*</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">:|;</token>
+          <token spacebefore="no"><exception postag="SENT_END"/></token>
+        </marker>
+      </pattern>
+      <message>Deve colocar um espaço após '\1'.</message>
+        <suggestion>\1 \2</suggestion>
+      <example correction=": «">Ele disse<marker>:«</marker>O jardim é verdadeiramente bonito.»</example>
+      <example>O jantar estará pronto às 18:30.</example>
+    </rule>
+
  </category>
 
  <category id='REGISTERED_BRANDS' name="Regras de Marcas e Termos Registados">
