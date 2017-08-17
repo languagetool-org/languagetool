@@ -30071,6 +30071,23 @@ Andere Projekte</example>
                 <example correction="“,">„Die Fenster sind geschlossen<marker>,“</marker> sagt sie.</example>
             </rule>
         </rulegroup>
+        <rule id="SEMIKOLON_VOR_ANFUEHRUNGSZEICHEN" name="Fälschliches Semikolon vor schließendem Anführungszeichen">
+            <antipattern>
+                <token regexp="yes">„|»|«|"</token>
+                <token>;</token>
+                <token regexp="yes">“|»|«|"|”|‘|‹|›|'>
+   </token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token>;</token>
+                <token spacebefore="no" regexp="yes">“|»|«|"|”|‘|‹|›|'</token>
+                </marker>
+                <token spacebefore="yes"/>
+            </pattern>
+            <message>In der Regel steht vor einem schließenden Anführungszeichen kein Semikolon.</message>
+            <example type="incorrect">„Belästige mich nicht mit deinem kindischen Geplapper<marker>;“</marker> zischte Maria; „ich verfasse unsterbliche Verse.”</example>
+        </rule>
         <rulegroup id="FRAGEZEICHEN_NACH_DIREKTER_REDE" name="Fehlendes Fragezeichen am Abschluss einer direkten Rede">
             <rule>
                 <antipattern>
@@ -32441,6 +32458,136 @@ Andere Projekte</example>
                 <example correction="§&nbsp;20">An dieser Kreuzung gilt <marker>§ 20</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN" name="Falsches Leerzeichen nach oder vor Anführungszeichen oder Klammern">
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token spacebefore="no" regexp="yes">»|«|"</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">„|»|«|"|\(|\{</token>
+                    <token regexp="yes">:|,|;</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <pattern>
+                    <or>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">:|,|;</token>
+                    </or>
+                    <marker>
+                    <token regexp="yes">„|»|«|"|\(|\{</token>
+                    <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <message>Bitte das überflüssige Leerzeichen löschen.</message>
+                <suggestion>\2\3</suggestion>
+                <example correction="»Der"><marker>» Der</marker> Garten ist wirklich schön«, sagte er.</example>
+                <example correction="»Der">Er sagte: <marker>» Der</marker> Garten ist wirklich schön.«</example>
+                <example correction="»ist">»Der Garten«, sagte er, <marker>» ist</marker> wirklich schön.«</example>
+                <example>Das Huhn sagt "Kickerikie", das Schwein sagt "Oink, Oink," die Ente sagt "Quak, Quak" und die Katze sagt: "Miau".</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="ABK.*" postag_regexp="yes"/>
+                    <token>.</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[a-zäöü]</token>
+                    <token>.</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">„|»|«|"|\(|\{</token>
+                    <token regexp="yes">\.|\?|!</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">\.|\?|!</token>
+                    <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+                    </marker>
+                </pattern>
+                <message>Bitte das überflüssige Leerzeichen löschen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction=".«">Er sagte: »Der Garten ist wirklich schön<marker>. «</marker></example>
+                <example correction=".«">»Der Garten«, sagte er, »ist wirklich schön<marker>. «</marker></example>
+                <example>Manche englische Wörter haben zwei Schreibweisen, z. B. "gray" und "grey".</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">„|»|«|"|\(|\{</token>
+                    <token>,</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Bitte das überflüssige Leerzeichen löschen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="schön«">»Der Garten ist wirklich <marker>schön «</marker>, sagte er.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes"/>
+                    <token spacebefore="yes" regexp="yes">\)|\}</token>
+                </pattern>
+                <message>Bitte das überflüssige Leerzeichen löschen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="kleine)">Der (zwar nur <marker>kleine )</marker> Garten ist wirklich schön.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes" regexp="yes">„|‚|\(|\{</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Bitte das überflüssige Leerzeichen löschen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="„Der">Er sagte: <marker>„ Der</marker> Garten ist wirklich schön.“</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">»|«|"|“|‹|›|‘|’|'</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Eines der beiden Leerzeichen ist überflüssig. Sie sollten es löschen.</message>
+                <suggestion>\1\2 \3</suggestion>
+                <suggestion>\1 \2\3</suggestion>
+                <example correction="ist' wirklich|ist 'wirklich">Der Garten <marker>ist ' wirklich</marker>' schön.</example>
+            </rule>
+        </rulegroup>
+        <rule id="LEERZEICHEN_HINTER_DOPPELPUNKT" name="Fehlendes Leerzeichen hinter ':' und ';'">
+            <antipattern>
+                <token regexp="yes">„|»|«|"|\(</token>
+                <token regexp="yes">:|;</token>
+                <token regexp="yes">“|»|«|"|\)</token>
+            </antipattern>
+            <antipattern>
+                <token>;</token>
+                <token regexp="yes">“|»|«|"|”</token>
+                <token spacebefore="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*[0-9]</token>
+                <token>:</token>
+                <token regexp="yes">[0-9].*</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token regexp="yes">:|;</token>
+                <token spacebefore="no"><exception postag="SENT_END"/></token>
+                </marker>
+            </pattern>
+            <message>Hinter einem '\1' sollte ein Leerzeichen stehen.</message>
+            <suggestion>\1 \2</suggestion>
+            <example correction=": »">Er sagte<marker>:»</marker>Der Garten ist wirklich schön.«</example>
+            <example>Das Abendessen wird um 18:30 Uhr fertig sein.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
