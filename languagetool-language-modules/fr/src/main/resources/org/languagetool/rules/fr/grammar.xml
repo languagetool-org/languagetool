@@ -584,7 +584,7 @@ though, and has since been slightly modified)-->
         <example>vivre l’un près de l’autre.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="COTE" name="coté, côté, cote">
+    <rulegroup id="COTE" name="coté, côté, cote, cotte">
       <rule>
         <pattern>
           <token regexp="yes">à|au|autre|bon|mauvais|[cdl]e|du|[mts]on|[nv]otre|chaque|un|leur</token>
@@ -603,16 +603,17 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">cotes?</token></marker>
+          <marker><token regexp="yes">cott?es?</token></marker>
           <token>de</token>
           <token regexp="yes">porcs?|bœuf|boeuf|veaux?|Bretagne</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>côte</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
         <example correction="côte">Une <marker>cote</marker> de veau.</example>
+        <example correction="côtes">Des <marker>cottes</marker> de bœuf.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token>cote</token></marker>
+          <marker><token regexp="yes">cott?e</token></marker>
           <token>d</token>
           <token regexp="yes">['´‘’′]</token>
           <token regexp="yes">Albâtre|Azur|Ivoire|Or|Opale|Émeraude</token>
@@ -624,28 +625,31 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">fractures?|radiographies?</token>
           <token regexp="yes">des?</token>
-          <marker><token>cotes</token></marker>
+          <marker><token regexp="yes">cott?es</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
         <example correction="côtes">Une fracture des <marker>cotes</marker>.</example>
+        <example correction="côtes">Une fracture des <marker>cottes</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">cotes?</token></marker>
+          <marker><token regexp="yes">cott?es?</token></marker>
           <token regexp="yes">(brisée|cassée|fêlée|fracturée|surnuméraire|rocheuse|adriatique|américaine|californienne|atlantiques?|basque|bretonne|landaise|normande|vendéenne|française|belge|espagnole|italienne|portugaise|africaine|méditerranéenne|pacifique|raide|occidentale|fractale)s?|nord|sud|ouest</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
-        <example correction="côtes">Une <marker>cotes</marker> fracturée.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
+        <example correction="côte">Une <marker>cote</marker> fracturée.</example>
+        <example correction="côtes">Les <marker>cottes</marker> fracturées.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">avoir</token>
           <token min="0" max="1" regexp="yes">encore|toujours</token>
           <token>la</token>
-          <marker><token>côte</token></marker>
+          <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
         <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">Il a la <marker>côte</marker> auprès des filles.</example>
+        <example correction="cote">Il a la <marker>cotte</marker> auprès des filles.</example>
         <example correction="cote">Il a encore la <marker>côte</marker> auprès des filles.</example>
       </rule>
       <rule>
@@ -655,7 +659,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|plus</token>
           <token>la</token>
-          <marker><token>côte</token></marker>
+          <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
         <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">Il n’a plus la <marker>côte</marker>.</example>
