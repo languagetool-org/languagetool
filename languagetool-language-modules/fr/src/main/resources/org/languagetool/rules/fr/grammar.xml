@@ -661,8 +661,18 @@ though, and has since been slightly modified)-->
           <token>la</token>
           <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
-        <example correction="cote">Il n’a plus la <marker>côte</marker>.</example>
+        <message>confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
+        <example correction="cote">il n’a plus la <marker>côte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">c[ôo]tes?</token></marker>
+          <token>de</token>
+          <token>mailles</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="[ôo]" regexp_replace="ot"/></suggestion>.</message>
+        <url>https://fr.wiktionary.org/wiki/cotte_de_mailles</url>
+        <example correction="cotte">Une <marker>cote</marker> de mailles.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
