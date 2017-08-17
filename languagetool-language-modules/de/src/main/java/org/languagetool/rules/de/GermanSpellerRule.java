@@ -35,6 +35,7 @@ import org.languagetool.tools.StringTools;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -43,6 +44,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
   private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
+  
+  // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
+  private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
+          ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jokei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
+          "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -129,6 +135,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public List<String> getSuggestions(String word) throws IOException {
     List<String> suggestions = super.getSuggestions(word);
+    suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
     if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
