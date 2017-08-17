@@ -41,10 +41,11 @@ title="Easy editing stylesheet" ?>
     <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estilo|filme|fundação|galeria|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|museu|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade">
     <!ENTITY divisas "euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]">
 
-    <!ENTITY separadores_de_oracoes "[,;:–—\(«]|\-">
-    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
+    <!ENTITY separadores_de_oracoes "[,;:–—\(«“]|\-">
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
+    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
+    <!ENTITY introduz_proclise "ainda|ali|apenas|aqui|acolá|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -808,12 +809,8 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-18 -->
       <short>Expressão invariável.</short>
     <rule>
-      <antipattern>
-          <token inflected='yes'>ter</token>
-          <token>ido</token>
-      </antipattern>
       <pattern>
-          <token regexp='yes'>algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|ido|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabé[mn]|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere</token>
+          <token regexp='yes'>algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabé[mn]|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere</token>
       </pattern>
       <message>Esta expressão é invariável.</message>
         <suggestion>\1s</suggestion>
@@ -890,6 +887,17 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
       <example correction="bateram palmas">No fim, <marker>bateram palma</marker>.</example>
       <example>Piero Pollaiuolo, Dosso Dossi, Palma il Giovane</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>tempos?</token>
+          <token>ido</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>tempos idos</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="tempos idos">É uma bom exemple dos <marker>tempo ido</marker>.</example>
+      <example>Depois de ter ido ao Convénio, teve novas ideias e projetos.</example>
     </rule>
     <rule>
       <pattern>
@@ -1881,7 +1889,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>ainda|ali|aqui|acolá|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez</token>
+          <token regexp='yes'>&introduz_proclise;</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -3002,7 +3010,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>&hifen;</exception></token>
         <marker>
           <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?|numa?s?|nuns|pel[ao]s?</token>
-          <token regexp='yes'>as?|os?|uma?s?|uns|algu[mn]a?s?|n[oa]s?</token>
+          <token regexp='yes'>uma?s?|uns|algu[mn]a?s?|n?[oa]s?</token>
         </marker>
       </pattern>
       <message>Possível fragmento.</message>
@@ -3020,7 +3028,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>[nd][oa]s?</token>
+          <token regexp='yes'>[nd][oa]s?|numa?</token>
           <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?</token>
       </antipattern>
       <antipattern>
