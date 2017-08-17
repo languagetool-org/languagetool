@@ -20448,12 +20448,21 @@ TODO Write better examples
     <rule>
       <antipattern><!-- XXX Postal codes -->
           <token regexp="yes">\d{4}</token>
-          <token regexp="yes">[–-]</token>
+          <token regexp="yes">–|&hifen;</token>
           <token regexp="yes">\d{3}</token>
+          <token>
+            <exception case_sensitive='yes'>a</exception></token>
+      </antipattern>
+      <antipattern><!-- XXX YYYY-XX-XX date formats -->
+          <token regexp="yes">\d{4}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d{2}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d{2}</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-          <token regexp='yes'>-|—</token>
+          <token regexp="yes">—|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </pattern>
       <message>Se pretende indicar um período de tempo, deve utilizar meio-travessão.</message>
@@ -20478,9 +20487,10 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d+|w</token>
-          <token regexp="yes">[–‒—-]</token>
-          <token spacebefore="no"/>
+          <token regexp="yes">\d+|\w</token>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="no">
+            <exception regexp="yes">\d+</exception></token>
       </pattern>
       <message>Em enumerações, deve dar um espaço depois do travessão.</message>
         <suggestion>\2 — \4</suggestion>
@@ -20489,7 +20499,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—-]</token>
+          <token regexp="yes">[–‒—]|&hifen;</token>
           <token spacebefore="yes"/>
       </pattern>
       <message>Em diálogos, deve remover o espaço depois do travessão.</message>
@@ -20507,7 +20517,7 @@ TODO Write better examples
     <rule>
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>–|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
@@ -20530,7 +20540,7 @@ TODO Write better examples
       </antipattern>
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>–|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
@@ -20551,7 +20561,7 @@ TODO Write better examples
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>–|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
