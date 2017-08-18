@@ -14495,6 +14495,11 @@ USA
             <!-- Created by Tiago F. Santos, 2017-01-23 -->
             <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
             <url>https://en.wikipedia.org/wiki/Dash#Em_dash</url>
+	       <antipattern>
+	           <token regexp='yes'>-</token>
+        	   <token regexp='yes'>-</token>
+        	   <token regexp='yes'>-</token>
+	       </antipattern>
             <rule>
                 <antipattern>
                     <!-- typical signature delimiter in emails -->
@@ -14514,6 +14519,7 @@ USA
                 <example correction='—'><marker>-</marker> What is that, mother?</example>
                 <example correction='—'>« <marker>-</marker> What is that, mother?</example>
                 <example>— It's your birthday present, my daughter.</example>
+	        <example>---------------------------------------</example>
             </rule>
             <rule>
                 <antipattern>
@@ -14535,6 +14541,13 @@ USA
                 <example>In the Midwest and Northwest portion are higher elevations, reaching 500 meters above sea level, highlighting Serra do Tumucumaque and Sierra Lombarda.</example>
             </rule>
             <rule>
+	        <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
+	            <token regexp="yes">\d{2}|\d{4}</token>
+	            <token regexp="yes" spacebefore='no'>–|-</token>
+	            <token regexp="yes" spacebefore='no'>\d{2}</token>
+	            <token regexp="yes" spacebefore='no'>–|-</token>
+	            <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
+	        </antipattern>
                 <pattern>
                     <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                     <token regexp='yes'>-|—</token>
@@ -14545,6 +14558,9 @@ USA
                 <suggestion>\1–\3</suggestion>
                 <short>Use an n-dash.</short>
                 <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — writer and university teacher.</example>
+	        <example>10-10-10 — Date</example>
+	        <example>10-10-2010 — Date</example>
+	        <example>2010-10-10 — Date</example>
             </rule>
 	    <rule>
 	      <pattern>
@@ -14553,7 +14569,7 @@ USA
 	        </marker>
 	          <token spacebefore="no">,</token>
 	      </pattern>
-	      <message>Finish the parenthetical clause with an m-dash..</message>
+	      <message>Finish the parenthetical clause with an m-dash.</message>
 	        <suggestion>—</suggestion>
                 <short>Use an m-dash.</short>
 	      <example correction='—'>…— as aforementioned <marker>-</marker>,…</example>
