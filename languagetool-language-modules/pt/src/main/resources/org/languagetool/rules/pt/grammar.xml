@@ -6406,6 +6406,131 @@ title="Easy editing stylesheet" ?>
       <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
     </rule>
 
+  <rulegroup id="GREETING_COMMA" name="Pontuação: Saudações formais: 'Estimados senhores', etc.">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-virgula-na-formula-com-os-melhores-cumprimentos/27998</url>
+      <short>Erro de pontuação</short>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token regexp='yes'>Estimad[ao]s?|Car[ao]s?</token>
+          <token regexp="yes" min='0'>[Ss]enhor[ae]?s?</token>
+          <token regexp="yes" min="0">Doutor[ae]?s?|Professor[ae]?s?</token>
+          <token regexp="yes" max='2'>\p{Lu}\p{Ll}+
+            <exception regexp="yes">Dr|Prof|Doutor[ae]?s?|Professor[ae]?s?|[Ss]enhor[ae]?s?</exception></token>
+        <marker>
+          <token regexp="yes">[-\.:!;]</token>
+        </marker>
+      </pattern>
+      <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <suggestion>,</suggestion>
+      <example correction=",">Estimado Senhor Doutor Santos<marker>!</marker></example>
+      <example correction=",">Estimado Senhor Santos<marker>!</marker></example>
+      <example correction=",">Caro Doutor Santos<marker>!</marker></example>
+      <example correction=",">Estimado Paiva Santos<marker>!</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token regexp='yes'>Estimad[ao]s?|Car[ao]s?</token>
+          <token regexp="yes" min='0'>[Ss]enhor[ae]?s?</token>
+          <token regexp="yes" min="0">Prof|Dr</token>
+          <token min="0">.</token>
+        <marker>
+          <token regexp="yes" postag='SENT_END'>\p{Lu}\p{Ll}+
+            <exception regexp="yes">Dr|Prof</exception></token>
+        </marker>
+      </pattern>
+      <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <suggestion>\6,</suggestion>
+      <example correction="Santos,">Estimado Senhor Dr. <marker>Santos</marker></example>
+      <example correction="Santos,">Estimado Dr. <marker>Santos</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token regexp='yes'>Estimad[ao]s?|Car[ao]s?</token>
+          <token regexp="yes" min='0'>[Ss]enhor[ae]?s?</token>
+          <token>e</token>
+        <marker>
+          <token regexp="yes" min='0' postag='SENT_END'>[Ss]enhor[ae]?s?</token>
+        </marker>
+      </pattern>
+      <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <suggestion>\5,</suggestion>
+      <example correction="Senhoras,">Estimados Senhores e <marker>Senhoras</marker></example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="REGARDS_COMMA" name="Pontuação: Despedidas formais: 'Os melhores cumprimentos,'">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-virgula-na-formula-com-os-melhores-cumprimentos/27998</url>
+      <short>Erro de pontuação</short>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
+          <token min='0'>Os</token>
+          <token min='0' regexp='yes'>meus|nossos</token>
+          <token min='0'>melhores</token>
+          <token>Cumprimentos</token>
+        <marker>
+          <token regexp="yes" postag='SENT_END'>\.|:|\!|;</token>
+        </marker>
+      </pattern>
+      <message>As fórmulas de despedidas são terminadas com vírgula.</message>
+        <suggestion>,</suggestion>
+      <example correction=",">Com os melhores cumprimentos<marker>.</marker></example>
+      <example correction=",">Com os melhores cumprimentos<marker>;</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min='0'>Muito</token>
+          <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
+          <token min='0'>cordiais</token>
+          <token min='0'>pela</token>
+          <token min='0'>atenção</token>
+          <token min='0'>prestada</token>
+        <marker>
+          <token regexp="yes" postag='SENT_END'>\.|:|\!|;</token>
+        </marker>
+      </pattern>
+      <message>As fórmulas de despedidas são terminadas com vírgula.</message>
+        <suggestion>,</suggestion>
+      <example correction=",">Grato pela atenção prestada<marker>.</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
+          <token min='0'>Os</token>
+          <token min='0' regexp='yes'>meus|nossos</token>
+          <token min='0'>melhores</token>
+        <marker>
+          <token postag='SENT_END'>Cumprimentos</token>
+        </marker>
+      </pattern>
+      <message>As fórmulas de despedidas são terminadas com vírgula.</message>
+        <suggestion>\6,</suggestion>
+      <example correction="cumprimentos,">Com os melhores <marker>cumprimentos</marker></example>
+      <example correction="Cumprimentos,"><marker>Cumprimentos</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min='0'>Um</token>
+          <token min='0' regexp='yes'>Muito|grande</token>
+        <marker>
+          <token postag='SENT_END' regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
+        </marker>
+      </pattern>
+      <message>As fórmulas de despedidas são terminadas com vírgula.</message>
+        <suggestion>\4,</suggestion>
+      <example correction="Atentamente,"><marker>Atentamente</marker></example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='ETC_USAGE' name="Abreviaturas: etc.">
     <!--  Created by Tiago F. Santos, 30-01-2017 -->
       <url>http://pt.wikihow.com/Usar-%22Etc.%22-Corretamente</url>
@@ -6763,6 +6888,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação interrogações: Porquê?">
+    <!--  Created by Tiago F. Santos, 2017-XX-XX      -->
       <antipattern>
           <token>.</token>
           <token>.</token>
@@ -20473,6 +20599,9 @@ TODO Write better examples
       <example>1139–1385 — Formação do Reino de Portugal</example>
       <example>2560-657 TORRES VEDRAS</example>
       <example>---------------------------------------</example>
+      <example>10-10-10 - Data</example>
+      <example>10-10-2010 - Data</example>
+      <example>2010-10-10 - Data</example>
     </rule>
   </rulegroup>
 
