@@ -306,6 +306,20 @@ USA
             <short>Possible typo</short>
             <example correction="as opposed to">Professional sports, <marker>as oppose to</marker> amateur sports , are sport s in which athletes receive payment for their performance</example>
         </rule>
+        <rule id="WHAT_HOW" name="How (What) is he like?">
+            <pattern case_sensitive="yes">
+                <marker><token>How</token></marker>
+                <token min="0" regexp="yes">['´`]</token>
+                <token regexp="yes">i?s</token>
+                <token skip="3"/>
+                <token>like</token>
+                <token>?</token>
+            </pattern>
+            <message>Did you mean <suggestion>What</suggestion>?</message>
+            <url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/how-is-or-what-is-like</url>
+            <example correction="What"><marker>How</marker> is your new teacher like?</example>
+            <example correction="What"><marker>How</marker>'s your new car like?</example>
+        </rule>
         <rule id="CONFUSION_OF_THEN_THAN" name="then (than)">
             <pattern>
                 <token>more</token>
@@ -19002,7 +19016,7 @@ USA
         </rule>
         <rule id="RETURN_BACK" name="return back (return)">
             <pattern>
-                <token inflected="yes">return</token>
+                <token inflected="yes" regexp="yes">re(turn|ply|vert)</token>
                 <token>back</token>
             </pattern>
             <message>Consider using <suggestion>\1</suggestion>.</message>
