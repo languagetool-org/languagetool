@@ -37,6 +37,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
+    <!ENTITY codigos_de_pais "AD|AE|AF|AG|AI|AL|AM|AN|AO|AQ|AR|AS|AT|AU|AW|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|BZ|CA|CC|CF|CG|CH|CI|CK|CL|CM|CN|CO|CR|CS|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EE|EG|EH|ER|ES|ET|FI|FJ|FK|FM|FO|FR|FX|GA|GB|GD|GE|GF|GH|GI|GL|GM|GN|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|HU|ID|IE|IL|IN|IO|IQ|IR|IS|IT|JM|JO|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|MG|MH|MK|ML|MM|MN|MO|MP|MQ|MR|MS|MT|MU|MV|MW|MX|MY|MZ|NA|NC|NE|NF|NG|NI|NL|NO|NP|NR|NT|NU|NZ|OM|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PT|PW|PY|QA|RE|RO|RU|RW|SA|Sb|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TF|TG|TH|TJ|TK|TM|TN|TO|TP|TR|TT|TV|TW|TZ|UA|UG|UK|UM|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|WF|WS|YE|YT|YU|ZA|ZM|ZR">
 
     <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estilo|filme|fundação|galeria|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|museu|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade">
     <!ENTITY divisas "euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]">
@@ -20591,7 +20592,7 @@ TODO Write better examples
           <token regexp="yes">—|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </pattern>
-      <message>Se pretende indicar um período de tempo, deve utilizar meio-travessão.</message>
+      <message>Se pretende indicar uma gama temporal ou numérica, deve utilizar o meio-travessão.</message>
         <suggestion>\1 – \3</suggestion>
         <suggestion>\1–\3</suggestion>
       <short>Nesta situação deve utilizar o meio-travessão.</short>
@@ -20599,9 +20600,9 @@ TODO Write better examples
       <example>1139–1385 — Formação do Reino de Portugal</example>
       <example>2560-657 TORRES VEDRAS</example>
       <example>---------------------------------------</example>
-      <example>10-10-10 - Data</example>
-      <example>10-10-2010 - Data</example>
-      <example>2010-10-10 - Data</example>
+      <example>10-10-10 — Data</example>
+      <example>10-10-2010 — Data</example>
+      <example>2010-10-10 — Data</example>
     </rule>
   </rulegroup>
 
@@ -21436,6 +21437,15 @@ TODO Write better examples
           <token regexp="yes">:|;</token>
           <token regexp="yes">”|»|"|\)</token>
       </antipattern>
+      <antipattern><!-- XXX Wikipedia lists and time formats -->
+                <token>:</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">:</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no" regexp="yes">&codigos_de_pais;</token>
+                <token>:</token>
+            </antipattern>
       <antipattern>
           <token>;</token>
           <token regexp="yes">“|»|«|"|”</token>
