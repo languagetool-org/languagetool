@@ -306,20 +306,35 @@ USA
             <short>Possible typo</short>
             <example correction="as opposed to">Professional sports, <marker>as oppose to</marker> amateur sports , are sport s in which athletes receive payment for their performance</example>
         </rule>
-        <rule id="WHAT_HOW" name="How (What) is he like?">
-            <pattern case_sensitive="yes">
-                <marker><token>How</token></marker>
-                <token min="0" regexp="yes">['´`]</token>
-                <token regexp="yes">i?s</token>
-                <token skip="3"/>
-                <token>like</token>
-                <token>?</token>
-            </pattern>
-            <message>Did you mean <suggestion>What</suggestion>?</message>
-            <url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/how-is-or-what-is-like</url>
-            <example correction="What"><marker>How</marker> is your new teacher like?</example>
-            <example correction="What"><marker>How</marker>'s your new car like?</example>
-        </rule>
+        <rulegroup id="WHAT_HOW" name="How (What) is he like?">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>How</token></marker>
+                    <token min="0" regexp="yes">['´`]</token>
+                    <token regexp="yes">i?s</token>
+                    <token skip="3"/>
+                    <token>like</token>
+                    <token>?</token>
+                </pattern>
+                <message>Did you mean <suggestion>What</suggestion>?</message>
+                <url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/how-is-or-what-is-like</url>
+                <example correction="What"><marker>How</marker> is your new teacher like?</example>
+                <example correction="What"><marker>How</marker>'s your new car like?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>How</token></marker>
+                    <token>is</token>
+                    <token>it</token>
+                    <token>like</token>
+                    <token skip="-1">to</token>
+                    <token>?</token>
+                </pattern>
+                <message>Did you mean <suggestion>What</suggestion>?</message>
+                <url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/how-is-or-what-is-like</url>
+                <example correction="What"><marker>How</marker> is it like to live in New York?</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_THEN_THAN" name="then (than)">
             <pattern>
                 <token>more</token>
@@ -14848,11 +14863,75 @@ USA
             <short>Possible typo</short>
             <example correction="flu">I have been out with the <marker>flew</marker> for the past 3 days.</example>
         </rule>
+        <rule id="MARRIAGE_ANNIVERSARY" name="marriage (wedding) anniversary">
+            <pattern>
+                <marker>
+                    <token>marriage</token>
+                </marker>
+                <token>anniversary</token>
+            </pattern>
+            <message>Wedding anniversaries are the proper term to describe the anniversary of the day of a wedding.</message>
+            <suggestion>wedding</suggestion>
+            <url>https://english.stackexchange.com/questions/172131/difference-between-wedding-and-marriage</url>
+            <short>Commonly confused word</short>
+            <example correction="wedding">We celebrated our fifth <marker>marriage</marker> anniversary last year.</example>
+        </rule>
+        <rule id="BACK_ABACK" name="taken back (aback) by">
+            <pattern>
+                <token inflected="yes" skip="1">be</token>
+                <token>taken</token>
+                <marker>
+                    <token>back</token>
+                </marker>
+                <token>by</token>
+            </pattern>
+            <message>Did you mean 'taken <suggestion>aback</suggestion>' (=surprised or shocked)?</message>
+            <url>https://www.merriam-webster.com/dictionary/take%20aback</url>
+            <short>Commonly confused word</short>
+            <example correction="aback">He was totally taken <marker>back</marker> by my response.</example>
+        </rule>
+        <rule id="IN_THE_SKIES" name="a blessing in the skies (disguise)">
+            <pattern>
+                <token>blessing</token>
+                <token>in</token>
+                <marker>
+                    <token>the</token>
+                    <token>skies</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>disguise</suggestion> (a blessing in disguise = an unfortunate event that results in a positive outcome)?</message>
+            <url>http://dictionary.cambridge.org/us/dictionary/english/a-blessing-in-disguise</url>
+            <short>Commonly confused words</short>
+            <example correction="disguise">It was a blessing in <marker>the skies</marker> that my car broke down.</example>
+        </rule>
+        <rule id="PASSED_PAST" name="to walk passed (past)">
+            <pattern>
+                <token inflected="yes" regexp="yes">get|go|walk|run</token>
+                <marker>
+                    <token>passed</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>past</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="past">I walked <marker>passed</marker> the school.</example>
+        </rule>
+        <rule id="BOLD_FACED" name="a bold-faced (bald-faced) lie">
+            <pattern>
+                <marker>
+                    <token regexp="yes">bold-?faced</token>
+                </marker>
+                <token regexp="yes">lies?</token>
+            </pattern>
+            <message>Did you mean <suggestion>bald-faced</suggestion> (= showing no shame)?</message>
+            <url>http://dictionary.cambridge.org/us/dictionary/english/bald-faced</url>
+            <short>Commonly confused word</short>
+            <example correction="bald-faced">It was a <marker>bold-faced</marker> lie.</example>
+        </rule>
         <rule id="LESS_MORE_THEN" name="less/more ... then (than)">
             <pattern>
                 <token regexp="yes">(less|more)</token>
-                <token postag="(JJ|NN|NN:.*|NNS)" postag_regexp="yes"/>
-                <token min="0" postag="(NN|NN:.*|NNS)" postag_regexp="yes"/>
+                <token postag="(JJ|NNS?|NN:.*)" postag_regexp="yes"/>
+                <token min="0" postag="(NNS?|NN:.*)" postag_regexp="yes"/>
                 <marker>
                     <token>then</token>
                 </marker>
@@ -14953,7 +15032,7 @@ USA
                 <pattern>
                     <token>different</token>
                     <marker>
-                        <token regexp="yes">then|than</token>
+                        <token regexp="yes">th[ae]n</token>
                     </marker>
                 </pattern>
                 <message>Did you mean 'different <suggestion>from</suggestion>'? 'Different than' is often considered colloquial style.</message>
@@ -15141,7 +15220,7 @@ USA
                     <marker>
                         <token>their</token>
                     </marker>
-                    <token regexp="yes">is|are|a</token>
+                    <token regexp="yes">is|a(re)?</token>
                 </pattern>
                 <message>Did you mean <suggestion>there</suggestion>?</message>
                 <short>Possible typo</short>
@@ -15210,7 +15289,7 @@ USA
                     <token regexp="yes">comes|came|much|is|was|were|are|been|s|re|['´]</token>
                     <token min="0" regexp="yes">not|t</token>
                     <marker>
-                        <token regexp="yes">to|two</token>
+                        <token regexp="yes">tw?o</token>
                     </marker>
                     <token regexp="yes">far|long|distant|soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
                     <token><exception postag="VB|NN.*" postag_regexp="yes"/></token>
@@ -15240,9 +15319,9 @@ USA
                     <token>to</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" negate="yes">access|lead|led|amount|rise</token>
+                    <token regexp="yes" negate="yes">access|lea?d|amount|rise</token>
                     <marker>
-                        <token regexp="yes">to|two</token>
+                        <token regexp="yes">tw?o</token>
                     </marker>
                     <token regexp="yes">much|few</token>
                     <token negate_pos="yes" postag="JJR"/>
