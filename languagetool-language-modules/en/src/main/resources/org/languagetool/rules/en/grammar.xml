@@ -5910,7 +5910,7 @@ USA
         </rule>
         <rule id="FOR_TIME_TO_TIME" name="for time to time (from time to time)">
             <pattern>
-                <token>for</token>
+                <token regexp="yes">form?</token>
                 <token>time</token>
                 <token>to</token>
                 <token>time</token>
@@ -5918,6 +5918,7 @@ USA
             <message>Non-standard phrase. Did you mean <suggestion>from \2 \3 \4</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="from time to time">He buys a car <marker>for time to time</marker>.</example>
+            <example correction="From time to time"><marker>Form time to time</marker> I fly to Berlin.</example>
         </rule>
         <rule id="CONFUSION_OF_SAVE_SAFE_TO_IGNORE" name="save (safe) to ignore">
             <pattern>
@@ -6122,6 +6123,18 @@ USA
             <example>It is <marker>on</marker> his father that he <marker>depends</marker>.</example>
             <example>They are important as pheromones, chemical messenger materials, <marker>on</marker> which insects <marker>depend</marker> for communication.</example>
         </rule>
+        <rulegroup id="AND_END" name="the and (end)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an</token>
+                    <marker>
+                        <token case_sensitive="yes">and</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>end</suggestion>.</message>
+                <example correction="end">Is he at the <marker>and</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRADUATE_FROM" name="graduate from">
             <rule>
                 <pattern>
