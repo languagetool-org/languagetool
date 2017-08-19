@@ -3780,6 +3780,19 @@ though, and has since been slightly modified)-->
         <example correction="Warren Buffett"><marker>Waren Buffett</marker> est né en 1930.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Noam</token>
+          <token>Chomsky</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Noh?am</token>
+          <token regexp="yes">Chomsk[iy]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Noam Chomsky</suggestion> s’il s’agit du linguiste américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Noam_Chomsky</url>
+        <example correction="Noam Chomsky"><marker>Noham Chomsky</marker> en 1928.</example>
+      </rule>
+      <rule>
         <pattern>
           <token regexp="yes">Joel|Ethan|frères?</token>
           <marker><token>Cohen</token></marker>
@@ -4078,6 +4091,20 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
         <example correction="François Hollande"><marker>François Holland</marker></example>
         <example correction="François Hollande"><marker>Francois Hollande</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Emmanuel</token>
+          <token>Macron</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]mm?ann?uel(lle)?</token>
+          <token regexp="yes">Ma(c|c?k)a?ron</token>
+        </pattern>
+        <message>Écrivez <suggestion>Emmanuel Macron</suggestion> s’il s’agit du président de la république.</message>
+        <url>https://fr.wikipedia.org/wiki/Emmanual_Macron</url>
+        <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
+        <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
       </rule>
       <rule>
         <antipattern>
