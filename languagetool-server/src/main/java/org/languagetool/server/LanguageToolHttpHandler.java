@@ -115,6 +115,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } catch (Exception e) {
       String response;
       int errorCode;
+      boolean textLoggingAllowed = false;
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
@@ -128,15 +129,16 @@ class LanguageToolHttpHandler implements HttpHandler {
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
+        textLoggingAllowed = true;
       }
-      logError(remoteAddress, e, errorCode, httpExchange, parameters);
+      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
     }
   }
 
-  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params) {
+  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, boolean textLoggingAllowed) {
     String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
@@ -149,7 +151,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     print(message, System.err);
     //noinspection CallToPrintStackTrace
     e.printStackTrace();
-    if (config.isVerbose() && text != null) {
+    if (config.isVerbose() && text != null && textLoggingAllowed) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
     }
