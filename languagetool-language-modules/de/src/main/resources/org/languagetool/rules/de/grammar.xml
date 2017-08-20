@@ -3803,16 +3803,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
-        <rule id="MEINES_ERACHTENS_NACH" name="meines Erachtens nach (meines Erachtens)">
-            <pattern>
-                <token>meines</token>
-                <token>Erachtens</token>
-                <token>nach</token>
-            </pattern>
-            <message>Die feste Wendung lautet <suggestion>meines Erachtens</suggestion>, ohne 'nach'.</message>
-            <url>https://www.korrekturen.de/beliebte_fehler/meines_erachtens_nach.shtml</url>
-            <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
-        </rule>
         <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
             <rule>
                 <pattern>
@@ -9815,21 +9805,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Fehlt nach der Zahl möglicherweise eine Einheit?</message>
             <example correction=''>Die <marker>5000</marker> lange Strecke schaffte sie in fünf Wochen.</example>
             <example correction=''>Die <marker>2</marker> hohe Hürde wurde ihm zum Verhängnis.</example>
-        </rule>
-        <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
-            <regexp>(dritte|drittes) (Rad) (am) (Wagen)</regexp>
-            <message>Die Redewendung im Sinne von 'überflüssig; fehl am Platz' lautet <suggestion><match no="1" regexp_match="dritt" regexp_replace="fünft"/> Rad am Wagen</suggestion>.</message>
-            <example correction="fünfte Rad am Wagen">Er war das <marker>dritte Rad am Wagen</marker></example>
-            <example correction="fünftes Rad am Wagen">Er fühlt sich wie ein <marker>drittes Rad am Wagen</marker></example>
-        </rule>
-        <rule id="ZWEIGLEISIGES_SCHWERT" name="zweigleisiges (zweischneidiges) Schwert">
-            <pattern>
-                <token>zweigleisiges</token>
-                <token>Schwert</token>
-            </pattern>
-            <message>Meinten Sie die feste Wendung <suggestion>zweischneidiges Schwert</suggestion>?</message>
-            <url>https://de.wikipedia.org/wiki/Liste_gefl%C3%BCgelter_Worte/Z#Zweischneidiges_Schwert</url>
-            <example correction='zweischneidiges Schwert'>Das ist ein <marker>zweigleisiges Schwert</marker>.</example>
         </rule>
         <rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
             <rule>
@@ -29406,6 +29381,31 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rule id="MEINES_ERACHTENS_NACH" name="meines Erachtens nach (meines Erachtens)">
+            <pattern>
+                <token>meines</token>
+                <token>Erachtens</token>
+                <token>nach</token>
+            </pattern>
+            <message>Die feste Wendung lautet <suggestion>meines Erachtens</suggestion>, ohne 'nach'.</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/meines_erachtens_nach.shtml</url>
+            <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
+        </rule>
+        <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
+            <regexp>(dritte|drittes) (Rad) (am) (Wagen)</regexp>
+            <message>Die Redewendung im Sinne von 'überflüssig; fehl am Platz' lautet <suggestion><match no="1" regexp_match="dritt" regexp_replace="fünft"/> Rad am Wagen</suggestion>.</message>
+            <example correction="fünfte Rad am Wagen">Er war das <marker>dritte Rad am Wagen</marker></example>
+            <example correction="fünftes Rad am Wagen">Er fühlt sich wie ein <marker>drittes Rad am Wagen</marker></example>
+        </rule>
+        <rule id="ZWEIGLEISIGES_SCHWERT" name="zweigleisiges (zweischneidiges) Schwert">
+            <pattern>
+                <token>zweigleisiges</token>
+                <token>Schwert</token>
+            </pattern>
+            <message>Meinten Sie die feste Wendung <suggestion>zweischneidiges Schwert</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Liste_gefl%C3%BCgelter_Worte/Z#Zweischneidiges_Schwert</url>
+            <example correction='zweischneidiges Schwert'>Das ist ein <marker>zweigleisiges Schwert</marker>.</example>
+        </rule>
         <rule id="A_LA_CARTE" name="Wendung: à la carte">
             <pattern>
                 <marker>
