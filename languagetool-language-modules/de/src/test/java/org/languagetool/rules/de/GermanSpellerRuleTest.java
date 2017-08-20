@@ -124,6 +124,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("funkzuniert", "funktioniert", rule, lt);
     assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
+    assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);
     // TODO: Does not work, possibly because 'Knoblauchmayonnaise' is a word
     // from spelling.txt
     // assertFirstSuggestion("Knoblauchmajonäse", "Knoblauchmayonnaise", rule, lt);
