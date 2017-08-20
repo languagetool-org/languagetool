@@ -277,6 +277,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*[lL]aborants$")) {
+      suggestion = word.replaceFirst("ts$", "ten");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.equals("angepreist")) {
+      return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
       return Collections.singletonList("hallo");
     } else if (word.equals("zuende")) {
