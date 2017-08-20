@@ -37,7 +37,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
     <!ENTITY adverbios_lugar "abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto">
-    <!ENTITY codigos_de_pais "AD|AE|AF|AG|AI|AL|AM|AN|AO|AQ|AR|AS|AT|AU|AW|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|BZ|CA|CC|CF|CG|CH|CI|CK|CL|CM|CN|CO|CR|CS|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EE|EG|EH|ER|ES|ET|FI|FJ|FK|FM|FO|FR|FX|GA|GB|GD|GE|GF|GH|GI|GL|GM|GN|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|HU|ID|IE|IL|IN|IO|IQ|IR|IS|IT|JM|JO|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|MG|MH|MK|ML|MM|MN|MO|MP|MQ|MR|MS|MT|MU|MV|MW|MX|MY|MZ|NA|NC|NE|NF|NG|NI|NL|NO|NP|NR|NT|NU|NZ|OM|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PT|PW|PY|QA|RE|RO|RU|RW|SA|Sb|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TF|TG|TH|TJ|TK|TM|TN|TO|TP|TR|TT|TV|TW|TZ|UA|UG|UK|UM|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|WF|WS|YE|YT|YU|ZA|ZM|ZR">
+    <!ENTITY codigos_de_pais "AD|AE|AF|AG|AI|ALS?|AM|AN|AO|AQ|AR|AS|AT|AU|AW|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|BZ|CA|EN|CC|CF|CG|CH|CI|CK|CL|CM|CN|CO|CR|CS|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EE|EG|EH|ER|ES|ET|FI|FJ|FK|FM|FO|FR|FX|GA|GB|GD|GE|GF|GH|GI|GL|GM|GN|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|HU|ID|IE|IL|IN|IO|IQ|IR|IS|IT|JM|JO|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|MG|MH|MK|ML|MM|MN|MO|MP|MQ|MR|MS|MT|MU|MV|MW|MX|MY|MZ|NA|NC|NE|NF|NG|NI|NL|NO|NP|NR|NT|NU|NZ|OM|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PT|PW|PY|QA|RE|RO|RU|RW|SA|Sb|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TF|TG|TH|TJ|TK|TM|TN|TO|TP|TR|TT|TV|TW|TZ|UA|UG|UK|UM|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|WF|WS|YE|YT|YU|ZA|ZM|ZR">
 
     <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estilo|filme|fundação|galeria|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|museu|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade">
     <!ENTITY divisas "euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]">
@@ -1170,6 +1170,11 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>há|havia|houve</token>
+          <token>
+            <exception postag_regexp='yes' postag='V.P.+'/></token>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -1190,6 +1195,8 @@ title="Easy editing stylesheet" ?>
       <example>Outros governos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Este trabalho deu os primeiros passos há um ano.</example>
       <example>Cada um dos seus alunos expressou a sua opinião.</example>
+      <example>Entre os resíduos há substâncias perigosas.</example>
+      <example correction='Os médicos haviam'><marker>Os médicos havia</marker> saído sem saber como dar a notícia.</example>
     </rule>
     <rule>
       <antipattern>
@@ -5247,6 +5254,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>o</token>
           <token>facto</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token>apesar</token>
           <token>de</token>
       </antipattern>
       <pattern>
@@ -18941,7 +18952,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>([A-Za-z]+mente|[A-Za-zêâ]+ncia|[A-Za-z]+ção|a|à|acesa|adquirir|agradável|alegada|alguma|alta|alternativa|análise|antiga|aquela|àquela|arte|asim|astronomia|atitude|ac?tiva|atual|aula|avidez|bastante|boa|breve|cada|certa|coisa|com|comete|como|componente|comprensão|conquista|considerada|considerado|constante|contra|correc?ta|costumada|cousa|cuja|da|de|deficiente|descolorida|dessa|desta|determinada|discusão|doce|duma|e|É|em|encetada|ensino|era|eram|escola|essa|esta|estava|eventual|evidente|exerceu|exige|expresão|extensa|faz|fazem|fervorosa|filosofia|forma|fosse|frequente|galante|ganhar|gente|geral|gestão|glória|grande|há|hagiografia|haja|havido|hoje|ideia|imagem|incansável|incitar|indiferença|indigesta|iniciou|intolerável|jardinagem|labuta|linguagem|linha|liturgia|lógica|longa|má|mais|malta|maneira|mas|mecânica|medicina|medida|meio|melhor|menor|mesma|metade|minha|misteriosa|moral|mudar|muita|muito|na|nem|nenhuma|nesta|nossa|nova|numa|obra|ordem|ou|outra|para|parte|patrocinar|pela|pequena|pesoa|poesia|política|por|porém|pouca|pouco|preciso|pregunta|própria|prova|provável|qualquer|que|questão|rapariga|razão|reforma|regra|resposta|revelava|riqueza|sádica|saída|salutar|são|sediciosa|seja|sem|semelhante|ser|sido|simples|sobre|sofisticada|sua|tal|tanta|tanto|tão|tem|têm|tenho|tens|ter|termo|tinha|toda|tornar|tornou|uma|venerada|vertente|vida)s?</token>
+          <token regexp='yes'>([A-Za-z]+mente|[A-Za-zêâ]+ncia|[A-Za-z]+ção|a|à|acesa|adquirir|agradável|alegada|alguma|alta|alternativa|análise|antiga|aquela|àquela|arte|asim|astronomia|atitude|ac?tiva|atual|aula|avidez|bastante|boa|breve|cada|certa|coisa|com|comete|como|componente|comprensão|conquista|considerada|considerado|constante|contra|correc?ta|costumada|cousa|cuja|da|de|deficiente|descolorida|dessa|desta|determinada|discusão|doce|duma|e|É|em|encetada|ensino|era|eram|escola|essa|esta|estava|eventual|evidente|exerceu|exige|expresão|extensa|faz|fazem|fervorosa|filosofia|forma|fosse|frequente|galante|ganhar|gente|geral|gestão|glória|grande|há|hagiografia|haja|havido|hoje|ideia|imagem|incansável|incitar|indiferença|indigesta|iniciou|intolerável|jardinagem|labuta|linguagem|linha|liturgia|lógica|longa|má|mais|malta|maneira|mas|mecânica|medicina|medida|meio|melhor|menor|mesma|metade|minha|misteriosa|moral|mudar|muita|muito|na|nem|nenhuma|nesta|nossa|nova|numa|obra|ordem|ou|outra|para|parte|patrocinar|pela|pequena|pesoa|poesia|política|por|porém|pouca|pouco|preciso|pregunta|própria|prova|provável|qualquer|questão|rapariga|razão|reforma|regra|resposta|revelava|riqueza|sádica|saída|salutar|são|sediciosa|seja|sem|semelhante|ser|sido|simples|sobre|sofisticada|sua|tal|tanta|tanto|tão|tem|têm|tenho|tens|ter|termo|tinha|toda|tornar|tornou|uma|venerada|vertente|vida)s?</token>
         <marker>
           <token regexp='yes'>praticas?</token>
         </marker>
