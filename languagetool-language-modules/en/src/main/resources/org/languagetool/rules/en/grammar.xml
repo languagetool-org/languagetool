@@ -6126,6 +6126,7 @@ USA
         <rulegroup id="AND_END" name="the and (end)">
             <rule>
                 <pattern>
+                    <token regexp="yes">at|in|to</token>
                     <token regexp="yes">the|an</token>
                     <marker>
                         <token case_sensitive="yes">and</token>
@@ -15227,13 +15228,13 @@ USA
                 <example correction="extent">To the <marker>extend</marker> permitted by law</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THEIR_IS" name="their (there) is/are">
+        <rulegroup id="THEIR_IS" name="their/they're (there) is/are">
             <rule>
                 <pattern>
                     <marker>
                         <token>their</token>
                     </marker>
-                    <token regexp="yes">is|a(re)?</token>
+                    <token regexp="yes">is|a(re)?|was</token>
                 </pattern>
                 <message>Did you mean <suggestion>there</suggestion>?</message>
                 <short>Possible typo</short>
@@ -15251,11 +15252,25 @@ USA
                 <short>Possible typo</short>
                 <example correction="there">Yes, <marker>their</marker> might be a better approach.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>they</token>
+                        <token spacebefore="no" regexp="yes">['’´]</token>
+                        <token spacebefore="no">re</token>
+                    </marker>
+                    <token regexp="yes">is|are|w(as|ere)|might|could|should</token>
+                </pattern>
+                <message>Did you mean <suggestion>there</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="there">He noticed that <marker>they're</marker> is a new test.</example>
+                <example correction="There"><marker>They're</marker> was a robbery.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTHER-IN-LOW" name="mother-in-low (mother-in-law)">
             <rule>
                 <pattern>
-                    <token regexp="yes">(mother|sister|brother|father|relative|son)s?-in-low</token>
+                    <token regexp="yes">(mother|sister|brother|father|relative|son|daughter)s?-in-low</token>
                 </pattern>
                 <message>You probably meant: <suggestion><match no="1" regexp_match="(.*)-in-low" regexp_replace="$1-in-law"/></suggestion></message>
                 <short>Possible typo</short>
@@ -15263,7 +15278,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(mother|sister|brother|father|son|relative)s?</token>
+                    <token regexp="yes">(mother|sister|brother|father|son|relativeson|daughter)s?</token>
                     <token>in</token>
                     <token>low</token>
                 </pattern>
