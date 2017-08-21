@@ -126,9 +126,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
     assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);
     assertFirstSuggestion("interkurelle", "interkulturelle", rule, lt);
-    // TODO: Does not work, possibly because 'Knoblauchmayonnaise' is a word
-    // from spelling.txt
-    // assertFirstSuggestion("Knoblauchmajonäse", "Knoblauchmayonnaise", rule, lt);
+    assertFirstSuggestion("Zuende", "Zu Ende", rule, lt);
+    assertFirstSuggestion("zuende", "zu Ende", rule, lt);
+    assertFirstSuggestion("wolt", "wollt", rule, lt);
+    assertFirstSuggestion("allmähliges", "allmähliches", rule, lt);
+    assertFirstSuggestion("Allmähllig", "Allmählich", rule, lt);
   }
 
   @Test
