@@ -213,7 +213,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
-    String w = StringUtils.removeEnd(word, ".");
     String suggestion;
     if ("WIFI".equals(word) || "wifi".equals(word)) {
       return Collections.singletonList("Wi-Fi");
