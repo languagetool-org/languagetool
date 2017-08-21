@@ -4106,9 +4106,10 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token>certo</token>
         </marker>
-          <token><exception regexp="yes">valor|montante|assunto|tema|produto|modo|indivíduo|período</exception></token>
+          <token>
+            <exception regexp="yes">valor|montante|assunto|tema|produto|modo|indivíduo|período</exception></token>
       </pattern>
-      <message>Substitua por <suggestion>decerto</suggestion>.</message>
+      <message>'De certo' equivale a 'de determinado'. Se pretende indicar certeza utilize <suggestion>decerto</suggestion>.</message>
       <example correction="decerto">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
     </rule>
 
@@ -7210,29 +7211,9 @@ use REPEATED_WORDS_3X as a fallback		 	-->
     </rule>
     <rule>
       <antipattern>
-          <token>cara</token>
+          <token regexp='yes'>cara|dia|face|lado|passo|pouco|terra</token>
           <token>a</token>
-          <token>cara</token>
-      </antipattern>
-      <antipattern>
-          <token>dia</token>
-          <token>a</token>
-          <token>dia</token>
-      </antipattern>
-      <antipattern>
-          <token>face</token>
-          <token>a</token>
-          <token>face</token>
-      </antipattern>
-      <antipattern>
-          <token>passo</token>
-          <token>a</token>
-          <token>passo</token>
-      </antipattern>
-      <antipattern>
-          <token>terra</token>
-          <token>a</token>
-          <token>terra</token>
+          <token><match no="0"/></token>
       </antipattern>
       <pattern>
           <token negate_pos="yes" postag="SENT_START" regexp="yes">
