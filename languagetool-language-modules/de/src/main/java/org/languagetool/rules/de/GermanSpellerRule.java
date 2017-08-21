@@ -282,6 +282,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("interkurell(e[nmrs]?)?")) {
+      suggestion = word.replaceFirst("ku", "kultu");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("wolt")) {
       return Collections.singletonList("wollt");
     } else if (word.equals("angepreist")) {
