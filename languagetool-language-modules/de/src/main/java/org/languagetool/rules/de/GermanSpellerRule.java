@@ -215,15 +215,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = StringUtils.removeEnd(word, ".");
     String suggestion;
-    if ("WIFI".equals(w) || "wifi".equals(w)) {
+    if ("WIFI".equals(word) || "wifi".equals(word)) {
       return Collections.singletonList("Wi-Fi");
-    } else if ("ausversehen".equals(w)) {
+    } else if ("ausversehen".equals(word)) {
       return Collections.singletonList("aus Versehen");
-    } else if ("getz".equals(w)) {
+    } else if ("getz".equals(word)) {
       return Arrays.asList("jetzt", "geht's");
-    } else if ("Trons".equals(w)) {
+    } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
-    } else if (w.matches("desweitere[nm]")) {
+    } else if (word.matches("desweitere[nm]")) {
       return Collections.singletonList("des Weiteren");
     } else if (word.matches("einzigste[mnrs]?")) {
       return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
