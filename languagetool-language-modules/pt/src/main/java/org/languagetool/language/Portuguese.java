@@ -202,6 +202,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "INTERJECTIONS_PUNTUATION":  return 10;
       case "CONFUSION_POR":             return  5;
       case "HOMOPHONE_AS_CARD":         return  3;
+      case "TODOS_PLURAL_NOUNS":        return -4;
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
       case "PT_MULTI_REPLACE":          return -10;

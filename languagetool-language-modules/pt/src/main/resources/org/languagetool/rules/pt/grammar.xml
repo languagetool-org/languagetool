@@ -71,6 +71,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY verbos_auxiliares_modais "dever|poder|querer|conseguir|pretender|tentar|chegar">
     <!ENTITY verbos_de_ligacao "andar|continuar|estar|ficar|parecer|permanecer|assemelhar|semelhar|ser|virar|viver">
     <!ENTITY verbos_transitivos_diretos "abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar">
+    <!ENTITY haver_impessoal "há|havia|houve|houvera|haverá|haveria|haja|houvesse|houver">
 
     <!ENTITY adj_nomes_paronimos_a "(ábson[ao]|acárid[ao]|ácaro|ácer[ao]|ácid[ao]|adágio|ádito|áfi[ao]|áfric[ao]|ágraf[ao]|água|algália|álvidro|amálgama|amási[ao]|análise|aniversário|apanágio|ápoda|ápode|ápodo|árbitr[ao]|ária|áric[ao]|árvore|áscua|ásia|átic[ao]|átrop[ao]|ávila|áxila|azáfama|bálsamo|báscul[ao]|bátega|cábula|cádmio|cálamo|cálculo|cantárida|cantáride|cápsula|cárcere|cárdia|cárie|catálise|catálogo|comissári[ao]|contágio|contrári[ao]|dádiva|diálise|dicionário|eficácia|empresári[ao]|enxárcia|epigramátic[ao]|estádio|estágio|fábrica|fábula|falácia|gábia|gálic[ao]|gárrulo|gástrula|gázua|ginástic[ao]|gládio|gramátic[ao]|grávid[ao]|hábito|hálito|hemodiálise|hilári[ao]|inflacionária|inventário|jáculo|lácer[ao]|lágrima|lápida|lápide|larápi[ao]|lástima|látego|lázar[ao]|mácula|máfia|mágic[ao]|mágoa|máscara|mático|mátria|pábulo|página|pálio|parágrafo|parálise|pária|páscoa|pátina|pátio|perdulári[ao]|plácid[ao]|plácito|plágio|posfácio|prátic[ao]|prefácio|presságio|prontuário|psicanálise|rábano|rábia|rábid[ao]|rábula|rádio|ráfia|ressábio|sábia|sáculo|salário|sátura|secretári[ao]|selvátic[ao]|subsecretári[ao]|sumári[ao]|tábula|tráfeg[ao]|tráfico|válid[ao]|vária|viático|voluntári[ao])s?">
     <!ENTITY adj_nomes_paronimos_e "(acédia|acéquia|advérbio|almécega|amnésia|apréstamo|assédio|célebre|comédia|comércio|crédito|débito|décim[ao]|decrépit[ao]|décupl[ao]|descrédito|doméstic[ao]|édito|émul[ao]|espécie|espéculo|estratégia|estrépito|exército|facécia|féria|galdéri[ao]|gaudério|gémula|hérnia|inércia|léria|médi[ao]|médic[ao]|névoa|pérola|perpétu[ao]|pérvia|pilhéria|prédica|prélio|prévia|privilégio|récita|récova|régia|régulo|remémor[ao]|rémora|réplica|revérbero|séci[ao]|século|séria|série|sério|sérvia|telégrafo|térci[ao]|térebra|término|tragédia|trépano|trépid[ao]|tréplica|véget[ao]|venéfic[ao]|véner[ao]|vérmina|véstia)s?">
@@ -224,7 +225,7 @@ title="Easy editing stylesheet" ?>
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
-  <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Erros de concordância de género (geral)">
+  <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância de género: Geral">
     <!--            General gender concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
@@ -469,7 +470,7 @@ title="Easy editing stylesheet" ?>
 
     <!-- Specific gender concordance errors - A > Masculine Noun -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Erro de concordância do masculino">
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância de género: A + Masculino">
       <pattern>
         <marker>
           <token>a</token>
@@ -487,9 +488,8 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>A vaca está no pasto.</example>
     </rule>
 
-    <!-- Specific gender concordance errors - A > Ended in A -->
+    <rule default='off' id='A_WORD_A' name="Concordância de género: A + palavra terminada em A">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
-    <rule default='off' id='A_WORD_A' name="A + palavra terminada em A">
       <pattern>
           <token regexp='yes'>a</token>
           <token postag='(A..|N.|Z.)M.+' postag_regexp='yes' regexp='yes'>.+a$
@@ -501,9 +501,18 @@ title="Easy editing stylesheet" ?>
       <example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
     </rule>
 
-    <!-- Specific gender concordance errors - A/Em > Nível       -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+    <rule id='A_APRENDIZ' name="Concordância de género: A aprendiza">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>a</token>
+          <token>aprendiz</token>
+      </pattern>
+      <message>Linguagem informal. Substitua por <suggestion>a aprendiza</suggestion>.</message>
+      <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
+    </rule>
+
     <rule id='A_NIVEL' name="A nível">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <pattern>
           <token regexp='yes'>a|em</token>
           <token>nível</token>
@@ -530,7 +539,7 @@ title="Easy editing stylesheet" ?>
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Erro de concordância do masculino">
+    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
       <pattern>
         <marker>
           <token>o</token>
@@ -548,7 +557,7 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>A cadela está no pasto.</example>
     </rule>
 
-  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Erros de concordância de número (geral)">
+  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
@@ -569,8 +578,13 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>mais|menores|maiores|melhores|piores</token>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]s?</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|NC|A..|Z.)[MC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -587,10 +601,12 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
       <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
+      <example correction="todinho litoral|todo litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
       <example>Calças, as mais rasgadas possível!</example>
       <example>Os montes Evereste, K2 e Kanchenjunga são os mais altos do mundo.</example>
+      <example>As cores são: Ás de Copas vermelho, Ás de Ouros vermelho, Ás de Paus preto e Ás de Espadas preto.</example>
     </rule>
     <rule>
       <pattern>
@@ -622,8 +638,13 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>mais|menor|maior|pior|melhor</token>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[MC]P.+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
@@ -675,8 +696,13 @@ title="Easy editing stylesheet" ?>
           <token>uma</token>
           <token>vez</token>
       </antipattern>
+      <antipattern>
+          <token postag='(D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
@@ -692,6 +718,8 @@ title="Easy editing stylesheet" ?>
       <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
       <example>O programa Lendas do Futuro é bom?</example>
       <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
+      <example correction='união empobrecida|uniões empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example>
+      <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
     </rule>
     <rule>
       <pattern>
@@ -713,8 +741,13 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(&precede_nome_proprio;)s</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
+      <antipattern>
+          <token postag='(D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]s?</token>
+          <token postag='(D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
           <token postag='(D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -730,6 +763,8 @@ title="Easy editing stylesheet" ?>
         <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
       <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
+      <example correction='fechadura grande|fechaduras grandes'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
+      <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -749,7 +784,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância dos complementos com o verbo copulativo' default='on'>
+  <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
     <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
@@ -938,7 +973,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='FUTURE_CONJUGATION_ERROR' name='Conjugações irregulares do futuro do conjuntivo/subjuntivo'>
+    <rule id='FUTURE_CONJUGATION_ERROR' name='Concordância Verbal: Conjugações irregulares do futuro do conjuntivo/subjuntivo'>
     <!-- Created by Tiago F. Santos, 2017-01-21 -->
       <pattern>
           <token regexp='yes'>enquanto|quando|se</token>
@@ -958,7 +993,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Quando eu vir'><marker>Quando eu ver</marker> algo errado, aviso.</example>
     </rule>
 
-  <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
+  <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Concordância Verbal: Conjugações irregulares: conjuntivo/subjuntivo obrigatório'>
     <!-- Created by Tiago F. Santos, 2017-05-20 -->
       <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
       <short>Modo verbal incorreto</short>
@@ -1006,7 +1041,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Erros de concordância verbal (geral)">
+  <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
     <!--              General verbal concordance errors           -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_verbal</url>
@@ -1171,7 +1206,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>há|havia|houve</token>
+          <token regexp='yes'>&haver_impessoal;</token>
           <token>
             <exception postag_regexp='yes' postag='V.P.+'/></token>
       </antipattern>
@@ -1236,7 +1271,7 @@ title="Easy editing stylesheet" ?>
     <!-- General verbal concordance errors - They + Verb -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
     <!-- FIXME Disambiguate verbs better and then set as default='on' -->
-    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2' name="Erro de concordância do número do verbo (3P composto)">
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2' name="Concordância Verbal: 3.ª Pessoa do Plural composta">
       <antipattern>
           <token>há</token>
           <token/>
@@ -1290,7 +1325,7 @@ title="Easy editing stylesheet" ?>
       <example correction='A maioria do país não sabe'><marker>A maioria do país não sabem</marker> muito.</example>
     </rule>
 
-  <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo-se + Plural'>
+  <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-07-19      -->
       <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
       <short>&MSG_ECV;</short>
@@ -1542,7 +1577,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='IMPERSONAL_FAZER_TIME_EXPRESSION' name='Verbos impessoais: Fazer + Expressão de tempo'>
+  <rulegroup id='IMPERSONAL_FAZER_TIME_EXPRESSION' name='Concordância Verbal: Verbos impessoais: Fazer + Expressão de tempo'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
     <!--                     Loosely based on CoGrOO rules                 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_impessoal</url>
@@ -1581,7 +1616,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='IMPERSONAL_HAVER_PLURAL_NOUN' name='Verbos impessoais: Haver como Existir'>
+  <rulegroup id='IMPERSONAL_HAVER_PLURAL_NOUN' name='Concordância Verbal: Verbos impessoais: Haver como Existir'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
     <!-- Loosely based on CoGrOO rule -->
       <url>https://pt.wikipedia.org/wiki/Verbo_impessoal</url>
@@ -1613,7 +1648,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='NON_IMPERSONAL_VERBS' name="Verbos não-impessoais: existir, bastar, faltar, etc.">
+  <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-02-27 -->
     <rule>
       <pattern>
@@ -2182,6 +2217,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>m(á|au)s?</token>
           <token regexp='yes'>resultados?</token>
       </antipattern>
+      <antipattern>
+          <token>bom</token>
+          <token>e</token>
+          <token>mau</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>m(á|au)s?</token>
           <token postag_regexp='yes' postag='V.P.+'/>
@@ -2196,6 +2236,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>mal</token>
           <token>necessário</token>
+      </antipattern>
+      <antipattern>
+          <token>bem</token>
+          <token>e</token>
+          <token>mal</token>
       </antipattern>
       <pattern>
           <token>mal</token>
@@ -3280,9 +3325,9 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Caixa_alta_e_caixa_baixa</url>
       <short>Erro de capitalização</short>
     <rule>
-      <regexp>(?-i)\s\b((grand [cC]anyon)|(monte Ev[ae]reste))\b</regexp>
+      <regexp>(?-i)\b((grand [cC]anyon)|(monte Ev[ae]reste))\b</regexp>
       <message>Capitalize nomes de regiões geográficas: <suggestion><match no="1" regexp_match="( .+)" regexp_replace="$1" case_conversion="startupper"/></suggestion></message>
-      <example correction=" Monte Evareste">Demorou um mês a subir o<marker> monte Evareste</marker>.</example>
+      <example correction="Monte Evareste">Demorou um mês a subir o <marker>monte Evareste</marker>.</example>
       <example>Siga para <marker>sul</marker> três blocos e depois, vire à esquerda.</example>
       <example>As ilhas Britânicas e o noroeste da Europe.</example>
     </rule>
@@ -12691,8 +12736,12 @@ o tomate'>
     <rule id='À_QUE' name="Confusão: à que - há que">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
+          <token>
+            <exception>similar</exception></token>
+        <marker>
           <token>à</token>
           <token>que</token>
+        </marker>
       </pattern>
       <message>Substitua por <suggestion>há que</suggestion>.</message>
       <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
@@ -17427,23 +17476,14 @@ TODO Write better examples
     </rule>
     <rule id='PARONYM_INDICA_456' name='Parónimo: indica'>
       <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>indicas?</token>
+          <token regexp='yes'>&art_detecao_paronimos;
+            <exception regexp='yes'>[ao]s?|nos</exception></token>
+          <token regexp='yes'>indic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> índica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='ind' regexp_replace='índ'/></suggestion>
       <example correction='na índica'><marker>na indica</marker>.</example>
       <example correction='nas índicas'><marker>nas indicas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_INDICO_457' name='Parónimo: indico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>indicos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> índico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='um índico'><marker>um indico</marker>.</example>
       <example correction='uns índicos'><marker>uns indicos</marker>.</example>
     </rule>
@@ -17462,21 +17502,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>jornalisticas?</token>
+          <token regexp='yes'>jornalistic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> jornalística<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='lis' regexp_replace='lís'/></suggestion>
       <example correction='na jornalística'><marker>na jornalistica</marker>.</example>
       <example correction='nas jornalísticas'><marker>nas jornalisticas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_JORNALISTICO_460' name='Parónimo: jornalistico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>jornalisticos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> jornalístico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='um jornalístico'><marker>um jornalistico</marker>.</example>
       <example correction='uns jornalísticos'><marker>uns jornalisticos</marker>.</example>
     </rule>
@@ -17484,21 +17515,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>lapidificas?</token>
+          <token regexp='yes'>lapidific[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lapidífica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='dif' regexp_replace='díf'/></suggestion>
       <example correction='uma lapidífica'><marker>uma lapidifica</marker>.</example>
       <example correction='umas lapidíficas'><marker>umas lapidificas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LAPIDIFICO_462' name='Parónimo: lapidifico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>lapidificos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lapidífico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='pelo lapidífico'><marker>pelo lapidifico</marker>.</example>
       <example correction='pelos lapidíficos'><marker>pelos lapidificos</marker>.</example>
     </rule>
@@ -17517,21 +17539,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>laticas?</token>
+          <token regexp='yes'>latic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lática<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='lat' regexp_replace='lát'/></suggestion>
       <example correction='uma lática'><marker>uma latica</marker>.</example>
       <example correction='umas láticas'><marker>umas laticas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LATICO_465' name='Parónimo: latico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>laticos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lático<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='no lático'><marker>no latico</marker>.</example>
       <example correction='nos láticos'><marker>nos laticos</marker>.</example>
     </rule>
@@ -17539,21 +17552,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>letificas?</token>
+          <token regexp='yes'>letific[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> letífica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='tif' regexp_replace='tíf'/></suggestion>
       <example correction='da letífica'><marker>da letifica</marker>.</example>
       <example correction='das letíficas'><marker>das letificas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LETIFICO_467' name='Parónimo: letifico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>letificos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> letífico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='algum letífico'><marker>algum letifico</marker>.</example>
       <example correction='alguns letíficos'><marker>alguns letificos</marker>.</example>
     </rule>
@@ -17583,21 +17587,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>liricas?</token>
+          <token regexp='yes'>liric[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lírica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='lir' regexp_replace='lír'/></suggestion>
       <example correction='da lírica'><marker>da lirica</marker>.</example>
       <example correction='das líricas'><marker>das liricas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LIRICO_471' name='Parónimo: lirico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>liricos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lírico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='no lírico'><marker>no lirico</marker>.</example>
       <example correction='nos líricos'><marker>nos liricos</marker>.</example>
     </rule>
@@ -17605,21 +17600,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>liticas?</token>
+          <token regexp='yes'>litic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lítica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='lit' regexp_replace='lít'/></suggestion>
       <example correction='uma lítica'><marker>uma litica</marker>.</example>
       <example correction='umas líticas'><marker>umas liticas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LITICO_473' name='Parónimo: litico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>liticos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lítico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='pelo lítico'><marker>pelo litico</marker>.</example>
       <example correction='pelos líticos'><marker>pelos liticos</marker>.</example>
     </rule>
@@ -17627,21 +17613,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>logicas?</token>
+          <token regexp='yes'>logic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lógica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='log' regexp_replace='lóg'/></suggestion>
       <example correction='da lógica'><marker>da logica</marker>.</example>
       <example correction='das lógicas'><marker>das logicas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LOGICO_475' name='Parónimo: logico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>logicos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lógico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='pelo lógico'><marker>pelo logico</marker>.</example>
       <example correction='pelos lógicos'><marker>pelos logicos</marker>.</example>
     </rule>
@@ -17649,21 +17626,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>lubricas?</token>
+          <token regexp='yes'>lubric[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lúbrica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='u' regexp_replace='ú'/></suggestion>
       <example correction='na lúbrica'><marker>na lubrica</marker>.</example>
       <example correction='nas lúbricas'><marker>nas lubricas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_LUBRICO_477' name='Parónimo: lubrico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>lubricos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> lúbrico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='no lúbrico'><marker>no lubrico</marker>.</example>
       <example correction='nos lúbricos'><marker>nos lubricos</marker>.</example>
     </rule>
@@ -17671,21 +17639,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>magicas?</token>
+          <token regexp='yes'>magic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mágica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='mag' regexp_replace='mág'/></suggestion>
       <example correction='na mágica'><marker>na magica</marker>.</example>
       <example correction='nas mágicas'><marker>nas magicas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_MAGICO_479' name='Parónimo: magico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>magicos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mágico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='algum mágico'><marker>algum magico</marker>.</example>
       <example correction='alguns mágicos'><marker>alguns magicos</marker>.</example>
     </rule>
@@ -17693,21 +17652,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>magnificas?</token>
+          <token regexp='yes'>magnific[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> magnífica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='nif' regexp_replace='níf'/></suggestion>
       <example correction='da magnífica'><marker>da magnifica</marker>.</example>
       <example correction='das magníficas'><marker>das magnificas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_MAGNIFICO_481' name='Parónimo: magnifico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>magnificos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> magnífico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='um magnífico'><marker>um magnifico</marker>.</example>
       <example correction='uns magníficos'><marker>uns magnificos</marker>.</example>
     </rule>
@@ -17715,21 +17665,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>maticas?</token>
+          <token regexp='yes'>matic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mática<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='mat' regexp_replace='mát'/></suggestion>
       <example correction='na mática'><marker>na matica</marker>.</example>
       <example correction='nas máticas'><marker>nas maticas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_MATICO_483' name='Parónimo: matico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>maticos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mático<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='um mático'><marker>um matico</marker>.</example>
       <example correction='uns máticos'><marker>uns maticos</marker>.</example>
     </rule>
@@ -17737,21 +17678,12 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>medicas?</token>
+          <token regexp='yes'>medic[ao]s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> médica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='e' regexp_replace='é'/></suggestion>
       <example correction='uma junta médica'><marker>uma junta medica</marker>.</example>
       <example correction='umas médicas'><marker>umas medicas</marker>.</example>
-    </rule>
-    <rule id='PARONYM_MEDICO_485' name='Parónimo: medico'>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>medicos?</token>
-      </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> médico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='do médico'><marker>do medico</marker>.</example>
       <example correction='dos médicos'><marker>dos medicos</marker>.</example>
     </rule>
@@ -21275,7 +21207,7 @@ TODO Write better examples
           <token regexp='yes'>[.]</token>
         </marker>
           <token spacebefore='no'>
-            <exception regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
+            <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque um espaço depois das reticências</message>
@@ -21291,7 +21223,7 @@ TODO Write better examples
             <exception postag='SENT_END'/></token>
         </marker>
           <token spacebefore='no'>
-            <exception regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
+            <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque um espaço depois das reticências</message>
@@ -21306,18 +21238,18 @@ TODO Write better examples
   <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
     <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
     <rule>
-      <regexp>(\p{L}) ([!?»”’,….])</regexp>
+      <regexp>\b([\p{L}\d]+) +([!?»”’,….])</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
-      <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
-      <example correction="u!">Como é que isto me escapo<marker>u !</marker></example>
-      <example correction="a.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a rod<marker>a .</marker></example>
+      <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
+      <example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example>
+      <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>(\p{L}) ([:;])(?!-?[()/])</regexp>
+      <regexp>\b([\p{L}\d]+) +([:;])(?!-?[()/])</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
-      <example correction="s:">Existem duas estratégias possívei<marker>s :</marker> aproveitar o que existe ou reinventar a roda.</example>
+      <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
       <example>Um sorriso :-)</example>
       <example>Um sorriso :)</example>
       <example>Um sorriso :(</example>
@@ -21623,7 +21555,7 @@ TODO Write better examples
       <url>https://www.openstreetmap.org/</url>
       <short>Possível erro no nome do produto.</short>
     <rule>
-      <regexp>Open (Street Maps?|Streetmaps?)</regexp>
+      <regexp>\bOpen (Street Maps?|Streetmaps?)\b</regexp>
       <message>Pretende referir-se ao programa de mapas gratuito <suggestion>OpenStreetMap</suggestion>?</message>
       <example>O <marker>openstreetmap.org</marker> é uma programa de mapas livre e gratuito.</example>
       <example correction="OpenStreetMap">O <marker>Open Street Map</marker> é uma programa de mapas livre e gratuito.</example>
@@ -21639,7 +21571,7 @@ TODO Write better examples
       <example correction="MP3"><marker>Mp-3</marker> é uma formato de ficheiros.</example>
     </rule>
     <rule id='BLUE_RAY' name="Nome de Produto: 'Blue Ray (Blu-ray)'">
-      <regexp>Blue[ -](Ray|Rai|Rei)</regexp>
+      <regexp>\bBlue[ -](Ray|Rai|Rei)</regexp>
       <message>Pretende referir-se ao disco <suggestion>Blu-ray</suggestion>?</message>
       <short>Possível erro no nome do produto.</short>
       <example>Isto é um disco <marker>Blu ray</marker>.</example>
@@ -26117,16 +26049,6 @@ TODO Write better examples
         <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
       </rule>
   </rulegroup>
-
-    <rule id='A_APRENDIZ' name="A aprendiza">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>a</token>
-          <token>aprendiz</token>
-      </pattern>
-      <message>Linguagem informal. Substitua por <suggestion>a aprendiza</suggestion>.</message>
-      <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
-    </rule>
 
  </category>
 
