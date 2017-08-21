@@ -13731,8 +13731,24 @@ USA
                 <example>I want a wife and children, and so I need a house.</example>
             </rule>
             <!--rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="6"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">,|:|what|wh([oy]|ere|ose|ich|ether)|how|that</token>
+                    <token/>
+                    <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                    <token>I</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token/>
+                    <token case_sensitive="yes" regexp="yes">and|but|or</token>
+                    <token>I</token>
+                </antipattern>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">,|:|what|wh([oy]|ere|ose|ich|ether)|how</exception></token>
+                    <token postag="VB.*" postag_regexp="yes" skip="-1"/>
                     <marker>
                         <token negate="yes" regexp="yes">\W+|s?he|you</token>
                         <token case_sensitive="yes" regexp="yes">and|but|or</token>
@@ -13749,6 +13765,9 @@ USA
                 <example>Where are <marker>Mary and</marker> I going?</example>
                 <example>She asked where <marker>Mary and</marker> I were going.</example>
                 <example>When we were kids, Tom and I did a lot of things together.</example>
+                <example>This is where Tim and I live.</example>
+                <example>I think Tom and I agree.</example>
+                <example>I still can't believe Mary and I are getting married.</example>
             </rule-->
         </rulegroup>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
@@ -13784,7 +13803,7 @@ USA
                 <marker>
                     <token>out</token>
                     <token>of</token>
-                    <token regexp="yes">place|door|doors|band|bounds|town|state|wedlock|pocket|order</token>
+                    <token regexp="yes">place|doors?|band|bounds|town|state|wedlock|pocket|order</token>
                 </marker>
                 <token postag='NN.*|NNS' postag_regexp='yes'/>
             </pattern>
