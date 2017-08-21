@@ -271,6 +271,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("[aA]llmähll?i(g|ch)(e[mnrs]?)?")) {
+      suggestion = word.replaceFirst("llmähll?i(g|ch)", "llmählich");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches(".*[mM]ajonäse.*")) {
       suggestion = word.replaceFirst("ajonäse", "ayonnaise");
       if (!hunspellDict.misspelled(suggestion)) {
@@ -281,17 +286,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("interkurell(e[nmrs]?)?")) {
+    } else if (word.matches("[iI]nterkurell(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("ku", "kultu");
       return Collections.singletonList(suggestion);
-    } else if (word.equals("wolt")) {
-      return Collections.singletonList("wollt");
+    } else if (word.matches("[wW]olt$")) {
+      suggestion = word.replaceFirst("lt", "llt");
+      return Collections.singletonList(suggestion);
+    } else if (word.matches("[zZ]uende")) {
+      suggestion = word.replaceFirst("ue", "u E");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
       return Collections.singletonList("hallo");
-    } else if (word.equals("zuende")) {
-      return Collections.singletonList("zu Ende");
     } else if (word.equals("zumindestens")) {
       return Collections.singletonList("zumindest");
     } else if (word.equals("ca")) {
