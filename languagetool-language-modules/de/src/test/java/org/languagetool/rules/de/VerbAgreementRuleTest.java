@@ -47,6 +47,18 @@ public class VerbAgreementRuleTest {
   }
 
   @Test
+  public void testPositions() throws IOException {
+    RuleMatch[] match1 = rule.match(lt.analyzeText("Du erreichst ich unter 12345"));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getFromPos(), is(3));
+    assertThat(match1[0].getToPos(), is(16));
+    RuleMatch[] match2 = rule.match(lt.analyzeText("Hallo Karl. Du erreichst ich unter 12345"));
+    assertThat(match2.length, is(1));
+    assertThat(match2[0].getFromPos(), is(12+3));
+    assertThat(match2[0].getToPos(), is(12+16));
+  }
+  
+  @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
     assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
