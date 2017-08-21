@@ -1272,6 +1272,35 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="HOURS" name="Horas">
+    <rule>
+      <pattern>
+          <token regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>\d{1,2}h(\d{2}m)?(\d{2})?s?
+            <exception regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?h?
+            <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000"/></disambig>
+    </rule>
+  </rulegroup>
+
     <!-- XXX Ignore Spelling Rules XXX -->
     <rule name="en vogue" id="EN_VOGUE">
       <pattern>
