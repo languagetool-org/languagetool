@@ -84,6 +84,8 @@ public class AgreementRuleTest {
     assertGood("Kern einer jeden Tragödie ist es, ..");
     assertGood("Das wenige Sekunden alte Baby schrie laut.");
     assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
+    assertGood("Er fragte, ob das Spaß macht.");
+    assertGood("Das viele Geld wird ihr helfen.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -137,6 +139,8 @@ public class AgreementRuleTest {
     assertGood("Das erfordert Können.");
     assertGood("Ist das Kunst?");
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
+    assertGood("Es sollte nicht viele solcher Bilder geben");
+    assertGood("In den 80er Jahren.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -316,6 +320,11 @@ public class AgreementRuleTest {
     assertBad("An der rote Ampel.");
     assertBad("An der rotes Ampel.");
     assertBad("An der rotem Ampel.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte eine sehr schweren Infektion.");
+    assertBad("Ein fast 5 Meter hohem Haus.");
+    assertBad("Ein fünf Meter hohem Haus.");
     // TODO: not yet detected:
     //assertBad("An der rot Ampel.");
   }

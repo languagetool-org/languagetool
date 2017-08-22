@@ -51,7 +51,6 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
    * Throw RuntimeException is the given directory does not seem to be a valid ngram top directory
    * with sub directories {@code 1grams} etc.
    * @since 3.0
-   * @throws RuntimeException
    */
   public static void validateDirectory(File topIndexDir) {
     if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {

@@ -2,8 +2,42 @@
 
 ## 3.9-SNAPSHOT (release planned for 2017-09-26)
 
- ...
- 
+#### French
+  * upgraded dictionaries to Dicollecte-6.1
+
+#### German
+  * added and improved rules
+  * spell checker suggestions have been improved a lot by considering
+    more words, especially compounds (de-DE only so far, not yet active for
+    de-AT and de-CH)
+    (https://github.com/languagetool-org/languagetool/issues/725)
+  * added special dictionary extension files `spelling-de-AT.txt` and
+    `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
+    to `spelling.txt`
+  * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
+    6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements
+    - typography: number and mathematical symbol formatting improvements
+    - syntax: new category; fragment detection improvements
+  * disambiguation improvements
+  * false friends support added
+    - Portuguese to Galician (16 new pairs)
+  * significant POS tagging and synthesizing improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
+
+#### Russian
+  * spelling dictionary update
+
+#### Java API
+  * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
+    document-level meta data. This might be used by rules in the future.
+
 ## 3.8 (2017-06-27)
 
 #### Catalan

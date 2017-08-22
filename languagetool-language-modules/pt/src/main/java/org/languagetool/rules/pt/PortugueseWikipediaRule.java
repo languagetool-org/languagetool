@@ -72,12 +72,12 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Erro gramatical";
+    return "Erro gramatical ou de normativa";
   }
   
   @Override
   public String getSuggestion() {
-    return " é um erro gramatical. Considere utilizar ";
+    return " é um erro. Considere utilizar ";
   }
 
   @Override

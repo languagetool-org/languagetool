@@ -54,7 +54,8 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("daß"));
     assertEquals(1, matches.length);
-    assertEquals("dass", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("das", matches[0].getSuggestedReplacements().get(0));  // "dass" would actually be better...
+    assertEquals("dass", matches[0].getSuggestedReplacements().get(1));
   }
   
   @Test

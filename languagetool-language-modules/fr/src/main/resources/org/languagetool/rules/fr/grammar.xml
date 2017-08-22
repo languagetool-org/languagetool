@@ -584,7 +584,7 @@ though, and has since been slightly modified)-->
         <example>vivre l’un près de l’autre.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="COTE" name="coté, côté, cote">
+    <rulegroup id="COTE" name="coté, côté, cote, cotte">
       <rule>
         <pattern>
           <token regexp="yes">à|au|autre|bon|mauvais|[cdl]e|du|[mts]on|[nv]otre|chaque|un|leur</token>
@@ -603,16 +603,17 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">cotes?</token></marker>
+          <marker><token regexp="yes">cott?es?</token></marker>
           <token>de</token>
           <token regexp="yes">porcs?|bœuf|boeuf|veaux?|Bretagne</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>côte</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
         <example correction="côte">Une <marker>cote</marker> de veau.</example>
+        <example correction="côtes">Des <marker>cottes</marker> de bœuf.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token>cote</token></marker>
+          <marker><token regexp="yes">cott?e</token></marker>
           <token>d</token>
           <token regexp="yes">['´‘’′]</token>
           <token regexp="yes">Albâtre|Azur|Ivoire|Or|Opale|Émeraude</token>
@@ -624,28 +625,31 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">fractures?|radiographies?</token>
           <token regexp="yes">des?</token>
-          <marker><token>cotes</token></marker>
+          <marker><token regexp="yes">cott?es</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
         <example correction="côtes">Une fracture des <marker>cotes</marker>.</example>
+        <example correction="côtes">Une fracture des <marker>cottes</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">cotes?</token></marker>
+          <marker><token regexp="yes">cott?es?</token></marker>
           <token regexp="yes">(brisée|cassée|fêlée|fracturée|surnuméraire|rocheuse|adriatique|américaine|californienne|atlantiques?|basque|bretonne|landaise|normande|vendéenne|française|belge|espagnole|italienne|portugaise|africaine|méditerranéenne|pacifique|raide|occidentale|fractale)s?|nord|sud|ouest</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
-        <example correction="côtes">Une <marker>cotes</marker> fracturée.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="ott?" regexp_replace="ôt"/></suggestion> ?</message>
+        <example correction="côte">Une <marker>cote</marker> fracturée.</example>
+        <example correction="côtes">Les <marker>cottes</marker> fracturées.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">avoir</token>
           <token min="0" max="1" regexp="yes">encore|toujours</token>
           <token>la</token>
-          <marker><token>côte</token></marker>
+          <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
         <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">Il a la <marker>côte</marker> auprès des filles.</example>
+        <example correction="cote">Il a la <marker>cotte</marker> auprès des filles.</example>
         <example correction="cote">Il a encore la <marker>côte</marker> auprès des filles.</example>
       </rule>
       <rule>
@@ -655,10 +659,20 @@ though, and has since been slightly modified)-->
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|plus</token>
           <token>la</token>
-          <marker><token>côte</token></marker>
+          <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
-        <example correction="cote">Il n’a plus la <marker>côte</marker>.</example>
+        <message>confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
+        <example correction="cote">il n’a plus la <marker>côte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">c[ôo]tes?</token></marker>
+          <token>de</token>
+          <token>mailles</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="[ôo]" regexp_replace="ot"/></suggestion>.</message>
+        <url>https://fr.wiktionary.org/wiki/cotte_de_mailles</url>
+        <example correction="cotte">Une <marker>cote</marker> de mailles.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
@@ -1097,7 +1111,7 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2224</url>
       <example correction="repaire">Le <marker>repère</marker> des pirates.</example>
     </rule>
-    <rulegroup id="RIZ_RIS" name="Riz au lieu de ris">
+    <rulegroup id="RIZ_RIS" name="Riz et ris">
       <rule>
         <pattern>
           <marker>
@@ -1120,6 +1134,25 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>ris</suggestion> ?</message>
         <example correction="ris">Ce <marker>riz</marker> d’agneau est succulent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ris</token></marker>
+          <token regexp="yes">arborio|basmati|blanc|brun|cantonais|carnaroli|(semi-)?complet|incollable|OGM|Lustucru|pilaf|soufflés?|uncle</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>riz</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Riz</url>
+        <example correction="riz">Du <marker>ris</marker> pilaf.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ris</token></marker>
+          <token>au</token>
+          <token>lait</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>riz</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Riz_au_lait</url>
+        <example correction="riz">Du <marker>ris</marker> au lait.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FORCEMENT" name="Forcément, Forcement">
@@ -1836,32 +1869,39 @@ though, and has since been slightly modified)-->
     <!-- mis en default="off" car cette règle génère des fausses alertes sur toutes les phrases avec un attribut du sujet, etc. -->
     <rule default="off" id="SONT_SON" name="SONT au lieu de SON">
       <pattern>
-        <marker>
-          <token>sont</token>
-        </marker>
+        <marker><token>sont</token></marker>
         <token postag="[NJ].*" postag_regexp="yes"/>
       </pattern>
       <message>Voulez-vous écrire <suggestion>son</suggestion> ?</message>
       <example correction="son">Le problème c’est qu’apparemment elle n’a pas <marker>sont</marker> mot de passe...</example>
       <example>Le problème c’est qu’apparemment elle n’a pas <marker>son</marker> mot de passe...</example>
     </rule>
-    <rule id="SON_SONT" name="SON au lieu de SONT">
-      <pattern>
-        <token negate="yes" regexp="yes">au|le|du|un|bande|même</token>
-        <marker>
-          <token>son<exception postag="N m s"/></token>
-        </marker>
-        <token postag="[VR].*|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>sont</suggestion> ?</message>
-      <example>Les Chinoises sont celles qui se marient le plus avec les Sud-Coréens.</example>
-      <example correction="sont">Les Chinoises <marker>son</marker> celles qui se marient le plus avec les Sud-Coréens.</example>
-      <example correction="sont">Ils <marker>son</marker> dans la même classe.</example>
-      <example>Le <marker>son</marker> dans l’informatique</example>
-      <example>Son indigne frère</example>
-      <example>Au son de la voix</example>
-      <example>Même son de cloche</example>
-    </rule>
+    <rulegroup id="SON_SONT" name="SON au lieu de SONT">
+      <rule>
+        <pattern>
+          <token regexp="yes">ne|ils</token>
+          <marker><token>son</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>sont</suggestion> ?</message>
+        <example correction="sont">Ils ne <marker>son</marker> pas ici.</example>
+        <example correction="sont">Ils <marker>son</marker> ici.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">au|le|du|un|bande|même</token>
+          <marker><token>son<exception postag="N m s"/></token></marker>
+          <token postag="[VR].*|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>sont</suggestion> ?</message>
+        <example>Les Chinoises sont celles qui se marient le plus avec les Sud-Coréens.</example>
+        <example correction="sont">Les Chinoises <marker>son</marker> celles qui se marient le plus avec les Sud-Coréens.</example>
+        <example correction="sont">Ils <marker>son</marker> dans la même classe.</example>
+        <example>Le <marker>son</marker> dans l’informatique</example>
+        <example>Son indigne frère</example>
+        <example>Au son de la voix</example>
+        <example>Même son de cloche</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
       <rule>
         <pattern>
@@ -3759,6 +3799,19 @@ though, and has since been slightly modified)-->
         <example correction="Warren Buffett"><marker>Waren Buffett</marker> est né en 1930.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Noam</token>
+          <token>Chomsky</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Noh?am</token>
+          <token regexp="yes">Chomsk[iy]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Noam Chomsky</suggestion> s’il s’agit du linguiste américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Noam_Chomsky</url>
+        <example correction="Noam Chomsky"><marker>Noham Chomsky</marker> en 1928.</example>
+      </rule>
+      <rule>
         <pattern>
           <token regexp="yes">Joel|Ethan|frères?</token>
           <marker><token>Cohen</token></marker>
@@ -4057,6 +4110,20 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
         <example correction="François Hollande"><marker>François Holland</marker></example>
         <example correction="François Hollande"><marker>Francois Hollande</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">Emmanuel|Brigitte</token>
+          <token>Macron</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]mm?ann?uel(lle)?|Brigitt?e?</token>
+          <token regexp="yes">Ma(c|c?k)a?ron</token>
+        </pattern>
+        <message>Écrivez <suggestion>Emmanuel Macron</suggestion> s’il s’agit du président de la république.</message>
+        <url>https://fr.wikipedia.org/wiki/Emmanual_Macron</url>
+        <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
+        <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
       </rule>
       <rule>
         <antipattern>
@@ -5851,7 +5918,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">(Haute|Basse)[-‑‐]Cornouailles</token>
         </pattern>
-        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud-ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
         <example correction="Cornouaille">Les communes de la <marker>Haute-Cornouailles</marker>.</example>
         <example>Les communes de la Haute-Cornouaille.</example>
@@ -5861,7 +5928,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Haute|Basse</token>
           <marker><token>Cornouailles</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud-ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
         <example correction="Cornouaille">Les communes de la Haute <marker>Cornouailles</marker>.</example>
         <example>Les communes de la Haute Cornouaille.</example>
@@ -5872,7 +5939,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token>Cornouailles</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud-ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
         <example correction="Cornouaille">Le Festival de <marker>Cornouailles</marker> est un festival annuel se déroulant dans la ville de Quimper.</example>
         <example>Le Festival de Cornouaille est un festival annuel se déroulant dans la ville de Quimper.</example>
@@ -5882,7 +5949,7 @@ though, and has since been slightly modified)-->
           <marker><token>Cornouailles</token></marker>
           <token regexp="yes">bretonnes?|armoricaines?|françaises?</token>
         </pattern>
-        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud-ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
         <example correction="Cornouaille">Tourisme en <marker>Cornouailles</marker> bretonne.</example>
         <example>Tourisme en Cornouaille bretonne.</example>
@@ -5892,7 +5959,7 @@ though, and has since been slightly modified)-->
           <marker><token>Cornouaille</token></marker>
           <token regexp="yes">britannique|anglaise</token>
         </pattern>
-        <message>Confusion probable entre « Cornouaille » (ancienne division de la Bretagne) et <suggestion>Cornouailles</suggestion> (nation celtique au sud ouest de l’Angleterre).</message>
+        <message>Confusion probable entre « Cornouaille » (ancienne division de la Bretagne) et <suggestion>Cornouailles</suggestion> (nation celtique au sud-ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
         <example correction="Cornouailles">Tourisme en <marker>Cornouaille</marker> britannique.</example>
         <example>Tourisme en Cornouailles britannique.</example>
@@ -6791,7 +6858,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1">de</token>
           <marker><token regexp="yes">paires?</token></marker>
         </pattern>
-        <message>Confusion probably entre « \3 » et <suggestion>pair</suggestion>.</message>
+        <message>Confusion probable entre « \3 » et <suggestion>pair</suggestion>.</message>
         <example correction="pair">Une cuisinière hors <marker>paire</marker>.</example>
         <example correction="pair">Une cuisinière hors de <marker>paire</marker>.</example>
       </rule>
@@ -6801,7 +6868,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token regexp="yes">paires?</token></marker>
         </pattern>
-        <message>Confusion probably entre « \2 » et <suggestion>pair</suggestion>.</message>
+        <message>Confusion probable entre « \2 » et <suggestion>pair</suggestion>.</message>
         <example correction="pair">Travail et talent vont de <marker>paire</marker>.</example>
       </rule>
       <rule>
@@ -6810,7 +6877,7 @@ though, and has since been slightly modified)-->
           <token>au</token>
           <marker><token>paire</token></marker>
         </pattern>
-        <message>Confusion probably entre « paire » et <suggestion>pair</suggestion>.</message>
+        <message>Confusion probable entre « paire » et <suggestion>pair</suggestion>.</message>
         <example correction="pair">Il travaille actuellement au <marker>paire</marker>.</example>
       </rule>
     </rulegroup>
@@ -7174,7 +7241,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="PRUDES_HOMMES" name="prudes hommes → prud’hommes">
       <rule>
         <regexp>\bprude?s?[-‑‐ ](?:hommes?|homies?|homale?s?|homaux)\b</regexp>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud’$1"/></suggestion> ou <suggestion>prud<match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud$1"/></suggestion> (orthographe rectifée de 1990) ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud’$1"/></suggestion> ou <suggestion>prud<match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud$1"/></suggestion> (orthographe rectifiée de 1990) ?</message>
         <example correction="prud’hommes|prudhommes">Le tribunal des <marker>prudes hommes</marker>.</example>
         <example correction="prud’hommes|prudhommes">Le tribunal des <marker>prudes-hommes</marker>.</example>
       </rule>
@@ -7579,7 +7646,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">depuis|vers|56000</token>
           <marker><token case_sensitive="yes">Vanne</token></marker>
         </pattern>
-        <message>Confusion probable entre la ville de <suggestion>Vannes</suggestion> en Bretagne et le mote « vanne ».</message>
+        <message>Confusion probable entre la ville de <suggestion>Vannes</suggestion> en Bretagne et le mot « vanne ».</message>
         <example correction="Vannes">56000 <marker>Vanne</marker>.</example>
       </rule>
       <rule>
@@ -7600,7 +7667,7 @@ though, and has since been slightly modified)-->
           <marker><token case_sensitive="yes">Renne</token></marker>
         </pattern>
         <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mammifère « renne ».</message>
-        <example correction="Rennes">J'habite à <marker>Renne</marker>.</example>
+        <example correction="Rennes">J’habite à <marker>Renne</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -7620,7 +7687,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token regexp="yes" inflected="yes">rêne|reine</token></marker>
         </pattern>
-        <message>Confusion problable entre « \3 » et <suggestion><match no="3" regexp_match=".*n" regexp_replace="renn"/></suggestion> (mammifère).</message>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match=".*n" regexp_replace="renn"/></suggestion> (mammifère).</message>
         <example correction="rennes">Un troupeau de <marker>rênes</marker>.</example>
       </rule>
       <rule>
@@ -7629,7 +7696,7 @@ though, and has since been slightly modified)-->
           <token>des</token>
           <marker><token regexp="yes">rênes|reines</token></marker>
         </pattern>
-        <message>Confusion problable entre « \3 » et <suggestion>rennes</suggestion> (mammifère).</message>
+        <message>Confusion probable entre « \3 » et <suggestion>rennes</suggestion> (mammifère).</message>
         <example correction="rennes">Ils chassent des <marker>rênes</marker>.</example>
       </rule>
     </rulegroup>
@@ -7650,7 +7717,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">d[eu]</token>
           <token regexp="yes">matin|midi|soir</token>
         </pattern>
-        <message>Confusion probable entre « pose » et <suggestion>pause</suggestion>.</message>
+        <message>Confusion probable entre « pose » et <suggestion>pause</suggestion>.</message>
         <example correction="pause">La <marker>pose</marker> du midi.</example>
       </rule>
       <rule>
@@ -8891,7 +8958,7 @@ though, and has since been slightly modified)-->
         </marker>
         <token><exception postag="V inf|UNKNOWN" postag_regexp="yes"/></token>
       </pattern>
-      <message>Incohérence : « à \2 » ne peut se touver que devant un infinitif.</message>
+      <message>Incohérence : « à \2 » ne peut se trouver que devant un infinitif.</message>
       <example correction="">Il a gagné <marker>à le</marker> championnat.</example>
       <example>Je n’arrive pas à le déplacer.</example>
     </rule>
@@ -8903,7 +8970,7 @@ though, and has since been slightly modified)-->
           <exception regexp="yes">bien|fort|ou|même|mieux|moins|peu|plus|tout|très|zéro|(?-i)[A-Z].*|:</exception>
         </token>
       </pattern>
-      <message>Incohérence : « \1 » ne peut pas se touver devant « \2 ».</message>
+      <message>Incohérence : « \1 » ne peut pas se trouver devant « \2 ».</message>
       <example correction="">Je vais acheter <marker>du le</marker> jambon.</example>
       <example>Je vais acheter du jambon.</example>
       <example>Du bon jambon.</example>
@@ -9844,8 +9911,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot singulier « \8 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
-        <example correction="">Nous avions l'air <marker>fatigué</marker>.</example>
-        <example>Nous avions l'air <marker>fatigués</marker>.</example>
+        <example correction="">Nous avions l’air <marker>fatigué</marker>.</example>
+        <example>Nous avions l’air <marker>fatigués</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -11199,18 +11266,20 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
+          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">du?|des?|en</exception></token>
           <token postag="[NR].* p" postag_regexp="yes">
             <exception regexp="yes">[mt]oi|[nvt]ous|eux</exception>
             <exception postag="[NZ].* sp?" postag_regexp="yes"/>
           </token>
           <token>qui</token>
+          <token min="0">ne</token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne plurielle.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne plurielle.</message>
         <example correction="">Celles qui <marker>travaille</marker> ici</example>
+        <example correction="">Les personnes qui ne <marker>mange</marker> pas.</example>
         <example>Celles qui travaillent ici</example>
         <example correction="">Les gens qui <marker>discutes</marker> là</example>
         <example>Les gens qui discutent là</example>
@@ -11246,14 +11315,16 @@ though, and has since been slightly modified)-->
             <exception postag="[NJ].* s?p" postag_regexp="yes"/>
           </token>
           <token>qui</token>
+          <token min="0">ne</token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
         <example correction="">Celle qui <marker>travaillent</marker> ici</example>
         <example>Celle qui travaille ici</example>
         <example correction="">La femme qui <marker>viens</marker> ici</example>
+        <example correction="">La femme qui ne <marker>demandes</marker> rien...</example>
         <example>La femme qui vient ici</example>
         <example>Eux qui jouent ici</example>
         <example>Quelques jeux vidéo qui ont marqué les années 80.</example>
@@ -11946,7 +12017,7 @@ though, and has since been slightly modified)-->
                 args="no:1 regexp:(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle|on) postag_regexp:V.*(?:ind|con|sub).*3\ss negate_pos:yes"/>
         <message>« \1 » n’est pas un verbe à la troisième personne du singulier.</message>
         <example correction=""><marker>Pourraient-il</marker> venir ?</example>
-        <example correction="">Que <marker>manges-t-elle</marker> ?</example>
+        <example correction="">Que <marker>manges-t-elle</marker> ?</example>
         <example>Pourrait-il venir ?</example>
         <example>Que mange-t-elle ?</example>
         <example>Entre-t-il ?</example>
@@ -12193,7 +12264,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
         <example correction="">Les enfants en <marker>manges</marker>.</example>
         <example>Les enfants en mangent.</example>
         <example>Mon fils ne passera pas.</example>
@@ -12601,7 +12672,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\3-\4</suggestion> ?</message>
-        <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
+        <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
       </rule>
     </rulegroup>
     <rule id="N_EST_CE_PAS" name="n’est-ce pas">
@@ -12948,7 +13019,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">.*[-‑‐]t[-‑‐].*<exception regexp="yes">.*-(ils?|elles?|on)|va-t-en-guerre</exception></token>
         </pattern>
-        <message>Le t eurphonique ne peut s’employer qu'avec il, ils, elle, elles ou on.</message>
+        <message>Le t euphonique ne peut s’employer qu'avec il, ils, elle, elles ou on.</message>
         <url>http://www.academie-francaise.fr/quatre-z-assiettes-il-va-t-la-peche</url>
         <example correction="">Il <marker>va-t-à</marker> la pêche.</example>
         <example correction=""><marker>Va-t-en</marker> !</example>
@@ -13575,6 +13646,61 @@ though, and has since been slightly modified)-->
       <example correction="">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
       <example>Elle est certaine que vous <marker>êtes</marker> un espion.</example>
     </rule>
+    <rulegroup id="J_AIMERAI" name="j’aimerai, j’aimerais">
+      <rule>
+        <pattern>
+          <token>j</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">adorerai|aimerai|apprécierai</token></marker>
+          <token regexp="yes">que?|bien|[mt]e?|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <example correction="aimerais">J’<marker>aimerai</marker> bien travailler ici.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">adorerai|aimerai|apprécierai</token></marker>
+          <token>pas</token>
+          <token regexp="yes">que?|[mt]e|[nv]ous|lui</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\4s</suggestion> au lieu du futur « \4 » pour exprimer un souhait ?</message>
+        <example correction="aimerais">Je n’<marker>aimerai</marker> pas lui dire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token regexp="yes">que?|[mt]e|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\2s</suggestion> au lieu du futur « \2 » pour exprimer un souhait ?</message>
+        <example correction="voudrais">Je <marker>voudrai</marker> vous voir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <token>ne</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token>pas</token>
+          <token regexp="yes">[mt]e?|[nv]ous|lui|ne</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <example correction="voudrais">Je ne <marker>voudrai</marker> pas lui dire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>je</token>
+          <marker><token regexp="yes">désirerai|préférerai|souhaiterai|voudrai</token></marker>
+          <token>ne</token>
+          <token regexp="yes">pas|plus</token>
+          <token regexp="yes">[mt]e|[nv]ous|lui</token>
+        </pattern>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\2s</suggestion> au lieu du futur « \2 » pour exprimer un souhait ?</message>
+        <example correction="préférerais">Je <marker>préférerai</marker> ne pas vous voir.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="P_V_PAS" name="négation sans NE">
       <rule>
         <pattern>
@@ -17034,7 +17160,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="6">coupures?</token>
         <token regexp="yes">budgétaires?</token>
       </pattern>
-      <message>« Coupures budgétaire » est un anglicisme (budget cuts). Employez <suggestion>compressions budgétaires</suggestion>, <suggestion>réductions budgétaires</suggestion>, <suggestion>coupes</suggestion>.</message>
+      <message>« Coupures budgétaires » est un anglicisme (budget cuts). Employez <suggestion>compressions budgétaires</suggestion>, <suggestion>réductions budgétaires</suggestion>, <suggestion>coupes</suggestion>.</message>
       <example correction="compressions budgétaires|réductions budgétaires|coupes"><marker>coupures budgétaires</marker></example>
       <example><marker>compressions budgétaires</marker></example>
     </rule>
@@ -17950,7 +18076,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">enregistrements?</token>
       </pattern>
-      <message>« Session d’enregistrement » est un anglicisme (recording session). Employez <suggestion>séance d’enregistrement</suggestion> (employez le pluriel s’il l’activité s’étale sur plusieurs périodes).</message>
+      <message>« Session d’enregistrement » est un anglicisme (recording session). Employez <suggestion>séance d’enregistrement</suggestion> (employez le pluriel si l’activité s’étale sur plusieurs périodes).</message>
       <example correction="séance d’enregistrement"><marker>session d’enregistrement</marker></example>
     </rule>
     <rule id="SESSION_DE_PHOTOS" name="session de photos">
@@ -17959,7 +18085,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token regexp="yes">photos?</token>
       </pattern>
-      <message>« Session de photos » est un anglicisme (photo session). Employez <suggestion>séance de photos</suggestion> (employez le pluriel s’il l’activité s’étale sur plusieurs périodes).</message>
+      <message>« Session de photos » est un anglicisme (photo session). Employez <suggestion>séance de photos</suggestion> (employez le pluriel si l’activité s’étale sur plusieurs périodes).</message>
       <example correction="séance de photos"><marker>session de photos</marker></example>
     </rule>
     <rule id="SESSIONNEL" name="sessionnel">
@@ -24215,7 +24341,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">fadings?</token>
       </pattern>
-      <message>« Fading » est un anglicisme. Employez <suggestion>évanouissement</suggestion>,.</message>
+      <message>« Fading » est un anglicisme. Employez <suggestion>évanouissement</suggestion>.</message>
       <example correction="évanouissement"><marker>fading</marker></example>
     </rule>
     <rule id="CRACKING" name="cracking">
@@ -27437,9 +27563,9 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Employez <suggestion>ou non</suggestion> pour une interrogation.</message>
       <url>http://www.academie-francaise.fr/ou-pas</url>
-      <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
       <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
-      <example>T’es-tu décidé ou non ?</example>
+      <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
+      <example>T’es-tu décidé ou non ?</example>
     </rule>
     <rule id="ALLER_AU_COIFFEUR" name="aller au coiffeur">
       <pattern>
@@ -28599,7 +28725,7 @@ though, and has since been slightly modified)-->
         <example correction="aux">Adressez-vous directement <marker>auprès des</marker> agents de sécurité.</example>
       </rule>
       <rule>
-        <pattern> 
+        <pattern>
           <marker>
             <token>auprès</token>
             <token>de</token>
@@ -28628,7 +28754,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token case_sensitive="yes" regexp="yes">X86(?:[-_]64)?</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ?</message>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ?</message>
       <example correction="x86">Le jeu d’instruction <marker>X86</marker>.</example>
       <example correction="x86_64">Le jeu d’instruction <marker>X86_64</marker>.</example>
     </rule>

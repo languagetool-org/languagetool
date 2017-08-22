@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ngrams;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -51,7 +52,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private static final boolean DEBUG = false;
 
-  private final Map<String,List<ConfusionSet>> wordToSets;
+  private final Map<String,List<ConfusionSet>> wordToSets = new HashMap<>();
   private final LanguageModel lm;
   private final int grams;
   private final Language language;
@@ -65,12 +66,14 @@ public abstract class ConfusionProbabilityRule extends Rule {
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String path = "/" + language.getShortCode() + "/confusion_sets.txt";
-    try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-      this.wordToSets = confusionSetLoader.loadConfusionSet(confusionSetStream);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    for (String filename : getFilenames()) {
+      String path = "/" + language.getShortCode() + "/" + filename;
+      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
+        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+        this.wordToSets.putAll(confusionSetLoader.loadConfusionSet(confusionSetStream));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);
@@ -78,6 +81,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
     }
     this.grams = grams;
+  }
+
+  @NotNull
+  protected List<String> getFilenames() {
+    return Arrays.asList("confusion_sets.txt");
   }
 
   @Override

@@ -49,8 +49,8 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   public BritishReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    addExamplePair(Example.wrong("Where's the <marker>bathroom</marker> on the Enterprise?"),
-                   Example.fixed("Where's the <marker>toilet</marker> on the Enterprise?"));
+    addExamplePair(Example.wrong("We can produce <marker>drapes</marker> of any size or shape from a choice of over 500 different fabrics."),
+                   Example.fixed("We can produce <marker>curtains</marker> of any size or shape from a choice of over 500 different fabrics."));
   }
 
   @Override
