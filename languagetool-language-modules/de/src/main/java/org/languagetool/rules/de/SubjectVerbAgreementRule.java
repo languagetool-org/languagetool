@@ -163,6 +163,7 @@ public class SubjectVerbAgreementRule extends Rule {
                       && prevChunkIsNominative(tokens, i-1)
                       && !hasUnknownTokenToTheLeft(tokens, i)
                       && !hasQuestionPronounToTheLeft(tokens, i-1)
+                      && !hasVerbToTheLeft(tokens, i-1)
                       && !containsRegexToTheLeft("wer", tokens, i-1)
                       && !containsRegexToTheLeft("(?i)alle[nr]?", tokens, i-1)
                       && !containsRegexToTheLeft("(?i)jede[rs]?", tokens, i-1)
@@ -242,6 +243,16 @@ public class SubjectVerbAgreementRule extends Rule {
     for (int i = startPos; i > 0; i--) {
       AnalyzedTokenReadings token = tokens[i];
       if (QUESTION_PRONOUNS.contains(token.getToken().toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean hasVerbToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
+    for (int i = startPos; i > 0; i--) {
+      AnalyzedTokenReadings token = tokens[i];
+      if (token.matchesPosTagRegex("VER:[1-3]:.*")) {
         return true;
       }
     }
