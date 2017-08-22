@@ -1111,7 +1111,7 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2224</url>
       <example correction="repaire">Le <marker>repère</marker> des pirates.</example>
     </rule>
-    <rulegroup id="RIZ_RIS" name="Riz au lieu de ris">
+    <rulegroup id="RIZ_RIS" name="Riz et ris">
       <rule>
         <pattern>
           <marker>
@@ -1134,6 +1134,25 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>ris</suggestion> ?</message>
         <example correction="ris">Ce <marker>riz</marker> d’agneau est succulent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ris</token></marker>
+          <token regexp="yes">arborio|basmati|blanc|brun|cantonais|carnaroli|(semi-)?complet|incollable|OGM|Lustucru|pilaf|soufflés?|uncle</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>riz</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Riz</url>
+        <example correction="riz">Du <marker>ris</marker> pilaf.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ris</token></marker>
+          <token>au</token>
+          <token>lait</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>riz</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Riz_au_lait</url>
+        <example correction="riz">Du <marker>ris</marker> au lait.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FORCEMENT" name="Forcément, Forcement">
@@ -7698,7 +7717,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">d[eu]</token>
           <token regexp="yes">matin|midi|soir</token>
         </pattern>
-        <message>Confusion probable entre « pose » et <suggestion>pause</suggestion>.</message>
+        <message>Confusion probable entre « pose » et <suggestion>pause</suggestion>.</message>
         <example correction="pause">La <marker>pose</marker> du midi.</example>
       </rule>
       <rule>
@@ -11258,7 +11277,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne plurielle.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne plurielle.</message>
         <example correction="">Celles qui <marker>travaille</marker> ici</example>
         <example correction="">Les personnes qui ne <marker>mange</marker> pas.</example>
         <example>Celles qui travaillent ici</example>
@@ -11998,7 +12017,7 @@ though, and has since been slightly modified)-->
                 args="no:1 regexp:(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle|on) postag_regexp:V.*(?:ind|con|sub).*3\ss negate_pos:yes"/>
         <message>« \1 » n’est pas un verbe à la troisième personne du singulier.</message>
         <example correction=""><marker>Pourraient-il</marker> venir ?</example>
-        <example correction="">Que <marker>manges-t-elle</marker> ?</example>
+        <example correction="">Que <marker>manges-t-elle</marker> ?</example>
         <example>Pourrait-il venir ?</example>
         <example>Que mange-t-elle ?</example>
         <example>Entre-t-il ?</example>
@@ -12653,7 +12672,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\3-\4</suggestion> ?</message>
-        <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
+        <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
       </rule>
     </rulegroup>
     <rule id="N_EST_CE_PAS" name="n’est-ce pas">
@@ -27544,9 +27563,9 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Employez <suggestion>ou non</suggestion> pour une interrogation.</message>
       <url>http://www.academie-francaise.fr/ou-pas</url>
-      <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
       <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
-      <example>T’es-tu décidé ou non ?</example>
+      <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
+      <example>T’es-tu décidé ou non ?</example>
     </rule>
     <rule id="ALLER_AU_COIFFEUR" name="aller au coiffeur">
       <pattern>
@@ -28735,7 +28754,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token case_sensitive="yes" regexp="yes">X86(?:[-_]64)?</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ?</message>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ?</message>
       <example correction="x86">Le jeu d’instruction <marker>X86</marker>.</example>
       <example correction="x86_64">Le jeu d’instruction <marker>X86_64</marker>.</example>
     </rule>
