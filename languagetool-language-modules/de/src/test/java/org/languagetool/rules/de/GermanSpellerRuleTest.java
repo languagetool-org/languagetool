@@ -132,6 +132,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("wolt", "wollt", rule, lt);
     assertFirstSuggestion("allmähliges", "allmähliches", rule, lt);
     assertFirstSuggestion("Allmähllig", "Allmählich", rule, lt);
+    assertFirstSuggestion("Probiren", "Probieren", rule, lt);
   }
 
   @Test
