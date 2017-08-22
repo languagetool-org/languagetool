@@ -130,18 +130,17 @@ public class SubjectVerbAgreementRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {   // start at 1 to skip SENT_START
-      AnalyzedTokenReadings token = tokens[i];
       if (tokens[i].isImmunized()) {
         continue;
       }
-      String tokenStr = token.getToken();
+      String tokenStr = tokens[i].getToken();
       // Detect e.g. "Der Hund und die Katze ist":
-      RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, token, tokenStr);
+      RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, tokens[i], tokenStr);
       if (singularMatch != null) {
         ruleMatches.add(singularMatch);
       }
       // Detect e.g. "Der Hund sind":
-      RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, token, tokenStr);
+      RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, tokens[i], tokenStr);
       if (pluralMatch != null) {
         ruleMatches.add(pluralMatch);
       }
@@ -205,10 +204,9 @@ public class SubjectVerbAgreementRule extends Rule {
 
   boolean prevChunkIsNominative(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i > 0; i--) {
-      AnalyzedTokenReadings token = tokens[i];
-      List<ChunkTag> chunkTags = token.getChunkTags();
+      List<ChunkTag> chunkTags = tokens[i].getChunkTags();
       if (chunkTags.contains(NPS) || chunkTags.contains(NPP)) {
-        if (token.hasPartialPosTag("NOM")) {
+        if (tokens[i].hasPartialPosTag("NOM")) {
           return true;
         }
       } else {
@@ -241,8 +239,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private boolean hasQuestionPronounToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i > 0; i--) {
-      AnalyzedTokenReadings token = tokens[i];
-      if (QUESTION_PRONOUNS.contains(token.getToken().toLowerCase())) {
+      if (QUESTION_PRONOUNS.contains(tokens[i].getToken().toLowerCase())) {
         return true;
       }
     }
@@ -251,8 +248,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private boolean hasVerbToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i > 0; i--) {
-      AnalyzedTokenReadings token = tokens[i];
-      if (token.matchesPosTagRegex("VER:[1-3]:.*")) {
+      if (tokens[i].matchesPosTagRegex("VER:[1-3]:.*")) {
         return true;
       }
     }
@@ -262,8 +258,7 @@ public class SubjectVerbAgreementRule extends Rule {
   private boolean containsRegexToTheLeft(String regex, AnalyzedTokenReadings[] tokens, int startPos) {
     Pattern p = Pattern.compile(regex);
     for (int i = startPos; i > 0; i--) {
-      String token = tokens[i].getToken();
-      if (p.matcher(token).matches()) {
+      if (p.matcher(tokens[i].getToken()).matches()) {
         return true;
       }
     }
