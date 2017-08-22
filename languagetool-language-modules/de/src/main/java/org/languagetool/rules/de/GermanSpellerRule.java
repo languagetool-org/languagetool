@@ -300,6 +300,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[wW]aschten")) {
       suggestion = word.replaceFirst("ascht", "usch");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("Probiren?")) {
+      suggestion = word.replaceFirst("ir", "ier");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
