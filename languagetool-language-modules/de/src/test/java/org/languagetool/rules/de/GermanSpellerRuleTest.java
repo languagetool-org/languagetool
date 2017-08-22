@@ -125,6 +125,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
     assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);
+    assertFirstSuggestion("Interkurelles", "Interkulturelles", rule, lt);
     assertFirstSuggestion("interkurelle", "interkulturelle", rule, lt);
     assertFirstSuggestion("Zuende", "Zu Ende", rule, lt);
     assertFirstSuggestion("zuende", "zu Ende", rule, lt);

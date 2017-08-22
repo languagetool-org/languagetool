@@ -295,6 +295,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[zZ]uende")) {
       suggestion = word.replaceFirst("ue", "u E");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("[wW]aschte(s?t)?")) {
+      suggestion = word.replaceFirst("aschte", "usch");
+    } else if (word.matches("[wW]aschten")) {
+      suggestion = word.replaceFirst("ascht", "usch");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
@@ -354,13 +359,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[eE]rhöherungen")) {
       return Collections.singletonList("Erhöhungen");
     } else if (word.matches("[aA]ufjedenfall")) {
-      suggestion = word.replaceFirst("jedenfall$", "");
-      return Collections.singletonList(suggestion + " jeden Fall");
+      suggestion = word.replaceFirst("jedenfall$", " jeden Fall");
+      return Collections.singletonList(suggestion);
     } else if (word.matches("^funk?z[ou]nier.+")) {
       suggestion = word.replaceFirst("funk?z[ou]nier", "funktionier");
       return Collections.singletonList(suggestion);
-    } else if (word.equals("Wöruber")) {
-      return Collections.singletonList("Worüber");
+    } else if (word.matches("[wW]öruber")) {
+      suggestion = word.replaceFirst("öru", "orü");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("par")) {
       return Collections.singletonList("paar");
     } else if (word.equals("vllt")) {
