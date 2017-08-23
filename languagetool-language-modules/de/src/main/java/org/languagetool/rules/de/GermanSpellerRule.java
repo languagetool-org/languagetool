@@ -306,6 +306,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[gG]esetztreu(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("tz", "tzes");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
+      suggestion = word.replaceFirst("k", "rkl");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
