@@ -14669,16 +14669,25 @@ USA
 	        <example>2010-10-10 — Date</example>
             </rule>
 	    <rule>
+	      <antipattern>
+	          <token regexp='yes'>-</token>
+	          <token regexp='yes'>-</token>
+	          <token regexp='yes'>-</token>
+	          <token regexp='yes'>,</token>
+	      </antipattern>
 	      <pattern>
 	        <marker>
-	          <token regexp='yes'>-|–</token>
+	          <token regexp='yes' spacebefore='yes'>-|–</token>
 	        </marker>
 	          <token spacebefore="no">,</token>
 	      </pattern>
-	      <message>Finish the parenthetical clause with an m-dash.</message>
+	      <message>If this is a parenthetical clause, finish it with an m-dash.</message>
 	        <suggestion>—</suggestion>
                 <short>Use an m-dash.</short>
 	      <example correction='—'>…— as aforementioned <marker>-</marker>,…</example>
+	      <example>A better or more prestigious quality or status: A-, A or A+</example>
+	      <example>Sometimes the syndrome is divided into low-, medium- or high-functioning autism</example>
+	      <example>--------, Schopenhauer, The Human Character.</example>
 	    </rule>
         </rulegroup>
     <rule id="ENUMERATION_AND_DASHES" name="Enumerations with dashes: 1.2.-">
