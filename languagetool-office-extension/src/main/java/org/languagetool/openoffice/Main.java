@@ -440,7 +440,7 @@ public class Main extends WeakBase implements XJobExecutor,
       int endPos, String docID) {
     if (startPos == 0) {
       try {
-        paragraphMatches = langTool.check(paraText, false,
+        paragraphMatches = langTool.check(paraText, true,
             JLanguageTool.ParagraphHandling.ONLYPARA);
         this.docID = docID;
       } catch (Throwable t) {
