@@ -12535,6 +12535,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mädchen" regexp_replace="Geburts"/></suggestion> besser.</message>
             <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
         </rule>
+		<rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'">
+			<pattern>
+				<token inflected="yes">Putzfrau</token>
+			</pattern>
+			<message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Reinigungskraft</match></suggestion> besser.</message>
+			<example correction="Reinigungskräfte">Morgen kommen unsere <marker>Putzfrauen</marker>.</example>
+			<example correction="Reinigungskräften">Zahlt den <marker>Putzfrauen</marker> mehr Geld!</example>
+			<example correction="Reinigungskräfte">Ich hatte bisher immer nur tolle <marker>Putzfrauen</marker>.</example>
+		</rule>
     </category>
 
     <!-- ====================================================================== -->
