@@ -29393,6 +29393,60 @@ Andere Projekte</example>
                 <example>Warum spricht Tom so schlecht Koreanisch, obwohl er eine koreanische Freundin hat?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
+        <!-- Diese Regel sollte noch verbessert werden. Im Moment greift sie nur bei sehr einfachen Konstruktionen im Singular. -->
+            <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:NEU' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(der|die)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>das</suggestion>?</message>
+                <example correction='das'>Mir gehört das Auto, <marker>der</marker> da steht.</example>
+                <example>Mir gehört das Auto, das da steht.</example>
+                <example correction='das'>Siehst du das Kind, <marker>die</marker> zu uns herüber guckt?</example>
+                <example>Ich kaufe das Haus, der Makler hat mir einen guten Preis gemacht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(der|das)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
+                <example correction='die'>Kennst du die Frau, <marker>der</marker> da steht?</example>
+                <example>Kennst du die Frau, die da steht?</example>
+                <example correction='die'>Die Blume, <marker>das</marker> da wächst, ist rot.</example>
+                <example>Die Frau, der Mann, das Kind.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(die|das)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
+                <example correction='der'>Kennst du den Mann, <marker>das</marker> da steht?</example>
+                <example>Kennst den Mann, der da steht?</example>
+                <example correction='der'>Ich habe einen Wagen, <marker>die</marker> sehr wenig verbraucht.</example>
+                <example>Der Bundeskanzler, die Gesetze sind da eindeutig, wird vom Parlament gewählt.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
