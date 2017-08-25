@@ -308,6 +308,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(suggestion);
     } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("k", "rkl");
+    } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
+      suggestion = word.replaceFirst("[kK]on", "");
       return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
