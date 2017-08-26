@@ -1047,6 +1047,36 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id='REFLEXIVO_CONJUNTIVO' name='Confusão de Tempo Verbal: Conjuntivo - Reflexivo'>
+    <!-- Created by Tiago F. Santos, 2017-08-25 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/as-formas-verbais-com-sse-ou-com--se/11603</url>
+    <rule>
+      <pattern>
+          <token postag='SENT_START' skip='-1'>
+            <exception scope='next'>se</exception></token>
+        <marker>
+          <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse</token>
+        </marker>
+      </pattern>
+      <message>O conjuntivo é utilizado em condicionais ('se ...'). Será pretende utilizar a forma reflexiva?</message>
+         <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
+      <example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1'>se</token>
+        <marker>
+          <token postag_regexp='yes' postag='V.+'/>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no'>se</token>
+        </marker>
+      </pattern>
+      <message>O conjuntivo no pretérito imperfeito é utilizada em condicionais do tipo: 'se PASSADO então ...'. Considere se esta não é uma dessas situações.</message>
+         <suggestion>\2sse</suggestion>
+      <example correction='chegasse'>Se <marker>lava-se</marker> os pratos, é que era bom.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
     <!--              General verbal concordance errors           -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
@@ -10337,7 +10367,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>agulhas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-    <!--<suggestion><match no='1' postag='V.+'>pôr</match>-se de acordo</suggestion> TODO fiz pôr POS tag -->
+    <!--<suggestion><match no='1' postag='V.+'>pôr</match>-se de acordo</suggestion> TODO fix pôr POS tag -->
         <suggestion><match no='1' postag='V.+'>combinar</match> algo</suggestion>
         <suggestion><match no='1' postag='V.+'>entender</match>-se</suggestion>
       <example correction='combinar algo|entender-se'><marker>acertar agulhas</marker>.</example>
