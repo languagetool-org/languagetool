@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
 public class CaseRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
-          Pattern.compile("[a-z]|[0-9]+|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
+          Pattern.compile("[a-z]|[0-9]+|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -66,7 +66,7 @@ public class CaseRule extends Rule {
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Goldenen?"),
-      regex("Hochzeit|Hochzeiten")
+      regex("Hochzeit(en)?")
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
@@ -198,7 +198,7 @@ public class CaseRule extends Rule {
         token("Klang")
     ),
     Arrays.asList(
-        regex("US-amerikanisch(e|er|es|en|em)?")
+        regex("US-amerikanisch(e|e[rsnm])?")
     ),
     Arrays.asList(
       // "... weshalb ihr das wissen wollt."
@@ -391,7 +391,6 @@ public class CaseRule extends Rule {
     "Bänden",
     "Beauftragter",
     "Belange",
-    "besonderes",   // je nach Kontext groß (TODO): "etwas Besonderes" 
     "Biss",
     "De",    // "De Morgan" etc
     "Diesseits", // "im Diesseits"
