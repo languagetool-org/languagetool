@@ -20999,6 +20999,32 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='UNPAIRED_BRACKET_SUGGESTIONS' name='Tipografia: Correção de aspas inteligentes repetidas'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-25 -->
+    <rule>
+      <pattern>
+          <token skip='-1'>‘<exception scope="next">’</exception></token>
+        <marker>
+          <token>‘</token>
+        </marker>
+      </pattern>
+      <message>Utilize uma aspa de fecho.</message>
+        <suggestion>’</suggestion>
+      <example correction="’">Disse que ‘sim<marker>‘</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1'>“<exception scope="next">”</exception></token>
+        <marker>
+          <token>“</token>
+        </marker>
+      </pattern>
+      <message>Utilize uma aspa de fecho.</message>
+        <suggestion>”</suggestion>
+      <example correction="”">Disse que “sim<marker>“</marker>.</example>
+    </rule>
+  </rulegroup>
+
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id='TRADEMARK' name="Tipografia: Trademark - ™">
