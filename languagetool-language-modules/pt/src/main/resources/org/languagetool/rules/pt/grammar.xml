@@ -1053,18 +1053,35 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='SENT_START' skip='-1'>
-            <exception scope='next'>se</exception></token>
+            <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
+            <exception scope='next' regexp='yes'>que|se</exception></token>
         <marker>
-          <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse</token>
+          <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
+            <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
         </marker>
       </pattern>
-      <message>O conjuntivo é utilizado em condicionais ('se ...'). Será pretende utilizar a forma reflexiva?</message>
+      <message>O conjuntivo é utilizado em condicionais ('se ...'). Será que pretende utilizar a forma reflexiva?</message>
+         <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
+      <example correction='chega-se'>Ela <marker>chegasse</marker> mais perto, a cada palavra.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' skip='-1'>&separadores_de_oracoes;
+            <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
+            <exception scope='next' regexp='yes'>que|se</exception></token>
+        <marker>
+          <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
+            <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
+        </marker>
+      </pattern>
+      <message>O conjuntivo é utilizado em condicionais ('se ...'). Será que pretende utilizar a forma reflexiva?</message>
          <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
       <example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
     </rule>
     <rule>
       <pattern>
-          <token skip='-1'>se</token>
+          <token skip='-1'>se
+            <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception></token>
         <marker>
           <token postag_regexp='yes' postag='V.+'/>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
@@ -2208,7 +2225,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
           <token postag="(R|A).+" postag_regexp="yes">
-            <exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto</exception></token>
+            <exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto|abaixo|acima</exception></token>
           <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
       </pattern>
@@ -2216,6 +2233,7 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
       <short>Possível 'dequeísmo'.</short>
       <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrar-mo-nos</example>
+      <example>O custo está abaixo do que foi estabelecido.</example>
     </rule>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id='V3_DE_QUE' name="Verbo na 3a pessoa + de que">
