@@ -12535,6 +12535,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mädchen" regexp_replace="Geburts"/></suggestion> besser.</message>
             <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
         </rule>
+        <rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'">
+            <pattern>
+                <token inflected="yes">Putzfrau</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Reinigungskraft</match></suggestion> besser.</message>
+            <example correction="Reinigungskräfte">Morgen kommen unsere <marker>Putzfrauen</marker>.</example>
+            <example correction="Reinigungskräften">Zahlt den <marker>Putzfrauen</marker> mehr Geld!</example>
+            <example correction="Reinigungskräfte">Ich hatte bisher immer nur tolle <marker>Putzfrauen</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -29384,6 +29393,57 @@ Andere Projekte</example>
                 <example>Warum spricht Tom so schlecht Koreanisch, obwohl er eine koreanische Freundin hat?</example>
             </rule>
         </rulegroup>
+        <!-- Diese Regel erzeugt noch zu viele Falschmeldungen und muss deshalb überarbeitet werden. 
+	   <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
+                   <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:NEU' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(der|die)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>das</suggestion>?</message>
+                <example correction='das'>Mir gehört das Auto, <marker>der</marker> da steht.</example>
+                <example correction='das'>Siehst du das Kind, <marker>die</marker> zu uns herüber guckt?</example>
+                <example>Ich kaufe das Haus, der Makler hat mir einen guten Preis gemacht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(der|das)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
+                <example correction='die'>Kennst du die Frau, <marker>der</marker> da steht?</example>
+                <example correction='die'>Die Blume, <marker>das</marker> da wächst, ist rot.</example>
+                <example>Die Frau, der Mann, das Kind.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>(die|das)</token>
+                    </marker>
+                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
+                </pattern>
+                <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
+                <example correction='der'>Kennst du den Mann, <marker>das</marker> da steht?</example>
+                <example correction='der'>Ich habe einen Wagen, <marker>die</marker> sehr wenig verbraucht.</example>
+                <example>Der Bundeskanzler, die Gesetze sind da eindeutig, wird vom Parlament gewählt.</example>
+            </rule>
+        </rulegroup> -->
     </category>
 
     <!-- ====================================================================== -->
@@ -33385,6 +33445,7 @@ Andere Projekte</example>
                         <token postag="VER:3:.*|ADJ:PRD:GRU" postag_regexp="yes">
                             <exception scope="previous" postag="SENT_START"/>
                             <exception scope="previous" postag="PKT"/>
+                            <exception inflected="yes">kommen</exception>
                             <exception postag_regexp="yes" postag="VER:(MOD|AUX):.*"/>
                         </token>
                         <token>das</token>
@@ -33410,6 +33471,7 @@ Andere Projekte</example>
                 <example>Sie führte das Haushaltsbuch mit großer Sorgfalt.</example>
                 <example>Wenn Sie Ihr Haus in Schuss halten, schadet das dem Wiederverkaufswert nicht.</example>
                 <example>Wenn Sie Ihr Haus in Schuss halten, so schadet das dem Wiederverkaufswert nicht.</example>
+                <example>So kommt das einem Betrug gleich.</example>
                 <example correction="beschwert, dass">Ein Urlauber hat sich sogar darüber <marker>beschwert das</marker> der Sand zu sandig war.</example>
             </rule>
         </rulegroup>

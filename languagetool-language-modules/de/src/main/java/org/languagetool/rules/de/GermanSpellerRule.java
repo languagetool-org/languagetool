@@ -309,6 +309,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("k", "rkl");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("Internetkaffees?")) {
+      suggestion = word.replaceFirst("kaffee", "café");
+      return Collections.singletonList(suggestion);
+    } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
+      suggestion = word.replaceFirst("[kK]on", "");
+      return Collections.singletonList(suggestion);
+    } else if (word.matches("[kKdD]an$")) {
+      suggestion = word.replaceFirst("n$", "nn");
+      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
