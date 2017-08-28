@@ -17709,6 +17709,41 @@ USA
                 <example correction="personnel">He is the <marker>personal</marker> director.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WHORE_WORE" name="whore (wore)">
+            <rule>
+                <pattern>
+                    <marker>
+                    <token postag='VBP?' postag_regexp="yes">whore</token> 
+                    </marker>
+                    <token postag='DT'></token> 
+                    <token min="0" postag='JJ'></token> 
+                    <token postag='NN(:UN|S)?' postag_regexp="yes"></token> 
+                </pattern>
+                <message>Did you mean <suggestion>wore</suggestion> (simple past of "to wear")?</message>
+                <example correction='wore'>Last Sunday I <marker>whore</marker> a beautiful dress.</example>
+                <example correction='wore'>Tim <marker>whore</marker> a sweatshirt yesterday.</example>
+                <example>You are a whore, a liar and a thief.</example>
+                <example>I whore myself in the streets.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag='VBP?' postag_regexp="yes">whore</token>
+                    <token postag='VB(D|G|N|P|Z)?' postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag='NN(:UN|S)?' postag_regexp="yes"></token>
+                    <token>that</token>
+                    <token postag='PRP'></token>
+                    <marker>
+                    <token postag='VBP?' postag_regexp="yes">whore</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>wore</suggestion> (simple past of "to wear")?</message>
+                <example correction="wore">This is the skirt that I <marker>whore</marker> last week.</example>
+                <example>This is the car that you whore stole from me.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
