@@ -5292,7 +5292,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagerule languagerulename="Portuguese">
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(Ab|abrev|absol|a\. ?C|acad|Açor|A\. ?D|add|adj|adv|advers|Aeron|afér|Agric|Álg|aprox|art|Artilh|auxil|av|Av)\.\s</beforebreak>
+<beforebreak>\b(a|Ab|abrev|absol|acad|Açor|A\. ?D|add|adj|adv|advers|Aeron|afér|Agric|Álg|aprox|art|Artilh|auxil|av|Av)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5384,10 +5384,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b(Mr|Mrs|No|pp|St|Jr|Bros|etc|vs|esp|[Ff]ig|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<rule break="no">
-<beforebreak>\bPh\.</beforebreak>
-<afterbreak>D\.</afterbreak>
-</rule>
 <!-- Latin abbreviations - but these work globally for all languages -->
 <rule break="no">
 <beforebreak>\b(sp|spp)\.\s</beforebreak>
@@ -5400,7 +5396,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- Two final stop abbreviations  -->
 <rule break="no">
-<beforebreak>d\.\s</beforebreak>
+<beforebreak>\b[ad]\.\s?</beforebreak>
 <afterbreak>C\.</afterbreak>
 </rule>
 <rule break="no">
@@ -5412,17 +5408,16 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>ex\.</afterbreak>
 </rule>
 <rule break="no">
+<beforebreak>\bPh\.</beforebreak>
+<afterbreak>D\.</afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>V\.\s</beforebreak>
 <afterbreak>Rev\.</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>v\.\s</beforebreak>
 <afterbreak>g\.</afterbreak>
-</rule>
-<!-- Don't split at e.g. "d. h." -->
-<rule break="no">
-<beforebreak>[^-\p{L}'’]\p{L}[\.!?…]['|"|“|«|\)|\]|\}]?\s</beforebreak>
-<afterbreak></afterbreak>
 </rule>
 <!-- Don't split after a white-space followed by a single letter followed
          by a dot followed by another whitespace. e.g. " p. " -->
