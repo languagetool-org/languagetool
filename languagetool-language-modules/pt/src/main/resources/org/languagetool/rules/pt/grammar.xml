@@ -1062,7 +1062,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token postag='SENT_START' skip='-1'>
             <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>que|se</exception></token>
+            <exception scope='next' regexp='yes'>que|se|embora|quando</exception></token>
         <marker>
           <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
             <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
@@ -1076,7 +1076,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes' skip='-1'>&separadores_de_oracoes;
             <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>que|se</exception></token>
+            <exception scope='next' regexp='yes'>que|se|embora|quando</exception></token>
         <marker>
           <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
             <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
@@ -1088,7 +1088,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token skip='-1'>se
+          <token skip='-1' postag_regexp='yes' postag='C.+'>se|embora
             <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception></token>
         <marker>
           <token postag_regexp='yes' postag='V.+'/>
@@ -1099,6 +1099,7 @@ title="Easy editing stylesheet" ?>
       <message>O conjuntivo no pretérito imperfeito é utilizada em condicionais do tipo: 'se PASSADO então ...'. Considere se esta não é uma dessas situações.</message>
          <suggestion>\2sse</suggestion>
       <example correction='lavasse'>Se <marker>lava-se</marker> os pratos, é que era bom.</example>
+      <example correction='trabalhasse'>Embora Tchecov  <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com...</example>
     </rule>
   </rulegroup>
 
