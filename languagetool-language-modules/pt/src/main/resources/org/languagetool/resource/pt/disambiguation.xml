@@ -873,6 +873,19 @@
     <!--Example: seu irmão-->
     </rule>
 
+    <rule id="PREPOSITION_SE" name="'Se' como preposição">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-28  	-->
+      <pattern>
+          <token regexp="yes">&hifen;</token>
+        <marker>
+          <token postag_regexp='yes' postag="P.+"  spacebefore='no'/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="P.+"/>
+      <example inputform="se[se/CS,se/PP3CN000]" outputform="se[se/PP3CN000]" type="ambiguous">Testa-<marker>se</marker>.</example>
+      <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>
+    </rule>
+
     <rule id="PUNCT" name="pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
