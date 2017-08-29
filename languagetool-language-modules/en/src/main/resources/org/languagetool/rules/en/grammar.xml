@@ -33,6 +33,7 @@ USA
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
+    <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Japanese|Javanese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay|Malayalam|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turkish|Turkmen|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -14618,6 +14619,24 @@ USA
                 <short>Missing hyphen</short>
                 <example correction="right-hand">He is her <marker>right hand</marker> man.</example>
                 <example correction="left-hand">You'll see the bank on the <marker>left hand</marker> side of the hospital.</example>
+            </rule>
+            <rule><!-- English-speaking -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">&languages;</token>
+                        <token>speaking</token>
+                    </marker>
+                  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes" case_sensitive="yes">&languages;</exception></token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>\1-speaking</suggestion>?</message>
+                <short>Missing hyphen: languages</short>
+                <example correction="English-speaking">This is all about <marker>English speaking</marker> people.</example>
+                <example>This is all about <marker>English-speaking</marker> people.</example>
+                <example>When you hear the <marker>English speaking</marker> French, you have to laugh.</example>
+                <example>There is an old joke about the <marker>English speaking</marker> loudly to foreigners.</example>
+                <example>When I hear an <marker>Italian speaking</marker>, I remember the wonderful holidays in Italy.</example>
+<!-- False negative --><example>We're lost! If those people are <marker>Italian speaking</marker>, ask them for directions.</example>
+<!-- False negative, but other rules find the capitalization problem. --><example>We're lost again! Aren't they <marker>english speaking</marker> people from our hotel? Ask them for directions.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DASH_RULE" name='Hyphen, n-dash and m-dash'>
