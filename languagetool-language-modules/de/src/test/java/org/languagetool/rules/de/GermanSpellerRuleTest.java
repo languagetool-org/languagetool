@@ -136,6 +136,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("gesetztreu", "gesetzestreu", rule, lt);
     assertFirstSuggestion("wikiche", "wirkliche", rule, lt);
     assertFirstSuggestion("kongratulierst", "gratulierst", rule, lt);
+    assertFirstSuggestion("Makeup", "Make-up", rule, lt);
   }
 
   @Test

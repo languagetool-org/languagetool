@@ -309,6 +309,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("k", "rkl");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("Makeups?")) {
+      suggestion = word.replaceFirst("up", "-up");
+      return Collections.singletonList(suggestion);
     } else if (word.matches("Internetkaffees?")) {
       suggestion = word.replaceFirst("kaffee", "café");
       return Collections.singletonList(suggestion);
