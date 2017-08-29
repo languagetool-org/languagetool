@@ -321,7 +321,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
       suggestion = word.replaceFirst("[kK]on", "");
       return Collections.singletonList(suggestion);
-    } else if (word.matches("[kKdD]an$")) {
+    } else if (word.matches("[wWkKdD]an$")) {
       suggestion = word.replaceFirst("n$", "nn");
       return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
