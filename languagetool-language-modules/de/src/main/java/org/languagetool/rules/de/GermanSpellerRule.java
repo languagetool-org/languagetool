@@ -309,13 +309,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
       suggestion = word.replaceFirst("k", "rkl");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("Lezte[mnrs]?")) {
+      suggestion = word.replaceFirst("Lez", "Letz");
+      return Collections.singletonList(suggestion);
+    } else if (word.matches("Makeups?")) {
+      suggestion = word.replaceFirst("up", "-up");
+      return Collections.singletonList(suggestion);
     } else if (word.matches("Internetkaffees?")) {
       suggestion = word.replaceFirst("kaffee", "café");
       return Collections.singletonList(suggestion);
     } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
       suggestion = word.replaceFirst("[kK]on", "");
       return Collections.singletonList(suggestion);
-    } else if (word.matches("[kKdD]an$")) {
+    } else if (word.matches("[wWkKdD]an$")) {
       suggestion = word.replaceFirst("n$", "nn");
       return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {

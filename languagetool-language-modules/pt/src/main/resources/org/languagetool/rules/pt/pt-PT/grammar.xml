@@ -1360,6 +1360,11 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>[“«&quot;]</token>
+          <token>Ter</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
@@ -1375,6 +1380,7 @@ title="Easy editing stylesheet" ?>
       <example correction='ter'>A última temporada estreiou na <marker>Ter</marker>. 27 dez 2016.</example>
       <example>A data coincide com o aniversário do imperador Dom Pedro II.</example>
       <example>Nas eleições de 1946, o general Juan Domingo Perón se apresentou como candidato do Partido Lab...</example>
+      <example>"Ter trabalho e despesa."</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
