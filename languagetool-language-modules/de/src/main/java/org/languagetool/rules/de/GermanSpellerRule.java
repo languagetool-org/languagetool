@@ -321,6 +321,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
       suggestion = word.replaceFirst("[kK]on", "");
       return Collections.singletonList(suggestion);
+    } else if (word.matches("[pP]roff?ess?ion(ä|e)h?ll?(e[mnrs]?)?")) {
+      suggestion = word.replaceFirst("roff?ess?ion(ä|e)h?l{1,2}", "rofessionell");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches("[wWkKdD]an$")) {
       suggestion = word.replaceFirst("n$", "nn");
       return Collections.singletonList(suggestion);
