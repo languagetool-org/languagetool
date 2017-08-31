@@ -18,11 +18,29 @@
  */
 package org.languagetool.rules.de;
 
-import de.danielnaber.jwordsplitter.GermanWordSplitter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
@@ -32,10 +50,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -49,6 +64,27 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jokei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
+
+  private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  static{
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]wa"), (String w) -> Arrays.asList("AWA", "ach was", "aber"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("aufgehangen(e[mnrs]?)?$"), (String w) -> Collections.singletonList(w.replaceFirst("hangen", "hängt")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geupdate[dt]$"), (String w) -> Collections.singletonList("upgedatet"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("rosane[mnrs]?$"), (String w) -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("näste[mnrs]?$"), (String w) -> Collections.singletonList(w.replaceFirst("^näs", "nächs")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Erdogans?$"), (String w) -> Collections.singletonList(w.replaceFirst("^Erdogan", "Erdoğan")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Germanistiker[ns]"), (String w) -> Collections.singletonList("Germanisten"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Germanistikerin(nen)?"), (String w) -> Collections.singletonList(w.replaceFirst("Germanistiker", "Germanist")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[eE]rhöherung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("[eE]rhöherung", "Erhöhung")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]ufjedenfall"), (String w) -> Collections.singletonList(w.replaceFirst("jedenfall$", " jeden Fall")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("^funk?z[ou]nier.+"), (String w) -> Collections.singletonList(w.replaceFirst("funk?z[ou]nier", "funktionier")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]öruber"), (String w) -> Collections.singletonList(w.replaceFirst("öru", "orü")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]issionarie?sie?rung"), (String w) -> Collections.singletonList("Missionierung"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[sS]chee?selonge?"), (String w) -> Collections.singletonList("Chaiselongue"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Re[kc]amiere"), (String w) -> Collections.singletonList("Récamière"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("legen[td]lich"), (String w) -> Collections.singletonList("lediglich"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]illion(en)?mal"), (String w) -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+  }
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -363,39 +399,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("Hallöchen", "hallöchen");
     } else if (word.equals("hallochen")) {
       return Collections.singletonList("hallöchen");
-    } else if (word.matches("[mM]issionarie?sie?rung")) {
-      return Collections.singletonList("Missionierung");
-    } else if (word.matches("[sS]chee?selonge?")) {
-      return Collections.singletonList("Chaiselongue");
-    } else if (word.matches("Re[kc]amiere")) {
-      return Collections.singletonList("Récamière");
-    } else if (word.matches("legen[td]lich")) {
-      return Collections.singletonList("lediglich");
-    } else if (word.matches("[mM]illion(en)?mal")) {
-      suggestion = word.replaceFirst("^million", "Million");
-      suggestion = suggestion.replaceFirst("mal$", "");
-      return Collections.singletonList(suggestion + " Mal");
     } else if (word.equals("ok")) {
       return Arrays.asList("okay", "O.\u202fK."); // Duden-like suggestion with no-break space
     } else if (word.equals("Germanistiker")) {
       return Arrays.asList("Germanist", "Germanisten");
-    } else if (word.matches("Germanistiker[ns]")) {
-      return Collections.singletonList("Germanisten");
-    } else if (word.matches("Germanistikerin(nen)?")) {
-      return Collections.singletonList(word.replaceFirst("Germanistiker", "Germanist"));
-    } else if (word.matches("[eE]rhöherung")) {
-      return Collections.singletonList("Erhöhung");
-    } else if (word.matches("[eE]rhöherungen")) {
-      return Collections.singletonList("Erhöhungen");
-    } else if (word.matches("[aA]ufjedenfall")) {
-      suggestion = word.replaceFirst("jedenfall$", " jeden Fall");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("^funk?z[ou]nier.+")) {
-      suggestion = word.replaceFirst("funk?z[ou]nier", "funktionier");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[wW]öruber")) {
-      suggestion = word.replaceFirst("öru", "orü");
-      return Collections.singletonList(suggestion);
     } else if (word.equals("par")) {
       return Collections.singletonList("paar");
     } else if (word.equals("vllt")) {
@@ -406,20 +413,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("sorry");
     } else if (word.equals("Zynik")) {
       return Collections.singletonList("Zynismus");
-    } else if (word.matches("[aA]wa")) {
-      return Arrays.asList("AWA", "ach was", "aber");
-    } else if (word.equals("ch")) {
-      return Collections.singletonList("ich");
-    } else if (word.matches("aufgehangen(e[mnrs]?)?$")) {
-      return Collections.singletonList(word.replaceFirst("hangen", "hängt"));
-    } else if (word.matches("rosane[mnrs]?$")) {
-      return Arrays.asList("rosa", word.replaceFirst("^rosan", "rosafarben"));
-    } else if (word.matches("geupdate[dt]$")) {
-      return Collections.singletonList("upgedatet");
-    } else if (word.matches("näste[mnrs]?$")) {
-      return Collections.singletonList(word.replaceFirst("^näs", "nächs"));
-    } else if (word.matches("Erdogans?$")) {
-      return Collections.singletonList(word.replaceFirst("^Erdogan", "Erdoğan"));
     } else if (word.matches("Email[a-zäöü]{5,}")) {
       String suffix = word.substring(5);
       if (hunspellDict.misspelled(suffix)) {
@@ -429,7 +422,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("E-Mail-"+Character.toUpperCase(suffix.charAt(0))+suffix.substring(1));
     } else if (word.equals("wiederspiegeln")) {
       return Collections.singletonList("widerspiegeln");
-    } else if (!StringTools.startsWithUppercase(word)) {
+    } else if (word.equals("ch")) {
+        return Collections.singletonList("ich");
+    } else {
+      for (Pattern p : ADDITIONAL_SUGGESTIONS.keySet()) {
+        if (p.matcher(word).matches()) {
+          return ADDITIONAL_SUGGESTIONS.get(p).apply(word);
+        }
+      }
+    }
+    if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
         // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
