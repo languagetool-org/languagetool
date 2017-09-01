@@ -19,13 +19,16 @@
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements
-    - typography: number and mathematical symbol formatting improvements
+    - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements; time agreement rules added
+    - punctuation: greetings and farewell punctuation
+    - style: puffery, weasel words, weak expressions, and biased opinion words detection added (disabled by default)
     - syntax: new category; fragment detection improvements
+    - typography: spacing, number, and mathematical symbol formatting improvements
   * disambiguation improvements
-  * false friends support added
+  * false friends added
     - Portuguese to Galician (16 new pairs)
   * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for abbreviations, variables in formulas, units, and related statistical vocabulary
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
