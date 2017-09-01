@@ -13997,7 +13997,7 @@ USA
                 <pattern>
                     <marker><token><exception regexp="yes">,|;|\(|-</exception></token>
                     <token regexp="yes">and|or|nor|but|so|yet</token></marker>
-                    <token regexp="yes" skip="-1">I|you|he|she|it|we|they|my|your|his|her|our|their|an?|the|these|those|some|many|most<exception scope="next">and</exception><exception scope="next">,</exception></token>
+                    <token regexp="yes" skip="-1">I|you|he|she|it|we|they|my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most<exception scope="next">and</exception><exception scope="next">,</exception></token>
                     <token postag="VB[DPZ]?" postag_regexp="yes"></token>
                 </pattern>
                 <message>If the conjunctions 'and', '(n)or, 'so', 'but', or 'yet' separate two independent clauses, a comma must precede them: <suggestion>\1, \2</suggestion></message>
@@ -14030,7 +14030,7 @@ USA
                 <antipattern>
                     <token postag="RB[RS]" postag_regexp="yes"/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14047,7 +14047,7 @@ USA
                     <token skip="-1" regexp="yes">in|at|and</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14075,7 +14075,7 @@ USA
                 <antipattern>
                     <token postag="NNP"/>
                     <token regexp="yes">,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"><exception postag="NNPS?" postag_regexp="yes"></exception></token>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14085,7 +14085,7 @@ USA
                     <token>other</token>
                     <token>hand</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14145,7 +14145,7 @@ USA
                     <token>for</token>
                     <token regexp="yes">example|instance</token>
                     <token min="0">,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14161,7 +14161,7 @@ USA
                     <token regexp="yes">Next|Last</token>
                     <token/>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
@@ -14169,19 +14169,19 @@ USA
                     <token postag="SENT_START"/>
                     <token regexp="yes" skip="-1">While|Since|After|With|In|Here|Although|Despite|Contrary|Meanwhile|Who|Which|What|Whenever|Where|When|But|Thanks</token>
                     <token>,</token>
-                    <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
                 <pattern>
                       <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">yes|no|today|yesterday|tomorrow</exception><exception scope="previous" regexp="yes">/|:|other|both|and|or|two|must|can|way|be</exception></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"/>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Style preference: the serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\4, \5</suggestion></message>
@@ -14324,15 +14324,15 @@ USA
                 </antipattern>
                 <pattern>
                       <token>(</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token><exception>,</exception></token>
                 </pattern>
@@ -14362,15 +14362,15 @@ USA
                       <token>in</token>
                       <token>addition</token>
                       <token>to</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|an?|the|these|those|some|many|most</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|the(ir)?|an?|th[eo]se|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Style preference: the serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\8, \9</suggestion></message>
@@ -15266,7 +15266,7 @@ USA
         <rule id="I_NEW" name="I/he/we new (knew)">
             <!-- not you because of: we need to buy you new shoes -->
             <pattern>
-                <token regexp="yes">I|he|we</token>
+                <token regexp="yes">I|s?he|we|they</token>
                 <marker>
                     <token>new</token>
                 </marker>
