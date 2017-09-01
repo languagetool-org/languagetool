@@ -2,41 +2,69 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
-<!--
-English Grammar and Typo Rules for LanguageTool
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2015 Daniel Naber (http://www.danielnaber.de),
-  Marcin Miłkowski and the LanguageTool contributors
-
-Portions of rules are converted from After The Deadline grammar checker, 
-available at http://open.afterthedeadline.com/, licensed under
-GNU GPL.
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
-USA
--->
+<!-- English Grammar and Typo Rules for LanguageTool See tagset.txt for the 
+	meaning of the POS tags Copyright (C) 2001-2015 Daniel Naber (http://www.danielnaber.de), 
+	Marcin Miłkowski and the LanguageTool contributors Portions of rules are 
+	converted from After The Deadline grammar checker, available at http://open.afterthedeadline.com/, 
+	licensed under GNU GPL. This library is free software; you can redistribute 
+	it and/or modify it under the terms of the GNU Lesser General Public License 
+	as published by the Free Software Foundation; either version 2.1 of the License, 
+	or (at your option) any later version. This library is distributed in the 
+	hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+	GNU Lesser General Public License for more details. You should have received 
+	a copy of the GNU Lesser General Public License along with this library; 
+	if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth 
+	Floor, Boston, MA 02110-1301 USA -->
 
 <!DOCTYPE rules [
     <!ENTITY weekdays "понедељак|уторак|среда|четвртак|петак|субота|недеља">
     <!ENTITY abbrevWeekdays "пон?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "јануар|фебруар|март|април|мај|јун|јул|август|септембар|октобар|новембар|децембар|јануара|фебруара|марта|априла|маја|јуна|јула|августа|септембра|октобра|новембра|децембра">
-    <!ENTITY abbrevMonths "јан|феб|мар|апр|мај|јун|јул|авг|сеп|окт|нов|дец4">
+    <!ENTITY abbrevMonths "јан|феб|мар|апр|мај|јун|јул|авг|сеп|окт|нов|дец">
     <!ENTITY double_num "два|три|четири|2|3|4">
 ]>
 
 <rules lang="sr"
 	xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<category id="LOGIC" name="Логичке грешке">
+		<rulegroup id="INVALID_DATE" name="Непостојећи датум, на пример „31. фебруар 2014“">
+			<rule>
+				<pattern>
+					<!-- "31. јуна 2014 г." -->
+					<marker>
+						<token>31</token>
+						<token regexp="yes">април|апр|априла|јун|јуна|сеп|септембра|септембар|новембар|новембра|нов</token>
+					</marker>
+				</pattern>
+				<message>У месецу <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match> има само 30 дана.</message>
+				<example correction="">То се догодило <marker>31. новембра</marker> 2014.</example>
+				<example correction="">То се догодило <marker>31. априла</marker> 2014.</example>
+				<example>То се догодило <marker>30. новембра</marker>2014. г.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<!-- "30. фебруара 2014 г." -->
+					<marker>
+						<token regexp="yes">3[01]</token>
+						<token regexp="yes">фебруара|феб|фебруар</token>
+					</marker>
+				</pattern>
+				<message>Фебруар има само 28 дана (или 29 ако је година преступна).</message>
+				<example correction="">То се догодило <marker>30. фебруара</marker> 2014.</example>
+				<example>То се догодило <marker>28. фебруара</marker> 2014.</example>
+			</rule>
+		</rulegroup> <!-- id="INVALID_DATE" -->
+		<rule id="YEAR_20001" name="„Maj 20001 (Маj 2001)“">
+			<pattern>
+				<token regexp="yes">&months;|година|године</token>
+				<token regexp="yes">200\d\d</token>
+			</pattern>
+			<message>Заиста \2? Или је <suggestion><match no="1" /><match no="2" regexp_match="200" regexp_replace="20" /></suggestion>?</message>
+			<short>Грешка писања?</short>
+			<example correction="мај 2014">Планирао сам распуст <marker>септембра 20014.</marker></example>
+		</rule>
+	</category> <!-- id="LOGIC" name="Логичке грешке" -->
 </rules>

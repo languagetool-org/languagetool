@@ -21,14 +21,14 @@ package org.languagetool.language;
 
 public class SerbiaSerbian extends Serbian {
 
-	@Override
-	public String[] getCountries() {
-		return new String[] { "RS" };
-	}
+  @Override
+  public String[] getCountries() {
+    return new String[]{"RS"};
+  }
 
-	@Override
-	public String getName() {
-		return "Serbian (Serbia)";
-	}
+  @Override
+  public String getName() {
+    return "Serbian (Serbia)";
+  }
 
 }

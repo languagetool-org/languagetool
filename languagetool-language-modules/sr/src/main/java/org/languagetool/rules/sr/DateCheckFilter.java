@@ -19,11 +19,13 @@
 package org.languagetool.rules.sr;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
-    import java.util.Calendar;
-    import java.util.Locale;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
- * Russian localization of {@link org.languagetool.rules.AbstractDateCheckFilter}.
+ * Serbian localization of {@link org.languagetool.rules.AbstractDateCheckFilter}.
+ *
  * @since 2.7
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
@@ -57,7 +59,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
     if (mon.equals("јануар") || monthStr.equals("I") || mon.equals("јануара") || mon.equals("јан")) return 1;
-    if (mon.equals("фебруар") || monthStr.equals("II") ||  mon.equals("фебруара") || mon.equals("феб")) return 2;
+    if (mon.equals("фебруар") || monthStr.equals("II") || mon.equals("фебруара") || mon.equals("феб")) return 2;
     if (mon.equals("март") || monthStr.equals("III") || mon.equals("марта") || mon.equals("мар")) return 3;
     if (mon.equals("април") || monthStr.equals("IV") || mon.equals("априла") || mon.equals("апр")) return 4;
     if (mon.equals("мај") || monthStr.equals("V") || mon.equals("маја")) return 5;
