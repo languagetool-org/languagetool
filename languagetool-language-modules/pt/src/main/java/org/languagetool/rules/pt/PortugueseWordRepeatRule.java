@@ -68,6 +68,9 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
     }
+    if (wordRepetitionOf("tuk", tokens, position)) {
+      return true;   // "tuk tuk"
+    }
     if (isGenus(tokens[position - 1]) && isSpecies(tokens[position])) {
       return true;
     }

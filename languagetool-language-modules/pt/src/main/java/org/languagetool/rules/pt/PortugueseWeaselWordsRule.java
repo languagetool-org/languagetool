@@ -66,7 +66,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Expressões evasivas";
+    return "Escrita avançada: Expressões evasivas";
   }
 
   @Override
