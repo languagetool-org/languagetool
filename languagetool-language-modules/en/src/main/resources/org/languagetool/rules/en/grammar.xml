@@ -2748,6 +2748,18 @@ USA
                 <example correction="Whose"><marker>Who's</marker> actual job is it to make copies around here?</example>
                 <example>Whose actual job is it to get coffee around here?</example>
             </rule>
+            <rule id="WHOS_TO" name="who's PREPOSITION">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>whose</token>
+                    </marker>
+                    <token postag="IN"/>
+                </pattern>
+                <message>Did you mean <suggestion>Who's</suggestion>?</message>
+                <example correction="Who's"><marker>Whose</marker> at the door?</example>
+                <example correction="Who's"><marker>Whose</marker> on first base?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOW" name="no/now">
             <rule>
@@ -2805,7 +2817,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">we|were|was|he|she|I</token>
+                    <token regexp="yes">we(re)?|was|s?he|I</token>
                     <marker>
                         <token>scent</token>
                     </marker>
@@ -2854,7 +2866,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">could|would|should|might|may|must</token>
+                        <token regexp="yes">[cw]ould|should|might|may|must</token>
                         <token>of</token>
                     </marker>
                     <token postag="VBN|JJ" postag_regexp="yes"><exception>course</exception></token>
@@ -2916,10 +2928,10 @@ USA
                 <antipattern><!-- Allow "Tom hates / likes / play ...." -->
                     <token postag="SENT_START"/>
                     <token postag="NNP"/>
-                    <token postag="NNS|NNPS" postag_regexp="yes"/>
+                    <token postag="NNP?S" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="NNS|NNPS" postag_regexp="yes"></token>
+                    <token postag="NNP?S" postag_regexp="yes"></token>
                     <token>year</token>
                     <token>after</token>
                     <token>year</token>
@@ -3137,7 +3149,7 @@ USA
         <rule id="SPARKING_WINE" name="sparking (sparkling) wine">
             <pattern>
                 <token>sparking</token>
-                <token regexp="yes">wine|wines</token>
+                <token regexp="yes">wines?</token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>sparkling \2</suggestion>?</message>
             <short>Possible typo</short>
@@ -3186,7 +3198,7 @@ USA
                 <token regexp="yes">could|would|should|you|i|we|they</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>ve</token>
-                <token regexp="yes">abide|abode|alight|arise|arose|ate|awake|awoke|be|bear|became|befall|befell|began|beget|begin|begot|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choose|chose|clap|cling|clothe|creep|dare|daydream|deal|did|dig|disprove|dive|do|dove|drank|draw|dream|drew|drink|drive|drove|dwell|eat|fall|feed|feel|fell|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|strode|strove|sunburn|swam|swear|sweep|swell|swelled|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unbend|unbind|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|win|wind|withdraw|withdrew|withhold|withstand|woke|wore|wove|wring|write|wrote</token>
+                <token regexp="yes">ab[io]de|alight|ar[io]se|ate|aw[ao]ke|be(ar)?|became|bef[ae]ll|beg[ai]n|beg[eo]t|behold|bend|beseech|betake|bethink|betook|bind|bite?|bleed|bl[eo]w|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choo?se|clap|cling|clothe|creep|dare|daydream|deal|di[dg]|disprove|dive|do(ve)?|drank|draw|dream|drew|drink|dr[io]ve|dwell|eat|f[ae]ll|feed|feel|fight|find|fle[ew]|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forg[eo]t|forgive|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|g[ai]ve|get|gild|gr[eo]w|grind|hang|have|hear|heave|hew|hewed|hide?|hold|inbreed|inlay|keep|kneel|kn[eo]w|lade|landslide|lay|lea[dnp]|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|strode|strove|sunburn|swam|swear|sweep|swell|swelled|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unbend|unbind|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|win|wind|withdraw|withdrew|withhold|withstand|woke|wore|wove|wring|write|wrote</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> <match no="4" postag="VBN"/></suggestion>?</message>
             <example correction="could've eaten">We <marker>could've ate</marker> the chicken.</example>
