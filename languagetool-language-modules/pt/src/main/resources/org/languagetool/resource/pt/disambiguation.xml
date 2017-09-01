@@ -1099,35 +1099,40 @@
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
       </pattern>
       <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0[CM][SPN]0'/>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token postag_regexp="yes" postag='Z0M[SPN]0'/>
       </pattern>
       <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
       </pattern>
       <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token postag_regexp="yes" postag='Z0F[SPN]0'/>
       </pattern>
       <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token regexp='yes'>e|-</token>
           <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
       </pattern>
@@ -1135,7 +1140,8 @@
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0[CM][SPN]0'/>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token regexp='yes'>e|-</token>
           <token postag_regexp="yes" postag='Z0M[SPN]0'/>
       </pattern>
@@ -1143,7 +1149,8 @@
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token regexp='yes'>e|-</token>
           <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
       </pattern>
@@ -1151,7 +1158,8 @@
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
           <token regexp='yes'>e|-</token>
           <token postag_regexp="yes" postag='Z0F[SPN]0'/>
       </pattern>
@@ -1944,17 +1952,17 @@
     <rule><!-- variable in formulas -->
       <pattern>
         <marker>
-          <token regexp='yes'>\w</token>
+          <token regexp='yes'>\w|[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜΩω]</token><!-- XXX don't add μ - possible confusion with loose micro -->
         </marker>
-          <token regexp='yes'>[=\+-x\.·\/^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]</token>
+          <token regexp='yes'>[=\+-x\.·\*\/^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
     <rule><!-- variable in formulas -->
       <pattern>
-          <token regexp='yes'>[=\+-x\.·\/^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]</token>
+          <token regexp='yes'>[=\+-x\.·\*\/^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]</token>
         <marker>
-          <token regexp='yes'>\w</token>
+          <token regexp='yes'>\w|[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜΩω]</token><!-- XXX don't add μ - possible confusion with loose micro -->
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -1963,8 +1971,14 @@
       <pattern>
           <token postag_regexp='yes' postag='Z.+'/>
         <marker>
-          <token regexp='yes'>\w</token>
+          <token regexp='yes'>\w|[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜΩω]</token><!-- XXX don't add μ -->
         </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- hypothesis -->
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>H[₁₂₃₄₅₆₇₈₉₀]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -1973,7 +1987,7 @@
         <marker>
           <token regexp='yes'>&abreviaturas;</token>
         </marker>
-          <token>.</token>
+          <token spacebefore='no'>.</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
