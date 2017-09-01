@@ -2,6 +2,9 @@
 
 ## 3.9-SNAPSHOT (release planned for 2017-09-26)
 
+#### English
+  * added and improved rules
+
 #### French
   * upgraded dictionaries to Dicollecte-6.1
 
