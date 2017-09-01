@@ -84,6 +84,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Re[kc]amiere"), (String w) -> Collections.singletonList("Récamière"));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("legen[td]lich"), (String w) -> Collections.singletonList("lediglich"));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]illion(en)?mal"), (String w) -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("desweitere[nm]"), (String w) -> Collections.singletonList("des Weiteren"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("einzigste[mnrs]?"), (String w) -> Collections.singletonList(w.replaceFirst("einzigst", "einzig")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[iI]nterkurell(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("ku", "kultu")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]olt$"), (String w) -> Collections.singletonList(w.replaceFirst("lt", "llt")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[zZ]uende"), (String w) -> Collections.singletonList(w.replaceFirst("ue", "u E")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]aschte(s?t)?"), (String w) -> Collections.singletonList(w.replaceFirst("aschte", "usch")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]aschten"), (String w) -> Collections.singletonList(w.replaceFirst("ascht", "usch")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Probiren?"), (String w) -> Collections.singletonList(w.replaceFirst("ir", "ier")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[gG]esetztreu(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("tz", "tzes")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ikich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("k", "rkl")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Lezte[mnrs]?"), (String w) -> Collections.singletonList(w.replaceFirst("Lez", "Letz")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Makeups?"), (String w) -> Collections.singletonList(w.replaceFirst("up", "-up")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Internetkaffees?"), (String w) -> Collections.singletonList(w.replaceFirst("kaffee", "café")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[kK]ongratulier(en?|t(en?)?|st)"), (String w) -> Collections.singletonList(w.replaceFirst("[kK]on", "")));
   }
 
   private final LineExpander lineExpander = new LineExpander();
@@ -258,10 +272,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
-    } else if (word.matches("desweitere[nm]")) {
-      return Collections.singletonList("des Weiteren");
-    } else if (word.matches("einzigste[mnrs]?")) {
-      return Collections.singletonList(word.replaceFirst("^einzigst", "einzig"));
     } else if (word.endsWith("standart")) {
       suggestion = word.replaceFirst("standart$", "standard");
       if (!hunspellDict.misspelled(suggestion)) {
@@ -322,41 +332,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("[iI]nterkurell(e[nmrs]?)?")) {
-      suggestion = word.replaceFirst("ku", "kultu");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[wW]olt$")) {
-      suggestion = word.replaceFirst("lt", "llt");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[zZ]uende")) {
-      suggestion = word.replaceFirst("ue", "u E");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[wW]aschte(s?t)?")) {
-      suggestion = word.replaceFirst("aschte", "usch");
-    } else if (word.matches("[wW]aschten")) {
-      suggestion = word.replaceFirst("ascht", "usch");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("Probiren?")) {
-      suggestion = word.replaceFirst("ir", "ier");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[gG]esetztreu(e[nmrs]?)?")) {
-      suggestion = word.replaceFirst("tz", "tzes");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[wW]ikich(e[nmrs]?)?")) {
-      suggestion = word.replaceFirst("k", "rkl");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("Lezte[mnrs]?")) {
-      suggestion = word.replaceFirst("Lez", "Letz");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("Makeups?")) {
-      suggestion = word.replaceFirst("up", "-up");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("Internetkaffees?")) {
-      suggestion = word.replaceFirst("kaffee", "café");
-      return Collections.singletonList(suggestion);
-    } else if (word.matches("[kK]ongratulier(en?|t(en?)?|st)")) {
-      suggestion = word.replaceFirst("[kK]on", "");
-      return Collections.singletonList(suggestion);
     } else if (word.matches("[pP]roff?ess?ion(ä|e)h?ll?(e[mnrs]?)?")) {
       suggestion = word.replaceFirst("roff?ess?ion(ä|e)h?l{1,2}", "rofessionell");
       if (!hunspellDict.misspelled(suggestion)) {
