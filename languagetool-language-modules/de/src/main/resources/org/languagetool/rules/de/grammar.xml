@@ -30110,6 +30110,42 @@ Andere Projekte</example>
                 <example correction="Groß-">Bitte beachten Sie die <marker>Groß</marker>/Kleinschreibung.</example>
                 <example correction="Groß-">Sie kennt die Regeln der <marker>Groß</marker> und Kleinschreibung.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Industrie</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Handelskammer</token>
+                </pattern>
+                <message>Der zusammengesetzte Ausdruck '<suggestion>Industrie-</suggestion> \2 Handelskammer' wird in der Regel mit Bindestrich geschrieben.</message>
+                <short>Fehlender Bindestrich</short>
+                <example correction="Industrie-">Sie ist im Vorstand der <marker>Industrie</marker> und Handelskammer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Bu[sß]</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Bettag(e[ns]?)?</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>Buß-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Buß-">Morgen ist <marker>Buß</marker> und Bettag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Stil|Rechtschreib</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Grammatikprüfung</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>\1-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Stil-">LanguageTool ist eine freie <marker>Stil</marker> und Grammatikprüfung.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ZEICHENSETZUNG_DIREKTE_REDE" name="Zeichensetzung bei direkter Rede">
             <rule>
