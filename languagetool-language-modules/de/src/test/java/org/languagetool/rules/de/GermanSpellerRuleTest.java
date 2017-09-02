@@ -139,6 +139,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Makeup", "Make-up", rule, lt);
     assertFirstSuggestion("profesionehlle", "professionelle", rule, lt);
     assertFirstSuggestion("professionählles", "professionelles", rule, lt);
+    assertFirstSuggestion("gehnemigung", "Genehmigung", rule, lt);
+    assertFirstSuggestion("Korrigierungen", "Korrekturen", rule, lt);
   }
 
   @Test

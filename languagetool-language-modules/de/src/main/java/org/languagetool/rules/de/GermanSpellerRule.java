@@ -337,6 +337,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("geh?neh?m[ie]gung(en)?")) {
+      suggestion = word.replaceFirst("geh?neh?m[ie]gung", "Genehmigung");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("Korrigierung(en)?")) {
+      suggestion = word.replaceFirst("igierung", "ektur");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches("[wWkKdD]an$")) {
       suggestion = word.replaceFirst("n$", "nn");
       return Collections.singletonList(suggestion);
