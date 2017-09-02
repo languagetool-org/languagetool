@@ -240,6 +240,11 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().tokenRegex("allen|(nieman|je)dem").build(),
         new PatternTokenBuilder().posRegex("ADJ:AKK:PLU:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
+    ),
+    Arrays.asList( // "Für ihn ist das Alltag."
+        new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+        new PatternTokenBuilder().csToken("das").build(),
+        new PatternTokenBuilder().csToken("Alltag").build()
     )
   );
 
