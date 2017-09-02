@@ -86,6 +86,7 @@ public class AgreementRuleTest {
     assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
     assertGood("Er fragte, ob das Spaß macht.");
     assertGood("Das viele Geld wird ihr helfen.");
+    assertGood("Er verspricht jedem hohe Gewinne.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
