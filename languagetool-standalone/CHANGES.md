@@ -19,7 +19,7 @@
     to `spelling.txt`
   * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
     6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
-  * POS tagging of alternative imperative forms such as "Geh" or "küss" (in addition to "Gehe"/"küsse")
+  * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in addition to "Gehe"/"küsse")
 
 #### Portuguese
   * added and improved grammar and style rules, including:
