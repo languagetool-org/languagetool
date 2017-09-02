@@ -1498,7 +1498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">nährten?</token>
                         <token>sich</token>
                     </marker>
-                    <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihrer|ihren|euch|uns|unsere[nmr]|meine[nmr]|deine[nmr]|seine[nmr]</token>
+                    <token regexp="yes">mir|dir|ih[mr]|den|ihnen|ihrer|ihren|euch|uns|unsere[nmr]|meine[nmr]|deine[nmr]|seine[nmr]</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ährte" regexp_replace="äherte"/> \2</suggestion> (kam näher)?</message>
                 <example correction="näherte sich">Er <marker>nährte sich</marker> mir.</example>
@@ -1506,7 +1506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>sich</token>
-                    <token regexp="yes">mir|dir|ihm|ihr|ihnen|euch|uns</token>
+                    <token regexp="yes">mir|dir|ih[mr]|ihnen|euch|uns</token>
                     <marker>
                         <token>genährt</token>
                     </marker>
@@ -24066,7 +24066,7 @@ Andere Projekte</example>
                         <token case_sensitive="yes">Ernst<exception scope="previous">für</exception></token>
                     </marker>
                     <token min="0">zu</token>
-                    <token regexp="yes">nehmen(e|er|es|den)?</token>
+                    <token regexp="yes">nehmen(de[rsnm]?)?</token>
                 </pattern>
                 <message><suggestion><match no="1" case_conversion="startlower"/></suggestion> in der Verbindung 'ernst nehmen' wird kleingeschrieben.</message>
                 <url>http://www.duden.de/rechtschreibung/ernst</url>
@@ -24172,7 +24172,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
-                    <token regexp="yes">jemandes|meine|deine|seine|unsere|eure|[iI]hre|deren|wessen|eigene</token>
+                    <token regexp="yes">jemandes|[dms]eine|unsere|eure|[iI]hre|deren|wessen|eigene</token>
                     <marker>
                         <token>kosten</token>
                     </marker>
@@ -24187,7 +24187,7 @@ Andere Projekte</example>
                     <marker>
                         <token>kosten</token>
                     </marker>
-                    <token regexp="yes">von|der|des|meine[rs]|deine[rs]|seine[rs]|unsere[rs]|eure[rs]|[iI]hre[rs]</token>
+                    <token regexp="yes">von|de[rs]|[dms]eine[rs]|unsere[rs]|eure[rs]|[iI]hre[rs]</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -24369,7 +24369,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">spiel(t)?en?|spiels?t</token>
-                    <token regexp="yes">mir|ihr|ihm|uns|euch|ihnen</token>
+                    <token regexp="yes">mir|ih[rm]|uns|euch|ihnen</token>
                     <marker>
                         <token>streiche</token>
                     </marker>
@@ -24750,7 +24750,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">in|aus|von</token>
-                    <token regexp="yes">der|seiner|ihrer|einer</token>
+                    <token regexp="yes">der|s?einer|ihrer</token>
                     <marker>
                         <token>rolle</token>
                     </marker>
@@ -24868,7 +24868,7 @@ Andere Projekte</example>
                     <marker>
                         <token>wohl</token>
                     </marker>
-                    <token regexp="yes">seiner|ihrer|unserer|eurer|meiner|deiner|aller|de[rs](jenigen)?</token>
+                    <token regexp="yes">ihrer|unserer|eurer|[dms]einer|aller|de[rs](jenigen)?</token>
                 </pattern>
                 <message>&prgk;: <suggestion>Wohl</suggestion> wird in der Wendung 'zu jmds. Wohl' (im Sinne von 'zu jmds. Besten') großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -25085,7 +25085,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
-                    <token regexp="yes">mir|[dD]ir|[iI]hr|ihm|[iI]hnen|[eE]uch|sich|uns</token>
+                    <token regexp="yes">[dDm]ir|[iI]hr|ihm|[iI]hnen|[eE]uch|sich|uns</token>
                     <token regexp="yes">k?einen|den|diesen</token>
                     <marker>
                         <token>gefallen</token>
@@ -25099,7 +25099,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
-                    <token regexp="yes">mir|[dD]ir|[iI]hr|ihm|[iI]hnen|[eE]uch|sich|uns</token>
+                    <token regexp="yes">[dDm]ir|[iI]hr|ihm|[iI]hnen|[eE]uch|sich|uns</token>
                     <token regexp="yes">damit|selb(st|er)</token>
                     <token regexp="yes">k?einen|den|diesen</token>
                     <marker>
@@ -25243,7 +25243,7 @@ Andere Projekte</example>
         <rulegroup id="WEITERE_VORGEHEN" name="'das weitere vorgehen (Vorgehen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">weitere|weiteren</token>
+                    <token regexp="yes">weiteren?</token>
                     <marker>
                         <token>vorgehen</token>
                     </marker>
@@ -25256,7 +25256,7 @@ Andere Projekte</example>
         <rulegroup id="BEICHTE" name="'die beichte (Beichte)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">eine|die|seine|ihre|meine</token>
+                    <token regexp="yes">[ms]?eine|die|ihre</token>
                     <marker>
                         <token>beichte</token>
                     </marker>
@@ -25451,7 +25451,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">nehmen</token>
-                    <token regexp="yes">mich|dich|sich|euch|uns</token>
+                    <token regexp="yes">[dms]ich|euch|uns</token>
                     <token>in</token>
                     <marker>
                         <token>acht</token>
@@ -25621,7 +25621,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">(et)?was|nichts|alles|viel|wenig|genug</token>
-                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht|echt</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -26058,7 +26058,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>mit</token>
-                    <token regexp="yes">dem|meinem|[dD]einem|seinem|[iI]hrem|unserem|[eE]urem</token>
+                    <token regexp="yes">dem|[dDms]einem|[iI]hrem|unserem|[eE]urem</token>
                     <marker>
                         <token>gewissen</token>
                     </marker>
@@ -26071,7 +26071,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>mit</token>
-                    <token regexp="yes">dem|meinem|[dD]einem|seinem|[iI]hrem|unserem|[eE]urem</token>
+                    <token regexp="yes">dem|[dDms]einem|[iI]hrem|unserem|[eE]urem</token>
                     <marker>
                         <token>gewissen</token>
                     </marker>
@@ -26543,7 +26543,7 @@ Andere Projekte</example>
         <rulegroup id="VIELFACHES" name="'vielfaches (Vielfaches)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="(PRO|PRP|ART|KON).*" postag_regexp="yes"/>
+                    <token postag="(PR[OP]|ART|KON).*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">vielfaches?</token>
                     </marker>
@@ -26665,7 +26665,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
-                    <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns|es|das</token>
+                    <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns|es|das</token>
                     <marker>
                         <token>Leid</token>
                     </marker>
@@ -26677,7 +26677,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
-                    <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns|es|das</token>
+                    <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns|es|das</token>
                     <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
                     <marker>
                         <token>Leid</token>
@@ -26690,7 +26690,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns</token>
+                    <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns</token>
                     <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann</token>
                     <marker>
                         <token regexp="yes">[lL]eid</token>
