@@ -39,6 +39,12 @@ if [ "$MYNAME" == "ltcmd" ]; then
 	${LT_COMMON} org.languagetool.commandline.Main $*
 elif [ "$MYNAME" == "ltgui" ]; then
 	${LT_COMMON} ${LT_GUI_OPTS} org.languagetool.gui.Main $*
-elif [ "$MYNAME" == "ltdictbld" ]; then
+elif [ "$MYNAME" == "ltspldic" ]; then
 	${LT_COMMON} org.languagetool.tools.SpellDictionaryBuilder $*
+elif [ "$MYNAME" == "ltposdic" ]; then
+    ${LT_COMMON} org.languagetool.tools.POSDictionaryBuilder $*
+elif [ "$MYNAME" == "ltsyndic" ]; then
+    ${LT_COMMON} org.languagetool.tools.SynthDictionaryBuilder $*
+elif [ "$MYNAME" == "ltexpdic" ]; then
+    ${LT_COMMON} org.languagetool.tools.DictionaryExporter $*
 fi
