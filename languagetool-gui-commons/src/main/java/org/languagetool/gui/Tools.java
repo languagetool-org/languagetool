@@ -18,27 +18,24 @@
  */
 package org.languagetool.gui;
 
-import java.awt.*;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
 import org.languagetool.tools.StringTools;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * GUI-related tools.
@@ -203,6 +200,11 @@ public final class Tools {
     if (disabledCategories != null) {
       for (String categoryName : disabledCategories) {
         langTool.disableCategory(new CategoryId(categoryName));
+      }
+    }
+    if(config.getEnabledRulesOnly()) {
+      for (Rule rule : langTool.getAllRules()) {
+        langTool.disableRule(rule.getId());
       }
     }
     Set<String> enabledRules = config.getEnabledRuleIds();

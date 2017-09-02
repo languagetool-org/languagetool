@@ -47,6 +47,7 @@ public class Configuration {
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String NGRAM_DIR_KEY = "ngramDir";
@@ -71,6 +72,7 @@ public class Configuration {
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
   private File ngramDirectory;
@@ -175,6 +177,10 @@ public class Configuration {
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public boolean getEnabledRulesOnly() {
+    return enabledRulesOnly;
   }
 
   public Language getLanguage() {
@@ -373,6 +379,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
