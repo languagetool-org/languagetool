@@ -18,13 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -35,6 +28,7 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
+import org.languagetool.rules.de.neuralnetwork.DaDasRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -45,6 +39,13 @@ import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
@@ -178,7 +179,8 @@ public class German extends Language implements AutoCloseable {
             new SubjectVerbAgreementRule(messages, this),
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
-            new WiederVsWiderRule(messages)
+            new WiederVsWiderRule(messages),
+            new DaDasRule(messages)
     );
   }
 
