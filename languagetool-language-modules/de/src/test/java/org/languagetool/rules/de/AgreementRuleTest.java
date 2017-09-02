@@ -87,6 +87,7 @@ public class AgreementRuleTest {
     assertGood("Er fragte, ob das Spaß macht.");
     assertGood("Das viele Geld wird ihr helfen.");
     assertGood("Er verspricht jedem hohe Gewinne.");
+    assertGood("Für ihn ist das Alltag.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
