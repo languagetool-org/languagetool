@@ -33873,6 +33873,11 @@ Andere Projekte</example>
                     <token postag="VER:INF:.*|PA2:.*" postag_regexp="yes"/>
                     <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER:MOD:[1-3].*" postag_regexp="yes"/>
+                    <token postag="ADV:.*" postag_regexp="yes"/>
+                    <token>aber</token>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
@@ -33880,13 +33885,13 @@ Andere Projekte</example>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen</exception>
                         <exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
-                    <token regexp="yes" skip="-1">da|als|wie|bis|wer|wo|wohin|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1">da|als|wie|bis|wer|wo(hin)?|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                         <exception>sog</exception>
-                       </token>
+                    </token>
                 </pattern>
                 <message>Hier ein Komma vor '\2' einfügen?</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
@@ -33895,6 +33900,7 @@ Andere Projekte</example>
                 <example correction="betrachtete die Kriegerin das Gerät, bevor">Gedankenverloren <marker>betrachtete die Kriegerin das Gerät bevor</marker> sie es in die Hand nahm.</example>
                 <example>Neben den Silikatgläsern gibt es aber auch sog. metallische Gläser.</example>
                 <example>Für ein gutes Drittel der befragten 16- bis 29-Jährigen ist Wohnen extrem wichtig.</example>
+                <example>Einmal falsch überwiesenes Geld kann dadurch aber auch nicht durch eine zentrale Instanz zurücküberwiesen werden.</example>
             </rule>
 <!-- Komma nach Nebensatz   -->
             <rule>
