@@ -235,6 +235,11 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().token("das").build(),
         new PatternTokenBuilder().tokenRegex("viele|wenige").build(),
         new PatternTokenBuilder().posRegex("SUB:.*").build()
+    ),
+    Arrays.asList( // "Er verspricht allen/niemandem/jedem hohe Gewinne."
+        new PatternTokenBuilder().tokenRegex("allen|(nieman|je)dem").build(),
+        new PatternTokenBuilder().posRegex("ADJ:AKK:PLU:.*").build(),
+        new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
     )
   );
 
