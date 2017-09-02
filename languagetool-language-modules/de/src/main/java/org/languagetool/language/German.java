@@ -29,6 +29,8 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.neuralnetwork.DaDasRule;
+import org.languagetool.rules.de.neuralnetwork.EinInRule;
+import org.languagetool.rules.de.neuralnetwork.MirMitRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -180,7 +182,9 @@ public class German extends Language implements AutoCloseable {
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
             new WiederVsWiderRule(messages),
-            new DaDasRule(messages)
+            new DaDasRule(messages),
+            new EinInRule(messages),
+            new MirMitRule(messages)
     );
   }
 
