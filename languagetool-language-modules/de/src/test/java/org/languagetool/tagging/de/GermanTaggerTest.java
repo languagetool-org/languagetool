@@ -64,6 +64,12 @@ public class GermanTaggerTest {
     assertTrue(tagger.tag(Collections.singletonList("Können"), true).toString().contains("VER"));
     assertTrue(tagger.tag(Collections.singletonList("Gerade"), true).toString().contains("ADJ"));
 
+    // checks to recognize alternative imperative forms (e.g., "Geh!" in addition to "Gehe!")
+    assertTrue(tagger.tag(Collections.singletonList("Geh"), true).toString().contains("VER:IMP:SIN:"));
+    assertTrue(tagger.tag(Collections.singletonList("Küss"), true).toString().contains("VER:IMP:SIN:"));
+    assertTrue(tagger.tag(Collections.singletonList("geh"), true).toString().contains("VER:IMP:SIN:"));
+    assertTrue(tagger.tag(Collections.singletonList("küss"), true).toString().contains("VER:IMP:SIN:"));
+    
     // from both german.dict and added.txt:
     AnalyzedTokenReadings aToken4 = tagger.lookup("Interessen");
     assertEquals("Interessen[Interesse/SUB:AKK:PLU:NEU, Interesse/SUB:DAT:PLU:NEU, " +

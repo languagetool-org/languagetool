@@ -20,6 +20,7 @@ package org.languagetool.tagging.de;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -97,7 +98,20 @@ public class GermanTagger extends BaseTagger {
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
-            l.add(getNoInfoToken(word));
+              // recognize alternative imperative forms (e.g., "Geh! / Bitte geh jetzt!" in addition to "Gehe!")
+              boolean isImperative = false;
+              String w = pos == 0 ? word.toLowerCase() : word;
+              List<TaggedWord> taggedWithE = getWordTagger().tag(w+"e");
+              for (TaggedWord tagged : taggedWithE) {
+                if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
+                  isImperative = true;
+                  l.addAll(getAnalyzedTokens(Arrays.asList(tagged), word));
+                  break;
+                }
+              }
+              if (!isImperative) {
+                l.add(getNoInfoToken(word));
+              }
           } else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
