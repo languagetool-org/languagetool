@@ -98,6 +98,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Makeups?"), (String w) -> Collections.singletonList(w.replaceFirst("up", "-up")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Internetkaffees?"), (String w) -> Collections.singletonList(w.replaceFirst("kaffee", "café")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[kK]ongratulier(en?|t(en?)?|st)"), (String w) -> Collections.singletonList(w.replaceFirst("[kK]on", "")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wWkKdD]an$"), (String w) -> Collections.singletonList(w.replaceFirst("n$", "nn")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geh?neh?m[ie]gung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("geh?neh?m[ie]gung", "Genehmigung")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Korrigierung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("igierung", "ektur")));
   }
 
   private final LineExpander lineExpander = new LineExpander();
@@ -337,19 +340,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("geh?neh?m[ie]gung(en)?")) {
-      suggestion = word.replaceFirst("geh?neh?m[ie]gung", "Genehmigung");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.matches("Korrigierung(en)?")) {
-      suggestion = word.replaceFirst("igierung", "ektur");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.matches("[wWkKdD]an$")) {
-      suggestion = word.replaceFirst("n$", "nn");
-      return Collections.singletonList(suggestion);
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
