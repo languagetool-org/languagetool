@@ -19,6 +19,7 @@
 package org.languagetool.tagging.de;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +28,9 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
@@ -42,9 +45,15 @@ import org.languagetool.tools.StringTools;
 public class GermanTagger extends BaseTagger {
 
   private GermanCompoundTokenizer compoundTokenizer;
+  private final ManualTagger removalTagger;
 
   public GermanTagger() {
     super("/de/german.dict");
+    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
+      removalTagger = new ManualTagger(stream);
+    }  catch (IOException e) {
+      throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
+    }
   }
 
   @Override
@@ -104,8 +113,10 @@ public class GermanTagger extends BaseTagger {
               List<TaggedWord> taggedWithE = getWordTagger().tag(w+"e");
               for (TaggedWord tagged : taggedWithE) {
                 if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
-                  isImperative = true;
-                  l.addAll(getAnalyzedTokens(Arrays.asList(tagged), word));
+                  if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
+                    isImperative = true;
+                    l.addAll(getAnalyzedTokens(Arrays.asList(tagged), word));
+                  }
                   break;
                 }
               }
