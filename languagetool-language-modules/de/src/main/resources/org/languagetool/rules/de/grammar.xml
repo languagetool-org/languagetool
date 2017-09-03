@@ -30125,6 +30125,30 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
+                        <token>Damen</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Herren.+</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>Damen-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Damen-">Wir ändern <marker>Damen</marker> und Herrengarderobe.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Lohn</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Gehalts.+</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>Lohn-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Lohn-">Ich bin <marker>Lohn</marker> und Gehaltsbuchhalter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">Bu[sß]</token>
                     </marker>
                     <token>und</token>
