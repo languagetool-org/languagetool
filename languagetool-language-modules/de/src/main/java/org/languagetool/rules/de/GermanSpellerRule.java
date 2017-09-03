@@ -330,6 +330,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*[rR]es(a|er)[vw]i[he]?rung(en)?")) {
+      suggestion = word.replaceFirst("es(a|er)[vw]i[he]?rung", "eservierung");
+      if (!hunspellDict.misspelled(suggestion)) { // suggest e.g. 'Ticketreservierung', but not 'Blödsinnsquatschreservierung'
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches(".*[lL]aborants$")) {
       suggestion = word.replaceFirst("ts$", "ten");
       if (!hunspellDict.misspelled(suggestion)) {
