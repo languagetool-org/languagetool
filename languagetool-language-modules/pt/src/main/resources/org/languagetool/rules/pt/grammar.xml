@@ -3576,7 +3576,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>de vez em quando</suggestion>
       <example correction='de vez em quando'>Devemos fazer isto <marker>de quando em vez</marker>.</example>
     </rule>		
-	
+
     <rule id='DE_UM_MODO_GERAL' name="De modo geral">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -7906,7 +7906,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>económicos?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' include_skipped='yes'/> <match no='2' include_skipped='yes'/> baixo<match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> baixo<match no='1' regexp_match='(.+)(s)' regexp_replace='$2'/></suggestion>
       <example correction="preços baixos">Temos muitos <marker>preços económicos</marker> na loja.</example>
       <example correction="preços bastante baixos">Temos <marker>preços bastante económicos</marker> na loja.</example>
     </rule>
@@ -21125,7 +21125,8 @@ TODO Write better examples
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-    <rule id='TRADEMARK' name="Tipografia: Trademark - ™">
+  <rulegroup id='TRADEMARK' name="Tipografia: Trademark - ™">
+    <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>\p{Lu}.*</token>
         <marker>
@@ -21138,6 +21139,20 @@ TODO Write better examples
       <short>Anotação não padronizada de ™</short>
       <example correction='™'>O novo produto é de Escolha Executiva<marker>(TM)</marker> Plus.</example>
     </rule>
+    <rule id='SERVICEMARK' name="Tipografia: Servicemark - ℠">
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>\p{Lu}.*</token>
+        <marker>
+          <token>(</token>
+          <token>SM</token>
+          <token>)</token>
+        </marker>
+      </pattern>
+      <message>Pretende dizer: <suggestion>℠</suggestion>?</message>
+      <short>Anotação não padronizada de ℠</short>
+      <example correction='℠'>O novo produto é de Escolha Executiva<marker>(SM)</marker> Plus.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='R_SYMBOL' name="Tipografia: Marca Registada - ®">
       <antipattern case_sensitive="yes">
