@@ -24,11 +24,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.de.GermanSpellerRule;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -46,6 +48,7 @@ public class GermanTagger extends BaseTagger {
 
   private GermanCompoundTokenizer compoundTokenizer;
   private final ManualTagger removalTagger;
+  private final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
 
   public GermanTagger() {
     super("/de/german.dict");
@@ -107,20 +110,11 @@ public class GermanTagger extends BaseTagger {
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
-              // recognize alternative imperative forms (e.g., "Geh! / Bitte geh jetzt!" in addition to "Gehe!")
-              boolean isImperative = false;
-              String w = pos == 0 ? word.toLowerCase() : word;
-              List<TaggedWord> taggedWithE = getWordTagger().tag(w+"e");
-              for (TaggedWord tagged : taggedWithE) {
-                if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
-                  if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
-                    isImperative = true;
-                    l.addAll(getAnalyzedTokens(Arrays.asList(tagged), word));
-                  }
-                  break;
-                }
-              }
-              if (!isImperative) {
+              // recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+              List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
+              if (imperativeFormList != null && imperativeFormList.size() > 0) {
+                l.addAll(imperativeFormList);
+              } else {
                 l.add(getNoInfoToken(word));
               }
           } else {
@@ -145,6 +139,43 @@ public class GermanTagger extends BaseTagger {
       pos += word.length();
     }
     return tokenReadings;
+  }
+
+ /**
+  * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+  * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
+  * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
+  * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+  * @param word to be checked
+  * @param sentenceTokens
+  * @param pos
+  * @return
+  */
+  private List<AnalyzedToken> getImperativeForm (String word, List<String> sentenceTokens, int pos) {
+      int idx = sentenceTokens.indexOf(word);
+      String previousWord = "";
+      while (--idx > -1) {
+        previousWord = sentenceTokens.get(idx);
+        if (previousWord.matches("\\s+")) {
+          continue;
+        }
+        break;
+      }
+      if (!(pos == 0 && sentenceTokens.size() > 1) && !IMPERATIVE_PATTERN.matcher(previousWord).matches()) {
+        return null;
+      }
+      String w = pos == 0 ? word.toLowerCase() : word;
+      List<TaggedWord> taggedWithE = getWordTagger().tag(w+"e");
+      for (TaggedWord tagged : taggedWithE) {
+        if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
+          // do not overwrite manually removed tags
+          if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
+            return getAnalyzedTokens(Arrays.asList(tagged), word);
+          }
+          break;
+        }
+      }
+      return null;
   }
 
   private synchronized void initializeIfRequired() throws IOException {
