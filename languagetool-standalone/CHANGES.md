@@ -34,8 +34,8 @@
   * significant POS tagging and synthesizing improvements
   * spellchecking exceptions for abbreviations, variables in formulas, units, and related statistical vocabulary
   * updated Hunspell dictionaries to:
-    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
-    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.6
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.6
     - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
 #### Russian
