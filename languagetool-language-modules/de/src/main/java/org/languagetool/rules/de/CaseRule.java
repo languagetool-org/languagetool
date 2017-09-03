@@ -403,6 +403,7 @@ public class CaseRule extends Rule {
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
     "Fraß",
+    "Frevel",
     "Genüge",
     "Gefallen", // Gefallen finden
     "Gläubiger",
@@ -422,6 +423,7 @@ public class CaseRule extends Rule {
     "Jenseits",
     "Jugendlicher",
     "Jünger",
+    "Kant", //Immanuel
     "Klaue",
     "Konditional",
     "Krähe",
@@ -459,6 +461,7 @@ public class CaseRule extends Rule {
     "Patsche",
     "Pfiffe",
     "Pfiffen",
+    "Press", // University Press
     "Prof",
     "Puste",
     "Sachverständiger",
@@ -474,6 +477,7 @@ public class CaseRule extends Rule {
     "Sie",
     "Skype",
     "Spitz",
+    "Spott",
     "St",   // Paris St. Germain
     "Stereotyp",
     "Störe",
@@ -489,6 +493,7 @@ public class CaseRule extends Rule {
     "Vielfaches",
     "Vorsitzender",
     "Fraktionsvorsitzender",
+    "Walt",
     "Weitem",
     "Weiteres",
     "Wicht",
