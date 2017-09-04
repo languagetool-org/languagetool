@@ -3367,6 +3367,20 @@ title="Easy editing stylesheet" ?>
       <example>De maneira minimamente ordenada.</example>
     </rule>
 
+    <rule id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Síntaxe: sequências de advébio de modo">
+    <!--  Created by Tiago F. Santos, 2017-09-03      -->
+      <pattern>
+        <marker>
+          <token postag="RM" regexp="yes">.+mente</token>
+        </marker>
+          <token regexp='yes'>,|e|ou</token>
+          <token postag="RM" regexp="yes">.+mente</token>
+      </pattern>
+      <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
+        <suggestion><match no="1" regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+      <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker> e permanentemente.</example>
+    </rule>
+
  </category>
 
  <category id='CASING' name='Capitalização' type='grammar'>
