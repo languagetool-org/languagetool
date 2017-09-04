@@ -13245,6 +13245,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
         </rule>
+        <rulegroup id="SUBSTANTIVIERTES_PARTIZIP" name="substantiviertes Partizip">
+            <rule>
+                <pattern>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                    <token min="0"></token>
+                    <token>zu</token>
+                    <marker>
+                        <token postag="PA1:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-äöüß]+</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß]+|\.</token>
+                </pattern>
+                <message>Das Partizip scheint hier als Substantiv benutzt zu werden und muss, falls es sich nicht auf ein vorheriges/nachstehendes Substantiv bezieht, großgeschrieben werden.</message>
+                <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+                <short>prgk;.</short>
+                <example correction="Tuende">Das heute zu <marker>tuende</marker> sollte nicht verschoben werden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUFS_SPIEL_SETZEN" name="aufs spiel (Spiel) setzen">
             <rule>
                 <pattern>
