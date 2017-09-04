@@ -10896,7 +10896,7 @@ USA
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|MD"/><exception>is</exception><exception scope="previous">need</exception></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
+                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">I <marker>works</marker> here.</example>
                 <example correction="work">I cannot <marker>works</marker> here.</example>
                 <example>I <marker>work</marker> here.</example>
@@ -10904,7 +10904,7 @@ USA
                 <example>Phase I corresponds to the small-deformation regime.</example>
                 <example>Am I nuts?</example>
                 <example>... or am I nuts?</example>
-                <example correction="have">I rarely <marker>has</marker> a bad day.</example>
+                <example correction="have|haven">I rarely <marker>has</marker> a bad day.</example>
                 <example>Step i corresponds to the ...</example>
                 <example>... and if phase I corresponds to the ...</example>
             </rule>
@@ -10916,15 +10916,18 @@ USA
                 <pattern>
                     <token skip="1" regexp="yes" postag="PRP">we|they<exception scope="previous">Are</exception></token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT|MD"/></token>
+                        <token postag="VBZ">
+                            <exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT|MD"/>
+                        </token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
+                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">They <marker>works</marker> here.</example>
                 <example correction="work">They cannot <marker>works</marker> here.</example>
                 <example correction="work">They always <marker>works</marker> here.</example>
                 <example correction="mean">They all <marker>means</marker> the same.</example>
+                <example correction="am|are|aren">They <marker>is</marker> happy.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
                 <example>Are they <marker>friends</marker>?</example>
                 <example>All we need is love.</example>
@@ -10939,8 +10942,9 @@ USA
                         <token>t</token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
+                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/>n<match no="3"/><match no="4"/></suggestion></message>
                 <example correction="don't">We <marker>doesn't</marker> believe so.</example>
+                <example correction="amn't|aren't|arenn't">We <marker>isn't</marker> believe so.</example>
             </rule>
             <rule>
                 <antipattern>
