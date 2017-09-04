@@ -35536,7 +35536,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">aufwändig(e[mnrs]?)?</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="aufwändig(.*)" regexp_replace="aufwendig$1"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ufwändig(.*)" regexp_replace="$1ufwendig$2"/></suggestion> verwenden?</message>
                 <example correction="aufwendig">Die Reparatur dürfte sehr <marker>aufwändig</marker> werden.</example>
         </rule>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
@@ -35624,20 +35624,20 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">fertig(lesen|kochen|werden|bekommen)</token>
+                    <token inflected="yes" regexp="yes">fertig(lesen|kochen)</token>
                 </pattern>
                     <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertig(.*)" regexp_replace="$1ertig $2"/></suggestion> verwenden?</message>
                     <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </pattern>
                     <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertigzu(.*)" regexp_replace="$1ertig zu $2"/></suggestion> verwenden?</message>
-                    <example correction="fertig zu werden">Es dauerte lange <marker>fertigzuwerden</marker>.</example>
+                    <example correction="fertig zu kochen">Es dauerte lange das Gericht <marker>fertigzukochen</marker>.</example>
             </rule>
             <rule>
                 <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
