@@ -13140,30 +13140,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
         </rule>
-        <rule id="VON_KLEIN" name="von Klein (klein) auf">
-            <pattern>
-                <token>von</token>
-                <marker>
-                    <token case_sensitive='yes'>Klein</token>
-                </marker>
-                <token>auf</token>
-            </pattern>
-            <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> auf' muss 'klein' kleingeschrieben werden.</message>
-            <short>&prgk;.</short>
-            <example correction='klein'>Von <marker>Klein</marker> auf wurde er auf diese Aufgabe vorbereitet.</example>
-        </rule>
-        <rule id="VON_NAH_UND" name="von Nah (nah) und fern">
-            <pattern>
-                <token>von</token>
-                <marker>
-                    <token case_sensitive='yes'>Nah</token>
-                </marker>
-                <token>und</token>
-            </pattern>
-            <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> und fern' muss 'nah' kleingeschrieben werden.</message>
-            <short>&prgk;.</short>
-            <example correction='nah'>Sie kamen von <marker>Nah</marker> und fern.</example>
-        </rule>
         <rule id="IN_DER_MACHT_STEHENDE" name="Großschreibung von 'Stehende' in 'alles in jemandes Macht Stehende'">
             <pattern>
                 <token>in</token>
@@ -13248,7 +13224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUBSTANTIVIERTES_PARTIZIP" name="substantiviertes Partizip">
             <rule>
                 <pattern>
-                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                    <token postag="ART:DEF.*" postag_regexp="yes"><exception scope="previous">,</exception></token>
                     <token min="0"></token>
                     <token>zu</token>
                     <marker>
@@ -13258,8 +13234,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Das Partizip scheint hier als Substantiv benutzt zu werden und muss, falls es sich nicht auf ein vorheriges/nachstehendes Substantiv bezieht, großgeschrieben werden.</message>
                 <suggestion><match no="4" case_conversion="startupper"/></suggestion>
-                <short>prgk;.</short>
+                <short>&prgk;.</short>
                 <example correction="Tuende">Das heute zu <marker>tuende</marker> sollte nicht verschoben werden.</example>
+                <example>Die Frau, <marker>die Hilfe suchend</marker> gefunden wurde, litt an Alzheimer.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRAEPOSITION_NICHTDEKLINIERTES_ADJEKTIV" name="Kleinschreibung nichtdeklinierter Adjektive mit Präposition">
+            <short>&prgk;.</short>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token case_sensitive="yes">Ewig</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'auf <suggestion><match no="2" case_conversion="startlower"/></suggestion>' (=für immer) wird 'ewig' kleinggeschrieben.</message>
+                <example correction="ewig">Er wird nicht auf <marker>Ewig</marker> hier bleiben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>durch</token>
+                    <marker>
+                        <token case_sensitive="yes">Dick</token>
+                    </marker>
+                    <token>und</token>
+                    <token>dünn</token>
+                </pattern>
+                <message>&inwend;'durch <suggestion><match no="2" case_conversion="startlower"/></suggestion> und dünn' werden 'dick' und 'dünn' kleinggeschrieben.</message>
+                <example correction="dick">Sie gehen durch <marker>Dick</marker> und dünn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>über</token>
+                    <marker>
+                        <token case_sensitive="yes">Kurz</token>
+                    </marker>
+                    <token>oder</token>
+                    <token>lang</token>
+                </pattern>
+                <message>&inwend;'über <suggestion><match no="2" case_conversion="startlower"/></suggestion> oder lang' werden 'kurz' und 'lang' kleinggeschrieben.</message>
+                <example correction="kurz">Über <marker>Kurz</marker> oder lang wird er verlieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token case_sensitive='yes'>Klein</token>
+                    </marker>
+                    <token>auf</token>
+                </pattern>
+                <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> auf' muss 'klein' kleingeschrieben werden.</message>
+                <example correction='klein'>Von <marker>Klein</marker> auf wurde er auf diese Aufgabe vorbereitet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token case_sensitive='yes'>Nah</token>
+                    </marker>
+                    <token>und</token>
+                </pattern>
+                <message>&inwend;'von <suggestion><match no="2" case_conversion="startlower"/></suggestion> und fern' muss 'nah' kleingeschrieben werden.</message>
+                <example correction='nah'>Sie kamen von <marker>Nah</marker> und fern.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFS_SPIEL_SETZEN" name="aufs spiel (Spiel) setzen">
