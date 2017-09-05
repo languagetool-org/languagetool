@@ -5989,13 +5989,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SPS00"/><!-- <exception postag="SENT_START"/></token> -->
                     <marker>
-                        <token regexp="yes">Perú|Senegal|Japó|EUA<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">Perú|Senegal|Japó|EUA|Xina<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Aquest país sol dur article.</message>
-                <suggestion><match no="2" postag="NP.(.).*" postag_regexp="yes" postag_replace="DA.M$1." case_conversion="alllower">el</match> \2</suggestion>
+                <suggestion><match no="2" postag="NP(..).*" postag_regexp="yes" postag_replace="DA.$1." case_conversion="alllower">el</match> \2</suggestion>
                 <example correction="el Perú">Són a <marker>Perú</marker>.</example>
                 <example correction="els EUA">Són a <marker>EUA</marker>.</example>
+                <example correction="la Xina">Són a <marker>Xina</marker>.</example>
                 <example>Perú</example>
                 <example>Són als EUA</example>
                 <example>uns 500 km a l'W de Dakar, Senegal</example>
