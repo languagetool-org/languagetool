@@ -13245,6 +13245,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
         </rule>
+        <rulegroup id="SUBSTANTIVIERTES_PARTIZIP" name="substantiviertes Partizip">
+            <rule>
+                <pattern>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                    <token min="0"></token>
+                    <token>zu</token>
+                    <marker>
+                        <token postag="PA1:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-äöüß]+</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß]+|\.</token>
+                </pattern>
+                <message>Das Partizip scheint hier als Substantiv benutzt zu werden und muss, falls es sich nicht auf ein vorheriges/nachstehendes Substantiv bezieht, großgeschrieben werden.</message>
+                <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+                <short>prgk;.</short>
+                <example correction="Tuende">Das heute zu <marker>tuende</marker> sollte nicht verschoben werden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUFS_SPIEL_SETZEN" name="aufs spiel (Spiel) setzen">
             <rule>
                 <pattern>
@@ -30098,6 +30115,14 @@ Andere Projekte</example>
                 <example correction="in- und auswendig">Sie kennt die Regeln <marker>in und auswendig</marker>.</example>
             </rule>
             <rule>
+                <regexp>\bhin und her\s?gerissen\b</regexp>
+                <message>Die feste Wendung '<suggestion>hin- und hergerissen</suggestion>' wird mit Bindestrich geschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/hinreiszen</url>
+                <short>Fehlender Bindestrich</short>
+                <example correction="hin- und hergerissen">Ich bin <marker>hin und hergerissen</marker>!</example>
+                <example correction="hin- und hergerissen">Ich bin <marker>hin und her gerissen</marker>!</example>
+            </rule>
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>Groß</token>
@@ -30125,6 +30150,30 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
+                        <token>Damen</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Herren.+</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>Damen-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Damen-">Wir ändern <marker>Damen</marker> und Herrengarderobe.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Lohn</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Gehalts.+</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>Lohn-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Lohn-">Ich bin <marker>Lohn</marker> und Gehaltsbuchhalter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">Bu[sß]</token>
                     </marker>
                     <token>und</token>
@@ -30146,6 +30195,19 @@ Andere Projekte</example>
                 <message>Bitte prüfen Sie, ob '<suggestion>\1-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
                 <short>Fehlender Bindestrich?</short>
                 <example correction="Stil-">LanguageTool ist eine freie <marker>Stil</marker> und Grammatikprüfung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Wach</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Schließgesellschaft(en)?</token>
+                </pattern>
+                <message>Der zusammengesetzte Ausdruck '<suggestion>Wach-</suggestion> \2 Schließgesellschaft' wird in der Regel mit Bindestrich geschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/Wach__und_Schlieszgesellschaft</url>
+                <short>Fehlender Bindestrich</short>
+                <example correction="Wach-">Er beauftragte eine <marker>wach</marker> und Schließgesellschaft.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZEICHENSETZUNG_DIREKTE_REDE" name="Zeichensetzung bei direkter Rede">
@@ -35499,7 +35561,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">aufwändig(e[mnrs]?)?</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="aufwändig(.*)" regexp_replace="aufwendig$1"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ufwändig(.*)" regexp_replace="$1ufwendig$2"/></suggestion> verwenden?</message>
                 <example correction="aufwendig">Die Reparatur dürfte sehr <marker>aufwändig</marker> werden.</example>
         </rule>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
@@ -35587,20 +35649,20 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">fertig(lesen|kochen|werden|bekommen)</token>
+                    <token inflected="yes" regexp="yes">fertig(lesen|kochen)</token>
                 </pattern>
                     <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertig(.*)" regexp_replace="$1ertig $2"/></suggestion> verwenden?</message>
                     <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">fertigzu(lesen|kochen|werden|bekommen)</token>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </pattern>
                     <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)ertigzu(.*)" regexp_replace="$1ertig zu $2"/></suggestion> verwenden?</message>
-                    <example correction="fertig zu werden">Es dauerte lange <marker>fertigzuwerden</marker>.</example>
+                    <example correction="fertig zu kochen">Es dauerte lange das Gericht <marker>fertigzukochen</marker>.</example>
             </rule>
             <rule>
                 <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
@@ -35636,7 +35698,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token>auf</token>
                     <token skip="-1">Grund</token>
-                    <token inflected="yes">laufen</token>
+                    <token inflected="yes" regexp="yes">l(auf|ieg)en|geraten</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" inflected="yes">laufen</token>
