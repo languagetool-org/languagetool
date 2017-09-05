@@ -30186,6 +30186,19 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">(Rechts)?anwalts</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Notar.+</token>
+                </pattern>
+                <message>Bitte prüfen Sie, ob '<suggestion>\1-</suggestion> \2 \3' hier mit Bindestrich geschrieben werden muss.</message>
+                <short>Fehlender Bindestrich?</short>
+                <example correction="Anwalts-">Sie arbeitet für den <marker>Anwalts</marker> und Notarverein.</example>
+                <example correction="Rechtsanwalts-">Sie arbeitet als <marker>Rechtsanwalts</marker> und Notarfachangestellte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>Damen</token>
                     </marker>
                     <token>und</token>
