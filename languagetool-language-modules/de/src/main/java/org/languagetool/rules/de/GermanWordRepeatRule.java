@@ -68,6 +68,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("Sie")) {
       return true;
     }
+    // "Er will nur sein Leben leben."
+    if (position > 0 && tokens[position - 1].getToken().equals("Leben") && tokens[position].getToken().equals("leben")) {
+      return true;
+    }
     return false;
   }
 
