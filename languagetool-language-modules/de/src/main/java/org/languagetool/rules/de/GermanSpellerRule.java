@@ -101,6 +101,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wWkKdD]an$"), (String w) -> Collections.singletonList(w.replaceFirst("n$", "nn")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geh?neh?m[ie]gung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("geh?neh?m[ie]gung", "Genehmigung")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Korrigierung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("igierung", "ektur")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[qQ]ualitäts?bewußt(e[mnrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("ts?bewußt", "tsbewusst")));
   }
 
   private final LineExpander lineExpander = new LineExpander();
