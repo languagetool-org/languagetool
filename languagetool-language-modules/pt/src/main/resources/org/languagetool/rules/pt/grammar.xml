@@ -55,7 +55,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY numero_por_extenso "uma?|d(ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões">
     <!ENTITY multiplicadores "(dúzia|dezena|centena)s?|mil|milhar(es)?|(milh|bilh?i)(ão|ões)">
-    <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH][23²³]?|º[CFK]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat">
+    <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?([gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton">
     <!ENTITY unidades_de_medida_por_extenso "(quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|tonelada)s?">
     <!ENTITY tabela_periodica "H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀]">
 
@@ -6803,7 +6803,8 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">&unidades_de_medida;</token>
           <token>.</token>
         </marker>
-          <token regexp="yes">\p{Ll}.*|[,;]</token>
+          <token regexp="yes">\p{Ll}.*|[,;\.\?]
+            <exception regexp='yes'>&unidades_de_medida;</exception></token>
       </pattern>
       <message>As abreviaturas de unidades de medida não são pontuadas.</message>
         <suggestion>\2</suggestion>
@@ -20473,15 +20474,12 @@ TODO Write better examples
           <token regexp="yes">\d{1,2}\,\d+</token>
           <token spacebefore="no" regexp="yes">['`’‘]</token>
           <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
-      </antipattern>
-      <antipattern>
-          <token regexp="yes">\d{1,2}\,\d+</token>
-          <token spacebefore="no" regexp="yes">['`’‘]</token>
-          <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
           <token spacebefore="no" regexp="yes">[”"]</token>
       </antipattern>
       <pattern>
-          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+          <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+
+            <exception regexp="yes">\d{1,2}\,\d+</exception>
+            <exception scope="previous" regexp="yes">.*[º°h]</exception></token>
           <token spacebefore="no" regexp="yes">['`’‘]</token>
           <token spacebefore="no" regexp="yes">\d+(%|&unidades_de_medida;)?</token>
       </pattern>
