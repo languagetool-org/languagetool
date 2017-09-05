@@ -34,8 +34,8 @@ public class SerbianSRXSentenceTokenizerTest {
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:
-    testSplit("Dies ist ein Satz.");
-    testSplit("Dies ist ein Satz. ", "Noch einer.");
+    testSplit("Ово је једна реченица.");
+   /* testSplit("Dies ist ein Satz. ", "Noch einer.");
     testSplit("Dies ist ein Satz.¹ ", "Noch einer.");
     testSplit("Ein Satz! ", "Noch einer.");
     testSplit("Ein Satz... ", "Noch einer.");
@@ -97,7 +97,7 @@ public class SerbianSRXSentenceTokenizerTest {
     testSplit("»Welche Wohnung?\" ", "»Die, wo wir arbeiten.");
     testSplit("»Nun also, wie ist's?« ", "fragte Lushin und blickte sie fest an.");
     testSplit("»Nun also, wie ist es?« ", "fragte Lushin und blickte sie fest an.");
-//    testSplit(new String[] { "gezeigt hat.« ", "… ", "Hm! " });
+//    testSplit(new String[] { "gezeigt hat.« ", "… ", "Hm! " });*/
   }
 
   private void testSplit(String... sentences) {
