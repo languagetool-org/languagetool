@@ -42,6 +42,10 @@ title="Easy editing stylesheet" ?>
     <!ENTITY precede_nome_proprio "avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estilo|filme|fundação|galeria|herdade|ilha|império|instituto|lagoa?|lei|liceu|livro|monte|museu|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade">
     <!ENTITY divisas "euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽]">
 
+    <!ENTITY paises_com_artigo "Afeganistão|Albânia|Alemanha|Arábia|Argélia|Argentina|Arménia|Austrália|Áustria|Azerbaijão|Bahamas|Bangladexe|Barbados|Barém|Bélgica|Belize|Benim|Bielorrússia|Bolívia|Bósnia|Botsuana|Brasil|Brunei|Bulgária|Burquina|Burúndi|Butão|Camarões|Camboja|Canadá|[CQ]atar|Cazaquistão|Chade|Chile|China|Chipre|Colômbia|Comores|Congo|Coreia|Cosovo|Costa|Croácia|Cuaite|Dinamarca|Egito|Emirados|Equador|Eslováquia|Eslovénia|Palestina|Estados|EUA|Estónia|Etiópia|Fiji|Filipinas|Finlândia|Gabão|Gâmbia|Gana|Geórgia|Grécia|Guatemala|Guiana|Guiné|Haiti|Honduras|Hungria|Iémen|Ilhas|Índia|Indonésia|Irão|Iraque|Irlanda|Islândia|Jamaica|Japão|Jibuti|Jordânia|Laus|Lesoto|Letónia|Líbano|Libéria|Líbia|Lituânia|Luxemburgo|Macedónia|Madagáscar|Malásia|Maláui|Maldivas|Mali|Maurícias|Mauritânia|México|Mianmar|Micronésia|Moldávia|Mónaco|Mongólia|Namíbia|Nauru|Nepal|Nicarágua|Nigéria|Noruega|Nova|Omã|Panamá|Papua|Paquistão|Paraguai|Per[uú]|Polónia|Quénia|Quirguistão|Quiribáti|Reino|República|Roménia|Ruanda|Rússia|Samoa|Seicheles|Senegal|Sérvia|Síria|Somália|Sri|Suazilândia|Sudão|Suécia|Suíça|Suriname|Tailândia|Taiuã|Tajiquistão|Tanzânia|Togo|Tonga|Tunísia|Turcomenistão|Turquia|Ucrânia|Uruguai|Usbequistão|Vaticano|Venezuela|Vietname|Zâmbia|Zimbábue">
+    <!ENTITY outros_toponimos_com_artigo "Europa|Algarve|Covilhã|Porto">
+    <!ENTITY toponimos_sem_artigo "Angola|Aragão|Braga|Castela|Espanha|Faro|França|Inglaterra|Itália|Lisboa|Marrocos|Moçambique|Portugal|Timor">
+
     <!ENTITY separadores_de_oracoes "[,;:…–—\(«“]|\-">
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
@@ -984,6 +988,105 @@ title="Easy editing stylesheet" ?>
         <suggestion>Reino Unido</suggestion>
       <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
       <example correction="Reino Unido">A norte de França estão os <marker>Reinos Unidos</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="ARTICLES_PRECEEDING_LOCATIONS" name="Nomes geográficos que requerem artigo">
+    <!-- Based on Catalan grammar.xml by Tiago F. Santos,  2017-09-05      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/toponimos-com-ou-sem-artigo/24569</url>
+      <antipattern>
+          <token>do</token>
+          <token regexp='yes'>Norte|Sul</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token postag="NPFSG.+" postag_regexp="yes"/>
+      </antipattern>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SPS00"></token>
+        <marker>
+          <token regexp="yes">&paises_com_artigo;|&outros_toponimos_com_artigo;
+            <exception scope="previous" postag="DA.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <message>Este nome geográfico é precedido de um artigo.</message>
+        <suggestion><match no="2" postag="NP(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
+      <example correction="o Perú">Vão a <marker>Perú</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
+      <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
+      <example>Perú</example>
+      <example>Vão aos EUA</example>
+      <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
+      <example>A ilha de Honshū, Japão.</example>
+      <example>A ilha de Honshū (Japão).</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <or>
+          <token postag="DA.+" postag_regexp="yes"/>
+          <token regexp="yes">&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;
+            <exception postag_regexp='yes' postag='UNKNOWN|NP.+'/></token>
+        </or>
+          <!--token postag="NPCSG.+" postag_regexp="yes">
+            <exception regexp="yes">&paises_com_artigo;|&outros_toponimos_com_artigo;</exception></token--><!-- XXX Too many NPs mistagged -->
+          <token regexp="yes">&toponimos_sem_artigo;</token>
+      </pattern>
+      <message>Este nome geográfico não é precedido de um artigo.</message>
+      <example type='incorrect'>Vou <marker>ao Faro</marker>.</example>
+      <example type='correct'>Vou a <marker>Faro</marker>.</example>
+      <example type='incorrect'>Está <marker>na Lisboa</marker>.</example>
+      <example type='correct'>Está <marker>em Lisboa</marker>.</example>
+      <example type='correct'>A Coreia do Norte é vizinha da Coreira do Sul.</example>
+      <example>Faro</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <or>
+          <token postag="DA.+" postag_regexp="yes"/>
+          <token regexp="yes">&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;
+            <exception postag_regexp='yes' postag='UNKNOWN|NP.+'/></token>
+        </or>
+          <token>Cabo</token>
+          <token>Verde</token>
+      </pattern>
+      <message>Este nome geográfico não é precedido de um artigo.</message>
+      <example type='incorrect'>Vou <marker>ao Cabo Verde</marker>.</example>
+      <example type='correct'>Vou a <marker>Cabo Verbe</marker>.</example>
+      <example>Cabo Verde</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>
+            <exception regexp='yes'>&contracoes_MP;</exception>
+            <exception regexp="yes">[(,;:]|outros|próprios</exception></token>
+        <marker>
+          <token>Estados
+            <exception scope="previous" postag="DA.+|DD.MP.+" postag_regexp="yes"/></token>
+          <token>Unidos</token>
+        </marker>
+      </pattern>
+      <message>Este nome geográfico é precedido de um artigo.</message>
+        <suggestion>os Estados Unidos</suggestion>
+      <example correction="Os Estados Unidos">Vão a <marker>Estados Unidos</marker>.</example>
+      <example correction="Os Estados Unidos"><marker>Estados Unidos</marker>.</example>
+      <example>Michigan, Estados Unidos</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>
+            <exception regexp='yes'>&contracoes_MS;</exception>
+            <exception regexp="yes">[(,;:]</exception></token>
+        <marker>
+          <token>Reino
+            <exception scope="previous" postag="DA.+|DD.MS.+" postag_regexp="yes"/></token>
+          <token>Unido</token>
+        </marker>
+      </pattern>
+      <message>Este nome geográfico é precedido de um artigo.</message>
+        <suggestion>o Reino Unido</suggestion>
+      <example correction="O Reino Unido">Vão a <marker>Reino Unido</marker>.</example>
+      <example correction="O Reino Unido"><marker>Reino Unido</marker>.</example>
+      <example>Michigan, Estados Unidos</example>
     </rule>
   </rulegroup>
 
