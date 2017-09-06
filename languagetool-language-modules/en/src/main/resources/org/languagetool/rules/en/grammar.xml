@@ -11149,7 +11149,7 @@ USA
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
-                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
                         <token>t</token>
                     </marker>
@@ -11167,7 +11167,7 @@ USA
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <token postag="RB"><exception postag="VBD"/></token>
                     <marker>
-                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
@@ -11184,11 +11184,11 @@ USA
                     <token postag="VBG"/>
                 </antipattern>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|h(ave|ear)|make|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">some(one|body)|nobody|anyone</token>
                     <token>else</token>
                     <marker>
-                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
@@ -11198,6 +11198,7 @@ USA
                 <example>Nobody <marker>walked</marker> to the building.</example>
                 <example type="triggers_error">They did not meet with anyone else while in Germany.</example>
                 <example>Annie was uncomfortable with anyone else <marker>being</marker> in charge.</example>
+                <example>God has given you too much money when you have someone else tend your vegetable garden.</example>
                 <example type="triggers_error">... and anyone else <marker>finding</marker> the work too difficult must tell the manager.</example>
             </rule>
             <rule>
@@ -11207,7 +11208,7 @@ USA
                     <token>else</token>
                     <token postag="RB"/>
                     <marker>
-                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="5" postag="VBZ"/></suggestion>, <suggestion><match no="5" postag="VBD"/></suggestion>.</message>
@@ -11221,7 +11222,7 @@ USA
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"/>
                     <token>that</token>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">he|she|some(one|body)|nobody|anyone</token>
                     <marker>
                         <token postag="VBG"/>
                     </marker>
@@ -11235,7 +11236,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception></token>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">he|she|some(one|body)|nobody|anyone</token>
                     <marker>
                         <token postag="VBG"/>
                     </marker>
@@ -11284,7 +11285,7 @@ USA
                     </token>
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$?|NNPS|NNS|IN|RB|WRB|VBN" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"/></token>
+                        <token postag="VBP?" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VB[ND]|JJ|IN|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="IN|DT" postag_regexp="yes"/>
                 </pattern>
@@ -11319,7 +11320,7 @@ USA
                     <marker>
                         <token regexp="yes">Have|Are|Am</token>
                     </marker>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">he|she|some(one|body)|nobody|anyone</token>
                 </pattern>
                 <message>The pronoun <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
                 <example correction="Has"><marker>Have</marker> she bought a ticket?</example>
@@ -11344,7 +11345,7 @@ USA
                     <marker>
                         <token regexp="yes">Have|Are|Am</token>
                     </marker>
-                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <token regexp="yes">he|she|some(one|body)|nobody|anyone</token>
                 </pattern>
                 <message>The pronoun <match no="4"/> must be used with <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
                 <example correction="has">When <marker>have</marker> he bought a ticket?</example>
@@ -11710,7 +11711,7 @@ USA
         <rule id="DOES_XX_CAN" name="Wrong usage of modal verbs in questions">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">Does|Do</token>
+                <token regexp="yes">Do(es)?</token>
                 <token postag="NN:U|PRP\$|PRP" postag_regexp="yes"/>
                 <token postag="MD"><exception>need</exception></token>
             </pattern>
@@ -11726,7 +11727,7 @@ USA
                     <token>there</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"/><exception>lots</exception></token>
+                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NNP?|JJ.*|DT" postag_regexp="yes"/><exception>lots</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4</suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -11739,8 +11740,8 @@ USA
                     <token>there</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NN|NNP" postag_regexp="yes"/></token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"/></token>
+                    <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
+                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4 \5</suggestion>?</message>
                 <short>Possible agreement error</short>
