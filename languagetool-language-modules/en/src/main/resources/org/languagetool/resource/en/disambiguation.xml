@@ -593,10 +593,22 @@
                 <token postag="VBZ"/>
              </and>
              </marker>
+          <token postag_regexp="yes" postag="VB.+|SENT_END"/>
        </pattern>
        <disambig postag="NNS"/>
        <example type="untouched">One minute.</example>
+       <example type="untouched">Figure two <marker>shows</marker> the results.</example>
+       <example type="untouched">Although page 10 <marker>gives</marker> much information, it is incomplete.</example>
+       <example type="untouched">If the number 5 <marker>shows</marker> on the display, stop the test.</example>
+       <example type="untouched">Two and two <marker>makes</marker> four.</example>
+       <example type="untouched">The debt of £3,000,000 <marker>harms</marker> the company's financial future.</example>
+       <example type="untouched">If the growth rate we predicted in 2007 <marker>changes</marker> by more than two percent, ...</example>
+       <example type="untouched">Although I agree with most points on the agenda, number two <marker>presents</marker> a challenge.</example>
+       <example type="untouched">Most of these plants live in light places, but four <marker>lives</marker> in dark places.</example><!-- Incorrect grammar. -->
        <example type="ambiguous" inputform="minutes[minute/NNS,minute/VBZ]" outputform="minutes[minute/NNS]">It was twenty <marker>minutes</marker>.</example>
+       <example type="ambiguous" inputform="tests[test/NNS,test/VBZ]" outputform="tests[test/NNS]">These three <marker>tests</marker> show the problem.</example>
+       <example type="ambiguous" inputform="samples[sample/NNS,sample/VBZ]" outputform="samples[sample/NNS]">Five <marker>samples</marker> are sufficient.</example>
+       <example type="ambiguous" inputform="ships[ship/NNS,ship/VBZ]" outputform="ships[ship/NNS]">Those four <marker>ships</marker> were outstanding.</example>
     </rule>
     <rule id="NO_ONE" name="No one as personal pronoun">
       <pattern>
@@ -1178,7 +1190,7 @@
         <token postag="CD"/>
       </pattern>
       <disambig action="replace"><wd pos="CC" lemma="times"/></disambig>
-      <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
       <example type="untouched">These are hard times.</example>
     </rule>
     

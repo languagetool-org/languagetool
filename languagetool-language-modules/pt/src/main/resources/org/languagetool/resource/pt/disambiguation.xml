@@ -111,33 +111,50 @@
 
   <rulegroup id="nomes_proprios_multiword" name="nomes proprios em multiwords">
     <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
-    <rule id="nomeproprio2palavras_filtra" name="nome proprio 3 palavras">
+    <rule id="nomeproprio2palavras_filtra_MS" name="nome proprio 2 palavras - MS">
       <pattern>
-          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
-      <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
+      <disambig action="replace"><wd pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="nomeproprio2palavras_filtra_MP" name="nome proprio 2 palavras - MP">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="nomeproprio2palavras_filtra_FS" name="nome proprio 2 palavras - FS">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="nomeproprio2palavras_filtra_FP" name="nome proprio 2 palavras - FP">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras" name="nome proprio 3 palavras">
       <pattern>
           <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
-        <marker>
           <token/>
-        </marker>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
-      <disambig action="add"><wd lemma="NP" pos="NP00000_"/></disambig>
+      <disambig action="add"><wd pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio4palavras" name="nome proprio 4 palavras">
       <pattern>
           <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
-        <marker>
           <token/>
           <token/>
-        </marker>
           <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
       </pattern>
-      <disambig action="add"><wd lemma="NP" pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/></disambig>
+      <disambig action="add"><wd pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/><wd lemma="NP" pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
     <rule id="nomeproprio3palavras_filtra" name="nome proprio 3 palavras">
       <pattern>

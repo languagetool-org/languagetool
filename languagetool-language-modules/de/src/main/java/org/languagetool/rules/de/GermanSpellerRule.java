@@ -270,6 +270,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String suggestion;
     if ("WIFI".equals(word) || "wifi".equals(word)) {
       return Collections.singletonList("Wi-Fi");
+    } else if ("genomen".equals(word)) {
+      return Collections.singletonList("genommen");
     } else if ("ausversehen".equals(word)) {
       return Collections.singletonList("aus Versehen");
     } else if ("getz".equals(word)) {
@@ -346,6 +348,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.equals("Ruhigkeit")) {
+      return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
