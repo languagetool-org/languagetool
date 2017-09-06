@@ -6364,16 +6364,49 @@ USA
             <example>You kids must be hungry.</example>
             <example>You guys wait here.</example>
         </rule>
-        <rule id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
-         <pattern>
-          <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
-          <token postag='VBZ'></token>
-         </pattern>
-         <message>This verb is singular. Did you mean: <suggestion>This <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="VBP"/></suggestion>?</message>
-         <short>Grammar error</short>
-         <example correction='This includes|These include'><marker>These includes</marker> the razor eyeglass and the ring and the compass.</example>
-         <example>The most common of these is dot 5, which combines with the first letter of words.</example>
-        </rule>
+        <rulegroup id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
+                    <token postag='VBZ'/>
+                </pattern>
+                <message>The verb '\2' is singular. Did you mean: <suggestion>This <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="VBP"/></suggestion>?</message>
+                <short>Grammar error</short>
+                <example correction='This includes|These include'><marker>These includes</marker> the ring and the compass.</example>
+                <example>The most common of <marker>these is</marker> dot 5, which combines with the first letter of words.</example>
+           </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
+                    <token postag='CD'><exception>one</exception></token>
+                    <token postag='VBZ'><exception inflected="yes">be</exception></token>
+                </pattern>
+                <message>The verb '\3' is singular. Did you mean: <suggestion>\1 \2 <match no="3" postag="VBP"/></suggestion>?</message>
+                <short>Grammar error</short>
+                <example correction='these two contain'>Make sure that <marker>these two contains</marker> sufficient examples.</example>
+                <example correction='These three include'><marker>These three includes</marker> the battery and the instructions.</example>
+                <example>Make sure that <marker>these two contain</marker> sufficient examples.</example>
+                <example>The most common of <marker>these two live</marker> in arid regions.</example>
+                <example><marker>Two is</marker> a cardinal number.</example>
+<!-- TODO -->   <example>Although <marker>those four usually lives</marker> in dark places, other plants prefer sunshine.</example>
+<!-- TODO -->   <example><marker>These usually eats</marker> only vegetables, unlike their carnivorous cousins.</example>
+<!-- TODO -->   <example>... but <marker>those four usually (if the software operates correctly) detects</marker> the problem.</example>
+           </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
+                    <token postag='CD'><exception>one</exception></token>
+                    <token regexp='yes'>is|was</token>
+                </pattern>
+                <message>The verb '\3' is singular. Did you mean the plural (are or were)?</message>
+                <short>Grammar error</short>
+                <example type='incorrect'><marker>Those two is</marker> nice.</example>
+                <example type='incorrect'><marker>These three is</marker> the most important.</example>
+                <example type='incorrect'>Are you sure that <marker>these two was</marker> sufficient examples?</example>
+                <example><marker>Those two are</marker> nice.</example>
+                <example>The most common of <marker>these two is</marker> on the outside.</example>
+           </rule>
+        </rulegroup>
         <rule id="THIS_NNS_VB" name="this + plural noun + verb (these)">
             <antipattern>
                 <token>This</token>
