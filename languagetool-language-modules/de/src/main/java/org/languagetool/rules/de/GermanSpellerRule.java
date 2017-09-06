@@ -348,6 +348,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.equals("Ruhigkeit")) {
+      return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
