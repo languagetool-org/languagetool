@@ -241,7 +241,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (readBytes <= 0) {
         break;
       }
-      int generousMaxLength = maxTextLength * 3 + 1000;  // once character can be encoded as e.g. "%D8" plus space for other parameters
+      int generousMaxLength = maxTextLength * 3 + 1000;  // one character can be encoded as e.g. "%D8", plus space for other parameters
       if (generousMaxLength < 0) {  // might happen as it can overflow
         generousMaxLength = Integer.MAX_VALUE;
       }
