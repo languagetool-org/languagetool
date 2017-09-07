@@ -13221,18 +13221,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
         </rule>
-        <rulegroup id="KOPFSTEHEN" name="kopfstehen: du stehst Kopf (kopf)">
+        <rulegroup id="UNFEST_ZUSAMMENGESETZTE_VERBEN" name="unfest zusammengesetzte Verben: du stehst Kopf (kopf)">
+            <short>&prgk;.</short>
             <rule>
                 <pattern>
                     <token inflected="yes">stehen</token>
+                    <token postag="PRO:PER:NOM:.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token case_sensitive="yes">Kopf</token>
                     </marker>
                 </pattern>
                 <message>Den ersten Bestandteil unfest zusammengesetzter Verben schreibt man auch in getrennter Stellung klein.</message>
-                <suggestion><match no="2" case_conversion="startlower"/></suggestion>
-                <short>&prgk;.</short>
+                <suggestion><match no="3" case_conversion="startlower"/></suggestion>
                 <example correction="kopf">Das Publikum stand <marker>Kopf</marker>.</example>
+                <example correction="kopf">Als er es erfuhtr, stand er <marker>Kopf</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">stehen</token>
+                    <token postag="(PRO:POS|ART:DEF):NOM:.*" postag_regexp="yes"/>
+                    <token postag="SUB:NOM:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">Kopf</token>
+                    </marker>
+                </pattern>
+                <message>Den ersten Bestandteil unfest zusammengesetzter Verben schreibt man auch in getrennter Stellung klein.</message>
+                <suggestion><match no="4" case_conversion="startlower"/></suggestion>
+                <example correction="kopf">Weshalb stand seine Welt <marker>Kopf</marker>?</example>
+                <example correction="kopf">Weshalb stand das Publikum <marker>Kopf</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">nehmen</token>
+                    <token min="0">daran</token>
+                    <token min="0" postag="NEG"/>
+                    <marker>
+                        <token case_sensitive="yes">Teil</token>
+                    </marker>
+                </pattern>
+                <message>Den ersten Bestandteil unfest zusammengesetzter Verben schreibt man auch in getrennter Stellung klein.</message>
+                <suggestion><match no="4" case_conversion="startlower"/></suggestion>
+                <example correction="teil">Ich nehme <marker>Teil</marker>.</example>
+                <example correction="teil">Ich nehme daran <marker>Teil</marker>.</example>
+                <example correction="teil">Ich nehme daran nicht <marker>Teil</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBSTANTIVIERTES_PARTIZIP" name="substantiviertes Partizip">
