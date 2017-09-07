@@ -481,6 +481,8 @@
     <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</token>
+          <token postag='R.+' postag_regexp="yes" min='0' max='4'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
           <token postag="V.P.+" postag_regexp="yes"/>
         </marker>
@@ -488,12 +490,15 @@
       <disambig action="filter" postag="V.P.+"/>
       <example inputform="cometido[cometer/VMP00SM,cometido/AQ0MS0]" outputform="cometido[cometer/VMP00SM]" type="ambiguous">Todos tinham <marker>cometido</marker> graves erros.</example>
       <example inputform="desrespeitado[desrespeitado/AQ0MS0,desrespeitar/VMP00SM]" outputform="desrespeitado[desrespeitar/VMP00SM]" type="ambiguous">Ela tinha <marker>desrespeitado</marker> todos com a sua infantilidade.</example>
+      <!--example inputform="comprado[comprado/AQ0MS0,comprar/VMP00SM]" outputform="comprado[comprar/VMP00SM]" type="ambiguous">Tenho ao longo dos anos <marker>comprado</marker> livros.</example--> <!-- XXX testrules does not account for multiwords, but it is working -->
     </rule>
     <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</token>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+          <token postag='R.+' postag_regexp="yes" min='0' max='4'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
           <token postag="V.P.+" postag_regexp="yes"/>
         </marker>
