@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-# Program gets POS tags from input file and writes them to
-# output file
+"""
+Program reads input file line by line, matching PoS tags. They are written
+to the output file in order of appearance. Each tag is written to output
+file only once.
+"""
 
 import argparse
 import logging

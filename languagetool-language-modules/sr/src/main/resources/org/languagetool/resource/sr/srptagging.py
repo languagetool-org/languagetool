@@ -3,7 +3,6 @@
 
 """
 This program makes POS tags for Serbian dictionary used in LanguageTool (LT).
-
 """
 
 # PoS tags and their descriptions (in Serbian)
@@ -1550,15 +1549,17 @@ if __name__ == "__main__":
         get_list(ssep)
     elif cmd == '-t':
         # Run tests
-        _test_adjective_tags(ssep) # Придеви OK
-        _test_conjunction_tags(ssep) # Везници OK
-        _test_interjection_tags(ssep) # Узвици OK
-        _test_numeral_tags(ssep) # Бројеви OK
-        _test_noun_tags(ssep) # Именице OK
-        _test_pronoun_tags(ssep) # Заменице ОК
-        _test_particle_tags(ssep) # Речце OK
-        _test_adverb_tags(ssep) # Прилози OK
-        _test_preposition_tags(ssep) # Предлози OK
+        _test_noun_tags(ssep) # Именице
+        _test_pronoun_tags(ssep) # Заменице
+        _test_adjective_tags(ssep) # Придеви
+        _test_numeral_tags(ssep) # Бројеви
         _test_verb_tags(ssep) # Глаголи
+
+        _test_adverb_tags(ssep) # Прилози
+        _test_preposition_tags(ssep) # Предлози
+        _test_conjunction_tags(ssep) # Везници
+        _test_interjection_tags(ssep) # Узвици
+        _test_particle_tags(ssep) # Речце
+
         _test_abbreviation_tags(ssep) # Скраћенице OK
         _test_punctuation_tags(ssep) # Интерпункција OK

@@ -15,6 +15,15 @@ import re
 import os
 import sys
 
+"""
+Program reads morphologic dictionary from a single file, line by line, splitting entries into
+multiple files. File where each line will go is determined by first letter of lemma. Example:
+
+If lemma == "apple", then whole line goes to file "a-words.txt" etc.
+
+If entries are in Croatian Latin script, they are converted into Serbian Cyrillic script.
+"""
+
 _args_ = None
 _logger_ = None
 LOG_FORMAT = '%(asctime)-15s %(levelname)s %(message)s'
