@@ -32842,6 +32842,12 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="LEERZEICHEN_HINTER_DOPPELPUNKT" name="Fehlendes Leerzeichen hinter ':' und ';'">
             <antipattern>
+                <!-- smiley -->
+                <token regexp="yes">[:;]</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[()]</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">„|»|«|"|\(</token>
                 <token regexp="yes">:|;</token>
                 <token regexp="yes">“|»|«|"|\)</token>
