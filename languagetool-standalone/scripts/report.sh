@@ -119,7 +119,5 @@ grep "$DATE_APACHE" /home/languagetool/api/apache_not_found.log | grep $YEAR | t
 echo "" >>$OUTFILE
 echo -n "Number of client-side errors: " >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -c $YEAR >>$OUTFILE
-echo "Client-side errors (max. 20):" >>$OUTFILE
-grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 20 >>$OUTFILE
 
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
