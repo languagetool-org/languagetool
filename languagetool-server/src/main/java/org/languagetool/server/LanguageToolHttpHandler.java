@@ -224,7 +224,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
-        query = readerToString(isr, config.getMaxTextLength());
+        query = readerToString(isr, config.getMaxTextHardLength());
       }
     } else {
       query = requestedUri.getRawQuery();
@@ -241,14 +241,14 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (readBytes <= 0) {
         break;
       }
-      int generousMaxLength = maxTextLength * 3 + 1000;  // once character can be encoded as e.g. "%D8" plus space for other parameters
+      int generousMaxLength = maxTextLength * 3 + 1000;  // one character can be encoded as e.g. "%D8", plus space for other parameters
       if (generousMaxLength < 0) {  // might happen as it can overflow
         generousMaxLength = Integer.MAX_VALUE;
       }
       if (sb.length() > 0 && sb.length() > generousMaxLength) {
         // don't stop at maxTextLength as that's the text length, but here also other parameters
         // are included (still we need this check here so we don't OOM if someone posts a few hundred MB)...
-        throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength + " characters.");
+        throw new TextTooLongException("Your text's length exceeds this server's hard limit of " + maxTextLength + " characters.");
       }
       sb.append(new String(chars, 0, readBytes));
     }
