@@ -13987,12 +13987,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd](as|em)</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0"><exception postag="(SUB|VER):.+" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben|sein</exception></token>
                     </marker>
                     <token postag=".*:GEN:.*" postag_regexp="yes"><exception postag="SUB:NOM:.+" postag_regexp="yes"/><exception>gebliebenen</exception></token>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht wird und dementsprechend großgeschrieben werden muss.</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example>Ich möchte das <marker>erstellen</marker>.</example>
                 <example>Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
@@ -14000,8 +14001,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Importieren">Durch das <marker>importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example correction="Löschen">Das <marker>löschen</marker> der temporären Dateien ist empfehlenswert.</example>
                 <example correction="Berühren">Das <marker>berühren</marker> der Figuren mit den Pfoten ist verboten.</example>
+                <example correction="Berühren">Das zärtliche <marker>berühren</marker> der Figuren mit den Pfoten ist verboten.</example>
                 <example correction="Verführen">Das <marker>verführen</marker> schöner Frauen will geübt sein.</example>
                 <example correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> einfacher XML-Regeln.</example>
+                <example correction="Erstellen">Im nächsten Teil geht es um das selbstständige <marker>erstellen</marker> einfacher XML-Regeln.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
