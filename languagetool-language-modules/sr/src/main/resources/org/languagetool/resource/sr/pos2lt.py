@@ -2,7 +2,7 @@
 # coding: utf-8
 
 """
-Program reads input file line by line, matching PoS tags. Each is replaced by LT tags.
+Program reads input file line by line, matching PoS tags. Each is replaced by an LT tag.
 LT tags are provided by function srptagging.get_tag -
 """
 

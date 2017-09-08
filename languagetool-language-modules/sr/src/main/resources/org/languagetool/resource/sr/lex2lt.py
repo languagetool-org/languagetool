@@ -64,8 +64,8 @@ CYR_LETTERS = {
 
 # Types of regex to match input, selectable from command line
 REGEX_TYPE = {
-    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüA-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüA-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)*",
-    "wac" : "^([a-zčćžšđâîôﬂǌüA-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüA-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüA-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)*"
+    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*",
+    "wac" : "^([a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
 }
 
 # Map holding transliterated Cyrillic letters pointing to
@@ -105,18 +105,23 @@ def parse_args():
 def open_out_files():
     global WORD_FILES
     for cl, lett in CYR_LETTERS.items():
-        _logger_.debug( "Opening file {}/{}-words.txt ...".format(_args_.base_dir, lett) )
-        WORD_FILES[ cl ] = open( os.path.join(_args_.base_dir, lett + '-words.txt'), 'ab+' )
-    # File for miscellaneous entries, starting with Q, W, X and Y
-    WORD_FILES[ 'misc' ] = open(os.path.join(_args_.base_dir, 'misc-words.txt'), 'ab+')
-    WORD_FILES[ 'unmatched' ] = open(os.path.join(_args_.base_dir, 'unmatched-words.txt'), 'ab+')
+        out_dir = os.path.join(_args_.base_dir, lett)
+        if not os.path.exists( out_dir ):
+            os.makedirs( out_dir )
+        WORD_FILES[ cl ] = list()
+        _logger_.debug( "Opening file {}/{}-words.txt ...".format(out_dir, lett) )
+        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-words.txt'), 'wb+' ) )
+        _logger_.debug( "Opening file {}/{}-names.txt ...".format(out_dir, lett) )
+        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-names.txt'), 'wb+' ) )
 
 
 # Close all files containing words
 def close_out_files():
-    for cl, lett_file in WORD_FILES.items():
-        _logger_.debug('Closing file {}/{}-words.txt ...'.format(_args_.base_dir, CYR_LETTERS[ cl ]))
-        lett_file.close()
+    for cl, lett_files in WORD_FILES.items():
+        _logger_.debug('Closing file {}-words.txt ...'.format(CYR_LETTERS[ cl ]))
+        lett_files[0].close()
+        _logger_.debug('Closing file {}-names.txt ...'.format(CYR_LETTERS[ cl ].upper()))
+        lett_files[1].close()
 
 
 def init():
@@ -128,18 +133,15 @@ def init():
 # Determine output file for word tripple
 # based on first letter of lemma
 def get_words_out_file( first_char ):
-    first_lower = first_char.lower()
-    if first_lower in WORD_FILES:
-        out_file = WORD_FILES[ first_lower ]
+    if first_char.lower() in WORD_FILES:
+        # Is this really lower case?
+        if first_char == first_char.lower():
+            out_file = WORD_FILES[ first_char.lower() ][0]
+        else:
+            out_file = WORD_FILES[ first_char.lower() ][1]
     else:
-        out_file = WORD_FILES[ 'misc' ]
+        out_file = WORD_FILES[ 'misc' ][0]
     return out_file
-
-
-# Formats POS tag in some way
-def get_postag(a_postag):
-    #return " ".join(a_postag)
-    return a_postag
 
 
 # Parse input file
@@ -162,29 +164,37 @@ def parse_file():
             # Remove end of line
             line = line.strip()
             cnt += 1
-            # Check if line matches regex
-            match = pattern.match(line)
-            if match:
+            tokens = line.split('\t')
+            if len(tokens) == 5:
                 matchcnt += 1
-                _logger_.debug("Matched groups: {}".format(match.groups()))
-                if len(match.groups()) < 4:
-                    flexform, lemma, posgr = match.group(1, 2, 3)
-                elif len(match.groups()) < 5:
-                    flexform, lemma, posgr = match.group(2, 3, 4)
-                _logger_.debug('flexform={}, lemma={}, posgr={}'.format(flexform, lemma, posgr))
+                flexform = tokens[0]
+                lemma = tokens[1]
+                posgr = tokens[2]
+                frequency = tokens[3]
+                _logger_.debug(
+                    'flexform={}, lemma={}, posgr={}, frequency={}'.format(flexform, lemma, posgr, frequency))
                 # Transliterate flexform and lemma
                 conv_flex_form = comp_dict.sub(lambda m:conv_dict[m.group()], flexform)
                 conv_lemma = comp_dict.sub(lambda m:conv_dict[m.group()], lemma)
                 _logger_.debug('Converted flexform={}, lemma={}'.format(conv_flex_form, conv_lemma))
-                conv_postag = get_postag( posgr )
                 # Determine file to write line in ...
                 out_file = get_words_out_file(conv_lemma[0])
                 # Create line for writing in file
-                out_file.write("{}\t{}\t{}\n".format(conv_flex_form, conv_lemma, conv_postag).encode('utf-8'))
+                out_file.write("{}\t{}\t{}\t{}\n".format(
+                    conv_flex_form, conv_lemma, posgr, frequency).encode('utf-8'))
             else:
                 _logger_.warn("Unmatched line: {}".format(line))
-                out_file = WORD_FILES[ 'unmatched' ]
-                out_file.write("{}\n".format(line).encode('utf-8'))
+                out_file = WORD_FILES[ 'unmatched' ][0]
+                # We will split line simply based on TAB char and write first four tokens
+                tokens = line.split('\t')
+                if len(tokens) == 1:
+                    out_file.write("{}\n".format(tokens[0]).encode('utf-8'))
+                elif len(tokens) == 2:
+                    out_file.write("{}\t{}\n".format(tokens[0], tokens[1]).encode('utf-8'))
+                elif len(tokens) == 3:
+                    out_file.write("{}\t{}\t{}\n".format(tokens[0], tokens[1], tokens[2]).encode('utf-8'))
+                elif len(tokens) == 4:
+                    out_file.write("{}\t{}\t{}\t{}\n".format(tokens[0], tokens[1], tokens[2], tokens[3]).encode('utf-8'))
             if cnt > _args_.first_n_lines > 0:
                 break
         f.close()
