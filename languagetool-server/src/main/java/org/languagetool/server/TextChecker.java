@@ -18,6 +18,9 @@
  */
 package org.languagetool.server;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
@@ -29,6 +32,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -82,8 +86,9 @@ abstract class TextChecker {
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
-    if (aText.getPlainText().length() > config.maxTextLength) {
-      throw new TextTooLongException("Your text exceeds this server's limit of " + config.maxTextLength +
+    int maxTextLength = getMaxTextLength(parameters);
+    if (aText.getPlainText().length() > maxTextLength) {
+      throw new TextTooLongException("Your text exceeds the limit of " + maxTextLength +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
@@ -183,6 +188,30 @@ abstract class TextChecker {
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
+  }
+
+  private int getMaxTextLength(Map<String, String> parameters) {
+    String token = parameters.get("token");
+    if (token != null) {
+      try {
+        String secretKey = config.getSecretTokenKey();
+        if (secretKey == null) {
+          throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
+        }
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        JWT.require(algorithm).build().verify(token);
+        Claim maxTextLength = JWT.decode(token).getClaim("maxTextLength");
+        if (maxTextLength.isNull()) {
+          return config.maxTextLength;
+        } else {
+          return maxTextLength.asInt();
+        }
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      return config.maxTextLength;
+    }
   }
 
   protected void checkParams(Map<String, String> parameters) {
