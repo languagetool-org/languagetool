@@ -142,6 +142,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("gehnemigung", "Genehmigung", rule, lt);
     assertFirstSuggestion("Korrigierungen", "Korrekturen", rule, lt);
     assertFirstSuggestion("Ticketresawihrung", "Ticketreservierung", rule, lt);
+    assertFirstSuggestion("gin", "ging", rule, lt);
   }
 
   @Test

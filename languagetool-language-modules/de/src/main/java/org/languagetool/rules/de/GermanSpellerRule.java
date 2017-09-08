@@ -348,6 +348,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.equals("gin")) {
+      return Collections.singletonList("ging");
+    } else if (word.equals("ua")) {
+      return Collections.singletonList("u.\u202fa.");
+    } else if (word.equals("ua.")) {
+      return Collections.singletonList("u.\u202fa.");
+    } else if (word.equals("zb")) {
+      return Collections.singletonList("z.\u202fB.");
+    } else if (word.equals("zb.")) {
+      return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {
