@@ -30,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.de.GermanSpellerRule;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -46,9 +45,10 @@ import org.languagetool.tools.StringTools;
  */
 public class GermanTagger extends BaseTagger {
 
-  private GermanCompoundTokenizer compoundTokenizer;
   private final ManualTagger removalTagger;
   private final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
+
+  private GermanCompoundTokenizer compoundTokenizer;
 
   public GermanTagger() {
     super("/de/german.dict");
@@ -141,15 +141,12 @@ public class GermanTagger extends BaseTagger {
     return tokenReadings;
   }
 
- /**
+ /*
   * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
   * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
   * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
   * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
   * @param word to be checked
-  * @param sentenceTokens
-  * @param pos
-  * @return
   */
   private List<AnalyzedToken> getImperativeForm (String word, List<String> sentenceTokens, int pos) {
       int idx = sentenceTokens.indexOf(word);
