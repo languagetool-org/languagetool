@@ -1035,7 +1035,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
 
   private boolean isNumber(String token) {
     try {
-      if(token.matches("\\d+")) {
+      if(StringUtils.isNumeric(token)) {
         return true;
       }
       AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
