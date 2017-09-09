@@ -64,6 +64,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jokei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
+  private static final Pattern GEOGRAPHICAL_PREFIXES = Pattern.compile("(nord|ost|süd|west).+");
 
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
@@ -350,13 +351,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
-    } else if (word.equals("ua")) {
+    } else if (word.equals("ua") || word.equals("ua.")) {
       return Collections.singletonList("u.\u202fa.");
-    } else if (word.equals("ua.")) {
-      return Collections.singletonList("u.\u202fa.");
-    } else if (word.equals("zb")) {
-      return Collections.singletonList("z.\u202fB.");
-    } else if (word.equals("zb.")) {
+    } else if (word.equals("zb") || word.equals("zb.")) {
       return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
@@ -378,18 +375,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Maßnahmen");
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
-    } else if (word.equals("Stories")) {
-      return Collections.singletonList("Storys");
-    } else if (word.equals("Lobbies")) {
-      return Collections.singletonList("Lobbys");
-    } else if (word.equals("Hobbies")) {
-      return Collections.singletonList("Hobbys");
-    } else if (word.equals("Parties")) {
-      return Collections.singletonList("Partys");
-    } else if (word.equals("Babies")) {
-      return Collections.singletonList("Babys");
-    } else if (word.equals("Ladies")) {
-      return Collections.singletonList("Ladys");
+    } else if (word.endsWith("ies")) {
+      if(word.equals("Stories")) {
+        return Collections.singletonList("Storys");
+      } else if (word.equals("Lobbies")) {
+        return Collections.singletonList("Lobbys");
+      } else if (word.equals("Hobbies")) {
+        return Collections.singletonList("Hobbys");
+      } else if (word.equals("Parties")) {
+        return Collections.singletonList("Partys");
+      } else if (word.equals("Babies")) {
+        return Collections.singletonList("Babys");
+      } else if (word.equals("Ladies")) {
+        return Collections.singletonList("Ladys");
+      }
     } else if (word.equals("Hallochen")) {
       return Arrays.asList("Hallöchen", "hallöchen");
     } else if (word.equals("hallochen")) {
@@ -578,7 +577,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
-    if (!StringTools.startsWithUppercase(word) && !word.matches("(nord|ost|süd|west).*")) {
+    if (!StringTools.startsWithUppercase(word) && !GEOGRAPHICAL_PREFIXES.matcher(word).matches()) {
       // otherwise stuff like "rumfangreichen" gets accepted
       return false;
     }

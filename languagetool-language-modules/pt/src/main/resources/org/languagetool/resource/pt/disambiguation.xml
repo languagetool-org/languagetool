@@ -139,6 +139,13 @@
       </pattern>
       <disambig action="replace"><wd pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
     </rule>
+    <rule id="nomeproprio2palavras_filtra_CN" name="nome proprio 2 palavras - CN">
+      <pattern>
+          <token postag="&lt;NPCN.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCN.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCN000_"/><wd pos="NPCN000_"/></disambig>
+    </rule>
     <rule id="nomeproprio3palavras" name="nome proprio 3 palavras">
       <pattern>
           <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
@@ -911,6 +918,18 @@
       <disambig action="filter" postag="P.+"/>
       <example inputform="se[se/CS,se/PP3CN000]" outputform="se[se/PP3CN000]" type="ambiguous">Testa-<marker>se</marker>.</example>
       <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>
+    </rule>
+
+
+    <rule id="GRACAS_A" name="Graças a">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-06  	-->
+      <pattern>
+        <marker>
+          <token>graças</token>
+        </marker>
+          <token regexp='yes'>[aà]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
 
     <rule id="PUNCT" name="pontuação">
@@ -1913,6 +1932,7 @@
     </rule>
 
   <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->
     <rule>
       <pattern>
         <marker>
