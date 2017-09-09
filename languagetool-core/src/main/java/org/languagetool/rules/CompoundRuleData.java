@@ -37,7 +37,7 @@ public class CompoundRuleData {
 
   private final Set<String> incorrectCompounds = new HashSet<>();
   private final Set<String> noDashSuggestion = new HashSet<>();
-  private final Set<String> noDashIgnoreCaseSuggestion = new HashSet<>();
+  private final Set<String> noDashLowerCaseSuggestion = new HashSet<>();
   private final Set<String> onlyDashSuggestion = new HashSet<>();
 
   public CompoundRuleData(String path) {
@@ -66,8 +66,8 @@ public class CompoundRuleData {
     return Collections.unmodifiableSet(onlyDashSuggestion);
   }
 
-  Set<String> getNoDashIgnoreCaseSuggestion() {
-	return Collections.unmodifiableSet(noDashIgnoreCaseSuggestion);
+  Set<String> getNoDashLowerCaseSuggestion() {
+	return Collections.unmodifiableSet(noDashLowerCaseSuggestion);
   }
 
   private void loadCompoundFile(String path) throws IOException {
@@ -92,7 +92,10 @@ public class CompoundRuleData {
         } else if (line.endsWith("?")) { // github issue #779
           line = removeLastCharacter(line);
           noDashSuggestion.add(line);
-          noDashIgnoreCaseSuggestion.add(line);
+          noDashLowerCaseSuggestion.add(line);
+        } else if (line.endsWith("$")) { // github issue #779
+          line = removeLastCharacter(line);
+          noDashLowerCaseSuggestion.add(line);
         }
         incorrectCompounds.add(line);
       }

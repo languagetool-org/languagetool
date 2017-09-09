@@ -86,6 +86,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     // also detect an error if only some of the hyphens are missing:
     check(1, "Roll-on-roll-off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "E-Mail Adressen", new String[]{"E-Mail-Adressen"});
+    check(1, "Geräte Wahl", new String[]{"Geräte-Wahl", "Gerätewahl"});
     // first part is a single character:
     check(0, "x-mal");
     check(1, "x mal", new String[]{"x-mal"});
