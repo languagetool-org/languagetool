@@ -6,6 +6,7 @@
 # Adjust as needed
 CORPUS_FILE=/opt/app/s/smd/lt/serbian-corpus.txt
 CORPUS_HUNSPELL_FILE=/opt/app/s/smd/lt/hunspell-serbian-corpus.txt
+TEMPDIR=/tmp
 
 if [ ! -f ${CORPUS_FILE} ]; then
     echo "Serbian word corpus file ${CORPUS_FILE} does not exist, aborting ..."
@@ -19,4 +20,10 @@ echo "Generating SYNTH Serbian dictionary ..."
 ltsyndic -i ${CORPUS_FILE} -info serbian_synth.info -o serbian_synth.dict
 
 echo "Generating HunSpell dictionary ..."
-ltspldic -i ${CORPUS_HUNSPELL_FILE} -info serbian.info -o hunspell/sr_RS.dict
+ltspldic -i ${CORPUS_HUNSPELL_FILE} -info hunspell/sr_RS.info -o hunspell/sr_RS.dict
+
+# It was observed that process leaves temporary files in /tmp directory
+# so we will clean up after ourselves
+rm -f ${TEMPDIR}/DictionaryBuilder*txt ${TEMPDIR}/DictionaryBuilder*info \
+      ${TEMPDIR}/SynthDictionaryBuilder*txt ${TEMPDIR}/SynthDictionaryBuilder*info \
+      ${TEMPDIR}/SpellDictionaryBuilder*txt ${TEMPDIR}/SpellDictionaryBuilder*info

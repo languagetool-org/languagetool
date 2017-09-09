@@ -49,6 +49,7 @@ do
                 echo "Adding ${FNAME} to word corpus ..."
                 cat ${OUTPUT_DIR}/${FNAME}.sed >> ${OUTPUT_DIR}/serbian-corpus.tmp
                 cut -f1 ${OUTPUT_DIR}/${FNAME}.sed >> ${OUTPUT_DIR}/hunspell-serbian-corpus.tmp
+                rm -f ${INPUT_DIR}/${file}/${FNAME}.sed
             fi
             echo " "
         fi

@@ -78,7 +78,10 @@ def parse_file():
             if len(lparts[2]) > 0:
                 lttag = srptagging.get_tag(lparts[2], ':')
                 if lttag not in (None, ''):
-                    _out_file_.write("{}\t{}\t{}\n".format(lparts[0], lparts[1], lttag).encode('utf-8'))
+                    # WARNING: Due to some unknown bug (or feature?) in morfologik dictionary
+                    # generator, a lone "x" at the end of each LT tag is required, so that
+                    # generated tags appear correctly
+                    _out_file_.write("{}\t{}\t{}x\n".format(lparts[0], lparts[1], lttag).encode('utf-8'))
                 else:
                     _logger_.warn("For PoS tag '{}' no LT tag found. Line: '{}'".format(line))
             else:

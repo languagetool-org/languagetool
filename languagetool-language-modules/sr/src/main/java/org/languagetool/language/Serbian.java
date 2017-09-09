@@ -23,6 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
+import org.languagetool.rules.sr.MorfologikSerbianSpellerRule;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -107,8 +108,9 @@ public class Serbian extends Language implements AutoCloseable {
                     Example.fixed("Почела је школа. <marker>Деца</marker> су поново села у клупе.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new WordRepeatRule(messages, this)
+            new WordRepeatRule(messages, this),
             // TODO: Add Serbian-specific rules
+            new MorfologikSerbianSpellerRule(messages, this)
     );
   }
 

@@ -1,6 +1,7 @@
 package org.languagetool.rules.sr;
 
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -16,6 +17,10 @@ public class MorfologikSerbianSpellerRule extends MorfologikSpellerRule {
           Language language) throws IOException {
 
     super(messages, language);
+    addExamplePair(
+            Example.wrong("Изгубила све сам <marker>бткие</marker>, ал' још водим рат."),
+            Example.fixed("Изгубила све сам <marker>битке</marker>, ал' још водим рат.")
+    );
   }
 
   @Override
