@@ -166,7 +166,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
           <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
-          <token postag_regexp='yes' postag='V.[^N].+'/>
+          <token postag_regexp='yes' postag='V.[^N].+'>
+            <exception regexp='yes'>mortos?</exception></token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </antipattern>
@@ -210,7 +211,8 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>mortos?</exception></token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
@@ -230,7 +232,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>como|para|casa|nada</exception></token>
+            <exception regexp='yes'>como|para|casa|nada|mortos?</exception></token>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
@@ -255,8 +257,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
-          <token postag='V.+' postag_regexp='yes'>
-    <!--<exception regexp='yes'>como|para|casa|nada</exception>--></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1 \3-\2</suggestion>
