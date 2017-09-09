@@ -65,7 +65,6 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Start Ziel Sieg");
     check(1, "Start Ziel Sieg!");
     check(1, "Doppler Effekt");
-    check(1, "Doppler effekt");
     check(2, "Der dumme System Administrator legt die CD ROM");
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
