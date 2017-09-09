@@ -149,30 +149,30 @@ public class GermanTagger extends BaseTagger {
   * @param word to be checked
   */
   private List<AnalyzedToken> getImperativeForm (String word, List<String> sentenceTokens, int pos) {
-      int idx = sentenceTokens.indexOf(word);
-      String previousWord = "";
-      while (--idx > -1) {
-        previousWord = sentenceTokens.get(idx);
-        if (previousWord.matches("\\s+")) {
-          continue;
+    int idx = sentenceTokens.indexOf(word);
+    String previousWord = "";
+    while (--idx > -1) {
+      previousWord = sentenceTokens.get(idx);
+      if (previousWord.matches("\\s+")) {
+        continue;
+      }
+      break;
+    }
+    if (!(pos == 0 && sentenceTokens.size() > 1) && !IMPERATIVE_PATTERN.matcher(previousWord).matches()) {
+      return null;
+    }
+    String w = pos == 0 ? word.toLowerCase() : word;
+    List<TaggedWord> taggedWithE = getWordTagger().tag(w + "e");
+    for (TaggedWord tagged : taggedWithE) {
+      if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
+        // do not overwrite manually removed tags
+        if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
+          return getAnalyzedTokens(Arrays.asList(tagged), word);
         }
         break;
       }
-      if (!(pos == 0 && sentenceTokens.size() > 1) && !IMPERATIVE_PATTERN.matcher(previousWord).matches()) {
-        return null;
-      }
-      String w = pos == 0 ? word.toLowerCase() : word;
-      List<TaggedWord> taggedWithE = getWordTagger().tag(w+"e");
-      for (TaggedWord tagged : taggedWithE) {
-        if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
-          // do not overwrite manually removed tags
-          if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
-            return getAnalyzedTokens(Arrays.asList(tagged), word);
-          }
-          break;
-        }
-      }
-      return null;
+    }
+    return null;
   }
 
   private synchronized void initializeIfRequired() throws IOException {
