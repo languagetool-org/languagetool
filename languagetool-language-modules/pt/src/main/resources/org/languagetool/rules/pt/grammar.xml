@@ -1108,7 +1108,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <or>
-          <token postag="DA.+" postag_regexp="yes"/>
+          <token postag="DA.+" postag_regexp="yes">
+            <exception>a</exception></token>
           <token regexp="yes" case_sensitive="yes">&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;
             <exception postag_regexp='yes' postag='UNKNOWN|NP.+'/></token>
         </or>
@@ -1133,9 +1134,9 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Este nome geográfico não é precedido de um artigo.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-artigo-em-topoonimos-estrangeiros/12454</url>
-      <example type='incorrect'>Vou <marker>ao Cabo Verde</marker>.</example>
-      <example type='correct'>Vou a <marker>Cabo Verbe</marker>.</example>
-      <example>Cabo Verde</example>
+      <example type='incorrect'>Vou <marker>à Nova Iorque</marker>.</example>
+      <example type='correct'>Vou a <marker>Nova Iorque</marker>.</example>
+      <example>Nova Iorque</example>
     </rule>
     <rule>
       <pattern>
@@ -1174,24 +1175,23 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception regexp='yes'>&contracoes_MS;</exception>
+            <exception regexp='yes'>&contracoes_FS;</exception>
             <exception regexp="yes">[(,;:]</exception></token>
         <marker>
           <token case_sensitive="yes">Nova
-            <exception scope="previous" postag="DA.+|DD.FS.+" postag_regexp="yes"/></token>
-          <token case_sensitive="yes">Zelândia|Guiné</token>
+            <exception scope="previous" postag="DA.+|DD.FS.+|SENT_START" postag_regexp="yes"/></token>
+          <token case_sensitive="yes" regexp='yes'>Zelândia|Guiné</token>
         </marker>
       </pattern>
       <message>Este nome geográfico é precedido de um artigo.</message>
-        <suggestion>a \1 \2</suggestion>
-      <example correction="A Nova Zelândia">Vão a <marker>Nova Zelândia</marker>.</example>
-      <example correction="A Nova Guiné"><marker>Nova Guiné</marker>.</example>
+        <suggestion>a \2 \3</suggestion>
+      <example correction="A Nova Zelândia">A série é gravada em <marker>Nova Zelândia</marker> .</example>
+      <example correction="A Nova Guiné">São os habitantes nativos de <marker>Nova Guiné</marker>.</example>
     </rule>
     <rule id="ARTICLES_PRECEDING_LOCATIONS_EL" name="Nomes geográficos: El Salvador">
       <pattern case_sensitive="yes">
           <token>El</token>
           <token>Salvador</token>
-        </marker>
       </pattern>
       <message>Este nome geográfico não é necessita do artigo 'El' em português.</message>
         <suggestion>Salvador</suggestion>

@@ -453,10 +453,9 @@ public class AgreementRule extends Rule {
    * determiner - adjective - noun group ("ein hohes Haus" -> "ein sehr hohes Haus",
    * "ein 500 Meter hohes Haus") and return the index of the first non-modifier token ("Haus")
    * @param startAt index of array where to start searching for modifier
-   * @param tokens
    * @return index of first non-modifier token
    */
-  int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
+  private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
     if ((startAt + 1) < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
     }

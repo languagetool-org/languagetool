@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -125,7 +126,7 @@ public abstract class AbstractCompoundRule extends Rule {
             msg = withHyphenMessage;
           }
           if (isNotAllUppercase(origStringToCheck) && !getCompoundRuleData().getOnlyDashSuggestion().contains(stringToCheck)) {
-            replacement.add(mergeCompound(origStringToCheck));
+            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getNoDashIgnoreCaseSuggestion().stream().anyMatch(s -> origStringsToCheck.contains(s))));
             msg = withoutHyphenMessage;
           }
           String[] parts = stringToCheck.split(" ");
@@ -199,7 +200,7 @@ public abstract class AbstractCompoundRule extends Rule {
     return true;
   }
 
-  private String mergeCompound(String str) {
+  private String mergeCompound(String str, boolean uncapitalizeMidWords) {
     String[] stringParts = str.split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
@@ -207,7 +208,7 @@ public abstract class AbstractCompoundRule extends Rule {
         if (k == 0) {
           sb.append(stringParts[0]);
         } else {
-          sb.append(stringParts[k]);
+          sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);
         }
       }
     }
