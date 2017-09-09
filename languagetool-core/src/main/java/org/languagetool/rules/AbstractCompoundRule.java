@@ -126,7 +126,7 @@ public abstract class AbstractCompoundRule extends Rule {
             msg = withHyphenMessage;
           }
           if (isNotAllUppercase(origStringToCheck) && !getCompoundRuleData().getOnlyDashSuggestion().contains(stringToCheck)) {
-            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getNoDashIgnoreCaseSuggestion().stream().anyMatch(s -> origStringsToCheck.contains(s))));
+            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getNoDashLowerCaseSuggestion().stream().anyMatch(s -> origStringsToCheck.contains(s))));
             msg = withoutHyphenMessage;
           }
           String[] parts = stringToCheck.split(" ");
