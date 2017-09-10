@@ -1545,6 +1545,18 @@ USA
             <short>Possible typo</short>
             <example correction="head">She hit the nail on the <marker>hat</marker>.</example>
         </rule>
+        <rule id="ON_THE_SHELF" name="sit of (on) the shelf">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">sit|be|leave|put|back</token>
+                <token min="0">it</token>
+                <marker><token regexp="yes">o(ne|[fhr])|in</token></marker>
+                <token>the</token>
+                <token>shelf</token>
+            </pattern>
+            <message>Did you mean <suggestion>on</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="on">She likes being <marker>of</marker> the shelf.</example>
+        </rule>
         <rule id="COME_THROUGH" name="come threw (through)">
             <pattern>
                 <token inflected="yes">come</token>
