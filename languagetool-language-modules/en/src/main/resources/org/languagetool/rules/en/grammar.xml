@@ -8539,6 +8539,38 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="prevent">This infrared radiation rises into the atmosphere where gases <marker>prevents</marker> the infrared radiation from escaping into space.</example>
             </rule>
+            <!--rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token>and</token>
+                    <token/>
+                    <marker>
+                        <token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="5" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="have|haven">Tina and Peter <marker>has</marker> two children.</example>
+            </rule-->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token><exception>,</exception></token>
+                    <token>and</token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token/>
+                    <marker>
+                        <token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="7" postag="VBP"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="am|are|aren">The teacher and her students <marker>is</marker> in the classroom.</example>
+                <example correction="sing">Her mother and her father <marker>sings</marker> a song.</example>
+                <example>No, and it's not in my pocket either.</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
@@ -13569,30 +13601,32 @@ USA
                 <example correction="Tom, thank"><marker>Tom thank</marker> you!</example>
             </rule>
         </rulegroup>
-        <rule id="MISSING_COMMA_AFTER_INTRODUCTORY_PHRASE" name="Missing comma after introductory phrase">
-        <antipattern>
-            <token>at</token>
-            <token>least</token>
-        </antipattern>
-        <antipattern>
-            <token>in</token>
-            <token>case</token>
-        </antipattern>
-         <pattern>
-          <token postag='SENT_START'></token>
-          <token postag='IN'></token>
-          <marker>
-          <token postag='NN.*' postag_regexp='yes'></token>
-          <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token> <!-- not PRP: exclude 'me', 'himself...' -->
-          </marker>
-         </pattern>
-         <message>The comma is probably missing here: <suggestion><match no="3"/>, <match no="4"/></suggestion>.</message>
-         <url>http://englishplus.com/grammar/00000074.htm</url>
-         <short>Missing comma</short>
-         <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>         
-         <example>At least they believed me.</example>
-         <example>To see you is always a great pleasure.</example>
-        </rule>
+        <rulegroup id="MISSING_COMMA_AFTER_INTRODUCTORY_PHRASE" name="Missing comma after introductory phrase">
+            <rule>
+                <antipattern>
+                    <token>at</token>
+                    <token>least</token>
+                </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token>case</token>
+                </antipattern>
+                 <pattern>
+                     <token postag='SENT_START'></token>
+                     <token postag='IN'></token>
+                     <marker>
+                         <token postag='NN.*' postag_regexp='yes'></token>
+                         <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token> <!-- not PRP: exclude 'me', 'himself...' -->
+                     </marker>
+                 </pattern>
+                 <message>The comma is probably missing here: <suggestion><match no="3"/>, <match no="4"/></suggestion>.</message>
+                 <url>http://englishplus.com/grammar/00000074.htm</url>
+                 <short>Missing comma</short>
+                 <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>
+                 <example>At least they believed me.</example>
+                 <example>To see you is always a great pleasure.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_AFTER_A_MONTH" name="Comma after a month">
          <pattern>
           <token regexp='yes'>&months;</token>
@@ -22464,7 +22498,7 @@ USA
         </rule>
         <rule id="EUPUB_ACTORNESS" name="actorness">
             <pattern>
-                <token regexp="yes">actorness|actornesses</token>
+                <token regexp="yes">actorness(es)?</token>
             </pattern>
             <message>This word is an extraordinary creation… that is both quite impenetrable and slightly childish. Alternatives: <suggestion>participation</suggestion>, <suggestion>involvement</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
@@ -22546,7 +22580,7 @@ USA
             <pattern>
                 <token>with</token>
                 <token>the</token>
-                <token regexp="yes">aim|aims</token>
+                <token regexp="yes">aims?</token>
                 <token>to</token>
             </pattern>
             <message>There are 634 instances of 'with the aim to (do something) in Eurlex. 'With the aim to' takes 'of' + the gerund. Alternatives: <suggestion>with the aim of</suggestion> (doing something), <suggestion>with a view to</suggestion> (doing something, not do something).</message>
