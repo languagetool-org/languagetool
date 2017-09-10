@@ -20,6 +20,7 @@
   * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
     6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
   * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in addition to "Gehe"/"küsse")
+  * introduced two new line endings ('?' and '$') for the data-file `compounds.txt`; these endings indicate that the mid-word parts of the compound need to be lower-cased (e.g., 'Geräte Wahl' -> 'Gerätewahl')  
 
 #### Portuguese
   * added and improved grammar and style rules, including:
