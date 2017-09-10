@@ -2938,7 +2938,7 @@ USA
                     <token>year</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="NNS|NNPS" postag_regexp="yes"></token>
+                    <token postag="NNP?S" postag_regexp="yes"></token>
                     <token regexp="yes">person|face</token>
                     <token>to</token>
                     <token regexp="yes">person|face</token>
@@ -2955,7 +2955,7 @@ USA
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">eats|says|likes|loves|hates|customs|sports|decreases|does|his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
+                        <token postag="NNP?S" postag_regexp="yes" regexp="yes">\p{Lu}?\p{Ll}*s<exception regexp="yes">eats|says|likes|loves|hates|customs|sports|decreases|does|his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}|and|or</exception></token>
@@ -2971,6 +2971,7 @@ USA
                 <example>He made his final report to the Senate Foreign Relations Committee on U.S. affairs abroad.</example>
                 <example>He gave the customers chips or checks or premium points.</example>
                 <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech from March.</example>
+                <example correction="Presidents'|President's">This is a transcript of the <marker>Presidents</marker> speech from March.</example>
                 <example>Legalized Abortion on Crime, authored by the economists Steven D. Levitt and John Donohue.</example>
                 <example>Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
                 <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
@@ -2995,7 +2996,7 @@ USA
                     <token><exception postag="PRP$"/></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">sports|eats|says|likes|loves|hates|desires|his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
+                        <token postag="NNP?S" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">sports|eats|says|likes|loves|hates|desires|his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">sector|department|given|exam|faculty|factory|today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"/></token>
                     <token regexp="yes">\p{Punct}</token>
@@ -8562,7 +8563,7 @@ USA
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"/></token>
                     <marker>
                         <token regexp="yes">a|an</token>
-                        <token postag="NNS|NNPS" postag_regexp="yes">
+                        <token postag="NNP?S" postag_regexp="yes">
                             <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
                             <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
@@ -8592,7 +8593,7 @@ USA
                     <token regexp="yes">a|an</token>
                     <token max="2" postag="JJ"><exception regexp="yes">few|(half-)?dozen|time</exception><exception postag="CD"/></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters|innings</exception></token>
+                        <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters|innings</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">['’]|and</exception></token>
                 </pattern>
@@ -8615,7 +8616,7 @@ USA
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
                 <marker>
                     <token postag="CD">one</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes">
+                    <token postag="NNP?S" postag_regexp="yes">
                         <exception postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"/>
                         <exception regexp="yes">half-century|innings</exception>
                     </token>
@@ -10477,7 +10478,7 @@ USA
                         <token regexp="yes">these|those</token>
                         <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VB[ZGN]|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/><exception>are</exception></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>this <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="NNS"/></suggestion>?</message>
                 <short>Grammatical problem: use 'this'</short>
@@ -11555,7 +11556,7 @@ USA
                     </marker>
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>The noun should be probably in the plural form: <suggestion><match no="3" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+                <message>The noun should be probably in the plural form: <suggestion><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
                 <short>Grammatical problem: use a plural noun</short>
                 <example correction="spiders">I'm afraid of <marker>spider</marker>.</example>
                 <example>I'm afraid of <marker>spiders</marker>.</example>
@@ -11565,13 +11566,13 @@ USA
                 <pattern>
                     <token>afraid</token>
                     <token>of</token>
-                    <token postag="JJ.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception postag="NNP?S" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="NN:.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+                        <token postag="NN:.*" postag_regexp="yes"><exception postag="NNP?S" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+                <message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
                 <short>Grammatical problem: use a plural noun</short>
                 <example correction="spaces">I'm afraid of open <marker>space</marker>.</example>
             </rule>
@@ -11727,7 +11728,7 @@ USA
                     <token>there</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NNP?|JJ.*|DT" postag_regexp="yes"/><exception>lots</exception></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|JJ.*|DT" postag_regexp="yes"/><exception>lots</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4</suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -11741,7 +11742,7 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4 \5</suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -11752,7 +11753,7 @@ USA
                 <pattern>
                     <token>there</token>
                     <token>is</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT|RB" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT|RB" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are \3</suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -11765,7 +11766,7 @@ USA
                     <token>there</token>
                     <token>is</token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are \3 \4</suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -11784,7 +11785,7 @@ USA
                         <token chunk="E-NP-singular"><exception postag="NNPS"/></token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="5" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>?</message>
+                <message>Did you mean <suggestion><match no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="problems">There're <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example>There're problems in Iraq.</example>
@@ -11800,7 +11801,7 @@ USA
                         <token chunk="E-NP-singular"><exception postag="NNPS"/></token>
                     </marker>
                 </pattern>
-                <message>Possible agreement error. Did you mean <suggestion><match no="6" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>?</message>
+                <message>Possible agreement error. Did you mean <suggestion><match no="6" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="problems">There're a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example>There's a whole lot of problems in Iraq.</example>
@@ -11821,7 +11822,7 @@ USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Possible agreement error. Did you mean <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="5" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>?</message>
+                <message>Possible agreement error. Did you mean <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Grammatical problem</short>
                 <example correction="problems">There are many <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example>There are many problems in Iraq.</example>
@@ -11845,9 +11846,9 @@ USA
                     <token>of</token>
                     <token postag="NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="4"/> seems to be countable; consider using: <suggestion>a <match no="2"/> of <match no="4" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="4"/> seems to be countable; consider using: <suggestion>a <match no="2"/> of <match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="a lot of cars">I have <marker>a lot of car</marker>.</example>
             <example>I have <marker>a lot of wine</marker>.</example>
@@ -11861,7 +11862,7 @@ USA
                 </marker>
                 <token><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="3"/> seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="3"/> seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="lots of books">I have got <marker>lots of book</marker>.</example>
             <example>I have got <marker>lots of wine</marker>.</example>
@@ -11979,7 +11980,7 @@ USA
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="books">I have five <marker>book</marker>.</example>
             <example>I have five <marker>books</marker>.</example>
@@ -12131,7 +12132,7 @@ USA
                 </marker>
                 <token><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="2"/> seems to be countable; consider using: <suggestion><match no="1"/> <match suppress_misspelled="yes" no="2" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="2"/> seems to be countable; consider using: <suggestion><match no="1"/> <match suppress_misspelled="yes" no="2" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="several books">I have <marker>several book</marker>.</example>
             <example>I have <marker>many books</marker>.</example>
@@ -12194,8 +12195,8 @@ USA
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*|VBG" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="CC"/>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/></suggestion>, <suggestion>a good deal of <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12225,8 +12226,8 @@ USA
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="CC"/>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="3"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12254,7 +12255,7 @@ USA
                         <token>few</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>little <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12268,8 +12269,8 @@ USA
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="CC"/>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>little <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12282,7 +12283,7 @@ USA
                         <token>several</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>some <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12295,8 +12296,8 @@ USA
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="CC"/>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
-                    <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>some <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12308,7 +12309,7 @@ USA
             <url>https://en.oxforddictionaries.com/grammar/double-negatives</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|sh(a|ould)n|wasn|weren|won|wouldn</token>
                     <token regexp="yes">’|'|´</token>
                     <token>t</token>
                     <token>not</token>
@@ -12319,7 +12320,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">’|'|´</token>
                     <token>t</token>
                     <token>have</token>
@@ -22359,7 +22360,7 @@ USA
         <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">[´`]</token>
                     <token>t</token>
                 </pattern>
@@ -22399,7 +22400,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">[;:"]</token>
                     <token>t</token>
                 </pattern>
@@ -22435,7 +22436,7 @@ USA
                 <token chunk="I-VP"/>
             </antipattern>
             <pattern>
-                <token regexp="yes">action|actions</token>
+                <token regexp="yes">actions?</token>
             </pattern>
             <message>In EU texts, the word 'action' is used countably with a meaning akin to 
             '<suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">scheme</match></suggestion>', 
