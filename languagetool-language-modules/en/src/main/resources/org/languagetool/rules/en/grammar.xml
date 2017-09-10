@@ -1445,7 +1445,7 @@ USA
             <message>Did you mean <suggestion>Wi-Fi</suggestion>? (This is the officially approved term by the Wi-Fi Alliance.)</message>
             <url>https://www.merriam-webster.com/dictionary/wifi</url>
             <short>Possible typo</short>
-            <example correction="Another"><marker>WiFi</marker> is a technology for wireless local area networking with devices based on the IEEE 802.11 standards.</example>
+            <example correction="Wi-Fi"><marker>WiFi</marker> is a technology for wireless local area networking with devices based on the IEEE 802.11 standards.</example>
         </rule>
         <rule id="SENT_START_THEM" name="'Them (Then)' at sentence start">
             <pattern>
@@ -1646,7 +1646,7 @@ USA
             <pattern>
                 <token><exception scope="previous">am</exception>I</token>
                 <marker>
-                    <token regexp="yes">a|an</token>
+                    <token regexp="yes">an?</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>am</suggestion> (first person of 'to be')?</message>
@@ -1765,7 +1765,7 @@ USA
         </rule>
         <rule id="THINK_OFF" name="think/know off (of)">
             <pattern>
-                <token regexp="yes">(think|know|thought|thinking)</token>
+                <token regexp="yes">think(ing)?|know|thought</token>
                 <marker>
                     <token>off</token>
                 </marker>
@@ -1777,7 +1777,7 @@ USA
         <rulegroup id="NOT_US1" name="not us (use)">
             <rule>
                 <pattern>
-                    <token>not</token>
+                    <token inflected="yes">not</token>
                     <marker>
                         <token>us</token>
                     </marker>
@@ -1785,17 +1785,6 @@ USA
                 <message>Did you mean <suggestion>use</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="use">Please do not <marker>us</marker> dispose.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>t</token>
-                    <marker>
-                        <token>us</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean <suggestion>use</suggestion>?</message>
-                <short>Possible typo</short>
                 <example correction="use">Please don't <marker>us</marker> dispose.</example>
             </rule>
         </rulegroup>
@@ -1803,7 +1792,7 @@ USA
             <pattern>
                 <token regexp="yes">I|you|he|she|they|we</token>
                 <marker>
-                    <token regexp="yes">thing|things</token>
+                    <token regexp="yes">things?</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>think</suggestion> or <suggestion>thinks</suggestion>?</message>
@@ -1819,7 +1808,7 @@ USA
                     <marker>
                         <token>were</token>
                     </marker>
-                    <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag="JJ|VBN|IN|PRP\$" postag_regexp="yes"/><exception regexp="yes">there|they|we|you</exception></token>
+                    <token postag="VBP?|PRP" postag_regexp="yes"><exception postag="JJ|VBN|IN|PRP\$" postag_regexp="yes"/><exception regexp="yes">there|they|we|you</exception></token>
                     <token><exception regexp="yes">not|to</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
@@ -7675,7 +7664,7 @@ USA
                 <token>does<exception scope="previous" postag="NNP"/></token>
                 <token>
                     <exception regexp="yes">so|th(is|at)|and|[:,]</exception>
-                    <exception postag_regexp="yes" postag="VB|VBP|VBG|WP|CC"/>
+                    <exception postag_regexp="yes" postag="VB[PG]?|WP|CC"/>
                 </token>
                 <marker>
                     <token postag="VBZ"><exception postag="NNS"/></token>
@@ -8594,7 +8583,7 @@ USA
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"/></token>
                     <marker>
-                        <token regexp="yes">a|an</token>
+                        <token regexp="yes">an?</token>
                         <token postag="NNP?S" postag_regexp="yes">
                             <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
@@ -8622,7 +8611,7 @@ USA
             <rule>
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"/></token>
-                    <token regexp="yes">a|an</token>
+                    <token regexp="yes">an?</token>
                     <token max="2" postag="JJ"><exception regexp="yes">few|(half-)?dozen|time</exception><exception postag="CD"/></token>
                     <marker>
                         <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters|innings</exception></token>
@@ -10639,7 +10628,7 @@ USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|an</token>
+                        <token regexp="yes">an?</token>
                     </marker>
                     <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
                 </pattern>
@@ -10942,7 +10931,7 @@ USA
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
                 <token>more<exception regexp="yes" scope="previous">no|much</exception></token>
-                <token regexp="yes">a|an</token>
+                <token regexp="yes">an?</token>
                 <token postag="JJ|VBN" postag_regexp="yes"/>
             </pattern>
             <message>Did you mean <suggestion>a more \3</suggestion>?</message>
@@ -12183,7 +12172,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|an</token>
+                        <token regexp="yes">an?</token>
                         <token postag="JJ"><exception postag="NN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"><exception postag="NN.*" postag_regexp="yes"/></token>
@@ -12195,7 +12184,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|an</token>
+                        <token regexp="yes">an?</token>
                         <token postag="JJ"><exception postag="NN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
@@ -13016,7 +13005,7 @@ USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">a|an</token>
+                    <token regexp="yes">an?</token>
                     <and>
                         <token postag="NN:U"/>
                         <token chunk="E-NP-singular"/>
@@ -13514,7 +13503,7 @@ USA
                     <token/>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>ve</token>
-                    <token regexp="yes">a|an</token>
+                    <token regexp="yes">an?</token>
                 </pattern>
                 <message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express possession.</message>
                 <short>Non-standard contraction</short>
@@ -18347,7 +18336,7 @@ USA
         <rule id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
             <pattern>
                 <token>in</token>
-                <token regexp="yes">a|an</token>
+                <token regexp="yes">an?</token>
                 <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military</exception></token>
                 <token regexp="yes">manner|style|way|fashion|mode</token>
             </pattern>
@@ -20433,7 +20422,7 @@ USA
         <rule id="BE_A_X_ONE" name="Possible wordiness: be a X one">
             <pattern>
                 <token regexp="yes" inflected="yes">be|as</token>
-                <token regexp="yes">a|an</token>
+                <token regexp="yes">an?</token>
                 <token postag_regexp='yes' postag="J.*"/>
                 <token>one</token>
             </pattern>
