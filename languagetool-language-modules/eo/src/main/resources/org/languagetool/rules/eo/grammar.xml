@@ -382,7 +382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes" inflected="yes">geadult(?:in)?o|(?:ge)?adultino</token>
         </pattern>
-        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
         <example correction="adoltino">Maria baldaŭ fariĝos <marker>adultino</marker>.</example>
       </rule>
       <rule>
@@ -869,6 +869,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/vortfarado/afiksoj/prefiksoj/mal.html#i-6a5</url>
       <example correction="malfacila">Estas <marker>dificila</marker> demando.</example>
     </rule>
+    <rulegroup id="HUMIDA" name="humida → malseka">
+      <url>http://www.reta-vortaro.de/revo/art/humid.html#humid.0a</url>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+        </pattern>
+        <message>La vorto «\1» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="1" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <url>http://www.reta-vortaro.de/revo/art/humid.html#humid.0a</url>
+        <example correction="malsekaj">Liaj <marker>humidaj</marker> okuloj.</example>
+        <example>La humida vento.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+        </pattern>
+        <message>La vorto «\3» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="3" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <example correction="malsekaj">Liaj okuloj <marker>humidaj</marker>.</example>
+        <example correction="malsekaj">Liaj okuloj preskaŭ <marker>humidaj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+          <token inflected="yes" regexp="yes">esti|iĝi|fariĝi|resti</token>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+        </pattern>
+        <message>La vorto «\4» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="4" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <example correction="malsekaj">Liaj okuloj estis <marker>humidaj</marker>.</example>
+        <example correction="malsekaj">Liaj okuloj estis tre <marker>humidaj</marker>.</example>
+        <example correction="malseka">Liaj kampego estis tro <marker>humida</marker>.</example>
+        <example>La aero estas humida.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
