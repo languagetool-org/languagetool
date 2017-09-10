@@ -27,7 +27,7 @@ We can optionally create files
 that will contain commands to replace words( e.g. "Аацхен" with "Ахен").
 
 2. Run Python script "pos2lt.py" with parameters:
-    ./pos2lt.py
+    ./pos2lt.py -i <path_to_input_LEX_file> -o <path_to_output_directory>
 
 3. Run shell script "tag2corp.sh"
     ./tag2corp.sh
