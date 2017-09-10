@@ -4658,7 +4658,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1"/> necessari</suggestion>
                 <suggestion><match no="1"/> forçós</suggestion>
                 <suggestion><match no="1"/> imperiós</suggestion>
-                <short>Expressió incorrecta</short>
                 <example correction="Cal|És necessari|És forçós|És imperiós"><marker>És precís</marker> fer-ho</example>
                 <example>Cal fer-ho</example>
             </rule>
@@ -4674,7 +4673,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Incorrecte com a perífrasi d'obligació.</message>
                 <suggestion><match no="2" postag="VA(.*)" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion>
                 <suggestion>s'<match no="2"></match> de</suggestion>
-                <short>Expressió incorrecta</short>
                 <example correction="cal|s'ha de">No <marker>hi ha que</marker> fer res</example>
                 <example correction="Cal|S'ha de"><marker>Hi ha que</marker> triar diputat.</example>
                 <example correction="calia|s'havia de">No <marker>hi havia que</marker> fer res</example>
@@ -10973,7 +10971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">barrejar</token>
+                        <token inflected="yes" regexp="yes">barrejar|barallar</token>
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
@@ -10985,7 +10983,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="1">barrejar</token>
+                        <token inflected="yes" skip="1" regexp="yes">barrejar|barallar</token>
                     </marker>
                     <token regexp="yes" inflected="yes">possibilitat|hipòtesi</token>
                 </pattern>
@@ -29313,7 +29311,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>l'orni</suggestion>
             <suggestion>el pagès</suggestion>
             <suggestion>el distret</suggestion>
-            <short>Expressió incorrecta</short>
             <example correction="l'orni|el pagès|el distret">va fer <marker>el suec</marker></example>
             <example>va fer l'orni</example>
         </rule>
