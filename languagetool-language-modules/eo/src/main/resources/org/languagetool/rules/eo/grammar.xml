@@ -689,17 +689,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://www.reta-vortaro.de/revo/art/tomograf.html#lng_</url>
       <example correction="tomografiilo">Komputila <marker>tomografo</marker></example>
     </rule>
-    <rule id="UNIKA" name="unika (ununura)">
-      <pattern>
-        <marker>
-          <token regexp="yes">unikaj?n?</token>
-        </marker>
-        <token regexp="yes">(?:ge)?(?:fil|infan|beb)(?:et)?(?:in)?oj?n?</token>
-      </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+    <rulegroup id="UNIKA" name="unika (ununura)">
       <url>http://www.reta-vortaro.de/revo/art/unik.html#unik.0a</url>
-      <example correction="Ununura"><marker>Unika</marker> filo.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">unikaj?n?</token></marker>
+          <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <example correction="Ununura"><marker>Unika</marker> filo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
+          <marker><token regexp="yes">unikaj?n?</token></marker>
+        </pattern>
+        <message>Laŭ Revo, «\2» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <example correction="ununura">Filino <marker>unika</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="POCENTO" name="pocento (elcento)">
       <pattern>
         <token inflected="yes">pocento</token>
