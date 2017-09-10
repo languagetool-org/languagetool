@@ -19,21 +19,27 @@
     to `spelling.txt`
   * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
     6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
-  * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in addition to "Gehe"/"küsse")
-  * introduced two new line endings ('?' and '$') for the data-file `compounds.txt`; these endings indicate that the mid-word parts of the compound need to be lower-cased (e.g., 'Geräte Wahl' -> 'Gerätewahl')  
+  * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in
+    addition to "Gehe"/"küsse")
+  * introduced two new line endings ('?' and '$') for the data-file `compounds.txt`; these
+    endings indicate that the mid-word parts of the compound need to be lower-cased
+    (e.g., 'Geräte Wahl' -> 'Gerätewahl')  
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements; time agreement rules added
+    - grammar: general agreement rules, pronominal collocations, paronyms and homophones
+      detection improvements; time agreement rules added
     - punctuation: greetings and farewell punctuation
-    - style: puffery, weasel words, weak expressions, and biased opinion words detection added (disabled by default)
+    - style: puffery, weasel words, weak expressions, and biased opinion words detection added
+      (disabled by default)
     - syntax: new category; fragment detection improvements
     - typography: spacing, number, and mathematical symbol formatting improvements
   * disambiguation improvements
   * false friends added
     - Portuguese to Galician (16 new pairs)
   * significant POS tagging and synthesizing improvements
-  * spellchecking exceptions for abbreviations, variables in formulas, units, and related statistical vocabulary
+  * spellchecking exceptions for abbreviations, variables in formulas, units, and related
+    statistical vocabulary
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.6
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.6
@@ -45,6 +51,7 @@
 #### Java API
   * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
     document-level meta data. This might be used by rules in the future.
+
 
 ## 3.8 (2017-06-27)
 
@@ -123,6 +130,7 @@
      at the startup time will be the new default rules. Previously these rules were "forgotten" 
      when a server query used the parameters for enabling and disabling rules. Now the rules 
      from the query will be added to the rules from the configuration file. 
+
 
 ## 3.7 (2017-03-27)
 
