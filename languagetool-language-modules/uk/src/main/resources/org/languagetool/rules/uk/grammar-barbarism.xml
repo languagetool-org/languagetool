@@ -295,7 +295,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">рахувати(ся)?|раху(вавши|ючи)(сь)?</token>
+            <token inflected="yes" regexp="yes">рахувати(ся)?|раху(вавши|ючи)(сь)?
+              <exception postag_regexp="yes" postag="verb(:rev)?:imperf:impr.*"/>
+            </token>
           </marker>
           <token>,</token>
           <token>що</token>
@@ -305,6 +307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="вважав|гадав">Він <marker>рахував</marker>, що все буде гаразд.</example>
         <example correction="(вважати)|(гадати)">... <marker>рахуючи</marker>, що все буде гаразд.</example>
         <example>Він вважав, що все буде гаразд.</example>
+        <example>От і рахуйте, що корисніше</example>
         <!-- TODO: fix
             <example>Він вважав, що з ним рахуються, що він є головним.</example>
         -->
@@ -576,12 +579,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
       </pattern>
-      <message>Краще вжити наказовий спосіб дієслова: <suggestion><match no="2" postag_regexp="yes" postag="(verb.*):(?:futr(:.:.)?|inf)(.*)" postag_replace="$1:impr$2.*"/></suggestion>, <suggestion>нумо <match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion></message>
+      <message>Краще вжити наказовий спосіб дієслова: <suggestion><match no="2" postag_regexp="yes" postag="(verb.*):(?:futr(:.:.)?|inf)(.*)" postag_replace="$1:impr$2.*"/></suggestion>, <suggestion>нумо <match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2.*"/></suggestion></message>
       <url>http://r2u.org.ua/node/216</url>
       <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
       <example correction="Пройдімось|Пройдімося|Пройдімся|Нумо пройдімось|Нумо пройдімося|Нумо пройдімся"><marker>Давайте пройдемося</marker></example>
       <example correction="катаймось|катаймося|катайсь|катайся|катайтесь|катайтеся|нумо катаймось|нумо катаймося|нумо катайсь|нумо катайся|нумо катайтесь|нумо катайтеся"><marker>давайте кататися</marker></example>
       <example correction="вчись|вчися|вчімось|вчімося|вчімся|вчіться|нумо вчись|нумо вчися|нумо вчімось|нумо вчімося|нумо вчімся|нумо вчіться">Тому <marker>давайте вчитися</marker> разом</example>
+      <example correction="Скажім|Скажімо|Нумо скажім|Нумо скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
       <example>Давайте горілку</example>
       <example>Давайте будем знов сміятись</example>
     </rule>
@@ -4578,7 +4582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="ROZUMIYETSA_INSERT" name="Розуміється, як вставне слово">
+    <rulegroup id="rozumiyetsa_insert" name="Розуміється, як вставне слово">
       <rule>
         <pattern>
           <token regexp="yes">[,—–-]</token>
@@ -4596,7 +4600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="POVEZLO_VS_POSCHATYLO" name="Повезло і пощастило">
+    <rule id="povezlo_vs_poschastylo" name="Повезло і пощастило">
       <pattern>
         <token>повезло</token>
       </pattern>
@@ -4608,7 +4612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       -->
     </rule>
 
-    <rulegroup id="PO_KRAINIY_MIRI" name="По крайній мірі та принаймні">
+    <rulegroup id="po_kryainiy_miri" name="По крайній мірі та принаймні">
       <rule>
         <pattern>
           <marker>
@@ -4660,6 +4664,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>уроздріб</suggestion>, <suggestion>вроздріб</suggestion></message>
       <example correction="уроздріб|вроздріб">оптом і <marker>в розницю</marker></example>
     </rule>
+
+<!--  Too many false positives with надоїти, moved to replace.txt
+    <rule id="nadoyisty" name="Надоїсти">
+      <pattern>
+        <token inflected="yes">надоїсти</token>
+      </pattern>
+      <message>Павильно: <suggestion>набриднути</suggestion></message>
+      <suggestion>дозолити</suggestion>
+      <suggestion>назолити</suggestion>
+      <suggestion>надокучити</suggestion>
+      <suggestion>остогиднути</suggestion>
+      <suggestion>сприкритися</suggestion>
+      <suggestion>в'їстися</suggestion>
+      <example correction="набриднути|дозолити|назолити|надокучити|остогиднути|сприкритися|в'їстися">А якщо тобі <marker>надоїло</marker>, займись іншиим.</example>
+    </rule>
+-->
 
     <!-- є в словнику Підмогильного
         <rule id="VID_SYLY" name="Від сили">
