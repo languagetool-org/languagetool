@@ -1561,7 +1561,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>e|nem</token>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='SPS00.+'/>
-            <exception regexp='yes'>um|uma|uns|umas|a|o|as|os|não</exception>
+            <exception regexp='yes'>u(ns|ma?s?)|[ao]s?|não</exception>
           </token>
           <token min="0" max="2" postag='R.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
@@ -2406,7 +2406,8 @@ title="Easy editing stylesheet" ?>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
     <rule id='ESTAR_SEGURO_QUE' name="Estar + seguro + que">
       <pattern>
-          <token inflected="yes"><exception postag="VAIP3S0"/>estar</token>
+          <token inflected="yes">
+            <exception postag="VAIP3S0"/>estar</token>
           <token inflected="yes" regexp="yes">seguro|certo|alegre|triste|entristecer|surpreender|convencer|preocupar|farto|cansar|aborrecer</token>
           <token>que</token>
       </pattern>
@@ -2420,7 +2421,8 @@ title="Easy editing stylesheet" ?>
     <rule id='PP_V_QUE' name="PP + verbo do tipo alegrar + que">
       <pattern>
           <token postag="PP[12]C.000" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
+          <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar
+            <exception postag="VM..3.." postag_regexp="yes"/></token>
           <token>que</token>
       </pattern>
       <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de que</suggestion></message>
@@ -2574,8 +2576,8 @@ title="Easy editing stylesheet" ?>
       <short>Erro de crase.</short>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
       <antipattern>
-        <token>a</token>
-        <token regexp='yes'>&toponimos_sem_artigo;</token>
+          <token>a</token>
+          <token regexp='yes'>&toponimos_sem_artigo;</token>
       </antipattern>
     <rule>
       <pattern>
@@ -2597,7 +2599,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>guerra|vida</token>
       </antipattern>
       <pattern>
-          <token><exception postag='SENT_START'/></token>
+          <token>
+            <exception postag='SENT_START'/></token>
           <token>à</token>
           <token><match no='0'/></token>
       </pattern>
@@ -2774,8 +2777,8 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
     <!--                     Loosely based on CoGrOO rules                 -->
       <antipattern>
-        <token>a</token>
-        <token regexp='yes'>&toponimos_sem_artigo;</token>
+          <token>a</token>
+          <token regexp='yes'>&toponimos_sem_artigo;</token>
       </antipattern>
     <rule>
       <pattern>
@@ -2989,7 +2992,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>\d+[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
-          <token><exception regexp='yes'>&multiplicadores;</exception></token>
+          <token>
+            <exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
         <suggestion>\1 \2 <match no='3' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
@@ -3005,7 +3009,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>aproximadamente|quase</token>
           <token regexp='yes'>\d+[1-9]</token>
         </marker>
-          <token><exception regexp='yes'>&multiplicadores;</exception></token>
+          <token>
+            <exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
         <suggestion>\1 <match no='2' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
@@ -3023,7 +3028,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>\d+[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
-          <token><exception regexp='yes'>&multiplicadores;</exception></token>
+          <token>
+            <exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
         <suggestion>\1 \2 \3 <match no='4' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
@@ -3046,7 +3052,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>forem</token>
         <marker>
-          <token postag_regexp='yes' postag="AQ..S."><exception postag_regexp='yes' postag="RG|V..P.+"/></token>
+          <token postag_regexp='yes' postag="AQ..S.">
+            <exception postag_regexp='yes' postag="RG|V..P.+"/></token>
         </marker>
       </pattern>
       <message>Erro de concordância de número: <suggestion><match no="2" postag_regexp= "yes" postag="(.+)S(.+)" postag_replace="$1P$2"/></suggestion></message>
@@ -3163,7 +3170,7 @@ title="Easy editing stylesheet" ?>
       <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>
     </rule>
 
-  <!--rulegroup id='NECESSÁRIO_NECESSÁRIA' name="Erro de concordância NECESSÁRIO/A">
+    <!--rulegroup id='NECESSÁRIO_NECESSÁRIA' name="Erro de concordância NECESSÁRIO/A">
       <short>Erro de concordância de género</short-->
     <!-- TODO Remove after 3.9 release. Superseeded by SER_ADJECTIVE_AGREEMENT	-->
     <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA -->
@@ -3174,7 +3181,8 @@ title="Easy editing stylesheet" ?>
           <token>necessário</token>
         </marker>
           <token>uma</token>
-          <token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"/>
+          <token postag="NCFS000">
+            <exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"/>
             <exception>uma</exception></token>
       </pattern>
       <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
@@ -3189,7 +3197,8 @@ title="Easy editing stylesheet" ?>
           <token>uma</token>
           <token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000">
             <exception>uma</exception></token>
-          <token postag="NCFS000"><exception postag="NCMS000"/>
+          <token postag="NCFS000">
+            <exception postag="NCMS000"/>
             <exception>uma</exception></token>
       </pattern>
       <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
@@ -3883,7 +3892,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>mesas?</token>
         </marker>
       </pattern>
-      <message>Substitua por <suggestion>sobremesa</suggestion>.</message>
+      <message>Substitua por <suggestion>sobre\3</suggestion>.</message>
       <example correction="sobremesa">Gosto da <marker>sobre mesa</marker>.</example>
     </rule>
 
@@ -4078,7 +4087,8 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
-          <token><exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
+          <token>
+            <exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
           <token>de</token>
           <token>vocês</token>
       </pattern>
@@ -4390,7 +4400,8 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>da</token>
         </marker>
-          <token postag="SPS00"><exception regexp='yes'>de|contra</exception></token>
+          <token postag="SPS00">
+            <exception regexp='yes'>de|contra</exception></token>
       </pattern>
       <message>Substitua por <suggestion>dá</suggestion>.</message>
       <example correction="dá">Não <marker>da</marker> para acreditar.</example>
@@ -4621,7 +4632,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
     <rule id='ESTAR_SOBRE_O_EFEITO_DE' name="estar sob o efeito de">
-    <!-- Created by Marco A.G.Pinto, 2016-06-06 -->
+    <!-- Created by Marco A.G.Pinto, 2017-06-06 -->
       <pattern>
         <marker>
           <token inflected='yes'>estar</token>
@@ -4629,7 +4640,7 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">os?</token>
           <token regexp="yes">efeitos?</token>
         </marker>
-          <token regexp="yes">de|dos?|das?</token>
+          <token regexp="yes">d[aeo]s?</token>
       </pattern>
       <message>Substitua por <suggestion>sob</suggestion>.</message>
       <example correction="sob">Ele <marker>estava sobre o efeito</marker> de drogas.</example>
@@ -4692,7 +4703,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token>sou</token>
         </marker>
-          <token regexp="yes">um|uma</token>
+          <token regexp="yes">uma?</token>
       </pattern>
       <message>Substitua por <suggestion>só</suggestion>.</message>
       <example correction="só">Na realidade foi <marker>sou</marker> um esquecimento.</example>
@@ -4732,8 +4743,10 @@ title="Easy editing stylesheet" ?>
     <rule id='JÁ_MAIS' name="Confusão: já mais - jamais">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token><exception>há</exception></token>
-          <token><exception postag_regexp='yes' postag='V.+'/></token>
+          <token>
+            <exception>há</exception></token>
+          <token>
+            <exception postag_regexp='yes' postag='V.+'/></token>
         <marker>
           <token>já</token>
           <token>mais</token>
@@ -5024,7 +5037,8 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>pa?ra</token>
           <token>de</token>
         </marker>
-          <token><exception regexp="yes">mim|eles|elas|nós</exception></token>
+          <token>
+            <exception regexp="yes">mim|eles|elas|nós</exception></token>
       </pattern>
       <message>Substitua por <suggestion>pára de</suggestion>.</message>
       <example correction="pára de">Por favor <marker>para de</marker> me aborrecer.</example>
@@ -6074,7 +6088,8 @@ title="Easy editing stylesheet" ?>
     <!--rule> XXX Covered by VERB_COMMA_CONJUNCTION. Remove after release.
       <pattern>
         <marker>
-          <token><exception regexp="yes">[,;:–—\(]</exception>
+          <token>
+            <exception regexp="yes">[,;:–—\(]</exception>
             <exception>o</exception></token>
         </marker>
           <token regexp="yes">mas|porém|contudo|entretanto|todavia</token>
@@ -6088,7 +6103,8 @@ title="Easy editing stylesheet" ?>
           <token>é</token>
           <token>pois</token>
         </marker>
-          <token><exception regexp="yes">[!.,;:–—\(]</exception></token>
+          <token>
+            <exception regexp="yes">[!.,;:–—\(]</exception></token>
           <token/>
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \2,</suggestion></message>
@@ -6112,7 +6128,8 @@ title="Easy editing stylesheet" ?>
           <token>,</token>
           <token>pois</token>
         </marker>
-          <token><exception regexp="yes">[!.,;:–—\(]</exception></token>
+          <token>
+            <exception regexp="yes">[!.,;:–—\(]</exception></token>
           <token/>
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \3,</suggestion></message>
@@ -6970,7 +6987,8 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">(?-i)[ad]C|DJ</exception>
             <exception regexp="yes">(?-i)\p{Lu}+</exception></token>
         </marker>
-          <token><exception regexp='yes'>\.|&hifen;</exception></token>
+          <token>
+            <exception regexp='yes'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion><match no="1"/>.</suggestion>
@@ -6988,7 +7006,8 @@ title="Easy editing stylesheet" ?>
           <token>.</token>
           <token regexp="yes">a|C|m|ft|yd|adv|aport|nom|parl|port|red|verb|p|cont|mod|sag|f|e|s|v|perf|pr|t|fl|k|ae|al|ext|B|D|Exa|Exas|Sa|Sas</token>
         </marker>
-          <token><exception regexp='yes'>\.|&hifen;</exception></token>
+          <token>
+            <exception regexp='yes'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion>\1.\3.</suggestion>
@@ -7022,7 +7041,7 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
     <rule>
       <pattern>
-          <token regexp="yes">\d+&#160;?(?:hs|hrs|horas|hora)</token>
+          <token regexp="yes">\d+&#160;?(?:hr?s|horas?)</token>
       </pattern>
       <message>Abreviatura de horas errada.</message>
         <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
@@ -7031,8 +7050,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d+&#160;?(?:hs|hrs|horas|hora)</token>
-          <token>.<exception postag='SENT_END'/></token>
+          <token regexp="yes">\d+&#160;?(?:hr?s|horas?)</token>
+          <token>.
+            <exception postag='SENT_END'/></token>
       </pattern>
       <message>Abreviatura de horas não tem ponto.</message>
         <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
@@ -7052,8 +7072,9 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp="yes">\d+</token>
-          <token regexp="yes">hs|hrs</token>
-          <token>.<exception postag='SENT_END'/></token>
+          <token regexp="yes">hr?s</token>
+          <token>.
+            <exception postag='SENT_END'/></token>
       </pattern>
       <message>Abreviatura de horas não tem ponto.</message>
         <suggestion>\1&#160;h</suggestion>
@@ -7064,7 +7085,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">(?:[012]?\d:)?[012345]?\d</token>
           <token>h</token>
-          <token>.<exception postag='SENT_END'/></token>
+          <token>.
+            <exception postag='SENT_END'/></token>
       </pattern>
       <message>Se é uma indicação horária, não é pontuada.</message>
         <suggestion>\1 h</suggestion>
@@ -7210,7 +7232,8 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token>.</token>
-          <token regexp='yes'>[,;:]<exception postag='SENT_END'/></token>
+          <token regexp='yes'>[,;:]
+            <exception postag='SENT_END'/></token>
       </antipattern>
       <pattern>
           <token regexp="yes">[.,;:!?…]</token>
@@ -19106,7 +19129,7 @@ TODO Write better examples
       <short>Nesta situação acentua-se a palavra.</short>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|À|alguma|antiga|aquela|àquela|autêntica|cada|chamavam|com|da|daquela|de|décima|dessa|desta|dita|duma|e|É|em|essa|esta|estuda|extensa|fechar|foi|futura|grande|grosa|grosseira|histórica|imensa|importante|internacional|maior|maravilhosa|melhor|mesma|mortífera|múltipla|na|naquela|nesta|nona|nossa|nova|numa|oitava|ou|outra|pela|pequena|primeira|própria|qualquer|quarta|querem|quinta|real|recente|referida|rica|segunda|sem|sétima|sexta|sua|tanta|tenho|terá|terceira|última|um|uma|única|velha|verdadeira)s?</token>
+          <token regexp='yes'>(?:a|À|alguma|antiga|aquela|àquela|autêntica|cada|chamavam|com|da|daquela|de|décima|dessa|desta|dita|duma|e|É|em|essa|esta|estuda|extensa|fechar|foi|futura|grande|grosa|grosseira|histórica|imensa|importante|internacional|maior|maravilhosa|melhor|mesma|mortífera|múltipla|na|naquela|nesta|nona|nossa|nova|numa|oitava|ou|outra|pela|pequena|primeira|própria|qualquer|quarta|querem|quinta|real|recente|referida|rica|segunda|sem|sétima|sexta|sua|tanta|tenho|terá|terceira|última|uma?|única|velha|verdadeira)s?</token>
         <marker>
           <token regexp='yes'>fabricas?</token>
         </marker>
@@ -19151,7 +19174,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|alguma|aquela|as|bela|boa|cada|célebre|com|da|daquela|de|dessa|duma|É|elegante|em|espesa|essa|esta|estupenda|expresiva|feia|fria|há|hedionda|interesante|meia|mesma|minha|misteriosa|na|naquela|nem|nenhuma|numa|pela|pequena|pobre|por|pôr|pôs|primeira|punha|sem|sob|sólida|sua|tal|trazem|trazes|traziam|tua|um|uma|usa|usará|usarei|usava|usei|uso|usou)s?</token>
+          <token regexp='yes'>(?:a|à|alguma|aquela|as|bela|boa|cada|célebre|com|da|daquela|de|dessa|duma|É|elegante|em|espesa|essa|esta|estupenda|expresiva|feia|fria|há|hedionda|interesante|meia|mesma|minha|misteriosa|na|naquela|nem|nenhuma|numa|pela|pequena|pobre|por|pôr|pôs|primeira|punha|sem|sob|sólida|sua|tal|trazem|trazes|traziam|tua|uma?|usa|usará|usarei|usava|usei|uso|usou)s?</token>
         <marker>
           <token regexp='yes'>mascaras?</token>
         </marker>
@@ -19261,7 +19284,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>[0-9]+º|agora|antigo|ao|apoia|aquele|autodenomina|bom|brilhante|cada|chamado|com|cujo|daquele|de|décimo|denominada|denominado|desmobilizado|desse|deste|diminuto|dizer|do|e|elo|em|enorme|entre|equipado|esse|este|formidável|forte|futuro|grande|grupo|humilde|imenso|ira|lamuriento|lento|levantar|levarão|maior|melhor|mesmo|mobiliza|motivado|nem|nesse|no|nono|noso|novo|num|numeroso|o|oitavo|ordenado|ou|outro|pacífico|pelo|pequeno|poderoso|potencial|preparado|primeiro|próprio|qualquer|quarto|quinto|rebelde|restante|segundo|sem|sétimo|seu|sexto|só|sobre|terceiro|tínhamos|um|uma|vasto|velho|visem</token>
+          <token regexp='yes'>[0-9]+º|agora|antigo|ao|apoia|aquele|autodenomina|bom|brilhante|cada|chamado|com|cujo|daquele|de|décimo|denominada|denominado|desmobilizado|desse|deste|diminuto|dizer|do|e|elo|em|enorme|entre|equipado|esse|este|formidável|forte|futuro|grande|grupo|humilde|imenso|ira|lamuriento|lento|levantar|levarão|maior|melhor|mesmo|mobiliza|motivado|nem|nesse|no|nono|noso|novo|num|numeroso|o|oitavo|ordenado|ou|outro|pacífico|pelo|pequeno|poderoso|potencial|preparado|primeiro|próprio|qualquer|quarto|quinto|rebelde|restante|segundo|sem|sétimo|seu|sexto|só|sobre|terceiro|tínhamos|uma?|vasto|velho|visem</token>
         <marker>
           <token regexp='yes'>exercitos?</token>
         </marker>
@@ -19272,7 +19295,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:à|ao|apenas|aquele|brilhante|cabal|cada|carvalho|como|competente|completo|da|de|depois|do|É|em|enquanto|este|excelente|famosa|fiel|foi|gigante|grande|guia|importante|jovem|legítimo|maior|melhor|minha|no|para|pelo|por|primeira|primeiro|principal|próprio|respeitoso|ser|seu|sou|sua|tem|teria|tradutor|tribunal|um|uma|único|verboso|virtual)s?</token>
+          <token regexp='yes'>(?:à|ao|apenas|aquele|brilhante|cabal|cada|carvalho|como|competente|completo|da|de|depois|do|É|em|enquanto|este|excelente|famosa|fiel|foi|gigante|grande|guia|importante|jovem|legítimo|maior|melhor|minha|no|para|pelo|por|primeira|primeiro|principal|próprio|respeitoso|ser|seu|sou|sua|tem|teria|tradutor|tribunal|uma?|único|verboso|virtual)s?</token>
         <marker>
           <token regexp='yes'>interpretes?</token>
         </marker>
@@ -19295,7 +19318,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:à|achou|admite|admitia|admito|alguma|aquela|boa|breve|com|como|cuja|da|dar|dava|de|É|em|excelente|exigem|houve|minha|mínima|muita|na|naquela|oferecia|pela|primeira|provocava|qualquer|sem|sua|tem|termos|última|um|uma|verdadeira)s?</token>
+          <token regexp='yes'>(?:à|achou|admite|admitia|admito|alguma|aquela|boa|breve|com|como|cuja|da|dar|dava|de|É|em|excelente|exigem|houve|minha|mínima|muita|na|naquela|oferecia|pela|primeira|provocava|qualquer|sem|sua|tem|termos|última|uma?|verdadeira)s?</token>
         <marker>
           <token regexp='yes'>replicas?</token>
         </marker>
@@ -19660,7 +19683,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|À\xc0à]|acaba|acabase|alegadamente|alguma|aluna|anos|antiga|aparente|aparentemente|cada|cair|caiu|certamente|com|como|considera|considerado|considerar|considerava|criatura|cuja|da|de|dela|dele|depois|dessa|pareceu|desgraçada|designada|divina|diz|dizes|duma|e|É|ela|ele|em|entre|entregava|era|És|escolhida|escravidão|essa|esta|estreada|estudante|eu|fácil|facilmente|faleceu|fatalmente|faz|fazer|foi|for|fora|foram|fose|foses|foste|fui|grande|há|hospitalizado|imbele|indefesa|inevitavelmente|infeliz|ing[êé]nua|inocente|logo|maior|mais|mansa|minha|mísera|morre|morrer|morreu|morrido|mostra|mulher|musical|na|nem|nenhuma|nobre|noite|nova|novamente|numa|oitava|ontem|ou|outra|padre|para|parecia|pela|perece.*|perpétua|personagem|pobre|população|por|praga|primeira|principal|própria|provavelmente|próxima|qualquer|quarta|que|querida|recente|se|segunda|seja|sem|sempre|sendo|sente|sentir|sentiu|ser|será|sereis|seria|sido|só|social|somos|sou|sua|sucumbido|suposta|talvez|também|terceira|tinham|torna|tornar|tornaria|tornou|tua|última|um|uma|única|vez|via|vise|voluntária)s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|À\xc0à]|acaba|acabase|alegadamente|alguma|aluna|anos|antiga|aparente|aparentemente|cada|cair|caiu|certamente|com|como|considera|considerado|considerar|considerava|criatura|cuja|da|de|dela|dele|depois|dessa|pareceu|desgraçada|designada|divina|diz|dizes|duma|e|É|ela|ele|em|entre|entregava|era|És|escolhida|escravidão|essa|esta|estreada|estudante|eu|fácil|facilmente|faleceu|fatalmente|faz|fazer|foi|for|fora|foram|fose|foses|foste|fui|grande|há|hospitalizado|imbele|indefesa|inevitavelmente|infeliz|ing[êé]nua|inocente|logo|maior|mais|mansa|minha|mísera|morre|morrer|morreu|morrido|mostra|mulher|musical|na|nem|nenhuma|nobre|noite|nova|novamente|numa|oitava|ontem|ou|outra|padre|para|parecia|pela|perece.*|perpétua|personagem|pobre|população|por|praga|primeira|principal|própria|provavelmente|próxima|qualquer|quarta|que|querida|recente|se|segunda|seja|sem|sempre|sendo|sente|sentir|sentiu|ser|será|sereis|seria|sido|só|social|somos|sou|sua|sucumbido|suposta|talvez|também|terceira|tinham|torna|tornar|tornaria|tornou|tua|última|uma?|única|vez|via|vise|voluntária)s?</token>
         <marker>
           <token regexp='yes'>vitimas?</token>
         </marker>
@@ -19748,7 +19771,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fose|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|que|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|um|uma|única|vasta|vendido|verdadeira|viage[mn])s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fose|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|que|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|uma?|única|vasta|vendido|verdadeira|viage[mn])s?</token>
         <marker>
           <token regexp='yes'>influencias?</token>
         </marker>
@@ -19869,7 +19892,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|achara|achará|alguma|apenas|apresentação|aquela|argêntea|arquivada|atiram|autos|bela|boa|cada|com|como|considerável|contra|cuja|da|dar|darei|dava|de|deixará|deixei|designavam|dessa|divulgou|dou|e|É|educação|em|encaminhar|encontrou|entregará|entregue|enviado|enviará|enviávamos|enviei|enviem|enviou|era|És|esta|exac?ta|famosa|faz|fia|flagrante|globo|grande|guardo|havia|humilde|imperfeita|juntamos|larga|libreto|magnífica|maior|mais|mandaram|mandei|manter|minha|mor|na|nele|notável|nova|ou|outra|paisagem|para|pela|pequena|péssima|por|possuir|preciosa|primeira|providenciará|público|que|remetida|remeto|render|são|se|segunda|sem|simples|sincera|só|sua|tamanha|tanta|tem|tirar|traga|tragam|transbordante|triste|trouxe|trouxeram|um|uma|única|variada|velha|velhísima)s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|achara|achará|alguma|apenas|apresentação|aquela|argêntea|arquivada|atiram|autos|bela|boa|cada|com|como|considerável|contra|cuja|da|dar|darei|dava|de|deixará|deixei|designavam|dessa|divulgou|dou|e|É|educação|em|encaminhar|encontrou|entregará|entregue|enviado|enviará|enviávamos|enviei|enviem|enviou|era|És|esta|exac?ta|famosa|faz|fia|flagrante|globo|grande|guardo|havia|humilde|imperfeita|juntamos|larga|libreto|magnífica|maior|mais|mandaram|mandei|manter|minha|mor|na|nele|notável|nova|ou|outra|paisagem|para|pela|pequena|péssima|por|possuir|preciosa|primeira|providenciará|público|que|remetida|remeto|render|são|se|segunda|sem|simples|sincera|só|sua|tamanha|tanta|tem|tirar|traga|tragam|transbordante|triste|trouxe|trouxeram|uma?|única|variada|velha|velhísima)s?</token>
         <marker>
           <token regexp='yes'>copias?</token>
         </marker>
@@ -19891,7 +19914,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|acertaram|alguma|ampla|aquela|através|boletim|campeonato|célebre|certa|com|como|complexa|concisa|conforme|conhecida|cuja|da|de|defendem|descobre|desta|determinada|do|duma|e|É|em|empresa|encontrar|essa|esta|evita|exclusivamente|há|invariável|mediante|mesma|minha|na|naquela|nenhuma|nessa|nesta|nossa|nova|numa|o|os|ou|outra|pela|por|própria|qualquer|quer|seguinte|segunda|simples|sua|tal|tornam|um|uma|velha)s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|acertaram|alguma|ampla|aquela|através|boletim|campeonato|célebre|certa|com|como|complexa|concisa|conforme|conhecida|cuja|da|de|defendem|descobre|desta|determinada|do|duma|e|É|em|empresa|encontrar|essa|esta|evita|exclusivamente|há|invariável|mediante|mesma|minha|na|naquela|nenhuma|nessa|nesta|nossa|nova|numa|o|os|ou|outra|pela|por|própria|qualquer|quer|seguinte|segunda|simples|sua|tal|tornam|uma?|velha)s?</token>
         <marker>
           <token regexp='yes'>formulas?</token>
         </marker>
@@ -19902,7 +19925,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|acaso|anteriormente|antigo|ao|aquele|bela|bom|caro|como|da|de|desalmado|distinto|do|dum|e|É|egrégio|era|eras|está|estava|este|estimável|eterno|foi|fragrante|grande|havia|ilustre|interesante|isolo|leviano|linda|maldito|mas|mau|meu|mísero|misterioso|nenhum|no|nobre|nossa|nosso|nova|novo|o|odioso|ou|outro|parecia|pelo|pequeno|prezado|primeiro|próprio|que|querida|querido|sendo|ser|será|seu|simples|singular|singularísimo|sou|sua|taciturno|tal|terrível|teu|tinha|traiçoeira|triste|último|um|uma|uni|único|velho|voso)s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|acaso|anteriormente|antigo|ao|aquele|bela|bom|caro|como|da|de|desalmado|distinto|do|dum|e|É|egrégio|era|eras|está|estava|este|estimável|eterno|foi|fragrante|grande|havia|ilustre|interesante|isolo|leviano|linda|maldito|mas|mau|meu|mísero|misterioso|nenhum|no|nobre|nossa|nosso|nova|novo|o|odioso|ou|outro|parecia|pelo|pequeno|prezado|primeiro|próprio|que|querida|querido|sendo|ser|será|seu|simples|singular|singularísimo|sou|sua|taciturno|tal|terrível|teu|tinha|traiçoeira|triste|último|uma?|uni|único|velho|voso)s?</token>
         <marker>
           <token regexp='yes'>hospedes?</token>
         </marker>
@@ -19924,7 +19947,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|alta|baixa|cada|cuja|da|de|dessa|desta|determinada|em|essa|excêntrica|limítrofe|mesma|minha|na|nesta|numa|outra|para|pela|pequena|primeira|quarta|sua|tranquila|um|uma|vastísima)s?</token>
+          <token regexp='yes'>(?:[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|à|alta|baixa|cada|cuja|da|de|dessa|desta|determinada|em|essa|excêntrica|limítrofe|mesma|minha|na|nesta|numa|outra|para|pela|pequena|primeira|quarta|sua|tranquila|uma?|vastísima)s?</token>
         <marker>
           <token regexp='yes'>orbitas?</token>
         </marker>
@@ -20328,10 +20351,12 @@ TODO Write better examples
       </antipattern>
       <antipattern>
           <token regexp="yes">\d{4}</token>
-          <token><exception regexp="yes">\d+</exception></token>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
       </antipattern>
       <antipattern>
-          <token><exception regexp="yes">\d+</exception></token>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
           <token postag='SENT_END' regexp="yes">\d{4}</token>
       </antipattern>
       <antipattern>
@@ -20474,7 +20499,8 @@ TODO Write better examples
             <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
           </token>
           <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
-          <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+<exception regexp="yes">\d\dh</exception></token>
+          <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+
+            <exception regexp="yes">\d\dh</exception></token>
         </marker>
           <token negate="yes">h</token>
       </pattern>
@@ -20500,11 +20526,11 @@ TODO Write better examples
           <token regexp='yes'>[,e]</token>
       </antipattern>
       <pattern>
-          <token regexp="yes">[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-z]{0,1}|[a-z]</token>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
         <marker>
           <token regexp='yes'>[x\*]</token>
         </marker>
-          <token regexp="yes">[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-z]{0,1}|[a-z]</token>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
       </pattern>
       <message>Prefira o símbolo de multiplicação.</message>
         <suggestion>×</suggestion>
@@ -20520,7 +20546,7 @@ TODO Write better examples
       <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
     </rule>
     <rule>
-      <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
       <message>Prefira o símbolo de multiplicação.</message>
         <suggestion>\1×\2</suggestion>
         <suggestion>\1·\2</suggestion>
@@ -20531,7 +20557,7 @@ TODO Write better examples
       <example>4,5×2,5=11,25</example>
     </rule>
     <rule>
-      <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-z]{0,1}|[a-z])\*([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-z]{0,1}|[a-z])</regexp>
+      <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
       <message>Prefira o símbolo de multiplicação.</message>
         <suggestion>\1×\2</suggestion>
         <suggestion>\1·\2</suggestion>
@@ -20716,7 +20742,8 @@ TODO Write better examples
     <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espaço em percentagens (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
-          <token regexp="yes">[\d.,]+<exception regexp="yes">[.,]</exception></token>
+          <token regexp="yes">[\d.,]+
+            <exception regexp="yes">[.,]</exception></token>
           <token spacebefore="yes" regexp="yes">[%‰‱]</token>
       </pattern>
       <message>Escreva a percentagem sem espaços (estilo padrão).</message>
@@ -21289,7 +21316,8 @@ TODO Write better examples
     <!--  Created by Tiago F. Santos, 2017-05-31      -->
     <rule>
       <pattern>
-          <token skip='-1'>‘<exception scope="next">’</exception></token>
+          <token skip='-1'>‘
+            <exception scope="next">’</exception></token>
           <token regexp='yes'>[«“]</token>
       </pattern>
       <message>Utilize primeiro aspas duplas.</message>
@@ -21300,7 +21328,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token skip='-1' regexp='yes'>[”»]<exception regexp='yes' scope="next">[«“‘]</exception></token>
+          <token skip='-1' regexp='yes'>[”»]
+            <exception regexp='yes' scope="next">[«“‘]</exception></token>
           <token>’</token>
       </pattern>
       <message>Utilize primeiro aspas duplas.</message>
@@ -21311,7 +21340,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token skip='-1'>“<exception scope="next">”</exception></token>
+          <token skip='-1'>“
+            <exception scope="next">”</exception></token>
           <token>«</token>
       </pattern>
       <message>Utilize primeiro aspas baixas.</message>
@@ -21322,7 +21352,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token skip='-1'>»<exception regexp='yes' scope="next">[«“]</exception></token>
+          <token skip='-1'>»
+            <exception regexp='yes' scope="next">[«“]</exception></token>
           <token>”</token>
       </pattern>
       <message>Utilize primeiro aspas baixa.</message>
@@ -21337,7 +21368,8 @@ TODO Write better examples
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-25 -->
     <rule>
       <pattern>
-          <token skip='-1'>‘<exception scope="next">’</exception></token>
+          <token skip='-1'>‘
+            <exception scope="next">’</exception></token>
         <marker>
           <token>‘</token>
         </marker>
@@ -21348,7 +21380,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token skip='-1'>“<exception scope="next">”</exception></token>
+          <token skip='-1'>“
+            <exception scope="next">”</exception></token>
         <marker>
           <token>“</token>
         </marker>
@@ -21397,7 +21430,8 @@ TODO Write better examples
           <token>R</token>
           <token skip="-1">)</token>
         </marker>
-          <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+          <token regexp="yes">[\p{Lu}^R]
+            <exception scope="previous" negate="yes">(</exception></token>
           <token skip="-1">)</token>
       </antipattern>
       <antipattern case_sensitive="yes">
@@ -21405,7 +21439,8 @@ TODO Write better examples
           <token regexp="yes">[\p{Lu}^R]</token>
           <token skip="-1">)</token>
         <marker>
-          <token>R<exception scope="previous" negate="yes">(</exception></token>
+          <token>R
+            <exception scope="previous" negate="yes">(</exception></token>
           <token skip="-1">)</token>
         </marker>
       </antipattern>
@@ -21428,10 +21463,12 @@ TODO Write better examples
           <token>(</token>
           <token>a</token>
           <token skip="-1">)</token>
-          <token>b<exception scope="previous" negate="yes">(</exception></token>
+          <token>b
+            <exception scope="previous" negate="yes">(</exception></token>
           <token skip="-1">)</token>
         <marker>
-          <token>c<exception scope="previous" negate="yes">(</exception></token>
+          <token>c
+            <exception scope="previous" negate="yes">(</exception></token>
           <token>)</token>
         </marker>
       </antipattern>
@@ -21519,7 +21556,8 @@ TODO Write better examples
     </rule>
     <rule>
       <antipattern> <!-- não embelezar polegadas -->
-          <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
+          <token postag_regexp="yes" postag="''|SENT_START" skip="-1">
+            <exception scope="next" postag="``"/></token>
           <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
         <marker><token postag="''"/></marker>
       </antipattern>
@@ -21631,7 +21669,8 @@ TODO Write better examples
 
     <rule id='APOSTROPHE_IN_DATES' name="Apóstrofe em datas">
       <pattern>
-          <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
+          <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0
+            <exception regexp='yes'>2[1-9]\d0</exception></token>
           <token regexp="yes">['’]</token>
           <token>s</token>
       </pattern>
@@ -21863,7 +21902,8 @@ TODO Write better examples
       <pattern>
         <marker>
           <token regexp="yes">:|;</token>
-          <token spacebefore="no"><exception postag="SENT_END"/></token>
+          <token spacebefore="no">
+            <exception postag="SENT_END"/></token>
         </marker>
       </pattern>
       <message>Deve colocar um espaço após '\1'.</message>
@@ -21897,7 +21937,8 @@ TODO Write better examples
       <pattern>
           <token>sql</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp="yes">l?i(?:te|ght)<exception case_sensitive="yes">SQLite</exception></token>
+          <token regexp="yes">l?i(?:te|ght)
+            <exception case_sensitive="yes">SQLite</exception></token>
       </pattern>
       <message>Pretende dizer <suggestion>SQLite</suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/SQLite</url>
@@ -21915,7 +21956,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">(?:Open|Web)Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
+          <token regexp="yes">(?:Open|Web)Gl
+            <exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
       </pattern>
       <message>Escreva <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>GL</suggestion>.</message>
       <example correction="OpenGL">A biblioteca <marker>OpenGl</marker>.</example>
@@ -21934,7 +21976,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">(?:Open|Web)Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
+          <token regexp="yes">(?:Open|Web)Cl
+            <exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
       </pattern>
       <message>Escreva <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>CL</suggestion>.</message>
       <example correction="OpenCL"><marker>OpenCl</marker>.</example>
@@ -22106,7 +22149,10 @@ TODO Write better examples
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
     <rule>
       <pattern case_sensitive="yes">
-          <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})</exception><exception postag="[RZANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL|MIDI</exception></token>
+          <token regexp="yes" spacebefore="yes">[MCDXLVI]+
+            <exception regexp="yes">(?=.)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})</exception>
+            <exception postag="[RZANDV].*|.*LOC.*" postag_regexp="yes"/>
+            <exception regexp="yes">XML|DLL|MIDI</exception></token>
       </pattern>
       <message>Número romano inválido.</message>
       <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
@@ -22723,11 +22769,13 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
+          <token postag="[DP].+" postag_regexp="yes">
+            <exception postag="N.+" postag_regexp="yes"/></token>
           <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>sino</exception></token>
-          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
+          <token postag="[DP].+" postag_regexp="yes">
+            <exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
@@ -22735,11 +22783,13 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
+          <token postag="[DP].+" postag_regexp="yes">
+            <exception postag="N.+" postag_regexp="yes"/></token>
           <token postag="(?:P.|N).[MC]P.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>sino</exception></token>
-          <token postag="[DP].+" postag_regexp="yes" skip="1"><exception postag="N.+" postag_regexp="yes"/></token>
+          <token postag="[DP].+" postag_regexp="yes" skip="1">
+            <exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
@@ -24187,7 +24237,8 @@ TODO Write better examples
     <!--<antipattern>   Livros da Bíblia
         <marker>
           <token postag="_abrev_biblia"/>
-          <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
+          <token min="0" max="4" regexp="yes">[\d.,-]+
+            <exception regexp="yes">\d+\.\d+</exception></token>
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>-->
@@ -24259,7 +24310,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d{1,3},\d{3},\d{3}.\d+</token>
+          <token regexp="yes">\d{1,3},\d{3},\d{3}\.\d+</token>
       </pattern>
       <message>Para separar os decimais, utilize uma vírgula.</message>
         <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2 $3,$4'/></suggestion>
@@ -26344,7 +26395,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern case_sensitive="yes">
-          <token regexp="yes">Mari\w?a<exception>Marina</exception></token>
+          <token regexp="yes">Mari\w?a
+            <exception>Marina</exception></token>
           <token regexp="yes">Weisband|Weißband</token>
       </pattern>
       <message>Pretende referir-se à política <suggestion>Marina Weisband</suggestion>?</message>
@@ -26355,7 +26407,8 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive="yes">
           <token>Marina</token>
-          <token regexp="yes">Wei\w\w?band|Weißband<exception>Weisband</exception></token>
+          <token regexp="yes">Wei\w\w?band|Weißband
+            <exception>Weisband</exception></token>
       </pattern>
       <message>Pretende referir-se à política <suggestion>Marina Weisband</suggestion>?</message>
       <url>https://pt.wikipedia.org/wiki/Marina_Weisband</url>
