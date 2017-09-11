@@ -32,7 +32,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
-    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+    <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
@@ -50,8 +50,11 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
-    
-    <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
+
+    <!ENTITY prefixos_i "anti|auri|bi|hemi|sesqui|maxi|mini|multi|oni|peri|poli|pluri|quadri|semi|tri|uni">
+    <!ENTITY prefixos_o "aero|agro|arterio|audio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|sacro|socio|termo|traqueo|xanto|xilo">
+    <!ENTITY prefixos_o_ambiguos "astro|bronco|centro|ego|estereo|filo|foto|ido|intro|labio|mono|turbo|vaso|zoo">
+    <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
     
     <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
 
@@ -61,33 +64,33 @@ title="Easy editing stylesheet" ?>
     <!-- Unification rules retrieved from galician grammar.xml - START-->
       <unification feature="number">
         <equivalence type="singular">
-          <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+          <token postag="(?:N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
         </equivalence>
 
         <equivalence type="plural">
-          <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+          <token postag="(?:N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
         </equivalence>
       </unification>
 
       <unification feature="gender">
         <equivalence type="masc">
-          <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+          <token postag="(?:N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
         </equivalence>
 
         <equivalence type="fem">
-          <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+          <token postag="(?:N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
         </equivalence>
       </unification>
 
       <unification feature="person">
         <equivalence type="first">
-          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)1.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="second">
-          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)2.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="third">
-          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)3.*" postag_regexp="yes"/>
         </equivalence>
       </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
@@ -133,7 +136,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'></token>
@@ -252,7 +255,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
@@ -268,7 +271,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -300,7 +303,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -312,7 +315,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
       </pattern>
       <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1 \3-n\2</suggestion>
@@ -332,7 +335,7 @@ title="Easy editing stylesheet" ?>
           <token postag='DP.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -357,7 +360,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -374,7 +377,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -461,7 +464,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Marco A.G.Pinto , Portuguese rule -->
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
         <marker>
           <token>equipe</token>
         </marker>
@@ -471,7 +474,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
         <marker>
           <token>equipes</token>
         </marker>
@@ -486,7 +489,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?os?|de|(alg|d|n)?(um|uns)|em</token>
+          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
         <marker>
           <token>controle</token>
         </marker>
@@ -532,8 +535,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
@@ -547,8 +550,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token min='0' max='2' postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <example correction='num'><marker>em um</marker> belo dia.</example>
@@ -568,7 +571,7 @@ title="Easy editing stylesheet" ?>
       <short>Brasileirismo</short>
     <rule id="PAPAI_NOEL" name="Brasileirismo: Papai Noel - Pai Natal">
       <pattern>
-          <token regexp='yes'>(pa)?pai</token>
+          <token regexp='yes'>(?:pa)?pai</token>
           <token>noel</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>Pai Natal</suggestion>.</message>
@@ -716,7 +719,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='BRASILEIRISMO_16_ATERRISAR' name='Brasileirismo: aterrisar'>
       <pattern>
-          <token regexp='yes'>aterri(z|ss?).+</token>
+          <token regexp='yes'>aterri(?:z|ss?).+</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
       <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
@@ -958,7 +961,7 @@ title="Easy editing stylesheet" ?>
 
     <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento" >
       <pattern>
-          <token regexp='yes'>.+((óid[oae]|óic[oa]|ói[ao])s?)$
+          <token regexp='yes'>.+((?:óid[oae]|óic[oa]|ói[ao])s?)$
             <exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
       <message>Palavras com esta terminação não são acentuadas, segundo o Acordo Ortográfico de 90.</message>
@@ -996,7 +999,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>
             <exception regexp='yes'>[-,.!?\(\)]</exception>
-            <exception postag='(C|R|S|NP).+' postag_regexp='yes'/>
+            <exception postag='(?:C|R|S|NP).+' postag_regexp='yes'/>
           </token>
           <token regexp='yes'>açu|guaçu|mirim</token>
     <!-- These suffixes are used in Brazilian Portuguese -->
@@ -1067,6 +1070,17 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
+          <token regexp='yes'>contra|justa|para|tetra|penta|hexa|hepta|nona|deca</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>[^ahrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='paraquedistas'>São <marker>para-quedistas</marker>.</example>
+      <example correction='pentacampeões'>São <marker>penta-campeões</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token>extra</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
@@ -1097,7 +1111,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token regexp='yes'>&prefixos_i;</token>
           <token regexp='yes'>i.+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
@@ -1106,7 +1120,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token regexp='yes'>&prefixos_i;</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ihrs].+</token>
       </pattern>
@@ -1116,7 +1130,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>&prefixos_o;|arqui</token>
           <token regexp='yes'>o.+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
@@ -1129,7 +1143,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
@@ -1140,7 +1154,7 @@ title="Easy editing stylesheet" ?>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
     <rule>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>r.+</token>
       </pattern>
@@ -1154,7 +1168,7 @@ title="Easy editing stylesheet" ?>
           <token>satanás</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>s.+</token>
       </pattern>
@@ -1343,7 +1357,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+          <token regexp='yes'>(?:Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(?:Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(?:ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
@@ -1369,7 +1383,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
-          <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
+          <token regexp='yes'>Sábados?|Domingo|(?:Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
         </marker>
           <token><exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
@@ -1387,7 +1401,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+          <token regexp='yes'>(?:Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
         </marker>
@@ -1478,7 +1492,7 @@ title="Easy editing stylesheet" ?>
     <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|estios?|outonos?
+          <token regexp='yes'>(?:&meses_ano;)s?|(?:&meses_ano_abrev;)|invernos?|primaveras?|ver(?:ão|ões)|estios?|outonos?
             <exception regexp='yes'>mar|dez</exception></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
@@ -1504,7 +1518,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
+          <token regexp='yes'>(?:segunda|terça|quarta|quinta|sexta)s?|(?:seg|ter|qua|qui|sex)</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
       </pattern>

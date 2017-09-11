@@ -329,7 +329,8 @@ public class Main extends WeakBase implements XJobExecutor,
                     new SingleProofreadingError[ruleMatches.size() + pErrorCount];
             int i = 0;
             for (RuleMatch myRuleMatch : ruleMatches) {
-              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition);
+              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition, 
+            		                            sentence.length(), sentence.charAt(sentence.length()-1));
               i++;
             }
             // add para matches
@@ -454,7 +455,8 @@ public class Main extends WeakBase implements XJobExecutor,
         int endErrPos = myRuleMatch.getToPos();
         if (startErrPos >= startPos && startErrPos < endPos
             && endErrPos >= startPos && endErrPos < endPos) {
-          errorList.add(createOOoError(myRuleMatch, 0));
+          errorList.add(createOOoError(myRuleMatch, 0, myRuleMatch.getToPos(), 
+        		                            paraText.charAt(myRuleMatch.getToPos()-1)));
         }
       }
       if (!errorList.isEmpty()) {
@@ -469,7 +471,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Creates a SingleGrammarError object for use in LO/OO.
    */
-  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex) {
+  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int sentencesLength, char lastChar) {
     SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
@@ -485,6 +487,18 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
     int numSuggestions = ruleMatch.getSuggestedReplacements().size();
     String[] allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    //  Filter: remove suggestions for override dot at the end of sentences
+    //  needed because of error in dialog
+    if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
+      int i;
+      for (i = 0; i < numSuggestions && i < MAX_SUGGESTIONS 
+    		  && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
+      if (i < numSuggestions && i < MAX_SUGGESTIONS) {
+    	numSuggestions = 0;
+    	allSuggestions = new String[0];
+      }
+    }
+    //  End of Filter
     if (numSuggestions > MAX_SUGGESTIONS) {
       aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, MAX_SUGGESTIONS);
     } else {
