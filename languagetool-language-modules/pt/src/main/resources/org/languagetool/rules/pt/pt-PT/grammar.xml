@@ -50,7 +50,10 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
-    
+
+    <!ENTITY prefixos_i "anti|auri|bi|hemi|sesqui|maxi|mini|multi|oni|peri|poli|pluri|quadri|semi|tri|uni">
+    <!ENTITY prefixos_o "aero|agro|arterio|audio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|sacro|socio|termo|traqueo|xanto|xilo">
+    <!ENTITY prefixos_o_ambiguos "astro|bronco|centro|ego|estereo|filo|foto|ido|intro|labio|mono|turbo|vaso|zoo">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
     
     <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
@@ -1067,6 +1070,17 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
+          <token regexp='yes'>contra|justa|para|tetra|penta|hexa|hepta|nona|deca</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>[^ahrs].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='paraquedistas'>São <marker>para-quedistas</marker>.</example>
+      <example correction='pentacampeões'>São <marker>penta-campeões</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token>extra</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>ção|conjugal|continental|contratual|tivo|to|tor|dição|ditar|escolar|fino|ir|legal|muros|ordinário|parlamentar|polação|polar|programa|terrestre|territorial|territorialidade|uterino|vagância|vaganciar|vagante|vaginal|vasação|vasado|vasante|vasão|vasar|versão|viar|vio</token>
@@ -1097,7 +1111,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token regexp='yes'>&prefixos_i;</token>
           <token regexp='yes'>i.+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
@@ -1106,7 +1120,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>anti|maxi|mini|multi|pluri|semi</token>
+          <token regexp='yes'>&prefixos_i;</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ihrs].+</token>
       </pattern>
@@ -1116,7 +1130,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>&prefixos_o;|arqui</token>
           <token regexp='yes'>o.+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
@@ -1129,7 +1143,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
@@ -1140,7 +1154,7 @@ title="Easy editing stylesheet" ?>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
     <rule>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>r.+</token>
       </pattern>
@@ -1154,7 +1168,7 @@ title="Easy editing stylesheet" ?>
           <token>satanás</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|anti|maxi|mini|multi|pluri|semi|aero|agro|arqui|auto|bio|eletro|geo|hidro|macro|micro|neo|proto|pseudo|retro</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>s.+</token>
       </pattern>
