@@ -3866,33 +3866,21 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp="yes" postag="(N..|A...)S.+"/>
         <marker>
           <token>de</token>
-          <token>pressa</token>
+          <token regexp='yes'>pressa|vagar</token>
         </marker>
       </pattern>
-      <message>Substitua por <suggestion>depressa</suggestion>.</message>
+      <message>Substitua por <suggestion>de\3</suggestion>.</message>
       <example correction="depressa">Ele lê muito <marker>de pressa</marker>.</example>
-    </rule>
-
-    <rule id='DE_VAGAR' name="Confusão: de vagar - devagar">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token postag_regexp="yes" postag="(N..|A...)S.+"/>
-        <marker>
-          <token>de</token>
-          <token>vagar</token>
-        </marker>
-      </pattern>
-      <message>Substitua por <suggestion>devagar</suggestion>.</message>
       <example correction="devagar">Ele lê muito <marker>de vagar</marker>.</example>
     </rule>
 
     <rule id='DE_DA_A_SOBRE_MESA' name="Confusão: sobre mesa - sobremesa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token regexp="yes">de|da|a</token>
+          <token regexp="yes">d[ae]s?</token>
         <marker>
           <token>sobre</token>
-          <token>mesa</token>
+          <token regexp='yes'>mesas?</token>
         </marker>
       </pattern>
       <message>Substitua por <suggestion>sobremesa</suggestion>.</message>
@@ -4630,56 +4618,38 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>está</suggestion>.</message>
       <example correction="está">O Rui <marker>esta</marker> de saída.</example>
     </rule>
-
   </rulegroup>
 
-    <!-- ESTAR SOBRE O EFEITO DE estar sob o efeito de -->
     <rule id='ESTAR_SOBRE_O_EFEITO_DE' name="estar sob o efeito de">
-    <!-- Created by Marco A.G.Pinto, 2017-06-06 -->
+    <!-- Created by Marco A.G.Pinto, 2016-06-06 -->
       <pattern>
-          <token inflected='yes'>estar</token>
         <marker>
+          <token inflected='yes'>estar</token>
           <token>sobre</token>
-        </marker>
           <token regexp="yes">os?</token>
           <token regexp="yes">efeitos?</token>
+        </marker>
           <token regexp="yes">de|dos?|das?</token>
       </pattern>
       <message>Substitua por <suggestion>sob</suggestion>.</message>
-      <example correction="sob">Ele estava <marker>sobre</marker> o efeito de drogas.</example>
+      <example correction="sob">Ele <marker>estava sobre o efeito</marker> de drogas.</example>
     </rule>
 
-    <!-- Infinitive use - ESTAR/ESTÃO + A + INFINITIVE-->
     <rule id='ESTAR-ESTÃO_A_PLURAL' name="Usar infinitivo ESTAR/ESTÃO + A + INFINITIVO">
+    <!-- Created by Marco A.G.Pinto, 2016-XX-XX -->
       <pattern>
           <token inflected="yes">estar</token>
           <token>a</token>
-        <marker>
           <token postag_regexp='yes' postag="V.+">
             <exception postag="VMN0000"/>
-            <exception>salvo</exception></token>
-        </marker>
+            <exception negate_pos='yes' postag_regexp='yes' postag="V.+"/></token>
       </pattern>
       <message>Usar infinitivo: <suggestion><match no="3" postag_regexp= "yes" postag="V.+" postag_replace="VMN0000"/></suggestion></message>
-      <example correction="pedir">Alguns carteiros estão a <marker>pedirem</marker> a reforma.</example>
+      <example correction="pedir">Alguns carteiros <marker>estão a pedirem</marker> a reforma.</example>
     </rule>
 
-    <!-- FAZEM n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS > FAZ
-    XXX Covered by IMPERSONAL_FAZER_TIME_EXPRESSION. Remove after release.
-    <rule id='FAZEM' name="Faz">
-      <pattern>
-        <marker>
-          <token>fazem</token>
-        </marker>
-          <token/>
-          <token regexp="yes">&expressoes_de_tempo;</token>
-      </pattern>
-      <message>Substitua por <suggestion>faz</suggestion>.</message>
-      <example correction="faz">Rui, <marker>fazem</marker> duas semanas que não falamos.</example>
-    </rule> -->
-
-    <!-- FALARAM-SE DE falou-se de -->
     <rule id='FALARAM-SE_DE' name="Falou-se de">
+    <!-- Created by Marco A.G.Pinto, 2016-XX-XX -->
       <pattern>
           <token>falaram</token>
           <token regexp='yes'>&tracos_de_separacao;</token>
@@ -13009,7 +12979,7 @@ o tomate'>
       </antipattern>
       <pattern>
           <token>à</token>
-          <token min="0" regexp="yes">quase|poucos?|alguns|cerca</token>
+          <token min="0" regexp="yes">quase|poucos?|alguns|cerca|volta</token>
           <token skip="4">
             <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes' scope='next'/>
             <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes'/>
@@ -23426,7 +23396,7 @@ TODO Write better examples
         <suggestion/>
       <example correction=''><marker>estar no ar</marker>.</example>
     </rule>
-    <!--rule> XXX Expressão informal unicamente brasileira
+    <rule>
       <pattern>
           <token>no</token>
           <token>geral</token>
@@ -23434,7 +23404,7 @@ TODO Write better examples
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion>geralmente</suggestion>
       <example correction='geralmente'><marker>no geral</marker>.</example>
-    </rule-->
+    </rule>
     <rule>
       <pattern>
           <token regexp='yes'>nos?</token>
