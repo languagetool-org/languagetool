@@ -59,7 +59,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     Matcher matcher = pattern.matcher(sentence);
     int startPos = 0;
     List<RuleMatch> matches = new ArrayList<>();
-    long startTime = System.currentTimeMillis();
     while (matcher.find(startPos)) {
       String msg = replaceBackRefs(matcher, message);
       boolean sentenceStart = matcher.start(0) == 0;
@@ -80,12 +79,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       ruleMatch.setSuggestedReplacements(allSuggestions);
       matches.add(ruleMatch);
       startPos = matcher.end();
-    }
-    // TODO: remove logging:
-    long endTime = System.currentTimeMillis();
-    long runTime = endTime - startTime;
-    if (runTime > 1) {
-      System.err.println("matcher.find() loop took " + runTime + "ms for rule " + getFullId() + "@" + getLanguage());
     }
     return matches.toArray(new RuleMatch[matches.size()]);
   }
