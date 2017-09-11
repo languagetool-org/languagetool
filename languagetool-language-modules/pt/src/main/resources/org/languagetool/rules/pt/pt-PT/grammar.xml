@@ -32,7 +32,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
-    <!ENTITY expressoes_de_tempo "(segundo|minuto|hora|dia|semana|(bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+    <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
@@ -51,7 +51,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
     <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
     
-    <!ENTITY pronomes_de_tratamento "(alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
+    <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
     
     <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
 
@@ -133,7 +133,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'></token>
@@ -252,7 +252,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
@@ -268,7 +268,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -300,7 +300,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(algum|nenhum)a?</token>
+          <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -312,7 +312,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(am|ão|õe)$</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
       </pattern>
       <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1 \3-n\2</suggestion>
@@ -332,7 +332,7 @@ title="Easy editing stylesheet" ?>
           <token postag='DP.*' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -357,7 +357,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -374,7 +374,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">(sua|vossa)s?</token>
+          <token regexp="yes">(?:sua|vossa)s?</token>
           <token regexp="yes">&pronomes_de_tratamento;</token>
       </antipattern>
       <antipattern>
@@ -461,7 +461,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Marco A.G.Pinto , Portuguese rule -->
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
         <marker>
           <token>equipe</token>
         </marker>
@@ -471,7 +471,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
         <marker>
           <token>equipes</token>
         </marker>
@@ -486,7 +486,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
     <rule>
       <pattern>
-          <token regexp="yes">(d|n|outr|pel)?os?|de|(alg|d|n)?(um|uns)|em</token>
+          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
         <marker>
           <token>controle</token>
         </marker>
@@ -568,7 +568,7 @@ title="Easy editing stylesheet" ?>
       <short>Brasileirismo</short>
     <rule id="PAPAI_NOEL" name="Brasileirismo: Papai Noel - Pai Natal">
       <pattern>
-          <token regexp='yes'>(pa)?pai</token>
+          <token regexp='yes'>(?:pa)?pai</token>
           <token>noel</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>Pai Natal</suggestion>.</message>
@@ -716,7 +716,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='BRASILEIRISMO_16_ATERRISAR' name='Brasileirismo: aterrisar'>
       <pattern>
-          <token regexp='yes'>aterri(z|ss?).+</token>
+          <token regexp='yes'>aterri(?:z|ss?).+</token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
       <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
@@ -958,7 +958,7 @@ title="Easy editing stylesheet" ?>
 
     <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento" >
       <pattern>
-          <token regexp='yes'>.+((óid[oae]|óic[oa]|ói[ao])s?)$
+          <token regexp='yes'>.+((?:óid[oae]|óic[oa]|ói[ao])s?)$
             <exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
       <message>Palavras com esta terminação não são acentuadas, segundo o Acordo Ortográfico de 90.</message>
@@ -1343,7 +1343,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+          <token regexp='yes'>(?:Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(?:Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(?:ão|ões)|Outonos?|Estios?</token><!-- TODO |Mar|Dez create subrule for these cases -->
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os meses e as estações do ano deixam de ser capitalizados.</message>
@@ -1369,7 +1369,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
-          <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
+          <token regexp='yes'>Sábados?|Domingo|(?:Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
         </marker>
           <token><exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
@@ -1387,7 +1387,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+          <token regexp='yes'>(?:Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
         </marker>
@@ -1478,7 +1478,7 @@ title="Easy editing stylesheet" ?>
     <rule id='AO45_MONTHS_CASING' type='grammar' name='AO45: Capitalização de Meses e Estações do Ano'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(&meses_ano;)s?|(&meses_ano_abrev;)|invernos?|primaveras?|ver(ão|ões)|estios?|outonos?
+          <token regexp='yes'>(?:&meses_ano;)s?|(?:&meses_ano_abrev;)|invernos?|primaveras?|ver(?:ão|ões)|estios?|outonos?
             <exception regexp='yes'>mar|dez</exception></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
@@ -1504,7 +1504,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
+          <token regexp='yes'>(?:segunda|terça|quarta|quinta|sexta)s?|(?:seg|ter|qua|qui|sex)</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[Ff]eiras?</token>
       </pattern>
