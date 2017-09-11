@@ -64,33 +64,33 @@ title="Easy editing stylesheet" ?>
     <!-- Unification rules retrieved from galician grammar.xml - START-->
       <unification feature="number">
         <equivalence type="singular">
-          <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+          <token postag="(?:N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
         </equivalence>
 
         <equivalence type="plural">
-          <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+          <token postag="(?:N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
         </equivalence>
       </unification>
 
       <unification feature="gender">
         <equivalence type="masc">
-          <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+          <token postag="(?:N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
         </equivalence>
 
         <equivalence type="fem">
-          <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+          <token postag="(?:N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
         </equivalence>
       </unification>
 
       <unification feature="person">
         <equivalence type="first">
-          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)1.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="second">
-          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)2.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="third">
-          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)3.*" postag_regexp="yes"/>
         </equivalence>
       </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
@@ -535,8 +535,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
@@ -550,8 +550,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token min='0' max='2' postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <example correction='num'><marker>em um</marker> belo dia.</example>
@@ -999,7 +999,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>
             <exception regexp='yes'>[-,.!?\(\)]</exception>
-            <exception postag='(C|R|S|NP).+' postag_regexp='yes'/>
+            <exception postag='(?:C|R|S|NP).+' postag_regexp='yes'/>
           </token>
           <token regexp='yes'>açu|guaçu|mirim</token>
     <!-- These suffixes are used in Brazilian Portuguese -->
