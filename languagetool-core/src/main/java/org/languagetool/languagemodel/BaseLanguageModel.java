@@ -81,14 +81,14 @@ public abstract class BaseLanguageModel implements LanguageModel {
   /**
    * Get the occurrence count for {@code token}.
    */
-  abstract long getCount(String token1);
+  public abstract long getCount(String token1);
 
   /**
    * Get the occurrence count for the given token sequence.
    */
-  abstract long getCount(List<String> tokens);
+  public abstract long getCount(List<String> tokens);
 
-  abstract long getTotalTokenCount();
+  public abstract long getTotalTokenCount();
 
   private void debug(String message, Object... vars) {
     if (DEBUG) {
