@@ -108,31 +108,31 @@ title="Easy editing stylesheet" ?>
     <!-- Unification rules retrieved from galician grammar.xml - START-->
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="([NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="plural">
-          <token postag="([NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="gender">
     <equivalence type="masc">
-          <token postag="([NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="fem">
-          <token postag="([NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="person">
     <equivalence type="first">
-          <token postag="(V...|PP)1.+" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)1.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="second">
-          <token postag="(V...|PP)2.+" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)2.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="third">
-          <token postag="(V...|PP)3.+" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)3.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
@@ -252,14 +252,14 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
             <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
-          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CS.+'/></token>
-          <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -283,10 +283,10 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
-          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CS.+'/></token>
-          <token postag='(N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -310,13 +310,13 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CF]P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF]P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>termos|nomes</exception></token>
-          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CP.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CP.+'/></token>
-          <token postag='(N.|A..|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas|média</exception>
           </token>
         </marker>
@@ -340,10 +340,10 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
-          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CP.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CP.+'/></token>
-          <token postag='(N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -376,13 +376,13 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
-          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CS.+'/></token>
-          <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -403,10 +403,10 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
-          <token min='0' postag='(A..|Z.)CS.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CS.+'/></token>
-          <token postag='(N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -428,13 +428,13 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CM]P.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM]P.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>e|mas|palavras|letras|ruas|ilhas</exception></token>
-          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CP.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CP.+'/></token>
-          <token postag='(N.|A..|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -457,10 +457,10 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
-          <token min='0' postag='(A..|Z.)CP.+' postag_regexp='yes'>
+          <token min='0' postag='(?:A..|Z.)CP.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)CP.+'/></token>
-          <token postag='(N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -479,8 +479,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>a</token>
-          <token postag='(A..|N.|Z.)MS.+' postag_regexp='yes'>
-            <exception postag='(A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
+          <token postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
@@ -497,7 +497,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <pattern>
           <token regexp='yes'>a</token>
-          <token postag='(A..|N.|Z.)M.+' postag_regexp='yes' regexp='yes'>.+a$
+          <token postag='(?:A..|N.|Z.)M.+' postag_regexp='yes' regexp='yes'>.+a$
             <exception regexp='yes'>palavra|letra</exception></token>
       </pattern>
       <message>Possível erro de concordância de género.</message>
@@ -613,8 +613,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>o</token>
-          <token postag='(A..|N.|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(A..|N.|Z.)F.+' postag_regexp='yes' negate_pos='yes'/>
+          <token postag='(?:A..|N.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)F.+' postag_regexp='yes' negate_pos='yes'/>
             <exception regexp='yes'>uma|umas|e|ser|nome|termo</exception></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
@@ -653,21 +653,21 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>os</token>
           <token regexp='yes'>mais|menores|maiores|melhores|piores</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token postag='(D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]s?</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'>
-            <exception postag='(D[ADIP].|NC|A..|P..|Z.)[MC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'>
+            <exception postag='(?:D[ADIP].|NC|A..|P..|Z.)[MC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
-          <token postag='(N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception></token>
         </marker>
           <token>
@@ -690,8 +690,8 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
-          <token postag='(N.|A..|DP.|Z.)[MC]S.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[MC]P.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.|Z.)[MC]S.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[MC]P.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception regexp="yes">há|são|ser|haver|devido|média|mídia</exception></token>
         </marker>
           <token>
@@ -713,23 +713,23 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>o</token>
           <token regexp='yes'>mais|menor|maior|pior|melhor</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token postag='(D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
-            <exception postag='(D[ADIP].|N.|A..|Z.)[MC]P.+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
+            <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC]P.+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
             <exception regexp="yes">há|são|ser|haver|serão|vão|uso</exception>
             <exception regexp='yes'>.+[°′″]</exception></token>
-          <token postag='(N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+          <token postag='(?:N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -752,8 +752,8 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
-          <token postag='(N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -776,18 +776,18 @@ title="Easy editing stylesheet" ?>
           <token>vez</token>
       </antipattern>
       <antipattern>
-          <token postag='(D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
-            <exception postag='(D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
+            <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
-          <token postag='(N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+          <token postag='(?:N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -805,8 +805,8 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
-          <token postag='(N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
+          <token postag='(?:N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -821,18 +821,18 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
-          <token postag='(D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]s?</token>
-          <token postag='(D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
-          <token postag='(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
-            <exception postag='(D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
+            <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
-          <token postag='(N.|A..|Z.)[FC]S.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+          <token postag='(?:N.|A..|Z.)[FC]S.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
@@ -851,8 +851,8 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
-          <token postag='(N.|A..|DP.|Z.)[FC]S.+' postag_regexp='yes'>
-            <exception postag='(N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)[FC]S.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
@@ -2447,7 +2447,7 @@ title="Easy editing stylesheet" ?>
     <rule id='ESTAR_CLARO_DE_QUE' name="Verbo do tipo estar + Adj. + de que">
       <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
-          <token postag="(R|A).+" postag_regexp="yes">
+          <token postag="(?:R|A).+" postag_regexp="yes">
             <exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto|abaixo|acima</exception></token>
           <token regexp="yes">d[aeo]s?</token>
           <token>que</token>
@@ -5571,7 +5571,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-          <token min='0' max='2' postag='(N|A).+' postag_regexp='yes'/>
+          <token min='0' max='2' postag='(?:N|A).+' postag_regexp='yes'/>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -5666,7 +5666,7 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token>onde</token>
         </marker>
-          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'/>
+          <token min='0' max='2' postag='(?:PP|N|A).+' postag_regexp='yes'/>
           <token negate_pos='yes' postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer <suggestion>aonde</suggestion>?</message>
@@ -5705,7 +5705,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes">onde</token>
         </marker>
-          <token min='0' max='2' postag='(PP|N|A).+' postag_regexp='yes'/>
+          <token min='0' max='2' postag='(?:PP|N|A).+' postag_regexp='yes'/>
           <token min='0' negate_pos='yes' postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer <suggestion>donde</suggestion>?</message>
@@ -5774,8 +5774,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
       <example correction='dum'><marker>de um</marker> calmo dia.</example>
@@ -5844,8 +5844,8 @@ title="Easy editing stylesheet" ?>
           <token>em</token>
           <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
         </marker>
-          <token postag='(N|A).+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag='(N|A).+' postag_regexp='yes'/></token>
+          <token postag='(?:N|A).+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
       <example correction='num'><marker>em um</marker> belo dia.</example>
@@ -7383,7 +7383,7 @@ title="Easy editing stylesheet" ?>
           <token skip='-1'/>
         <marker>
           <token><match no="1"/>
-            <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
+            <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
             <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
@@ -7432,7 +7432,7 @@ title="Easy editing stylesheet" ?>
           <token skip='-1'/>
         <marker>
           <token><match no="1"/>
-            <exception postag='(C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
+            <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
             <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
@@ -12981,8 +12981,8 @@ o tomate'>
           <token>à</token>
           <token min="0" regexp="yes">quase|poucos?|alguns|cerca|volta</token>
           <token skip="4">
-            <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes' scope='next'/>
-            <exception postag='(V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes'/>
+            <exception postag='(?:V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes' scope='next'/>
+            <exception postag='(?:V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes'/>
             <exception regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</exception></token>
           <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
@@ -19983,7 +19983,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;</exception>
-            <exception postag='(A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
           <token>viagem</token>
       </pattern>
       <message>Esta palavra refere-se ao ato de viajar. Se pretende referir-se à ação de viajar, deve utilizar a forma com 'j'.</message>
@@ -20007,7 +20007,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;</exception>
-            <exception postag='(A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
+            <exception postag='(?:A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>profetisas?</token>
       </pattern>
       <message>Esta palavra refere-se à pessoa que faz afirmações sobre o futuro. Se pretende referir-se à ação de divulgar profecias, deve utilizar a forma com 'x'.</message>
@@ -20032,7 +20032,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;</exception>
-            <exception postag='(A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
+            <exception postag='(?:A|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>estirpes?</token>
       </pattern>
       <message>Esta palavra refere-se a raiz ou linhagem. Se pretende referir-se à ação de remover as vísceras, deve utilizar a forma com 'x'.</message>
@@ -20058,7 +20058,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;|\-</exception>
-            <exception postag='(A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
+            <exception postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
           <token regexp='yes'>cint[ao]s?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
@@ -20085,7 +20085,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;</exception>
-            <exception postag='(A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
+            <exception postag='(?:A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>aços?</token>
       </pattern>
       <message>Esta palavra refere-se a um tipo de fivela. Se pretende referir-se à ação de emocionar, deve utilizar a forma com 's'.</message>
@@ -20121,7 +20121,7 @@ TODO Write better examples
       <pattern>
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;|\-</exception>
-            <exception postag='(A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
+            <exception postag='(?:A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
           <token regexp='yes'>serras?</token>
       </pattern>
       <message>Esta palavra refere-se a uma montanha ou instrumento de corte. Se pretende referir-se à ação de cortar, deve utilizar a forma com 'c'.</message>
@@ -21725,7 +21725,7 @@ TODO Write better examples
           <token spacebefore="no" regexp="yes">»|«|"</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(?:|\{</token>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
           <token regexp="yes">:|,|;</token>
           <token regexp="yes">“|»|«|"|\)|\}</token>
       </antipattern>
@@ -21735,7 +21735,7 @@ TODO Write better examples
           <token regexp="yes">:|,|;</token>
         </or>
         <marker>
-          <token regexp="yes">„|“|«|"|\(?:|\{</token>
+          <token regexp="yes">„|“|«|"|\(|\{</token>
           <token spacebefore="yes"/>
         </marker>
       </pattern>
@@ -21758,7 +21758,7 @@ TODO Write better examples
           <token regexp="yes">“|»|«|"|\)|\}</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(?:|\{</token>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
           <token regexp="yes">\.|\?|!</token>
           <token regexp="yes">“|»|«|"|\)|\}</token>
       </antipattern>
@@ -21776,7 +21776,7 @@ TODO Write better examples
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(?:|\{</token>
+          <token regexp="yes">„|»|«|"|\(|\{</token>
           <token>,</token>
           <token regexp="yes">“|»|«|"|\)|\}</token>
       </antipattern>
@@ -21793,7 +21793,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token spacebefore="yes" regexp="yes">“|‚|\(?:|\{</token>
+          <token spacebefore="yes" regexp="yes">“|‚|\(|\{</token>
           <token spacebefore="yes"/>
       </pattern>
       <message>Espaçamento incorreto.</message>
@@ -21816,7 +21816,7 @@ TODO Write better examples
     <rule id="SEMICOLON_COLON_SPACING" name="Espaços em falta: ':' e ';'">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <antipattern>
-          <token regexp="yes">“|«|"|\(?:</token>
+          <token regexp="yes">“|«|"|\(</token>
           <token regexp="yes">:|;</token>
           <token regexp="yes">”|»|"|\)</token>
       </antipattern>
@@ -22686,7 +22686,7 @@ TODO Write better examples
       <short>Redundância. O neutro é suficiente.</short>
     <rule>
       <pattern>
-          <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+          <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>senão</exception></token>
           <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
@@ -22697,7 +22697,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag="(P.|N).MP.+" postag_regexp="yes"/>
+          <token postag="(?:P.|N).MP.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>sino</exception></token>
           <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
@@ -22709,7 +22709,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
-          <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+          <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>sino</exception></token>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
@@ -22721,7 +22721,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="[DP].+" postag_regexp="yes"><exception postag="N.+" postag_regexp="yes"/></token>
-          <token postag="(P.|N).[MC]P.+" postag_regexp="yes"/>
+          <token postag="(?:P.|N).[MC]P.+" postag_regexp="yes"/>
           <token postag="CC">
             <exception>sino</exception></token>
           <token postag="[DP].+" postag_regexp="yes" skip="1"><exception postag="N.+" postag_regexp="yes"/></token>
