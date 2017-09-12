@@ -54,7 +54,7 @@ public class GermanTagger extends BaseTagger {
     super("/de/german.dict");
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
       removalTagger = new ManualTagger(stream);
-    }  catch (IOException e) {
+    } catch (IOException e) {
       throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
     }
   }
@@ -68,7 +68,7 @@ public class GermanTagger extends BaseTagger {
   public String getManualRemovalsFileName() {
     return "/de/removed.txt";
   }
-  
+
   /**
    * Return only the first reading of the given word or {@code null}.
    */
@@ -110,13 +110,13 @@ public class GermanTagger extends BaseTagger {
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
-              // recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
-              List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
-              if (imperativeFormList != null && imperativeFormList.size() > 0) {
-                l.addAll(imperativeFormList);
-              } else {
-                l.add(getNoInfoToken(word));
-              }
+            // recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+            List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
+            if (imperativeFormList != null && imperativeFormList.size() > 0) {
+              l.addAll(imperativeFormList);
+            } else {
+              l.add(getNoInfoToken(word));
+            }
           } else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
@@ -141,14 +141,14 @@ public class GermanTagger extends BaseTagger {
     return tokenReadings;
   }
 
- /*
-  * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
-  * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
-  * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
-  * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
-  * @param word to be checked
-  */
-  private List<AnalyzedToken> getImperativeForm (String word, List<String> sentenceTokens, int pos) {
+  /*
+   * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+   * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
+   * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
+   * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+   * @param word to be checked
+   */
+  private List<AnalyzedToken> getImperativeForm(String word, List<String> sentenceTokens, int pos) {
     int idx = sentenceTokens.indexOf(word);
     String previousWord = "";
     while (--idx > -1) {
