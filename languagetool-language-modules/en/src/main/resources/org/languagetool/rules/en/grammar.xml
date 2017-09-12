@@ -8530,7 +8530,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception>each</exception></token>
                     <token><exception>,</exception></token>
                     <token>and</token>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
@@ -8542,6 +8542,7 @@ USA
                 <message>You should probably use <suggestion><match no="7" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="am|are|aren">The teacher and her students <marker>is</marker> in the classroom.</example>
+                <example>Each dog and each cat <marker>is</marker> well groomed.</example>
                 <example correction="sing">Her mother and her father <marker>sings</marker> a song.</example>
                 <example>No, and it's not in my pocket either.</example>
             </rule>
@@ -8559,6 +8560,21 @@ USA
                 <message>You should probably use <suggestion><match no="6" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="sing">Tina and her father <marker>sings</marker> a song.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Each</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token postag="NNS"/>
+                    <marker>
+                        <token postag="VBP"><exception postag="NN.*|VB[DGZ]|JJ" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">Each of the children <marker>are</marker> happy.</example>
             </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
@@ -13835,7 +13851,7 @@ USA
                     <token postag="SENT_END"/>
                 </antipattern>
                 <antipattern>
-                    <token case_sensitive="yes" regexp="yes">,|:|what|wh([oy]|ere|ose|ich|ether)|how|that</token>
+                    <token case_sensitive="yes" regexp="yes">,|:|wh([oy]|ere|ose|ich|ether|at)|how|that</token>
                     <token/>
                     <token case_sensitive="yes" regexp="yes">and|but|or</token>
                     <token>I</token>
