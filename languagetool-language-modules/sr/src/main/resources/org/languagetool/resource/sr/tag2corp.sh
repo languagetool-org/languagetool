@@ -34,22 +34,14 @@ do
         INFILE=${INPUT_DIR}/${file}/${FNAME}
 
         if [ -s ${INFILE} ]; then
-            # Replace names
-            echo "Replacing original names with pronounced in ${FNAME} ..."
-            if [ -f ${STATIC_DIR}/${file}/${file}-sed-cmds.txt ]; then
-                sed -f ${STATIC_DIR}/${file}/${file}-sed-cmds.txt ${INFILE} > ${INPUT_DIR}/${file}/${FNAME}.sed
-            else
-                cp ${INFILE} ${INPUT_DIR}/${file}/${FNAME}.sed
-            fi
             echo "Tagging ${FNAME} with LT tags ..."
-            ./pos2lt.py -i ${INPUT_DIR}/${file}/${FNAME}.sed -o ${OUTPUT_DIR}
+            ./pos2lt.py -i ${INPUT_DIR}/${file}/${FNAME} -o ${OUTPUT_DIR}
             RETVAL=$?
 
             if [ ${RETVAL} -eq 0 ]; then
                 echo "Adding ${FNAME} to word corpus ..."
-                cat ${OUTPUT_DIR}/${FNAME}.sed >> ${OUTPUT_DIR}/serbian-corpus.tmp
-                cut -f1 ${OUTPUT_DIR}/${FNAME}.sed >> ${OUTPUT_DIR}/hunspell-serbian-corpus.tmp
-                rm -f ${INPUT_DIR}/${file}/${FNAME}.sed
+                cat ${OUTPUT_DIR}/${FNAME} >> ${OUTPUT_DIR}/serbian-corpus.tmp
+                cut -f1 ${OUTPUT_DIR}/${FNAME} >> ${OUTPUT_DIR}/hunspell-serbian-corpus.tmp
             fi
             echo " "
         fi

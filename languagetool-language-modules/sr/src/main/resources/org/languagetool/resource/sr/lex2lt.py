@@ -226,7 +226,7 @@ def distribute_word_frequencies():
     len_freq = len(_freqs_)
     # Subtract frequency 0 and divide rest of the list in 255 buckets
     bucket_size = (len_freq - 1) // 255 + 1
-    _logger_.debug( "bucket size: {}".format(bucket_size) )
+    _logger_.debug( "Frequency list bucket size: {}".format(bucket_size) )
 
     for msb in list(range(0, 255)):
         #print( 'msb={}'.format(msb))
@@ -245,7 +245,7 @@ def parse_file():
     matchcnt = 0
     _logger_.info("PASS 2: Started processing input file '{}' ...".format(_args_.input_file))
     freqfile = open("serbian-wordlist.xml", "wb")
-    freqfile.write('<wordlist locale="sr" description="Српски" version="3">\n'.encode('utf-8'))
+    #freqfile.write('<wordlist locale="sr" description="Српски" version="3">\n'.encode('utf-8'))
 
     with open(_args_.input_file) as f:
         for line in f:
@@ -259,6 +259,7 @@ def parse_file():
                 lemma = tokens[1]
                 posgr = tokens[2]
                 frequency = tokens[3]
+                # We need to do transliterating here in order to avoid transliterating POS tag :(
                 flexform_lemma = "{} {}".format(flexform, lemma)
                 # Transliterate all words in line, replacing Latin with Cyrillic characters
                 flexform_lemma = _l2comp_.sub(lambda m: _l2conv_[m.group()], flexform_lemma)
@@ -267,8 +268,8 @@ def parse_file():
                 tokens = flexform_lemma.split()
                 flexform = tokens[0]
                 lemma = tokens[1]
-
                 _logger_.debug('Converted flexform={}, lemma={}, posgr={}'.format(flexform, lemma, posgr))
+
                 # Determine file to write line in ...
                 out_file = get_words_out_file(lemma[0])
                 # Create line for writing in file
@@ -276,13 +277,12 @@ def parse_file():
                     flexform, lemma, posgr, frequency).encode('utf-8'))
                 # Write to frequency file
                 if posgr != 'Z':
-                    freqfile.write(' <w f="{}" flags="">{}</w>\n'.format(_freqmap_[ int(frequency) ], flexform).encode('utf-8'))
+                    freqfile.write('<w f="{}" flags="">{}</w>\n'.format(_freqmap_[ int(frequency) ], flexform).encode('utf-8'))
             else:
                 _logger_.warn("Unmatched line: {}".format(line))
             if cnt > _args_.first_n_lines > 0:
                 break
         f.close()
-    freqfile.write('</wordlist>'.encode('utf-8'))
     freqfile.close()
     _logger_.info("PASS 2: Finished processing input file '{}': total {} lines, {} matching lines.".format(
         _args_.input_file, cnt, matchcnt))

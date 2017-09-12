@@ -83,7 +83,7 @@ def parse_file():
                     # generated LT tags appear correctly (last character intact) in .dict files
                     #
                     # If bug is fixed, please remove "x" from "write" statement below.
-                    _out_file_.write("{}\t{}\t{}x\n".format(lparts[0], lparts[1], lttag).encode('utf-8'))
+                    _out_file_.write("{}\t{}\t{}\n".format(lparts[0], lparts[1], lttag).encode('utf-8'))
                 else:
                     _logger_.warn("For PoS tag '{}' no LT tag found. Line: '{}'".format(line))
             else:

@@ -7,6 +7,7 @@
 CORPUS_FILE=/opt/app/s/smd/lt/serbian-corpus.txt
 CORPUS_HUNSPELL_FILE=/opt/app/s/smd/lt/hunspell-serbian-corpus.txt
 TEMPDIR=/tmp
+FREQFILE=serbian-wordlist.xml
 
 if [ ! -f ${CORPUS_FILE} ]; then
     echo "Serbian word corpus file ${CORPUS_FILE} does not exist, aborting ..."
@@ -14,13 +15,13 @@ if [ ! -f ${CORPUS_FILE} ]; then
 fi
 
 echo "Generating POS Serbian dictionary ..."
-ltposdic -i ${CORPUS_FILE} -info serbian.info -o serbian.dict
+ltposdic -i ${CORPUS_FILE} -info serbian.info -freq ${FREQFILE} -o serbian.dict
 
 echo "Generating SYNTH Serbian dictionary ..."
 ltsyndic -i ${CORPUS_FILE} -info serbian_synth.info -o serbian_synth.dict
 
 echo "Generating HunSpell dictionary ..."
-ltspldic -i ${CORPUS_HUNSPELL_FILE} -info hunspell/sr_RS.info -o hunspell/sr_RS.dict
+ltspldic -i ${CORPUS_HUNSPELL_FILE} -info hunspell/sr_RS.info -freq ${FREQFILE} -o hunspell/sr_RS.dict
 
 # It was observed that process leaves temporary files in /tmp directory
 # so we will clean up after ourselves
