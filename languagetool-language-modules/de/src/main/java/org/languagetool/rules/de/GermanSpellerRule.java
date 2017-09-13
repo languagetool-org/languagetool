@@ -69,6 +69,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]wa"), (String w) -> Arrays.asList("AWA", "ach was", "aber"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]lsallerersten?s"), (String w) -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("aufgehangen(e[mnrs]?)?$"), (String w) -> Collections.singletonList(w.replaceFirst("hangen", "hängt")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geupdate[dt]$"), (String w) -> Collections.singletonList("upgedatet"));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("rosane[mnrs]?$"), (String w) -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
@@ -103,6 +104,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geh?neh?m[ie]gung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("geh?neh?m[ie]gung", "Genehmigung")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Korrigierung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("igierung", "ektur")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[qQ]ualitäts?bewußt(e[mnrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("ts?bewußt", "tsbewusst")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[gG]leichrechtig(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("rechtig", "berechtigt")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[uU]nnützlich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("nützlich", "nütz")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("([eE]r|[bB]e|unter)?hälst"), (String w) -> Collections.singletonList(w.replaceFirst("hälst", "hältst")));
   }
 
   private final LineExpander lineExpander = new LineExpander();
@@ -349,6 +353,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("[vV]erstehendniss?(es?)?")) {
+      suggestion = word.replaceFirst("[vV]erstehendnis", "Verständnis");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
     } else if (word.equals("ua") || word.equals("ua.")) {
@@ -395,6 +404,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("hallöchen");
     } else if (word.equals("ok")) {
       return Arrays.asList("okay", "O.\u202fK."); // Duden-like suggestion with no-break space
+    } else if (word.equals("gesuchen")) {
+      return Arrays.asList("gesuchten", "gesucht");
     } else if (word.equals("Germanistiker")) {
       return Arrays.asList("Germanist", "Germanisten");
     } else if (word.equals("par")) {
