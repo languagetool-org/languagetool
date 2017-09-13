@@ -9369,6 +9369,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AUSGESCHRIEBENE_ZAHLEN" name="zwei hundert (zweihundert)">
             <rule>
+                <antipattern>
+                    <token postag="ZAL"/>
+                    <token postag="ZAL"/>
+                    <token postag="SUB:NOM:SIN:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">von|aus|mal</exception></token>
                     <marker>
@@ -9384,6 +9390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn du von <marker>zehn vier</marker> wegnimmst, dann hast du sechs.</example>
                 <example>Dass die Wurzel aus <marker>vier zwei</marker> ist, weiß ich.</example>
                 <example>4.000.519 = vier Millionen fünfhundertneunzehn</example>
+                <example>Ich brauche vier acht Meter lange Seile.</example>
             </rule>
         </rulegroup>
         <rule id="HINZU" name="hinzu (hin zu)">
