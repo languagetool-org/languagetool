@@ -107,7 +107,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[gG]leichrechtig(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("rechtig", "berechtigt")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[uU]nnützlich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("nützlich", "nütz")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("([eE]r|[bB]e|unter)?hälst"), (String w) -> Collections.singletonList(w.replaceFirst("hälst", "hältst")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ohlfühlseins?"), (String w) -> Collections.singletonList(w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ohlfühlseins?"), (String w) -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
   }
 
   private final LineExpander lineExpander = new LineExpander();
