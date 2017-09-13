@@ -27,4 +27,5 @@ ltspldic -i ${CORPUS_HUNSPELL_FILE} -info hunspell/sr_RS.info -freq ${FREQFILE} 
 # so we will clean up after ourselves
 rm -f ${TEMPDIR}/DictionaryBuilder*txt ${TEMPDIR}/DictionaryBuilder*info \
       ${TEMPDIR}/SynthDictionaryBuilder*txt ${TEMPDIR}/SynthDictionaryBuilder*info \
-      ${TEMPDIR}/SpellDictionaryBuilder*txt ${TEMPDIR}/SpellDictionaryBuilder*info
+      ${TEMPDIR}/SpellDictionaryBuilder*txt ${TEMPDIR}/SpellDictionaryBuilder*info \
+      ${FREQFILE}

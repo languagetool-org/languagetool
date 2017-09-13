@@ -54,22 +54,22 @@ DDESC = {
     'OS' : 'општи', # придев
     'ON' : 'основни', # врста броја
     'OT' : 'остало', # остале речи
-    'PC' : 'партицип', # глаголски облик, предлог, придев
     'PA' : 'прошло време', # глаголско време
+    'PC' : 'партицип', # глаголски облик, предлог, придев
     'PF' : 'плусквамперфект', # глаголско време
     'PK' : 'показна', # заменица
     'PM' : 'помоћни', # глагол
     'PB' : 'посебан', # врста броја
     'PT' : 'потврдна', # речца
-    'PV' : 'повратна', # заменица
+    'PV' : 'повратни/а', # заменица или глагол
     'PO' : 'позитив', # степен поређења
-    'RA' : 'прави', # прилог
     'PI' : 'придевски', # прилог
     'PE' : 'предлог', # врста речи
     'PR' : 'придев', # врста речи
     'PL' : 'прилог', # врста речи
     'PZ' : 'презент', # глаголско време
     'PS' : 'присвојни/а', # придев или заменица
+    'RA' : 'прави', # прилог
     'RE' : 'речца', # врста речи
     'RD' : 'редни', # придев или број
     'RL' : 'релативно', # заменица
@@ -99,7 +99,7 @@ DNOUN = dict(
     type    = dict(c='ZA', p='VL'),
     # зај)едничка, вла)стита
     gender  = dict(m='MU', f='ZE', n='SR'),
-    # мус)ки, зен)ски, сре)дњи
+    # муш)ки, зен)ски, сре)дњи
     number  = dict(s='0J', p='0M'),
     # јед)нина, мно)жина, зби)рно
     case    = {'n' : 'NO', 'g' : 'GE', 'd' : 'DA', 'a' : 'AK', 'v' : 'VO', 'i' : 'IN', 'l' : 'LO', '-': '0', 'f' : 'NO'},
@@ -123,19 +123,19 @@ def _get_noun_tag(msd, sep):
     return ret
 
 def _print_noun_tags(sep):
-    for type in DNOUN[ 'type' ]:
-        for gender in DNOUN[ 'gender' ]:
-            for number in DNOUN[ 'number' ]:
-                for case in DNOUN[ 'case' ]:
-                    for animate in DNOUN[ 'animate' ]:
+    for type in DNOUN[ 'type' ].values():
+        for gender in DNOUN[ 'gender' ].values():
+            for number in DNOUN[ 'number' ].values():
+                for case in DNOUN[ 'case' ].values():
+                    for animate in DNOUN[ 'animate' ].values():
                         st = "IM:{}:{}:{}:{}:{}".format(type, gender, number, case, animate)
                         descr = get_tag_desc(st, sep)
                         pprint(st, descr)
 
 
 DVERB = dict(
-    type     = dict(m='GV', a='PM', c='KO'),
-    # Врста: GV = гла)вни, PM = пом)оћни, KO = односни
+    type     = dict(m='GV', a='PM', c='KO',),
+    # Врста: GV = гла)вни, PM = пом)оћни, KO = односни, PV = повратни
     vform    = dict(n='IN', p='PC', r='PZ', f='FU', m='IP', a='AO', e='IF'),
     # Облик: IN = инфинитив, PA = партицип, PZ = презент, FU = футур,
     # IP = императив, AO = аорист, IF = имперфект
@@ -165,12 +165,12 @@ def _get_verb_tag(msd, sep):
     return ret
 
 def _print_verb_tags(sep):
-    for type in DVERB[ 'type' ]:
-        for vform in DVERB[ 'vform' ]:
-            for person in DVERB[ 'person' ]:
-                for number in DVERB[ 'number' ]:
-                    for gender in DVERB[ 'gender' ]:
-                        for negat in DVERB[ 'negative' ]:
+    for type in DVERB[ 'type' ].values():
+        for vform in DVERB[ 'vform' ].values():
+            for person in DVERB[ 'person' ].values():
+                for number in DVERB[ 'number' ].values():
+                    for gender in DVERB[ 'gender' ].values():
+                        for negat in DVERB[ 'negative' ].values():
                             st = "GL:{}:{}:{}:{}:{}:{}".format(
                                 type, vform, person, number, gender, negat)
                             descr = get_tag_desc(st, sep)
@@ -185,8 +185,8 @@ DADJ = dict(
     # Степен поређења: поз)итив, ком)паратив, суп)ерлатив
     gender  = dict(m='MU', f='ZE', n='SR'),
     # Род: мус)ки, зен)ски, сре)дњи
-    number  = dict(s='0J', p='0M', t='ZBI'),
-    # Број: јед)нина, мно)жина, зби)ран ?
+    number  = dict(s='0J', p='0M', t='ZB'),
+    # Број: јед)нина, мно)жина, зби)ран
     case    = dict(n='NO', g='GE', d='DA', a='AK', v='VO', i='IS', l='LO'),
     # Падеж: ном)инатив, ген)итив, дат)ив, аку)затив, вок)атив, инс)трументал, лок)атив
     defin   = dict(n='NE', y='OR'),
@@ -211,13 +211,13 @@ def _get_adjective_tag(msd, sep):
     return ret
 
 def _print_adjective_tags(sep):
-    for type in DADJ[ 'type' ]:
-        for degree in DADJ[ 'degree' ]:
-            for gender in DADJ[ 'gender' ]:
-                for number in DADJ[ 'number' ]:
-                    for case in DADJ[ 'case' ]:
-                        for defin in DADJ[ 'defin' ]:
-                            for animate in DADJ[ 'animate' ]:
+    for type in DADJ[ 'type' ].values():
+        for degree in DADJ[ 'degree' ].values():
+            for gender in DADJ[ 'gender' ].values():
+                for number in DADJ[ 'number' ].values():
+                    for case in DADJ[ 'case' ].values():
+                        for defin in DADJ[ 'defin' ].values():
+                            for animate in DADJ[ 'animate' ].values():
                                 st = "PR:{}:{}:{}:{}:{}:{}:{}".format(
                                     type, degree, gender, number, case, defin, animate)
                                 descr = get_tag_desc(st, sep)
@@ -226,9 +226,9 @@ def _print_adjective_tags(sep):
 
 # Pronoun (заменица) attributes
 DPRO = dict(
-    type = dict(p='LI', d='PK', i='NE', s='PS', q='UP', r='RE', x='PO'),
+    type = dict(p='LI', d='PK', i='NE', s='PS', q='UP', r='RE', x='PV'),
     # Врста: LI = лична (personal), PK = показна (demonstrative), NE = неодређена (indefinite)
-    # UP = упитна (interrogative), RE = релативна (relative), PO = повратна (reflexive)
+    # UP = упитна (interrogative), RE = релативна (relative), PV = повратна (reflexive)
     # PS = присвојна (possessive)
     person = {'1' : '1L', '2' : '2L', '3' : '3L', '-' : '0'},
     # Лице: 1 = прво, 2 = друго, 3 = треће
@@ -258,12 +258,12 @@ def _get_pronoun_tag(msd, sep):
     return ret
 
 def _print_pronoun_tags(sep):
-    for type in DPRO[ 'type' ]:
-        for person in DPRO[ 'person' ]:
-            for gender in DPRO[ 'gender' ]:
-                for number in DPRO[ 'number' ]:
-                    for case in DPRO[ 'case' ]:
-                       for anim in DPRO[ 'animate' ]:
+    for type in DPRO[ 'type' ].values():
+        for person in DPRO[ 'person' ].values():
+            for gender in DPRO[ 'gender' ].values():
+                for number in DPRO[ 'number' ].values():
+                    for case in DPRO[ 'case' ].values():
+                       for anim in DPRO[ 'animate' ].values():
                                 st = "ZM:{}:{}:{}:{}:{}:{}".format(
                                     type, person, gender, number, case, anim)
                                 descr = get_tag_desc(st, sep)
@@ -287,8 +287,8 @@ def _get_adverb_tag(msd, sep):
     return ret
 
 def _print_adverb_tags(sep):
-    for type in DADV[ 'type' ]:
-        for degree in DADV[ 'degree' ]:
+    for type in DADV[ 'type' ].values():
+        for degree in DADV[ 'degree' ].values():
             st = 'PL:{}:{}'.format(type, degree)
             descr = get_tag_desc(st, sep)
             pprint(st, descr)
@@ -307,9 +307,9 @@ def _get_adposition_tag(msd, sep):
     return ret
 
 def _print_adposition_tags(sep):
-    for case in DADP[ 'case' ]:
+    for case in DADP[ 'case' ].values():
         st = 'PЕ:{}'.format(case)
-        descr = get_tag_desc(st, sep)+ sep
+        descr = get_tag_desc(st, sep)
         pprint(st, descr)
 
 # Serbian word corpus has only 2 types of tags for conjunctions
@@ -327,7 +327,7 @@ def _get_conjunction_tag(msd, sep):
     return ret
 
 def _print_conjunction_tags(sep):
-    for type in DCON:
+    for type in DCON.values():
         st = 'VE:{}'.format(type)
         descr = get_tag_desc(st, sep)
         pprint(st, descr)
@@ -364,12 +364,12 @@ def _get_numeral_tag(msd, sep):
     return ret
 
 def _print_numeral_tags(sep):
-    for form in DNUM[ 'form' ]:
-        for type in DNUM[ 'type' ]:
-            for gender in DNUM[ 'gender' ]:
-                for number in DNUM[ 'number' ]:
-                    for case in DNUM[ 'case' ]:
-                        for animate in DNUM[ 'animate' ]:
+    for form in DNUM[ 'form' ].values():
+        for type in DNUM[ 'type' ].values():
+            for gender in DNUM[ 'gender' ].values():
+                for number in DNUM[ 'number' ].values():
+                    for case in DNUM[ 'case' ].values():
+                        for animate in DNUM[ 'animate' ].values():
                             st = "BR:{}:{}:{}:{}:{}:{}".format(
                                 form, type, gender, number, case, animate)
                             descr = get_tag_desc(st, sep)
@@ -427,7 +427,7 @@ def _print_residual_tags(sep):
 def _get_punctuation_tag(msd, sep):
     return "IT"
 
-def _print_punctuation_tags(msd, sep):
+def _print_punctuation_tags(sep):
     pprint("IT", "Знак интерпункције")
 
 
@@ -1529,14 +1529,17 @@ def _test_tag_list(aTags, sep):
 
 # Returns human-readable description of LT PoS tag (in Serbian language)
 def get_tag_desc(tag, sep):
-    #print( "get_tag_desc: '{}'".format(tag))
-    tags = tag.split(sep)
-    l1 = list(map(lambda x : DDESC[ x ], tags))
-    # Make only first letter of first word uppercase
-    fw = list(l1[0])
-    fw[0] = fw[0].upper()
-    l1[0] = "".join(fw)
-    ret = "".join(" {} ".format(sep).join(l1))
+    ret = ''
+    try:
+        tags = tag.split(sep)
+        l1 = list(map(lambda x : DDESC[ x ], tags))
+        # Make only first letter of first word uppercase
+        fw = list(l1[0])
+        fw[0] = fw[0].upper()
+        l1[0] = "".join(fw)
+        ret = "".join(" {} ".format(sep).join(l1))
+    except KeyError:
+        print("(EE): Problem with tag: {}".format(tag))
     return ret
 
 

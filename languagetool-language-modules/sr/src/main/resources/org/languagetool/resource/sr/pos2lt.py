@@ -62,6 +62,11 @@ def close_out_file():
     _out_file_.close()
 
 
+# Checks for specially defined word types - i.e. reflexive verbs
+def check_word_type(lemma, postag, lttag):
+    return lttag
+
+
 # Parse input file
 def parse_file():
     cnt = 0
@@ -77,13 +82,10 @@ def parse_file():
             # Check if there is a tag
             if len(lparts[2]) > 0:
                 lttag = srptagging.get_tag(lparts[2], ':')
+                # Handle special cases and word types
+                newltag = check_word_type(lparts[1], lparts[2], lttag)
                 if lttag not in (None, ''):
-                    # WARNING: Due to some unknown bug (or feature?) in morfologik dictionary
-                    # generator, a lone "x" at the end of each LT tag is required, so that
-                    # generated LT tags appear correctly (last character intact) in .dict files
-                    #
-                    # If bug is fixed, please remove "x" from "write" statement below.
-                    _out_file_.write("{}\t{}\t{}\n".format(lparts[0], lparts[1], lttag).encode('utf-8'))
+                    _out_file_.write("{}\t{}\t{}\n".format(lparts[0], lparts[1], newltag).encode('utf-8'))
                 else:
                     _logger_.warn("For PoS tag '{}' no LT tag found. Line: '{}'".format(line))
             else:
