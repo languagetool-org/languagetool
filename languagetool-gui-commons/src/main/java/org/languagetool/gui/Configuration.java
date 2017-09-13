@@ -99,8 +99,8 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    if (!baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Not a directory: " + baseDir);
+    if (baseDir == null || !baseDir.isDirectory()) {
+      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);

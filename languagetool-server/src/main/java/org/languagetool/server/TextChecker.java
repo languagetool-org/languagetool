@@ -303,8 +303,8 @@ abstract class TextChecker {
     print("Using options configured in " + config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile().getParentFile(),
-              config.getRulesConfigFile().getName(), lang));
+      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
+          .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
     } else {
       throw new RuntimeException("config.getRulesConfigFile() is null");
     }
