@@ -9367,6 +9367,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er war verletzt an <marker>an Hand</marker> und Arm.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZAHL_FACH" name="zwei fach (zweifach">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="ZAL"/>
+                        <token case_sensitive="yes" regexp="yes">fach(e[rsnm]?)?</token>
+                    </marker>
+                </pattern>
+                <message>Mit 'Zahlwort + fach' gebildete Wörter sind zusammenzuschreiben</message>
+                <suggestion>\1\2</suggestion>
+                <short>Möglicher Tippfehler</short>
+                <example correction="zweifacher">Er ist <marker>zwei facher</marker> Weltmeister.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUSGESCHRIEBENE_ZAHLEN" name="zwei hundert (zweihundert)">
             <rule>
                 <antipattern>
