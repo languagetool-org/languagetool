@@ -25,7 +25,9 @@ ltspldic -i ${CORPUS_HUNSPELL_FILE} -info hunspell/sr_RS.info -freq ${FREQFILE} 
 
 # It was observed that process leaves temporary files in /tmp directory
 # so we will clean up after ourselves
+echo -n "Cleaning up ... "
 rm -f ${TEMPDIR}/DictionaryBuilder*txt ${TEMPDIR}/DictionaryBuilder*info \
       ${TEMPDIR}/SynthDictionaryBuilder*txt ${TEMPDIR}/SynthDictionaryBuilder*info \
-      ${TEMPDIR}/SpellDictionaryBuilder*txt ${TEMPDIR}/SpellDictionaryBuilder*info \
-      ${FREQFILE}
+      ${TEMPDIR}/SpellDictionaryBuilder*txt ${TEMPDIR}/SpellDictionaryBuilder*info
+#rm      ${FREQFILE}
+echo "done."

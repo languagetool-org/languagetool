@@ -44,11 +44,13 @@ public class SerbianSRXSentenceTokenizerTest {
     testSplit("Писмо је стигло 3.10.2000 поподне.");
     testSplit("Србија је под Турцима била од 14. до 19. века.");
 
+    // Testing (non-)segmentation after Roman numerals
     testSplit("Петар I, познат и као Петар Ослободилац.");
     testSplit("Петар II, познат и као Петар Изгнаник.");
     testSplit("Петар III, принц наследник.");
     testSplit("Александар V Обреновић.");
 
+    // Testing (non-)segmentation in dates and times
     testSplit("Данас је 13.12.2004.");
     testSplit("Данас је 13. децембар.");
     testSplit("Видећемо се 29. фебруара.");
@@ -65,6 +67,9 @@ public class SerbianSRXSentenceTokenizerTest {
     testSplit("Чујем ли само једну(???) реченицу.");
 
     testSplit("„Ћуко је креп'о“, рече он");
+
+    // Testing segmentation after Serbian keywords
+    //testSplit("Поштовани господине тј. госпођо.");
   }
 
   private void testSplit(String... sentences) {

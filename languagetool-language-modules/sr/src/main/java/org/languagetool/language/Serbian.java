@@ -24,6 +24,10 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sr.MorfologikSerbianSpellerRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.sr.SerbianSynthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.sr.SerbianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -39,7 +43,9 @@ public class Serbian extends Language implements AutoCloseable {
 
   private SentenceTokenizer sentenceTokenizer;
   private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
-  
+  private Tagger tagger;
+  private Synthesizer synthesizer;
+
   // Grammar rules distributed over multiple .XML files
   // We want to keep our rules small and tidy.
   // TODO: Make names based on rules that will reside in these files
@@ -54,13 +60,6 @@ public class Serbian extends Language implements AutoCloseable {
   public Serbian() {
   }
 
-  @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
-  }
 
   @Override
   public String getName() {
@@ -85,6 +84,30 @@ public class Serbian extends Language implements AutoCloseable {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[]{new Contributor("Золтан Чала (Csala Zoltán)")};
+  }
+
+  @Override
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new SerbianTagger();
+    }
+    return tagger;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new SerbianSynthesizer();
+    }
+    return synthesizer;
+  }
+
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
