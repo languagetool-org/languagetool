@@ -59,6 +59,20 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
+  //Removes the first part of dash-linked words (SSL-Zertifikat -> Zertifikat)
+  private static String sanitizeWord(String word) {
+    String result = word;
+    String[] splitWord = word.split("-");
+    if (splitWord.length > 1) {
+      for (int i = splitWord.length - 1; i >= 0; i--) {
+        if (!splitWord[i].trim().equals("") && !splitWord[i].trim().equals(null)) {
+          return splitWord[i];
+        }
+      }
+    }
+    return result;
+  }
+
   @Override
   public String getManualAdditionsFileName() {
     return "/de/added.txt";
@@ -95,29 +109,53 @@ public class GermanTagger extends BaseTagger {
     int pos = 0;
 
     for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
+
+      //Only first iteration
       if (firstWord && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
         firstWord = word.matches("^\\W?$");
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       }
-      if (taggerTokens.size() > 0) {
-        l.addAll(getAnalyzedTokens(taggerTokens, word));
-      } else {
-        // word not known, try to decompose it and use the last part for POS tagging:
+
+      //1+ iterations
+      if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
+        readings.addAll(getAnalyzedTokens(taggerTokens, word));
+      } else { // Word not known, try to decompose it and use the last part for POS tagging:
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
-          if (compoundParts.size() <= 1) {
-            // recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+
+          if (compoundParts.size() <= 1) { //Could not find simple compound parts
+            // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
             if (imperativeFormList != null && imperativeFormList.size() > 0) {
-              l.addAll(imperativeFormList);
-            } else {
-              l.add(getNoInfoToken(word));
+              readings.addAll(imperativeFormList);
+            } else { //Separate dash-linked words
+              //Only check single word tokens
+              if (word.split(" ").length == 1) {
+                String wordOrig = word;
+                word = sanitizeWord(word);
+                List<String> compoundedWord = compoundTokenizer.tokenize(word);
+                if (compoundedWord.size() > 1) { //Only start word with uppercase if it's a result of splitting
+                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+                } else {
+                  word = compoundedWord.get(compoundedWord.size() - 1);
+                }
+                List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+                word = wordOrig;
+                if (linkedTaggerTokens.size() > 0) {
+                  readings.addAll(getAnalyzedTokens(linkedTaggerTokens, wordOrig, compoundedWord));
+                } else {
+                  readings.add(getNoInfoToken(wordOrig));
+                }
+              } else {
+                readings.add(getNoInfoToken(word));
+              }
             }
-          } else {
+          }
+          else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
             if (StringTools.startsWithUppercase(word)) {
@@ -125,17 +163,16 @@ public class GermanTagger extends BaseTagger {
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);
             if (partTaggerTokens.size() > 0) {
-              l.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
+              readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
             } else {
-              l.add(getNoInfoToken(word));
+              readings.add(getNoInfoToken(word));
             }
           }
         } else {
-          l.add(getNoInfoToken(word));
+          readings.add(getNoInfoToken(word));
         }
       }
-
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
       pos += word.length();
     }
     return tokenReadings;
