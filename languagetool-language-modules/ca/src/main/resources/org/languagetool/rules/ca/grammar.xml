@@ -21945,6 +21945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quan algú es casa li donem l'enhorabona.</example>
                 <example>Associacions de consumidors/es i tota la resta.</example>
                 <example>Llavors es queda pensativa mirant al cel.</example>
+                <example>No m'agrada que es vista així.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44862,6 +44863,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
             <rule>
                 <pattern>
+                    <marker>
+                        <token>es</token>
+                        <token regexp="yes">vist|vista</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua si és del verb 'ser'.</message>
+                <suggestion>és \2</suggestion>
+                <example correction="És vist"><marker>Es vist</marker> de qualsevol manera.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="VMIF3S00"/></suggestion>?</message>
@@ -44896,6 +44908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pensi|penso">Jo ho <marker>pense</marker>.</example>
                 <example correction="Digui">"<marker>Diga</marker> el que digui".</example>
                 <example correction="sobri|sobro">Que no li <marker>sobre</marker> res.</example>
+                <example correction="vesteix|vesteixo">Em <marker>vist</marker> com vull.</example>
                 <!-- <example correction="sobri|sobro">Que <marker>sobre</marker> una mica de fang.</example> -->
                 <example>No es va poder encendre mai.</example>
                 <example>Visc a la muntanya</example>
@@ -45060,6 +45073,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                        <token regexp="yes">vist|vista</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua si és del verb 'ser'.</message>
+                <suggestion>és \2</suggestion>
+                <example correction="És vist"><marker>Es vist</marker> de qualsevol manera.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
