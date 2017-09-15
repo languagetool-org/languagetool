@@ -24,6 +24,7 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sr.MorfologikSerbianSpellerRule;
+import org.languagetool.rules.sr.SimpleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.sr.SerbianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -50,16 +51,16 @@ public class Serbian extends Language implements AutoCloseable {
   // We want to keep our rules small and tidy.
   // TODO: Make names based on rules that will reside in these files
   private static final List<String> RULE_FILES = Arrays.asList(
-          "grammar-spelling.xml",
-          "grammar-grammar.xml",
+          "grammar.xml",
           "grammar-barbarism.xml",
-          "grammar-style.xml",
-          "grammar-punctuation.xml"
+          "grammar-logical.xml",
+          "grammar-punctuation.xml",
+          "grammar-spelling.xml",
+          "grammar-style.xml"
   );
 
   public Serbian() {
   }
-
 
   @Override
   public String getName() {
@@ -83,7 +84,9 @@ public class Serbian extends Language implements AutoCloseable {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[]{new Contributor("Золтан Чала (Csala Zoltán)")};
+    return new Contributor[]{
+            new Contributor("Золтан Чала (Csala Zoltán)")
+    };
   }
 
   @Override
@@ -132,8 +135,9 @@ public class Serbian extends Language implements AutoCloseable {
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new WordRepeatRule(messages, this),
-            // TODO: Add Serbian-specific rules
-            new MorfologikSerbianSpellerRule(messages, this)
+            // Serbian-specific rules
+            new MorfologikSerbianSpellerRule(messages, this),
+            new SimpleReplaceRule(messages)
     );
   }
 
