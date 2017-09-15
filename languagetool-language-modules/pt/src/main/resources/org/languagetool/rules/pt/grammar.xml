@@ -21744,19 +21744,18 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
-  <!--
   <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
+  <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
     <rule>
-      <regexp>\b([\p{L}\d]+) +([!?»”’,….])</regexp>
+      <regexp>\b([\p{L}\d]+) ([!?»”’,….])</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
-      <example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example>
+      <!--example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example-->
       <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>\b([\p{L}\d]+) +([:;])(?!-?[()/])</regexp>
+      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/])</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
@@ -21767,7 +21766,6 @@ TODO Write better examples
       <example>Um sorriso :/</example>
     </rule>
   </rulegroup>
-  -->
 
     <rule id="SEMICOLON_AND_QUOTES" name="Ponto e vírgula antes de aspas">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
