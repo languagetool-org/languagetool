@@ -331,8 +331,15 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
     <rule>
       <antipattern>
+          <token postag='N.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
+          <token postag='R.+' postag_regexp='yes' min='0'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
+          <token postag='DP.+' postag_regexp='yes'></token>
+      </antipattern>
+      <antipattern>
           <token inflected="yes">ser</token>
-          <token postag='DP.*' postag_regexp='yes'></token>
+          <token postag='DP.+' postag_regexp='yes'></token>
       </antipattern>
       <antipattern>
           <token regexp="yes">(?:sua|vossa)s?</token>
@@ -345,7 +352,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
-          <token postag='DP.*' postag_regexp='yes'></token>
+          <token postag='DP.+' postag_regexp='yes'></token>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>\1 <match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
@@ -357,6 +364,7 @@ title="Easy editing stylesheet" ?>
       <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>
       <example>Apesar de reafirmar que vai prosseguir o “seu dever” no acolhimento às vagas de migrantes.</example>
     <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
+      <example>Isto é uma característica tipicamente sua.</example>
     </rule>
     <rule>
       <antipattern>
