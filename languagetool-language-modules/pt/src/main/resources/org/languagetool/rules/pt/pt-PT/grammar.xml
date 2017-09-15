@@ -329,11 +329,14 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
     <rule>
       <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
           <token postag='N.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
           <token postag='R.+' postag_regexp='yes' min='0'>
             <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
           <token postag='DP.+' postag_regexp='yes'/>
+          </unify>
       </antipattern>
       <antipattern>
           <token inflected="yes">ser</token>
