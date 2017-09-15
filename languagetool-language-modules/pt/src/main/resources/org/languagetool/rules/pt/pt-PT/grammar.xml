@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
 title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
+<?xml-stylesheet type="text/css" href="../rules.css"
 title="Easy editing stylesheet" ?>
 
     <!--
@@ -55,44 +55,44 @@ title="Easy editing stylesheet" ?>
     <!ENTITY prefixos_o "aero|agro|arterio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|socio|traqueo|xanto|xilo">
     <!ENTITY prefixos_o_ambiguos "astro|audio|bronco|centro|ego|estereo|filo|foto|ido|intro|labio|mono|sacro|termo|turbo|vaso|zoo">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
-    
+
     <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
 
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!-- Unification rules retrieved from galician grammar.xml - START-->
-      <unification feature="number">
-        <equivalence type="singular">
+  <unification feature="number">
+    <equivalence type="singular">
           <token postag="(?:N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
-        </equivalence>
+    </equivalence>
 
-        <equivalence type="plural">
+    <equivalence type="plural">
           <token postag="(?:N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
-        </equivalence>
-      </unification>
+    </equivalence>
+  </unification>
 
-      <unification feature="gender">
-        <equivalence type="masc">
+  <unification feature="gender">
+    <equivalence type="masc">
           <token postag="(?:N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
-        </equivalence>
+    </equivalence>
 
-        <equivalence type="fem">
+    <equivalence type="fem">
           <token postag="(?:N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
-        </equivalence>
-      </unification>
+    </equivalence>
+  </unification>
 
-      <unification feature="person">
-        <equivalence type="first">
+  <unification feature="person">
+    <equivalence type="first">
           <token postag="(?:V...|PP)1.*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="second">
+    </equivalence>
+    <equivalence type="second">
           <token postag="(?:V...|PP)2.*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="third">
+    </equivalence>
+    <equivalence type="third">
           <token postag="(?:V...|PP)3.*" postag_regexp="yes"/>
-        </equivalence>
-      </unification>
+    </equivalence>
+  </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
  <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
@@ -139,31 +139,31 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(?:algum|nenhum)a?</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&negacoes;</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&introduz_proclise;</token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
     <rule>
       <antipattern>
@@ -176,13 +176,13 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.[PG].*' postag_regexp='yes'></token>
+          <token postag='V.[PG].*' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'></token>
+          <token postag='V.+' postag_regexp='yes'/>
     <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
 			false positives (Determinants & Contractions)  -->
       </pattern>
@@ -210,7 +210,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.[PG].*' postag_regexp='yes'></token>
+          <token postag='V.[PG].*' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_nao_ambiguos;</token>
@@ -335,11 +335,11 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
           <token postag='R.+' postag_regexp='yes' min='0'>
             <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
-          <token postag='DP.+' postag_regexp='yes'></token>
+          <token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token inflected="yes">ser</token>
-          <token postag='DP.+' postag_regexp='yes'></token>
+          <token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp="yes">(?:sua|vossa)s?</token>
@@ -352,7 +352,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
-          <token postag='DP.+' postag_regexp='yes'></token>
+          <token postag='DP.+' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>\1 <match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
@@ -377,7 +377,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token>de</token>
-          <token postag='DP.*' postag_regexp='yes'></token>
+          <token postag='DP.*' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>d<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
@@ -394,7 +394,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token>em</token>
-          <token postag='DP.*' postag_regexp='yes'></token>
+          <token postag='DP.*' postag_regexp='yes'/>
       </pattern>
       <message>Será que quis dizer:</message>
         <suggestion>n<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
@@ -911,7 +911,7 @@ title="Easy editing stylesheet" ?>
             <exception scope='next' regexp='yes'>["'»”]</exception></token>
           <token postag="V.+" postag_regexp='yes'/>
       </antipattern>
-        FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p  
+        FIXME Conflict between V-Imperative (VMM.+), V-Conditional(V...3.+) + Regular 3p
       <antipattern>
           <token postag="V.+" postag_regexp='yes'>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -967,7 +967,7 @@ title="Easy editing stylesheet" ?>
 
  <category id="AO90_RULES" name="Regras do Acordo Ortográfico de 90 (pós-AO90)" type="misspelling" default='on'>
 
-    <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento" >
+    <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento">
       <pattern>
           <token regexp='yes'>.+((?:óid[oae]|óic[oa]|ói[ao])s?)$
             <exception postag_regexp='yes' postag='NP.+'/></token>
@@ -1031,9 +1031,9 @@ title="Easy editing stylesheet" ?>
     <!--	<example correction='sobre-humano'>Fez um esforço <marker>sobre humano</marker> para obter bons resultados.</example>-->
       <example correction='sub-hepática'>Prescrevi uma ecografia à região <marker>sub hepática</marker>.</example>
     </rule>
-   
+
     <!--	TODO Rule for (des|in)-h... -> (des|in)...	-->
-   
+
     <rule>
       <pattern>
           <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
@@ -1291,9 +1291,9 @@ title="Easy editing stylesheet" ?>
 
     <rule id='AO90_HIPHEN_REMOVALS' name='AO90: Palavras que deixam de ser hifenizadas'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-19 -->
-          <regexp>acha-de-armas|achas-de-armas|açúcar-de-madeira|água-de-força|água-de-lume|água-de-mesa|água-de-végeto|águas-de-força|águas-de-lume|águas-de-mesa|águas-de-végeto|ajudante-de-campo|ajudante-de-ordens|ajudantes-de-campo|ajudantes-de-ordens|alfinete-de-ama|alfinetes-de-ama|algodão-das-laranjeiras|algodão-das-oliveiras|algodão-de-vidro|algodão-em-rama|alma-do-padeiro|almas-do-padeiro|almécega-do-brasil|almécega-do-brasis|ama-de-leite|amigo-da-onça|amigos-da-onça|angu-de-caroço|angus-de-caroço|anjo-da-guarda|anjos-da-guarda|arco-da-aliança|arco-da-chuva|arco-de-deus|arcos-da-aliança|arcos-da-chuva|arroz-de-cuxá|arruda-dos-muros|árvore-da-vida|árvores-da-vida|auto-de-fé|autos-de-fé|azeite-de-cheiro|azeite-de-pau|azeites-de-cheiro|azeites-de-pau|azuis-da-prússia|azuis-de-metileno|azul-da-prússia|azul-de-metileno|baba-de-camelo|baba-de-moça|babas-de-camelo|bairro-de-lata|bairros-de-lata|balão-de-ensaio|balões-de-ensaio|bálsamo-do-canadá|barba-de-baleia|barca-de-ouro|barriga-de-bicho|barriga-de-freira|barrigas-de-bicho|barrigas-de-freira|beijo-de-moça|beijos-de-moça|bênção-de-deus|bênções-de-deus|bexiga-de-lobo|bexigas-de-lobo|bicha-de-rabear|bicha-de-sete-cabeças|bichas-de-rabear|bichas-de-sete-cabeças|bicho-de-sete-cabeças|bicho-do-buraco|bicho-do-mato|bicho-do-ouvido|bichos-de-sete-cabeças|bichos-do-buraco|bichos-do-mato|bichos-do-ouvido|bico-de-gás|bico-de-gavião|bico-de-mocho|bico-de-obra|bico-de-papagaio|bico-de-pato|bico-de-pomba|bicos-de-gás|bicos-de-gavião|bicos-de-obra|bicos-de-papagaio|bicos-de-pato|bicos-de-pomba|bife-de-caneca|bilhete-de-identidade|bilhetes-de-identidade|bilhete-de-visita|bilhetes-de-visita|boa-vai-ela|boca-de-favas|boca-de-fogo|boca-de-incêndio|boca-de-sino|boca-de-siri|bocas-de-fogo|bocas-de-incêndio|bocas-de-lobo|bocas-de-sino|bocas-de-siri|bola-ao-cesto|bola-de-neve|bolas-ao-cesto|bolas-de-neve|bom-de-bico|bons-de-bico|bota-de-elástico|botão-de-ouro|botões-de-ouro|botas-de-elástico|braço-de-armas|braço-de-ferro|braço-de-preguiça|braços-de-ferro|braços-de-preguiça|branco-de-baleia|bravo-de-mundão|bravos-de-mundão|bucha-dos-caçadores|buchas-dos-caçadores|cabeça-de-abóbora|cabeça-de-alho-chocho|cabeça-de-asno|cabeça-de-avelã|cabeça-de-burro|cabeça-de-carneiro|cabeça-de-cartaz|cabeça-de-casal|cabeça-de-cavalo|cabeça-de-cobra|cabeça-de-lista|cabeça-de-medusa|cabeça-de-motim|cabeça-de-pau|cabeça-de-ponte|cabeça-de-porco|cabeça-de-prego|cabeça-de-secção|cabeça-de-série|cabeça-de-tremoço|cabeça-de-turco|cabeça-de-vento|cabeça-no-ar|cabeças-de-abóbora|cabeças-de-alho-chocho|cabeças-de-avelã|cabeças-de-carneiro|cabeças-de-cartaz|cabeças-de-casal|cabeças-de-cobra|cabeças-de-lista|cabeças-de-medusa|cabeças-de-motim|cabeças-de-pau|cabeças-de-ponte|cabeças-de-prego|cabeças-de-santo-antónio|cabeças-de-secção|cabeças-de-série|cabeças-de-tremoço|cabeças-de-turco|cabeças-de-vento|cabeças-no-ar|cabelo-das-feiticeiras|cabelo-de-anjo|cabelos-das-feiticeiras|cabelos-de-anjo|cabelos-de-raposa|cabo-de-esquadra|cabo-de-guerra|cabos-de-esquadra|cabos-de-guerra|cachorro-da-areia|cachorros-da-areia|caga-na-saquinha|cagas-na-saquinha|caixa-de-ar|caixa-de-música|caixa-de-óculos|caixa-de-pirolitos|caixa-de-ressonância|caixa-de-rufo|caixa-dos-pirolitos|caixas-de-ar|caixas-de-música|caixas-de-óculos|caixas-de-pirolitos|caixas-de-rufo|câmara-de-ar|câmaras-de-ar|caminho-de-ferro|caminhos-de-ferro|camisa-de-força|camisa-de-forças|camisa-de-onze-varas|camisa-de-vénus|camisa-do-pano|camisas-de-forças|camisas-de-onze-varas|camisas-de-vénus|cana-de-roca|canais-da-areia|canais-de-areia|canal-da-areia|canal-de-areia|cânhamo-de-manila|cânhamos-de-manila|canto-de-cisne|canto-do-cisne|cantos-de-cisne|capa-de-chuva|capitão-de-bandeira|capitão-de-corveta|capitão-de-fragata|capitão-de-mar-e-guerra|capitões-de-bandeira|capitões-de-fragata|capitões-de-mar-e-guerra|cara-de-nó-cego|cara-de-pau|caras-de-nó-cego|caras-de-pau|carne-de-sois|carne-de-sol|carreira-de-tiro|carreiras-de-tiro|carta-de-prego|cartão-de-visita|cartões-de-visita|cartas-de-prego|casaco-de-couro|casacos-de-couro|casca-de-carvalho|casca-de-noz|cascas-de-carvalho|cascas-de-noz|catinga-de-bode|catingas-de-bode|cavalo-de-batalha|cavalo-de-frisa|cavalo-do-cão|cavalos-do-cão|cavalos-de-batalha|caveira-da-noite|caveiras-da-noite|centáurea-menor-perfolhada|centáureas-menor-perfolhada|centro-de-mesa|céu-da-boca|céus-da-boca|chalotinhas-do-gerês|chapéu-de-chuva|chapéu-de-sois|chapéu-de-sol|chapéus-de-chuva|chapéus-de-sol|chefe-de-fila|chuva-de-ouro|chuvas-de-ouro|colete-de-forças|coletes-de-forças|come-e-dorme|comes-e-dorme|comida-de-urso|comidas-de-urso|conto-da-carochinha|conto-do-vigário|contos-da-carochinha|contos-do-vigário|cor-de-laranja|cor-de-tijolo|cor-de-vinho|cores-de-laranja|cores-de-tijolo|cores-de-vinho|corpo-a-corpo|cova-do-ladrão|cova-do-ladrões|covas-do-ladrão|cravagem-do-centeio|cu-de-judas|curral-de-trapiche|cus-de-judas|dança-de-são-vito|danças-de-são-vito|dente-de-coelho|dentes-de-lobo|dentes-de-serra|dia-a-dia|doença-do-sono|doenças-do-sono|eau-de-toilette|eaus-de-toilette|és-não-és|espuma-do-mar|faca-de-mato|face-a-face|faces-a-face|farinha-de-pau|farinhas-de-pau|fato-de-banho|fato-de-macaco|fato-de-saia-e-casaco|fato-de-treino|fatos-de-banho|fatos-de-macaco|fatos-de-treino|faz-de-conta|fazs-de-conta|febre-de-malta|febre-dos-fenos|febre-dos-três-dias|ferro-de-engomar|ferro-de-romã|fezes-de-ouro|filho-da-terra|filho-de-parida|fim-de-semana|fins-de-semana|fio-de-prumo|fios-de-ovos|fios-de-prumo|fiscais-de-linha|fiscal-de-linha|flor-de-enxofre|focinho-de-burro|focinho-de-porco|focinho-de-tenca|focinhos-de-burro|focinhos-de-porco|focinhos-de-tenca|fogo-de-artifício|fogo-de-bengala|fogo-de-santelmo|fogo-de-santo-antão|fogo-de-santo-antões|fogo-de-vista|fogo-do-ar|fogos-de-artifício|fogos-de-bengala|fogos-de-santelmo|fogos-de-santo-antão|fogos-de-vista|fogos-do-ar|folha-de-flandres|folhos-de-sinhá|fora-da-lei|fora-de-jogo|foras-da-lei|foras-de-jogo|fradinho-da-mão-furada|fradinho-de-mão-furada|frente-a-frente|frentes-a-frente|frutos-do-mar|fula-de-gabu|fumo-da-terra|fumos-da-terra|gaita-de-beiços|gaita-de-foles|gaitas-de-beiços|gaitas-de-foles|gás-dos-pântanos|gesso-de-paris|gessos-de-paris|grosso-de-nápoles|guarda-de-corpo|guincho-da-tainha|guinchos-da-tainha|há-de-haver|hás-de-haver|jardim-de-infância|jardins-de-infância|juiz-de-campo|juiz-de-linha|juizs-de-campo|juizs-de-linha|leite-de-cais|leite-de-cal|limpa-pára-brisas|limpas-pára-brisas|língua-de-gato|língua-de-sogra|língua-de-trapos|língua-de-veado|línguas-de-gato|linha-de-água|lixa-de-lei|lixa-de-pau|lixas-de-lei|lixas-de-pau|lua-de-meis|lua-de-mel|luas-de-mel|maçã-de-adão|maçã-de-adões|mãe-da-lua|mãe-de-aluguer|mãe-de-santo|mães-da-lua|mães-de-santo|manga-de-alpaca|manga-de-eixo|mão-de-barca|mão-de-judas|mão-de-obra|mãos-de-obra|marca-de-judas|marco-de-colónia|maria-da-fonte|maria-das-pernas-compridas|marido-de-bolas|marmita-de-gigante|matuta-e-meia|matutas-e-meia|meadinha-de-ouro|meia-de-leite|meias-de-leite|menina-de-cinco-olhos|menina-do-olho|mesa-de-cabeceira|mesas-de-cabeceira|mesinha-de-cabeceira|mestre-de-armas|mestre-de-cerimónias|mestre-de-obras|mestres-de-cerimónias|mestres-de-obras|moço-de-forcado|moços-de-forcado|monte-de-vénus|montes-de-vénus|morte-em-pé|mortes-em-pé|moscas-de-milão|moscas-de-milões|mulher-a-dias|mulhers-a-dias|não-sei-quê|não-sei-quês|nariz-de-cera|negro-de-fumo|negros-de-fumo|nó-de-adão|nós-de-adão|norte-rio-grandense|nortes-rio-grandense|oco-do-coração|oco-do-corações|ocos-do-coração|oficiais-às-ordens|oficial-às-ordens|oitavos-de-finais|oitavos-de-final|olho-de-boi|olho-de-mosquito|olho-de-sogra|olho-de-tigre|olhos-de-boi|orelhas-de-abade|pai-de-meninos|pai-de-santo|pai-de-todos|pai-de-velhacos|pai-dos-meninos|pais-de-santo|pais-de-velhacos|pais-dos-meninos|palha-de-abade|palpos-de-aranha|pão-de-açucar|pão-de-açúcar|pão-de-galo|pão-de-leite|pão-de-ló|pão-de-passarinho|pão-do-chile|pão-por-Deus|pães-de-açucar|pães-de-galo|pães-de-leite|pães-de-ló|pães-de-passarinho|pães-do-chile|papo-de-anjo|papo-de-peru|papo-de-rola|papos-de-anjo|papos-de-peru|par-ou-pernão|passarinho-a-olhar|pau-a-pique|pau-de-cabeleira|pau-de-fileira|pau-de-sabão|pau-do-ar|paus-a-pique|paus-de-sabão|paz-de-alma|pazes-de-alma|pé-de-alferes|pé-de-altar|pé-de-amigo|pé-de-atleta|pé-de-banco|pé-de-boi|pé-de-cabra|pé-de-cana|pé-de-candeeiro|pé-de-cantiga|pé-de-cavalo|pé-de-chumbo|pé-de-dança|pé-de-galinha|pé-de-lebre|pé-de-moleque|pé-de-pato|pé-de-vento|pedaço-de-asno|pedaços-de-asno|pedra-da-lua|pedra-das-amazonas|pedra-de-afiar|pedra-de-águia|pedra-de-amolar|pedra-de-cevar|pedra-de-raio|pedra-de-sangue|pedra-de-toque|pedra-do-ar|pedra-do-sois|pedra-do-sol|pedras-da-lua|pedras-de-afiar|pedras-de-águia|pedras-de-amolar|pedras-de-cevar|pedras-de-raio|pedras-de-toque|pedras-do-ar|pedras-do-sol|pedrinha-na-boca|peito-de-canga|peito-de-morte|pele-de-vinho|peles-de-vinho|perna-de-pau|perna-de-serra|pernas-de-pau|pés-de-atleta|pés-de-boi|pés-de-cabra|pés-de-chumbo|pés-de-galinha|pés-de-lebre|pés-de-vento|piano-dos-pretos|pianos-dos-pretos|pião-das-nicas|piões-das-nicas|pingo-de-tocha|pingos-de-ovos|pinho-de-flandres|piolho-de-cobra|pó-de-arroz|pó-de-chipre|pó-de-goa|pó-de-sapato|pó-de-talco|pomo-de-adão|pomo-de-adões|pomos-de-adão|ponta-de-lança|pontas-de-lança|pôr-do-sois|pôr-do-sol|pores-do-sol|pôrs-do-sol|porta-a-porta|porta-da-rua|portas-a-porta|pós-de-arroz|pós-de-chipre|pós-de-goa|pressão-de-ar|pressões-de-ar|preto-e-branco|pretos-e-branco|príncipe-de-gales|pronto-a-comer|pronto-a-vestir|prontos-a-comer|prontos-a-vestir|quarto-de-finais|quarto-de-final|quartos-de-finais|quartos-de-final|queijinho-do-céu|rabo-de-andorinha|rabo-de-arraia|rabo-de-cavalo|rabo-de-galo|rabo-de-leque|rabo-de-saia|rabo-de-tatu|rabos-de-andorinha|rabos-de-arraia|rabos-de-cavalo|rabos-de-galo|rabos-de-leque|rabos-de-saia|rabos-de-tatu|relógio-da-morte|relógio-de-ponto|relógios-da-morte|relógios-de-ponto|rés-do-chão|rés-do-chões|resina-de-jalapa|rosa-de-oiro|rosa-de-ouro|rosa-dos-ventos|roupa-de-franceses|saca-de-carvão|saca-de-carvões|saco-de-areia|saída-de-banho|saída-de-praia|sais-de-azedas|sal-de-azedas|sal-de-epsom|sal-de-glauber|sal-de-júpiter|sal-de-saturno|sal-de-seldlitz|sal-de-vichy|sol-de-gata|sol-e-dó|sopa-de-urso|sopinha-de-massa|sul-rio-grandense|ténis-de-mesa|terra-a-terra|terra-de-ninguém|terra-de-sevilha|terra-de-siena|terras-a-terra|testa-de-ferro|testa-de-ponte|testas-de-ferro|testas-de-ponte|tête-à-tête|têtes-à-tête|tinta-da-china|tinta-dos-pobres|tintas-da-china|tintas-dos-pobres|tira-que-tira|tiras-que-tira|tiro-de-guerra|topa-a-tudo|topas-a-tudo|torna-e-torna|tornas-e-torna|torrão-de-alicante|toucinho-do-céu|toucinhos-do-céu|trinta-e-um|trintas-e-um|troixa-de-ovos|tromba-de-boi|trouxa-de-ovos|trouxas-de-ovos|umbigo-de-freira|unha-de-fome|unhas-de-fome|up-to-date|verbo-de-encher|verbos-de-encher|vidro-de-cheiro|vinho-de-caju|vinho-de-cheiro|vinho-de-maçã|vinho-de-maçãs|vinho-de-palma|vinhos-de-cheiro|vinhos-de-maçãs|vinte-e-quatro-horas|vinte-e-um|vintém-de-santo-antónio|viola-da-terra|viola-de-amor|viola-de-arame|volta-no-meio|zé-da-véstia|zé-dos-anzóis|zé-faz-formas|zés-da-véstia|zés-dos-anzóis|zés-faz-formas</regexp>
+      <regexp>acha-de-armas|achas-de-armas|açúcar-de-madeira|água-de-força|água-de-lume|água-de-mesa|água-de-végeto|águas-de-força|águas-de-lume|águas-de-mesa|águas-de-végeto|ajudante-de-campo|ajudante-de-ordens|ajudantes-de-campo|ajudantes-de-ordens|alfinete-de-ama|alfinetes-de-ama|algodão-das-laranjeiras|algodão-das-oliveiras|algodão-de-vidro|algodão-em-rama|alma-do-padeiro|almas-do-padeiro|almécega-do-brasil|almécega-do-brasis|ama-de-leite|amigo-da-onça|amigos-da-onça|angu-de-caroço|angus-de-caroço|anjo-da-guarda|anjos-da-guarda|arco-da-aliança|arco-da-chuva|arco-de-deus|arcos-da-aliança|arcos-da-chuva|arroz-de-cuxá|arruda-dos-muros|árvore-da-vida|árvores-da-vida|auto-de-fé|autos-de-fé|azeite-de-cheiro|azeite-de-pau|azeites-de-cheiro|azeites-de-pau|azuis-da-prússia|azuis-de-metileno|azul-da-prússia|azul-de-metileno|baba-de-camelo|baba-de-moça|babas-de-camelo|bairro-de-lata|bairros-de-lata|balão-de-ensaio|balões-de-ensaio|bálsamo-do-canadá|barba-de-baleia|barca-de-ouro|barriga-de-bicho|barriga-de-freira|barrigas-de-bicho|barrigas-de-freira|beijo-de-moça|beijos-de-moça|bênção-de-deus|bênções-de-deus|bexiga-de-lobo|bexigas-de-lobo|bicha-de-rabear|bicha-de-sete-cabeças|bichas-de-rabear|bichas-de-sete-cabeças|bicho-de-sete-cabeças|bicho-do-buraco|bicho-do-mato|bicho-do-ouvido|bichos-de-sete-cabeças|bichos-do-buraco|bichos-do-mato|bichos-do-ouvido|bico-de-gás|bico-de-gavião|bico-de-mocho|bico-de-obra|bico-de-papagaio|bico-de-pato|bico-de-pomba|bicos-de-gás|bicos-de-gavião|bicos-de-obra|bicos-de-papagaio|bicos-de-pato|bicos-de-pomba|bife-de-caneca|bilhete-de-identidade|bilhetes-de-identidade|bilhete-de-visita|bilhetes-de-visita|boa-vai-ela|boca-de-favas|boca-de-fogo|boca-de-incêndio|boca-de-sino|boca-de-siri|bocas-de-fogo|bocas-de-incêndio|bocas-de-lobo|bocas-de-sino|bocas-de-siri|bola-ao-cesto|bola-de-neve|bolas-ao-cesto|bolas-de-neve|bom-de-bico|bons-de-bico|bota-de-elástico|botão-de-ouro|botões-de-ouro|botas-de-elástico|braço-de-armas|braço-de-ferro|braço-de-preguiça|braços-de-ferro|braços-de-preguiça|branco-de-baleia|bravo-de-mundão|bravos-de-mundão|bucha-dos-caçadores|buchas-dos-caçadores|cabeça-de-abóbora|cabeça-de-alho-chocho|cabeça-de-asno|cabeça-de-avelã|cabeça-de-burro|cabeça-de-carneiro|cabeça-de-cartaz|cabeça-de-casal|cabeça-de-cavalo|cabeça-de-cobra|cabeça-de-lista|cabeça-de-medusa|cabeça-de-motim|cabeça-de-pau|cabeça-de-ponte|cabeça-de-porco|cabeça-de-prego|cabeça-de-secção|cabeça-de-série|cabeça-de-tremoço|cabeça-de-turco|cabeça-de-vento|cabeça-no-ar|cabeças-de-abóbora|cabeças-de-alho-chocho|cabeças-de-avelã|cabeças-de-carneiro|cabeças-de-cartaz|cabeças-de-casal|cabeças-de-cobra|cabeças-de-lista|cabeças-de-medusa|cabeças-de-motim|cabeças-de-pau|cabeças-de-ponte|cabeças-de-prego|cabeças-de-santo-antónio|cabeças-de-secção|cabeças-de-série|cabeças-de-tremoço|cabeças-de-turco|cabeças-de-vento|cabeças-no-ar|cabelo-das-feiticeiras|cabelo-de-anjo|cabelos-das-feiticeiras|cabelos-de-anjo|cabelos-de-raposa|cabo-de-esquadra|cabo-de-guerra|cabos-de-esquadra|cabos-de-guerra|cachorro-da-areia|cachorros-da-areia|caga-na-saquinha|cagas-na-saquinha|caixa-de-ar|caixa-de-música|caixa-de-óculos|caixa-de-pirolitos|caixa-de-ressonância|caixa-de-rufo|caixa-dos-pirolitos|caixas-de-ar|caixas-de-música|caixas-de-óculos|caixas-de-pirolitos|caixas-de-rufo|câmara-de-ar|câmaras-de-ar|caminho-de-ferro|caminhos-de-ferro|camisa-de-força|camisa-de-forças|camisa-de-onze-varas|camisa-de-vénus|camisa-do-pano|camisas-de-forças|camisas-de-onze-varas|camisas-de-vénus|cana-de-roca|canais-da-areia|canais-de-areia|canal-da-areia|canal-de-areia|cânhamo-de-manila|cânhamos-de-manila|canto-de-cisne|canto-do-cisne|cantos-de-cisne|capa-de-chuva|capitão-de-bandeira|capitão-de-corveta|capitão-de-fragata|capitão-de-mar-e-guerra|capitões-de-bandeira|capitões-de-fragata|capitões-de-mar-e-guerra|cara-de-nó-cego|cara-de-pau|caras-de-nó-cego|caras-de-pau|carne-de-sois|carne-de-sol|carreira-de-tiro|carreiras-de-tiro|carta-de-prego|cartão-de-visita|cartões-de-visita|cartas-de-prego|casaco-de-couro|casacos-de-couro|casca-de-carvalho|casca-de-noz|cascas-de-carvalho|cascas-de-noz|catinga-de-bode|catingas-de-bode|cavalo-de-batalha|cavalo-de-frisa|cavalo-do-cão|cavalos-do-cão|cavalos-de-batalha|caveira-da-noite|caveiras-da-noite|centáurea-menor-perfolhada|centáureas-menor-perfolhada|centro-de-mesa|céu-da-boca|céus-da-boca|chalotinhas-do-gerês|chapéu-de-chuva|chapéu-de-sois|chapéu-de-sol|chapéus-de-chuva|chapéus-de-sol|chefe-de-fila|chuva-de-ouro|chuvas-de-ouro|colete-de-forças|coletes-de-forças|come-e-dorme|comes-e-dorme|comida-de-urso|comidas-de-urso|conto-da-carochinha|conto-do-vigário|contos-da-carochinha|contos-do-vigário|cor-de-laranja|cor-de-tijolo|cor-de-vinho|cores-de-laranja|cores-de-tijolo|cores-de-vinho|corpo-a-corpo|cova-do-ladrão|cova-do-ladrões|covas-do-ladrão|cravagem-do-centeio|cu-de-judas|curral-de-trapiche|cus-de-judas|dança-de-são-vito|danças-de-são-vito|dente-de-coelho|dentes-de-lobo|dentes-de-serra|dia-a-dia|doença-do-sono|doenças-do-sono|eau-de-toilette|eaus-de-toilette|és-não-és|espuma-do-mar|faca-de-mato|face-a-face|faces-a-face|farinha-de-pau|farinhas-de-pau|fato-de-banho|fato-de-macaco|fato-de-saia-e-casaco|fato-de-treino|fatos-de-banho|fatos-de-macaco|fatos-de-treino|faz-de-conta|fazs-de-conta|febre-de-malta|febre-dos-fenos|febre-dos-três-dias|ferro-de-engomar|ferro-de-romã|fezes-de-ouro|filho-da-terra|filho-de-parida|fim-de-semana|fins-de-semana|fio-de-prumo|fios-de-ovos|fios-de-prumo|fiscais-de-linha|fiscal-de-linha|flor-de-enxofre|focinho-de-burro|focinho-de-porco|focinho-de-tenca|focinhos-de-burro|focinhos-de-porco|focinhos-de-tenca|fogo-de-artifício|fogo-de-bengala|fogo-de-santelmo|fogo-de-santo-antão|fogo-de-santo-antões|fogo-de-vista|fogo-do-ar|fogos-de-artifício|fogos-de-bengala|fogos-de-santelmo|fogos-de-santo-antão|fogos-de-vista|fogos-do-ar|folha-de-flandres|folhos-de-sinhá|fora-da-lei|fora-de-jogo|foras-da-lei|foras-de-jogo|fradinho-da-mão-furada|fradinho-de-mão-furada|frente-a-frente|frentes-a-frente|frutos-do-mar|fula-de-gabu|fumo-da-terra|fumos-da-terra|gaita-de-beiços|gaita-de-foles|gaitas-de-beiços|gaitas-de-foles|gás-dos-pântanos|gesso-de-paris|gessos-de-paris|grosso-de-nápoles|guarda-de-corpo|guincho-da-tainha|guinchos-da-tainha|há-de-haver|hás-de-haver|jardim-de-infância|jardins-de-infância|juiz-de-campo|juiz-de-linha|juizs-de-campo|juizs-de-linha|leite-de-cais|leite-de-cal|limpa-pára-brisas|limpas-pára-brisas|língua-de-gato|língua-de-sogra|língua-de-trapos|língua-de-veado|línguas-de-gato|linha-de-água|lixa-de-lei|lixa-de-pau|lixas-de-lei|lixas-de-pau|lua-de-meis|lua-de-mel|luas-de-mel|maçã-de-adão|maçã-de-adões|mãe-da-lua|mãe-de-aluguer|mãe-de-santo|mães-da-lua|mães-de-santo|manga-de-alpaca|manga-de-eixo|mão-de-barca|mão-de-judas|mão-de-obra|mãos-de-obra|marca-de-judas|marco-de-colónia|maria-da-fonte|maria-das-pernas-compridas|marido-de-bolas|marmita-de-gigante|matuta-e-meia|matutas-e-meia|meadinha-de-ouro|meia-de-leite|meias-de-leite|menina-de-cinco-olhos|menina-do-olho|mesa-de-cabeceira|mesas-de-cabeceira|mesinha-de-cabeceira|mestre-de-armas|mestre-de-cerimónias|mestre-de-obras|mestres-de-cerimónias|mestres-de-obras|moço-de-forcado|moços-de-forcado|monte-de-vénus|montes-de-vénus|morte-em-pé|mortes-em-pé|moscas-de-milão|moscas-de-milões|mulher-a-dias|mulhers-a-dias|não-sei-quê|não-sei-quês|nariz-de-cera|negro-de-fumo|negros-de-fumo|nó-de-adão|nós-de-adão|norte-rio-grandense|nortes-rio-grandense|oco-do-coração|oco-do-corações|ocos-do-coração|oficiais-às-ordens|oficial-às-ordens|oitavos-de-finais|oitavos-de-final|olho-de-boi|olho-de-mosquito|olho-de-sogra|olho-de-tigre|olhos-de-boi|orelhas-de-abade|pai-de-meninos|pai-de-santo|pai-de-todos|pai-de-velhacos|pai-dos-meninos|pais-de-santo|pais-de-velhacos|pais-dos-meninos|palha-de-abade|palpos-de-aranha|pão-de-açucar|pão-de-açúcar|pão-de-galo|pão-de-leite|pão-de-ló|pão-de-passarinho|pão-do-chile|pão-por-Deus|pães-de-açucar|pães-de-galo|pães-de-leite|pães-de-ló|pães-de-passarinho|pães-do-chile|papo-de-anjo|papo-de-peru|papo-de-rola|papos-de-anjo|papos-de-peru|par-ou-pernão|passarinho-a-olhar|pau-a-pique|pau-de-cabeleira|pau-de-fileira|pau-de-sabão|pau-do-ar|paus-a-pique|paus-de-sabão|paz-de-alma|pazes-de-alma|pé-de-alferes|pé-de-altar|pé-de-amigo|pé-de-atleta|pé-de-banco|pé-de-boi|pé-de-cabra|pé-de-cana|pé-de-candeeiro|pé-de-cantiga|pé-de-cavalo|pé-de-chumbo|pé-de-dança|pé-de-galinha|pé-de-lebre|pé-de-moleque|pé-de-pato|pé-de-vento|pedaço-de-asno|pedaços-de-asno|pedra-da-lua|pedra-das-amazonas|pedra-de-afiar|pedra-de-águia|pedra-de-amolar|pedra-de-cevar|pedra-de-raio|pedra-de-sangue|pedra-de-toque|pedra-do-ar|pedra-do-sois|pedra-do-sol|pedras-da-lua|pedras-de-afiar|pedras-de-águia|pedras-de-amolar|pedras-de-cevar|pedras-de-raio|pedras-de-toque|pedras-do-ar|pedras-do-sol|pedrinha-na-boca|peito-de-canga|peito-de-morte|pele-de-vinho|peles-de-vinho|perna-de-pau|perna-de-serra|pernas-de-pau|pés-de-atleta|pés-de-boi|pés-de-cabra|pés-de-chumbo|pés-de-galinha|pés-de-lebre|pés-de-vento|piano-dos-pretos|pianos-dos-pretos|pião-das-nicas|piões-das-nicas|pingo-de-tocha|pingos-de-ovos|pinho-de-flandres|piolho-de-cobra|pó-de-arroz|pó-de-chipre|pó-de-goa|pó-de-sapato|pó-de-talco|pomo-de-adão|pomo-de-adões|pomos-de-adão|ponta-de-lança|pontas-de-lança|pôr-do-sois|pôr-do-sol|pores-do-sol|pôrs-do-sol|porta-a-porta|porta-da-rua|portas-a-porta|pós-de-arroz|pós-de-chipre|pós-de-goa|pressão-de-ar|pressões-de-ar|preto-e-branco|pretos-e-branco|príncipe-de-gales|pronto-a-comer|pronto-a-vestir|prontos-a-comer|prontos-a-vestir|quarto-de-finais|quarto-de-final|quartos-de-finais|quartos-de-final|queijinho-do-céu|rabo-de-andorinha|rabo-de-arraia|rabo-de-cavalo|rabo-de-galo|rabo-de-leque|rabo-de-saia|rabo-de-tatu|rabos-de-andorinha|rabos-de-arraia|rabos-de-cavalo|rabos-de-galo|rabos-de-leque|rabos-de-saia|rabos-de-tatu|relógio-da-morte|relógio-de-ponto|relógios-da-morte|relógios-de-ponto|rés-do-chão|rés-do-chões|resina-de-jalapa|rosa-de-oiro|rosa-de-ouro|rosa-dos-ventos|roupa-de-franceses|saca-de-carvão|saca-de-carvões|saco-de-areia|saída-de-banho|saída-de-praia|sais-de-azedas|sal-de-azedas|sal-de-epsom|sal-de-glauber|sal-de-júpiter|sal-de-saturno|sal-de-seldlitz|sal-de-vichy|sol-de-gata|sol-e-dó|sopa-de-urso|sopinha-de-massa|sul-rio-grandense|ténis-de-mesa|terra-a-terra|terra-de-ninguém|terra-de-sevilha|terra-de-siena|terras-a-terra|testa-de-ferro|testa-de-ponte|testas-de-ferro|testas-de-ponte|tête-à-tête|têtes-à-tête|tinta-da-china|tinta-dos-pobres|tintas-da-china|tintas-dos-pobres|tira-que-tira|tiras-que-tira|tiro-de-guerra|topa-a-tudo|topas-a-tudo|torna-e-torna|tornas-e-torna|torrão-de-alicante|toucinho-do-céu|toucinhos-do-céu|trinta-e-um|trintas-e-um|troixa-de-ovos|tromba-de-boi|trouxa-de-ovos|trouxas-de-ovos|umbigo-de-freira|unha-de-fome|unhas-de-fome|up-to-date|verbo-de-encher|verbos-de-encher|vidro-de-cheiro|vinho-de-caju|vinho-de-cheiro|vinho-de-maçã|vinho-de-maçãs|vinho-de-palma|vinhos-de-cheiro|vinhos-de-maçãs|vinte-e-quatro-horas|vinte-e-um|vintém-de-santo-antónio|viola-da-terra|viola-de-amor|viola-de-arame|volta-no-meio|zé-da-véstia|zé-dos-anzóis|zé-faz-formas|zés-da-véstia|zés-dos-anzóis|zés-faz-formas</regexp>
       <message>Esta palavra já não é hifenizada.</message>
-        <!--<suggestion><match no="0" regexp_match="-" regexp_replace=" "/></suggestion>-->
+    <!--<suggestion><match no="0" regexp_match="-" regexp_replace=" "/></suggestion>-->
       <url>http://www.portaldalinguaportuguesa.org/recursos.html?action=novoacordo</url>
       <example type='incorrect'>Soluções <marker>terra-a-terra</marker> têm resistência.</example>
       <example type='correct'>Soluções <marker>terra a terra</marker> têm resistência.</example>
@@ -1389,11 +1389,13 @@ title="Easy editing stylesheet" ?>
           <token>Ter</token>
       </antipattern>
       <pattern case_sensitive='yes'>
-          <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
+          <token>
+            <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
           <token regexp='yes'>Sábados?|Domingo|(?:Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
         </marker>
-          <token><exception postag_regexp='yes' postag='NP.+'/></token>
+          <token>
+            <exception postag_regexp='yes' postag='NP.+'/></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
         <suggestion><match no='2' case_conversion='alllower'/></suggestion>
@@ -1470,7 +1472,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>norte|sul</token>
       </pattern>
       <message>Segundo o AO90, deve capitalizar esta expressão geográfica.</message>
-         <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
       <example correction="Polo Norte">O <marker>polo norte</marker> é no Ártico.</example>
       <example correction="Polo Sul">O <marker>polo Sul</marker> é no Antártico.</example>
       <example>O <marker>Polo Norte</marker> é no Ártico.</example>
