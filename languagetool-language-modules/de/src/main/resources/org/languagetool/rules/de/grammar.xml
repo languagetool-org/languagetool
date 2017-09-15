@@ -2826,7 +2826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">mir|sich|uns|euch</token>
-                    <token regexp="yes">dort|da</token>
+                    <token regexp="yes">d(ort|a)</token>
                     <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
                     <marker>
                         <token>sich</token>
@@ -6967,17 +6967,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>Fuß fassen</suggestion> (im Sinne von: 'sich etablieren') wird nicht zusammengeschrieben.</message>
             <example correction="Fuß fassen">Er konnte dort schnell <marker>Fußfassen</marker>.</example>
             <example>Erst mit dem Fußfassen der Dänen auf der Goldküste...</example>
-        </rule>
-        <rule id="SEKUNDEN_SCHNELLE" name="in Sekunden schnelle (Sekundenschnelle)">
-            <pattern>
-                <token>in</token>
-                <marker>
-                    <token>Sekunden</token>
-                    <token>schnelle</token>
-                </marker>
-            </pattern>
-            <message><suggestion>Sekundenschnelle</suggestion> wird zusammengeschrieben.</message>
-            <example correction="Sekundenschnelle">Es durchsucht in <marker>Sekunden schnelle</marker> Ihre E-Mails.</example>
         </rule>
         <rule id="BEREIT_STEHEN" name="bereit stehen (bereitstehen)">
             <pattern>
@@ -25406,7 +25395,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="DIE_SUCHE" name="'die suche (Suche)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[dD]er|[dD]ie</token>
+                <token regexp="yes">[dD](er|ie)</token>
                 <token min="0" postag_regexp="yes" postag="ADJ:.*:SIN:FEM.*DEF"><exception postag_regexp="yes" postag="SUB:.*"/></token>
                 <marker>
                     <token>suche</token>
@@ -25545,10 +25534,13 @@ Andere Projekte</example>
                 <example correction="zur Genüge">Das hat sich <marker>zur genüge</marker> gezeigt.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(genüge) (tat|taten|tun|tut|tust|getan)</regexp>
-                <message>'Genüge' wird hier großgeschrieben: <suggestion>Genüge \2</suggestion></message>
+                <pattern case_sensitive='yes'>
+                    <marker><token>genüge</token></marker>
+                    <token inflected="yes">tun</token>
+                </pattern>
+                <message><suggestion>Genüge</suggestion> wird hier großgeschrieben.</message>
                 <short>&prgk;.</short>
-                <example correction="Genüge getan">Der Gerechtigkeit wurde <marker>genüge getan</marker>.</example>
+                <example correction="Genüge">Der Gerechtigkeit wurde <marker>genüge</marker> getan.</example>
             </rule>
         </rulegroup>
         <rule id="FEHL_UND_TADEL" name="'ohne fehl (Fehl) und Tadel'">
