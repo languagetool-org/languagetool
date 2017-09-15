@@ -61,7 +61,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY multiplicadores "(?:dúzia|dezena|centena)s?|mil|milhar(?:es)?|(?:milh|bilh?i)(?:ão|ões)">
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
-    <!ENTITY tabela_periodica "(?:H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|[₁₂₃₄₅₆₇₈₉₀])">
+    <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
@@ -26685,7 +26685,7 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive="yes">
           <token>Jean</token>
-          <token regexp="yes">Alain|Antoine|André|Baptiste|Benoit|Bernard|Charles|Christophe|Christian|Claude|Damien|Daniel|David|Denis|Dominique|[EÉ]douard|Emmanuel|[EÉ]tienne|[EÉ]ric|Eudes|Francis|François|Frédéric|Gabriel|Georges|Guillaume|Hugue|Jacques|Joseph|Louis|Laurent|Loup|Luc|Manuel|Marc|Marcel|Marie|Mathieu|Maurice|Max|Michel|No[ëe]l|Patrice|Paul|Philippe|Pierre|Rémi|René|Raymond|Robert|Vincent|Yves</token>
+          <token regexp="yes">(?:M(?:a(?:r(?:c(?:el)?|ie)|thieu|urice|nuel|x)|ichel)|C(?:h(?:rist(?:ophe|ian)|arles)|laude)|D(?:a(?:mien|niel|vid)|ominique|enis)|P(?:(?:hilipp|ierr)e|a(?:trice|ul))|B(?:e(?:rnard|noit)|aptiste)|G(?:uillaume|abriel|eorges)|Fr(?:an(?:ço|c)is|édéric)|L(?:ou(?:is|p)|aurent|uc)|R(?:aymond|obert|émi|ené)|[EÉ](?:douard|tienne|ric)|A(?:n(?:toine|dré)|lain)|E(?:mmanuel|udes)|J(?:acques|oseph)|No[ëe]l|Vincent|Hugue|Yves)</token>
       </pattern>
       <message>Pretende dizer <suggestion>\1-\2</suggestion>?</message>
       <example correction="Jean-Marc">Chamo-me <marker>Jean Marc</marker>.</example>
@@ -26712,7 +26712,7 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive="yes">
           <token>Marie</token>
-          <token regexp="yes">Agnès|Ali[cn]e|Amélie|Andrée|Ange|Angelle|Anne|Antoinette|Annick|Astrid|Aude|Béatrice|Bénédicte|Bernadette|Camille|Carmen|Caroline|Cath?erine|Cécile|Céline|Chantal|Charlotte|Christine|Claire|Claude|Dominique|[ÉE]dith|[ÉE]lisabeth|[ÉE]lise|[EÉ]milie|[EÉ]mmanuelle|Eve|France|Françoise|Gabrielle|Ga[eë]lle|Genevi[èe]ve|Jeanne|Jo[ëe]lle|Josée?|Josephe|Julie|Hélène|Isabelle|Laure|Laurence|L[iy][ns]e|Lou|Louise|Luce|Odile|Madeleine|Martine|No[eë]lle|Paule|Pascale|Renée|Rose|Sophie|Thérèse|Véronique|Yvonne</token>
+          <token regexp="yes">(?:(?:(?:(?:No[eë]|Isabe)l|Pa(?:sca|u)|Odi)l|G(?:a(?:[eë]|brie)ll|enevi[èe]v)|B(?:é(?:nédict|atric)|ernadett)|(?:Ma(?:dele|rt)i|Hélè|Yvon)n|[EÉ]m(?:manuell|ili)|(?:Domi|Véro)niqu|Fran(?:çois|c)|R(?:ené|os)|Thérès|Sophi|Ev)e|C(?:a(?:(?:th?erin|mill)e|r(?:oline|men))|(?:é(?:cil|lin)|la(?:ir|ud))e|h(?:a(?:rlotte|ntal)|ristine))|A(?:n(?:(?:g(?:ell)?|toinett|dré)e|n(?:ick|e))|(?:li[cn]|méli|ud)e|strid|gnès)|J(?:o(?:s(?:ephe|ée?)|[ëe]lle)|(?:eann|uli)e)|L(?:(?:aur(?:enc)?|[iy][ns]|uc)e|ou(?:ise)?)|[ÉE](?:lis(?:abeth|e)|dith))</token>
       </pattern>
       <message>Pretende dizer <suggestion>\1-\2</suggestion>?</message>
       <example correction="Marie-Laure">Chamo-me <marker>Marie Laure</marker>.</example>
