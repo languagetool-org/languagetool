@@ -37040,35 +37040,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Aconseguit l'objectiu</example>
             <example>l'alfabet artificial tan laboriosament aconseguit</example>
         </rule>
-        <rulegroup id="VISTIPLAU" name="vistiplau">
-            <rule>
-                <pattern>
-                    <token postag="D..MS.|PX.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>vist</token>
-                        <token>i</token>
-                        <token>plau</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
-                <example correction="vistiplau">un <marker>vist i plau</marker></example>
-                <example correction="vistiplau">el nostre <marker>vist i plau</marker></example>
-                <example>un vistiplau</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">el|l</token>
-                    <marker>
-                        <token>vist</token>
-                        <token>i</token>
-                        <token>plau</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
-                <example correction="vistiplau">el <marker>vist i plau</marker></example>
-                <example>el vistiplau</example>
-            </rule>
-        </rulegroup>
+        <rule id="VISTIPLAU" name="vistiplau">
+            <pattern>
+                <token postag="D..MS.|PX.*" postag_regexp="yes"/>
+                <marker>
+                    <token>vist</token>
+                    <token min="0">-</token>
+                    <token>i</token>
+                    <token min="0">-</token>
+                    <token>plau</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
+            <example correction="vistiplau">un <marker>vist i plau</marker></example>
+            <example correction="vistiplau">el nostre <marker>vist-i plau</marker></example>
+            <example correction="vistiplau">el <marker>vist i plau</marker></example>
+            <example>el vistiplau</example>
+            <example>un vistiplau</example>
+        </rule>
         <rulegroup id="A_FALTA_DE" name="* a falta de cinc mintus">
             <rule>
                 <pattern>
