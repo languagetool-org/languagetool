@@ -33,7 +33,7 @@ USA
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
-    <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Japanese|Javanese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay|Malayalam|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turkish|Turkmen|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
+    <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -491,7 +491,7 @@ USA
         </rule>
         <rule id="MAKE_US_OF" name="make us (use) of">
             <pattern>
-                <token regexp="yes">makes?|made|making</token>
+                <token inflected="yes">make</token>
                 <marker>
                     <token>us</token>
                 </marker>
@@ -751,7 +751,7 @@ USA
                     <marker>
                         <token>begin</token>
                     </marker>
-                    <token postag="VBD|VBN" postag_regexp="yes"/>
+                    <token postag="VB[DN]" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>being</suggestion>?</message>
                 <short>Possible typo</short>
@@ -4730,6 +4730,20 @@ USA
             <example correction="I'll"><marker>Ill</marker> explain!</example>
             <example>I'll never do this again!</example>
             <example>Ill news comes apace.</example>
+        </rule>
+        <rule id="I_ILL" name="I ill (I will)">
+            <pattern>
+                <token case_sensitive="no" regexp="yes">I|he|she|we|they<exception scope="previous" inflected="yes">be</exception></token>
+                <marker>
+                    <token case_sensitive="yes">ill</token>
+                    <token/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>will \3</suggestion> or is a hyphen missing <suggestion>ill-\3</suggestion> (e.g., ill-treated, ill-advised)?</message>
+            <short>Possible typo</short>
+            <example correction="will have|ill-have">It seems that I <marker>ill have</marker> to celebrate at home.</example>
+            <example correction="will treated|ill-treated">They <marker>ill treated</marker> me.</example>
+            <example>Am I ill, Doc?</example>
         </rule>
         <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
         <rule id="LAID_AHEAD" name="laid (lay) ahead">
@@ -20438,7 +20452,7 @@ USA
                 <pattern>
                     <!-- "June 31, 2014" -->
                     <marker>
-                        <token regexp="yes">April|Apr|June|Jun|September|Sep|Sept|November|Nov</token>
+                        <token regexp="yes">Apr(il)?|June?|September|Sept?|Nov(ember)?</token>
                         <token>31</token>
                     </marker>
                     <token>,</token>
@@ -20451,7 +20465,7 @@ USA
                 <pattern>
                     <!-- "February 30, 2014" -->
                     <marker>
-                        <token regexp="yes">February|Feb</token>
+                        <token regexp="yes">Feb(ruary)?</token>
                         <token regexp="yes">3[01]</token>
                     </marker>
                     <token>,</token>
