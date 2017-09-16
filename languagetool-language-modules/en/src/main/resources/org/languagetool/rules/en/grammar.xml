@@ -382,6 +382,40 @@ USA
                 <example correction="me">He gave it to Tim and <marker>I</marker>.</example>
                 <example>We need to talk, just you and I.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Him</token></marker>
+                    <token skip="2">and</token>
+                    <token postag="SENT_END"/>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker><token>Him</token></marker>
+                    <token>and</token>
+                 </pattern>
+                 <message>Please check whether the nominative <suggestion>He</suggestion> should be used.</message>
+                 <url>https://languageandgrammar.com/2008/11/09/is-it-him-and-i-or-him-and-me/</url>
+                 <example correction='He'><marker>Him</marker> and I cheated on the test.</example>
+                 <example>Him alone did she love.</example>
+                 <example>She has just lost the only two male loves she had in her life . Him and her husband.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Her</token></marker>
+                    <token skip="2">and</token>
+                    <token postag="SENT_END"/>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker><token>Her</token></marker>
+                    <token>and</token>
+                 </pattern>
+                 <message>Please check whether the nominative <suggestion>She</suggestion> should be used.</message>
+                 <url>https://languageandgrammar.com/2008/11/09/is-it-him-and-i-or-him-and-me/</url>
+                 <example correction='She'><marker>Her</marker> and I cheated on the test.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_OF_BEEN_BEING" name="been (being)">
             <rule>
