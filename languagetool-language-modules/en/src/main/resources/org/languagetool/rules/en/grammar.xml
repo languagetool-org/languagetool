@@ -33,7 +33,7 @@ USA
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
-    <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Japanese|Javanese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay|Malayalam|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turkish|Turkmen|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
+    <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -382,6 +382,40 @@ USA
                 <example correction="me">He gave it to Tim and <marker>I</marker>.</example>
                 <example>We need to talk, just you and I.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Him</token></marker>
+                    <token skip="2">and</token>
+                    <token postag="SENT_END"/>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker><token>Him</token></marker>
+                    <token>and</token>
+                 </pattern>
+                 <message>Please check whether the nominative <suggestion>He</suggestion> should be used.</message>
+                 <url>https://languageandgrammar.com/2008/11/09/is-it-him-and-i-or-him-and-me/</url>
+                 <example correction='He'><marker>Him</marker> and I cheated on the test.</example>
+                 <example>Him alone did she love.</example>
+                 <example>She has just lost the only two male loves she had in her life . Him and her husband.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Her</token></marker>
+                    <token skip="2">and</token>
+                    <token postag="SENT_END"/>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker><token>Her</token></marker>
+                    <token>and</token>
+                 </pattern>
+                 <message>Please check whether the nominative <suggestion>She</suggestion> should be used.</message>
+                 <url>https://languageandgrammar.com/2008/11/09/is-it-him-and-i-or-him-and-me/</url>
+                 <example correction='She'><marker>Her</marker> and I cheated on the test.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_OF_BEEN_BEING" name="been (being)">
             <rule>
@@ -457,7 +491,7 @@ USA
         </rule>
         <rule id="MAKE_US_OF" name="make us (use) of">
             <pattern>
-                <token regexp="yes">makes?|made|making</token>
+                <token inflected="yes">make</token>
                 <marker>
                     <token>us</token>
                 </marker>
@@ -717,7 +751,7 @@ USA
                     <marker>
                         <token>begin</token>
                     </marker>
-                    <token postag="VBD|VBN" postag_regexp="yes"/>
+                    <token postag="VB[DN]" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>being</suggestion>?</message>
                 <short>Possible typo</short>
@@ -4697,6 +4731,20 @@ USA
             <example>I'll never do this again!</example>
             <example>Ill news comes apace.</example>
         </rule>
+        <rule id="I_ILL" name="I ill (I will)">
+            <pattern>
+                <token case_sensitive="no" regexp="yes">I|he|she|we|they<exception scope="previous" inflected="yes">be</exception></token>
+                <marker>
+                    <token case_sensitive="yes">ill</token>
+                    <token/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>will \3</suggestion> or is a hyphen missing <suggestion>ill-\3</suggestion> (e.g., ill-treated, ill-advised)?</message>
+            <short>Possible typo</short>
+            <example correction="will have|ill-have">It seems that I <marker>ill have</marker> to celebrate at home.</example>
+            <example correction="will treated|ill-treated">They <marker>ill treated</marker> me.</example>
+            <example>Am I ill, Doc?</example>
+        </rule>
         <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
         <rule id="LAID_AHEAD" name="laid (lay) ahead">
             <pattern>
@@ -8576,6 +8624,32 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="is">Each of the children <marker>are</marker> happy.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Both</token>
+                    <marker><token postag='NN'><exception postag='VBP|IN|JJ|NNP?S' postag_regexp='yes'></exception></token></marker>
+                    <token postag="VB[DP]" postag_regexp="yes"/>
+                 </pattern>
+                 <message>Please check whether 'Both' should be followed by a plural form: <suggestion><match no="3" postag="NN" postag_regexp="yes" postag_replace="NNS"/></suggestion></message>
+                 <example correction='elements'>Both <marker>element</marker> are red.</example>
+                 <example correction='children'>Both <marker>child</marker> love my mother.</example>
+                 <example>Both <marker>aircraft</marker> crashed.</example>
+                 <example>My parents are both fine.</example>
+                 <example>Both Fresnel and Stokes' theories were popular.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Both</token>
+                    <token>of</token>
+                    <token>them</token>
+                    <marker><token postag='VBZ'><exception postag='VB[PGD]?' postag_regexp='yes'></exception></token></marker>
+                 </pattern>
+                 <message>Please check whether 'Both of them' should be followed by a plural form: <suggestion><match no="5" postag="VBZ" postag_regexp="yes" postag_replace="VBP"/></suggestion></message>
+                 <example correction='believe'>Both of them <marker>believes</marker> in God.</example>
+                 <example>Both of them <marker>believed</marker> in God.</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
@@ -12154,7 +12228,7 @@ USA
             <antipattern>
                 <token>many</token>
                 <token>regard</token>
-                <token regexp="yes">him|her|it|this|them|his|its</token>
+                <token regexp="yes">him|her|its?|th(is|em)|his</token>
             </antipattern>
             <antipattern>
                 <token>a</token>
@@ -15350,7 +15424,7 @@ USA
                 <example correction="already">The device is <marker>all ready</marker> available in Korea.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUIET_QUITE" name="quite (quiet)">
+        <rulegroup id="QUIET_QUITE" name="quite / quiet">
             <rule>
                 <pattern>
                     <marker>
@@ -15362,6 +15436,37 @@ USA
                 <short>Possible typo</short>
                 <example correction="quiet">Be <marker>quite</marker>!</example>
                 <example>Not quite.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token min="0">still</token>
+                    <marker><token>quiet</token></marker>
+                    <token postag="JJ"><exception postag="NN:U|DT|RP" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_END"/></token>
+                 </pattern>
+                 <message>Did you mean <suggestion>quite</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
+                 <example correction='quite'>I am <marker>quiet</marker> new to the school.</example>
+                 <example>It was quiet all around.</example>
+                 <example>The market was quiet today.</example>
+                 <example>The market is quiet on weekdays.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token>quiet</token>
+                    <token skip="2">a</token>
+                    <token inflected="yes">time</token>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <marker><token>quiet</token></marker>
+                    <token>a</token>
+                 </pattern>
+                 <message>Did you mean <suggestion>quite</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
+                 <example correction='quite'>That's <marker>quiet</marker> a list.</example>
+                 <example correction='quite'>There were <marker>quiet</marker> a few ways to reach your goal.</example>
+                 <example>Sometimes when you see children who are quiet a lot of times they don't get pinpointed.</example>
             </rule>
         </rulegroup>
         <rule id="OF_CAUSE" name="of cause (course)">
@@ -15505,7 +15610,7 @@ USA
                     <marker>
                         <token regexp="yes">tw?o</token>
                     </marker>
-                    <token regexp="yes">far|long|distant|soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
+                    <token regexp="yes">far|long|distant|soon|late|ea(s|rl)y|hard|fast|s?low|cold|h(ot|igh)|narrow|wide|tall|short</token>
                     <token><exception postag="VB|NN.*" postag_regexp="yes"/></token>
                     <!-- token postag="VBP"; negate_pos="yes"/ -->
                 </pattern>
@@ -15564,8 +15669,8 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">is|was|be|were|are|been|s|re|['´]</token>
-                    <token min="0" regexp="yes">(no)?t</token>
+                    <token regexp="yes">is|was|were|are|be(en)?|s|re|['´]</token>
+                    <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token>to</token>
                     </marker>
@@ -15858,7 +15963,7 @@ USA
             <url>http://www.grammar-monster.com/easily_confused/advice_advise.htm</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">give|gave|given</token>
+                    <token regexp="yes">given?|gave</token>
                     <token min="0" max="1" postag="PRP"/>
                     <marker>
                         <token>advise</token>
@@ -15946,7 +16051,7 @@ USA
                     <marker>
                         <token>here</token>
                     </marker>
-                    <token regexp="yes">this|that</token>
+                    <token regexp="yes">th(is|at)</token>
                 </pattern>
                 <message>Did you mean <suggestion>hear</suggestion>?</message>
                 <short>Possible typo</short>
@@ -16043,7 +16148,7 @@ USA
             <pattern>
                 <token regexp="yes">for|to</token>
                 <token>all</token>
-                <token regexp="yes">intensive|intense</token>
+                <token regexp="yes">intens(ive|e)</token>
                 <token min="0">and</token>
                 <token>purposes</token>
             </pattern>
@@ -16192,7 +16297,7 @@ USA
         </rule>
         <rule id="BOB_WIRE" name="bob/barb wire (barbed wire)">
             <pattern>
-                <token regexp="yes">bob|barb</token>
+                <token regexp="yes">b(o|ar)b</token>
                 <token>wire</token>
             </pattern>
             <message>Did you mean <suggestion>barbed wire</suggestion>?</message>
@@ -16297,7 +16402,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">could|can|cannot|(?-i)I|you|we|they|he|she|it</token>
+                    <token regexp="yes">could|can(not)?|(?-i)I|you|we|they|he|she|it</token>
                     <marker>
                         <token>breath</token>
                     </marker>
@@ -16438,7 +16543,7 @@ USA
         <rule id="LAWSUIT" name="law suit (lawsuit)">
             <pattern>
                 <token>law</token>
-                <token inflected='yes' regexp="yes">suit|suite</token>
+                <token inflected='yes' regexp="yes">suite?</token>
             </pattern>
             <message>Did you mean <suggestion>law<match no="2" regexp_match="suite" regexp_replace="suit"/></suggestion>?</message>
             <example correction="lawsuit">The plaintiff brought a <marker>law suit</marker> against the defendant</example>
@@ -16503,7 +16608,7 @@ USA
                 <marker>
                     <token>ally</token>
                 </marker>
-                <token postag='VBZ|NNS|VB|VBP|NN:UN' postag_regexp='yes'/>
+                <token postag='NN(S|:UN)|VB[PZ]?' postag_regexp='yes'/>
             </pattern>
             <message>Did you mean <suggestion>allay</suggestion>?</message>
             <url>http://lessons.englishgrammar101.com/EnglishGrammar101/Module6/Lesson6-8.aspx</url>
@@ -16513,7 +16618,7 @@ USA
         <rule id="ALOT_ALLOT" name="In this situation, allot has a double 'l'">
             <pattern case_sensitive='yes'>
                 <token>alot</token>
-                <token postag='NN:U|NNS|JJ|VB|VBP' postag_regexp='yes'></token>
+                <token postag='NN(:U|S)|JJ|VBP?' postag_regexp='yes'></token>
             </pattern>
             <message>Did you mean <suggestion>allot <match no="2"/></suggestion>?</message>
             <url>http://www.grammar-monster.com/easily_confused/alot_a_lot_allot.htm</url>
@@ -16537,7 +16642,7 @@ USA
                 <marker>
                     <token>architect</token>
                 </marker>
-                <token postag='DT|NNS?|NN:U|NN:UN' postag_regexp='yes'/>
+                <token postag='DT|NNS?|NN:UN?' postag_regexp='yes'/>
             </pattern>
             <message>Architect is a noun, not a verb. Did you mean <suggestion>design</suggestion> or <suggestion>devise</suggestion>?</message>
             <short>Architect is a noun, not a verb</short>
@@ -20347,7 +20452,7 @@ USA
                 <pattern>
                     <!-- "June 31, 2014" -->
                     <marker>
-                        <token regexp="yes">April|Apr|June|Jun|September|Sep|Sept|November|Nov</token>
+                        <token regexp="yes">Apr(il)?|June?|September|Sept?|Nov(ember)?</token>
                         <token>31</token>
                     </marker>
                     <token>,</token>
@@ -20360,7 +20465,7 @@ USA
                 <pattern>
                     <!-- "February 30, 2014" -->
                     <marker>
-                        <token regexp="yes">February|Feb</token>
+                        <token regexp="yes">Feb(ruary)?</token>
                         <token regexp="yes">3[01]</token>
                     </marker>
                     <token>,</token>
