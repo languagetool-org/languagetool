@@ -15410,7 +15410,7 @@ USA
                 <example correction="already">The device is <marker>all ready</marker> available in Korea.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUIET_QUITE" name="quite (quiet)">
+        <rulegroup id="QUIET_QUITE" name="quite / quiet">
             <rule>
                 <pattern>
                     <marker>
@@ -15422,6 +15422,37 @@ USA
                 <short>Possible typo</short>
                 <example correction="quiet">Be <marker>quite</marker>!</example>
                 <example>Not quite.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token min="0">still</token>
+                    <marker><token>quiet</token></marker>
+                    <token postag="JJ"><exception postag="NN:U|DT|RP" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_END"/></token>
+                 </pattern>
+                 <message>Did you mean <suggestion>quite</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
+                 <example correction='quite'>I am <marker>quiet</marker> new to the school.</example>
+                 <example>It was quiet all around.</example>
+                 <example>The market was quiet today.</example>
+                 <example>The market is quiet on weekdays.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token>quiet</token>
+                    <token skip="2">a</token>
+                    <token inflected="yes">time</token>
+                 </antipattern>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <marker><token>quiet</token></marker>
+                    <token>a</token>
+                 </pattern>
+                 <message>Did you mean <suggestion>quite</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
+                 <example correction='quite'>That's <marker>quiet</marker> a list.</example>
+                 <example correction='quite'>There were <marker>quiet</marker> a few ways to reach your goal.</example>
+                 <example>Sometimes when you see children who are quiet a lot of times they don't get pinpointed.</example>
             </rule>
         </rulegroup>
         <rule id="OF_CAUSE" name="of cause (course)">
@@ -15565,7 +15596,7 @@ USA
                     <marker>
                         <token regexp="yes">tw?o</token>
                     </marker>
-                    <token regexp="yes">far|long|distant|soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
+                    <token regexp="yes">far|long|distant|soon|late|ea(s|rl)y|hard|fast|s?low|cold|h(ot|igh)|narrow|wide|tall|short</token>
                     <token><exception postag="VB|NN.*" postag_regexp="yes"/></token>
                     <!-- token postag="VBP"; negate_pos="yes"/ -->
                 </pattern>
@@ -15624,8 +15655,8 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">is|was|be|were|are|been|s|re|['´]</token>
-                    <token min="0" regexp="yes">(no)?t</token>
+                    <token regexp="yes">is|was|were|are|be(en)?|s|re|['´]</token>
+                    <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token>to</token>
                     </marker>
@@ -15918,7 +15949,7 @@ USA
             <url>http://www.grammar-monster.com/easily_confused/advice_advise.htm</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">give|gave|given</token>
+                    <token regexp="yes">given?|gave</token>
                     <token min="0" max="1" postag="PRP"/>
                     <marker>
                         <token>advise</token>
@@ -16006,7 +16037,7 @@ USA
                     <marker>
                         <token>here</token>
                     </marker>
-                    <token regexp="yes">this|that</token>
+                    <token regexp="yes">th(is|at)</token>
                 </pattern>
                 <message>Did you mean <suggestion>hear</suggestion>?</message>
                 <short>Possible typo</short>
@@ -16103,7 +16134,7 @@ USA
             <pattern>
                 <token regexp="yes">for|to</token>
                 <token>all</token>
-                <token regexp="yes">intensive|intense</token>
+                <token regexp="yes">intens(ive|e)</token>
                 <token min="0">and</token>
                 <token>purposes</token>
             </pattern>
@@ -16252,7 +16283,7 @@ USA
         </rule>
         <rule id="BOB_WIRE" name="bob/barb wire (barbed wire)">
             <pattern>
-                <token regexp="yes">bob|barb</token>
+                <token regexp="yes">b(o|ar)b</token>
                 <token>wire</token>
             </pattern>
             <message>Did you mean <suggestion>barbed wire</suggestion>?</message>
@@ -16357,7 +16388,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">could|can|cannot|(?-i)I|you|we|they|he|she|it</token>
+                    <token regexp="yes">could|can(not)?|(?-i)I|you|we|they|he|she|it</token>
                     <marker>
                         <token>breath</token>
                     </marker>
@@ -16498,7 +16529,7 @@ USA
         <rule id="LAWSUIT" name="law suit (lawsuit)">
             <pattern>
                 <token>law</token>
-                <token inflected='yes' regexp="yes">suit|suite</token>
+                <token inflected='yes' regexp="yes">suite?</token>
             </pattern>
             <message>Did you mean <suggestion>law<match no="2" regexp_match="suite" regexp_replace="suit"/></suggestion>?</message>
             <example correction="lawsuit">The plaintiff brought a <marker>law suit</marker> against the defendant</example>
@@ -16563,7 +16594,7 @@ USA
                 <marker>
                     <token>ally</token>
                 </marker>
-                <token postag='VBZ|NNS|VB|VBP|NN:UN' postag_regexp='yes'/>
+                <token postag='NN(S|:UN)|VB[PZ]?' postag_regexp='yes'/>
             </pattern>
             <message>Did you mean <suggestion>allay</suggestion>?</message>
             <url>http://lessons.englishgrammar101.com/EnglishGrammar101/Module6/Lesson6-8.aspx</url>
@@ -16573,7 +16604,7 @@ USA
         <rule id="ALOT_ALLOT" name="In this situation, allot has a double 'l'">
             <pattern case_sensitive='yes'>
                 <token>alot</token>
-                <token postag='NN:U|NNS|JJ|VB|VBP' postag_regexp='yes'></token>
+                <token postag='NN(:U|S)|JJ|VBP?' postag_regexp='yes'></token>
             </pattern>
             <message>Did you mean <suggestion>allot <match no="2"/></suggestion>?</message>
             <url>http://www.grammar-monster.com/easily_confused/alot_a_lot_allot.htm</url>
@@ -16597,7 +16628,7 @@ USA
                 <marker>
                     <token>architect</token>
                 </marker>
-                <token postag='DT|NNS?|NN:U|NN:UN' postag_regexp='yes'/>
+                <token postag='DT|NNS?|NN:UN?' postag_regexp='yes'/>
             </pattern>
             <message>Architect is a noun, not a verb. Did you mean <suggestion>design</suggestion> or <suggestion>devise</suggestion>?</message>
             <short>Architect is a noun, not a verb</short>
