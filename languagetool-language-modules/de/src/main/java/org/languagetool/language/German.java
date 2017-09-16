@@ -31,6 +31,7 @@ import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.neuralnetwork.DaDasRule;
 import org.languagetool.rules.de.neuralnetwork.EinInRule;
 import org.languagetool.rules.de.neuralnetwork.MirMitRule;
+import org.languagetool.rules.de.neuralnetwork.NachNochRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -184,7 +185,8 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new DaDasRule(messages),
             new EinInRule(messages),
-            new MirMitRule(messages)
+            new MirMitRule(messages),
+            new NachNochRule(messages)
     );
   }
 
