@@ -8576,6 +8576,32 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="is">Each of the children <marker>are</marker> happy.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Both</token>
+                    <marker><token postag='NN'><exception postag='VBP|IN|JJ|NNP?S' postag_regexp='yes'></exception></token></marker>
+                    <token postag="VB[DP]" postag_regexp="yes"/>
+                 </pattern>
+                 <message>Please check whether 'Both' should be followed by a plural form: <suggestion><match no="3" postag="NN" postag_regexp="yes" postag_replace="NNS"/></suggestion></message>
+                 <example correction='elements'>Both <marker>element</marker> are red.</example>
+                 <example correction='children'>Both <marker>child</marker> love my mother.</example>
+                 <example>Both <marker>aircraft</marker> crashed.</example>
+                 <example>My parents are both fine.</example>
+                 <example>Both Fresnel and Stokes' theories were popular.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Both</token>
+                    <token>of</token>
+                    <token>them</token>
+                    <marker><token postag='VBZ'><exception postag='VB[PGD]?' postag_regexp='yes'></exception></token></marker>
+                 </pattern>
+                 <message>Please check whether 'Both of them' should be followed by a plural form: <suggestion><match no="5" postag="VBZ" postag_regexp="yes" postag_replace="VBP"/></suggestion></message>
+                 <example correction='believe'>Both of them <marker>believes</marker> in God.</example>
+                 <example>Both of them <marker>believed</marker> in God.</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
@@ -12154,7 +12180,7 @@ USA
             <antipattern>
                 <token>many</token>
                 <token>regard</token>
-                <token regexp="yes">him|her|it|this|them|his|its</token>
+                <token regexp="yes">him|her|its?|th(is|em)|his</token>
             </antipattern>
             <antipattern>
                 <token>a</token>
