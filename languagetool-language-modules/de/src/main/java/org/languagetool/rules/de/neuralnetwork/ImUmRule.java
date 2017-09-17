@@ -1,0 +1,38 @@
+package org.languagetool.rules.de.neuralnetwork;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.Example;
+
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class ImUmRule extends GermanNeuralNetworkRule {
+    private final List<String> subjects = Arrays.asList("im", "um");
+
+    public ImUmRule(ResourceBundle messages) {
+        super(messages);
+
+        addExamplePair(Example.wrong("Wir sitzen <marker>um</marker> Bus."),
+                Example.fixed("Wir sitzen <marker>im</marker> Bus."));
+        addExamplePair(Example.wrong("Wir kommen <marker>im</marker> 12:15 Uhr."),
+                Example.fixed("Wir kommen <marker>um</marker> 12:15 Uhr."));
+
+        ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+        final InputStream WPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/im_um/W_fc1.txt");
+        final InputStream bPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/im_um/b_fc1.txt");
+        classifier = new Classifier(dictionary, embedding, WPath, bPath);
+    }
+
+    @Override
+    public String getId() {
+        return "DE_IM_VS_UM";
+    }
+
+    @Override
+    protected List<String> getSubjects() {
+        return subjects;
+    }
+}

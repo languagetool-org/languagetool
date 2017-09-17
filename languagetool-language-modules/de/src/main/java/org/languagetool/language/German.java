@@ -28,10 +28,7 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
-import org.languagetool.rules.de.neuralnetwork.DaDasRule;
-import org.languagetool.rules.de.neuralnetwork.EinInRule;
-import org.languagetool.rules.de.neuralnetwork.MirMitRule;
-import org.languagetool.rules.de.neuralnetwork.NachNochRule;
+import org.languagetool.rules.de.neuralnetwork.*;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -185,6 +182,8 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new DaDasRule(messages),
             new EinInRule(messages),
+            new FielenVielenRule(messages),
+            new ImUmRule(messages),
             new MirMitRule(messages),
             new NachNochRule(messages)
     );
