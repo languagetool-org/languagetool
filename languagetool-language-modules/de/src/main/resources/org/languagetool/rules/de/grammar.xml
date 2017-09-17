@@ -29574,9 +29574,23 @@ Andere Projekte</example>
                 <example>Warum spricht Tom so schlecht Koreanisch, obwohl er eine koreanische Freundin hat?</example>
             </rule>
         </rulegroup>
-        <!-- Diese Regel erzeugt noch zu viele Falschmeldungen und muss deshalb überarbeitet werden. 
-	   <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
-                   <rule>
+        <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
+            <antipattern>
+                <token postag='ART:DEF:GEN:.+:.+' postag_regexp='yes'></token>
+                <token postag='SUB:GEN:.+:.+' postag_regexp='yes'></token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token skip='-1'></token>
+                <token postag='VER:EIZ:SFT'></token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>das</token>
+                <token postag='VER:3:SIN:PRÄ:NON'></token>
+            </antipattern>
+            <rule>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
                     <token postag='SUB:.+:SIN:NEU' postag_regexp='yes'></token>
@@ -29591,6 +29605,8 @@ Andere Projekte</example>
                 <example correction='das'>Mir gehört das Auto, <marker>der</marker> da steht.</example>
                 <example correction='das'>Siehst du das Kind, <marker>die</marker> zu uns herüber guckt?</example>
                 <example>Ich kaufe das Haus, der Makler hat mir einen guten Preis gemacht.</example>
+                <example>Besonders ist die geringe Wärmeleitfähigkeit des Gases, die eine höhere Glühtemperatur zur Folge hat.</example>
+                <example>Die Zeit war geprägt von Apoll, dem Gott des Lichts, der Künste und der Musik, der Weisheit und der Weissagung.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29607,6 +29623,8 @@ Andere Projekte</example>
                 <example correction='die'>Kennst du die Frau, <marker>der</marker> da steht?</example>
                 <example correction='die'>Die Blume, <marker>das</marker> da wächst, ist rot.</example>
                 <example>Die Frau, der Mann, das Kind.</example>
+                <example>Das ist ein Kapitel der Filmgeschichte, das gerade wegen der hervorgehobenen Stellung der USA außergewöhnlich ist.</example>
+                <example>Er hatte eine Frau, das heißt er war verheiratet.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29623,8 +29641,11 @@ Andere Projekte</example>
                 <example correction='der'>Kennst du den Mann, <marker>das</marker> da steht?</example>
                 <example correction='der'>Ich habe einen Wagen, <marker>die</marker> sehr wenig verbraucht.</example>
                 <example>Der Bundeskanzler, die Gesetze sind da eindeutig, wird vom Parlament gewählt.</example>
+                <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
+                <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
+                <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
             </rule>
-        </rulegroup> -->
+        </rulegroup> 
     </category>
 
     <!-- ====================================================================== -->
