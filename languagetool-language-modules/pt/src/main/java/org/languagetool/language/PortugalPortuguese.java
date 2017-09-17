@@ -46,7 +46,7 @@ public class PortugalPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
-    rules.add(new PostReformPortugueseDashRule());
+    // rules.add(new PostReformPortugueseDashRule());
     rules.add(new PortugalPortugueseReplaceRule(messages));
     rules.add(new PortugueseAgreementReplaceRule(messages));
     return rules;

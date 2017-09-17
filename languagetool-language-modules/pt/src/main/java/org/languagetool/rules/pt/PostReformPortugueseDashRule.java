@@ -42,7 +42,8 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
     super(dashRules);
     // super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setDefaultOff(); // Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
+    // setDefaultOff(); // XXX Tempoary activation to see if performance issue is solved. Checked only on pt-BR.
+                        //     Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
   }
 
   @Override
