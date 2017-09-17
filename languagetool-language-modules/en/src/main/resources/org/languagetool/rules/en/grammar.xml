@@ -9266,6 +9266,27 @@ USA
                 <example correction="eats">She asked whether the dog, whose owner likes you, <marker>eat</marker>.</example>
             </rule>
         </rulegroup>
+        <!--rulegroup id="RELATIVE_CLAUSE_AGREEMENT" name="Agreement: 'others who loves (love) ... '">
+            <rule>
+                <antipattern>
+                    <token skip="5">amongst</token>
+                    <token>who</token>
+                </antipattern>
+                <pattern>
+                    <token postag="NNS"><exception postag="RB|NN" postag_regexp="yes"/></token>
+                    <token>who</token>
+                    <marker>
+                        <token postag="VBZ"><exception postag="VB[PD]?" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" postag="VBZ" postag_regexp="yes" postag_replace="VBP"/></suggestion>? Alternatively, check whether the singular of '\1' should be used.</message>
+                <short>Possible agreement error</short>
+                <example correction="like">There are others who <marker>likes</marker> sleeping until noon.</example>
+                <example>There is a man downstairs who <marker>wants</marker> to speak to you.</example>
+                <example>This movie is about a squirrel who gains human-like intelligence.</example>
+                <example>You're the only one amongst your friends who speaks FRench.</example>
+            </rule>
+        </rulegroup-->
         <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
             <rule>
                 <pattern>
