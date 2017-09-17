@@ -416,6 +416,18 @@ USA
                  <url>https://languageandgrammar.com/2008/11/09/is-it-him-and-i-or-him-and-me/</url>
                  <example correction='She'><marker>Her</marker> and I cheated on the test.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">My|Your|H(er|is)|The(ir)?|Our</token>
+                    <token></token>
+                    <token>and</token>
+                    <marker><token>me</token></marker>
+                    <token postag="VB.?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>I</suggestion>?</message>
+                <example correction="I">My mother and <marker>me</marker> went to California.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_OF_BEEN_BEING" name="been (being)">
             <rule>
