@@ -21,11 +21,9 @@ public class EinInRule extends GermanNeuralNetworkRule {
                 Example.fixed("Ich bin <marker>in</marker> dem Haus."));
 
         ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-        final InputStream dictionaryPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/ein_in/dictionary.txt");
-        final InputStream embeddingsPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/ein_in/final_embeddings.txt");
         final InputStream WPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/ein_in/W_fc1.txt");
         final InputStream bPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/ein_in/b_fc1.txt");
-        classifier = new Classifier(dictionaryPath, embeddingsPath, WPath, bPath);
+        classifier = new Classifier(dictionary, embedding, WPath, bPath);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class EinInRule extends GermanNeuralNetworkRule {
     }
 
     @Override
-    List<String> getSubjects() {
+    protected List<String> getSubjects() {
         return subjects;
     }
 }

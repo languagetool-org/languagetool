@@ -21,11 +21,9 @@ public class DaDasRule extends GermanNeuralNetworkRule {
                 Example.fixed("Wie kommt man denn <marker>da</marker> hin?"));
 
         ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-        final InputStream dictionaryPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/da_das/dictionary.txt");
-        final InputStream embeddingsPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/da_das/final_embeddings.txt");
         final InputStream WPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/da_das/W_fc1.txt");
         final InputStream bPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/da_das/b_fc1.txt");
-        classifier = new Classifier(dictionaryPath, embeddingsPath, WPath, bPath);
+        classifier = new Classifier(dictionary, embedding, WPath, bPath);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class DaDasRule extends GermanNeuralNetworkRule {
     }
 
     @Override
-    List<String> getSubjects() {
+    protected List<String> getSubjects() {
         return subjects;
     }
 }

@@ -10,9 +10,9 @@ class Classifier implements IClassifier {
     private final Matrix W_fc1;
     private final Matrix b_fc1;
 
-    Classifier(InputStream dictionaryPath, InputStream embeddingPath, InputStream WPath, InputStream bPath) {
-        dictionary = new Dictionary(dictionaryPath);
-        embedding = new Matrix(embeddingPath);
+    Classifier(Dictionary dictionary, Matrix embedding, InputStream WPath, InputStream bPath) {
+        this.dictionary = dictionary;
+        this.embedding = embedding;
         W_fc1 = new Matrix(WPath);
         b_fc1 = new Matrix(bPath).transpose();
     }

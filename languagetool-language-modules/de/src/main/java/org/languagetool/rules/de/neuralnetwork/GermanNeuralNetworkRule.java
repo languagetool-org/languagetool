@@ -3,11 +3,14 @@ package org.languagetool.rules.de.neuralnetwork;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 abstract class GermanNeuralNetworkRule extends Rule {
@@ -17,11 +20,22 @@ abstract class GermanNeuralNetworkRule extends Rule {
 
     IClassifier classifier;
 
-    public GermanNeuralNetworkRule(ResourceBundle messages) {
+    protected static Dictionary dictionary;
+    protected static Matrix embedding;
+
+    static {
+        ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+        final InputStream dictionaryPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/dictionary.txt");
+        dictionary = new Dictionary(dictionaryPath);
+        final InputStream embeddingsPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/final_embeddings.txt");
+        embedding = new Matrix(embeddingsPath);
+    }
+
+    protected GermanNeuralNetworkRule(ResourceBundle messages) {
         super.setCategory(Categories.TYPOS.getCategory(messages));
     }
 
-    abstract List<String> getSubjects();
+    protected abstract List<String> getSubjects();
 
     @Override
     public String getDescription() {

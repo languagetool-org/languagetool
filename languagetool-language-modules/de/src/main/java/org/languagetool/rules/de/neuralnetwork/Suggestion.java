@@ -6,7 +6,7 @@ class Suggestion {
 
     private final boolean unsure;
 
-    public Suggestion(String suggestion, boolean unsure) {
+    Suggestion(String suggestion, boolean unsure) {
         this.suggestion = suggestion;
         this.unsure = unsure;
     }
@@ -20,11 +20,11 @@ class Suggestion {
         }
     }
 
-    public boolean matches(String string) {
+    boolean matches(String string) {
         return suggestion.equals(string);
     }
 
-    public boolean isUnsure() {
+    boolean isUnsure() {
         return unsure;
     }
 }
