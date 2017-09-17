@@ -41,7 +41,7 @@ public class BrazilianPortuguese extends Portuguese {
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
     rules.add(new BrazilianPortugueseReplaceRule(messages));
-    rules.add(new PostReformPortugueseDashRule(messages));
+    rules.add(new PostReformPortugueseDashRule());
     return rules;
   }
 
