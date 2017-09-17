@@ -2160,7 +2160,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">along|alongside|amid|amidst|among|amongst</token>
+                    <token regexp="yes">along(side)?|amid(st)?|among(st)?</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2397,7 +2397,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">with|in|without|from|under|over|above|beneath|besides?|beyond|between|below|behind</token>
+                    <token regexp="yes">in|with(out)?|from|under|over|above|be(neath|sides?|yond|tween|low|hind)</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2585,7 +2585,7 @@ USA
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="JJ|NNS?|NN:UN?" postag_regexp="yes"><exception postag="JJ|NNS|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>for its \5</suggestion>?</message>
                 <example correction="for its crazy">No one had any remedies <marker>for it's crazy</marker> rantings.</example>
@@ -2597,7 +2597,7 @@ USA
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="JJ|NNS?|NN:UN?" postag_regexp="yes"><exception postag="JJ|NNS|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1"/> its <match no="5"/></suggestion>?</message>
                 <example correction="about its happy">The frog told a story <marker>about it's happy</marker> childhood in the river.</example>
@@ -2610,7 +2610,7 @@ USA
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="NNS?|NN:UN?" postag_regexp="yes"><exception postag="NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1"/> <match no="2"/> its <match no="6"/></suggestion>?</message>
                 <example correction="to take its apple">I wanted so badly <marker>to take it's apple</marker> and throw it through the window.</example>
@@ -2629,7 +2629,7 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
                     <token postag="JJ"><exception postag="JJ" negate_pos="yes"/></token>
-                    <token postag="NNS|NN|NN:UN?" postag_regexp="yes"><exception postag="NNS|NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="NNS?|NN:UN?" postag_regexp="yes"><exception postag="NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>its <match no="4"/> <match no="5"/></suggestion>?</message>
                 <example correction="its odorless handshake">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
@@ -2827,7 +2827,7 @@ USA
         <rulegroup id="SCENT_SENT" name="seen or scene">
             <rule>
                 <pattern>
-                    <token regexp="yes">a|the|his|her|their</token>
+                    <token regexp="yes">a|his|her|the(ir)?</token>
                     <marker>
                         <token>sent</token>
                     </marker>
