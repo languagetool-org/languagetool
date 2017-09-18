@@ -383,8 +383,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("[pP]roff?ess?ion(ä|e)h?ll?(e[mnrs]?)?")) {
-      suggestion = word.replaceFirst("roff?ess?ion(ä|e)h?l{1,2}", "rofessionell");
+    } else if (word.matches("[pP]roff?ess?ion([äe])h?ll?(e[mnrs]?)?")) {
+      suggestion = word.replaceFirst("roff?ess?ion([äe])h?l{1,2}", "rofessionell");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
@@ -420,7 +420,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
     } else if (word.endsWith("ies")) {
-      if(word.equals("Stories")) {
+      if (word.equals("Stories")) {
         return Collections.singletonList("Storys");
       } else if (word.equals("Lobbies")) {
         return Collections.singletonList("Lobbys");
