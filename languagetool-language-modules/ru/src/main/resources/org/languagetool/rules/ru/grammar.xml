@@ -4651,6 +4651,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
             <example>Когда я шёл по улице, у меня развязался шнурок.</example>
         </rule>
+        <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего»">
+            <pattern>
+                <token postag="NN:.*" postag_regexp="yes"><exception  postag="NN:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
+                <token><exception  postag="VB:.*" postag_regexp="yes"></token>
+                <token>,</token>
+                <token postag="PNN:.*" postag_regexp="yes"><exception  postag="PNN:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
+                <token postag="VB:.*" postag_regexp="yes"><exception  postag="VB:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка. Дублирование местоимением существительного-подлежащего: <suggestion>\1 \2 \5</suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="стремилась">Героиня пьесы<marker>, она стремилась</marker> к лучшей жизни.</example>
+            <example>Героиня пьесы, стремилась к лучшей жизни.</example>
+        </rule>
        
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
