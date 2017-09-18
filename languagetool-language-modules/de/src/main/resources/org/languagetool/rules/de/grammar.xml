@@ -9464,6 +9464,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>her</token>
             </antipattern>
             <antipattern>
+                <token skip="-1" regexp="yes">vor|hinter|neben<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                <token>her</token>
+            </antipattern>
+            <antipattern>
                 <token skip="-1" regexp="yes">vo[nm]<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
                 <token regexp="yes">her(aus)?</token>
             </antipattern>
@@ -29576,8 +29580,8 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
             <antipattern>
-                <token postag='ART:DEF:GEN:.+:.+' postag_regexp='yes'></token>
-                <token postag='SUB:GEN:.+:.+' postag_regexp='yes'></token>
+                <token postag='ART:DEF:GEN:.*' postag_regexp='yes'></token>
+                <token postag='SUB:GEN:.*' postag_regexp='yes'></token>
                 <token>,</token>
             </antipattern>
             <antipattern>
@@ -29590,6 +29594,19 @@ Andere Projekte</example>
                 <token>das</token>
                 <token postag='VER:3:SIN:PRÄ:NON'></token>
             </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token postag='PRO:DEM:.*' postag_regexp='yes'></token>
+                <token min="0" postag='ADJ:.*' postag_regexp='yes'></token>
+                <token postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></token>
+            </antipattern>
+            <antipattern>
+                <token>mit</token>
+                <token>den</token>
+                <token postag='SUB:DAT:PLU:.+' postag_regexp='yes'></token>
+                <token>,</token>
+                <token>die</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
@@ -29598,7 +29615,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(der|die)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>das</suggestion>?</message>
@@ -29616,7 +29633,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(der|das)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
@@ -29625,6 +29642,7 @@ Andere Projekte</example>
                 <example>Die Frau, der Mann, das Kind.</example>
                 <example>Das ist ein Kapitel der Filmgeschichte, das gerade wegen der hervorgehobenen Stellung der USA außergewöhnlich ist.</example>
                 <example>Er hatte eine Frau, das heißt er war verheiratet.</example>
+                <example>Das ist eine Episode, der spätere Bearbeiter des Stoffs eine ursprünglich völlig fehlende erotische Komponente verleihen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29634,7 +29652,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(die|das)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
@@ -29644,6 +29662,7 @@ Andere Projekte</example>
                 <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
                 <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
                 <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
+                <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
             </rule>
         </rulegroup> 
     </category>
@@ -30203,7 +30222,31 @@ Andere Projekte</example>
                 </pattern>
                 <message>Die Wendung '<suggestion>Ober-</suggestion> und \3' wird mit Bindestrich geschrieben.</message>
                 <short>Meinten Sie '\1-'?</short>
-                <example correction="Ober-">Heißluft: 200 °C, <marker>Ober</marker> und Unterhitze: 180 °C.</example>
+                <example correction="Ober-">Heißluft: 180 °C, <marker>Ober</marker> und Unterhitze: 200 °C.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Vor</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Nachteilen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Vor-</suggestion> und Nachteile' wird mit Bindestrich geschrieben, wenn 'Vorteile und Nachteile' gemeint ist.</message>
+                <short>Meinten Sie 'Vor-'?</short>
+                <example correction="Vor-">Die <marker>Vor</marker> und Nachteile sind klar.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Ein</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Ausgängen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Ein-</suggestion> und Ausgänge' wird mit Bindestrich geschrieben, wenn 'Eingänge und Ausgänge' gemeint ist.</message>
+                <short>Meinten Sie 'Ein-'?</short>
+                <example correction="Ein-">Die <marker>Ein</marker> und Ausgänge wurden überwacht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -30216,6 +30259,19 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>An-</suggestion> und Verkauf' wird mit Bindestrich geschrieben, wenn 'Ankauf und Verkauf' gemeint ist.</message>
                 <short>Meinten Sie 'An-'?</short>
                 <example correction="An-">Auf dem Schild stand "<marker>An</marker> und Verkauf".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>niet</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">nagelfest(e[mnrs]?)?</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>niet-</suggestion> und nagelfest' wird mit Bindestrich geschrieben.</message>
+                <url>https://de.wiktionary.org/wiki/niet-_und_nagelfest</url>
+                <short>Meinten Sie 'niet-'?</short>
+                <example correction="niet-">Sie ließen alles mitgehen, was nicht <marker>niet</marker> und nagelfest war.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30658,6 +30714,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token><exception>?</exception></token>
+                    <token min="0" max="1" regexp="yes">\.|!</token>
                     <token regexp="yes">“|»|«|"</token>
                     </marker>
                     <token>,</token>
@@ -30665,9 +30722,10 @@ Andere Projekte</example>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Bitte schließen Sie die Frage mit einem '?' ab!</message>
-                <suggestion>\1?\2</suggestion>
+                <suggestion>\1?\3</suggestion>
                 <example correction='gegangen?"'>Wohin ist er <marker>gegangen"</marker>, fragte sie.</example>
                 <example correction='gegangen?"'>"Wohin ist er <marker>gegangen"</marker>, erkundigte sie sich.</example>
+                <example correction='gegangen?"'>"Wohin ist er <marker>gegangen."</marker>, fragte sie.</example>
             </rule>
             <rule>
                 <pattern>
@@ -31676,6 +31734,18 @@ Andere Projekte</example>
                 <suggestion>\2,</suggestion>
                 <example correction="verlegen,">Sie lächelte halb <marker>verlegen</marker> halb belustigt.</example>
                 <example>Er macht mit ihr halb <marker>und</marker> halb.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>so</token>
+                    <marker>
+                        <token case_sensitive="yes">weit</token>
+                    </marker>
+                    <token case_sensitive="yes">so</token>
+                </pattern>
+                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab.</message>
+                <suggestion>\2,</suggestion>
+                <example correction="weit,">So <marker>weit</marker> so gut.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_DATUM_WOCHENTAG" name="Fehlendes Komma zwischen Wochentag und Datumsangabe">
@@ -33264,7 +33334,7 @@ Andere Projekte</example>
                     <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">noch|mehr</token>
+                    <token skip="-1" regexp="yes">noch|mehr</token>
                     <token>als</token>
                 </antipattern>
                 <antipattern>
@@ -34559,6 +34629,16 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
+                    <token>,</token>
+                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                        <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
+                    </token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                    <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
@@ -34646,6 +34726,16 @@ Andere Projekte</example>
                 <example>Wenn ihm das Mikro wegrutscht und er in das eines Kollegen sprechen muss, wird es heikel.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                        <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
+                    </token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                    <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
+                </antipattern>
                 <antipattern>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
@@ -35989,6 +36079,16 @@ Andere Projekte</example>
                 <url>http://www.duden.de/rechtschreibung/hierzulande</url>
                 <example correction='Hierzulande'><marker>Hier zu Lande</marker> isst man gerne Kartoffeln mit Fleisch.</example>
                 <example correction='hierzulande'>Bier gehört <marker>hier zu Lande</marker> zu den Grundnahrungsmitteln.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Hard</token>
+                    <token>Disk</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>Harddisk</suggestion> verwenden?</message> 
+                <url>http://www.duden.de/node/759268/revisions/1380631/view</url>
+                <example correction='Harddisk'>Ich habe mir letzte Woche eine neue <marker>Hard Disk</marker> gekauft.</example>
+                <example>Ihre Harddisk sollte defragmentiert werden.</example>
             </rule>
         </rulegroup>
 
