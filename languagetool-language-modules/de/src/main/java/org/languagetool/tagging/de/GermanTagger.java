@@ -136,8 +136,14 @@ public class GermanTagger extends BaseTagger {
               if (word.split(" ").length == 1) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
+
+                //Tokenize, start word uppercase if it's a result of splitting
                 List<String> compoundedWord = compoundTokenizer.tokenize(word);
-                word = compoundedWord.get(compoundedWord.size() - 1);
+                if (compoundedWord.size() > 1) {
+                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+                } else {
+                  word = compoundedWord.get(compoundedWord.size() - 1);
+                }
 
                 List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
