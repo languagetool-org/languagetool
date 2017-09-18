@@ -1407,6 +1407,37 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="SPANISH_PROPER_NAMES" name="Nomes espanhóis">
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>La</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000_"/><wd pos="NCFS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Las</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000_"/><wd pos="NCFP000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>Els?</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMS000_"/><wd pos="NCMS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Los</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000_"/><wd pos="NCFP000_"/></disambig>
+    </rule>
+  </rulegroup>
+
     <!-- XXX Ignore Spelling Rules XXX -->
     <rule name="en vogue" id="EN_VOGUE">
       <pattern>
