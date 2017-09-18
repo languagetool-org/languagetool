@@ -109,10 +109,6 @@ public class GermanTaggerTest {
     AnalyzedTokenReadings aToken11 = tagger.lookup("übrigbleibst");
     assertEquals("übrigbleibst[übrigbleiben/VER:2:SIN:PRÄ:NON:NEB]", toSortedString(aToken11));
     assertEquals("übrigbleiben", aToken11.getReadings().get(0).getLemma());
-
-    AnalyzedTokenReadings aToken12 = tagger.lookup("IT-Dienstleistungsunternehmen");
-    assert (aToken12.getReadings().get(0).getPOSTag().matches("SUB.*"));
-    assertEquals("Unternehmen", aToken12.getReadings().get(0).getLemma());
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
