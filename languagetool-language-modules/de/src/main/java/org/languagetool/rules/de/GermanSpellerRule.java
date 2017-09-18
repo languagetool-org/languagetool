@@ -111,6 +111,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[sS]chmett?e?rling(s|en?)?"), (String w) -> Collections.singletonList(w.replaceFirst("[sS]chmett?e?rling", "Schmetterling")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("zucc?h?inis?"), (String w) -> Collections.singletonList("Zucchini"));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]itag"), (String w) -> Collections.singletonList("Mittag"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Anschovis"), (String w) -> Collections.singletonList("Anchovis"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Bravur"), (String w) -> Collections.singletonList("Bravour"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Grisli"), (String w) -> Collections.singletonList("Grizzly"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Grislibär"), (String w) -> Collections.singletonList("Grizzlybär"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Frotté"), (String w) -> Collections.singletonList("Frottee"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Joga"), (String w) -> Collections.singletonList("Yoga"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Kalvinismus"), (String w) -> Collections.singletonList("Calvinismus"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Kollier"), (String w) -> Collections.singletonList("Collier"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Ketschup"), (String w) -> Collections.singletonList("Ketchup"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Kommunikee"), (String w) -> Collections.singletonList("Kommuniqué"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Negligee"), (String w) -> Collections.singletonList("Negligé"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Nessessär"), (String w) -> Collections.singletonList("Necessaire"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("passee"), (String w) -> Collections.singletonList("passé"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Varietee"), (String w) -> Collections.singletonList("Varieté"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Wandalismus"), (String w) -> Collections.singletonList("Vandalismus"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("bravuröse?[nrms]?"), (String w) -> Collections.singletonList(w.replaceFirst("bravur", "bravour")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Campagne"), (String w) -> Collections.singletonList("Kampagne"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Jockei"), (String w) -> Collections.singletonList("Jockey"));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Roulett"), (String w) -> Collections.singletonList("Roulette"));
   }
 
   private final LineExpander lineExpander = new LineExpander();
