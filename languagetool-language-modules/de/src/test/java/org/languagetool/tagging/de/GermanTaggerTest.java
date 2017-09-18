@@ -129,7 +129,7 @@ public class GermanTaggerTest {
   @Test
   public void testTaggerBaseforms() throws IOException {
     GermanTagger tagger = new GermanTagger();
-    
+
     List<AnalyzedToken> readings1 = tagger.lookup("übrigbleibst").getReadings();
     assertEquals(1, readings1.size());
     assertEquals("übrigbleiben", readings1.get(0).getLemma());
@@ -145,6 +145,27 @@ public class GermanTaggerTest {
     assertEquals("Haus", readings3.get(0).getLemma());
     assertEquals("Haus", readings3.get(1).getLemma());
     assertEquals("Haus", readings3.get(2).getLemma());
+  }
+
+  @Test
+  public void testTaggerDashLinkedWords() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+
+    List<AnalyzedToken> readings1 = tagger.lookup("SSL-Zertifikat").getReadings();
+    assertEquals(3, readings1.size());
+    assertEquals("Zertifikat", readings1.get(0).getLemma());
+
+    List<AnalyzedToken> readings2 = tagger.lookup("H-Milch").getReadings();
+    assertEquals(4, readings2.size());
+    assertEquals("Milch", readings2.get(0).getLemma());
+
+    List<AnalyzedToken> readings3 = tagger.lookup("Entweder-oder").getReadings();
+    assertEquals(8, readings3.size());
+    assertEquals("Entweder-oder", readings3.get(0).getLemma());
+
+    List<AnalyzedToken> readings4 = tagger.lookup("100-m-Lauf").getReadings();
+    assertEquals(3, readings4.size());
+    assertEquals("Lauf", readings4.get(0).getLemma());
   }
 
   @Test
