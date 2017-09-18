@@ -108,6 +108,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[uU]nnützlich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("nützlich", "nütz")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("([eE]r|[bB]e|unter)?hälst"), (String w) -> Collections.singletonList(w.replaceFirst("hälst", "hältst")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ohlfühlseins?"), (String w) -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[sS]chmett?e?rling(s|en?)?"), (String w) -> Collections.singletonList(w.replaceFirst("[sS]chmett?e?rling", "Schmetterling")));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("zucc?h?inis?"), (String w) -> Collections.singletonList("Zucchini"));
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]itag"), (String w) -> Collections.singletonList("Mittag"));
   }
