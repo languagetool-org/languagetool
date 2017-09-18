@@ -70,45 +70,45 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
-    put("aufgehangen(e[mnrs]?)?$", w -> Collections.singletonList(w.replaceFirst("hangen", "hängt")));
+    putRepl("aufgehangen(e[mnrs]?)?$", "hangen", "hängt");
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
-    put("näste[mnrs]?$", w -> Collections.singletonList(w.replaceFirst("^näs", "nächs")));
-    put("Erdogans?$", w -> Collections.singletonList(w.replaceFirst("^Erdogan", "Erdoğan")));
+    putRepl("näste[mnrs]?$", "^näs", "nächs");
+    putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
     put("Germanistiker[ns]", "Germanisten");
-    put("Germanistikerin(nen)?", w -> Collections.singletonList(w.replaceFirst("Germanistiker", "Germanist")));
-    put("[eE]rhöherung(en)?", w -> Collections.singletonList(w.replaceFirst("[eE]rhöherung", "Erhöhung")));
-    put("[aA]ufjedenfall", w -> Collections.singletonList(w.replaceFirst("jedenfall$", " jeden Fall")));
-    put("^funk?z[ou]nier.+", w -> Collections.singletonList(w.replaceFirst("funk?z[ou]nier", "funktionier")));
-    put("[wW]öruber", w -> Collections.singletonList(w.replaceFirst("öru", "orü")));
+    putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
+    putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
+    putRepl("[aA]ufjedenfall", "jedenfall$", " jeden Fall");
+    putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
+    putRepl("[wW]öruber", "öru", "orü");
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
     put("Re[kc]amiere", "Récamière");
     put("legen[td]lich", "lediglich");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("desweitere[nm]", "des Weiteren");
-    put("einzigste[mnrs]?", w -> Collections.singletonList(w.replaceFirst("einzigst", "einzig")));
-    put("[iI]nterkurell(e[nmrs]?)?", w -> Collections.singletonList(w.replaceFirst("ku", "kultu")));
-    put("[wW]olt$", w -> Collections.singletonList(w.replaceFirst("lt", "llt")));
-    put("[zZ]uende", w -> Collections.singletonList(w.replaceFirst("ue", "u E")));
-    put("[wW]aschte(s?t)?", w -> Collections.singletonList(w.replaceFirst("aschte", "usch")));
-    put("[wW]aschten", w -> Collections.singletonList(w.replaceFirst("ascht", "usch")));
-    put("Probiren?", w -> Collections.singletonList(w.replaceFirst("ir", "ier")));
-    put("[gG]esetztreu(e[nmrs]?)?", w -> Collections.singletonList(w.replaceFirst("tz", "tzes")));
-    put("[wW]ikich(e[nmrs]?)?", w -> Collections.singletonList(w.replaceFirst("k", "rkl")));
-    put("Lezte[mnrs]?", w -> Collections.singletonList(w.replaceFirst("Lez", "Letz")));
-    put("Makeups?", w -> Collections.singletonList(w.replaceFirst("up", "-up")));
-    put("Internetkaffees?", w -> Collections.singletonList(w.replaceFirst("kaffee", "café")));
-    put("[kK]ongratulier(en?|t(en?)?|st)", w -> Collections.singletonList(w.replaceFirst("[kK]on", "")));
-    put("[wWkKdD]an$", w -> Collections.singletonList(w.replaceFirst("n$", "nn")));
-    put("geh?neh?m[ie]gung(en)?", w -> Collections.singletonList(w.replaceFirst("geh?neh?m[ie]gung", "Genehmigung")));
-    put("Korrigierung(en)?", w -> Collections.singletonList(w.replaceFirst("igierung", "ektur")));
-    put("[qQ]ualitäts?bewußt(e[mnrs]?)?", w -> Collections.singletonList(w.replaceFirst("ts?bewußt", "tsbewusst")));
-    put("[gG]leichrechtig(e[nmrs]?)?", w -> Collections.singletonList(w.replaceFirst("rechtig", "berechtigt")));
-    put("[uU]nnützlich(e[nmrs]?)?", w -> Collections.singletonList(w.replaceFirst("nützlich", "nütz")));
-    put("([eE]r|[bB]e|unter)?hälst", w -> Collections.singletonList(w.replaceFirst("hälst", "hältst")));
+    putRepl("einzigste[mnrs]?", "einzigst", "einzig");
+    putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
+    putRepl("[wW]olt$", "lt", "llt");
+    putRepl("[zZ]uende", "ue", "u E");
+    putRepl("[wW]aschte(s?t)?", "aschte", "usch");
+    putRepl("[wW]aschten", "ascht", "usch");
+    putRepl("Probiren?", "ir", "ier");
+    putRepl("[gG]esetztreu(e[nmrs]?)?", "tz", "tzes");
+    putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
+    putRepl("Lezte[mnrs]?", "Lez", "Letz");
+    putRepl("Makeups?", "up", "-up");
+    putRepl("Internetkaffees?", "kaffee", "café");
+    putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
+    putRepl("[wWkKdD]an$", "n$", "nn");
+    putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
+    putRepl("Korrigierung(en)?", "igierung", "ektur");
+    putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
+    putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
+    putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
+    putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
-    put("[sS]chmett?e?rling(s|en?)?", w -> Collections.singletonList(w.replaceFirst("[sS]chmett?e?rling", "Schmetterling")));
+    putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Anschovis", "Anchovis");
@@ -126,12 +126,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("passee", "passé");
     put("Varietee", "Varieté");
     put("Wandalismus", "Vandalismus");
-    put("bravuröse?[nrms]?", w -> Collections.singletonList(w.replaceFirst("bravur", "bravour")));
+    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     put("Campagne", "Kampagne");
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
   }
-  
+
+  private static void putRepl(String wordPattern, String pattern, String replacement) {
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
+  }
+
   private static void put(String pattern, String replacement) {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), w -> Collections.singletonList(replacement));
   }
