@@ -29580,8 +29580,8 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
             <antipattern>
-                <token postag='ART:DEF:GEN:.+:.+' postag_regexp='yes'></token>
-                <token postag='SUB:GEN:.+:.+' postag_regexp='yes'></token>
+                <token postag='ART:DEF:GEN:.*' postag_regexp='yes'></token>
+                <token postag='SUB:GEN:.*' postag_regexp='yes'></token>
                 <token>,</token>
             </antipattern>
             <antipattern>
@@ -29594,6 +29594,19 @@ Andere Projekte</example>
                 <token>das</token>
                 <token postag='VER:3:SIN:PRÄ:NON'></token>
             </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token postag='PRO:DEM:.*' postag_regexp='yes'></token>
+                <token min="0" postag='ADJ:.*' postag_regexp='yes'></token>
+                <token postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></token>
+            </antipattern>
+            <antipattern>
+                <token>mit</token>
+                <token>den</token>
+                <token postag='SUB:DAT:PLU:.+' postag_regexp='yes'></token>
+                <token>,</token>
+                <token>die</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
@@ -29602,7 +29615,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(der|die)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>das</suggestion>?</message>
@@ -29620,7 +29633,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(der|das)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
@@ -29629,6 +29642,7 @@ Andere Projekte</example>
                 <example>Die Frau, der Mann, das Kind.</example>
                 <example>Das ist ein Kapitel der Filmgeschichte, das gerade wegen der hervorgehobenen Stellung der USA außergewöhnlich ist.</example>
                 <example>Er hatte eine Frau, das heißt er war verheiratet.</example>
+                <example>Das ist eine Episode, der spätere Bearbeiter des Stoffs eine ursprünglich völlig fehlende erotische Komponente verleihen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29638,7 +29652,7 @@ Andere Projekte</example>
                     <marker>
                     <token regexp='yes'>(die|das)</token>
                     </marker>
-                    <token skip='-1'> <exception postag='(SUB:NOM:.+|PRO:PER:NOM:.+)' postag_regexp='yes'></exception></token>
+                    <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Substantiv und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
@@ -29648,6 +29662,7 @@ Andere Projekte</example>
                 <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
                 <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
                 <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
+                <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
             </rule>
         </rulegroup> 
     </category>
