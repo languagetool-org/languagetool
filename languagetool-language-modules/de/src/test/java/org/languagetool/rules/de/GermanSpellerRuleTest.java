@@ -149,6 +149,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("erhälst", "erhältst", rule, lt);
     assertFirstSuggestion("Verstehendnis", "Verständnis", rule, lt);
     assertFirstSuggestion("Wohlfühlsein", "Wellness", rule, lt);
+    assertFirstSuggestion("schmetrlinge", "Schmetterlinge", rule, lt);
   }
 
   @Test

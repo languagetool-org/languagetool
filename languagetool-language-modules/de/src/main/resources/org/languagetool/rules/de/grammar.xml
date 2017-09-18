@@ -30203,7 +30203,31 @@ Andere Projekte</example>
                 </pattern>
                 <message>Die Wendung '<suggestion>Ober-</suggestion> und \3' wird mit Bindestrich geschrieben.</message>
                 <short>Meinten Sie '\1-'?</short>
-                <example correction="Ober-">Heißluft: 200 °C, <marker>Ober</marker> und Unterhitze: 180 °C.</example>
+                <example correction="Ober-">Heißluft: 180 °C, <marker>Ober</marker> und Unterhitze: 200 °C.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Vor</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Nachteilen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Vor-</suggestion> und Nachteile' wird mit Bindestrich geschrieben, wenn 'Vorteile und Nachteile' gemeint ist.</message>
+                <short>Meinten Sie 'Vor-'?</short>
+                <example correction="Vor-">Die <marker>Vor</marker> und Nachteile sind klar.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Ein</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Ausgängen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Ein-</suggestion> und Ausgänge' wird mit Bindestrich geschrieben, wenn 'Eingänge und Ausgänge' gemeint ist.</message>
+                <short>Meinten Sie 'Ein-'?</short>
+                <example correction="Ein-">Die <marker>Ein</marker> und Ausgänge wurden überwacht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -30216,6 +30240,19 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>An-</suggestion> und Verkauf' wird mit Bindestrich geschrieben, wenn 'Ankauf und Verkauf' gemeint ist.</message>
                 <short>Meinten Sie 'An-'?</short>
                 <example correction="An-">Auf dem Schild stand "<marker>An</marker> und Verkauf".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>niet</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">nagelfest(e[mnrs]?)?</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>niet-</suggestion> und nagelfest' wird mit Bindestrich geschrieben.</message>
+                <url>https://de.wiktionary.org/wiki/niet-_und_nagelfest</url>
+                <short>Meinten Sie 'niet-'?</short>
+                <example correction="niet-">Sie ließen alles mitgehen, was nicht <marker>niet</marker> und nagelfest war.</example>
             </rule>
             <rule>
                 <pattern>
