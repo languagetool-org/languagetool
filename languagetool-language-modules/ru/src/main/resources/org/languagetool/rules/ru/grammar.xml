@@ -4636,6 +4636,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="о том, что">Я хотел сказать <marker>о том, то что</marker> будет.</example>
             <example>Я хотел сказать о том, что будет.</example>
         </rule>
+        <rule id="grammar_coordination_of_verbal_participle_phrases" name="Грамматические ошибки вида: «Идя по улице, у меня развязался шнурок»">
+            <!-- TODO: Make this rule more universal, add postags -->         
+            <pattern>
+                <token>идя</token>
+                <token>по</token>
+                <token>улице</token>
+                <token>,</token>
+                <token>у</token>
+                <token>меня</token>  
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion>Когда я шёл <match no="2" /> <match no="3" /><match no="4" /> <match no="5" /> <match no="6" /></suggestion>.</message>           
+            <short>Грамматическая ошибка.</short>
+            <example correction="Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
+            <example>Когда я шёл по улице, у меня развязался шнурок.</example>
+        </rule>
        
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
