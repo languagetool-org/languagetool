@@ -65,7 +65,7 @@ public class GermanTagger extends BaseTagger {
     String[] splitWord = word.split("-");
     if (splitWord.length > 1) {
       for (int i = splitWord.length - 1; i >= 0; i--) {
-        if (!splitWord[i].trim().equals("") && !splitWord[i].trim().equals(null)) {
+        if (splitWord[i] != null && !"".equals(splitWord[i].trim())) {
           return splitWord[i];
         }
       }
@@ -120,7 +120,6 @@ public class GermanTagger extends BaseTagger {
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       }
 
-      //1+ iterations
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
@@ -138,17 +137,21 @@ public class GermanTagger extends BaseTagger {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 List<String> compoundedWord = compoundTokenizer.tokenize(word);
-                if (compoundedWord.size() > 1) { //Only start word with uppercase if it's a result of splitting
-                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
-                } else {
-                  word = compoundedWord.get(compoundedWord.size() - 1);
-                }
+                word = compoundedWord.get(compoundedWord.size() - 1);
+
                 List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+                boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 word = wordOrig;
+
                 if (linkedTaggerTokens.size() > 0) {
-                  readings.addAll(getAnalyzedTokens(linkedTaggerTokens, wordOrig, compoundedWord));
+                  if(wordStartsUppercase){ //Choose between uppercase/lowercase Lemma
+                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word));
+                  }
+                  else{
+                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
+                  }
                 } else {
-                  readings.add(getNoInfoToken(wordOrig));
+                  readings.add(getNoInfoToken(word));
                 }
               } else {
                 readings.add(getNoInfoToken(word));
