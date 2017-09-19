@@ -113,6 +113,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("geupdated", "upgedatet", rule, lt);
     assertFirstSuggestion("rosanen", "rosa", rule, lt);
     assertFirstSuggestion("missionariesierung", "Missionierung", rule, lt);
+    assertFirstSuggestion("angehangener", "angehängter", rule, lt);
     assertFirstSuggestion("aufgehangene", "aufgehängte", rule, lt);
     assertFirstSuggestion("Germanistiker", "Germanist", rule, lt);
     assertFirstSuggestion("Germanistikern", "Germanisten", rule, lt);
