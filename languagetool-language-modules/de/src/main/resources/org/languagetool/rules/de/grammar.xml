@@ -31175,6 +31175,25 @@ Andere Projekte</example>
                 <suggestion>\2 \3?</suggestion>
                 <example correction='nicht wahr?'>Er ist schon nach Hause, <marker>nicht wahr.</marker></example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <token>richtig</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                    <token>richtig</token>
+                    <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Eine Frage bitte mit einem '?' abschließen, eine Aufforderung mit einem '!'</message>
+                <suggestion>\2?</suggestion>
+                <suggestion>\2!</suggestion>
+                <example correction='richtig?|richtig!'>Er ist schon nach Hause, <marker>richtig.</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="ROCK_N_ROLL" name="Apostroph in 'Rock 'n' Roll'">
             <rule>
