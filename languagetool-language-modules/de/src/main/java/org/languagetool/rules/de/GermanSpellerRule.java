@@ -70,7 +70,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
-    putRepl("aufgehangen(e[mnrs]?)?$", "hangen", "hängt");
+    putRepl("(an|auf)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     putRepl("näste[mnrs]?$", "^näs", "nächs");
