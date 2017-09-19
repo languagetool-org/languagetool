@@ -18,14 +18,6 @@
  */
 package org.languagetool.tagging.de;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,6 +27,14 @@ import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -96,6 +96,15 @@ public class GermanTagger extends BaseTagger {
     return atr;
   }
 
+  public List<TaggedWord> tag(String word){
+    return getWordTagger().tag(word);
+  }
+
+  private boolean matchesUppercaseAdjective(String unknownUppercaseToken){
+    List<TaggedWord> temp = getWordTagger().tag(StringTools.lowercaseFirstChar(unknownUppercaseToken));
+    return temp.size() > 0 && temp.get(0).getPosTag().matches("ADJ.*");
+  }
+
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
@@ -139,15 +148,29 @@ public class GermanTagger extends BaseTagger {
 
                 //Tokenize, start word uppercase if it's a result of splitting
                 List<String> compoundedWord = compoundTokenizer.tokenize(word);
-                if (compoundedWord.size() > 1) {
+                if (StringTools.startsWithUppercase(word) && compoundedWord.size() > 1) {
                   word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
 
                 List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+
+                //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
+                if(wordOrig.contains("-") && linkedTaggerTokens.size() == 0){
+                  if(matchesUppercaseAdjective(word)){
+                    word = StringTools.lowercaseFirstChar(word);
+                    linkedTaggerTokens = getWordTagger().tag(word);
+                  }
+                }
+
+
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
-                word = wordOrig;
+                boolean isSUB = linkedTaggerTokens.size() > 0 && linkedTaggerTokens.get(0).getPosTag().matches("SUB.*");
+                if(isSUB || linkedTaggerTokens.size() == 0){
+                  word = wordOrig;
+                }
+
 
                 if (linkedTaggerTokens.size() > 0) {
                   if(wordStartsUppercase){ //Choose between uppercase/lowercase Lemma
@@ -244,7 +267,7 @@ public class GermanTagger extends BaseTagger {
     for (TaggedWord taggedWord : taggedWords) {
       List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
       String lemma = String.join("", allButLastPart)
-                   + StringTools.lowercaseFirstChar(taggedWord.getLemma());
+              + StringTools.lowercaseFirstChar(taggedWord.getLemma());
       result.add(new AnalyzedToken(word, taggedWord.getPosTag(), lemma));
     }
     return result;
