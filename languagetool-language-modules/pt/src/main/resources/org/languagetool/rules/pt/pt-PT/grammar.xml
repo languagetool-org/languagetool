@@ -53,7 +53,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY prefixos_i "anti|auri|bi|hemi|sesqui|maxi|mini|multi|oni|peri|poli|pluri|quadri|semi|tri|uni">
     <!ENTITY prefixos_o "aero|agro|arterio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|socio|traqueo|xanto|xilo">
-    <!ENTITY prefixos_o_ambiguos "astro|audio|bronco|centro|ego|estereo|filo|foto|ido|intro|labio|mono|sacro|termo|turbo|vaso|zoo">
+    <!ENTITY prefixos_o_ambiguos "astro|audio|bronco|centro|ego|estereo|euro|filo|foto|ido|intro|labio|mono|sacro|termo|turbo|vaso|zoo">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
     <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
@@ -367,6 +367,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
           <token regexp="yes">["“]</token>
+      </antipattern>
+      <antipattern>
+          <token>em</token>
+          <token>seu</token>
+          <token>favor</token>
       </antipattern>
       <pattern>
           <token>
@@ -1178,6 +1183,16 @@ title="Easy editing stylesheet" ?>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1\3</suggestion>
       <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&prefixos_o_ambiguos;</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes' spacebefore='no'>[^hors].+</token>
+      </pattern>
+      <message>Este prefixo não é hifenizado neste contexto.</message>
+        <suggestion>\1\3</suggestion>
+      <example correction='euro-céticos'>Os <marker>euro-céticos</marker> têm dúvidas em relação ao europeísmo.</example>
     </rule>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
     <rule>
