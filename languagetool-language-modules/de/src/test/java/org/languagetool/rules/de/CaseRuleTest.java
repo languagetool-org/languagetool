@@ -255,6 +255,12 @@ public class CaseRuleTest {
     assertGood("Die zum Tode Verurteilten wurden in den Hof geführt.");
     assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
     assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
+    
+    // uppercased adjective compounds
+    assertGood("Er isst UV-bestrahltes Obst.");
+    assertGood("Er isst Na-haltiges Obst.");
+    assertGood("Das Entweder-oder ist kein Problem.");
+    assertGood("Er liebt ihre Makeup-freie Haut.");
   }
 
   private void assertGood(String input) throws IOException {
