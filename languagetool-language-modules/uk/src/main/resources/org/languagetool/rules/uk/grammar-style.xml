@@ -1085,6 +1085,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="slang_words" name="Жаргонні слова">
+      <pattern>
+        <token postag_regexp="yes" postag=".*:slang.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*"/>
+        </token>
+      </pattern>
+      <message>Це слово є жаргонним</message>
+      <example correction="">Ось так він <marker>лоханувся</marker>.</example>
+      <example>прапор</example>
+    </rule>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
