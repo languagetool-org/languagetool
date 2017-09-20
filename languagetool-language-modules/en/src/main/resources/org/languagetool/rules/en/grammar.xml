@@ -11978,16 +11978,15 @@ USA
                     <token chunk="I-NP-singular" min="0" max="-1"/>
                     <marker>
                         <token chunk="E-NP-singular" postag_regexp="yes" postag="NNP?">
-                            <exception postag="NNPS"/>
-                            <exception postag="CD"/>
+                            <exception postag_regexp="yes" postag="CD|NN(PS|:UN?)"/>
                             <exception regexp="yes">variety|number|couple|pair|litany|lot</exception><!-- there are a number of -->
                         </token>
                     </marker>
                 </pattern>
                 <message>Possible agreement error. Did you mean <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Grammatical problem</short>
-                <example correction="problems">There are many <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
-                <example>There are many problems in Iraq.</example>
+                <example correction="problems">There are many <marker>problem</marker> in Iraq.</example>
+                <example>There are many <marker>problems</marker> in Iraq.</example>
                 <example>Other than this, there are no known surviving texts.</example>
                 <example>There are many other deliberately insulting terms.</example>
                 <example>There are a variety of other types.</example><!-- common usage, see Google ngram -->
@@ -11998,6 +11997,7 @@ USA
                 <example>There is a whole lot of problems in Iraq.</example>
                 <example>There are never fewer than eight of them on stage.</example>
                 <example>There are some even now.</example>
+                <example>There are <marker>food</marker> and waterborne diseases, bacterial and protozoal diarrhea, ...</example>
             </rule>
         </rulegroup>
         <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
