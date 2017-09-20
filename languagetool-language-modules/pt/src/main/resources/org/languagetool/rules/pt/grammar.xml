@@ -43,7 +43,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|Algarve|Amadora|Cairo|Caldas|Covilhã|Figueira|Guarda|Porto)">
     <!ENTITY toponimos_sem_artigo "(?:Alagoas|Angola|Aragão|Braga|Burma|Castela|Coimbra|Cuba|Espanha|Faro|França|Goiás|Havana|Inglaterra|Itália|Lisboa|Madagáscar|Marrocos|Moçambique|Paris|Pernambuco|Portugal|Rondônia|Roraima|Santa|São|Sergipe|Sri|Tai[uw]an|Timor|Mercúrio|Vénus|Marte|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio "(?:avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estação|estilo|filme|fragata|fundação|galeria|galardão|herdade|ilha|império|iniciativa|instituto|intitulado|lagoa?|lei|liceu|livro|monte|museu|navio|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade|versão)">
+    <!ENTITY precede_nome_proprio "(?:avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estação|estilo|filme|fragata|fundação|galeria|galardão|geração|herdade|ilha|império|iniciativa|instituto|intitulado|lagoa?|lei|liceu|livro|monte|museu|navio|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade|versão)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-)">
@@ -5491,12 +5491,12 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>[dn]?o</token>
+          <token regexp='yes'>[adn]?o</token>
           <token>facto</token>
           <token>de</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>apesar|capacidade|depois</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -19238,6 +19238,11 @@ TODO Write better examples
       <example correction="prático">tão <marker>pratico</marker></example>
     </rule>
     <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Ministério</token>
+          <token>da</token>
+          <token>Educação</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expectativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fose|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornase|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
         <marker>
@@ -22624,7 +22629,7 @@ TODO Write better examples
       <example>A reunião poderá ser às 15h00.</example>
     </rule>
 
-  <rulegroup id='IR_AS_FUTURE_AUXILIARY' name="IR (Presente/Futuro/Condicional) + Infinitivo" default='on'>
+  <rulegroup id='IR_AS_FUTURE_AUXILIARY' name="Escrita avançada: Futuro Perifrásico: IR + Infinitivo" default='on'>
     <!--    Created by Tiago F. Santos, 2017-04-12     -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-verbo-ir-como-auxiliar-de-si-proprio/5679</url>
       <short>Possível gerundismo.</short>
@@ -23360,8 +23365,12 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
+        <marker>
           <token>e</token>
           <token>tal</token>
+        </marker>
+          <token>
+            <exception>como</exception></token><!-- XXX Handled by wordiness rule -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
         <suggestion/>
