@@ -230,9 +230,9 @@ public class CaseRule extends Rule {
     Arrays.asList(
        // "... bringt Interessierte und Experten zusammen"
        posRegex("VER:.*[1-3]:.*"),
-       posRegex("SUB:AKK:.*:ADJ"),
+       posRegex("SUB:AKK:.+:ADJ"),
        regex("und|oder|,"),
-       posRegex("SUB:AKK:.*:(NEU|FEM|MAS)|ART:.*")
+       posRegex("SUB:AKK:.+:(NEU|FEM|MAS)|ART:.*")
     ),
     Arrays.asList(
         // "Das südöstlich von Berlin gelegene"
@@ -249,6 +249,10 @@ public class CaseRule extends Rule {
         posRegex("PRP:.*|ADV:MOD"),
         pos("VER:PA2:NON"),
         posRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")
+     ),
+     Arrays.asList(
+        // "Er liebt UV-bestrahltes, Na-haltiges und Makeup-freies Obst."
+        regex("[A-ZÄÖÜ]+[a-zäöüß]-[a-zäöüß]+")
      )
   );
 
