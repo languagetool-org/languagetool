@@ -48,6 +48,14 @@
 #### Russian
   * spelling dictionary update
 
+#### Ukrainian
+  * significant dictionary update:
+    - more than 60K of new words
+    - some inflection adjustments
+  * improved dynamic tagging for compound words
+  * many new rules (barbarism, grammar, and spelling)
+  * inflection agreement rule updates
+
 #### Java API
   * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
     document-level meta data. This might be used by rules in the future.

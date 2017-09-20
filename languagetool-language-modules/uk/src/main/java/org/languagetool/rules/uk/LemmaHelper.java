@@ -23,7 +23,9 @@ public abstract class LemmaHelper {
   public static final List<String> TIME_PLUS_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "день", "тиждень", "місяць", 
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячеліття",
       "міліметр", "сантиметр", "метр", "кілометр",
-      "відсоток", "раз", "особа");
+      "відсоток");
+      //, "раз", - опрацьовуємо окремо);
+  public static final List<String> TIME_LEMMAS_SHORT = Arrays.asList("секунда", "хвилина", "година", "рік");
 
 
   public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, List<String> lemmas) {

@@ -401,37 +401,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="PEREVODYTY_GROSHI" name="Переводити гроші">
       <rule>
+        <antipattern>
+          <token regexp="yes">гроші|кошти</token>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">долари|євро|гривні|готівку|доларов.*</token>
+        </antipattern>
         <pattern>
           <marker>
             <token inflected="yes" regexp="yes">переводити|перевести|перевод(ивши|ячи)|перевівши|переведений</token>
           </marker>
-          <token>гроші</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <token regexp="yes">гроші|кошти</token>
         </pattern>
         <message>Правильно: <suggestion>переказувати</suggestion></message>
-        <suggestion>пересилати</suggestion>
         <url>http://mova.kreschatic.kiev.ua/10.php</url>
-        <example correction="переказувати|пересилати">Він часто <marker>переводить</marker> гроші додому.</example>
-        <example correction="переказувати|пересилати">Чиновники <marker>перевели</marker> гроші на рахунки.</example>
-        <example correction="переказувати|пересилати">Він часто <marker>переводячи</marker> гроші, телефонує додому.</example>
+        <example correction="переказувати">Він часто <marker>переводить</marker> гроші додому.</example>
+        <example correction="переказувати">Чиновники <marker>перевели</marker> гроші на рахунки.</example>
+        <example correction="переказувати">Він часто <marker>переводячи</marker> гроші, телефонує додому.</example>
+        <example correction="переказувати">Чиновники <marker>перевели</marker> ці кошти на рахунки.</example>
         <example>Він часто переказує гроші додому.</example>
+        <example>Переводити гроші в долари</example>
       </rule>
       <rule>
         <antipattern>
           <token>на</token>
           <token>гроші</token>
         </antipattern>
+        <antipattern>
+          <token regexp="yes">гроші|кошти</token>
+          <token regexp="yes">перев.*</token>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">долари|євро|гривні|готівку|доларов.*</token>
+        </antipattern>
         <pattern>
-          <token>гроші</token>
+          <token regexp="yes">гроші|кошти</token>
           <marker>
             <token inflected="yes" regexp="yes">переводити|перевести|перевод(ивши|ячи)|перевівши|переведений</token>
           </marker>
         </pattern>
         <message>Правильно: <suggestion>переказувати</suggestion></message>
-        <suggestion>пересилати</suggestion>
         <url>http://mova.kreschatic.kiev.ua/10.php</url>
-        <example correction="переказувати|пересилати">Гроші <marker>переведені</marker> на інший рахунок.</example>
-        <example correction="переказувати|пересилати">Ці гроші <marker>переводили</marker> на інші рахунки.</example>
+        <example correction="переказувати">Гроші <marker>переведені</marker> на інший рахунок.</example>
+        <example correction="переказувати">Ці гроші <marker>переводили</marker> на інші рахунки.</example>
         <example>Лікарям діагноз на гроші перевести - це не гривні в євро.</example>
+        <example>всі гроші перевели в долари</example>
       </rule>
     </rulegroup>
 
@@ -1144,14 +1157,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="NAVERSTUVATY" name="Наверстувати">
-      <pattern>
-        <token inflected="yes" regexp="yes">наверстувати|наверстати|наверсту(вавши|ючи)|наверставши|наверстаний</token>
-      </pattern>
-      <message>Правильно: <suggestion>надолужувати</suggestion>, <suggestion>навертати</suggestion>, <suggestion>наганяти</suggestion>, <suggestion>натягати</suggestion></message>
-      <example correction="надолужувати|навертати|наганяти|натягати">встигаємо <marker>наверстати</marker> прогаяне</example>
-      <example>встигаємо надолужити прогаяне</example>
-    </rule>
+    <rulegroup id="NAVERSTUVATY" name="Наверстувати">
+      <rule>
+        <antipattern>
+          <token regexp="yes">наверст.*</token>
+          <token>упущене</token>
+        </antipattern>
+        <pattern>
+          <token inflected="yes" regexp="yes">наверстувати|наверстати|наверсту(вавши|ючи)|наверставши|наверстаний|наверстування</token>
+        </pattern>
+        <message>Правильно: <suggestion>надолужувати</suggestion>, <suggestion>навертати</suggestion>, <suggestion>наганяти</suggestion>, <suggestion>натягати</suggestion></message>
+        <example correction="надолужувати|навертати|наганяти|натягати">встигаємо <marker>наверстати</marker> прогаяне</example>
+        <example>наверстувати упущене</example>  <!-- handled by the next rule -->
+        <example>встигаємо надолужити прогаяне</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">наздоганяти|наздогнати|наздоганяючи|наздогнавши|наверстувати|наверстати|наверстуючи|наверставши</token>
+          <token>упущене</token>
+        </pattern>
+        <message>Правильно: <suggestion>надолужити згаяне</suggestion></message>
+        <example correction="надолужити згаяне">Щоб <marker>наздогнати упущене</marker>, їхав уночі</example>
+      </rule>
+    </rulegroup>
 
     <rule id="ZNUSCHATYSIA_NAD" name="Знущатися над">
       <pattern>
@@ -4663,6 +4691,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>уроздріб</suggestion>, <suggestion>вроздріб</suggestion></message>
       <example correction="уроздріб|вроздріб">оптом і <marker>в розницю</marker></example>
+    </rule>
+
+    <rule id="po_beznalu" name="По безналу - безготівкою">
+      <pattern>
+        <token>по</token>
+        <token>безналу</token>
+      </pattern>
+      <message>Правильно: <suggestion>безготівкою</suggestion></message>
+      <example correction="безготівкою">переказали <marker>по безналу</marker></example>
     </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
