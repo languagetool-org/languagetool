@@ -215,6 +215,10 @@ public class TokenAgreementAdjNounRule extends Rule {
             && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
           msg += ". Можливо вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
+        else if( adjAnalyzedTokenReadings.getToken().contains("-")
+            && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(adjAnalyzedTokenReadings.getToken()).matches() ) {
+          msg += ". Можливо вжито зайве літерне нарощення після кількісного числівника?";
+        }
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         

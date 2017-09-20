@@ -1,20 +1,16 @@
 package org.languagetool.rules.uk;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.tagging.uk.PosTagHelper;
 
@@ -22,7 +18,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @since 3.6
  */
 public final class TokenAgreementNounVerbExceptionHelper {
-  private static final Set<String> MASC_FEM_SET = loadSet("/uk/masc_fem.txt");
+  private static final Set<String> MASC_FEM_SET = extendSet(ExtraDictionaryLoader.loadSet("/uk/masc_fem.txt"), "екс-");
 
   private TokenAgreementNounVerbExceptionHelper() {
   }
@@ -464,20 +460,10 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
   }
 
-  private static Set<String> loadSet(String path) {
-    Set<String> result = new HashSet<>();
-    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-         Scanner scanner = new Scanner(is, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        result.add(line);
-        result.add("екс-" + line);
-      }
-      return result;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  private static Set<String> extendSet(Set<String> loadSet, String string) {
+    Set<String> extraSet = loadSet.stream().map(line -> "екс-" + line).collect(Collectors.toSet());
+    loadSet.addAll(extraSet);
+    return loadSet;
   }
-
   
 }
