@@ -7236,7 +7236,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="PUNCTUATE_QUOTATIONS" name="Pontuação final em citações" default='on'>
+    <rule id="PUNCTUATE_QUOTATIONS" name="Pontuação final em citações" default='off'>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <antipattern>
           <token postag="SENT_START"/>
@@ -7252,6 +7252,10 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">“|”|«|»|&quot;</exception></token>
           <token skip="-1" regexp="yes">-|—|–</token>
           <token postag="SENT_END"/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes" skip='3'>“|«|&quot;</token>
+          <token postag="SENT_END" regexp="yes">”|»|&quot;</token>
       </antipattern>
       <pattern>
           <token regexp="yes">\w+</token>
