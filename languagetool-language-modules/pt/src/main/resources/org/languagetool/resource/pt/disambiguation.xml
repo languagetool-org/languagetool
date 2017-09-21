@@ -1408,19 +1408,18 @@
   </rulegroup>
 
   <rulegroup id="FOREIGN_PROPER_NAMES" name="Nomes estrangeiros">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-18  	-->
     <rule>
       <pattern case_sensitive='yes'>
           <token>La</token>
-          <token regexp='yes'>\p{Lu}.+
-            <exception postag_regexp='yes' postag='UNKNOWN'/></token>
+          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPFS000"/><wd pos="NPFS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token>Las</token>
-          <token regexp='yes'>\p{Lu}.+
-            <exception postag_regexp='yes' postag='UNKNOWN'/></token>
+          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPFP000"/><wd pos="NPFP000"/></disambig>
     </rule>
@@ -1428,24 +1427,21 @@
       <pattern case_sensitive='yes'>
           <token>L</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
           <token regexp='yes'>['’]</token>
-          <token regexp='yes'>\p{Lu}.+
-            <exception postag_regexp='yes' postag='UNKNOWN'/></token>
+          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>[AEI]l|Le</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
-          <token regexp='yes'>\p{Lu}.+
-            <exception postag_regexp='yes' postag='UNKNOWN'/></token>
+          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>Els|L[eo]s|Gli</token>
-          <token regexp='yes'>\p{Lu}.+
-            <exception postag_regexp='yes' postag='UNKNOWN'/></token>
+          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMP000"/><wd pos="NPMP000"/></disambig>
     </rule>
