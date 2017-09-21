@@ -50,7 +50,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
     <!ENTITY negacoes "(?:não|nem|nunca|ninguém|nada|jamais|sem|tampouco)">
-    <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded pt-BR only: ali|aqui|acolá -->
+    <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded pt-BR only: ali|aqui|acolá -->
 
     <!ENTITY contracoes_MS "(?:ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho)">
     <!ENTITY contracoes_FS "(?:à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha)">
@@ -825,6 +825,10 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]s?</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token>distribuições</token>
+          <token>Linux</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
@@ -2517,7 +2521,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>m(?:á|au)s?</token>
-          <token regexp='yes'>resultados?</token>
+          <token regexp='yes'>(?:estado|resultado)s?</token>
       </antipattern>
       <antipattern>
           <token>bom</token>
@@ -2574,7 +2578,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>m(?:á|au)s?</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>(?:acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|estar|executad|habituad|humorad|informad|intencionad|limp)[ao]s?</token>
+          <token regexp='yes'>(?:acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|executad|habituad|humorad|informad|intencionad|limp)[ao]s?|estar(?:es)?</token>
       </pattern>
       <message>Esta palavra hifenizada utiliza «mal».</message>
         <suggestion>mal-\3</suggestion>
@@ -3374,6 +3378,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>pelos?</token>
           <token regexp='yes'>n[oa]s?</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>desses?</token>
+          <token regexp='yes'>(?:alg)?u[mn]a?s?</token>
       </antipattern>
       <pattern>
           <token>
@@ -20189,7 +20197,8 @@ TODO Write better examples
           <token>
             <exception regexp='yes'>&art_detecao_paronimos;|\-</exception>
             <exception postag='(?:A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/></token>
-          <token regexp='yes'>serras?</token>
+          <token regexp='yes'>serras?
+            <exception case_sensitive='yes'>Serra</exception></token>
       </pattern>
       <message>Esta palavra refere-se a uma montanha ou instrumento de corte. Se pretende referir-se à ação de cortar, deve utilizar a forma com 'c'.</message>
         <suggestion>\1 <match no='2' regexp_match='se' regexp_replace='ce'/></suggestion>
@@ -24265,7 +24274,7 @@ TODO Write better examples
       </antipattern>
       <antipattern>
         <marker>
-          <token inflected="yes" regexp="yes">GNOME|(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token inflected="yes" regexp="yes">(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|GNOME|kernel|motor|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
           <token regexp="yes">\d+\.\d+</token>
           <token regexp="yes">e|ou|,|&hifen;|–</token>
           <token regexp="yes">\d+\.\d+</token>
@@ -26800,7 +26809,7 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token min="0" max="1" regexp="yes">|«|“|"</token>
+          <token min="0" max="1" regexp="yes">«|“|"</token>
           <token skip="-1" case_sensitive="yes" regexp="yes">[A-ZÁÀÂÉÊÍÓÔÚ].+</token>
         <marker>
           <token postag="SENT_END" regexp="yes">[a-záàâéêíóú][a-záàâéêíóú]+</token>
@@ -26818,7 +26827,7 @@ TODO Write better examples
       <regexp>^ +</regexp>
       <message>No LibreOffice, a indentação é mais precisa se utilizar as ferramentas de tabulação ou indentação.</message>
         <suggestion/>
-      <example correction=""><marker> </marker>Er ging nach Hause.</example>
+      <example correction=""><marker> </marker>Ele saiu de casa.</example>
     </rule>
 
  </category>
