@@ -139,7 +139,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, boolean textLoggingAllowed) {
-    String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
+    String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
