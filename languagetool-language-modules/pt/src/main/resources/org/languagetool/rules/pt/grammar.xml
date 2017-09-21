@@ -7236,17 +7236,34 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="PUNCTUATE_QUOTATIONS" name="Pontuação final em citações" default='off'>
+    <rule id="PUNCTUATE_QUOTATIONS" name="Pontuação final em citações" default='on'>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token skip="-1">
+            <exception postag="V.+" postag_regexp="yes"/>
+            <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
+          <token postag="SENT_END">
+            <exception postag="V.+" postag_regexp="yes"/></token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token min="0" max="3">
+            <exception regexp="yes">“|”|«|»|&quot;</exception></token>
+          <token skip="-1" regexp="yes">-|—|–</token>
+          <token postag="SENT_END"/>
+      </antipattern>
       <pattern>
           <token regexp="yes">\w+</token>
-          <token postag="SENT_END" regexp="yes">”|»|"</token>
+          <token postag="SENT_END" regexp="yes">”|»|&quot;</token>
       </pattern>
       <message>As citações devem ser pontuadas.</message>
         <suggestion>\1.\2</suggestion>
         <suggestion>\1!\2</suggestion>
         <suggestion>\1?\2</suggestion>
       <example correction="bonito.”|bonito!”|bonito?”">Ele disse: “O jardim é <marker>bonito”</marker></example>
+        <example>A antropologia do “trabalho”</example>
+        <example>Onko — É café “sem cafeína”</example>
     </rule>
 
   <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!">
