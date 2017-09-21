@@ -35436,8 +35436,15 @@ Andere Projekte</example>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token regexp="yes">das|dessen|dem</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="PRP:.*" postag_regexp="yes"></token>
+                    <token regexp="yes" case_sensitive="yes">d(as|essen|em)</token>
+                    <token skip="-1"/>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token>dass</token>
+                </antipattern>
                 <pattern>
-                    <marker>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
                         <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|womit</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*|VER.*" postag_regexp="yes"/>
@@ -35454,13 +35461,13 @@ Andere Projekte</example>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     </token>
-                    </marker>
                 </pattern>
                 <message>Sollten Sie hier ein Komma vor '\2 \3' einfügen (Relativsatz)?</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2 \3 <match no="4" include_skipped="all"/> \5</suggestion>
                 <example correction="Auto, in das er den Karton lädt">Das <marker>Auto in das er den Karton lädt</marker>, steht am Straßenrand.</example>
                 <example>Das <marker>Fell, in das sich die Laus gesetzt hat</marker>, ist schwarz.</example>
                 <example correction="Haus, wegen dessen ich hier bin">Das <marker>Haus wegen dessen ich hier bin</marker>, steht zum Verkauf.</example>
+                <example>Der Vergleich des Wahlprogramms mit dem von vor vier Jahren zeigt, dass die Erzählung von einer runderneuerten Partei übertrieben ist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
