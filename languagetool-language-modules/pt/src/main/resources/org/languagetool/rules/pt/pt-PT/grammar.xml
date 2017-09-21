@@ -1386,6 +1386,38 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id='BEM_FEITO' name='AO90: Bem-feito / Bem feito!'>
+    <rule>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token>Bem</token>
+          <token regexp='yes'>feit[ao]</token>
+          <token regexp='yes'>[!\?]</token>
+      </antipattern>
+      <pattern>
+          <token>bem</token>
+          <token regexp='yes'>feit[ao]s?</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o adjetivo deve ser hifenizado, enquanto que a interjeição não deve ser hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+      <example correction='bem-feito'>Este programa está mesmo <marker>bem feito</marker>!</example>
+      <example>Bem feito!</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token>bem</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>feit[ao]</token>
+          <token regexp='yes'>[!\?]</token>
+      </pattern>
+      <message>Segundo o Acordo Ortográfico de 90, o adjetivo deve ser hifenizado, enquanto que a interjeição não deve ser hifenizada.</message>
+        <suggestion>\1 \2\3</suggestion>
+      <example correction='Bem-feito!'><marker>Bem feito!</marker></example>
+      <example>Este programa está mesmo <marker>bem-feito</marker>!</example>
+    </rule>
+  </rulegroup>
+
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-25 -->
       <antipattern>
