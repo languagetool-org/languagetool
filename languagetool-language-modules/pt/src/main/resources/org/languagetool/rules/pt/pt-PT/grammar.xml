@@ -28,35 +28,35 @@ title="Easy editing stylesheet" ?>
 
   <!DOCTYPE rules [
 
-    <!ENTITY meses_ano_abrev "jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez">
-    <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
-    <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
-    <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
+    <!ENTITY meses_ano_abrev "(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)">
+    <!ENTITY meses_ano "(?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)">
+    <!ENTITY dias_semana_abrev "(?:seg|ter|qua|qui|sex|sáb|dom)">
+    <!ENTITY dias_semana "(?:segunda|terça|quarta|quinta|sexta|sábado|domingo)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
 
-    <!ENTITY pontos_cardeais "norte|sul|l?este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
+    <!ENTITY pontos_cardeais "(?:norte|sul|l?este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste)">
 
-    <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
-    <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
-    <!ENTITY contracoes_MP "aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos">
-    <!ENTITY contracoes_FP "às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas">
+    <!ENTITY contracoes_MS "(?:ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho)">
+    <!ENTITY contracoes_FS "(?:à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha)">
+    <!ENTITY contracoes_MP "(?:aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos)">
+    <!ENTITY contracoes_FP "(?:às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas)">
 
-    <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós|vocês?">
-    <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
+    <!ENTITY pronomes_retos "(?:eu|tu|el[ea]s?|nós|vós|vocês?)">
+    <!ENTITY pronomes_nao_ambiguos "(?:ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos)">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
 
-    <!ENTITY negacoes "não|nem|nunca|ninguém|nada|jamais|sem|tampouco">
-    <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
+    <!ENTITY negacoes "(?:não|nem|nunca|ninguém|nada|jamais|sem|tampouco)">
+    <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded ali|aqui|acolá -->
 
-    <!ENTITY prefixos_i "anti|auri|bi|hemi|sesqui|maxi|mini|multi|oni|peri|poli|pluri|quadri|semi|tri|uni">
-    <!ENTITY prefixos_o "aero|agro|arterio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|socio|traqueo|xanto|xilo">
-    <!ENTITY prefixos_o_ambiguos "astro|audio|bronco|centro|ego|estereo|euro|filo|foto|ido|intro|labio|mono|sacro|termo|turbo|vaso|zoo">
+    <!ENTITY prefixos_i "(?:anti|auri|bi|hemi|sesqui|maxi|mini|multi|oni|peri|poli|pluri|quadri|semi|tri|uni)">
+    <!ENTITY prefixos_o "(?:aero|agro|arterio|auto|bio|cardio|eletro|endo|exo|fisio|gastro|geo|hetero|hidro|hipo|homo|idio|isomacro|linguo|macro|micro|morfo|neo|neuro|octo|orto|proto|pseudo|psico|quilo|retro|rino|socio|traqueo|xanto|xilo)">
+    <!ENTITY prefixos_o_ambiguos "(?:astro|audio|bronco|centro|ego|estereo|euro|filo|foto|ido|intro|labio|mono|sacro|termo|turbo|vaso|zoo)">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
-    <!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
+    <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
