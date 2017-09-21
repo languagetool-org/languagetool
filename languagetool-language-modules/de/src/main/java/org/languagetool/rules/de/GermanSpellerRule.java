@@ -106,11 +106,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
+    putRepl("^[uU]nabsichtig(e(nmrs)?)?", "ig", "lich");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
+    putRepl("^[eE]inlamie?nie?r(st|en?|(t(e(nmrs)?)?))?", "^einlamie?nie?r", "laminier");
+    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
+    // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
     put("Grisli", "Grizzly");
@@ -126,7 +130,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("passee", "passé");
     put("Varietee", "Varieté");
     put("Wandalismus", "Vandalismus");
-    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     put("Campagne", "Kampagne");
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
