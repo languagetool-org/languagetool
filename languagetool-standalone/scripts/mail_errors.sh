@@ -1,13 +1,18 @@
 #!/bin/sh
 #dnaber, 2016-11-14
-# To be called hourly, at the end of the hour.
 
 FIRSTPART=naber
 LASTPART=danielnaber.de
 TMPDATA=/tmp/lt_hourly_error_data.txt
-LIMIT=10
+LIMIT=0
+DATE=`date +"%Y%m"`
 
-tail -n 50000 log-1.txt log-2.txt | grep "`date +"%Y-%m-%d %H:"`" | egrep "An error has occurred" | grep -v "code 413" >$TMPDATA
+cat log-[12]-${DATE}*_*.txt log-1.txt log-2.txt | grep "`date +"%Y-%m-%d %H:"`" | \
+  egrep "An error has occurred" | \
+  grep -v "Could not decode query" | \
+  grep -v "Missing 'text' or 'data' parameter" | \
+  grep -v "code 413" >$TMPDATA
+#cat log-1.txt log-2.txt | grep "`date +"%Y-%m-%d %H:"`" | egrep "An error has occurred" | grep -v "code 413" >$TMPDATA
 MATCHES=`cat $TMPDATA | wc -l`
 
 if [ "$MATCHES" -gt "$LIMIT" ]
