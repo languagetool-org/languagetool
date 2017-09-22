@@ -12432,6 +12432,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Strommessgerät|Strommesser">Das ist ein <marker>Amperemeter</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="DRAUF" name="'drauf (darauf)'">
+            <antipattern>
+                <token>drauf</token>
+                <token>und</token>
+                <token>dran</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">sein</token>
+                <token postag="ADJ:PRD:GRU" min="0"></token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern>
+                <token postag="ADJ:PRD:GRU"></token>
+                <token>drauf</token>
+                <token min="0">zu</token>
+                <token inflected="yes">sein</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes" skip="-1">gehen|stehen</token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern>
+                <token>Gift</token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="-1">geben|setzen</token>
+                <token>noch</token>
+                <token>eins</token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern>
+                <token>noch</token>
+                <token>eins</token>
+                <token>drauf</token>
+                <token regexp="yes" inflected="yes">geben|setzen</token>
+            </antipattern>
+            <antipattern> <!-- Auch umgangssprachlich, braucht aber anderer suggestion, mach ich noch -->
+                <token skip="-1">da</token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern><!-- Auch umgangssprachlich, braucht aber anderer suggestion, mach ich noch -->
+                <token>auf</token>
+                <token regexp="yes">den|die|das</token>
+                <token postag="SUB:AKK:.*" postag_regexp="yes"></token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern><!-- Auch umgangssprachlich, braucht aber anderer suggestion, mach ich noch -->
+                <token inflected="yes" regexp="yes" skip="-1">springen|klettern</token>
+                <token>drauf</token>
+            </antipattern>
+            <antipattern><!-- Auch umgangssprachlich, braucht aber anderer suggestion, mach ich noch -->
+                <token>wo</token>
+                <token postag="PRO:PER:NOM:.*|EIG:.*:VOR" postag_regexp="yes" skip="-1"></token>
+                <token>drauf</token>
+                <token postag="VER:.*" postag_regexp="yes"></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>drauf</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>darauf</suggestion>? 'Drauf'&umgangsspr;</message>
+            <example correction="darauf">Ich komme einfach nicht <marker>drauf</marker>.</example>
+            <example>Wir waren drauf und dran aufzugeben.</example>
+            <example>Du bist heute ja schlecht drauf.</example>
+            <example>Gibt es irgendeinen Grund, so mies drauf zu sein?</example>
+            <example>Schön, dass du heute so gut drauf bist.</example>
+            <example>Der Junge geht uns noch drauf!</example>
+            <example>Da stehst du doch drauf.</example>
+            <example>Wie bist du denn drauf?</example>
+            <example>Am Ende gibt er noch eins drauf.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -36395,3 +36468,4 @@ Andere Projekte</example>
         </rule>
     </category>
 </rules>
+
