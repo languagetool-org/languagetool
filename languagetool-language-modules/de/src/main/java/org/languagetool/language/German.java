@@ -185,7 +185,8 @@ public class German extends Language implements AutoCloseable {
             new FielenVielenRule(messages),
             new ImUmRule(messages),
             new MirMitRule(messages),
-            new NachNochRule(messages)
+            new NachNochRule(messages),
+            new WieWirRule(messages)
     );
   }
 
