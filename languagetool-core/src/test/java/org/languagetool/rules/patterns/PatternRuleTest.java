@@ -163,7 +163,7 @@ public class PatternRuleTest {
     for (Language lang : Languages.get()) {
       runGrammarRuleForLanguage(lang);
     }
-    if (Languages.get().size() == 0) {
+    if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
     }
   }
@@ -252,7 +252,7 @@ public class PatternRuleTest {
         PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
             antiPattern.getId(), antiPattern.getSubId(), lang);
       }
-      if (rule.getCorrectExamples().size() == 0) {
+      if (rule.getCorrectExamples().isEmpty()) {
         boolean correctionExists = false;
         for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
           if (incorrectExample.getCorrections().size() > 0) {
@@ -365,7 +365,7 @@ public class PatternRuleTest {
   private void testBadSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool, Language lang,
                                 Map<String, AbstractPatternRule> complexRules, AbstractPatternRule rule) throws IOException {
     List<IncorrectExample> badSentences = rule.getIncorrectExamples();
-    if (badSentences.size() == 0) {
+    if (badSentences.isEmpty()) {
       fail("No incorrect examples found for rule " + rule.getFullId());
     }
     // necessary for XML Pattern rules containing <or>
@@ -446,7 +446,7 @@ public class PatternRuleTest {
       } else { // for multiple rules created with complex phrases
 
         matches = getMatches(rule, badSentence, languageTool);
-        if (matches.size() == 0
+        if (matches.isEmpty()
             && !complexRules.containsKey(rule.getId() + badSentence)) {
           complexRules.put(rule.getId() + badSentence, rule);
         }
@@ -493,7 +493,7 @@ public class PatternRuleTest {
     for (ErrorTriggeringExample example : rule.getErrorTriggeringExamples()) {
       String sentence = cleanXML(example.getExample());
       List<RuleMatch> matches = getMatches(rule, sentence, languageTool);
-      if (matches.size() == 0) {
+      if (matches.isEmpty()) {
         fail(lang + ": " + rule.getFullId() + ": Example sentence marked with 'triggers_error' didn't actually trigger an error: '" + sentence + "'");
       }
     }
@@ -518,7 +518,7 @@ public class PatternRuleTest {
                 rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>"));
       }
       List<String> realSuggestions = matches.get(0).getSuggestedReplacements();
-      if (realSuggestions.size() == 0) {
+      if (realSuggestions.isEmpty()) {
         boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
         assertTrue(lang + ": Incorrect suggestions: "
                         + expectedCorrections + " != "
