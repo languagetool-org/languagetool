@@ -3586,15 +3586,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Ur milion a dud.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="UGENT" name="daou ugent → daou-ugent">
+    <rule id="UGENT" name="daou ugent → daou-ugent">
+      <pattern>
+        <token regexp="yes">warn|[dtz]aou|[dtz]ri|[pbf]evar|[pbf]emp|c’hwec’h|seizh|eizh|nav</token>
+        <token>ugent</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
+      <example correction="Daou-ugent"><marker>Daou ugent</marker></example>
+      <example>Daou-ugent</example>
+    </rule>
+    <rulegroup id="WARN_UGENT" name="war-ugent → warn-ugent">
+      <rule>
+        <pattern><token regexp="yes">(.*-)?war-ugent</token></pattern>
+        <message>Ha fellout a rae deoc‘h skrivañ <suggestion><match no="1" regexp_match="war-ugent" regexp_replace="warn-ugent"/></suggestion>?</message>
+        <example correction="warn-ugent">Unan <marker>war-ugent</marker>.</example>
+        <example correction="Unan-warn-ugent"><marker>Unan-war-ugent</marker>.</example>
+      </rule>
       <rule>
         <pattern>
-          <token regexp="yes">warn|[dtz]aou|[dtz]ri|[pbf]evar|[pbf]emp|c’hwec’h|seizh|eizh|nav</token>
+          <token>war</token>
           <token>ugent</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
-        <example correction="Daou-ugent"><marker>Daou ugent</marker></example>
-        <example>Daou-ugent</example>
+        <message>Ha fellout a rae deoc‘h skrivañ <suggestion>\1n-\2</suggestion>?</message>
+        <example correction="warn-ugent">Unan <marker>war ugent</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="HANTER_KANT" name="hanter kant → hanter-kant">
