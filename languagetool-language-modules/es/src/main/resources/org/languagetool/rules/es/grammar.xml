@@ -407,6 +407,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Esta comida es buena.</example>
         </rule>
 
+        <!--This rule is probably too greedy. See what happens in tests.-->
+        <rule id="ESTA" name="esta/está">
+            <antipattern>
+                <marker>
+                    <token skip="10">esta<exception scope="next" postag="C." postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>esta<exception scope="previous" postag="SPS00|V.[SI].*" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception postag="N.[FC][SN].*|A..[FC][SN]." postag_regexp="yes"/><exception>que</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>está</suggestion>?</message>
+            <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
+            <example correction="Está"><marker>Esta</marker> en la guardería.</example>
+            <example correction="Está"><marker>Esta</marker> en aquella.</example>
+            <example>A esta no le gusta.</example>
+            <example>Esta es la mejor.</example>
+            <example>Esta no es la mejor.</example>
+            <example>Es esta de aquí.</example>
+            <example>Esta siempre viene.</example>
+            <example>Esta no siempre viene.</example>
+            <example>Esta que viene por aquí.</example>
+            <example>Esta o aquella.</example> <!--only works because "o" is not disambiguated-->
+            <!--<example>Esta o no está. </example>-->
+        </rule>
+
         <!-- LO_SE lo sé-->
 
         <rule id="LO_SE" name="lo se (sé)">
