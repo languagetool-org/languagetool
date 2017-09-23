@@ -241,10 +241,10 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ADJ:AKK:PLU:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
     ),
-    Arrays.asList( // "Für ihn ist das Alltag."
+    Arrays.asList( // "Für ihn ist das Alltag." / "Für die Religiösen ist das Blasphemie."
         new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
         new PatternTokenBuilder().csToken("das").build(),
-        new PatternTokenBuilder().csToken("Alltag").build()
+        new PatternTokenBuilder().tokenRegex("Alltag|Blasphemie").build()
     )
   );
 
