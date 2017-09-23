@@ -4643,9 +4643,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего»">
             <pattern>
                 <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"><exception  postag="NN:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
-                <token><exception  postag="VB:.*" postag_regexp="yes" /></token>
+                <token><exception  postag="VB:.*|UNKNOWN|DPT.*" postag_regexp="yes" /></token>
                 <token>,</token>
-                <token postag="PNN:.*:Nom:.*" postag_regexp="yes"><exception  postag="PNN:.*:Nom:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
+                <token postag="PNN:.*:Nom:P3" postag_regexp="yes"><exception  postag="PNN:.*:Nom:P3" postag_regexp="yes"  negate_pos="yes"></exception></token>
                 <token postag="VB:.*" postag_regexp="yes"><exception  postag="VB:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
             </pattern>
             <message>Грамматическая ошибка. Дублирование местоимением существительного-подлежащего: <suggestion>\1 \2 \5</suggestion>.</message>
