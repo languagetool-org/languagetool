@@ -4741,6 +4741,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="VISTA" name="vista"> <!-- tracta la variant valenciana: jo vist| tu vistes, ell vista -->
         <rule>
             <pattern>
+                <marker>
+                    <token>vist</token>
+                </marker>
+                <token min="0">-</token>
+                <token>i</token>
+                <token min="0">-</token>
+                <token>plau</token>
+            </pattern>
+            <disambig action="filter" postag="V.P.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">es|em|el|la|els|les|ens|us|se|me|vos|jo|ell</token>
                 <marker>
                     <token postag="V.*V" postag_regexp="yes">vist</token>

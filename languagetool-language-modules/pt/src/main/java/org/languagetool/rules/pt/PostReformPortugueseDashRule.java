@@ -42,7 +42,7 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
     super(dashRules);
     // super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setDefaultOff(); // Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
+    setDefaultOff(); //     Slows down start up and checking time too much. See 20170916: https://languagetool.org/regression-tests/performance-data.csv
   }
 
   @Override

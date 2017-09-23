@@ -64,33 +64,31 @@ title="Easy editing stylesheet" ?>
     <!-- Unification rules retrieved from galician grammar.xml - START-->
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="(?:N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
     </equivalence>
-
     <equivalence type="plural">
-          <token postag="(?:N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="gender">
     <equivalence type="masc">
-          <token postag="(?:N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
     </equivalence>
-
     <equivalence type="fem">
-          <token postag="(?:N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="person">
     <equivalence type="first">
-          <token postag="(?:V...|PP)1.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)1.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="second">
-          <token postag="(?:V...|PP)2.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)2.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="third">
-          <token postag="(?:V...|PP)3.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)3.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
@@ -331,11 +329,32 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
     <rule>
       <antipattern>
-          <token postag='N.+' postag_regexp='yes'>
+          <token postag='N.FS.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
           <token postag='R.+' postag_regexp='yes' min='0'>
             <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
-          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='DP.FS.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='N.FP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
+          <token postag='R.+' postag_regexp='yes' min='0'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
+          <token postag='DP.FP.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='N.MS.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
+          <token postag='R.+' postag_regexp='yes' min='0'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
+          <token postag='DP.MS.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='N.MP.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='[AN].+' postag_regexp='yes'/></token>
+          <token postag='R.+' postag_regexp='yes' min='0'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp='yes'/></token>
+          <token postag='DP.MP.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token inflected="yes">ser</token>
@@ -359,6 +378,7 @@ title="Easy editing stylesheet" ?>
       <example correction='honrou a sua'>Augusto <marker>honrou sua</marker> memória com um magnífico funeral.</example>
       <example correction='Leve a sua'><marker>Leve sua</marker> irmã no carro.</example>
       <example correction='A minha'><marker>Minha</marker> prancha partiu.</example>
+      <example correction='turismo a sua'>Boa parte das Antilhas, tem no <marker>turismo sua</marker> mais importante fonte de recursos</example>
       <example type='correct'>Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
       <example type='correct'>Tudo bem, mas <marker>vossa</marker> eminência está zangada.</example>
       <example>e o Nuno Leitão que é meu amigo no Facebook e Skype.</example>

@@ -2826,7 +2826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">mir|sich|uns|euch</token>
-                    <token regexp="yes">dort|da</token>
+                    <token regexp="yes">d(ort|a)</token>
                     <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
                     <marker>
                         <token>sich</token>
@@ -5282,7 +5282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Das</token>
                     </marker>
-                    <token regexp="yes">man|er|sie|es|du</token>
+                    <token regexp="yes">man|e[rs]|sie|du</token>
                 </pattern>
                 <message>Meinten Sie die Konjunktion <suggestion>dass</suggestion>?</message>
                 <example correction="Dass"><marker>Das</marker> es zu dieser Jahreszeit schneit, ist ungewöhnlich.</example>
@@ -6967,17 +6967,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>Fuß fassen</suggestion> (im Sinne von: 'sich etablieren') wird nicht zusammengeschrieben.</message>
             <example correction="Fuß fassen">Er konnte dort schnell <marker>Fußfassen</marker>.</example>
             <example>Erst mit dem Fußfassen der Dänen auf der Goldküste...</example>
-        </rule>
-        <rule id="SEKUNDEN_SCHNELLE" name="in Sekunden schnelle (Sekundenschnelle)">
-            <pattern>
-                <token>in</token>
-                <marker>
-                    <token>Sekunden</token>
-                    <token>schnelle</token>
-                </marker>
-            </pattern>
-            <message><suggestion>Sekundenschnelle</suggestion> wird zusammengeschrieben.</message>
-            <example correction="Sekundenschnelle">Es durchsucht in <marker>Sekunden schnelle</marker> Ihre E-Mails.</example>
         </rule>
         <rule id="BEREIT_STEHEN" name="bereit stehen (bereitstehen)">
             <pattern>
@@ -9472,6 +9461,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>hin</token>
                 <token>und</token>
+                <token>her</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">vor|hinter|neben<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
                 <token>her</token>
             </antipattern>
             <antipattern>
@@ -25406,7 +25399,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="DIE_SUCHE" name="'die suche (Suche)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[dD]er|[dD]ie</token>
+                <token regexp="yes">[dD](er|ie)</token>
                 <token min="0" postag_regexp="yes" postag="ADJ:.*:SIN:FEM.*DEF"><exception postag_regexp="yes" postag="SUB:.*"/></token>
                 <marker>
                     <token>suche</token>
@@ -25545,10 +25538,13 @@ Andere Projekte</example>
                 <example correction="zur Genüge">Das hat sich <marker>zur genüge</marker> gezeigt.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(genüge) (tat|taten|tun|tut|tust|getan)</regexp>
-                <message>'Genüge' wird hier großgeschrieben: <suggestion>Genüge \2</suggestion></message>
+                <pattern case_sensitive='yes'>
+                    <marker><token>genüge</token></marker>
+                    <token inflected="yes">tun</token>
+                </pattern>
+                <message><suggestion>Genüge</suggestion> wird hier großgeschrieben.</message>
                 <short>&prgk;.</short>
-                <example correction="Genüge getan">Der Gerechtigkeit wurde <marker>genüge getan</marker>.</example>
+                <example correction="Genüge">Der Gerechtigkeit wurde <marker>genüge</marker> getan.</example>
             </rule>
         </rulegroup>
         <rule id="FEHL_UND_TADEL" name="'ohne fehl (Fehl) und Tadel'">
@@ -29582,9 +29578,23 @@ Andere Projekte</example>
                 <example>Warum spricht Tom so schlecht Koreanisch, obwohl er eine koreanische Freundin hat?</example>
             </rule>
         </rulegroup>
-        <!-- Diese Regel erzeugt noch zu viele Falschmeldungen und muss deshalb überarbeitet werden. 
-	   <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
-                   <rule>
+        <rulegroup id="FALSCHES_RELATIVPRONOMEN" name="Relativpronomen mit falschem Genus">
+            <antipattern>
+                <token postag='ART:DEF:GEN:.+:.+' postag_regexp='yes'></token>
+                <token postag='SUB:GEN:.+:.+' postag_regexp='yes'></token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token skip='-1'></token>
+                <token postag='VER:EIZ:SFT'></token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>das</token>
+                <token postag='VER:3:SIN:PRÄ:NON'></token>
+            </antipattern>
+            <rule>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:NEU' postag_regexp='yes'></token>
                     <token postag='SUB:.+:SIN:NEU' postag_regexp='yes'></token>
@@ -29599,6 +29609,8 @@ Andere Projekte</example>
                 <example correction='das'>Mir gehört das Auto, <marker>der</marker> da steht.</example>
                 <example correction='das'>Siehst du das Kind, <marker>die</marker> zu uns herüber guckt?</example>
                 <example>Ich kaufe das Haus, der Makler hat mir einen guten Preis gemacht.</example>
+                <example>Besonders ist die geringe Wärmeleitfähigkeit des Gases, die eine höhere Glühtemperatur zur Folge hat.</example>
+                <example>Die Zeit war geprägt von Apoll, dem Gott des Lichts, der Künste und der Musik, der Weisheit und der Weissagung.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29615,6 +29627,8 @@ Andere Projekte</example>
                 <example correction='die'>Kennst du die Frau, <marker>der</marker> da steht?</example>
                 <example correction='die'>Die Blume, <marker>das</marker> da wächst, ist rot.</example>
                 <example>Die Frau, der Mann, das Kind.</example>
+                <example>Das ist ein Kapitel der Filmgeschichte, das gerade wegen der hervorgehobenen Stellung der USA außergewöhnlich ist.</example>
+                <example>Er hatte eine Frau, das heißt er war verheiratet.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29631,8 +29645,11 @@ Andere Projekte</example>
                 <example correction='der'>Kennst du den Mann, <marker>das</marker> da steht?</example>
                 <example correction='der'>Ich habe einen Wagen, <marker>die</marker> sehr wenig verbraucht.</example>
                 <example>Der Bundeskanzler, die Gesetze sind da eindeutig, wird vom Parlament gewählt.</example>
+                <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
+                <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
+                <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
             </rule>
-        </rulegroup> -->
+        </rulegroup> 
     </category>
 
     <!-- ====================================================================== -->
@@ -30190,7 +30207,31 @@ Andere Projekte</example>
                 </pattern>
                 <message>Die Wendung '<suggestion>Ober-</suggestion> und \3' wird mit Bindestrich geschrieben.</message>
                 <short>Meinten Sie '\1-'?</short>
-                <example correction="Ober-">Heißluft: 200 °C, <marker>Ober</marker> und Unterhitze: 180 °C.</example>
+                <example correction="Ober-">Heißluft: 180 °C, <marker>Ober</marker> und Unterhitze: 200 °C.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Vor</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Nachteilen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Vor-</suggestion> und Nachteile' wird mit Bindestrich geschrieben, wenn 'Vorteile und Nachteile' gemeint ist.</message>
+                <short>Meinten Sie 'Vor-'?</short>
+                <example correction="Vor-">Die <marker>Vor</marker> und Nachteile sind klar.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Ein</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Ausgängen?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Ein-</suggestion> und Ausgänge' wird mit Bindestrich geschrieben, wenn 'Eingänge und Ausgänge' gemeint ist.</message>
+                <short>Meinten Sie 'Ein-'?</short>
+                <example correction="Ein-">Die <marker>Ein</marker> und Ausgänge wurden überwacht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -30203,6 +30244,19 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>An-</suggestion> und Verkauf' wird mit Bindestrich geschrieben, wenn 'Ankauf und Verkauf' gemeint ist.</message>
                 <short>Meinten Sie 'An-'?</short>
                 <example correction="An-">Auf dem Schild stand "<marker>An</marker> und Verkauf".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>niet</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">nagelfest(e[mnrs]?)?</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>niet-</suggestion> und nagelfest' wird mit Bindestrich geschrieben.</message>
+                <url>https://de.wiktionary.org/wiki/niet-_und_nagelfest</url>
+                <short>Meinten Sie 'niet-'?</short>
+                <example correction="niet-">Sie ließen alles mitgehen, was nicht <marker>niet</marker> und nagelfest war.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30502,7 +30556,7 @@ Andere Projekte</example>
                         <exception postag="SUB:.*|VER:IMP:.*|VER:.*KJ[12].*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|-|—|–</token>
-                    <token min="0" max="1" regexp="yes">so|dann|dennoch|ich|du|er|sie|es|wir|ihr</token>
+                    <token min="0" max="1" regexp="yes">so|dann|dennoch|ich|du|e[rs]|sie|wir|ihr</token>
                     <token skip="-1" postag="VER:.*|UNKNOWN" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|\.</exception>
                     </token>
@@ -30556,7 +30610,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|\.</exception>
                         <exception>wohl</exception>
                     </token>
-                    <token skip="-1" postag="SUB:.*|EIG:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token skip="-1" postag="SUB:.*|EIG:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|\.</exception>
                     </token>
                     <marker>
@@ -30645,6 +30699,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token><exception>?</exception></token>
+                    <token min="0" max="1" regexp="yes">\.|!</token>
                     <token regexp="yes">“|»|«|"</token>
                     </marker>
                     <token>,</token>
@@ -30652,9 +30707,10 @@ Andere Projekte</example>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Bitte schließen Sie die Frage mit einem '?' ab!</message>
-                <suggestion>\1?\2</suggestion>
+                <suggestion>\1?\3</suggestion>
                 <example correction='gegangen?"'>Wohin ist er <marker>gegangen"</marker>, fragte sie.</example>
                 <example correction='gegangen?"'>"Wohin ist er <marker>gegangen"</marker>, erkundigte sie sich.</example>
+                <example correction='gegangen?"'>"Wohin ist er <marker>gegangen."</marker>, fragte sie.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30919,7 +30975,7 @@ Andere Projekte</example>
                         <exception postag="SUB:.*|VER:IMP:.*|VER:.*KJ[12].*" postag_regexp="yes"/>
                     </token>
                     <token regexp="yes">,|;|-|—|–</token>
-                    <token min="0" max="1" regexp="yes">so|dann|dennoch|ich|du|er|sie|es|wir|ihr</token>
+                    <token min="0" max="1" regexp="yes">so|dann|dennoch|ich|du|e[rs]|sie|wir|ihr</token>
                     <token skip="-1" postag="VER:.*|UNKNOWN" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
@@ -30975,7 +31031,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                         <exception>wohl</exception>
                     </token>
-                    <token skip="-1" postag="SUB:.*|EIG:.*|PRO:PER:.*|PRO:IND:.*" postag_regexp="yes">
+                    <token skip="-1" postag="SUB:.*|EIG:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
                     <marker>
@@ -33251,7 +33307,7 @@ Andere Projekte</example>
                     <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">noch|mehr</token>
+                    <token skip="-1" regexp="yes">noch|mehr</token>
                     <token>als</token>
                 </antipattern>
                 <antipattern>
@@ -34546,6 +34602,16 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
+                    <token>,</token>
+                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                        <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
+                    </token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                    <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
@@ -34633,6 +34699,16 @@ Andere Projekte</example>
                 <example>Wenn ihm das Mikro wegrutscht und er in das eines Kollegen sprechen muss, wird es heikel.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                        <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
+                    </token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    </token>
+                    <token regexp="yes">,|;|:|-|–|—|\.|!|\?|und|oder</token>
+                </antipattern>
                 <antipattern>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
@@ -35976,6 +36052,16 @@ Andere Projekte</example>
                 <url>http://www.duden.de/rechtschreibung/hierzulande</url>
                 <example correction='Hierzulande'><marker>Hier zu Lande</marker> isst man gerne Kartoffeln mit Fleisch.</example>
                 <example correction='hierzulande'>Bier gehört <marker>hier zu Lande</marker> zu den Grundnahrungsmitteln.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Hard</token>
+                    <token>Disk</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>Harddisk</suggestion> verwenden?</message> 
+                <url>http://www.duden.de/node/759268/revisions/1380631/view</url>
+                <example correction='Harddisk'>Ich habe mir letzte Woche eine neue <marker>Hard Disk</marker> gekauft.</example>
+                <example>Ihre Harddisk sollte defragmentiert werden.</example>
             </rule>
         </rulegroup>
 
