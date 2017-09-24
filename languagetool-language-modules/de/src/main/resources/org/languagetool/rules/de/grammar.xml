@@ -12433,7 +12433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DRAUF" name="'drauf'">
-            <rule>
+            <rule> <!-- "drauf und dran" -->
                 <pattern>  
                     <token>drauf</token>
                     <token>und</token>
@@ -12443,17 +12443,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://www.duden.de/node/643692/revisions/1616255/view</url>
                 <example correction="kurz davor">Er war <marker>drauf und dran</marker>, den ganzen Laden zu Kleinholz zu schlagen.</example>
             </rule>
-            <rule>
-                <antipattern> <!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("[ADJ] gelaunt") -->
+            <rule> <!-- "Ich bin heute schlecht drauf." -->
+                <pattern>
                     <token inflected="yes" skip="-1">sein</token>
-                    <token postag="ADJ:PRD:GRU" min="0"></token>
+                    <token postag="ADJ:PRD:GRU" regexp="yes">gut|schlecht|mies</token>
+                    <marker>
                     <token>drauf</token>
-                </antipattern>
-                <antipattern> <!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("[ADJ] gelaunt") -->
-                    <token postag="ADJ:PRD:GRU"></token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>gelaunt</suggestion>? 'Drauf'&umgangsspr;</message>
+                <url>http://www.duden.de/node/643692/revisions/1616255/view</url>
+                <example correction="gelaunt">Ich bin heute schlecht <marker>drauf</marker>.</example>
+            </rule>
+            <rule><!-- Es gibt keinen Grund, schlecht drauf zu sein.-->
+                <pattern>
+                    <token postag="ADJ:PRD:GRU" regexp="yes">gut|schlecht|mies</token>
+                    <marker>
                     <token>drauf</token>
+                    </marker>
                     <token min="0">zu</token>
                     <token inflected="yes">sein</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>gelaunt</suggestion>? 'Drauf'&umgangsspr;</message>
+                <url>http://www.duden.de/node/643692/revisions/1616255/view</url>
+                <example correction="gelaunt">Es gibt keinen Grund, schlecht <marker>drauf</marker> zu sein.</example>
+                <example correction="gelaunt">Ich frage, weil du heute so schlecht <marker>drauf</marker> bist.</example>
+            </rule>
+            <rule> <!-- Fälle, in denen man einfach "drauf" mit "darauf" ersetzen kann -->
+                <antipattern> <!-- TO DO: "Wie bist du denn drauf?"  Auch umgangssprachlich, eigene Regel ohne Suggestion -->
+                    <token inflected="yes" skip="-1">sein</token>
+                    <token>drauf</token>
                 </antipattern>
                 <antipattern> <!-- TO DO: Auch umgangssprachlich, braucht aber andere ("sterben") bzw. keine suggestion -->
                     <token inflected="yes" regexp="yes" skip="-1">gehen|stehen</token>
