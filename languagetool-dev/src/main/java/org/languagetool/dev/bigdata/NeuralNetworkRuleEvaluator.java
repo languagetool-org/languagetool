@@ -27,6 +27,7 @@ import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.dev.dumpcheck.SentenceSource;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.de.neuralnetwork.GermanNeuralNetworkRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -39,18 +40,18 @@ import static java.util.Locale.ENGLISH;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files TODO
- * and evaluates EnglishConfusionProbabilityRule with them.
+ * Loads sentences containing the given tokens (e.g. there/their) from Wikipedia or other sentence sources and evaluates
+ * a NeuralNetworkRule with them.
  * 
  * @author Markus Brenneis
  */
 class NeuralNetworkRuleEvaluator {
 
-    private static final List<Double> EVAL_CERTAINTIES = Collections.singletonList(.5); //Arrays.asList(.5, .6, .75, 1.0, 1.2); TODO
+    private static final List<Double> EVAL_MIN_SCORES = Arrays.asList(.5, .75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0);
     private static final int MAX_SENTENCES = 1000;
 
     private final Language language;
-    private final Rule rule;
+    private final GermanNeuralNetworkRule rule;
     private final Map<Double, EvalValues> evalValues = new HashMap<>();
 
     private boolean verbose = true;
@@ -58,64 +59,67 @@ class NeuralNetworkRuleEvaluator {
     private NeuralNetworkRuleEvaluator(Language language, String ruleId) throws IOException {
         this.language = language;
         List<Rule> rules = language.getRelevantRules(JLanguageTool.getMessageBundle());
-        rule = rules.stream().filter(r -> r.getId().equals(ruleId)).findFirst().orElse(null);
+        rule = (GermanNeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof GermanNeuralNetworkRule)
+                                                       .findFirst()
+                                                       .orElse(null);
         if (rule == null) {
-            throw new IllegalArgumentException("Language " + language + " has no rule with id " + ruleId);
+            throw new IllegalArgumentException("Language " + language + " has no neural network rule with id " + ruleId);
         }
     }
 
-    private Map<Double, ConfusionRuleEvaluator.EvalResult> run(List<String> inputsOrDir, String token1, String token2, int maxSentences, List<Double> evalCertainties) throws IOException {
-        for (Double evalFactor : evalCertainties) {
+    private Map<Double, ConfusionRuleEvaluator.EvalResult> run(List<String> inputsOrDir, String token1, String token2, int maxSentences, List<Double> evalMinScores) throws IOException {
+        for (Double evalFactor : evalMinScores) {
             evalValues.put(evalFactor, new EvalValues());
         }
         List<Sentence> allToken1Sentences = getRelevantSentences(inputsOrDir, token1, maxSentences);
         List<Sentence> allToken2Sentences = getRelevantSentences(inputsOrDir, token2, maxSentences);
-        evaluate(allToken1Sentences, true, token1, token2, evalCertainties);
-        evaluate(allToken1Sentences, false, token2, token1, evalCertainties);
-        evaluate(allToken2Sentences, false, token1, token2, evalCertainties);
-        evaluate(allToken2Sentences, true, token2, token1, evalCertainties);
+        evaluate(allToken1Sentences, true, token1, token2, evalMinScores);
+        evaluate(allToken1Sentences, false, token2, token1, evalMinScores);
+        evaluate(allToken2Sentences, false, token1, token2, evalMinScores);
+        evaluate(allToken2Sentences, true, token2, token1, evalMinScores);
         return printEvalResult(allToken1Sentences, allToken2Sentences, token1, token2);
     }
 
-    private void evaluate(List<Sentence> sentences, boolean isCorrect, String token1, String token2, List<Double> evalFactors) throws IOException {
+    private void evaluate(List<Sentence> sentences, boolean isCorrect, String token1, String token2, List<Double> evalMinScores) throws IOException {
         println("======================");
         printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token1, token2);
         JLanguageTool lt = new JLanguageTool(language);
         disableAllRules(lt);
         for (Sentence sentence : sentences) {
-            evaluateSentence(isCorrect, token1, token2, evalFactors, lt, sentence);
+            evaluateSentence(isCorrect, token1, token2, evalMinScores, lt, sentence);
         }
     }
 
-    private void evaluateSentence(boolean isCorrect, String token1, String token2, List<Double> evalFactors, JLanguageTool lt, Sentence sentence) throws IOException {
+    private void evaluateSentence(boolean isCorrect, String token1, String token2, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) throws IOException {
         String textToken = isCorrect ? token1 : token2;
         String plainText = sentence.getText();
         String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token1) : token1;
         String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
         AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
-        for (Double factor : evalFactors) {
-            evaluateSentenceWithFactor(isCorrect, textToken, plainText, replacement, analyzedSentence, factor);
+        for (Double minScore : evalMinScores) {
+            evaluateSentenceWithMinScore(isCorrect, textToken, plainText, replacement, analyzedSentence, minScore);
         }
     }
 
-    private void evaluateSentenceWithFactor(boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Double factor) throws IOException {
+    private void evaluateSentenceWithMinScore(boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Double minScore) throws IOException {
+        rule.setMinScore(minScore);
         RuleMatch[] matches = rule.match(analyzedSentence);
         boolean consideredCorrect = matches.length == 0;
         String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
         if (isCorrect) {
             if (consideredCorrect) {
-                evalValues.get(factor).trueNegatives++;
+                evalValues.get(minScore).trueNegatives++;
 //                println("true negative: " + displayStr);
             } else {
-                evalValues.get(factor).falsePositives++;
-                println("false positive with factor " + factor + ": " + displayStr);
+                evalValues.get(minScore).falsePositives++;
+                println("false positive with minScore " + minScore + ": " + displayStr);
             }
         } else {
             if (consideredCorrect) {
-                println("false negative: " + displayStr);
-                evalValues.get(factor).falseNegatives++;
+                evalValues.get(minScore).falseNegatives++;
+                println("false negative with minScore " + minScore + ": " + displayStr);
             } else {
-                evalValues.get(factor).truePositives++;
+                evalValues.get(minScore).truePositives++;
 //                println("true positive: " + displayStr);
             }
         }
@@ -128,11 +132,11 @@ class NeuralNetworkRuleEvaluator {
         }
     }
 
-    private Map<Double,ConfusionRuleEvaluator.EvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences,
-                                                                        String token, String homophoneToken) {
+    private Map<Double,ConfusionRuleEvaluator.EvalResult> printEvalResult(List<Sentence> allToken1Sentences, List<Sentence> allToken2Sentences,
+                                                                        String token1, String token2) {
         Map<Double,ConfusionRuleEvaluator.EvalResult> results = new HashMap<>();
-        int sentences = allTokenSentences.size() + allHomophoneSentences.size();
-        System.out.println("\nEvaluation results for " + token + "/" + homophoneToken
+        int sentences = allToken1Sentences.size() + allToken2Sentences.size();
+        System.out.println("\nEvaluation results for " + token1 + "/" + token2
                 + " with " + sentences + " sentences as of " + new Date() + ":");
         List<Double> certainties = evalValues.keySet().stream().sorted().collect(toList());
         for (Double certainty : certainties) {
@@ -140,12 +144,13 @@ class NeuralNetworkRuleEvaluator {
             float precision = (float)certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falsePositives);
             float recall = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falseNegatives);
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            String summary = String.format(ENGLISH, "%s; %s; %f4.2; # p=%.3f, r=%.3f, %d+%d, %s",
-                    token, homophoneToken, certainty, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), date);
+            String summary = String.format(ENGLISH, "%s; %s; %4.2f; # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
+                    token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
+                    certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
             results.put(certainty, new ConfusionRuleEvaluator.EvalResult(summary, precision, recall));
             if (verbose) {
                 System.out.println();
-                System.out.printf(ENGLISH, "Certainty: %f4.2 - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
+                System.out.printf(ENGLISH, "Certainty: %4.2f - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
                         certainty, certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives);
                 System.out.printf(summary + "\n");
             }
@@ -208,7 +213,7 @@ class NeuralNetworkRuleEvaluator {
         lang = Languages.getLanguageForShortCode(langCode);
         List<String> inputsFiles = Arrays.stream(args).skip(4).collect(toList());
         NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, ruleId);
-        generator.run(inputsFiles, token1, token2, MAX_SENTENCES, EVAL_CERTAINTIES);
+        generator.run(inputsFiles, token1, token2, MAX_SENTENCES, EVAL_MIN_SCORES);
         long endTime = System.currentTimeMillis();
         System.out.println("\nTime: " + (endTime-startTime)+"ms");
     }
