@@ -26790,6 +26790,45 @@ TODO Write better examples
       <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
       <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
     </rule>
+    <rule><!-- localized from French grammar.xml -->
+      <antipattern>
+          <token>Andrea</token>
+          <token>Bocelli</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Andr[eé]a?</token>
+          <token regexp="yes">Bo(?:tt?ic|c)c?h?ell?i</token>
+      </pattern>
+      <message>Escreva <suggestion>Andrea Bocelli</suggestion> se se refere ao tenor italiano.</message>
+      <url>https://pt.wikipedia.org/wiki/Andrea_Bocelli</url>
+      <example correction="Andrea Bocelli"><marker>Andrea Boccelli</marker> nasceu em 1958.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Sandro</token>
+          <token>Botticelli</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">Sandr[aou]</token>
+          <token regexp="yes">Bo(?:tt?ic|c)c?h?ell?i</token>
+      </pattern>
+      <message>Escreva <suggestion>Andrea Bocelli</suggestion> se se refere ao tenor italiano.</message>
+      <url>https://pt.wikipedia.org/wiki/Sandro_Botticelli</url>
+      <example correction="Sandro Botticelli"><marker>Sandro Boccelli</marker> nasceu em 1445.</example>
+    </rule>
+    <rule><!-- localized from French grammar.xml -->
+      <antipattern>
+          <token>Ennio</token>
+          <token>Morricone</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[EÉ]nn?io</token>
+          <token regexp="yes">Morr?icc?onn?[eé]</token>
+      </pattern>
+      <message>Escreva <suggestion>Ennio Morricone</suggestion> se se refere ao compositor italiano.</message>
+      <url>https://pt.wikipedia.org/wiki/Ennio_Morricone</url>
+      <example correction="Ennio Morricone"><marker>Ennio Moricone</marker> nasceu em 1928.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='EASILY_CONFUSED_RARE_WORDS' name="Palavras raras facilmente confundidas">
