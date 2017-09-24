@@ -18,12 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.chunking.Chunker;
@@ -32,6 +26,9 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
+import org.languagetool.rules.en.neuralnetwork.FormFromRule;
+import org.languagetool.rules.en.neuralnetwork.ThanThenRule;
+import org.languagetool.rules.en.neuralnetwork.ToTooRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -42,6 +39,12 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -180,7 +183,10 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule()
+        new EnglishDashRule(),
+        new FormFromRule(messages),
+        new ThanThenRule(messages),
+        new ToTooRule(messages)
     );
   }
 

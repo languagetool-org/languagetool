@@ -27,7 +27,7 @@ import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.dev.dumpcheck.SentenceSource;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.de.neuralnetwork.GermanNeuralNetworkRule;
+import org.languagetool.rules.neuralnetwork.AbstractNeuralNetworkRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ class NeuralNetworkRuleEvaluator {
     private static final int MAX_SENTENCES = 1000;
 
     private final Language language;
-    private final GermanNeuralNetworkRule rule;
+    private final AbstractNeuralNetworkRule rule;
     private final Map<Double, EvalValues> evalValues = new HashMap<>();
 
     private boolean verbose = true;
@@ -59,9 +59,9 @@ class NeuralNetworkRuleEvaluator {
     private NeuralNetworkRuleEvaluator(Language language, String ruleId) throws IOException {
         this.language = language;
         List<Rule> rules = language.getRelevantRules(JLanguageTool.getMessageBundle());
-        rule = (GermanNeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof GermanNeuralNetworkRule)
-                                                       .findFirst()
-                                                       .orElse(null);
+        rule = (AbstractNeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof AbstractNeuralNetworkRule)
+                                                         .findFirst()
+                                                         .orElse(null);
         if (rule == null) {
             throw new IllegalArgumentException("Language " + language + " has no neural network rule with id " + ruleId);
         }
