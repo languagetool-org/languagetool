@@ -34,7 +34,7 @@ public class EinInRule extends GermanNeuralNetworkRule {
     }
 
     @Override
-    protected List<String> getSubjects() {
+    public List<String> getSubjects() {
         return subjects;
     }
 

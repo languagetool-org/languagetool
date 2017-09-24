@@ -33,7 +33,7 @@ public abstract class GermanNeuralNetworkRule extends Rule {
         super.setCategory(Categories.TYPOS.getCategory(messages));
     }
 
-    protected abstract List<String> getSubjects();
+    public abstract List<String> getSubjects();
 
     protected abstract double getMinScore();
 

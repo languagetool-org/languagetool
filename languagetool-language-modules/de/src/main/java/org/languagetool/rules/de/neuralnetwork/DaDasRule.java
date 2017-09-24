@@ -34,7 +34,7 @@ public class DaDasRule extends GermanNeuralNetworkRule {
     }
 
     @Override
-    protected List<String> getSubjects() {
+    public List<String> getSubjects() {
         return subjects;
     }
 

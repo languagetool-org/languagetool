@@ -67,10 +67,12 @@ class NeuralNetworkRuleEvaluator {
         }
     }
 
-    private Map<Double, ConfusionRuleEvaluator.EvalResult> run(List<String> inputsOrDir, String token1, String token2, int maxSentences, List<Double> evalMinScores) throws IOException {
+    private Map<Double, ConfusionRuleEvaluator.EvalResult> run(List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) throws IOException {
         for (Double evalFactor : evalMinScores) {
             evalValues.put(evalFactor, new EvalValues());
         }
+        String token1 = rule.getSubjects().get(0);
+        String token2 = rule.getSubjects().get(1);
         List<Sentence> allToken1Sentences = getRelevantSentences(inputsOrDir, token1, maxSentences);
         List<Sentence> allToken2Sentences = getRelevantSentences(inputsOrDir, token2, maxSentences);
         evaluate(allToken1Sentences, true, token1, token2, evalMinScores);
@@ -197,23 +199,21 @@ class NeuralNetworkRuleEvaluator {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 5) {
+        if (args.length < 3) {
             System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
-                    + " <token1> <token2> <langCode> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+                    + " <langCode> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
             System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile> either a Wikipedia XML dump, or a Tatoeba file, or");
             System.err.println("                      a plain text file with one sentence per line, a Wikipedia or Tatoeba file");
             System.exit(1);
         }
         long startTime = System.currentTimeMillis();
-        String token1 = args[0];
-        String token2 = args[1];
-        String langCode = args[2];
-        String ruleId = args[3];
+        String langCode = args[0];
+        String ruleId = args[1];
         Language lang;
         lang = Languages.getLanguageForShortCode(langCode);
-        List<String> inputsFiles = Arrays.stream(args).skip(4).collect(toList());
+        List<String> inputsFiles = Arrays.stream(args).skip(2).collect(toList());
         NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, ruleId);
-        generator.run(inputsFiles, token1, token2, MAX_SENTENCES, EVAL_MIN_SCORES);
+        generator.run(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
         long endTime = System.currentTimeMillis();
         System.out.println("\nTime: " + (endTime-startTime)+"ms");
     }
