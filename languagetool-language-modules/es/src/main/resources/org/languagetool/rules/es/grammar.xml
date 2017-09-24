@@ -195,6 +195,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+
+
     <!--VOY_HA_INF ir + ha + INF-->
 
     <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
@@ -230,6 +232,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <example correction="Voy a hablar"><marker>Voy hablar</marker> con ella.</example>
 
+    </rule>
+
+    <rule id="ECHO_HECHO" name="*echo/hecho">
+        <pattern>
+            <token inflected="yes" regexp="yes">ser|estar|parecer|resultar|este</token>
+            <marker>
+                <token regexp="yes">echo|echa|echas</token>
+            </marker>
+        </pattern>
+        <message>Si es del verbo hacer, se escribe <suggestion>h\2</suggestion>.</message>
+        <example correction="hecho">Parece <marker>echo</marker> de madera.</example>
+        <example correction="hecho">Está <marker>echo</marker> de madera.</example>
+        <example correction="hecha">Esta <marker>echa</marker> de madera.</example>
     </rule>
 
     <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
