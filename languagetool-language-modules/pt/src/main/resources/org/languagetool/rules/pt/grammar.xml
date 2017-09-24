@@ -376,6 +376,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>zonas?</token>
           <token>euro</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>alínea</token>
+          <token regexp='yes'>\w|\d</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -427,6 +431,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(?:&precede_nome_proprio;)s</token>
           </unify>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>alíneas</token>
+          <token regexp='yes'>\w|\d</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
@@ -729,7 +737,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC]P.+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-            <exception regexp="yes">há|são|ser|haver|serão|vão|uso</exception>
+            <exception regexp="yes">há|são|ser|haver|serão|vão|uso|zero</exception>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token postag='(?:N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
@@ -745,6 +753,7 @@ title="Easy editing stylesheet" ?>
       <example>Calças, o mais possível rasgadas.</example>
       <example>O Monte Camarões é o vulcão mais ativo do oeste africano, tendo numerosas erupções registadas.</example>
       <example>O número nove.</example>
+      <example>Lá fora estão zero graus.</example>
     </rule>
     <rule>
       <antipattern>
@@ -3852,15 +3861,15 @@ title="Easy editing stylesheet" ?>
     <rule id='CAUSA_JUÍZO_VARA_CIVIL' name="Causa/Juízo/Vara cível">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-	      <token regexp="yes">causa|juízo|vara</token>
-		  <marker>
-			<token>civil</token>
-		  </marker>
+          <token regexp="yes">causa|juízo|vara</token>
+        <marker>
+          <token>civil</token>
+        </marker>
       </pattern>
-	  <message>Substitua por <suggestion>cível</suggestion>.</message>
+      <message>Substitua por <suggestion>cível</suggestion>.</message>
       <example correction="cível">É uma causa <marker>civil</marker> importante.</example>
     </rule>
-	
+
     <rule id='COLETE-S_À_PROVA_DE_BALA' name="Colete/s à prova de balas">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5213,17 +5222,17 @@ title="Easy editing stylesheet" ?>
     <rule id='SOBRE_MESA' name="Sobremesa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-	      <token regexp="yes">a|uma</token>
-		  <marker>
-			<token>sobre</token>
-			<token>mesa</token>			
-	      </marker>
+          <token regexp="yes">a|uma</token>
+        <marker>
+          <token>sobre</token>
+          <token>mesa</token>
+        </marker>
       </pattern>
       <message>Substitua por: </message>
         <suggestion>sobremesa</suggestion>
       <example correction='sobremesa'>Vai comer a <marker>sobre mesa</marker>.</example>
-    </rule>		
-	
+    </rule>
+
     <!-- TAL VEZ talvez -->
     <rule id='TAL_VEZ' name="Confusão: tal vez - talvez">
       <pattern>
@@ -5535,12 +5544,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>[adn]?o</token>
-          <token>facto</token>
-          <token>de</token>
-      </antipattern>
-      <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|facto|possibilidade</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6126,6 +6130,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>não</token>
@@ -6150,6 +6155,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>por</token>
@@ -6163,6 +6169,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>por</token>
@@ -6176,6 +6183,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>por</token>
@@ -6189,6 +6197,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>na</token>
@@ -6201,6 +6210,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>no</token>
@@ -6213,6 +6223,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>em</token>
@@ -6235,6 +6246,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>além</token>
@@ -6247,6 +6259,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>ou</token>
@@ -6262,6 +6275,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>a</token>
@@ -6288,6 +6302,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token>com</token>
@@ -6310,6 +6325,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>
+            <exception regexp="yes">“|«|&quot;</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
@@ -7305,8 +7321,8 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1!\2</suggestion>
         <suggestion>\1?\2</suggestion>
       <example correction="bonito.”|bonito!”|bonito?”">Ele disse: “O jardim é <marker>bonito”</marker></example>
-        <example>A antropologia do “trabalho”</example>
-        <example>Onko — É café “sem cafeína”</example>
+      <example>A antropologia do “trabalho”</example>
+      <example>Onko — É café “sem cafeína”</example>
     </rule>
 
   <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!">
@@ -9822,7 +9838,7 @@ tokenizer spreadsheet in the forum	     -->
   </rulegroup>
 
     <!--rule id='UM_OUTRO' name="Determinantes redundantes: Um + outro">
-    <      Created by Marco A.G.Pinto, Portuguese rule      
+    <      Created by Marco A.G.Pinto, Portuguese rule
       XXX Added to redundancies.txt. Remove after release. >
       <pattern>
           <token>um</token>
@@ -22828,12 +22844,12 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">E|Mas|Ou</token>
+          <token regexp="yes">E|Mas|Ou|Porém</token>
       </pattern>
-      <message>Estilisticamente '\2' só deve ser utilizado com efeito dramático, e muito raramente.</message>
-      <url>http://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>
+      <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
       <short>Mau estilo</short>
-      <example correction=""><marker>E</marker> sim, isto mostra problemas de estilo ao começas a frase com 'e'.</example>
+      <example correction=""><marker>E</marker> sim, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
       <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
       <example correction=""><marker>Mas</marker> não é bom costume começar a frase com 'mas'.</example>
       <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
