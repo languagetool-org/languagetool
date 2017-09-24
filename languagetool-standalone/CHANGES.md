@@ -47,6 +47,7 @@
 
 #### Russian
   * spelling dictionary update
+  * added and improved some rules
 
 #### Ukrainian
   * significant dictionary update:
