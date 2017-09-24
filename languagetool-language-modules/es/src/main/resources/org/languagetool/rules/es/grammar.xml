@@ -487,12 +487,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NCFS000"/>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>esta</token>
+                    <token min="0" max="3" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>esta</token>
                 </marker>
                 <token min="0" postag="RG"/>
-                <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000"/></token>
+                <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000|AO0FS0" postag_regexp="yes"/></token>
             </pattern>
             <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
             <example correction="Está"><marker>Esta</marker> disponible.</example>
@@ -501,6 +508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Esta preciosa casa es muy antiga.</example>
             <example>En esta tercera ocasión.</example>
             <example>Esta tercera decisión fue la definitiva.</example>
+            <example>Esta última es la mejor</example>
         </rule>
     </rulegroup>
   
