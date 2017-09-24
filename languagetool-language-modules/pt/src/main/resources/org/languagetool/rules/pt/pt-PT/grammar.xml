@@ -270,12 +270,12 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(?:algum|nenhum)a?</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -297,17 +297,18 @@ title="Easy editing stylesheet" ?>
       <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
       <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
       <example>Demos por nós a extinguir o fogo.</example>
+      <example>Entregue o aval hoje, para ser ela a fechar o negócio.</example>
     </rule>
     <rule>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(?:algum|nenhum)a?</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;</token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -483,6 +484,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
     <rule id="POR_QUEH_PORQUE" name="Confusão: 'Por quê' e 'Porque'">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-XX-XX -->
       <pattern>
           <token>por</token>
           <token>quê</token>
@@ -493,54 +495,6 @@ title="Easy editing stylesheet" ?>
       <short>Brasileirismo</short>
       <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
     </rule>
-
-  <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-    <rule>
-      <pattern>
-          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|sua|nossa|vossa|tua</token>
-        <marker>
-          <token>equipe</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>equipa</suggestion>.</message>
-      <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)|em|suas|nossas|vossas|tuas</token>
-        <marker>
-          <token>equipes</token>
-        </marker>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>equipas</suggestion>.</message>
-      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
-    </rule>
-  </rulegroup>
-
-    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-  <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
-    <rule>
-      <pattern>
-          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
-        <marker>
-          <token>controle</token>
-        </marker>
-          <token regexp="yes">das?|dos?|de</token>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
-      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>sob</token>
-          <token>controle</token>
-      </pattern>
-      <message>Grafia do Brasil. Substitua por <suggestion>sob controlo</suggestion>.</message>
-      <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
-    </rule>
-  </rulegroup>
 
  </category>
 
@@ -598,6 +552,45 @@ title="Easy editing stylesheet" ?>
  </category>
 
  <category id='REGIONALISMS' name='Regionalismos'>
+
+  <rulegroup default='on' id="EQUIPES" name="Confusão: Equipes - Equipas">
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+    <rule>
+      <pattern>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(?:alg|d|n)?(?:um(a|as)?|uns)|em|(?:sua|[nv]ossa|tua)s?</token>
+        <marker>
+          <token regexp='yes'>equipes?</token>
+        </marker>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion><match no='2' regexp_match='ipe' regexp_replace='ipa'/></suggestion>.</message>
+      <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
+      <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
+    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+  <rulegroup default='on' id="CONTROLO_CONTROLE" name="Confusão Controle - Controlo">
+    <rule>
+      <pattern>
+          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
+        <marker>
+          <token>controle</token>
+        </marker>
+          <token regexp="yes">das?|dos?|de</token>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>sob</token>
+          <token>controle</token>
+      </pattern>
+      <message>Grafia do Brasil. Substitua por <suggestion>sob controlo</suggestion>.</message>
+      <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="BRASILEIRISMOS" name="Brasileirismos">
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
