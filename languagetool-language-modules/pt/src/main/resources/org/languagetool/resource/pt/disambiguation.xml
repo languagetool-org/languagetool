@@ -197,8 +197,8 @@
       <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
     </rule>
   </rulegroup>
-  <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">
-    <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
+  <rulegroup id="nome_comúm_multiword" name="nomes comuns em multiwords">
+    <!-- 	Rulegroup based on Catalan grammar.xml	-->
     <rule id="nomecomum2palavras" name="nome comúm 2 palavras">
       <pattern>
         <marker>
@@ -216,6 +216,24 @@
         </marker>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000_"/><wd pos="AQ0MS0_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;NCFP000&gt;"/>
+          <token postag="&lt;/NCFP000&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000_"/><wd pos="AQ0FP0_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;NCMP000&gt;"/>
+          <token postag="&lt;/NCMP000&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000_"/><wd pos="AQ0MP0_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -1412,14 +1430,14 @@
     <rule>
       <pattern case_sensitive='yes'>
           <token>La</token>
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPFS000"/><wd pos="NPFS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token>Las</token>
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPFP000"/><wd pos="NPFP000"/></disambig>
     </rule>
@@ -1427,28 +1445,28 @@
       <pattern case_sensitive='yes'>
           <token>L</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
           <token regexp='yes'>['’]</token>
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>[AEI]l|Le</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>Els|Los|Gli</token>
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMP000"/><wd pos="NPMP000"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token>Les</token>
-          <token postag_regexp='yes' postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCP000"/><wd pos="NPCP000"/></disambig>
     </rule>
