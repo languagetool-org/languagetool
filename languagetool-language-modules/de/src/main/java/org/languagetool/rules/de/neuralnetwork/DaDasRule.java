@@ -12,13 +12,15 @@ import java.util.ResourceBundle;
 public class DaDasRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("da", "das");
 
+    private double minScore =  1.50; // p=0.992, r=0.251, tp=502, tn=1996, fp=4, fn=1498, 1000+1000, 2017-09-24
+
     public DaDasRule(ResourceBundle messages) {
         super(messages);
 
         addExamplePair(Example.wrong("Danke für <marker>da</marker> Angebot."),
                 Example.fixed("Danke für <marker>das</marker> Angebot."));
-        addExamplePair(Example.wrong("Wie kommt man denn <marker>das</marker> hin?"),
-                Example.fixed("Wie kommt man denn <marker>da</marker> hin?"));
+        addExamplePair(Example.wrong("Ja doch, meine beiden Kommilitonen <marker>das</marker> hinten, aber die wollten selber mitmachen."),
+                Example.fixed("Ja doch, meine beiden Kommilitonen <marker>da</marker> hinten, aber die wollten selber mitmachen."));
 
         ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
         final InputStream WPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/da_das/W_fc1.txt");
@@ -35,4 +37,14 @@ public class DaDasRule extends GermanNeuralNetworkRule {
     protected List<String> getSubjects() {
         return subjects;
     }
+
+    @Override
+    protected double getMinScore() {
+        return minScore;
+    }
+
+    public void setMinScore(double minScore) {
+        this.minScore = minScore;
+    }
+
 }

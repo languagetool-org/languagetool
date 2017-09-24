@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 public class FielenVielenRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("fielen", "vielen");
 
+    private double minScore = 0.50; // p=0.994, r=0.715, tp=805, tn=1121, fp=5, fn=321, 126+1000, 2017-09-24
+
     public FielenVielenRule(ResourceBundle messages) {
         super(messages);
 
@@ -34,5 +36,14 @@ public class FielenVielenRule extends GermanNeuralNetworkRule {
     @Override
     protected List<String> getSubjects() {
         return subjects;
+    }
+
+    @Override
+    protected double getMinScore() {
+        return minScore;
+    }
+
+    public void setMinScore(double minScore) {
+        this.minScore = minScore;
     }
 }

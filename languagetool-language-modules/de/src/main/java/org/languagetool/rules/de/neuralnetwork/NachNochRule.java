@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 public class NachNochRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("nach", "noch");
 
+    private double minScore = 1.75; // p=0.990, r=0.504, tp=1009, tn=1990, fp=10, fn=991, 1000+1000, 2017-09-24
+
     public NachNochRule(ResourceBundle messages) {
         super(messages);
         
@@ -34,5 +36,14 @@ public class NachNochRule extends GermanNeuralNetworkRule {
     @Override
     protected List<String> getSubjects() {
         return subjects;
+    }
+
+    @Override
+    protected double getMinScore() {
+        return minScore;
+    }
+
+    public void setMinScore(double minScore) {
+        this.minScore = minScore;
     }
 }

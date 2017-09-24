@@ -12,13 +12,15 @@ import java.util.ResourceBundle;
 public class EinInRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("ein", "in");
 
+    private double minScore = 3.50; // p=0.990, r=0.236, tp=472, tn=1995, fp=5, fn=1528, 1000+1000, 2017-09-24
+
     public EinInRule(ResourceBundle messages) {
         super(messages);
 
         addExamplePair(Example.wrong("Ein Fehler ist <marker>ein</marker> diesem Satz."),
                 Example.fixed("Ein Fehler ist <marker>in</marker> diesem Satz."));
-        addExamplePair(Example.wrong("Ich bin <marker>ein</marker> dem Haus."),
-                Example.fixed("Ich bin <marker>in</marker> dem Haus."));
+        addExamplePair(Example.wrong("Es wird eine Einführung <marker>ein</marker> die Sprache Frege gegeben."),
+                Example.fixed("Es wird eine Einführung <marker>in</marker> die Sprache Frege gegeben."));
 
         ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
         final InputStream WPath = dataBroker.getFromResourceDirAsStream("/de/neuralnetwork/ein_in/W_fc1.txt");
@@ -34,5 +36,14 @@ public class EinInRule extends GermanNeuralNetworkRule {
     @Override
     protected List<String> getSubjects() {
         return subjects;
+    }
+
+    @Override
+    protected double getMinScore() {
+        return minScore;
+    }
+
+    public void setMinScore(double minScore) {
+        this.minScore = minScore;
     }
 }

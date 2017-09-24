@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 public class WieWirRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("wie", "wir");
 
+    private double minScore = 1.50; // p=0.992, r=0.707, tp=1118, tn=1573, fp=9, fn=464, 1000+582, 2017-09-24
+
     public WieWirRule(ResourceBundle messages) {
         super(messages);
 
@@ -34,5 +36,14 @@ public class WieWirRule extends GermanNeuralNetworkRule {
     @Override
     protected List<String> getSubjects() {
         return subjects;
+    }
+
+    @Override
+    protected double getMinScore() {
+        return minScore;
+    }
+
+    public void setMinScore(double minScore) {
+        this.minScore = minScore;
     }
 }

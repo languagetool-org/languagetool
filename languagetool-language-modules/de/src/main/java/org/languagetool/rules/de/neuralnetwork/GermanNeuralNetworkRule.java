@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-abstract class GermanNeuralNetworkRule extends Rule {
+public abstract class GermanNeuralNetworkRule extends Rule {
     private static final int CONTEXT_LENGTH = 5;
-    private static final double DELTA = 1;
-    private static final double MIN_SCORE = .5;
 
     IClassifier classifier;
 
@@ -37,18 +35,26 @@ abstract class GermanNeuralNetworkRule extends Rule {
 
     protected abstract List<String> getSubjects();
 
+    protected abstract double getMinScore();
+
+    public abstract void setMinScore(double minScore);
+
     @Override
     public String getDescription() {
         return "Möglicher Tippfehler '" + getSubjects().get(0) + "'/'" + getSubjects().get(1) + "'";
     }
 
     private Suggestion getSuggestion(double[] y) {
-        String suggestion = getSubjects().get(y[0] > y[1] ? 0 : 1);
-        if(Math.abs(y[0] - y[1]) < DELTA || Math.max(y[0], y[1]) < MIN_SCORE) {
-            return new Suggestion(suggestion, true);
+        String suggestion;
+        boolean unsure;
+        if(y[0] > y[1]) {
+            suggestion = getSubjects().get(0);
+            unsure = !(y[0] > getMinScore() && y[1] < -getMinScore());
         } else {
-            return new Suggestion(suggestion, false);
+            suggestion = getSubjects().get(1);
+            unsure = !(y[1] > getMinScore() && y[0] < -getMinScore());
         }
+        return new Suggestion(suggestion, unsure);
     }
 
     @Override
@@ -62,7 +68,11 @@ abstract class GermanNeuralNetworkRule extends Rule {
                 final double[] y = classifier.getScores(context);
                 final Suggestion suggestion = getSuggestion(y);
                 if(!suggestion.matches(token)) {
-                    ruleMatches.add(createRuleMatch(tokens[i], suggestion, y));
+                    if (!suggestion.isUnsure()) {
+                        ruleMatches.add(createRuleMatch(tokens[i], suggestion, y));
+                    } else {
+                        System.out.println("unsure: " + getMessage(suggestion, y) + Arrays.toString(context));
+                    }
                 }
             }
         }
@@ -83,14 +93,20 @@ abstract class GermanNeuralNetworkRule extends Rule {
 
     @NotNull
     private RuleMatch createRuleMatch(AnalyzedTokenReadings token, Suggestion suggestion, double[] y) {
-        String msg = "Mögliche Verwechslung von '" + getSubjects().get(0) + "' und '" + getSubjects().get(1) + "'. " + certaintiesToString(y);
-        if(suggestion.isUnsure()) {
-            msg = "(Geringe Sicherheit) " + msg;
-        }
+        String msg = getMessage(suggestion, y);
         int pos = token.getStartPos();
         RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.getToken().length(), msg);
         ruleMatch.setSuggestedReplacement(suggestion.toString());
         return ruleMatch;
+    }
+
+    @NotNull
+    private String getMessage(Suggestion suggestion, double[] y) {
+        String msg = "Mögliche Verwechslung von '" + getSubjects().get(0) + "' und '" + getSubjects().get(1) + "'. " + certaintiesToString(y);
+        if(suggestion.isUnsure()) {
+            msg = "(Geringe Sicherheit) " + msg;
+        }
+        return msg;
     }
 
     private String certaintiesToString(double[] y) {
