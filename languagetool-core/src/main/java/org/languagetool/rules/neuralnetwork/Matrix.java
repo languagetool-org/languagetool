@@ -1,14 +1,14 @@
-package org.languagetool.rules.de.neuralnetwork;
+package org.languagetool.rules.neuralnetwork;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-class Matrix {
+public class Matrix {
 
     private double[][] m;
 
-    Matrix (InputStream filePath) {
+    public Matrix (InputStream filePath) {
         List<String> rows = ResourceReader.readAllLines(filePath);
         fromLines(rows);
     }

@@ -3,6 +3,7 @@ package org.languagetool.rules.de.neuralnetwork;
 import org.languagetool.JLanguageTool;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.neuralnetwork.Classifier;
 
 import java.io.InputStream;
 import java.util.Arrays;

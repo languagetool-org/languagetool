@@ -1,10 +1,10 @@
-package org.languagetool.rules.de.neuralnetwork;
+package org.languagetool.rules.neuralnetwork;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
-class Dictionary extends HashMap<String, Integer> {
+public class Dictionary extends HashMap<String, Integer> {
 
     public Dictionary(InputStream filePath) {
         List<String> rows = ResourceReader.readAllLines(filePath);

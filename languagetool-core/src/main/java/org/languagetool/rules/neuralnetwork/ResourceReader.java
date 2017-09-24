@@ -1,4 +1,4 @@
-package org.languagetool.rules.de.neuralnetwork;
+package org.languagetool.rules.neuralnetwork;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -1,6 +1,6 @@
-package org.languagetool.rules.de.neuralnetwork;
+package org.languagetool.rules.neuralnetwork;
 
-class Suggestion {
+public class Suggestion {
 
     private final String suggestion;
 
@@ -24,7 +24,7 @@ class Suggestion {
         return suggestion.equals(string);
     }
 
-    boolean isUnsure() {
+    public boolean isUnsure() {
         return unsure;
     }
 }
