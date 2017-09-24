@@ -496,6 +496,20 @@ title="Easy editing stylesheet" ?>
       <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
     </rule>
 
+    <rule id="ZERO_MEDIDA_SINGULAR" name="Confusão: 'zero grau'">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
+      <pattern>
+          <token>zero</token>
+          <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
+            <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/></token>
+      </pattern>
+      <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
+        <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
+      <short>Brasileirismo</short>
+      <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
+    </rule>
+
  </category>
 
  <category id="CONTRACTIONS" name="Contrações">
