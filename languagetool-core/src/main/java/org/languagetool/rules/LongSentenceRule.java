@@ -37,7 +37,7 @@ public class LongSentenceRule extends Rule {
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
   private static final boolean DEFAULT_INACTIVE = false;
 
-  private final int maxWords;
+  protected int maxWords;
 
   /**
    * @param defaultActive allows default granularity
@@ -81,19 +81,23 @@ public class LongSentenceRule extends Rule {
     return "TOO_LONG_SENTENCE";
   }
 
+  public String getMessage() {
+		return MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    String msg = MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
+    String msg = getMessage();
     int numWords = 0;
-    int pos = 0;
+    int pos = sentence.getText().length();   //  marks the whole sentence
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
       for (AnalyzedTokenReadings aToken : tokens) {
         String token = aToken.getToken();
-        pos += token.length();  // won't match the whole offending sentence, but much of it
+//        pos += token.length();  // won't match the whole offending sentence, but much of it
         if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
           numWords++;
         }
