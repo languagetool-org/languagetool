@@ -153,6 +153,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("schmetrlinge", "Schmetterlinge", rule, lt);
     assertFirstSuggestion("einlamienirte", "laminierte", rule, lt);
     assertFirstSuggestion("Assecoires", "Accessoires", rule, lt);
+    assertFirstSuggestion("Vorraussetzungen", "Voraussetzungen", rule, lt);
   }
 
   @Test
