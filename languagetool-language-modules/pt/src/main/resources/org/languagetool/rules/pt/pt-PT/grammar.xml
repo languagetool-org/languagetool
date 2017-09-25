@@ -96,6 +96,20 @@ title="Easy editing stylesheet" ?>
 
  <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
 
+    <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
+      <pattern>
+          <token>zero</token>
+          <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
+            <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/></token>
+      </pattern>
+      <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
+        <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
+      <short>Brasileirismo</short>
+      <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
+    </rule>
+
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
     <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
       <pattern>
@@ -270,12 +284,14 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;</token>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -284,6 +300,10 @@ title="Easy editing stylesheet" ?>
           <token>por</token>
           <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
           <token>a</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token postag='VMN0000'/>
       </antipattern>
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
@@ -298,17 +318,20 @@ title="Easy editing stylesheet" ?>
       <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
       <example>Demos por nós a extinguir o fogo.</example>
       <example>Entregue o aval hoje, para ser ela a fechar o negócio.</example>
+      <example correction='nós recebemo-las'>...atribuem-se por meio de transmissão genética; <marker>nós as recebemos</marker> pelos genes, que herdamos de nossos pais.</example>
     </rule>
     <rule>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;</token>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
@@ -494,20 +517,6 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-porque-e-o-por-que-e-o-portugues-europeu/30017</url>
       <short>Brasileirismo</short>
       <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
-    </rule>
-
-    <rule id="ZERO_MEDIDA_SINGULAR" name="Confusão: 'zero grau'">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
-      <pattern>
-          <token>zero</token>
-          <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
-            <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/></token>
-      </pattern>
-      <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
-        <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
-      <short>Brasileirismo</short>
-      <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
     </rule>
 
  </category>
