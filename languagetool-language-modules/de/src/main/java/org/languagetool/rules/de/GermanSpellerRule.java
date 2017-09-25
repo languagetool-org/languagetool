@@ -98,6 +98,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
+    putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Internetkaffees?", "kaffee", "café");
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
