@@ -549,6 +549,35 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="FUTURO_PERIFRASICO" name="Filtrar futuro perifrásico">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-25  -->
+    <rule>
+      <pattern>
+          <token inflected='yes' regexp='yes'>ir|vir|poder</token>
+          <token postag='R.+' postag_regexp="yes" min='0' max='4'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
+        <marker>
+          <token postag="VMN0000"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VMN0000"/>
+      <example inputform="haver[haver/NCMS000,haver/VMN0000,haver/VMN01S0,haver/VMN03S0]" outputform="haver[haver/VMN0000]" type="ambiguous">Não vai <marker>haver</marker> votação.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes' regexp='yes'>ir|vir|poder</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+          <token postag='R.+' postag_regexp="yes" min='0' max='4'>
+            <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
+        <marker>
+          <token postag="VMN0000"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VMN0000"/>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
     <rule>
