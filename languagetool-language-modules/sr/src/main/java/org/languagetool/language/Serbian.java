@@ -24,7 +24,8 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sr.MorfologikSerbianSpellerRule;
-import org.languagetool.rules.sr.SimpleReplaceRule;
+import org.languagetool.rules.sr.SimpleGrammarReplaceRule;
+import org.languagetool.rules.sr.SimpleStyleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.sr.SerbianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -51,7 +52,7 @@ public class Serbian extends Language implements AutoCloseable {
   // We want to keep our rules small and tidy.
   // TODO: Make names based on rules that will reside in these files
   private static final List<String> RULE_FILES = Arrays.asList(
-          "grammar.xml",
+          // grammar.xml will be added "by default" by method "getRuleFileNames"
           "grammar-barbarism.xml",
           "grammar-logical.xml",
           "grammar-punctuation.xml",
@@ -137,7 +138,8 @@ public class Serbian extends Language implements AutoCloseable {
             new WordRepeatRule(messages, this),
             // Serbian-specific rules
             new MorfologikSerbianSpellerRule(messages, this),
-            new SimpleReplaceRule(messages)
+            new SimpleGrammarReplaceRule(messages),
+            new SimpleStyleReplaceRule(messages)
     );
   }
 
@@ -146,10 +148,13 @@ public class Serbian extends Language implements AutoCloseable {
     List<String> ruleFileNames = super.getRuleFileNames();
     // Load all grammar*.xml files
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String dirBase = dataBroker.getRulesDir() + "/" + getShortCode() + "/";
+    final String shortCode = getShortCode();
+    final String dirBase = dataBroker.getRulesDir();
+
     for (final String ruleFile : RULE_FILES) {
-      if (dataBroker.ruleFileExists(ruleFile)) {
-        ruleFileNames.add(dirBase + ruleFile);
+      final String rulePath = shortCode + "/" + ruleFile;
+      if (dataBroker.ruleFileExists(rulePath)) {
+        ruleFileNames.add(dirBase + "/" + rulePath);
       }
     }
     return ruleFileNames;

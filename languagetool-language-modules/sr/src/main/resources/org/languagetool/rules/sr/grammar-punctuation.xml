@@ -21,4 +21,17 @@
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <!-- ====================================================================== -->
+    <!-- Правописне грешке -->
+    <!-- ====================================================================== -->
+    <category id="SR_TYPOS" name="Могуће грешке приликом писања">
+        <rulegroup id="ZAPETA_TLD" name="'example,com (example.com)'">
+            <rule>
+                <regexp case_sensitive='yes'>([a-z0-9\-]+),(com|de|net|uk|org|info|ru|eu|cn|biz|rs)\b</regexp>
+                <message>Могућа грешка писања: Хтедосте ли написати <suggestion>\1.\2</suggestion>?</message>
+                <short>Могућа грешка писања</short>
+                <example correction="example.com">Провери то на <marker>example,com</marker> .</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>

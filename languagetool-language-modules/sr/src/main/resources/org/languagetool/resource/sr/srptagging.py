@@ -39,7 +39,7 @@ DDESC = {
     'JE' : 'једноставно', #
     'KM' : 'компаратив', # степен поређења
     'KN' : 'кондиционал', # глаголски начин
-    'KO' : 'односни', # глагол
+    'KO' : 'односни', # копула (глагол)
     'LI' : 'лична', # заменица
     'LO' : 'локатив', # падеж
     'MO' : 'модални/а', # глагол или речца
@@ -179,6 +179,15 @@ def _get_verb_tag(msd, sep):
 def _print_verb_tags(sep, wrdesc):
     for type in DVERB[ 'type' ].values():
         for vform in DVERB[ 'vform' ].values():
+            st = "GL:{}:{}".format(
+                type, vform)
+            if wrdesc:
+                descr = get_tag_desc(st, sep)
+                pprint(st, descr)
+            else:
+                pprint(st, None)
+    for type in DVERB[ 'type' ].values():
+        for vform in DVERB[ 'vform' ].values():
             for person in DVERB[ 'person' ].values():
                 st = "GL:{}:{}:{}".format(
                     type, vform, person)
@@ -218,7 +227,7 @@ def _print_verb_tags(sep, wrdesc):
 DADJ = dict(
     type    = dict(g='OP', s='PS', p='PC'),
     # Врста: OP = описни, PS = присвојни, PC = партицип
-    degree  = dict(p='PO', c='KO', s='SU'),
+    degree  = dict(p='PO', c='KM', s='SU'),
     # Степен поређења: поз)итив, ком)паратив, суп)ерлатив
     gender  = dict(m='MU', f='ZE', n='SR'),
     # Род: мус)ки, зен)ски, сре)дњи
@@ -364,6 +373,13 @@ def _get_adverb_tag(msd, sep):
 
 def _print_adverb_tags(sep, wrdesc):
     for type in DADV[ 'type' ].values():
+        st = 'PL:{}'.format(type)
+        if wrdesc:
+            descr = get_tag_desc(st, sep)
+            pprint(st, descr)
+        else:
+            pprint(st, None)
+    for type in DADV[ 'type' ].values():
         for degree in DADV[ 'degree' ].values():
             st = 'PL:{}:{}'.format(type, degree)
             if wrdesc:
@@ -386,7 +402,7 @@ def _get_adposition_tag(msd, sep):
 
 def _print_adposition_tags(sep, wrdesc):
     for case in DADP[ 'case' ].values():
-        st = 'PЕ:{}'.format(case)
+        st = 'PE:{}'.format(case)
         if wrdesc:
             descr = get_tag_desc(st, sep)
             pprint(st, descr)
@@ -450,8 +466,7 @@ def _get_numeral_tag(msd, sep):
 def _print_numeral_tags(sep, wrdesc):
     for form in DNUM[ 'form' ].values():
         for type in DNUM[ 'type' ].values():
-            st = "BR:{}:{}".format(
-                form, type)
+            st = "BR:{}:{}".format(form, type)
             if wrdesc:
                 descr = get_tag_desc(st, sep)
                 pprint(st, descr)
@@ -1673,12 +1688,13 @@ if __name__ == "__main__":
     cmd = sys.argv[1]
     ssep = ':'
     if cmd == '-l':
+        # List LT tags and their descriptions
         get_list(ssep, True)
     elif cmd == '-s':
-        # List synthesizer tags
+        # List synthesizer (synth) LT tags without descriptions
         get_list(ssep, False)
     elif cmd == '-t':
-        # Run tests
+        # Run tests, and creates PoS to LT tag list with tag descriptions
         _test_noun_tags(ssep) # Именице
         _test_pronoun_tags(ssep) # Заменице
         _test_adjective_tags(ssep) # Придеви
