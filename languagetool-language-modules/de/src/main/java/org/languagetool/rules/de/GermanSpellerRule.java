@@ -111,9 +111,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
-    putRepl("^[eE]inlamie?nie?r(st|en?|(t(e(nmrs)?)?))?", "^einlamie?nie?r", "laminier");
+    putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
     putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
+    putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
