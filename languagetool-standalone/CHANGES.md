@@ -1,11 +1,24 @@
 # LanguageTool Change Log
 
-## 3.9-SNAPSHOT (release planned for 2017-09-26)
+## 3.9 (2017-09-26)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * added and improved rules
 
+#### Esperanto
+  * added and improved rules
+
 #### French
+  * added and improved rules
   * upgraded dictionaries to Dicollecte-6.1
 
 #### German
@@ -47,6 +60,9 @@
 
 #### Russian
   * spelling dictionary update
+  * added and improved some rules
+
+#### Spanish
   * added and improved some rules
 
 #### Ukrainian
