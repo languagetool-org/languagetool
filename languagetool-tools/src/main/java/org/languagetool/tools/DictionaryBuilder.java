@@ -183,7 +183,7 @@ class DictionaryBuilder {
           }
         }
       }
-      System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
+      System.out.println(freqList.size() + " frequency values applied to " + freqValuesApplied + " word forms.");
     } catch (IOException e) {
       throw new RuntimeException("Cannot read file: " + dictFile.getAbsolutePath());
     }
