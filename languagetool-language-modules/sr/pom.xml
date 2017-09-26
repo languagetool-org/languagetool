@@ -1,13 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>3.9-SNAPSHOT</version>
+        <version>4.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    
+
     <artifactId>language-sr</artifactId>
     <url>http://www.languagetool.org</url>
     <name>Serbian module for LanguageTool</name>
@@ -20,27 +21,26 @@
             <comments>The license refers to the source code, resources may be under different licenses</comments>
         </license>
     </licenses>
-    
+
     <packaging>jar</packaging>
 
     <developers>
         <developer>
-            <name>Zoltan Csala</name>
-            <roles><role>Maintainer</role></roles>
+            <name>Zoltán Csala</name>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
-    
+
     <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
-                    <exclude>org/languagetool/resource/sr/manually_added.txt</exclude>
-                    <exclude>org/languagetool/resource/sr/partlycountable.txt</exclude>
-                    <exclude>org/languagetool/resource/sr/uncountable.txt</exclude>
-                    <exclude>org/languagetool/resource/sr/filter*.txt</exclude>
                     <exclude>org/languagetool/resource/sr/*.awk</exclude>
-                    <exclude>org/languagetool/resource/sr/numbers.txt</exclude>
+                    <exclude>org/languagetool/resource/sr/*.py</exclude>
+                    <exclude>org/languagetool/resource/sr/*.sh</exclude>
                 </excludes>
             </resource>
         </resources>
@@ -59,27 +59,6 @@
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-core</artifactId>
             <version>${languagetool.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.opennlp</groupId>
-            <artifactId>opennlp-tools</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.washington.cs.knowitall</groupId>
-            <artifactId>opennlp-tokenize-models</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.washington.cs.knowitall</groupId>
-            <artifactId>opennlp-postag-models</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.washington.cs.knowitall</groupId>
-            <artifactId>opennlp-chunk-models</artifactId>
-            <version>1.5</version>
         </dependency>
 
         <dependency>
