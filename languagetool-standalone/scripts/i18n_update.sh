@@ -23,7 +23,8 @@ SOURCE=downloaded.tmp
 for lang in ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR ta fa
 do
   shortCode=$(echo "$lang" | sed -e 's/_.*//')
-  curl --user $USERNAME:$PASSWORD http://www.transifex.net/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/?file >$SOURCE
+  curl --user $USERNAME:$PASSWORD https://www.transifex.com/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/?file >$SOURCE
+  sed -i 's/\\\\/\\/g' $SOURCE
   recode latin1..utf8 $SOURCE
   TARGET="../../../languagetool-language-modules/${shortCode}/src/main/resources/org/languagetool/MessagesBundle_${lang}.properties"
   SOURCE2=downloaded.tmp.ascii

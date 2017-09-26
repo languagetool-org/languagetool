@@ -357,6 +357,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das hier ist kein kurzer Satz, sondern eher was längeres mal <marker>zum Testen.</marker></example>
             </rule>
         </rulegroup>
-
+        <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
+            <pattern>
+                <token postag="SENT_END">?</token>
+            </pattern>
+            <message>Vermeiden Sie Fragesätze. Verwenden Sie einfache Aussagesätze.</message>
+            <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
+            <example type="correct">Lass uns heute etwas machen.</example>
+        </rule>
     </category>
 </rules>

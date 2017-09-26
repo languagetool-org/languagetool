@@ -98,6 +98,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
+    putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Internetkaffees?", "kaffee", "café");
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
@@ -112,6 +113,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     putRepl("^[eE]inlamie?nie?r(st|en?|(t(e(nmrs)?)?))?", "^einlamie?nie?r", "laminier");
     putRepl("bravuröse?[nrms]?", "bravur", "bravour");
+    putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
