@@ -91,7 +91,7 @@ public class LongSentenceRule extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String msg = getMessage();
     int numWords = 0;
-    int pos = sentence.getText().length();   //  marks the whole sentence
+    int pos = sentence.getText().length() - 1;   //  marks the whole sentence
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
