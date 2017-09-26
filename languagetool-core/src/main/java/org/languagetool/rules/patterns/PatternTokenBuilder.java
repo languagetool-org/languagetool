@@ -32,6 +32,7 @@ public class PatternTokenBuilder {
   private boolean caseSensitive;
   private boolean regexp;
   private boolean negation;
+  private int skip;
 
   /**
    * Add a case-insensitive token. 
@@ -76,7 +77,12 @@ public class PatternTokenBuilder {
     this.negation = true;
     return this;
   }
-  
+
+  /** @since 4.0 */
+  public PatternTokenBuilder setSkip(int skip) {
+    this.skip = skip;
+    return this;
+  }
   /**
    * Also match inflected forms of the given word - note this will only work when the
    * given token actually is a baseform.
@@ -88,13 +94,15 @@ public class PatternTokenBuilder {
   }
   
   public PatternToken build() {
+    PatternToken patternToken;
     if (posTag != null) {
-      PatternToken patternToken = new PatternToken(null, false, false, false);
+      patternToken = new PatternToken(null, false, false, false);
       patternToken.setPosToken(new PatternToken.PosToken(posTag, regexp, false));
       patternToken.setNegation(negation);
-      return patternToken;
     } else {
-      return new PatternToken(token, caseSensitive, regexp, matchInflectedForms);
+      patternToken = new PatternToken(token, caseSensitive, regexp, matchInflectedForms);
     }
+    patternToken.setSkipNext(skip);
+    return patternToken;
   }
 }
