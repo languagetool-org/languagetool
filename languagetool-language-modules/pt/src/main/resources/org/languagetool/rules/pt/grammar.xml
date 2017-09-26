@@ -13102,7 +13102,7 @@ o tomate'>
       </antipattern>
       <antipattern>
           <token>à</token>
-          <token regexp='yes'>d[eao]s?|direita|disposição|distância|espreita|esquerda|frente|mesma|noite|pressa|tarde|toa|vontade</token>
+          <token regexp='yes'>d[eao]s?|direita|disposição|distância|espreita|esquerda|frente|hora|mesma|noite|pressa|tarde|toa|vontade</token>
       </antipattern>
       <antipattern>
           <token>à</token>
@@ -13123,7 +13123,7 @@ o tomate'>
             <exception regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</exception></token>
           <token regexp="yes">&expressoes_de_tempo;</token>
       </pattern>
-      <message>Se se refere ao tempo decorrido, substitua por <suggestion>há <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>.</message>
+      <message>Se se refere ao tempo já decorrido, substitua por <suggestion>há <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>.</message>
       <example correction="há quase 30 anos">Conheço a Ana <marker>à quase 30 anos</marker>.</example>
       <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
       <example>No entanto, antes de vir à Terra por qualquer período de tempo.</example>
@@ -22774,16 +22774,16 @@ TODO Write better examples
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
       <pattern>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='(?:C|R|S).+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
           <token min='0'>a</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='(?:C|R|S).+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
           <token min='0'>a</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='(?:C|R|S).+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
           <token min='0'>a</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='(?:C|R|S).+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Possível verbosidade excessiva. Confirme se a sequência de verbos pode ser reduzida.</message>
       <short>Possível verbosidade excessiva.</short>
@@ -23261,7 +23261,7 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token regexp="yes">(?:&informal;)s?
-            <exception regexp='yes' case_sensitive='yes'>Times?|XI</exception></token>
+            <exception regexp='yes' case_sensitive='yes'>Times?|XI|Xi</exception></token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
       <example type="incorrect">Passei o dia a <marker>anhar</marker>.</example>
