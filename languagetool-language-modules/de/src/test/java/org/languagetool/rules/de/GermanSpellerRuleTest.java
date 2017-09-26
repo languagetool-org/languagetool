@@ -154,6 +154,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("einlamienirte", "laminierte", rule, lt);
     assertFirstSuggestion("Assecoires", "Accessoires", rule, lt);
     assertFirstSuggestion("Vorraussetzungen", "Voraussetzungen", rule, lt);
+    assertFirstSuggestion("aufwechselungsreichem", "abwechslungsreichem", rule, lt);
   }
 
   @Test
