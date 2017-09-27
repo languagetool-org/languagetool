@@ -69,13 +69,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
     public String getId() {
-	  int z1 = maxWords / 100;
-	  int z2 = (maxWords - z1 * 100) / 10;
-	  int z3 = (maxWords - z1 * 100 - z2 * 10);
-	  char c1 = (char) ('A' + z1);
-	  char c2 = (char) ('A' + z2);
-	  char c3 = (char) ('A' + z3);
-      return "DE_TOO_LONG_SENTENCE_" + c1 + c2 + c3;
+      return "DE_TOO_LONG_SENTENCE_" + maxWords;
     }
 
     @Override

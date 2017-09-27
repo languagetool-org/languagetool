@@ -3796,6 +3796,16 @@ title="Easy editing stylesheet" ?>
 
  <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
 
+     <rule id='ABDICAR_DIREITOS_PRIVILÉGIOS' name="Abdicar de direitos/privilégios">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token inflected='yes'>abdicar</token>
+          <token regexp="yes">direitos|privilégios</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 de \2</suggestion>.</message>
+      <example correction="abdicar de direitos">Por vezes é necessário <marker>abdicar direitos</marker>.</example>
+    </rule> 
+ 
     <rule id='AFEAR' name="Confusão: afear - afiar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5546,6 +5556,11 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|facto|possibilidade</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -19959,7 +19974,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fose|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|que|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|uma?|única|vasta|vendido|verdadeira|viage[mn])s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
+          <token regexp='yes'>(?:a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fose|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|uma?|única|vasta|vendido|verdadeira|viage[mn])s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
         <marker>
           <token regexp='yes'>influencias?</token>
         </marker>

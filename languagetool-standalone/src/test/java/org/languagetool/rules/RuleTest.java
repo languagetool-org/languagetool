@@ -69,9 +69,9 @@ public class RuleTest {
 
   private void assertIdValidity(Language language, Rule rule) {
     String ruleId = rule.getId();
-    if (!ruleId.matches("^[A-Z_]+$")) {
+    if (!ruleId.matches("^[A-Z_][A-Z0-9_]+$")) {
       throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: "
-              + language + ", only [A-Z_] are allowed");
+              + language + ", only [A-Z0-9_] are allowed and the first character must be in [A-Z_]");
     }
   }
 
