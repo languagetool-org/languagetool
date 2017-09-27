@@ -143,7 +143,7 @@ public class SuggestionReplacerTest {
     langTool.disableRule("ABKUERZUNG_LEERZEICHEN");
     langTool.disableRule("TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN");
     langTool.disableRule("OLD_SPELLING");
-    langTool.disableRule("DE_TOO_LONG_SENTENCE_AEA");
+    langTool.disableRule("DE_TOO_LONG_SENTENCE_40");
     PlainTextMapping mapping = filter.filter(origMarkup);
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     assertThat("Expected 3 matches, got: " + matches, matches.size(), is(3));
