@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,7 +41,7 @@ import java.util.ResourceBundle;
 /**
  * Support for Serbian language
  */
-public class Serbian extends Language implements AutoCloseable {
+public class Serbian extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
   private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
@@ -59,6 +59,8 @@ public class Serbian extends Language implements AutoCloseable {
           "grammar-spelling.xml",
           "grammar-style.xml"
   );
+
+  /** @since 4.0 */
 
   public Serbian() {
   }
@@ -160,7 +162,4 @@ public class Serbian extends Language implements AutoCloseable {
     return ruleFileNames;
   }
 
-  @Override
-  public void close() throws Exception {
-  }
 }

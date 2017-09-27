@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package org.languagetool.rules.sr;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
@@ -10,12 +28,14 @@ import java.util.ResourceBundle;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead.
- * Romanian implementations. Loads the list of words from
+ * Serbian implementations. Loads the list of words from
  * <code>/sr/replace-grammar.txt</code>.
  *
  * @author Zoltan Csala
  */
 public class SimpleGrammarReplaceRule extends AbstractSimpleReplaceRule {
+
+  /** @since 4.0 */
 
   private static final Map<String, List<String>> wrongWords = load("/sr/replace-grammar.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion

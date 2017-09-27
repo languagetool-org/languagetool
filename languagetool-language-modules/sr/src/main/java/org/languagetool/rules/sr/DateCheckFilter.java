@@ -26,7 +26,7 @@ import java.util.Locale;
 /**
  * Serbian localization of {@link org.languagetool.rules.AbstractDateCheckFilter}.
  *
- * @since 2.7
+ * @since 4.0
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
