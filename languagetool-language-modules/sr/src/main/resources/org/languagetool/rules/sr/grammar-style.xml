@@ -19,4 +19,19 @@
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <category name="Стил писања" id="SR_CAT_STYLE">
+        <rulegroup name="Мала и велика слова" id="SR_RG_LETTER_CASE">
+            <rule id="SR_RU_ADJ_LETTER_CASE">
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" negate_pos="yes"/>
+                    <marker>
+                        <token postag="PR:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[АБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ].*</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="IM:.*"></token>
+                </pattern>
+                <message>Придев <suggestion><match no="2" case_conversion="startlower"/></suggestion> пише се малим почетним словом.</message>
+                <example correction="новосадска">Штранд је <marker>Новосадска</marker> плажа.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>

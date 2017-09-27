@@ -1,4 +1,4 @@
-Serbian (Cyrillic and Latin) Hunspell Spellchecking Dictionary
+Serbian (Cyrillic) Hunspell Spellchecking Dictionary
 
 OpenOffice.org 3 extension with autoupdate feature can be downloaded
 from: http://extensions.services.openoffice.org/project/dict-sr
