@@ -78,7 +78,7 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public String getId() {
-    return "TOO_LONG_SENTENCE";
+    return "TOO_LONG_SENTENCE_" + maxWords;
   }
 
   public String getMessage() {
