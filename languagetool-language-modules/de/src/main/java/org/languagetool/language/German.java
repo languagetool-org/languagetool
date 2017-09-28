@@ -182,7 +182,7 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new LongSentenceRule(messages, 20, false),
             new LongSentenceRule(messages, 30, false),
-            new LongSentenceRule(messages, 40, true),
+            new LongSentenceRule(messages, 40, false),
             new LongSentenceRule(messages, 50, false)
     );
   }
