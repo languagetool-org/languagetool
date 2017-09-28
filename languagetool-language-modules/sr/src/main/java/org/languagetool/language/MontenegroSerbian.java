@@ -18,9 +18,8 @@
  */
 package org.languagetool.language;
 
+/** @since 4.0 */
 public class MontenegroSerbian extends Serbian {
-
-	/** @since 4.0 */
 
 	@Override
 	public String[] getCountries() {

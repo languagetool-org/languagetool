@@ -24,10 +24,9 @@ import org.languagetool.synthesis.BaseSynthesizer;
  * Serbian word form synthesizer
  *
  * @author Zoltan Csala
+ * @since 4.0
  */
 public class SerbianSynthesizer extends BaseSynthesizer {
-
-  /** @since 4.0 */
 
   private static final String RESOURCE_FILENAME = "/sr/serbian_synth.dict";
   private static final String TAGS_FILE_NAME = "/sr/serbian_synth_tags.txt";

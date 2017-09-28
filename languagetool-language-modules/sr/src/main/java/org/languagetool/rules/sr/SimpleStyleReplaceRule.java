@@ -32,10 +32,9 @@ import java.util.ResourceBundle;
  * <code>/sr/replace-style.txt</code>.
  *
  * @author Zoltan Csala
+ * @since 4.0
  */
 public class SimpleStyleReplaceRule extends AbstractSimpleReplaceRule {
-
-  /** @since 4.0 */
 
   private static final Map<String, List<String>> wrongWords = load("/sr/replace-style.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion

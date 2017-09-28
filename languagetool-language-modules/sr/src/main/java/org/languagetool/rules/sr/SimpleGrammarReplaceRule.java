@@ -32,10 +32,9 @@ import java.util.ResourceBundle;
  * <code>/sr/replace-grammar.txt</code>.
  *
  * @author Zoltan Csala
+ * @since 4.0
  */
 public class SimpleGrammarReplaceRule extends AbstractSimpleReplaceRule {
-
-  /** @since 4.0 */
 
   private static final Map<String, List<String>> wrongWords = load("/sr/replace-grammar.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion
