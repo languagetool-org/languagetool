@@ -37,12 +37,10 @@ public class SerbianTaggerTest {
     tokenizer = new WordTokenizer();
   }
 
-
   @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Serbian());
   }
-
 
   @Test
   public void testTagger() throws IOException {

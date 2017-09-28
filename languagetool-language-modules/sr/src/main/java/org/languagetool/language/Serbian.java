@@ -40,11 +40,13 @@ import java.util.ResourceBundle;
 
 /**
  * Support for Serbian language
+ * @since 4.0
  */
 public class Serbian extends Language {
 
-  private SentenceTokenizer sentenceTokenizer;
   private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
+  
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Synthesizer synthesizer;
 
@@ -59,8 +61,6 @@ public class Serbian extends Language {
           "grammar-spelling.xml",
           "grammar-style.xml"
   );
-
-  /** @since 4.0 */
 
   public Serbian() {
   }

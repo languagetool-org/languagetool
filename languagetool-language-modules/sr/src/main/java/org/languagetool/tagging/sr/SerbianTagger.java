@@ -22,9 +22,8 @@ import org.languagetool.tagging.BaseTagger;
 
 import java.util.Locale;
 
+/** @since 4.0 */
 public class SerbianTagger extends BaseTagger {
-
-  /** @since 4.0 */
 
   public SerbianTagger() {
     super("/sr/serbian.dict", new Locale("sr"));
