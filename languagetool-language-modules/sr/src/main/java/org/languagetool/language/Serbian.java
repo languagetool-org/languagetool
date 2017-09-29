@@ -40,21 +40,12 @@ import java.util.ResourceBundle;
 
 /**
  * Support for Serbian language
-<<<<<<< HEAD
- */
-public class Serbian extends Language {
-
-  private SentenceTokenizer sentenceTokenizer;
-  private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
-=======
  * @since 4.0
  */
 public class Serbian extends Language {
 
   private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
-  
   private SentenceTokenizer sentenceTokenizer;
->>>>>>> 4340b57261b9d8edc1cedecb449fc4cd0cd715ba
   private Tagger tagger;
   private Synthesizer synthesizer;
 
@@ -70,11 +61,6 @@ public class Serbian extends Language {
           "grammar-style.xml"
   );
 
-<<<<<<< HEAD
-  /** @since 4.0 */
-
-=======
->>>>>>> 4340b57261b9d8edc1cedecb449fc4cd0cd715ba
   public Serbian() {
   }
 
@@ -101,7 +87,7 @@ public class Serbian extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[]{
-            new Contributor("Золтан Чала (Csala Zoltán)")
+            new Contributor("Золтан Чала (Csala, Zoltán)")
     };
   }
 
