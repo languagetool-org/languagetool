@@ -5117,6 +5117,18 @@ title="Easy editing stylesheet" ?>
       <example correction="para que">Isto é feito <marker>por forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
 
+   <rule id='PÔR_PERGUNTAS' name="Fazer perguntas">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token inflected='yes'>pôr</token>
+		  <token postag_regexp='yes' postag='D.+' min='0'></token>
+		  <token regexp="yes">perguntas?</token>
+      </pattern>
+      <message>Substitua por <match no='1' postag='V.+'>fazer</match>.</message>
+        <suggestion><match no='1' postag='V.+'>fazer</match> \2 \3</suggestion>
+      <example correction="fazer uma pergunta">Vou <marker>pôr uma pergunta</marker> pertinente.</example>
+    </rule>
+	
     <!-- PRAZER EM CONVIDAR gosto em convidar -->
     <rule id='PRAZER_EM_CONVIDAR' name="Gosto em convidar">
       <pattern>
