@@ -32,4 +32,4 @@ that will contain commands to replace words( e.g. "Аацхен" with "Ахен"
 3. Run shell script "tag2corp.sh"
     ./tag2corp.sh
 
-That will replace word in word lists
+That will replace word in word lists.

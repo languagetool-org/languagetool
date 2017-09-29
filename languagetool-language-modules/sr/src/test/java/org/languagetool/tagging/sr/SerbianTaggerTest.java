@@ -41,7 +41,7 @@ public class SerbianTaggerTest {
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Serbian());
   }
-  
+
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Данас је леп дан.", "Данас/[данас]PL:RA:PO -- је/[бити]GL:PM:PZ:3L:0J|је/[он]ZM:LI:3L:ZE:0J:AK|је/[он]ZM:LI:3L:ZE:0J:GE -- леп/[леп]PR:OP:PO:MU:0J:AK:NE:ST|леп/[леп]PR:OP:PO:MU:0J:NO:NE|леп/[леп]PR:OP:PO:MU:0J:VO:NE|леп/[лепак]PR:OP:PO:MU:0J:VO:NE -- дан/[дан]IM:ZA:MU:0J:AK:ST|дан/[дан]IM:ZA:MU:0J:NO|дан/[дан]PR:OP:PO:MU:0J:AK:NE:ST|дан/[дан]PR:OP:PO:MU:0J:NO:NE|дан/[дан]PR:OP:PO:MU:0J:VO:NE|дан/[дати]PR:PC:PO:MU:0J:AK:NE:ST|дан/[дати]PR:PC:PO:MU:0J:NO:NE|дан/[дати]PR:PC:PO:MU:0J:VO:NE", tokenizer, tagger);
