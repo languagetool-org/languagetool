@@ -25,12 +25,21 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+<<<<<<< HEAD
 public class MorfologikSerbianSpellerRule extends MorfologikSpellerRule {
 
   /** @since 4.0 */
 
   private static final String RESOURCE_FILENAME = "/sr/hunspell/sr_RS.dict";
   public static final String RULE_ID = "MORFOLOGIK_RULE_SR_RS";
+=======
+/** @since 4.0 */
+public class MorfologikSerbianSpellerRule extends MorfologikSpellerRule {
+
+  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_RS";
+
+  private static final String RESOURCE_FILENAME = "/sr/hunspell/sr_RS.dict";
+>>>>>>> 4340b57261b9d8edc1cedecb449fc4cd0cd715ba
 
   public MorfologikSerbianSpellerRule(
           ResourceBundle messages,

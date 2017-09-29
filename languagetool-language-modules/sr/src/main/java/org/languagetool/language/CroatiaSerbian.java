@@ -18,10 +18,16 @@
  */
 package org.languagetool.language;
 
+<<<<<<< HEAD
 public class CroatiaSerbian extends Serbian {
 
   /** @since 4.0 */
 
+=======
+/** @since 4.0 */
+public class CroatiaSerbian extends Serbian {
+
+>>>>>>> 4340b57261b9d8edc1cedecb449fc4cd0cd715ba
   @Override
   public String[] getCountries() {
     return new String[]{"HR"};

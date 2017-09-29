@@ -34,7 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
   protected int maxWords;
@@ -78,7 +78,7 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public String getId() {
-    return "TOO_LONG_SENTENCE";
+    return "TOO_LONG_SENTENCE_" + maxWords;
   }
 
   public String getMessage() {

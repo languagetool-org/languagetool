@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 4.0-SNAPSHOT (release planned for 2017-12-29)
+
+#### Serbian
+  * initial support for Serbian by Zoltán Csala
+  
+
 ## 3.9 (2017-09-26)
 
 #### Breton
