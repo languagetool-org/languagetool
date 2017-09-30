@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|Algarve|Amadora|Cairo|Caldas|Covilhã|Figueira|Guarda|Porto)">
     <!ENTITY toponimos_sem_artigo "(?:Alagoas|Angola|Aragão|Braga|Burma|Castela|Coimbra|Cuba|Espanha|Faro|França|Goiás|Havana|Inglaterra|Itália|Lisboa|Madagáscar|Marrocos|Moçambique|Paris|Pernambuco|Portugal|Rondônia|Roraima|Santa|São|Sergipe|Sri|Tai[uw]an|Taiuã|Timor|Mercúrio|Vénus|Marte|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio "(?:avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estação|estilo|filme|fragata|fundação|galeria|galardão|geração|herdade|ilha|império|iniciativa|instituto|intitulado|lagoa?|lei|liceu|livro|monte|museu|navio|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade|versão)">
+    <!ENTITY precede_nome_proprio "(?:associação|avenida|balneário|casa|casal|cometa|concurso|condecoração|copa|curso|distribuição|escola|estação|estilo|filme|fragata|fundação|galeria|galardão|geração|herdade|ilha|império|iniciativa|instituto|intitulado|lagoa?|lei|liceu|livro|monte|museu|navio|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade|versão)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|iuanes|ienes|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-)">
@@ -271,7 +271,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
       <example correction='uma omelete|um (omelete)'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
       <example>O Um torna-se Dois, o Dois torna-se Três.</example>
@@ -297,7 +297,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='no (hora)'>Foi resolvido <marker>no hora</marker> certa.</example>
       <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
     </rule>
@@ -328,7 +328,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
       <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte…</example>
       <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erradas.</example>
       <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
@@ -354,7 +354,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
       <example correction='Alguns (frases)'><marker>Alguns frases</marker> tem erros gramaticais.</example>
       <example type='correct'><marker>Algumas frases</marker> tem erros gramaticais.</example>
       <example correction='Nos (mil)'><marker>Nos mil</marker> e uma noites.</example>
@@ -397,7 +397,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Um boi|Uma vaca'><marker>Uma boi</marker> está no pasto.</example>
       <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Uma vaca está no pasto.</example>
@@ -420,7 +420,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Alguma vaca'><marker>Alguma boi</marker> está no pasto.</example>
     </rule>
     <rule>
@@ -453,7 +453,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
@@ -478,7 +478,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|A..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction="das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
       <example correction='Algumas vacas'><marker>Algumas bois</marker> estão no pasto.</example>
     </rule>
@@ -686,7 +686,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> \3</suggestion>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
       <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
       <example correction="todinho litoral|todo litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
@@ -709,7 +709,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='dos pais'>É o orgulho <marker>dos pai</marker>.</example>
     </rule>
     <rule>
@@ -745,7 +745,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
       <example>Sou todo ouvidos</example>
@@ -770,7 +770,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion>\2s \3</suggestion>
       <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
     </rule>
@@ -804,7 +804,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> \3</suggestion>
       <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
       <example>O programa Lendas do Futuro é bom?</example>
@@ -823,7 +823,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion>\2s \3</suggestion>
       <example correction='numa espécie|numas espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
     </rule>
@@ -855,7 +855,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> \3</suggestion>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
       <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
       <example correction='fechadura grande|fechaduras grandes'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
@@ -874,7 +874,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|A..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='numas espécies'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
     </rule>
   </rulegroup>
@@ -1242,6 +1242,10 @@ title="Easy editing stylesheet" ?>
 
     <rule id='FUTURE_CONJUGATION_ERROR' name='Concordância Verbal: Conjugações irregulares do futuro do conjuntivo/subjuntivo'>
     <!-- Created by Tiago F. Santos, 2017-01-21 -->
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token>se</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>enquanto|quando|se</token>
           <token  min='0' postag_regexp='yes' postag='D.+'/>
@@ -2850,7 +2854,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>não</token>
           <token regexp='yes'>a|à</token>
-          <token regexp='yes'>(?:c(?:a(?:m(?:i(?:nhos?|sas)|a(?:rada|s)?|elos|po)|r(?:t(?:ilha|as?)|ácter|amujo|ros?|ne)|s(?:t(?:el(?:hanos|o)|igo)|as?|os?|ca)|p(?:it(?:a(?:is|l)|ães)|richos?|as)|b(?:reiros|otino|eça)|l(?:deiradas|çado|or)|ch(?:orrinho|aça)|(?:ntinh|gaç)o|u(?:dal|sas)|valos?|tarse|ça|os)|o(?:n(?:t(?:r(?:abandistas|ole)|estar)|f(?:iança|orto)|se(?:lhos|nso))|m(?:p(?:romisso|anhia)|bate|ida|um|o)?|(?:b(?:r(?:anç)?|ertur)|us|v)a|i(?:sa(?:-ruim)?|ros)|adjutor)|h(?:a(?:ma(?:riz)?|nce|ves)|e(?:(?:iro|que)s|fes?)|oque|uva|á)|r(?:i(?:a(?:(?:nça|do)s|tura)|m(?:inoso|es?)|se)|ase)|e(?:r(?:t(?:ezas?|as)|imônia)|go(?:nha)?|ntro)|l(?:a(?:ro-escuro|sse)|i(?:entel|m)a|ube)|i(?:n(?:e(?:asta|mas?)|co)|úmes|pó)|u(?:l(?:pado|tura)|ra)|á(?:lculo)?|éu)|a(?:l(?:g(?:u(?:ma?|ns)|as)|(?:caid|arm|fac)e|t(?:ernativas|a)|m(?:oço|a)|deias|vará|i)|m(?:(?:bulante|igo|pla)s|a(?:nuense|rgura)|or)|t(?:a(?:ques?|lhos)|mosfera|rasos?|eus|é)|p(?:e(?:tite|nas)|o(?:ios?|sta)|lausos)|r(?:istocracias|t(?:ista|e)|voredo|ma)|s(?:s(?:i(?:stentes|m)|adura)|pas)?|(?:g(?:ricultur|end)|ind)a|c(?:(?:úmul|ord)o|ademias)|(?:n(?:imai|o)|forismo)s|u(?:to(?:móvel|r)|las)|qu(?:el(?:as?|es?)|i)|b(?:ertura|rigo)|ju(?:ste|da)|z(?:uis|ar)|(?:vanç)?o|dmirar|í)|d(?:e(?:s(?:e(?:(?:mpreg|rt)o|jar)|(?:graçad|leix|tin)o|c(?:ulpas?|anso)|(?:vio|sa)s|pedida|ordem|ar)|(?:u(?:se)?|talhe)s|n(?:úncias|tro)|certo|ver|z)?|i(?:v(?:i(?:dendos|nas?)|ergências)|f(?:iculdades|erenças?)|s(?:[st]o|farce)|a(?:(?:bo)?s)?|(?:plom|et)a|rec?tor|álogo)|o(?:u(?:tr(?:ina|os)|s)|r(?:mi(?:mos|r))?|(?:ming|l)o|enças?|çura|ce|is)?|u(?:(?:que|a)s|vidar)|(?:r(?:am|og)|ívid)a|a(?:dos|ta)|úvidas?)|e(?:s(?:t(?:(?:(?:údi|ud)o|ratégia)s|a(?:tísticas)?|ômago|es?)|c(?:ol(?:as|ha)|ândalo|ravos|apar)|p(?:erança|écies|aços?)|s(?:es?|a)|forços)|m(?:p(?:a(?:t(?:es|ia)|das)|(?:lastr|reg)o|enhos?)|bargo)?|n(?:c(?:arregados|ontro)|fermidades|ganos?|ergia|tre)|(?:x(?:ager|empl)|goísm)o|(?:vidência|lefante)s|pi(?:demias?|sódio)|r(?:ros?|mos|va)|conomia|quipes?)?|p(?:r(?:o(?:gr(?:esso|ama)|blemas?|dígio|tetor|vas?)|a(?:z(?:er|o)|xe)|incípios?|essas?)|e(?:r(?:(?:plexidade|spectiva|íodo)s|igo|da)|s(?:soa[ls]?|ar)|nedos|ixe)|o(?:r(?:tugueses|que|ém)?|lí(?:ticas?|cias)|(?:esi|t)a|der|sse|is|vo)|a(?:(?:ciênci|lavr)a|r(?:tidos?|a)|ssagem|pel|ís|i)|i(?:o(?:lhos|r)|stas)|úblico|lanos)|b(?:a(?:n(?:(?:h(?:eir)?o|quete|ana)s|[cd]o)|l(?:a(?:nça|s)|iza)|r(?:racas|co)|i(?:le|a)|gatelas|se)|o(?:n(?:ança|de|zo|s)|t(?:equim|a)|m(?:bas)?|(?:rd)?a|gas)|e(?:l(?:(?:ez)?a|os)|rnarda|ijo|m)|r(?:aços?|uxas)|i(?:cho|rra)|álsamo|uracos)|m(?:e(?:n(?:digo|ina)|d(?:ida|o)|s(?:as|mo)|ios?|lhor)|o(?:t(?:orista|ivos)|l(?:éstia|hos)|delos?|rte|ça)|a(?:l(?:andro|es)?|(?:nhã)?s|i(?:or|s)|rgem)|(?:á(?:scar|go)|úsic)a|u(?:danças|itas?|lher)|é(?:dicos?|todos?)|i(?:lagre|ster)|ãos)|r(?:e(?:c(?:u(?:rsos?|os)|ei(?:tas|o))|f(?:(?:erência|ugiado)s|orma)|g(?:ist(?:ros?|o)|ra)|s(?:postas?|ervas)|m(?:édi|ors)o|i)|a(?:ci(?:ocínios|smo)|ças|paz)|i(?:queza|scos?)|osas|ua)|s(?:e(?:n(?:ti(?:do|r)|ador)|g(?:redos?|unda)|r(?:viço|eia)?|mpre|quer|is)|u(?:b(?:tileza|sídio)s|rf)|o(?:(?:cia)?l|bre|no|m)|i(?:na(?:is|l)|mpatia)|a(?:ngue|ída|las)|ó)|t(?:e(?:(?:r(?:apêutic|r)|cnologi)a|m(?:or|po)|stemunhas)|r(?:a(?:balho|gédia)|(?:eva|ê)s|istezas?|áfico|opa)|a(?:(?:ref|nt)a|l(?:vez)?|mbém)|(?:o[dl]|ip)o)|n(?:e(?:nhu(?:ma?|ns)|s(?:t[ae]|sa)|g(?:ros|ar)|l(?:es?|a)|m)|o(?:(?:v(?:idade|o)|t(?:íci)?a)?s|mes?|ite)?|a(?:(?:scente)?s|da)?|i(?:nguém|sso)|úmeros)|f(?:o(?:r(?:ças?|mas?|tuna)|me)|a(?:l(?:ar|ta)|mília|to)|i(?:dalgos|lósofo|m)|u(?:(?:tur|m)o|gir)|e(?:stas?|bre)|é(?:rias)?|órmulas?)|v(?:e(?:r(?:(?:dadeir|s)os)?|stígio|detas)|i(?:n(?:gança|ho)|slumbrar|zinhos|da)|a(?:ci(?:lar|na)|idades|gas?|lor)|o(?:ltas?|z)|éu)|i(?:(?:m(?:possívei|agen)|deologia)s|n(?:teresse|dícios|imigo)|gual)|g(?:r(?:a(?:ndes?|des|ça)|upos)|o(?:nçalinh|vern|st)o|arantias?)|l(?:i(?:nguagem|mites?|vros?|ames|xo)|u(?:[az]|tas?|gar)|eis?|á)|o(?:u(?:tr(?:os?|a)|ro)?|(?:bstácul|lh)os|fensa|rdem|nde)?|h(?:o(?:me(?:ns|m)|nra|je)|ipótese)|qu(?:a(?:(?:is|l)quer|se)|em?)|j(?:o(?:rnai|go)s|ustiça|á)|á(?:r(?:vore|ea)|lbum|gua)|u(?:m(?:as?)?|topias)|é(?:pocas?)?|ânimo)</token>
+          <token regexp='yes'>(?:c(?:a(?:m(?:i(?:nhos?|sas)|a(?:rada|s)?|elos|po)|r(?:t(?:ilha|as?)|ác?ter|amujo|ros?|ne)|s(?:t(?:el(?:hanos|o)|igo)|as?|os?|ca)|p(?:it(?:a(?:is|l)|ães)|richos?|as)|b(?:reiros|otino|eça)|l(?:deiradas|çado|or)|ch(?:orrinho|aça)|(?:ntinh|gaç)o|u(?:dal|sas)|valos?|tarse|ça|os)|o(?:n(?:t(?:r(?:abandistas|ole)|estar)|f(?:iança|orto)|se(?:lhos|nso))|m(?:p(?:romisso|anhia)|bate|ida|um|o)?|(?:b(?:r(?:anç)?|ertur)|us|v)a|i(?:sa(?:-ruim)?|ros)|adjutor)|h(?:a(?:ma(?:riz)?|nce|ves)|e(?:(?:iro|que)s|fes?)|oque|uva|á)|r(?:i(?:a(?:(?:nça|do)s|tura)|m(?:inoso|es?)|se)|ase)|e(?:r(?:t(?:ezas?|as)|imônia)|go(?:nha)?|ntro)|l(?:a(?:ro-escuro|sse)|i(?:entel|m)a|ube)|i(?:n(?:e(?:asta|mas?)|co)|úmes|pó)|u(?:l(?:pado|tura)|ra)|á(?:lculo)?|éu)|a(?:l(?:g(?:u(?:ma?|ns)|as)|(?:caid|arm|fac)e|t(?:ernativas|a)|m(?:oço|a)|deias|vará|i)|m(?:(?:bulante|igo|pla)s|a(?:nuense|rgura)|or)|t(?:a(?:ques?|lhos)|mosfera|rasos?|eus|é)|p(?:e(?:tite|nas)|o(?:ios?|sta)|lausos)|r(?:istocracias|t(?:ista|e)|voredo|ma)|s(?:s(?:i(?:stentes|m)|adura)|pas)?|(?:g(?:ricultur|end)|ind)a|c(?:(?:úmul|ord)o|ademias)|(?:n(?:imai|o)|forismo)s|u(?:to(?:móvel|r)|las)|qu(?:el(?:as?|es?)|i)|b(?:ertura|rigo)|ju(?:ste|da)|z(?:uis|ar)|(?:vanç)?o|dmirar|í)|d(?:e(?:s(?:e(?:(?:mpreg|rt)o|jar)|(?:graçad|leix|tin)o|c(?:ulpas?|anso)|(?:vio|sa)s|pedida|ordem|ar)|(?:u(?:se)?|talhe)s|n(?:úncias|tro)|certo|ver|z)?|i(?:v(?:i(?:dendos|nas?)|ergências)|f(?:iculdades|erenças?)|s(?:[st]o|farce)|a(?:(?:bo)?s)?|(?:plom|et)a|rec?tor|álogo)|o(?:u(?:tr(?:ina|os)|s)|r(?:mi(?:mos|r))?|(?:ming|l)o|enças?|çura|ce|is)?|u(?:(?:que|a)s|vidar)|(?:r(?:am|og)|ívid)a|a(?:dos|ta)|úvidas?)|e(?:s(?:t(?:(?:(?:údi|ud)o|ratégia)s|a(?:tísticas)?|ômago|es?)|c(?:ol(?:as|ha)|ândalo|ravos|apar)|p(?:erança|écies|aços?)|s(?:es?|a)|forços)|m(?:p(?:a(?:t(?:es|ia)|das)|(?:lastr|reg)o|enhos?)|bargo)?|n(?:c(?:arregados|ontro)|fermidades|ganos?|ergia|tre)|(?:x(?:ager|empl)|goísm)o|(?:vidência|lefante)s|pi(?:demias?|sódio)|r(?:ros?|mos|va)|conomia|quipes?)?|p(?:r(?:o(?:gr(?:esso|ama)|blemas?|dígio|tetor|vas?)|a(?:z(?:er|o)|xe)|incípios?|essas?)|e(?:r(?:(?:plexidade|spec?tiva|íodo)s|igo|da)|s(?:soa[ls]?|ar)|nedos|ixe)|o(?:r(?:tugueses|que|ém)?|lí(?:ticas?|cias)|(?:esi|t)a|der|sse|is|vo)|a(?:(?:ciênci|lavr)a|r(?:tidos?|a)|ssagem|pel|ís|i)|i(?:o(?:lhos|r)|stas)|úblico|lanos)|b(?:a(?:n(?:(?:h(?:eir)?o|quete|ana)s|[cd]o)|l(?:a(?:nça|s)|iza)|r(?:racas|co)|i(?:le|a)|gatelas|se)|o(?:n(?:ança|de|zo|s)|t(?:equim|a)|m(?:bas)?|(?:rd)?a|gas)|e(?:l(?:(?:ez)?a|os)|rnarda|ijo|m)|r(?:aços?|uxas)|i(?:cho|rra)|álsamo|uracos)|m(?:e(?:n(?:digo|ina)|d(?:ida|o)|s(?:as|mo)|ios?|lhor)|o(?:t(?:orista|ivos)|l(?:éstia|hos)|delos?|rte|ça)|a(?:l(?:andro|es)?|(?:nhã)?s|i(?:or|s)|rgem)|(?:á(?:scar|go)|úsic)a|u(?:danças|itas?|lher)|é(?:dicos?|todos?)|i(?:lagre|ster)|ãos)|r(?:e(?:c(?:u(?:rsos?|os)|ei(?:tas|o))|f(?:(?:erência|ugiado)s|orma)|g(?:ist(?:ros?|o)|ra)|s(?:postas?|ervas)|m(?:édi|ors)o|i)|a(?:ci(?:ocínios|smo)|ças|paz)|i(?:queza|scos?)|osas|ua)|s(?:e(?:n(?:ti(?:do|r)|ador)|g(?:redos?|unda)|r(?:viço|eia)?|mpre|quer|is)|u(?:b(?:tileza|sídio)s|rf)|o(?:(?:cia)?l|bre|no|m)|i(?:na(?:is|l)|mpatia)|a(?:ngue|ída|las)|ó)|t(?:e(?:(?:r(?:apêutic|r)|cnologi)a|m(?:or|po)|stemunhas)|r(?:a(?:balho|gédia)|(?:eva|ê)s|istezas?|áfico|opa)|a(?:(?:ref|nt)a|l(?:vez)?|mbém)|(?:o[dl]|ip)o)|n(?:e(?:nhu(?:ma?|ns)|s(?:t[ae]|sa)|g(?:ros|ar)|l(?:es?|a)|m)|o(?:(?:v(?:idade|o)|t(?:íci)?a)?s|mes?|ite)?|a(?:(?:scente)?s|da)?|i(?:nguém|sso)|úmeros)|f(?:o(?:r(?:ças?|mas?|tuna)|me)|a(?:l(?:ar|ta)|mília|to)|i(?:dalgos|lósofo|m)|u(?:(?:tur|m)o|gir)|e(?:stas?|bre)|é(?:rias)?|órmulas?)|v(?:e(?:r(?:(?:dadeir|s)os)?|stígio|detas)|i(?:n(?:gança|ho)|slumbrar|zinhos|da)|a(?:ci(?:lar|na)|idades|gas?|lor)|o(?:ltas?|z)|éu)|i(?:(?:m(?:possívei|agen)|deologia)s|n(?:teresse|dícios|imigo)|gual)|g(?:r(?:a(?:ndes?|des|ça)|upos)|o(?:nçalinh|vern|st)o|arantias?)|l(?:i(?:nguagem|mites?|vros?|ames|xo)|u(?:[az]|tas?|gar)|eis?|á)|o(?:u(?:tr(?:os?|a)|ro)?|(?:bstácul|lh)os|fensa|rdem|nde)?|h(?:o(?:me(?:ns|m)|nra|je)|ipótese)|qu(?:a(?:(?:is|l)quer|se)|em?)|j(?:o(?:rnai|go)s|ustiça|á)|á(?:r(?:vore|ea)|lbum|gua)|u(?:m(?:as?)?|topias)|é(?:pocas?)?|ânimo)</token>
       </pattern>
       <message>Falta uma vírgula, ou há confunsão de palavras. As formas do verbo haver têm sempre 'h'.</message>
         <suggestion>\1 há \3</suggestion>
@@ -4024,7 +4028,7 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token>guarda</token>
           <token regexp='yes'>&tracos_de_separacao;</token>
-          <token>nocturno</token>
+          <token regexp='yes'>noc?turno</token>
       </pattern>
       <message>Substitua por <suggestion>a guarda-nocturna</suggestion>.</message>
       <example correction="a guarda-nocturna">Vamos ver <marker>a guarda-nocturno</marker>.</example>
@@ -4527,7 +4531,7 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
-          <token regexp='yes'>impactos?</token>
+          <token regexp='yes'>impac?tos?</token>
           <token regexp='yes'>ecológicas?</token>
       </pattern>
       <message>Substitua por <suggestion>\1 \2 ecológico<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
@@ -5337,7 +5341,7 @@ title="Easy editing stylesheet" ?>
 		  <marker>
 			<token>a</token>
 		  </marker>
-          <token regexp="yes">jato|jacto</token>
+          <token regexp="yes">jac?to</token>
       </pattern>
       <message>Substitua por <suggestion>de</suggestion>.</message>
       <example correction="de">Eles vão voar <marker>a</marker> jato.</example>
@@ -5581,7 +5585,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|facto|possibilidade</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|facto|objec?tivo|possibilidade</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -8582,7 +8586,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>isto</token>
           <token inflected='yes'>ser</token>
           <token>um</token>
-          <token regexp='yes'>fatos?|factos?</token>
+          <token regexp='yes'>fac?tos?</token>
           <token inflected='yes'>real</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
@@ -8690,12 +8694,12 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='REDUNDANCY_FACTO' name="Pleonasmo: Facto verídico">
       <pattern>
-          <token inflected='yes' regexp='yes'>fato|facto</token>
+          <token inflected='yes' regexp='yes'>fac?tos?</token>
           <token regexp='yes'>verídicos?</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
-      <example correction='fato'><marker>fato verídico</marker></example>
+      <example correction='facto'><marker>facto verídico</marker></example>
     </rule>
     <rule id='REDUNDANCY_ALMIRANTE' name="Pleonasmo: Almirante da marinha">
       <pattern>
@@ -9332,7 +9336,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule id='REDUNDANCY_48_PROPRIEDADES' name='Pleonasmo: Propriedades características'>
       <pattern>
           <token regexp='yes'>propriedades?</token>
-          <token regexp='yes'>características?</token>
+          <token regexp='yes'>carac?terísticas?</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
@@ -13366,7 +13370,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jactância|manigância|pânria|substância</token>
+          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Ââ]" regexp_replace="a"/></suggestion>
@@ -13374,7 +13378,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jactância|manigância|pânria|substância</token>
+          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -15092,7 +15096,7 @@ o tomate'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>ictericias?</token>
+          <token regexp='yes'>ic?tericias?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> icterícia<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -15334,7 +15338,7 @@ o tomate'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>jactancias?</token>
+          <token regexp='yes'>jac?tancias?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> jactância<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -17626,7 +17630,7 @@ o tomate'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>electrodiagnosticas?</token>
+          <token regexp='yes'>elec?trodiagnosticas?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> electrodiagnóstica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -17637,7 +17641,7 @@ o tomate'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>electrodiagnosticos?</token>
+          <token regexp='yes'>elec?trodiagnosticos?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> electrodiagnóstico<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -17648,7 +17652,7 @@ o tomate'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>electrolises?</token>
+          <token regexp='yes'>elec?trolises?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> electrólise<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -19430,7 +19434,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-z]+mente|[A-Za-z]+mento|alcance|algum|apenas|ar|aspecto|bastante|bem|campo|caráter|científico|coeficiente|como|controle|curso|de|dentista|desempenho|destino|devaso|do|domínio|e|É|efeito|em|ensino|era|espírito|este|estivese|estudo|exame|exemplo|exercício|fica|filósofo|gênio|grande|guia|hábito|homem|interese|intuito|iso|juízo|lado|mais|manejo|manual|marido|meio|menos|método|modo|muito|mundo|nada|navegante|negociante|nível|o|objetivo|olho|outro|país|palavreado|paso|pelo|pouco|princípio|problema|proceso|psicólogo|ramo|realismo|remédio|responsável|resultado|roteiro|saber|senso|sentido|ser|será|seria|significado|sobretudo|soldado|sujeito|suporte|talento|tão|tereno|teste|tornar|trabalho|treino|um|uso|valore?)s?</token>
+          <token regexp='yes'>(?:[A-Za-z]+mente|[A-Za-z]+mento|alcance|algum|apenas|ar|aspec?to|bastante|bem|campo|caráter|científico|coeficiente|como|controle|curso|de|dentista|desempenho|destino|devaso|do|domínio|e|É|efeito|em|ensino|era|espírito|este|estivese|estudo|exame|exemplo|exercício|fica|filósofo|gênio|grande|guia|hábito|homem|interese|intuito|iso|juízo|lado|mais|manejo|manual|marido|meio|menos|método|modo|muito|mundo|nada|navegante|negociante|nível|o|objetivo|olho|outro|país|palavreado|paso|pelo|pouco|princípio|problema|proceso|psicólogo|ramo|realismo|remédio|responsável|resultado|roteiro|saber|senso|sentido|ser|será|seria|significado|sobretudo|soldado|sujeito|suporte|talento|tão|tereno|teste|tornar|trabalho|treino|um|uso|valore?)s?</token>
         <marker>
           <token regexp='yes'>praticos?</token>
         </marker>
@@ -19446,7 +19450,7 @@ TODO Write better examples
           <token>Educação</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expectativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fose|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornase|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
+          <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expec?tativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fose|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornase|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
         <marker>
           <token regexp='yes'>publicas?</token>
         </marker>
@@ -19490,7 +19494,7 @@ TODO Write better examples
     </rule-->
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|abonando|abre|abrir|acesar|acharia|admitem|alcançarem|algum|altera|ampliar|antigo|ao|apresente|aranjou|bom|bonito|buscando|buscar|colocou|com|como|concedam|concede|conceder|concedia|consegue|conseguiram|consolidado|constarão|constituirá|contratar|cronista|cujo|dado|dai|dando|dar|daria|daríeis|dava|de|dei|dera|deram|dermos|desse|deses|deste|determinado|deu|devido|do|É|e|em|empresas|encontra|escaso|esse|este|estuda|evento|eventual|fitas|fornecer|ganhara|ganharão|ganhase|garante|garantir|grande|há|haverá|imenso|implicam|implicará|inteiro|largo|maior|mais|mediante|menor|menos|merece|merecem|merecerem|mesmo|meu|muda|muito|municipal|não|negar|nem|nenhum|no|noso|novo|o|obtém|obter|obtinham|obtiveram|ocore|oferecendo|ou|para|pede|pelo|pequeno|piano|pleno|por|pouco|poupança|presidente|prestar|primeiro|próprio|qualquer|quer|queremos|receber|receberam|regateavam|respectivo|restringem|restringir|segundo|sem|seu|simplifica|sobre|solicitar|tal|tanto|tem|têm|tenho|ter|terá|teu|tinha|tiveram|tivesem|transferir|último|um|utilizado|volume|voso)s?</token>
+          <token regexp='yes'>(?:a|abonando|abre|abrir|acesar|acharia|admitem|alcançarem|algum|altera|ampliar|antigo|ao|apresente|aranjou|bom|bonito|buscando|buscar|colocou|com|como|concedam|concede|conceder|concedia|consegue|conseguiram|consolidado|constarão|constituirá|contratar|cronista|cujo|dado|dai|dando|dar|daria|daríeis|dava|de|dei|dera|deram|dermos|desse|deses|deste|determinado|deu|devido|do|É|e|em|empresas|encontra|escaso|esse|este|estuda|evento|eventual|fitas|fornecer|ganhara|ganharão|ganhase|garante|garantir|grande|há|haverá|imenso|implicam|implicará|inteiro|largo|maior|mais|mediante|menor|menos|merece|merecem|merecerem|mesmo|meu|muda|muito|municipal|não|negar|nem|nenhum|no|noso|novo|o|obtém|obter|obtinham|obtiveram|ocore|oferecendo|ou|para|pede|pelo|pequeno|piano|pleno|por|pouco|poupança|presidente|prestar|primeiro|próprio|qualquer|quer|queremos|receber|receberam|regateavam|respec?tivo|restringem|restringir|segundo|sem|seu|simplifica|sobre|solicitar|tal|tanto|tem|têm|tenho|ter|terá|teu|tinha|tiveram|tivesem|transferir|último|um|utilizado|volume|voso)s?</token>
         <marker>
           <token regexp='yes'>creditos?</token>
         </marker>
@@ -19568,7 +19572,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|abrindo|alguma|aparente|aquela|àquela|bastante|boa|breve|caso|certa|com|considerável|cuja|curta|da|dada|daquela|de|denominada|desconsoladora|deseja|dessa|desta|determinada|duma|e|É|em|encurtar|enorme|essa|esta|exigia|existe|explorada|firme|ganhar|ganhara|gélida|grande|guardando|guardou|há|habitual|havia|houvera|igual|imensa|impercorível|impõe|impunha|inaceitável|indicando|insondável|intérmina|interpusese|intransponível|larga|longa|maior|mais|mantendo|mantenha|manter|marcando|média|meia|menor|mesma|mínima|muita|na|naquela|necesária|nenhuma|nessa|nesta|notável|numa|ou|pela|pequena|por|pouca|primeira|própria|qualquer|que|quer|querem|queria|quero|quis|razoável|relativa|removida|representar|respectiva|respeitável|respeitosa|segura|sem|sua|tal|tanta|tinha|tomando|tomou|última|única|uma|vence|venceu|velha)s?</token>
+          <token regexp='yes'>(?:a|à|abrindo|alguma|aparente|aquela|àquela|bastante|boa|breve|caso|certa|com|considerável|cuja|curta|da|dada|daquela|de|denominada|desconsoladora|deseja|dessa|desta|determinada|duma|e|É|em|encurtar|enorme|essa|esta|exigia|existe|explorada|firme|ganhar|ganhara|gélida|grande|guardando|guardou|há|habitual|havia|houvera|igual|imensa|impercorível|impõe|impunha|inaceitável|indicando|insondável|intérmina|interpusese|intransponível|larga|longa|maior|mais|mantendo|mantenha|manter|marcando|média|meia|menor|mesma|mínima|muita|na|naquela|necesária|nenhuma|nessa|nesta|notável|numa|ou|pela|pequena|por|pouca|primeira|própria|qualquer|que|quer|querem|queria|quero|quis|razoável|relativa|removida|representar|respec?tiva|respeitável|respeitosa|segura|sem|sua|tal|tanta|tinha|tomando|tomou|última|única|uma|vence|venceu|velha)s?</token>
         <marker>
           <token regexp='yes'>distancias?</token>
         </marker>
@@ -19645,7 +19649,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|análise|aprendizagem|aquela|camada|conectividade|coreia|corente|da|de|descarga|dessa|discursiva|É|em|era|essa|escala|espera|esta|está|estrutura|fase|foi|forma|inconstância|leitura|lida|linha|luta|mais|malha|maneira|marcha|massa|matriz|medida|melhoria|moldagem|na|natureza|necesariamente|nessa|numa|parte|pela|por|pública|queda|rajada|reciclagem|sai|saída|ser|série|superfície|tão|uma|vigilância)s?</token>
+          <token regexp='yes'>(?:a|à|análise|aprendizagem|aquela|camada|conec?tividade|coreia|corente|da|de|descarga|dessa|discursiva|É|em|era|essa|escala|espera|esta|está|estrutura|fase|foi|forma|inconstância|leitura|lida|linha|luta|mais|malha|maneira|marcha|massa|matriz|medida|melhoria|moldagem|na|natureza|necesariamente|nessa|numa|parte|pela|por|pública|queda|rajada|reciclagem|sai|saída|ser|série|superfície|tão|uma|vigilância)s?</token>
         <marker>
           <token regexp='yes'>continuas?</token>
         </marker>
@@ -19656,7 +19660,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|abandono|abuso|acionamento|açoite|acompanhamento|afastamento|algo|antigo|ao|ardor|ataque|ato|atrito|aumento|austero|bailado|baixo|barateamento|barulho|bom|brado|ciclo|circular|citoplasma|com|combate|comércio|conjunto|crescendo|crescer|crescimento|cultivo|daquele|de|decair|declive|desde|desdobramento|desejo|desencontro|desenvolver|desenvolvimento|desgaste|deslumbramento|disparo|do|dum|É|em|empobrecimento|enfraquecimento|entre|era|erosão|esforço|espectro|esse|estado|este|fio|flagelo|fluido|fluxo|foco|fogo|foi|fornecimento|forno|friso|fui|gemido|giro|golpe|gravitar|hábito|instrumento|interdisciplinar|interese|investimento|jato|jogo|labor|labutar|levantamento|mais|mental|modo|monitoramento|montanhoso|movimento|murmúrio|no|novo|num|numérico|o|ordem|padecer|paralelo|pelo|pensamento|pesar|pigaro|por|povoamento|proceso|quase|querer|reconhecimento|regime|registador|registo|resfriamento|revezamento|risco|ritmo|rodopiar|rolo|ruído|rumor|seja|sente|será|serviço|seu|simples|sistema|soluçar|som|sonho|subconsciente|subir|susto|tão|tempo|térmico|texto|trabalho|traçado|traço|trato|trem|tremor|tropear|turbilhão|um|uso|vaivém|velho|vertia|volver|vômito|vo|voz|zunido)s?</token>
+          <token regexp='yes'>(?:a|abandono|abuso|acionamento|açoite|acompanhamento|afastamento|algo|antigo|ao|ardor|ataque|ato|atrito|aumento|austero|bailado|baixo|barateamento|barulho|bom|brado|ciclo|circular|citoplasma|com|combate|comércio|conjunto|crescendo|crescer|crescimento|cultivo|daquele|de|decair|declive|desde|desdobramento|desejo|desencontro|desenvolver|desenvolvimento|desgaste|deslumbramento|disparo|do|dum|É|em|empobrecimento|enfraquecimento|entre|era|erosão|esforço|espec?tro|esse|estado|este|fio|flagelo|fluido|fluxo|foco|fogo|foi|fornecimento|forno|friso|fui|gemido|giro|golpe|gravitar|hábito|instrumento|interdisciplinar|interese|investimento|jato|jogo|labor|labutar|levantamento|mais|mental|modo|monitoramento|montanhoso|movimento|murmúrio|no|novo|num|numérico|o|ordem|padecer|paralelo|pelo|pensamento|pesar|pigaro|por|povoamento|proceso|quase|querer|reconhecimento|regime|registador|registo|resfriamento|revezamento|risco|ritmo|rodopiar|rolo|ruído|rumor|seja|sente|será|serviço|seu|simples|sistema|soluçar|som|sonho|subconsciente|subir|susto|tão|tempo|térmico|texto|trabalho|traçado|traço|trato|trem|tremor|tropear|turbilhão|um|uso|vaivém|velho|vertia|volver|vômito|vo|voz|zunido)s?</token>
         <marker>
           <token regexp='yes'>continuos?</token>
         </marker>
@@ -19678,7 +19682,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[a-z]+nte|[a-z]+nto|[a-z]+sto|[a-z]+i[tv]o|[a-z]+ado|[a-z]+[sç]ão|[a-z]+[dt]or|[a-z]+eto|[a-záâéíóôú]+ico|[a-záâéíóôú]+rio|[a-záâéíóôú]+ulo|[a-záâéíóôú]+ismo|acordo|algo|algoritmo|alvo|[\xc2â]mbito|anticorpo|apoio|aranjo|artigo|aspecto|ato|bem|calor|caminho|campo|canal|carácter|caso|cheiro|conteúdo|contexto|corpo|curso|de|deficit|demanda|desejo|despacho|diploma|do|dolo|domínio|e|É|em|embora|endereço|energia|estilo|estrese|estudo|exame|exemplo|fenômeno|fim|foi|fruto|fundo|gene|gênero|grupo|habitat|[\xcdí]ndice|indivíduo|inimigo|interese|intervalo|jargão|limite|local|lugar|mais|mandato|marketing|material|método|meu|modo|nada|não|nome|número|o|onda|[\xd3ó]rgão|padrão|palco|papel|perigo|peso|pesquisa|prazo|preparo|problema|proceso|produto|programa|quase|registro|remédio|risco|ritual|roteiro|seja|sensor|sentido|serviço|sistema|site|social|som|soro|substrato|tão|tecidular|tempo|termo|texto|tipo|trabalho|treino|último|um|uso|valor|visual)s?</token>
+          <token regexp='yes'>(?:[a-z]+nte|[a-z]+nto|[a-z]+sto|[a-z]+i[tv]o|[a-z]+ado|[a-z]+[sç]ão|[a-z]+[dt]or|[a-z]+eto|[a-záâéíóôú]+ico|[a-záâéíóôú]+rio|[a-záâéíóôú]+ulo|[a-záâéíóôú]+ismo|acordo|algo|algoritmo|alvo|[\xc2â]mbito|anticorpo|apoio|aranjo|artigo|aspec?to|ato|bem|calor|caminho|campo|canal|carác?ter|caso|cheiro|conteúdo|contexto|corpo|curso|de|deficit|demanda|desejo|despacho|diploma|do|dolo|domínio|e|É|em|embora|endereço|energia|estilo|estrese|estudo|exame|exemplo|fenômeno|fim|foi|fruto|fundo|gene|gênero|grupo|habitat|[\xcdí]ndice|indivíduo|inimigo|interese|intervalo|jargão|limite|local|lugar|mais|mandato|marketing|material|método|meu|modo|nada|não|nome|número|o|onda|[\xd3ó]rgão|padrão|palco|papel|perigo|peso|pesquisa|prazo|preparo|problema|proceso|produto|programa|quase|registro|remédio|risco|ritual|roteiro|seja|sensor|sentido|serviço|sistema|site|social|som|soro|substrato|tão|tecidular|tempo|termo|texto|tipo|trabalho|treino|último|um|uso|valor|visual)s?</token>
         <marker>
           <token regexp='yes'>especificos?</token>
         </marker>
@@ -19722,7 +19726,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>[A-Za-z]+mente|[A-Za-z]+mento|abandono|afetivo|agora|agravo|álbum|algum|aliado|alvoroço|amargor|amigo|amor|anelo|antagonismo|ao|aquele|arepio|baile|bom|caderno|camarada|caminho|cântico|canto|carácter|caráter|casulo|causaria|causava|choque|círculo|clima|colóquio|com|combate|como|companheiro|compromiso|conselheiro|contato|convívio|cunho|daquele|de|debate|decoro|dessa|fio|desejo|desespero|desgosto|desprezo|diálogo|diário|discurso|do|drama|e|É|elo|em|encanto|enxoval|era|está|este|fenômeno|ficara|ficou|foco|foi|foro|fui|furor|gemido|governo|gozo|grito|homem|horível|ideal|impulso|indicar|intérprete|jantar|júbilo|juízo|laço|lirismo|livro|luto|mais|menos|meu|mistério|modelo|molde|monólogo|motivo|muito|mundo|negócio|no|nosso|num|o|olhar|oráculo|orgulho|padecer|panorama|papel|para|parecia|parente|pede|pelo|piano|por|pouco|prazer|próprio|qualquer|quase|que|rapaz|recolho|refeitório|relato|são|sarau|secretário|sendo|senso|sentido|ser|seria|seu|sido|sobresalto|sol|sosego|suspiro|também|tão|terreno|terror|teu|todo|tom|torna|trato|um|verbo|viver</token>
+          <token regexp='yes'>[A-Za-z]+mente|[A-Za-z]+mento|abandono|afetivo|agora|agravo|álbum|algum|aliado|alvoroço|amargor|amigo|amor|anelo|antagonismo|ao|aquele|arepio|baile|bom|caderno|camarada|caminho|cântico|canto|carác?ter|caráter|casulo|causaria|causava|choque|círculo|clima|colóquio|com|combate|como|companheiro|compromiso|conselheiro|contato|convívio|cunho|daquele|de|debate|decoro|dessa|fio|desejo|desespero|desgosto|desprezo|diálogo|diário|discurso|do|drama|e|É|elo|em|encanto|enxoval|era|está|este|fenômeno|ficara|ficou|foco|foi|foro|fui|furor|gemido|governo|gozo|grito|homem|horível|ideal|impulso|indicar|intérprete|jantar|júbilo|juízo|laço|lirismo|livro|luto|mais|menos|meu|mistério|modelo|molde|monólogo|motivo|muito|mundo|negócio|no|nosso|num|o|olhar|oráculo|orgulho|padecer|panorama|papel|para|parecia|parente|pede|pelo|piano|por|pouco|prazer|próprio|qualquer|quase|que|rapaz|recolho|refeitório|relato|são|sarau|secretário|sendo|senso|sentido|ser|seria|seu|sido|sobresalto|sol|sosego|suspiro|também|tão|terreno|terror|teu|todo|tom|torna|trato|um|verbo|viver</token>
         <marker>
           <token regexp='yes'>intimos?</token>
         </marker>
@@ -19733,7 +19737,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[a-zêâ]+ncia|a|agonia|alegria|alma|amiga|amizade|ansiedade|aquela|atitude|atividade|bem|bondade|calma|carta|causa|ceia|cena|certeza|com|como|confiança|consulta|contextura|conversa|crônica|cumplicidade|da|daquela|de|delícia|descoberta|dessa|desta|dor|e|É|em|energia|era|esfera|esperança|essa|esta|estante|estrutura|falta|fazer|felicidade|festa|fez|foi|força|forma|fose|fraternidade|frieza|ginástica|higiene|história|inimiga|irlanda|já|linguagem|literária|luta|luz|magoa|mágoa|mais|mantém|mas|menos|mesa|mesma|minha|moralidade|mostrar|muita|muito|na|não|natureza|necesidade|nossa|nota|nudez|numa|ordem|ou|pagina|página|palavra|palestra|palpite|parte|paz|pela|pergunta|perspectiva|pesoa|poesia|posuem|prática|que|quem|realidade|reviravolta|revolta|revolve|roupa|segurança|senhora|ser|sinceridade|sociedade|sombra|sou|sua|também|toda|tornou|tortura|tristeza|túnica|uma|verdade|vida|voz|zona)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
+          <token regexp='yes'>(?:[a-zêâ]+ncia|a|agonia|alegria|alma|amiga|amizade|ansiedade|aquela|atitude|atividade|bem|bondade|calma|carta|causa|ceia|cena|certeza|com|como|confiança|consulta|contextura|conversa|crônica|cumplicidade|da|daquela|de|delícia|descoberta|dessa|desta|dor|e|É|em|energia|era|esfera|esperança|essa|esta|estante|estrutura|falta|fazer|felicidade|festa|fez|foi|força|forma|fose|fraternidade|frieza|ginástica|higiene|história|inimiga|irlanda|já|linguagem|literária|luta|luz|magoa|mágoa|mais|mantém|mas|menos|mesa|mesma|minha|moralidade|mostrar|muita|muito|na|não|natureza|necesidade|nossa|nota|nudez|numa|ordem|ou|pagina|página|palavra|palestra|palpite|parte|paz|pela|pergunta|perspec?tiva|pesoa|poesia|posuem|prática|que|quem|realidade|reviravolta|revolta|revolve|roupa|segurança|senhora|ser|sinceridade|sociedade|sombra|sou|sua|também|toda|tornou|tortura|tristeza|túnica|uma|verdade|vida|voz|zona)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
 
         <marker>
           <token regexp='yes'>intimas?</token>
@@ -19778,7 +19782,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|aço|adorado|alcatrão|[\xc1á]lcol|algum|amortecedor|ao|aquele|ar|aro|artificioso|ativo|aumento|azoto|baro|bastante|batom|beber|bexiga|brilho|bucho|café|carbono|célebre|certo|céu|chumbo|cimento|cintilador|circulante|clorofórmio|com|combustível|como|composto|contêm|conteúdo|contribuinte|cor-de-rosa|coretivo|cristal|daquele|de|denominado|deramava|dessa|ranjo|despenhadeiro|desse|deste|detergente|diamante|direito|do|e|É|efeito|efluente|em|empréstimo|endividamento|endosperma|enxofre|espelho|esse|estado|estados|este|esturinho|etano|exportador|externo|fato|faturamento|ficar|fio|fluxo|ganho|gás|giz|glicerol|glicol|hélio|hidrocarboneto|hidrogênio|ímã|investimento|iogurte|juro|lençol|linfa|litro|lucro|mais|material|meio|menos|microcosmos|miraculoso|monstro|muito|néctar|nenhum|nesse|nitrogênio|no|núcleo|num|o|objetivo|[\xd3ó]leo|OMO|[\xd3ó]pio|ordenado|ou|ouro|outro|oval|oxigênio|para|parece|patrimônio|pelo|peso|por|precioso|preciso|preço|prejuízo|prêmio|presente|produto|propanona|pus|qualquer|que|real|registo|rendimento|resgate|resultado|retorno|rubi|sabão|sabonete|salário|saldo|sempre|ser|seu|sódio|solda|sonho|subsídio|tal|talco|também|tão|tem|teto|tinta|título|tolueno|torna-se|total|tronco|tudo|um|urina|valor|vencimento|veneno|venenoso|vinagre</token>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|a|aço|adorado|alcatrão|[\xc1á]lcol|algum|amortecedor|ao|aquele|ar|aro|artificioso|ativo|aumento|azoto|baro|bastante|batom|beber|bexiga|brilho|bucho|café|carbono|célebre|certo|céu|chumbo|cimento|cintilador|circulante|clorofórmio|com|combustível|como|composto|contêm|conteúdo|contribuinte|cor-de-rosa|coretivo|cristal|daquele|de|denominado|deramava|dessa|ranjo|despenhadeiro|desse|deste|detergente|diamante|direito|do|e|É|efeito|efluente|em|empréstimo|endividamento|endosperma|enxofre|espelho|esse|estado|estados|este|esturinho|etano|exportador|externo|fato|faturamento|ficar|fio|fluxo|ganho|gás|giz|glicerol|glicol|hélio|hidrocarboneto|hidrogênio|ímã|investimento|iogurte|juro|lençol|linfa|litro|lucro|mais|material|meio|menos|microcosmos|miraculoso|monstro|muito|néc?tar|nenhum|nesse|nitrogênio|no|núcleo|num|o|objetivo|[\xd3ó]leo|OMO|[\xd3ó]pio|ordenado|ou|ouro|outro|oval|oxigênio|para|parece|patrimônio|pelo|peso|por|precioso|preciso|preço|prejuízo|prêmio|presente|produto|propanona|pus|qualquer|que|real|registo|rendimento|resgate|resultado|retorno|rubi|sabão|sabonete|salário|saldo|sempre|ser|seu|sódio|solda|sonho|subsídio|tal|talco|também|tão|tem|teto|tinta|título|tolueno|torna-se|total|tronco|tudo|um|urina|valor|vencimento|veneno|venenoso|vinagre</token>
         <marker>
           <token regexp='yes'>liquidos?</token>
         </marker>
@@ -19923,7 +19927,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|acabrunhadora|agradável|ainda|alguma|apareceu|aquela|àquela|atraente|bela|boa|breve|cada|certa|certamente|chamado|chegase|chegou|circunstanciada|com|comprida|conforme|consoladora|consta|cuja|curiosa|da|dá|dado|dando|dão|daquela|dar|darão|darem|daremos|darmos|dava|davam|de|dê|dei|deixase|dele|der|dera|deram|desagradável|desastrosa|desgostosa|desmentiu|desoladora|dessa|desse|desem|desta|detalhada|deu|diseram|dolorosa|dou|duma|e|É|ele|encontra|era|eram|essa|esta|estupenda|exata|existindo|extraordinária|falsa|fantasiosa|fatal|fazem|feliz|foi|fora|foram|fosem|fraca|funesta|futura|grande|grata|grave|há|haja|haver|havia|horível|houve|houvera|houvese|ia|impacta|importante|inesperada|intempestiva|jornais|larga|leve|ligeira|lisonjeira|logo|lúgubre|má|mais|mandaria|mande|menor|mesma|minha|mínima|misteriosa|na|naquela|nem|nenhuma|nesta|numa|ontem|[\xd3ó]tima|ou|outra|outro|ouvidos|pavorosa|pediu|pela|pequena|pesco|pésima|pior|pobre|por|porém|portentosa|posui|pouca|pouco|prévia|primeira|principal|pronta|própria|próprios|próspera|qual|qualquer|quanta|que|querer|rara|recebemos|receber|recebera|receberam|recebeste|referida|saber|sabia|são|seguinte|segunda|segundo|sejam|sem|semelhante|ser|seriam|sido|simples|só|sobretudo|somente|soube|sua|surprendente|tal|tanta|tem|têm|temos|tendenciosa|tendo|tenhamos|tenho|tens|ter|teriam|terrível|teve|tido|tinha|tinham|tínhamos|tive|tivemos|tiver|tivera|tiveram|tivese|tiveste|tornarem|tornou|trágica|traz|trazer|trazido|triste|trouxe|última|uma|única|ver|vez|vinha|virar|virou|terei|traga|tragam|espalhafatosa|sensacional|maravilhosa|sobre)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:a|à|acabrunhadora|agradável|ainda|alguma|apareceu|aquela|àquela|atraente|bela|boa|breve|cada|certa|certamente|chamado|chegase|chegou|circunstanciada|com|comprida|conforme|consoladora|consta|cuja|curiosa|da|dá|dado|dando|dão|daquela|dar|darão|darem|daremos|darmos|dava|davam|de|dê|dei|deixase|dele|der|dera|deram|desagradável|desastrosa|desgostosa|desmentiu|desoladora|dessa|desse|desem|desta|detalhada|deu|diseram|dolorosa|dou|duma|e|É|ele|encontra|era|eram|essa|esta|estupenda|exata|existindo|extraordinária|falsa|fantasiosa|fatal|fazem|feliz|foi|fora|foram|fosem|fraca|funesta|futura|grande|grata|grave|há|haja|haver|havia|horível|houve|houvera|houvese|ia|impac?ta|importante|inesperada|intempestiva|jornais|larga|leve|ligeira|lisonjeira|logo|lúgubre|má|mais|mandaria|mande|menor|mesma|minha|mínima|misteriosa|na|naquela|nem|nenhuma|nesta|numa|ontem|[\xd3ó]tima|ou|outra|outro|ouvidos|pavorosa|pediu|pela|pequena|pesco|pésima|pior|pobre|por|porém|portentosa|posui|pouca|pouco|prévia|primeira|principal|pronta|própria|próprios|próspera|qual|qualquer|quanta|que|querer|rara|recebemos|receber|recebera|receberam|recebeste|referida|saber|sabia|são|seguinte|segunda|segundo|sejam|sem|semelhante|ser|seriam|sido|simples|só|sobretudo|somente|soube|sua|surprendente|tal|tanta|tem|têm|temos|tendenciosa|tendo|tenhamos|tenho|tens|ter|teriam|terrível|teve|tido|tinha|tinham|tínhamos|tive|tivemos|tiver|tivera|tiveram|tivese|tiveste|tornarem|tornou|trágica|traz|trazer|trazido|triste|trouxe|última|uma|única|ver|vez|vinha|virar|virou|terei|traga|tragam|espalhafatosa|sensacional|maravilhosa|sobre)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>noticias?</token>
         </marker>
@@ -20099,7 +20103,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:abençoado|acha|acharam|achou|ao|aquele|àquele|avistavam|buscam?|buscamos|buscando|buscar|buscarem|buscasse|buscava|buscavam|busquei|celeste|claro|com|como|daquele|de|derradeiro|descobrira|desencantado|desse|do|e|é|em|encontrar|encontrara|encontraram|encontrarem|encontraria|encontrava|encontrou|esse|este|foram|fresco|glorioso|ignorado|intelectual|maior|melhor|meu|modesto|mortal|murado|naquele|nem|nesse|neste|no|nosso|num|o|oferecer|ou|outro|para|pediu|procura|procuram|procurar|procuraram|procurarem|procurava|procurou|seu|simples|sou|também|último|um|único)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:abençoado|acha|acharam|achou|ao|aquele|àquele|avistavam|buscam?|buscamos|buscando|buscar|buscarem|buscasse|buscava|buscavam|busquei|celeste|claro|com|como|daquele|de|derradeiro|descobrira|desencantado|desse|do|e|é|em|encontrar|encontrara|encontraram|encontrarem|encontraria|encontrava|encontrou|esse|este|foram|fresco|glorioso|ignorado|intelec?tual|maior|melhor|meu|modesto|mortal|murado|naquele|nem|nesse|neste|no|nosso|num|o|oferecer|ou|outro|para|pediu|procura|procuram|procurar|procuraram|procurarem|procurava|procurou|seu|simples|sou|também|último|um|único)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>refugios?</token>
         </marker>
@@ -20132,7 +20136,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|algum|ao|aquele|autêntico|cm|com|como|de|der|do|e|É|em|enorme|escondido|esse|este|fez|gera|gerava|grande|havia|imprudente|infinito|inviolado|maior|mantém|mediante|nenhum|neste|no|nosso|noutro|novo|num|o|ou|pagar|para|pelo|pequeno|pesado|por|precioso|primeiro|principal|pro|profundo|que|receber|referido|requerer|respectivo|rígido|sagrado|seu|simples|só|soturno|tal|um|único|virou)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:a|algum|ao|aquele|autêntico|cm|com|como|de|der|do|e|É|em|enorme|escondido|esse|este|fez|gera|gerava|grande|havia|imprudente|infinito|inviolado|maior|mantém|mediante|nenhum|neste|no|nosso|noutro|novo|num|o|ou|pagar|para|pelo|pequeno|pesado|por|precioso|primeiro|principal|pro|profundo|que|receber|referido|requerer|respec?tivo|rígido|sagrado|seu|simples|só|soturno|tal|um|único|virou)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>depositos?</token>
         </marker>
