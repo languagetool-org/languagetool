@@ -30,6 +30,7 @@
       <maven.compiler.target>1.8</maven.compiler.target>
       <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
       <maven.jar.plugin>2.6</maven.jar.plugin>  <!-- NOTE: don't update without testing OpenOffice, 3.0.2 caused "Got no data stream!" after add-on installation -->
+      <maven.assemby.plugin>2.6</maven.assemby.plugin>
       <junit.version>4.12</junit.version>
       <morfologik.version>2.1.4</morfologik.version>
       <jackson.version>2.8.4</jackson.version>
@@ -52,12 +53,12 @@
 
               <plugin>
                   <artifactId>maven-compiler-plugin</artifactId>
-                  <version>3.6.1</version>
+                  <version>3.7.0</version>
               </plugin>
 
               <plugin>
                   <artifactId>maven-surefire-plugin</artifactId>
-                  <version>2.20</version>
+                  <version>2.20.1</version>
                   <configuration>
                       <trimStackTrace>false</trimStackTrace>
                       <argLine>-Xms256m -Xmx950m</argLine>
@@ -72,7 +73,7 @@
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>2.10.4</version>
+                  <version>3.0.0-M1</version>
                   <configuration>
                       <bottom><![CDATA[&nbsp;]]></bottom>
                       <excludePackageNames>org.languagetool.dev.conversion*</excludePackageNames>
