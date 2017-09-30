@@ -150,6 +150,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
           <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' postag='V.+' postag_regexp='yes'/>
             <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
@@ -157,6 +158,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes' skip='-1'>&negacoes;
+            <exception scope='next' postag='V.+' postag_regexp='yes'/>
             <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
@@ -164,6 +166,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes' skip='-1'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo<!-- TODO Review algu[mn]a?s? -->
+            <exception scope='next' postag='V.+' postag_regexp='yes'/>
             <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
@@ -171,6 +174,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes' skip='-1'>&introduz_proclise;
+            <exception scope='next' postag='V.+' postag_regexp='yes'/>
             <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
@@ -178,6 +182,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes' skip='-1'>só|ora|quer<!-- TODO Review ou -->
+            <exception scope='next' postag='V.+' postag_regexp='yes'/>
             <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
