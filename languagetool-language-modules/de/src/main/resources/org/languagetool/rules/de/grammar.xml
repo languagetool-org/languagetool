@@ -3960,6 +3960,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="1" regexp_match="name" regexp_replace="nahme"/></suggestion>? Ein 'Teilname' wäre ein unvollständiger Name.</message>
             <example correction="Teilnahme"><marker>Teilname</marker> nur mit schriftlicher Einladung.</example>
         </rule>
+        <rulegroup id="WENN_WEN" name="wenn/wen">
+            <short>Mögliche Wortverwechslung</short>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRP:LOK\+.+" postag_regexp="yes"></token>
+                    <token>wenn</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1 wen</suggestion> oder fehlt ein Komma <suggestion>\1, wenn</suggestion> ?</message>
+                <example correction="Auf wen|Auf, wenn"><marker>Auf wenn</marker> hat sie gezielt?.</example>
+                <example correction="auf wen|auf, wenn">Ich höre <marker>auf wenn</marker> hat sie gezielt?.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HAKEN_HACKEN" name="Hacken/Haken">
             <short>Mögliche Wortverwechslung</short>
             <rule>
