@@ -149,31 +149,36 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes'>(?:algum|nenhum)a?</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&negacoes;</token>
+          <token regexp='yes' skip='-1'>&negacoes;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo</token><!-- TODO Review algu[mn]a?s? -->
+          <token regexp='yes' skip='-1'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo<!-- TODO Review algu[mn]a?s? -->
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&introduz_proclise;</token>
+          <token regexp='yes' skip='-1'>&introduz_proclise;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>só|ora|quer</token><!-- TODO Review ou -->
+          <token regexp='yes' skip='-1'>só|ora|quer<!-- TODO Review ou -->
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
           <token regexp='yes' min='0'>&pronomes_retos;</token>
           <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token postag='V.+' postag_regexp='yes'/>
@@ -384,6 +389,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token inflected="yes">ser</token>
           <token postag='DP.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token>em</token>
+          <token regexp="yes">(?:[mts]eu|[nv]osso|dele)s?</token>
+          <token regexp="yes">nomes?</token>
       </antipattern>
       <antipattern>
           <token regexp="yes">(?:sua|vossa)s?</token>
@@ -1195,7 +1205,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token>auto</token>
+          <token regexp='yes'>auto|quilo</token>
           <token>de</token>
       </antipattern>
       <pattern>
@@ -1533,7 +1543,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern case_sensitive='yes'>
           <token>
-            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|-</exception>
+            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|[Hh]emisfério|\-</exception>
             <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
           <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
