@@ -117,10 +117,6 @@ public class GermanTaggerTest {
     AnalyzedTokenReadings aToken13 = tagger.lookup("Entweder-oder");
     assertTrue(aToken13.getReadings().get(0).getPOSTag().matches("SUB.*"));
     assertEquals("Entweder-oder", aToken13.getReadings().get(0).getLemma());
-
-    AnalyzedTokenReadings aToken14 = tagger.lookup("Als-ob");
-    assertTrue(aToken14.getReadings().get(0).getPOSTag().matches("SUB.*"));
-    assertEquals("Als-ob", aToken14.getReadings().get(0).getLemma());
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

@@ -190,12 +190,13 @@ public class GermanTagger extends BaseTagger {
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
                   }
                 } else {
-                  //TODO: This is a wild guess and might have to be removed
-                  if (wordOrig.contains("-") && StringTools.startsWithUppercase(wordOrig)) {
-                    readings.add(new AnalyzedToken(wordOrig, "SUB", wordOrig));
-                  } else {
-                    readings.add(getNoInfoToken(word));
-                  }
+                  //Wild guess introduces unknown erros
+                  //if (wordOrig.contains("-") && StringTools.startsWithUppercase(wordOrig)) {
+                  //  readings.add(new AnalyzedToken(wordOrig, "SUB", wordOrig));
+                  //} else {
+                  //  readings.add(getNoInfoToken(word));
+                  //}
+                  readings.add(getNoInfoToken(word));
                 }
                 word = wordOrig;
               } else {
