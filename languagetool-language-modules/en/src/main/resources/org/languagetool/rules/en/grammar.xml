@@ -22475,9 +22475,10 @@ USA
 		</rule>
         <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
-                <regexp>([\d,]+) ?([$€£¥\u8371])</regexp>
+                <regexp>([\d,.]*[\d]+) ?([$€£¥\u8371])</regexp>
                 <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
                 <short>Put currency at the beginning</short>
+                <example correction="$7.25">You owe me <marker>7.25$</marker>.</example>
                 <example correction="$100">You owe me <marker>100$</marker>.</example>
                 <example correction="€100,000">You owe me <marker>100,000€</marker>.</example>
                 <example correction="€2,500,000">You owe me <marker>2,500,000€</marker>.</example>
