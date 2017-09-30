@@ -119,6 +119,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
+    put("Lexion", "Lexikon");
     // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
