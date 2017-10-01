@@ -61,7 +61,7 @@ public class HTTPServerTest {
     German german = new German();
     String result1 = checkV2(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
-    String result2 = checkV2(german, "Ein kleiner test");
+    String result2 = checkV2(german, "Ein kleiner Test");
     assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
     assertTrue(checkV2(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
