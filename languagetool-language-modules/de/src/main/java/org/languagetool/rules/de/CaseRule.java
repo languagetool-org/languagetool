@@ -494,6 +494,7 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verlass",
     "Verwandter",
+    "Vielfache",
     "Vielfaches",
     "Vorsitzender",
     "Fraktionsvorsitzender",
