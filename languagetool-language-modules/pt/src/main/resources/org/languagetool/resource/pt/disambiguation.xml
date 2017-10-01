@@ -1003,8 +1003,8 @@
       <disambig action="replace"><wd pos="SP000"/></disambig>
     </rule>
 
-    <rule id="MESMO" name="Mesmo">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-06  	-->
+    <!--rule id="MESMO" name="Mesmo"-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	>
       <pattern>
           <token postag_regexp='yes' postag="[DPS].+"/>
         <marker>
@@ -1012,12 +1012,27 @@
         </marker>
       </pattern>
       <disambig action="remove"><wd pos="RG"/></disambig>
+    </rule-->
+
+    <rule id="ALIMENTAR_EXPECTATIVAS" name="Expectativas">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
+      <pattern>
+        <marker>
+        <and>
+          <token postag="V.+" postag_regexp='yes'/>
+          <token postag="[AN].+" postag_regexp='yes'/>
+        </and>
+        </marker>
+          <token regexp='yes' min='0'>as?</token>
+          <token regexp='yes'>expec?tativas?</token>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
     </rule>
 
     <rule id="PUNCT" name="pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
-          <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+÷:=]</token>
+          <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+\/÷:=]</token>
       </pattern>
       <disambig action="add"><wd pos="_PUNCT"/></disambig>
     </rule>
