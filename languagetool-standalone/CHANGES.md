@@ -4,7 +4,10 @@
 
 #### Serbian
   * initial support for Serbian by Zoltán Csala
-  
+
+#### General
+  * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+
 
 ## 3.9 (2017-09-26)
 
