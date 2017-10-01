@@ -52,7 +52,7 @@
 
     <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]|\=|\+">
     <!ENTITY alfabeto_grego "[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜμΩω]">
-    <!ENTITY unidades_de_medida "([khdcmnµfYZEPTGM]|da)?([gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh)">
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -992,15 +992,26 @@
       <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>
     </rule>
 
-    <rule id="PREPOSICIONAL_PHRASES" name="Graças a">
+    <rule id="PREPOSICIONAL_PHRASES" name="Expressões prepositivas">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-06  	-->
       <pattern>
         <marker>
-          <token regexp='yes'>devido|face|frente|graças|quanto|referente|relativamente|rumo</token>
+          <token regexp='yes'>face|frente|graças|quanto|referente|relativamente|rumo</token><!-- XXX do not add devido. needs agreement -->
         </marker>
           <token regexp='yes'>[aà]o?s?</token>
       </pattern>
       <disambig action="replace"><wd pos="SP000"/></disambig>
+    </rule>
+
+    <rule id="MESMO" name="Mesmo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-06  	-->
+      <pattern>
+          <token postag_regexp='yes' postag="[DPS].+"/>
+        <marker>
+          <token>mesmo</token>
+        </marker>
+      </pattern>
+      <disambig action="remove"><wd pos="RG"/></disambig>
     </rule>
 
     <rule id="PUNCT" name="pontuação">
@@ -2066,6 +2077,14 @@
        </pattern>
        <disambig action="ignore_spelling"/>
     </rule>
+   <rule name="T-SHIRT" id="T-shirts">
+       <pattern>
+            <token>t</token>
+            <token regexp="yes" spacebefore='no'>&hifen;</token>
+            <token regexp="yes" spacebefore='no'>shirts?</token>
+       </pattern>
+       <disambig action="ignore_spelling"/>
+    </rule>
 
   <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->
@@ -2095,9 +2114,21 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule><!-- dimensions -->
+    <rule><!-- dimensions --><!-- cell phone networks -->
       <pattern>
-          <token regexp="yes">[2345]D</token>
+          <token case_sensitive='yes' regexp="yes">[2345][DG]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- pixels -->
+      <pattern>
+          <token case_sensitive='yes' regexp="yes">[248]K</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- Intel CPUs -->
+      <pattern>
+          <token case_sensitive='yes' regexp="yes">i[357]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
