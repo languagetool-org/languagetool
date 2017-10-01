@@ -56,7 +56,8 @@ public class WordListValidatorTest {
           "µg",
           "µl",
           "µm",
-          "'Ndrangheta"
+          "'Ndrangheta",
+          "McDonald's"
   ));
 
   @Test
