@@ -31704,12 +31704,13 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="EINHEIT_LEERZEICHEN" name="Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
             <rule>
-                <regexp case_sensitive='yes'>(\-?[0-9]+(%|€|\$|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
-                <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
+                <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,.]*(%|€|\$|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
+                <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>https://de.wikipedia.org/wiki/DIN_5008#Schriftzeichen_f.C3.BCr_W.C3.B6rter_und_Rechenzeichen_.28Abschnitte_7_und_8.29</url>
                 <example correction="25 °C">Es ist <marker>25°C</marker> warm.</example>
                 <example correction="-25 °C">Es ist <marker>-25°C</marker> warm.</example>
-                <example correction="5 °F">Es ist 25,<marker>5°F</marker> warm.</example>
+                <example correction="25,5 °F">Es ist <marker>25,5°F</marker> warm.</example>
+                <example correction="75.000 $">Das wäre <marker>75.000$</marker> wert.</example>
                 <example>Es ist 25,<marker>5 °C</marker> warm.</example>
                 <example>Es ist 25,<marker>5 °Ra</marker> warm.</example>
                 <example>Er ist <marker>5 km</marker> gelaufen.</example>
@@ -31720,21 +31721,21 @@ Andere Projekte</example>
                 <example correction="5 kB">Die Datei ist <marker>5kB</marker> groß.</example>
                 <example correction="5 kg">Er wiegt <marker>5kg</marker>.</example>
                 <example correction="5 Mt">Er wiegt <marker>5Mt</marker>.</example>
-                <example correction="4 €">Das kostet 1,<marker>4€</marker>.</example>
+                <example correction="1,4 €">Das kostet <marker>1,4€</marker>.</example>
                 <example>Er wiegt <marker>5 µg</marker>.</example>
                 <example>Isotop 241Am</example>
                 <example>(AsCH3)2n</example>
                 <example>Bd. 1b</example>
                 <example>Erster bemannter Start der Saturn 1B</example>
-                <example correction="000 kWh">Wie verbrauchen 2.<marker>000kWh</marker></example>
+                <example correction="2.000 kWh">Wie verbrauchen <marker>2.000kWh</marker></example>
                 <example>Die Steigung beträgt <marker>5 %</marker>.</example>
                 <example correction="5 %">Die Steigung beträgt <marker>5%</marker>.</example>
             </rule>
             <rule>
-                <regexp>((\-)?[0-9]{1,}) (°[^CFK])</regexp>
+                <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
                 <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitenzeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
                 <example correction="25°|25 °C">Der Winkel ist <marker>25 ° </marker>groß.</example>
-                <example correction="5°|5 °C">Es ist -25,<marker>5 ° </marker>warm.</example>
+                <example correction="-25,5°|-25,5 °C">Es ist <marker>-25,5 ° </marker>warm.</example>
                 <example correction="-25°|-25 °C">Es ist <marker>-25 ° </marker>warm.</example>
                 <example correction="25°|25 °C">Der Winkel ist <marker>25 ° </marker>groß.</example>
                 <example correction="-25°|-25 °C">Es ist <marker>-25 ° </marker>warm.</example>
