@@ -8140,16 +8140,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">da?rauf</token>
                     <marker>
                         <token>hin</token>
-                        <token regexp="yes">weisen?|weist|wies|wiesen|gewiesen</token>
+                        <token regexp="yes">weisen?|weist|wies|(ge)?wiesen|deute[nt]|gedeutet</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>\2\3</suggestion>? Das Verb 'hinweisen' wird zusammengeschrieben.</message>
+                <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Verben 'hinweisen' und 'hindeuten' werden zusammengeschrieben.</message>
                 <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
                 <example correction="hinweisen">Ich wollte nur darauf <marker>hin weisen</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="1">weisen?|weist|wies|wiesen</token>
+                    <token regexp="yes" skip="1" postag="VER:.+" postag_regexp="yes" inflected=
+                    "yes">weisen|deuten</token>
                     <marker>
                         <token>daraufhin</token>
                     </marker>
@@ -8157,6 +8158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dass</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>darauf hin</suggestion>?</message>
+                <url>https://www.korrekturen.de/beliebte_fehler/daraufhin_weisen.shtml</url>
                 <short>"Darauf hin" muss hier in zwei Worten geschrieben werden.</short>
                 <example correction="darauf hin">Ich weise <marker>daraufhin</marker>, dass das schwierig wird.</example>
             </rule>
@@ -8164,13 +8166,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>daraufhin</token>
-                        <token regexp="yes">weisen?|weist|wies|(ge)?wiesen</token>
+                        <token regexp="yes">weisen?|weist|wies|(ge)?wiesen|gedeutet</token>
                     </marker>
                     <token>,</token>
                     <token>dass</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>darauf hin\2</suggestion>?</message>
-                <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
+                <short>Die Verben 'hinweisen' und 'hindeuten' werden zusammengeschrieben.</short>
                 <example>Ich wollte nur <marker>darauf hinweisen</marker>.</example>
                 <example correction="darauf hinweisen">Ich wollte nur <marker>daraufhin weisen</marker>, dass das schwierig wird.</example>
             </rule>
