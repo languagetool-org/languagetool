@@ -3970,6 +3970,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>wen</suggestion>?</message>
                 <example correction="wen">Auf <marker>wenn</marker> hat sie gezielt?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>selbst</token>
+                    <marker><token case_sensitive="yes">wen</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
+                <example correction="wenn">Selbst <marker>wen</marker> sie das getan hat, liebe ich sie.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WEN_WEM" name="wen/wem">
             <short>Mögliche Wortverwechslung</short>
@@ -29374,7 +29382,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">gehören|vertrauen|glauben|misstrauen</token>
-                    <marker><token regexp="yes">den|einen|diesen|seinen|ihren|meinen|deinen|unseren</token></marker>
+                    <marker><token regexp="yes">[dms]?einen|d(ies)?en|ihren|unseren</token></marker>
                     <token postag="SUB:AKK:SIN:.*" postag_regexp="yes"><exception postag=".*PLU.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion> oder fehlt ein Komma vor '\2'?</message>
@@ -29774,7 +29782,7 @@ Andere Projekte</example>
                     <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'></token>
                     <token>,</token>
                     <marker>
-                    <token regexp='yes'>(die|das)</token>
+                    <token regexp='yes'>d(ie|as)</token>
                     </marker>
                     <token skip='-1'></token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'></token>
