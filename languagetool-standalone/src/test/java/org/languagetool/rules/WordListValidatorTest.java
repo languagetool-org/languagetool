@@ -43,7 +43,7 @@ public class WordListValidatorTest {
           "Śśōżúï" +
           "·" +   // for Catalan
           "./-]+" + 
-          "|[khmcdµ]?[lgm][²³]"
+          "|[khmcdµ]?m[²³]"
   );
 
   // Words that are valid but with special characters so that we don't want to
@@ -55,6 +55,9 @@ public class WordListValidatorTest {
           "Ångström",
           "'Ndrangheta",
           "McDonald's",
+          "µm",
+          "µg",
+          "µl",
           "CD&V",
           "C&A",
           "P&O",
