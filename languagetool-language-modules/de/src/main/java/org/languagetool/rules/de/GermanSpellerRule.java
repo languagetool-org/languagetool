@@ -91,6 +91,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("[wW]olt$", "lt", "llt");
     putRepl("[zZ]uende", "ue", "u E");
+    putRepl("[lL]etztenendes", "ene", "en E");
+    putRepl("[nN]achwievor", "wievor", " wie vor");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
     putRepl("Probiren?", "ir", "ier");
@@ -117,6 +119,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
+    put("Lexion", "Lexikon");
     // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");

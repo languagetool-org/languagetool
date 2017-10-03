@@ -18,14 +18,6 @@
  */
 package org.languagetool.tagging.de;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,6 +27,14 @@ import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -57,6 +57,34 @@ public class GermanTagger extends BaseTagger {
     } catch (IOException e) {
       throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
     }
+  }
+
+  //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
+  private String sanitizeWord(String word) {
+    String result = word;
+
+    //Find the last part of the word that is not nothing
+    //Skip words ending in a dash as they'll be misrecognized
+    if (!word.endsWith("-")) {
+      String[] splitWord = word.split("-");
+      String lastPart = splitWord.length > 1 && !splitWord[splitWord.length - 1].trim().equals("") ? splitWord[splitWord.length - 1] : word;
+
+      //Find only the actual important part of the word
+      List<String> compoundedWord = compoundTokenizer.tokenize(lastPart);
+      if (compoundedWord.size() > 1) {
+        lastPart = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+      } else {
+        lastPart = compoundedWord.get(compoundedWord.size() - 1);
+      }
+
+      //Only give result if the last part is either a noun or an adjective (or adjective written in Uppercase)
+      List<TaggedWord> tagged = tag(lastPart);
+      if (tagged.size() > 0 && (tagged.get(0).getPosTag().matches("SUB.*|ADJ.*") || matchesUppercaseAdjective(lastPart))) {
+        result = lastPart;
+      }
+    }
+
+    return result;
   }
 
   @Override
@@ -82,6 +110,15 @@ public class GermanTagger extends BaseTagger {
     return atr;
   }
 
+  public List<TaggedWord> tag(String word) {
+    return getWordTagger().tag(word);
+  }
+
+  private boolean matchesUppercaseAdjective(String unknownUppercaseToken) {
+    List<TaggedWord> temp = getWordTagger().tag(StringTools.lowercaseFirstChar(unknownUppercaseToken));
+    return temp.size() > 0 && temp.get(0).getPosTag().matches("ADJ.*");
+  }
+
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
@@ -95,47 +132,95 @@ public class GermanTagger extends BaseTagger {
     int pos = 0;
 
     for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
+
+      //Only first iteration
       if (firstWord && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
         firstWord = word.matches("^\\W?$");
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       }
-      if (taggerTokens.size() > 0) {
-        l.addAll(getAnalyzedTokens(taggerTokens, word));
-      } else {
-        // word not known, try to decompose it and use the last part for POS tagging:
+
+      if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
+        readings.addAll(getAnalyzedTokens(taggerTokens, word));
+      } else { // Word not known, try to decompose it and use the last part for POS tagging:
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
-          if (compoundParts.size() <= 1) {
-            // recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
+          if (compoundParts.size() <= 1) {//Could not find simple compound parts
+            // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
             if (imperativeFormList != null && imperativeFormList.size() > 0) {
-              l.addAll(imperativeFormList);
+              readings.addAll(imperativeFormList);
             } else {
-              l.add(getNoInfoToken(word));
+              //Separate dash-linked words
+              //Only check single word tokens and skip words containing numbers because it's unpredictable
+              if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
+                String wordOrig = word;
+                word = sanitizeWord(word);
+
+                //Tokenize, start word uppercase if it's a result of splitting
+                List<String> compoundedWord = compoundTokenizer.tokenize(word);
+                if (compoundedWord.size() > 1) {
+                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+                } else {
+                  word = compoundedWord.get(compoundedWord.size() - 1);
+                }
+
+                List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+
+                //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
+                if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
+                  if (matchesUppercaseAdjective(word)) {
+                    word = StringTools.lowercaseFirstChar(word);
+                    linkedTaggerTokens = getWordTagger().tag(word);
+                  }
+                }
+
+                if (linkedTaggerTokens.size() > 0 && linkedTaggerTokens.get(0).getPosTag().matches("SUB.*")) {
+                  word = wordOrig;
+                }
+
+                boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
+                if (linkedTaggerTokens.size() > 0) {
+                  if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma
+                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word));
+                  } else {
+                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
+                  }
+                } else {
+                  //Wild guess introduces unknown erros
+                  //if (wordOrig.contains("-") && StringTools.startsWithUppercase(wordOrig)) {
+                  //  readings.add(new AnalyzedToken(wordOrig, "SUB", wordOrig));
+                  //} else {
+                  //  readings.add(getNoInfoToken(word));
+                  //}
+                  readings.add(getNoInfoToken(word));
+                }
+                word = wordOrig;
+              } else {
+                readings.add(getNoInfoToken(word));
+              }
             }
           } else {
             // last part governs a word's POS:
-            String lastPart = compoundParts.get(compoundParts.size()-1);
+            String lastPart = compoundParts.get(compoundParts.size() - 1);
             if (StringTools.startsWithUppercase(word)) {
               lastPart = StringTools.uppercaseFirstChar(lastPart);
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);
             if (partTaggerTokens.size() > 0) {
-              l.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
+              readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
             } else {
-              l.add(getNoInfoToken(word));
+              readings.add(getNoInfoToken(word));
             }
           }
         } else {
-          l.add(getNoInfoToken(word));
+          readings.add(getNoInfoToken(word));
         }
       }
-
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
       pos += word.length();
     }
     return tokenReadings;
@@ -198,7 +283,7 @@ public class GermanTagger extends BaseTagger {
     for (TaggedWord taggedWord : taggedWords) {
       List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
       String lemma = String.join("", allButLastPart)
-                   + StringTools.lowercaseFirstChar(taggedWord.getLemma());
+              + StringTools.lowercaseFirstChar(taggedWord.getLemma());
       result.add(new AnalyzedToken(word, taggedWord.getPosTag(), lemma));
     }
     return result;
