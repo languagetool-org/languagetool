@@ -1003,16 +1003,16 @@
       <disambig action="replace"><wd pos="SP000"/></disambig>
     </rule>
 
-    <!--rule id="MESMO" name="Mesmo"-->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	>
+    <rule id="MESMO" name="Mesmo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
       <pattern>
-          <token postag_regexp='yes' postag="[DPS].+"/>
+          <token postag_regexp='yes' postag="[DP].+"/><!-- TODO add S.+ after proper splitting -->
         <marker>
           <token>mesmo</token>
         </marker>
       </pattern>
       <disambig action="remove"><wd pos="RG"/></disambig>
-    </rule-->
+    </rule>
 
     <rule id="ALIMENTAR_EXPECTATIVAS" name="Expectativas">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
@@ -2089,6 +2089,14 @@
        <pattern case_sensitive="yes">
             <token>Visual</token>
             <token regexp="yes">Studio|Basic</token>
+       </pattern>
+       <disambig action="ignore_spelling"/>
+    </rule>
+   <rule name="LOW_COST" id="low cost">
+       <pattern>
+            <token>low</token>
+            <token regexp="yes" spacebefore='no' min='0'>&hifen;</token>
+            <token regexp="yes">costs?</token>
        </pattern>
        <disambig action="ignore_spelling"/>
     </rule>
