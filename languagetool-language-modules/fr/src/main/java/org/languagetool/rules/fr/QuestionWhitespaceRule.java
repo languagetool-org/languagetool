@@ -89,7 +89,7 @@ public class QuestionWhitespaceRule extends Rule {
           case "»":
             msg = "Le guillemet fermant est précédé d'une espace insécable.";
             // non-breaking space
-            suggestionText = " »";
+            suggestionText = " »";
             fixLen = 1;
             break;
           case ";":
@@ -101,7 +101,7 @@ public class QuestionWhitespaceRule extends Rule {
           case ":":
             msg = "Deux-points sont précédé d'une espace insécable.";
             // non-breaking space
-            suggestionText = " :";
+            suggestionText = " :";
             fixLen = 1;
             break;
         }
