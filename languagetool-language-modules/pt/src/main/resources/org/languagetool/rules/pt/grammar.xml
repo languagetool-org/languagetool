@@ -3831,6 +3831,17 @@ title="Easy editing stylesheet" ?>
       <example correction="abdicar de direitos">Por vezes é necessário <marker>abdicar direitos</marker>.</example>
     </rule>
 
+    <rule id="ADJ_DE_VERB" name="Adj + Verbo">
+      <pattern>
+		<token regexp="yes">importantes?|indecentes?|interessantes?|oportunos?|perigosos?</token>
+		<token>de</token>	
+		<token regexp='yes' case_sensitive='yes'>.*[aeiou]r</token>					
+     </pattern>	 	 
+     <message>Substitua por <suggestion>\1 \3</suggestion>.</message>
+     <suggestion>\1 \3</suggestion>
+	 <example correction="oportunos citar">Tais textos são <marker>oportunos de citar</marker>.</example>	 	
+    </rule> 
+	
     <rule id='AFEAR' name="Confusão: afear - afiar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
