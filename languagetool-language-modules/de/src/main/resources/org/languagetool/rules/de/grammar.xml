@@ -11580,6 +11580,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+        <rulegroup id="DOPPELPERFEKT" name="Doppeltes Perfekt: 'ich habe es geputzt gehabt' etc.">
+            <!-- TODO: Dasselbe mit 'sein' -->
+            <url>https://de.wikipedia.org/wiki/Doppeltes_Perfekt</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1">hatte(n|s?t)?|hab(en?)?|has?t</token>
+                    <marker>
+                        <token postag="VER:PA2.+" postag_regexp="yes"/>
+                        <token>gehabt</token>
+                    </marker>
+                </pattern>
+                <message>Die Wendung '\1 … <suggestion>\2</suggestion> gehabt' gilt gemeinhin als umgangssprachlich.</message>
+                <short>Umgangssprache</short>
+                <example correction="bearbeitet">Das habe ich schon letzte Woche <marker>bearbeitet gehabt</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SO_DERMASSEN" name="'so dermaßen (so/dermaßen)'">
             <regexp>\bso dermaßen\b</regexp>
             <message>'So dermaßen' ist eine Doppelung oder umgangssprachlich.</message>
@@ -27597,12 +27613,13 @@ Andere Projekte</example>
                 <token>in</token>
                 <token>der</token>
                 <marker>
-                    <token postag_regexp="yes" postag="SUB:.+:PLU:.+"></token>
+                    <token postag_regexp="yes" postag="SUB:.+:PLU:.+"><exception postag_regexp="yes" postag="SUB:.+:SIN:.+"/></token>
                 </marker>
                 <token inflected="yes">sein</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="3" postag_regexp="yes" postag="SUB:(.+):PLU:(.+)" postag_replace="SUB:$1:SIN:$2" /></suggestion>?</message>
             <example correction="Zeit">In der <marker>Zeiten</marker> sind 112,5 Liter pro Quadratmeter gemessen worden.</example>
+            <example>In der Schmiede war es angenehm warm.</example>
         </rule>
         <rulegroup id="ALS_SOLCHES" name="'dem Haus als solches (solchem)' etc.">
             <url>https://de.wiktionary.org/wiki/solch</url>

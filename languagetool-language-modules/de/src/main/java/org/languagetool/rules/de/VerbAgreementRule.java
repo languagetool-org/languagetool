@@ -215,7 +215,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, tokens.length));
       ruleMatches.addAll(match(partialSentence, pos));
-      pos += partialSentence.getText().length();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
