@@ -15803,6 +15803,12 @@ USA
                 <example correction="too">It's way <marker>to</marker> early to celebrate.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="JJ"/>
+                    <token>to</token>
+                    <token postag="JJ"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB"/>
@@ -15810,6 +15816,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">She returned <marker>to</marker> quickly.</example>
+                <example>The nights were cool <marker>to</marker> chilly.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
