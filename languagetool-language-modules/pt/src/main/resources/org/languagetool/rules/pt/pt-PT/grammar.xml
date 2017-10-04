@@ -53,6 +53,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY prefixos_i "(?:(?:p(?:(?:lu|e)r|ol)|m(?:ult|ax|in)|(?:quad|t)r|se(?:squ|m)|a(?:nt|ur)|[ou]n|hem|b)i)">
     <!ENTITY prefixos_o "(?:(?:h(?:i(?:dr|p)|eter|om)|p(?:s(?:eud|ic)|rot)|(?:card|fis|soc|b)i|a(?:[eg]r|rteri|ut)|m(?:[ai]cr|orf)|e(?:letr|nd|x)|i(?:somacr|di)|g(?:astr|e)|r(?:etr|in)|x(?:ant|il)|ne(?:ur)?|o[cr]t|traque|lingu|quil)o)">
+    <!ENTITY prefixos_o_2 "paleo">
     <!ENTITY prefixos_o_ambiguos "(?:(?:e(?:stere|ur|g)|(?:cent|sac)r|a(?:str|udi)|t(?:erm|urb)|f(?:il|ot)|i(?:ntr|d)|bronc|labi|mon|vas|zo)o)">
     <!ENTITY prefixos_hifenizados_h "(?:p(?:r(?:(?:ot)?o|e)|seudo|enta|luri|an|os)|m(?:a(?:cro|xi)|i(?:cro|ni)|ulti|ega)|a(?:(?:[eg]r|ut)o|(?:rqu|nt)i)|s(?:u(?:p(?:er|ra)|b)|emi)|h(?:i(?:dro|per)|exa)|in(?:t(?:er|ra)|fra)|t(?:e(?:tra|le)|ri)|e(?:letro|xtra)|c(?:ircum|o)|re(?:tro)?|[gn]eo|ultra|bio?)">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
@@ -415,7 +416,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>em</token>
           <token>sua</token>
-          <token regexp='yes'>adoração|homenagem|honra</token>
+          <token regexp='yes'>adoração|defesa|homenagem|honra</token>
       </antipattern>
       <pattern>
           <token>
@@ -1199,7 +1200,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&prefixos_o;|arqui
+          <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
             <exception case_sensitive='yes'>Homo</exception></token>
           <token regexp='yes'>o.+</token>
       </pattern>
@@ -1213,7 +1214,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>&prefixos_o;|arqui</token>
+          <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^hors].+</token>
       </pattern>
@@ -1239,7 +1240,7 @@ title="Easy editing stylesheet" ?>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
     <rule>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|&prefixos_o_2;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>r.+</token>
       </pattern>
@@ -1253,7 +1254,7 @@ title="Easy editing stylesheet" ?>
           <token>satanás</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|arqui</token>
+          <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|&prefixos_o_2;|arqui</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>s.+</token>
       </pattern>
@@ -1306,7 +1307,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>circum|pan</token>
+          <token regexp='yes'>circum|pan
+            <exception case_sensitive='yes'>PAN</exception></token>
           <token regexp='yes'>[mnaeiouh].+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
@@ -1315,7 +1317,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>circum|pan</token>
+          <token regexp='yes'>circum|pan
+            <exception case_sensitive='yes'>PAN</exception></token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
       </pattern>
