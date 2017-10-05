@@ -18,9 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
@@ -32,7 +29,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -86,9 +82,9 @@ abstract class TextChecker {
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
-    int maxTextLength = getMaxTextLength(parameters);
-    if (aText.getPlainText().length() > maxTextLength) {
-      throw new TextTooLongException("Your text exceeds the limit of " + maxTextLength +
+    UserLimits limits = getUserLimits(parameters);
+    if (aText.getPlainText().length() > limits.getMaxTextLength()) {
+      throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
@@ -129,11 +125,11 @@ abstract class TextChecker {
     });
     boolean incompleteResult = false;
     List<RuleMatch> matches;
-    if (config.maxCheckTimeMillis < 0) {
+    if (limits.getMaxCheckTimeMillis() < 0) {
       matches = future.get();
     } else {
       try {
-        matches = future.get(config.maxCheckTimeMillis, TimeUnit.MILLISECONDS);
+        matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       } catch (ExecutionException e) {
         if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
@@ -144,7 +140,7 @@ abstract class TextChecker {
         boolean cancelled = future.cancel(true);
         Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
         String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString(): "(unknown)";
-        String message = "Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
+        String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() +
                          ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
@@ -190,27 +186,12 @@ abstract class TextChecker {
             + ", " + messageSent);
   }
 
-  private int getMaxTextLength(Map<String, String> parameters) {
+  private UserLimits getUserLimits(Map<String, String> parameters) {
     String token = parameters.get("token");
     if (token != null) {
-      try {
-        String secretKey = config.getSecretTokenKey();
-        if (secretKey == null) {
-          throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
-        }
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        JWT.require(algorithm).build().verify(token);
-        Claim maxTextLength = JWT.decode(token).getClaim("maxTextLength");
-        if (maxTextLength.isNull()) {
-          return config.maxTextLength;
-        } else {
-          return maxTextLength.asInt();
-        }
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException(e);
-      }
+      return UserLimits.getLimitsFromToken(config, token);
     } else {
-      return config.maxTextLength;
+      return UserLimits.getDefaultLimits(config);
     }
   }
 
