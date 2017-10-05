@@ -11417,10 +11417,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ISBN">Die <marker>ISBN-Nummer</marker> des Buches.</example>
             </rule>
             <rule>
-                <regexp>PIN-Nummern?</regexp>
-                <message>'PIN' steht für 'Personal Identification Number' – ersetzen durch <suggestion>PIN</suggestion>?</message>
+                <regexp>(PIN|TAN)-Nummern?</regexp>
+                <message>Das 'N' in <suggestion><match no="1"/></suggestion> steht für 'Nummer' oder 'Number'. Verzichten Sie daher auf den Zusatz '-Nummer(n)'.</message>
                 <short>&redundanz;</short>
                 <example correction="PIN">Sie gab ihre <marker>PIN-Nummer</marker> ein.</example>
+                <example correction="TAN">Neben der PIN benötigen Sie ihre <marker>TAN-Nummer</marker>.</example>
             </rule>
             <rule>
                 <regexp>DTV-Verlage?s?</regexp>
