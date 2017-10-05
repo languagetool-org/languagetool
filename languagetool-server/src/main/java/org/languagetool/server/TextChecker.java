@@ -186,10 +186,12 @@ abstract class TextChecker {
             + ", " + messageSent);
   }
 
-  private UserLimits getUserLimits(Map<String, String> parameters) {
-    String token = parameters.get("token");
+  private UserLimits getUserLimits(Map<String, String> params) {
+    String token = params.get("token");
     if (token != null) {
       return UserLimits.getLimitsFromToken(config, token);
+    } else if (params.get("username") != null && params.get("password") != null) {
+      return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
     } else {
       return UserLimits.getDefaultLimits(config);
     }

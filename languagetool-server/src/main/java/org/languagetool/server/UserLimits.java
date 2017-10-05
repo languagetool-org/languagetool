@@ -21,8 +21,12 @@ package org.languagetool.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
+import org.languagetool.tools.StringTools;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -57,6 +61,33 @@ class UserLimits {
     }
   }
   
+  static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, String username, String password) {
+    Objects.requireNonNull(username);
+    Objects.requireNonNull(password);
+    try {
+      URL url = new URL("https://languagetoolplus.com/token");
+      Map<String,Object> params = new LinkedHashMap<>();
+      params.put("username", username);
+      params.put("password", password);
+      StringBuilder postData = new StringBuilder();
+      for (Map.Entry<String,Object> param : params.entrySet()) {
+        if (postData.length() != 0) postData.append('&');
+        postData.append(URLEncoder.encode(param.getKey(), "UTF-8"))
+                .append('=')
+                .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+      }
+      byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+      conn.setRequestMethod("POST");
+      conn.setDoOutput(true);
+      conn.getOutputStream().write(postDataBytes);
+      String token = StringTools.streamToString(conn.getInputStream(), "UTF-8");
+      return getLimitsFromToken(config, token);
+    } catch (java.io.IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
   UserLimits(int maxTextLength, long maxCheckTimeMillis) {
     this.maxTextLength = maxTextLength;
     this.maxCheckTimeMillis = maxCheckTimeMillis;
@@ -69,4 +100,11 @@ class UserLimits {
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
   }
+
+  @Override
+  public String toString() {
+    return "maxTextLength=" + maxTextLength +
+            ", maxCheckTimeMillis=" + maxCheckTimeMillis;
+  }
+  
 }
