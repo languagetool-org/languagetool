@@ -17431,7 +17431,7 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>re</token>
                 </marker>
-                <token postag="NN|NN:U|NN:UN|NNPS|NNS" postag_regexp="yes">
+                <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
                     <exception regexp="yes">one|still|right|in</exception></token>
                 <token><exception>enough</exception></token>
@@ -17450,6 +17450,21 @@ USA
             <example>You're Arthur Willis.</example>
             <example>You're in better shape than I am.</example>
         </rule>
+        <rulegroup id="DEER_DEAR" name="deer/dear">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token skip="2">Deer</token>
+                    </marker>
+                    <token regexp="yes">[.,:!]</token>
+                </pattern>
+                <message>Are you writing a letter? Did you mean <suggestion>Dear</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="Dear"><marker>Deer</marker> Anne,...</example>
+                <example correction="Dear"><marker>Deer</marker> Dr. Snyder:</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
             <rule>
                 <pattern>
@@ -17544,7 +17559,7 @@ USA
 
             <rule> <!-- may effect, might effect, would effect, etc -->
                 <pattern>
-                    <token regexp="yes">might|may|often|could|would|will|did|does|not|typically</token>
+                    <token regexp="yes">might|may|often|[cw]ould|will|d(id|oes)|not|typically</token>
                     <marker>
                         <token>effect</token>
                     </marker>
@@ -17632,11 +17647,13 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">side-effect|side-affect</token>
+                    <token regexp="yes">side-[ae]ffects?</token>
                 </pattern>
-                <message>Did you mean <suggestion>side effect</suggestion> (=adverse effect, unintended consequence)? Open compounds are not hyphenated.</message>
+                <message>Did you mean <suggestion><match no="1" regexp_match="side.." regexp_replace="side e"/></suggestion> (=adverse effect, unintended consequence)? Open compounds are not hyphenated.</message>
+                <url>https://www.merriam-webster.com/dictionary/side%20effect</url>
                 <short>Commonly confused word</short>
                 <example correction="side effect">A <marker>side-affect</marker> of global warming</example>
+                <example correction="side effects">Conventional treatments are subjected to testing for undesired <marker>side-effects</marker>.</example>
             </rule>
             <!-- cause and affect::word=cause and effect::pivots=affect,effect -->
             <rule>
