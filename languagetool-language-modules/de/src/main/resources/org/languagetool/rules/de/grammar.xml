@@ -3806,7 +3806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
             <rule>
                 <pattern>
-                    <token regexp="yes">ich|er|sie|es</token>
+                    <token regexp="yes">ich|e[rs]|sie</token>
                     <marker>
                         <token>weis</token>
                     </marker>
@@ -3819,10 +3819,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>weis</token>
                     </marker>
-                    <token regexp="yes">ich|er|sie|es</token>
+                    <token regexp="yes">ich|e[rs]|sie</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'? 'weis' ist die Befehlsform von 'weisen' (z.B. 'weis mich darauf hin').</message>
                 <example correction="weiß">Das war keine gute Idee, das <marker>weis</marker> ich ja auch.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WESEN_WESSEN" name="Wesen/Wessen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Wesen</token>
+                    </marker>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes" skip="-1"/>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Meinten Sie das Fragewort <suggestion>Wessen</suggestion>?</message>
+                <example correction="Wessen"><marker>Wesen</marker> Kleid trug sie gestern?</example>
             </rule>
         </rulegroup>
         <rule id="AB_DIENSTAGE" name="ab Dienstage (Dienstag) etc.">
@@ -27666,7 +27681,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">dem|im|am|zum|vom|diesem</token>
+                    <token regexp="yes">im|am|zum|vom|d(ies)?em</token>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
                     <marker>
                         <token>als</token>
