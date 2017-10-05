@@ -21,6 +21,8 @@ package org.languagetool.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.StringTools;
 
 import java.io.*;
@@ -36,9 +38,10 @@ class UserLimits {
 
   private int maxTextLength;
   private long maxCheckTimeMillis;
+  private Long premiumUid;
   
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
-    return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis);
+    return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, null);
   }
   
   static UserLimits getLimitsFromToken(HTTPServerConfig config, String token) {
@@ -50,17 +53,24 @@ class UserLimits {
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
       JWT.require(algorithm).build().verify(token);
-      Claim maxTextLength = JWT.decode(token).getClaim("maxTextLength");
-      if (maxTextLength.isNull()) {
-        return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis);
-      } else {
-        return new UserLimits(maxTextLength.asInt(), config.maxCheckTimeMillis);
-      }
+      DecodedJWT decodedToken = JWT.decode(token);
+      Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
+      Claim premiumClaim = decodedToken.getClaim("premium");
+      boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
+      Claim uidClaim = decodedToken.getClaim("uid");
+      long uid = uidClaim.isNull() ? -1 : uidClaim.asLong();
+      return new UserLimits(
+              maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
+              config.maxCheckTimeMillis,
+              hasPremium ? uid : null);
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }
-  
+
+  /**
+   * Special case that checks user on languagetoolplus.com.
+   */
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, String username, String password) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(password);
@@ -88,9 +98,10 @@ class UserLimits {
     }
   }
   
-  UserLimits(int maxTextLength, long maxCheckTimeMillis) {
+  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid) {
     this.maxTextLength = maxTextLength;
     this.maxCheckTimeMillis = maxCheckTimeMillis;
+    this.premiumUid = premiumUid;
   }
 
   int getMaxTextLength() {
@@ -101,10 +112,14 @@ class UserLimits {
     return maxCheckTimeMillis;
   }
 
+  @Nullable
+  Long getPremiumUid() {
+    return premiumUid;
+  }
+
   @Override
   public String toString() {
     return "maxTextLength=" + maxTextLength +
             ", maxCheckTimeMillis=" + maxCheckTimeMillis;
   }
-  
 }
