@@ -22,6 +22,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.StringTools;
@@ -31,6 +34,7 @@ import java.net.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @since 4.0
@@ -40,7 +44,16 @@ class UserLimits {
   private int maxTextLength;
   private long maxCheckTimeMillis;
   private Long premiumUid;
-  
+
+  private static final LoadingCache<Account, String> cache = CacheBuilder.newBuilder()
+          .expireAfterWrite(15, TimeUnit.MINUTES)
+          .build(new CacheLoader<Account, String>() {
+            @Override
+            public String load(@NotNull Account account) throws IOException {
+              return getTokenFromServer(account.username, account.password);
+            }
+          });
+
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
     return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, null);
   }
@@ -75,35 +88,35 @@ class UserLimits {
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, String username, String password) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(password);
-    try {
-      String token = getTokenFromServer(username, password);
-      return getLimitsFromToken(config, token);
-    } catch (java.io.IOException e) {
-      throw new RuntimeException(e);
-    }
+    String token = cache.getUnchecked(new Account(username, password));
+    return getLimitsFromToken(config, token);
   }
 
   @NotNull
-  private static String getTokenFromServer(String username, String password) throws IOException {
-    URL url = new URL("https://languagetoolplus.com/token");
-    Map<String,Object> params = new LinkedHashMap<>();
-    params.put("username", username);
-    params.put("password", password);
-    StringBuilder postData = new StringBuilder();
-    for (Map.Entry<String,Object> param : params.entrySet()) {
-      if (postData.length() != 0) {
-        postData.append('&');
+  private static String getTokenFromServer(String username, String password) {
+    String url = "https://languagetoolplus.com/token";
+    try {
+      Map<String,Object> params = new LinkedHashMap<>();
+      params.put("username", username);
+      params.put("password", password);
+      StringBuilder postData = new StringBuilder();
+      for (Map.Entry<String,Object> param : params.entrySet()) {
+        if (postData.length() != 0) {
+          postData.append('&');
+        }
+        postData.append(URLEncoder.encode(param.getKey(), "UTF-8"))
+                .append('=')
+                .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
       }
-      postData.append(URLEncoder.encode(param.getKey(), "UTF-8"))
-              .append('=')
-              .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+      byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+      HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
+      conn.setRequestMethod("POST");
+      conn.setDoOutput(true);
+      conn.getOutputStream().write(postDataBytes);
+      return StringTools.streamToString(conn.getInputStream(), "UTF-8");
+    } catch (IOException e) {
+      throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
     }
-    byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-    conn.setRequestMethod("POST");
-    conn.setDoOutput(true);
-    conn.getOutputStream().write(postDataBytes);
-    return StringTools.streamToString(conn.getInputStream(), "UTF-8");
   }
 
   private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid) {
@@ -130,4 +143,29 @@ class UserLimits {
     return "maxTextLength=" + maxTextLength +
             ", maxCheckTimeMillis=" + maxCheckTimeMillis;
   }
+  
+  static class Account {
+
+    private String username;
+    private String password;
+
+    Account(String username, String password) {
+      this.username = Objects.requireNonNull(username);
+      this.password = Objects.requireNonNull(password);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Account account = (Account) o;
+      return Objects.equals(username, account.username) && Objects.equals(password, account.password);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(username, password);
+    }
+  }
+
 }
