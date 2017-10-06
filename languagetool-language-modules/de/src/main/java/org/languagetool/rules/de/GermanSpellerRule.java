@@ -68,49 +68,90 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]wa"), (String w) -> Arrays.asList("AWA", "ach was", "aber"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]lsallerersten?s"), (String w) -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("aufgehangen(e[mnrs]?)?$"), (String w) -> Collections.singletonList(w.replaceFirst("hangen", "hängt")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geupdate[dt]$"), (String w) -> Collections.singletonList("upgedatet"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("rosane[mnrs]?$"), (String w) -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("näste[mnrs]?$"), (String w) -> Collections.singletonList(w.replaceFirst("^näs", "nächs")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Erdogans?$"), (String w) -> Collections.singletonList(w.replaceFirst("^Erdogan", "Erdoğan")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Germanistiker[ns]"), (String w) -> Collections.singletonList("Germanisten"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Germanistikerin(nen)?"), (String w) -> Collections.singletonList(w.replaceFirst("Germanistiker", "Germanist")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[eE]rhöherung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("[eE]rhöherung", "Erhöhung")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[aA]ufjedenfall"), (String w) -> Collections.singletonList(w.replaceFirst("jedenfall$", " jeden Fall")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("^funk?z[ou]nier.+"), (String w) -> Collections.singletonList(w.replaceFirst("funk?z[ou]nier", "funktionier")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]öruber"), (String w) -> Collections.singletonList(w.replaceFirst("öru", "orü")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]issionarie?sie?rung"), (String w) -> Collections.singletonList("Missionierung"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[sS]chee?selonge?"), (String w) -> Collections.singletonList("Chaiselongue"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Re[kc]amiere"), (String w) -> Collections.singletonList("Récamière"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("legen[td]lich"), (String w) -> Collections.singletonList("lediglich"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]illion(en)?mal"), (String w) -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("desweitere[nm]"), (String w) -> Collections.singletonList("des Weiteren"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("einzigste[mnrs]?"), (String w) -> Collections.singletonList(w.replaceFirst("einzigst", "einzig")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[iI]nterkurell(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("ku", "kultu")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]olt$"), (String w) -> Collections.singletonList(w.replaceFirst("lt", "llt")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[zZ]uende"), (String w) -> Collections.singletonList(w.replaceFirst("ue", "u E")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]aschte(s?t)?"), (String w) -> Collections.singletonList(w.replaceFirst("aschte", "usch")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]aschten"), (String w) -> Collections.singletonList(w.replaceFirst("ascht", "usch")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Probiren?"), (String w) -> Collections.singletonList(w.replaceFirst("ir", "ier")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[gG]esetztreu(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("tz", "tzes")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ikich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("k", "rkl")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Lezte[mnrs]?"), (String w) -> Collections.singletonList(w.replaceFirst("Lez", "Letz")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Makeups?"), (String w) -> Collections.singletonList(w.replaceFirst("up", "-up")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Internetkaffees?"), (String w) -> Collections.singletonList(w.replaceFirst("kaffee", "café")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[kK]ongratulier(en?|t(en?)?|st)"), (String w) -> Collections.singletonList(w.replaceFirst("[kK]on", "")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wWkKdD]an$"), (String w) -> Collections.singletonList(w.replaceFirst("n$", "nn")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("geh?neh?m[ie]gung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("geh?neh?m[ie]gung", "Genehmigung")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("Korrigierung(en)?"), (String w) -> Collections.singletonList(w.replaceFirst("igierung", "ektur")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[qQ]ualitäts?bewußt(e[mnrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("ts?bewußt", "tsbewusst")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[gG]leichrechtig(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("rechtig", "berechtigt")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[uU]nnützlich(e[nmrs]?)?"), (String w) -> Collections.singletonList(w.replaceFirst("nützlich", "nütz")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("([eE]r|[bB]e|unter)?hälst"), (String w) -> Collections.singletonList(w.replaceFirst("hälst", "hältst")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[wW]ohlfühlseins?"), (String w) -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[sS]chmett?e?rling(s|en?)?"), (String w) -> Collections.singletonList(w.replaceFirst("[sS]chmett?e?rling", "Schmetterling")));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("zucc?h?inis?"), (String w) -> Collections.singletonList("Zucchini"));
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile("[mM]itag"), (String w) -> Collections.singletonList("Mittag"));
+    put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
+    put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
+    putRepl("(an|auf)gehangen(e[mnrs]?)?$", "hangen", "hängt");
+    put("geupdate[dt]$", "upgedatet");
+    put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
+    putRepl("näste[mnrs]?$", "^näs", "nächs");
+    putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
+    put("Germanistiker[ns]", "Germanisten");
+    putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
+    putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
+    putRepl("[aA]ufjedenfall", "jedenfall$", " jeden Fall");
+    putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
+    putRepl("[wW]öruber", "öru", "orü");
+    put("[mM]issionarie?sie?rung", "Missionierung");
+    put("[sS]chee?selonge?", "Chaiselongue");
+    put("Re[kc]amiere", "Récamière");
+    put("legen[td]lich", "lediglich");
+    put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    put("desweitere[nm]", "des Weiteren");
+    putRepl("einzigste[mnrs]?", "einzigst", "einzig");
+    putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
+    putRepl("[wW]olt$", "lt", "llt");
+    putRepl("[zZ]uende", "ue", "u E");
+    putRepl("[lL]etztenendes", "ene", "en E");
+    putRepl("[nN]achwievor", "wievor", " wie vor");
+    putRepl("[wW]aschte(s?t)?", "aschte", "usch");
+    putRepl("[wW]aschten", "ascht", "usch");
+    putRepl("Probiren?", "ir", "ier");
+    putRepl("[gG]esetztreu(e[nmrs]?)?", "tz", "tzes");
+    putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
+    putRepl("Lezte[mnrs]?", "Lez", "Letz");
+    putRepl("Makeups?", "up", "-up");
+    putRepl("Add-?Ons?", "Add-?On", "Add-on");
+    putRepl("Internetkaffees?", "kaffee", "café");
+    putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
+    putRepl("[wWkKdD]an$", "n$", "nn");
+    putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
+    putRepl("Korrigierung(en)?(.)?", "igierung", "ektur");
+    putRepl("[mM]itanader", "ana", "einan");
+    putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
+    putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
+    putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
+    putRepl("^[uU]nabsichtig(e(nmrs)?)?", "ig", "lich");
+    putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
+    put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
+    putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
+    putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
+    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
+    putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
+    putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
+    put("zucc?h?inis?", "Zucchini");
+    put("[mM]itag", "Mittag");
+    put("Lexion", "Lexikon");
+    // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
+    put("Anschovis", "Anchovis");
+    put("Bravur", "Bravour");
+    put("Grisli", "Grizzly");
+    put("Grislibär", "Grizzlybär");
+    put("Frotté", "Frottee");
+    put("Joga", "Yoga");
+    put("Kalvinismus", "Calvinismus");
+    put("Kollier", "Collier");
+    put("Ketschup", "Ketchup");
+    put("Kommunikee", "Kommuniqué");
+    put("Negligee", "Negligé");
+    put("Nessessär", "Necessaire");
+    put("passee", "passé");
+    put("Varietee", "Varieté");
+    put("Wandalismus", "Vandalismus");
+    put("Campagne", "Kampagne");
+    put("Jockei", "Jockey");
+    put("Roulett", "Roulette");
+  }
+
+  private static void putRepl(String wordPattern, String pattern, String replacement) {
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
+  }
+
+  private static void put(String pattern, String replacement) {
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), w -> Collections.singletonList(replacement));
+  }
+
+  private static void put(String pattern, Function<String, List<String>> f) {
+    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), f);
   }
 
   private final LineExpander lineExpander = new LineExpander();
@@ -352,8 +393,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("[pP]roff?ess?ion(ä|e)h?ll?(e[mnrs]?)?")) {
-      suggestion = word.replaceFirst("roff?ess?ion(ä|e)h?l{1,2}", "rofessionell");
+    } else if (word.matches("[pP]roff?ess?ion([äe])h?ll?(e[mnrs]?)?")) {
+      suggestion = word.replaceFirst("roff?ess?ion([äe])h?l{1,2}", "rofessionell");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
@@ -389,7 +430,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("nanten")) {
       return Collections.singletonList("nannten");
     } else if (word.endsWith("ies")) {
-      if(word.equals("Stories")) {
+      if (word.equals("Stories")) {
         return Collections.singletonList("Storys");
       } else if (word.equals("Lobbies")) {
         return Collections.singletonList("Lobbys");

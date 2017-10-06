@@ -243,6 +243,13 @@ public class HTTPServerConfig {
     return secretTokenKey;
   }
 
+  /**
+   * @since 4.0
+   */
+  void setSecretTokenKey(String secretTokenKey) {
+    this.secretTokenKey = secretTokenKey;
+  }
+
   int getRequestLimit() {
     return requestLimit;
   }

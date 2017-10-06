@@ -72,7 +72,7 @@ class ApiV2 {
     } else if (path.equals("log")) {
       // used so the client (especially the browser add-ons) can report internal issues:
       String message = parameters.get("message");
-      if (message.length() > 250) {
+      if (message != null && message.length() > 250) {
         message = message.substring(0, 250) + "...";
       }
       ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));

@@ -34,6 +34,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
+import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
@@ -178,7 +179,11 @@ public class German extends Language implements AutoCloseable {
             new SubjectVerbAgreementRule(messages, this),
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
-            new WiederVsWiderRule(messages)
+            new WiederVsWiderRule(messages),
+            new LongSentenceRule(messages, 20, false),
+            new LongSentenceRule(messages, 30, false),
+            new LongSentenceRule(messages, 40, false),
+            new LongSentenceRule(messages, 50, false)
     );
   }
 

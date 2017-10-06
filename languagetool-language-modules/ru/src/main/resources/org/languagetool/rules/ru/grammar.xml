@@ -4612,6 +4612,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example>двадцати пяти</example>
          </rule>   
         </rulegroup>
+        <rule id="grammar_o_tom_to_chto" name="Грамматические ошибки «о том, то что ...»">
+            <pattern>
+                <token>о</token>
+                <token>том</token>
+                <token>,</token>
+                <token>то</token>
+                <token>что</token>
+            </pattern>
+            <message>Лишний предлог: <suggestion><match no="1" /> <match no="2" /><match no="3" /> <match no="5" /></suggestion>.</message>           
+            <short>Лишний предлог.</short>
+            <example correction="о том, что">Я хотел сказать <marker>о том, то что</marker> будет.</example>
+            <example>Я хотел сказать о том, что будет.</example>
+        </rule>
+        <rule id="grammar_coordination_of_verbal_participle_phrases" name="Грамматические ошибки вида: «Идя по улице, у меня развязался шнурок»">
+            <!-- TODO: Make this rule more universal, add postags -->         
+            <pattern>
+                <token>идя</token>
+                <token>по</token>
+                <token>улице</token>
+                <token>,</token>
+                <token>у</token>
+                <token>меня</token>  
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion>Когда я шёл <match no="2" /> <match no="3" /><match no="4" /> <match no="5" /> <match no="6" /></suggestion>.</message>           
+            <short>Грамматическая ошибка.</short>
+            <example correction="Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
+            <example>Когда я шёл по улице, у меня развязался шнурок.</example>
+        </rule>
+        <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего»">
+            <pattern>
+                <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"><exception  postag="NN:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
+                <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
+                <token>,</token>
+                <token postag="PNN:.*:Nom:P3" postag_regexp="yes"><exception  postag="PNN:.*:Nom:P3" postag_regexp="yes"  negate_pos="yes"></exception></token>
+                <token postag="VB:.*" postag_regexp="yes"><exception  postag="VB:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка. Дублирование местоимением существительного-подлежащего: <suggestion>\1 \2 \5</suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="Героиня пьесы стремилась"><marker>Героиня пьесы, она стремилась</marker> к лучшей жизни.</example>
+            <example>Героиня пьесы стремилась к лучшей жизни.</example>
+            <example>Эта героиня выступала, она стремилась показать себя с лучшей стороны.</example>
+            <example>У разных агентств разные критерии того, кого считать пользователем она.</example>
+            <example>Понимая, что его дни сочтены, он пытался решить проблему.</example>
+        </rule>
+       
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
                 <token regexp="yes">более|менее</token>
@@ -8322,6 +8368,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Иван же не"><marker>Иван ж не</marker> приехал.</example>
             <example>Иван же не приехал.</example>
             <example>Ольга ж не приехала.</example>
+        </rule>
+         <rule id="grammar_s_dnem_rojdenja" name="Просторечие «с днём рожденья»">
+            <pattern>
+                <token>с</token>
+                <token regexp="yes">днём|днем</token>
+                <token>рожденья</token>
+            </pattern>
+            <message>Просторечие. Верно: <suggestion><match no="1" /> <match no="2" /> рождения</suggestion>.</message>           
+            <short>Просторечие.</short>
+            <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
+            <example>С днём рождения!</example>
         </rule>
 
         <rule id="Many_PREP" name="Два предлога подряд">        

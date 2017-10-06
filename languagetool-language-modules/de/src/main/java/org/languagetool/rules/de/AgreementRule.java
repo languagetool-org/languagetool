@@ -241,10 +241,12 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ADJ:AKK:PLU:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
     ),
-    Arrays.asList( // "Für ihn ist das Alltag."
-        new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+    Arrays.asList( // "Für ihn ist das Alltag." / "Für die Religiösen ist das Blasphemie."
+        new PatternTokenBuilder().token("für").setSkip(2).build(),
+        new PatternTokenBuilder().tokenRegex("ist|war").build(),
         new PatternTokenBuilder().csToken("das").build(),
-        new PatternTokenBuilder().csToken("Alltag").build()
+        new PatternTokenBuilder().posRegex("SUB:NOM:.*").build(),
+        new PatternTokenBuilder().pos("PKT").build()
     )
   );
 
@@ -585,6 +587,11 @@ public class AgreementRule extends Rule {
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
+    // TODO: remove (token3 == null || token3.getToken().length() < 2) 
+    // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+    if(token3 == null || token3.getToken().length() < 2) {
+      return null;
+    }
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
     if (set == null || set.isEmpty()) {

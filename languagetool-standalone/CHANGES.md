@@ -1,11 +1,33 @@
 # LanguageTool Change Log
 
-## 3.9-SNAPSHOT (release planned for 2017-09-26)
+## 4.0-SNAPSHOT (release planned for 2017-12-29)
+
+#### Serbian
+  * initial support for Serbian by Zoltán Csala
+
+#### General
+  * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+
+
+## 3.9 (2017-09-26)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * added and improved rules
 
+#### Esperanto
+  * added and improved rules
+
 #### French
+  * added and improved rules
   * upgraded dictionaries to Dicollecte-6.1
 
 #### German
@@ -41,12 +63,24 @@
   * spellchecking exceptions for abbreviations, variables in formulas, units, and related
     statistical vocabulary
   * updated Hunspell dictionaries to:
-    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.6
-    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.6
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.0
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.0
     - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
 #### Russian
   * spelling dictionary update
+  * added and improved some rules
+
+#### Spanish
+  * added and improved some rules
+
+#### Ukrainian
+  * significant dictionary update:
+    - more than 60K of new words
+    - some inflection adjustments
+  * improved dynamic tagging for compound words
+  * many new rules (barbarism, grammar, and spelling)
+  * inflection agreement rule updates
 
 #### Java API
   * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain

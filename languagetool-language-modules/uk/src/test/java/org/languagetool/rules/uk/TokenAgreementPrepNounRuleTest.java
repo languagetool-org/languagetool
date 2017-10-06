@@ -164,6 +164,9 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("З одного боку на щастя сім’я Ющенків нарешті з’їжджає з державної дачі.");
 
+//    assertEmptyMatch("змінили з № 20 на 20-а");
+//    assertEmptyMatch("парні номери від 84-а до 104 включно");
+    
 
     assertEmptyMatch("спиралося на місячної давнини рішення");
     assertEmptyMatch("На середньої довжини шубу");
@@ -205,8 +208,8 @@ public class TokenAgreementPrepNounRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("— О пан Єзус, захисти їх!"));
     assertEquals(1, matches.length);
     
-    matches = rule.match(langTool.getAnalyzedSentence("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі"));
-    assertEquals(1, matches.length);
+//    matches = rule.match(langTool.getAnalyzedSentence("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі"));
+//    assertEquals(1, matches.length);
   }
 
   private void assertEmptyMatch(String text) throws IOException {

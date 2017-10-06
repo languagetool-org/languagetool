@@ -3709,6 +3709,32 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <antipattern>
+          <token>Andrea</token>
+          <token>Bocelli</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Andr[eé]a?</token>
+          <token regexp="yes">Bocc?h?ell?i</token>
+        </pattern>
+        <message>Écrivez <suggestion>Andrea Bocelli</suggestion> s’il s’agit du ténor italien.</message>
+        <url>https://fr.wikipedia.org/wiki/Andrea_Bocelli</url>
+        <example correction="Andrea Bocelli"><marker>Andrea Boccelli</marker> est né en 1958.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Ennio</token>
+          <token>Morricone</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]nn?io</token>
+          <token regexp="yes">Morr?icc?onn?[eé]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Ennio Morricone</suggestion> s’il s’agit du compositeur italien.</message>
+        <url>https://nl.wikipedia.org/wiki/Ennio_Morricone</url>
+        <example correction="Ennio Morricone"><marker>Ennio Moricone</marker> est né en 1928.</example>
+      </rule>
+      <rule>
+        <antipattern>
           <token>Barbra</token>
           <token>Streisand</token>
         </antipattern>
@@ -4034,13 +4060,20 @@ though, and has since been slightly modified)-->
         <example correction="Bram Moolenaar"><marker>Bram Moolenar</marker> est l’auteur de Vim.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Henri</token>
-          <marker><token regexp="yes">Point?carr?é<exception>Poincaré</exception></token></marker>
+          <token>Poincaré</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">Henr[iy]</token>
+            <token regexp="yes">Point?carr?[ée]</token>
+          </marker>
         </pattern>
-        <message>Écrivez <suggestion>Poincaré</suggestion> s’il s’agit du mathématicien français.</message>
+        <message>Écrivez <suggestion>Henri Poincaré</suggestion> s’il s’agit du mathématicien français.</message>
         <url>https://fr.wikipedia.org/wiki/Henri_Poincar%C3%A9</url>
-        <example correction="Poincaré">Henri <marker>Pointcaré</marker></example>
+        <example correction="Henri Poincaré"><marker>Henri Pointcaré</marker></example>
+        <example correction="Henri Poincaré"><marker>Henry Poincaré</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -4078,7 +4111,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token regexp="yes">Mit?terr?and</token>
+          <token regexp="yes">Mit?te?rr?an[dt]?</token>
         </pattern>
         <message>Écrivez <suggestion>François Mitterrand</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand</url>
@@ -4113,11 +4146,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <antipattern>
-          <token regexp="yes">Emmanuel|Brigitte</token>
+          <token>Emmanuel</token>
           <token>Macron</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">[EÉ]mm?ann?uel(lle)?|Brigitt?e?</token>
+          <token regexp="yes">[EÉ]mm?ann?uel(lle)?</token>
           <token regexp="yes">Ma(c|c?k)a?ron</token>
         </pattern>
         <message>Écrivez <suggestion>Emmanuel Macron</suggestion> s’il s’agit du président de la république.</message>
@@ -4232,6 +4265,15 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Ringo Starr</suggestion> s’il s’agit du membre des Beatles.</message>
         <url>https://fr.wikipedia.org/wiki/Ringo_Starr</url>
         <example correction="Ringo Starr"><marker>Ringo Star</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ÉE]mm?ann?uell?e?<exception>Emanuel</exception></token>
+          <token>Lasker</token>
+        </pattern>
+        <message>Écrivez <suggestion>Emanuel Lasker</suggestion> s’il s’agit du champion du monde d’Échecs.</message>
+        <url>https://fr.wikipedia.org/wiki/Emanuel_Lasker</url>
+        <example correction="Emanuel Lasker"><marker>Emmanuel Lasker</marker></example>
       </rule>
       <rule>
         <antipattern>

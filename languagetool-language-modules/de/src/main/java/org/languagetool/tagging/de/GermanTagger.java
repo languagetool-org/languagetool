@@ -68,7 +68,7 @@ public class GermanTagger extends BaseTagger {
     }
     return result;
   }
-
+  
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -178,7 +178,7 @@ public class GermanTagger extends BaseTagger {
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
-
+                
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
@@ -190,6 +190,7 @@ public class GermanTagger extends BaseTagger {
                 }
 
                 word = wordOrig;
+                
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.size() > 0) {
                   if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma

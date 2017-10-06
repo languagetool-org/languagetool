@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script creates classpath for LT programs and starts LT GUI
 
 # Source shell variables for command-line tool
 if [ -f /etc/languagetool/lt.conf ]; then
+  # Source LT configuration
   . /etc/languagetool/lt.conf
 else
   echo "Unable to source configuration file '/etc/languagetool/lt.conf', aborting ..."
@@ -31,14 +32,20 @@ function create_lt_class_path() {
 
 create_lt_class_path
 
-# Determine my name
+# Determine the command name I was called by
 MYNAME=`basename "$0"`
 LT_COMMON="${LT_JAVA_HOME}/bin/java ${LT_JAVA_OPTS} -cp ${LT_CP}"
 
-if [ "$MYNAME" == "ltcmd" ]; then
+if   [ "$MYNAME" == "ltcmd" ]; then
 	${LT_COMMON} org.languagetool.commandline.Main $*
 elif [ "$MYNAME" == "ltgui" ]; then
 	${LT_COMMON} ${LT_GUI_OPTS} org.languagetool.gui.Main $*
-elif [ "$MYNAME" == "ltdictbld" ]; then
+elif [ "$MYNAME" == "ltspldic" ]; then
 	${LT_COMMON} org.languagetool.tools.SpellDictionaryBuilder $*
+elif [ "$MYNAME" == "ltposdic" ]; then
+    ${LT_COMMON} org.languagetool.tools.POSDictionaryBuilder $*
+elif [ "$MYNAME" == "ltsyndic" ]; then
+    ${LT_COMMON} org.languagetool.tools.SynthDictionaryBuilder $*
+elif [ "$MYNAME" == "ltexpdic" ]; then
+    ${LT_COMMON} org.languagetool.tools.DictionaryExporter $*
 fi

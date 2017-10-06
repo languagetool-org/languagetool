@@ -139,9 +139,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, boolean textLoggingAllowed) {
-    String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
+    String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
+    message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
     String text = params.get("text");
     if (text != null) {
@@ -159,6 +160,10 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private String getHttpUserAgent(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("User-Agent");
+  }
+
+  private String getHttpReferrer(HttpExchange httpExchange) {
+    return httpExchange.getRequestHeaders().getFirst("Referer");
   }
 
   // Call only if really needed, seems to be slow on some Windows machines.

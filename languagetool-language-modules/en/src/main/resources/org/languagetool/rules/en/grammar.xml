@@ -4656,6 +4656,16 @@ USA
                 <example correction="You're"><marker>Your</marker> welcome.</example>
                 <example correction="You're"><marker>Your</marker> right, but for the wrong reason.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker><token>Your</token></marker>
+                    <token regexp="yes">(sincere|faithful)ly</token>
+                    <token>,</token>
+                </pattern>
+                <message>Did you mean <suggestion>Yours</suggestion>? (complimentary close)</message>
+                <example correction="Yours"><marker>Your</marker> sincerely, Tom</example>
+            </rule>
         </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
@@ -9050,7 +9060,7 @@ USA
                     <token postag="SENT_START"/>
                     <token postag="NNP?|NN:.*" postag_regexp="yes"><exception regexp="yes">An?|In?|No|Most|Here|God</exception><exception postag="JJ|MD|NNP?S|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <marker>
-                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB|MD" postag_regexp="yes"/></token>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|IN|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9071,7 +9081,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|IN|RB" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9098,7 +9108,7 @@ USA
                     <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9129,7 +9139,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9145,7 +9155,7 @@ USA
                     <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">[.!]</token>
                 </pattern>
@@ -9162,7 +9172,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">[.!]</token>
                 </pattern>
@@ -9176,7 +9186,7 @@ USA
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="NNP?|NN:.*" postag_regexp="yes"><exception regexp="yes">An?|In?|No|Most|Here|God|do</exception><exception postag="JJ|MD|NNP?S|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <marker>
-                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|IN|RB" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9192,7 +9202,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
+                        <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|IN|RB" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9215,7 +9225,7 @@ USA
                     <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9239,7 +9249,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -9253,7 +9263,7 @@ USA
                     <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">[.!]</token>
                 </pattern>
@@ -9269,7 +9279,7 @@ USA
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
-                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ|MD" postag_regexp="yes"/></token>
+                        <token postag="VB|VBP" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">[.!]</token>
                 </pattern>
@@ -9284,6 +9294,11 @@ USA
                     <token regexp="yes">only|the</token>
                     <token>one</token>
                     <token skip="3" regexp="yes">of|amongst</token>
+                    <token>who</token>
+                </antipattern>
+                <antipattern>
+                    <token><exception>one</exception></token>
+                    <token skip="6">of</token>
                     <token>who</token>
                 </antipattern>
                 <antipattern>
@@ -9309,6 +9324,7 @@ USA
                 <example correction="have|haven">Mary is one of the students who <marker>has</marker> done honor to the college.</example>
                 <example>Mary is the only one of our students who has achieved national recognition.</example>
                 <example>People who win the lottery are lucky.</example>
+                <example>They gave to him the name 'agyieus' as the protector god of public places and houses who wards off evil, and his symbol was a tapered stone or column.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
@@ -11894,40 +11910,49 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token>there</token>
+                    <token regexp="yes">t?here</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
+                    <token postag="CD|DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
                     <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4 \5</suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="There're many problems"><marker>There's many problems</marker> in Iraq but it is not a terrible situation.</example>
+                <example correction="There're 3 women"><marker>There's 3 women</marker> waiting for you.</example>
+                <example correction="Here're many women"><marker>Here's many women</marker> waiting for you.</example>
                 <example>There're many problems in Iraq.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>there</token>
                     <token>is</token>
-                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT|RB" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes">
+                        <exception postag="NN:.*|NNP?|JJ.*|DT|RB" postag_regexp="yes"/>
+                        <exception>lots</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are \3</suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="There are problems"><marker>There is problems</marker> in Iraq but it is not a terrible situation.</example>
                 <example>There are problems in Iraq.</example>
                 <example>There is sometimes a problem with this rule.</example>
+                <example>There is lots of competition.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>there</token>
+                    <token regexp="yes">t?here<exception scope="previous" postag="IN"/></token>
                     <token>is</token>
-                    <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
-                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"/></token>
+                    <token postag="CD|DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are \3 \4</suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="There are many problems"><marker>There is many problems</marker> in Iraq but it is not a terrible situation.</example>
+                <example correction="There are 5 men"><marker>There is 5 men</marker> sitting in the room.</example>
+                <example correction="Here are 5 men"><marker>Here is 5 men</marker> sitting in the room.</example>
                 <example>There are many problems in Iraq.</example>
+                <example>The house closest to here is two miles away.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THERE_RE_MANY" name="Possible agreement error 'there're' + singular noun">
@@ -11972,16 +11997,15 @@ USA
                     <token chunk="I-NP-singular" min="0" max="-1"/>
                     <marker>
                         <token chunk="E-NP-singular" postag_regexp="yes" postag="NNP?">
-                            <exception postag="NNPS"/>
-                            <exception postag="CD"/>
+                            <exception postag_regexp="yes" postag="CD|NN(PS|:UN?)"/>
                             <exception regexp="yes">variety|number|couple|pair|litany|lot</exception><!-- there are a number of -->
                         </token>
                     </marker>
                 </pattern>
                 <message>Possible agreement error. Did you mean <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Grammatical problem</short>
-                <example correction="problems">There are many <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
-                <example>There are many problems in Iraq.</example>
+                <example correction="problems">There are many <marker>problem</marker> in Iraq.</example>
+                <example>There are many <marker>problems</marker> in Iraq.</example>
                 <example>Other than this, there are no known surviving texts.</example>
                 <example>There are many other deliberately insulting terms.</example>
                 <example>There are a variety of other types.</example><!-- common usage, see Google ngram -->
@@ -11992,6 +12016,7 @@ USA
                 <example>There is a whole lot of problems in Iraq.</example>
                 <example>There are never fewer than eight of them on stage.</example>
                 <example>There are some even now.</example>
+                <example>There are <marker>food</marker> and waterborne diseases, bacterial and protozoal diarrhea, ...</example>
             </rule>
         </rulegroup>
         <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
@@ -12519,7 +12544,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">not</token>
-                    <token>like</token>
+                    <token regexp="yes">like|mind</token>
                     <token>not</token>
                     <token postag="VBG"/>
                 </antipattern>
@@ -12538,6 +12563,7 @@ USA
                 <example>I'm not taking no for an answer.</example>
                 <example>Tom didn't like not having enough money.</example>
                 <example>I can't believe nobody came to your party.</example>
+                <example>She did not mind not being allowed to cook.</example>
                 <example correction="">... but there wasn’<marker>t nobody</marker> in the office.</example>
             </rule>
         </rulegroup>
@@ -13217,6 +13243,22 @@ USA
             <example correction=""><marker>The</marker> is the best day of my life.</example>
             <example correction=""><marker>The</marker> are the best.</example>
         </rule>
+        <rulegroup id="MISSING_ARTICLE" name="missing article">
+            <rule>
+                <pattern>
+                    <token postag="NNP|PRP" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">be</token>
+                        <token postag="JJ"><exception postag="R[BP]|IN|VB.?|DT|CD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NN"><exception postag="R[BP]|IN|VB.?|C[CD]|JJR?|NN:U" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Please check whether an article is missing: <suggestion>\2 a \3</suggestion> or <suggestion>\2 an \3</suggestion></message>
+                <example correction="are a good|are an good">You <marker>are good</marker> boy.</example>
+                <example correction="is a great|is an great">It seems to me that Mr Jones <marker>is great</marker> golfer.</example>
+                <example>What impresses me the most about China is Chinese food.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_I_BE_GERUND" name="'BE I BE GERUND'"><!-- https://github.com/languagetool-org/languagetool/issues/754 -->
             <pattern>
                 <token inflected="yes">be</token>
@@ -15148,6 +15190,15 @@ USA
                 <example>Since when are there fireworks?</example>
             </rule>
         </rulegroup>
+        <rule id="ASPECT_RATIO" name="aspect ration (ratio)">
+            <pattern>
+                <token>aspect</token>
+                <marker><token>ration</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>ratio</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="ratio">The screen aspect <marker>ration</marker>...</example>
+        </rule>
         <rule id="ZERO-SUM_GAIN" name="zero-sum gain (game)">
             <pattern>
                 <token>zero-sum</token>
@@ -15734,7 +15785,7 @@ USA
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ?" postag_regexp="yes"/>
+                    <token postag="JJ"/>
                     <token regexp="yes">to|for</token>
                     <token postag="VB"/>
                 </pattern>
@@ -15744,7 +15795,7 @@ USA
                 <example>It's too large for the box.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker><token>To</token></marker>
                     <token postag="JJ"/>
@@ -15775,6 +15826,22 @@ USA
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">This price is way <marker>to</marker> high.</example>
                 <example correction="too">It's way <marker>to</marker> early to celebrate.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="JJ"/>
+                    <token>to</token>
+                    <token postag="JJ"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker><token>to</token></marker>
+                    <token postag="RB"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">She returned <marker>to</marker> quickly.</example>
+                <example>The nights were cool <marker>to</marker> chilly.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
@@ -17389,7 +17456,7 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>re</token>
                 </marker>
-                <token postag="NN|NN:U|NN:UN|NNPS|NNS" postag_regexp="yes">
+                <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
                     <exception regexp="yes">one|still|right|in</exception></token>
                 <token><exception>enough</exception></token>
@@ -17408,6 +17475,21 @@ USA
             <example>You're Arthur Willis.</example>
             <example>You're in better shape than I am.</example>
         </rule>
+        <rulegroup id="DEER_DEAR" name="deer/dear">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token skip="2">Deer</token>
+                    </marker>
+                    <token regexp="yes">[.,:!]</token>
+                </pattern>
+                <message>Are you writing a letter? Did you mean <suggestion>Dear</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="Dear"><marker>Deer</marker> Anne,...</example>
+                <example correction="Dear"><marker>Deer</marker> Dr. Snyder:</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
             <rule>
                 <pattern>
@@ -17502,7 +17584,7 @@ USA
 
             <rule> <!-- may effect, might effect, would effect, etc -->
                 <pattern>
-                    <token regexp="yes">might|may|often|could|would|will|did|does|not|typically</token>
+                    <token regexp="yes">might|may|often|[cw]ould|will|d(id|oes)|not|typically</token>
                     <marker>
                         <token>effect</token>
                     </marker>
@@ -17590,11 +17672,13 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">side-effect|side-affect</token>
+                    <token regexp="yes">side-[ae]ffects?</token>
                 </pattern>
-                <message>Did you mean <suggestion>side effect</suggestion> (=adverse effect, unintended consequence)? Open compounds are not hyphenated.</message>
+                <message>Did you mean <suggestion><match no="1" regexp_match="side.." regexp_replace="side e"/></suggestion> (=adverse effect, unintended consequence)? Open compounds are not hyphenated.</message>
+                <url>https://www.merriam-webster.com/dictionary/side%20effect</url>
                 <short>Commonly confused word</short>
                 <example correction="side effect">A <marker>side-affect</marker> of global warming</example>
+                <example correction="side effects">Conventional treatments are subjected to testing for undesired <marker>side-effects</marker>.</example>
             </rule>
             <!-- cause and affect::word=cause and effect::pivots=affect,effect -->
             <rule>
@@ -22300,6 +22384,83 @@ USA
             <example correction="">The band is <marker>very</marker> irritating.</example>
             <example>The band is irritating.</example>
         </rule>
+
+        <rulegroup id="EMPHATIC_REFLEXIVE_PRONOUNS" name="emphatic reflexive pronouns (I myself)">
+            <url>https://english.stackexchange.com/questions/124786/is-it-correct-to-say-i-myself</url>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token>myself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="I">There are no biscuits. <marker>I myself</marker> ate the last one.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>you</token>
+                    <token>yourself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="you">I cannot do it for you. Only <marker>you yourself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>you</token>
+                    <token inflected="yes">yourself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="you">I cannot do it for you. Only <marker>you yourselves</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>we</token>
+                    <token>ourselves</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="We">They cannot do it for us. <marker>We ourselves</marker> must do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>he</token>
+                    <token>himself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="he">You cannot do it for him. Only <marker>he himself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>she</token>
+                    <token>herself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="she">You cannot do it for her. Only <marker>she herself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>it</token>
+                    <token>itself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="It">The software update is not correct. <marker>It itself</marker> causes more problems than in solves.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>they</token>
+                    <token>themselves</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="they">You cannot do it them. Only <marker>they themselves</marker> can do it.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
@@ -22449,21 +22610,13 @@ USA
 		</rule>
         <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
-                <pattern>
-                    <token regexp="yes">\d+[$€£¥\u8371]</token>
-                </pattern>
-                <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
-                <short>Put currency at the beginning</short>
-                <example correction="$100">You owe me <marker>100$</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes">[$€£¥\u8371]</token>
-                </pattern>
+                <regexp>([\d,.]*[\d]+) ?([$€£¥\u8371])</regexp>
                 <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
                 <short>Put currency at the beginning</short>
-                <example correction="$100">You owe me <marker>100 $</marker>.</example>
+                <example correction="$7.25">You owe me <marker>7.25$</marker>.</example>
+                <example correction="$100">You owe me <marker>100$</marker>.</example>
+                <example correction="€100,000">You owe me <marker>100,000€</marker>.</example>
+                <example correction="€2,500,000">You owe me <marker>2,500,000€</marker>.</example>
             </rule>
         </rulegroup>
         <rule type="whitespace" id="CURRENCY_SPACE" name="Whitespace after currency symbols: '$ 100' ($100)">

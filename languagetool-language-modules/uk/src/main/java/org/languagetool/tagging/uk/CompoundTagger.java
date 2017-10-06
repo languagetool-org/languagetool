@@ -18,46 +18,35 @@
  */
 package org.languagetool.tagging.uk;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
+import org.languagetool.rules.uk.ExtraDictionaryLoader;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
 
 /**
+ * Allows to tag compound words with hyphen dynamically by analyzing each part
+ * 
  * @since 3.0
  */
 class CompoundTagger {
-  private static final String DEBUG_COMPOUNDS_PROPERTY = "org.languagetool.tagging.uk.UkrainianTagger.debugCompounds";
-
   private static final String TAG_ANIM = ":anim";
   private static final String TAG_INANIM = ":inanim";
   private static final String NV_TAG = ":nv";
-//  private static final String V_U_TAG = ":v-u";
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
-  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(compb|np|ns|slang|rare|xp[1-9])");
+  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(compb|np|ns|slang|rare|xp[1-9]|&predic|&insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
   private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -73,7 +62,6 @@ class CompoundTagger {
   private static final Set<String> leftMasterSet;
   private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
   private static final Set<String> slaveSet;
-  private static final Map<String, List<String>> NUMR_ENDING_MAP;
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = "adj:m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = "adj:m:v_naz";
 
@@ -94,31 +82,6 @@ class CompoundTagger {
   );
 
   static {
-    Map<String, List<String>> map2 = new HashMap<>();
-    map2.put("й", Arrays.asList(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis")); // 1-й
-    map2.put("ій", Arrays.asList(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis")); // 3-ій
-    map2.put("го", Arrays.asList(":m:v_rod", ":m:v_zna:ranim", ":n:v_rod"));
-    map2.put("му", Arrays.asList(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis", ":f:v_zna"));  // TODO: depends on the last digit
-    map2.put("м", Arrays.asList(":m:v_oru", ":n:v_oru", ":p:v_dav"));
-    map2.put("им", Arrays.asList(":m:v_oru", ":n:v_oru", ":p:v_dav"));
-    map2.put("ім", Arrays.asList(":m:v_oru", ":m:v_mis", ":n:v_oru", ":n:v_mis"));
-    map2.put("ша", Arrays.asList(":f:v_naz")); // 1-ша
-    map2.put("га", Arrays.asList(":f:v_naz")); // 2-га
-    map2.put("тя", Arrays.asList(":f:v_naz")); // 3-тя
-    map2.put("та", Arrays.asList(":f:v_naz")); // 4-та
-    map2.put("ої", Arrays.asList(":f:v_rod")); // 4-тої
-    map2.put("тої", Arrays.asList(":f:v_rod")); // 4-тої
-    map2.put("тій", Arrays.asList(":f:v_dav", ":f:v_mis")); // 3-тій
-    map2.put("ту", Arrays.asList(":f:v_zna"));
-    map2.put("тю", Arrays.asList(":f:v_zna"));
-    map2.put("ою", Arrays.asList(":f:v_oru"));
-    map2.put("ге", Arrays.asList(":n:v_naz", ":n:v_zna")); // 2-ге
-    map2.put("тє", Arrays.asList(":n:v_naz", ":n:v_zna")); // 3-тє
-    map2.put("те", Arrays.asList(":n:v_naz", ":n:v_zna")); // 4-те
-    map2.put("ті", Arrays.asList(":p:v_naz", ":p:v_zna"));
-    map2.put("х", Arrays.asList(":p:v_rod", ":p:v_zna", ":p:v_mis")); // 5-х
-    NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
-    
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb.*:impr|.*pron|noun|adv|intj|part|predic).*"));
     rightPartsWithLeftTagMap.put("но", Pattern.compile("(verb.*:(impr|futr)|intj).*")); 
     rightPartsWithLeftTagMap.put("от", Pattern.compile("(.*pron|adv|part).*"));
@@ -126,36 +89,28 @@ class CompoundTagger {
     // noun gives false on зразу-таки
     rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb.*:(futr|past|pres)|adv|.*pron|part|predic|insert).*")); 
     
-    dashPrefixes = loadSet("/uk/dash_prefixes.txt");
-    leftMasterSet = loadSet("/uk/dash_left_master.txt");
-    slaveSet = loadSet("/uk/dash_slaves.txt");
+    dashPrefixes = ExtraDictionaryLoader.loadSet("/uk/dash_prefixes.txt");
+    leftMasterSet = ExtraDictionaryLoader.loadSet("/uk/dash_left_master.txt");
+    slaveSet = ExtraDictionaryLoader.loadSet("/uk/dash_slaves.txt");
     // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
   }
 
   private final WordTagger wordTagger;
   private final Locale conversionLocale;
   private final UkrainianTagger ukrainianTagger;
-  
-  private BufferedWriter compoundUnknownDebugWriter;
-  private BufferedWriter compoundTaggedDebugWriter;
-  private BufferedWriter compoundGenderMixDebugWriter;
-
+  private final CompoundDebugLogger compoundDebugLogger = new CompoundDebugLogger();
   
   CompoundTagger(UkrainianTagger ukrainianTagger, WordTagger wordTagger, Locale conversionLocale) {
     this.ukrainianTagger = ukrainianTagger;
     this.wordTagger = wordTagger;
     this.conversionLocale = conversionLocale;
-    
-    if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {
-      debugCompounds();
-    }
   }
   
 
   @Nullable
   public List<AnalyzedToken> guessCompoundTag(String word) {
     List<AnalyzedToken> guessedCompoundTags = doGuessCompoundTag(word);
-    debug_compound_tagged_write(guessedCompoundTags);
+    compoundDebugLogger.logTaggedCompound(guessedCompoundTags);
     return guessedCompoundTags;
   }
 
@@ -221,11 +176,22 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
       // e.g. 101-го
-      if( NUMR_ENDING_MAP.containsKey(rightWord) ) {
-        List<String> tags = NUMR_ENDING_MAP.get(rightWord);
+      String[] tags = LetterEndingForNumericHelper.findTags(leftWord, rightWord); 
+      if( tags != null ) {
         for (String tag: tags) {
-          // TODO: shall it be numr or adj?
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag + ":&numr", leftWord + "-" + "й"));
+          String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag + ":&numr", lemma));
+        }
+        // з 3-ма вікнами - не дуже правильно, але вживають часто
+        if( "ма".equals(rightWord) ) {
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_oru:&numr:bad", leftWord));
+        }
+        // вбивство 148-ми селян
+        else if( "ми".equals(rightWord) 
+            && Pattern.compile("(.*[^1]|^)[78]").matcher(leftWord).matches() ) {
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_rod:&numr:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_dav:&numr:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_mis:&numr:bad", leftWord));
         }
       }
       else {
@@ -363,7 +329,7 @@ class CompoundTagger {
       return oAdjMatch(word, rightAnalyzedTokens, leftWord);
     }
 
-    debug_compound_unknown_write(word);
+    compoundDebugLogger.logUnknownCompound(word);
     
     return null;
   }
@@ -551,7 +517,7 @@ class CompoundTagger {
     }
 
     if( animInanimNotTagged != null && newAnalyzedTokens.isEmpty() ) {
-      debug_compound_unknown_write(word + " " + animInanimNotTagged);
+      compoundDebugLogger.logUnknownCompound(word + " " + animInanimNotTagged);
     }
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
@@ -595,15 +561,7 @@ class CompoundTagger {
         String substring2 = stdNounMatcherRight.group(2); //rightPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
         if( substring1.equals(substring2) ) {
           if( ! stdNounMatcherLeft.group(1).equals(stdNounMatcherRight.group(1)) ) {
-            if( compoundGenderMixDebugWriter != null ) {
-              try {
-                compoundGenderMixDebugWriter.append(word + " " + (leftNv ? rightPosTag : leftPosTag));
-                compoundGenderMixDebugWriter.newLine();
-                compoundGenderMixDebugWriter.flush();
-              } catch (IOException e) {
-                System.err.println("Failed to write into gender mix file");
-              }
-            }
+            compoundDebugLogger.logGenderMix(word, leftNv, leftPosTag, rightPosTag);
           }
           
           if( leftNv )
@@ -802,112 +760,6 @@ class CompoundTagger {
     }
 
     return leftWdList;
-  }
-
-  private static Set<String> loadSet(String path) {
-    Set<String> result = new HashSet<>();
-    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-         Scanner scanner = new Scanner(is, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        result.add(line);
-      }
-      return result;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  
-  // methods for debugging compounds
-
-  private void debugCompounds() {
-    try {
-      Path unknownFile = Paths.get("compounds-unknown.txt");
-      Files.deleteIfExists(unknownFile);
-      unknownFile = Files.createFile(unknownFile);
-      compoundUnknownDebugWriter = Files.newBufferedWriter(unknownFile, Charset.defaultCharset());
-
-      Path taggedFile = Paths.get("compounds-tagged.txt");
-      Files.deleteIfExists(taggedFile);
-      taggedFile = Files.createFile(taggedFile);
-      compoundTaggedDebugWriter = Files.newBufferedWriter(taggedFile, Charset.defaultCharset());
-
-      Path genderMixFile = Paths.get("gender-mix.txt");
-      Files.deleteIfExists(genderMixFile);
-      genderMixFile = Files.createFile(genderMixFile);
-      compoundGenderMixDebugWriter = Files.newBufferedWriter(genderMixFile, Charset.defaultCharset());
-
-//      Path tagged2File = Paths.get("tagged.txt");
-//      Files.deleteIfExists(tagged2File);
-//      taggedFile = Files.createFile(tagged2File);
-//      taggedDebugWriter = Files.newBufferedWriter(tagged2File, Charset.defaultCharset());
-    } catch (IOException ex) {
-//      throw new RuntimeException(ex);
-      System.err.println("Failed to open debug compounds file");
-    }
-  }
-
-  private void debug_compound_tagged_write(List<AnalyzedToken> guessedCompoundTags) {
-    if( compoundTaggedDebugWriter == null || guessedCompoundTags == null )
-      return;
-
-    debug_tagged_write(guessedCompoundTags, compoundTaggedDebugWriter);
-  }
-
-  private void debug_compound_unknown_write(String word) {
-    if( compoundUnknownDebugWriter == null )
-      return;
-    
-    try {
-      compoundUnknownDebugWriter.append(word);
-      compoundUnknownDebugWriter.newLine();
-      compoundUnknownDebugWriter.flush();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  
-  private void debug_tagged_write(List<AnalyzedToken> analyzedTokens, BufferedWriter writer) {
-    if( analyzedTokens.get(0).getLemma() == null || analyzedTokens.get(0).getToken().trim().isEmpty() )
-      return;
-
-    try {
-      String prevToken = "";
-      String prevLemma = "";
-      for (AnalyzedToken analyzedToken : analyzedTokens) {
-        String token = analyzedToken.getToken();
-        
-        boolean firstTag = false;
-        if (! prevToken.equals(token)) {
-          if( prevToken.length() > 0 ) {
-            writer.append(";  ");
-            prevLemma = "";
-          }
-          writer.append(token).append(" ");
-          prevToken = token;
-          firstTag = true;
-        }
-        
-        String lemma = analyzedToken.getLemma();
-
-        if (! prevLemma.equals(lemma)) {
-          if( prevLemma.length() > 0 ) {
-            writer.append(", ");
-          }
-          writer.append(lemma); //.append(" ");
-          prevLemma = lemma;
-          firstTag = true;
-        }
-
-        writer.append(firstTag ? " " : "|").append(analyzedToken.getPOSTag());
-        firstTag = false;
-      }
-      writer.newLine();
-      writer.flush();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
 }
