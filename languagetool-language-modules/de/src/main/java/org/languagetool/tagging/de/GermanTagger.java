@@ -59,6 +59,16 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
+  private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem){
+    List<TaggedWord> result = new ArrayList<>();
+    for(TaggedWord tw : analyzedWordResults){
+      String lemma = tw.getLemma();
+      if(tw.getPosTag().matches("SUB.*") && stem.charAt(stem.length() - 1) != '-') {lemma = lemma.toLowerCase();}
+      result.add(new TaggedWord(stem + lemma, tw.getPosTag()));
+    }
+    return result;
+  }
+  
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -159,6 +169,7 @@ public class GermanTagger extends BaseTagger {
               if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
+                String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
 
                 //Tokenize, start word uppercase if it's a result of splitting
                 List<String> compoundedWord = compoundTokenizer.tokenize(word);
@@ -167,8 +178,8 @@ public class GermanTagger extends BaseTagger {
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
-
-                List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+                
+                List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
                 if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
@@ -178,10 +189,8 @@ public class GermanTagger extends BaseTagger {
                   }
                 }
 
-                if (linkedTaggerTokens.size() > 0 && linkedTaggerTokens.get(0).getPosTag().matches("SUB.*")) {
-                  word = wordOrig;
-                }
-
+                word = wordOrig;
+                
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.size() > 0) {
                   if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma
@@ -190,15 +199,8 @@ public class GermanTagger extends BaseTagger {
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
                   }
                 } else {
-                  //Wild guess introduces unknown erros
-                  //if (wordOrig.contains("-") && StringTools.startsWithUppercase(wordOrig)) {
-                  //  readings.add(new AnalyzedToken(wordOrig, "SUB", wordOrig));
-                  //} else {
-                  //  readings.add(getNoInfoToken(word));
-                  //}
                   readings.add(getNoInfoToken(word));
                 }
-                word = wordOrig;
               } else {
                 readings.add(getNoInfoToken(word));
               }

@@ -25,6 +25,8 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
@@ -33,6 +35,20 @@ import static org.junit.Assert.*;
 
 @SuppressWarnings("ConstantConditions")
 public class GermanTaggerTest {
+
+  @Test
+  public void bugFixTemp() throws IOException{
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForName("German"));
+    List<RuleMatch> matches = langTool.check("Beim Wiederaufbau wurde das original-gotische Achsfenster mit reichem Maßwerk ausgebaut und an die südliche Polygonseite gesetzt.");
+    for (RuleMatch match : matches) {
+      System.out.println("Potential error at characters " +
+              match.getFromPos() + "-" + match.getToPos() + ": " +
+              match.getMessage());
+      System.out.println("Suggested correction(s): " +
+              match.getSuggestedReplacements());
+    }
+
+  }
 
   @Test
   public void testTagger() throws IOException {
@@ -112,7 +128,7 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken12 = tagger.lookup("IT-Dienstleistungsunternehmen");
     assertTrue(aToken12.getReadings().get(0).getPOSTag().matches("SUB.*"));
-    assertEquals("Unternehmen", aToken12.getReadings().get(0).getLemma());
+    assertEquals("IT-Dienstleistungsunternehmen", aToken12.getReadings().get(0).getLemma());
 
     AnalyzedTokenReadings aToken13 = tagger.lookup("Entweder-oder");
     assertTrue(aToken13.getReadings().get(0).getPOSTag().matches("SUB.*"));
