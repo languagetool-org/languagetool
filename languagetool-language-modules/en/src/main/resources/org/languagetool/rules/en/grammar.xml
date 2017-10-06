@@ -13243,6 +13243,22 @@ USA
             <example correction=""><marker>The</marker> is the best day of my life.</example>
             <example correction=""><marker>The</marker> are the best.</example>
         </rule>
+        <rulegroup id="MISSING_ARTICLE" name="missing article">
+            <rule>
+                <pattern>
+                    <token postag="NNP|PRP" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">be</token>
+                        <token postag="JJ"><exception postag="R[BP]|IN|VB.?|DT|CD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NN"><exception postag="R[BP]|IN|VB.?|C[CD]|JJR?|NN:U" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Please check whether an article is missing: <suggestion>\2 a \3</suggestion> or <suggestion>\2 an \3</suggestion></message>
+                <example correction="are a good|are an good">You <marker>are good</marker> boy.</example>
+                <example correction="is a great|is an great">It seems to me that Mr Jones <marker>is great</marker> golfer.</example>
+                <example>What impresses me the most about China is Chinese food.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_I_BE_GERUND" name="'BE I BE GERUND'"><!-- https://github.com/languagetool-org/languagetool/issues/754 -->
             <pattern>
                 <token inflected="yes">be</token>
