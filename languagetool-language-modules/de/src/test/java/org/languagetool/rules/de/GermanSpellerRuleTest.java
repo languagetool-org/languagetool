@@ -126,7 +126,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
     assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);
-    assertFirstSuggestion("Interkurelles", "Interkulturelles", rule, lt);
     assertFirstSuggestion("interkurelle", "interkulturelle", rule, lt);
     assertFirstSuggestion("Zuende", "Zu Ende", rule, lt);
     assertFirstSuggestion("zuende", "zu Ende", rule, lt);
@@ -158,6 +157,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("nachwievor", "nach wie vor", rule, lt);
     assertFirstSuggestion("letztenendes", "letzten Endes", rule, lt);
     assertFirstSuggestion("mitanader", "miteinander", rule, lt);
+    assertFirstSuggestion("nocheimal", "noch einmal", rule, lt);
   }
 
   @Test
