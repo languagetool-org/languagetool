@@ -39,7 +39,7 @@ public class GermanTaggerTest {
   @Test
   public void bugFixTemp() throws IOException{
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForName("German"));
-    List<RuleMatch> matches = langTool.check("Beim Wiederaufbau wurde das original gotische Achsfenster mit reichem Maßwerk ausgebaut und an die südliche Polygonseite gesetzt.");
+    List<RuleMatch> matches = langTool.check("Beim Wiederaufbau wurde das original-gotische Achsfenster mit reichem Maßwerk ausgebaut und an die südliche Polygonseite gesetzt.");
     for (RuleMatch match : matches) {
       System.out.println("Potential error at characters " +
               match.getFromPos() + "-" + match.getToPos() + ": " +

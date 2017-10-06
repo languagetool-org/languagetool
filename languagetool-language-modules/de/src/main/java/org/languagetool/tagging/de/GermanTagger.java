@@ -59,10 +59,12 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
-  private List<TaggedWord> changeLemma(List<TaggedWord> analyzedWordResults, String newLemma){
+  private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem){
     List<TaggedWord> result = new ArrayList<>();
     for(TaggedWord tw : analyzedWordResults){
-      result.add(new TaggedWord(newLemma, tw.getPosTag()));
+      String lemma = tw.getLemma();
+      if(tw.getPosTag().matches("SUB.*") && stem.charAt(stem.length() - 1) != '-') {lemma = lemma.toLowerCase();}
+      result.add(new TaggedWord(stem + lemma, tw.getPosTag()));
     }
     return result;
   }
@@ -167,6 +169,7 @@ public class GermanTagger extends BaseTagger {
               if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
+                String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
 
                 //Tokenize, start word uppercase if it's a result of splitting
                 List<String> compoundedWord = compoundTokenizer.tokenize(word);
@@ -176,7 +179,7 @@ public class GermanTagger extends BaseTagger {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
 
-                List<TaggedWord> linkedTaggerTokens = changeLemma(getWordTagger().tag(word), wordOrig); //Try to analyze the last part found
+                List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
                 if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
