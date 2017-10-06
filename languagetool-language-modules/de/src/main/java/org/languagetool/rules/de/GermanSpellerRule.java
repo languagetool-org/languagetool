@@ -105,7 +105,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
-    putRepl("Korrigierung(en)?(\.)?", "igierung", "ektur");
+    putRepl("Korrigierung(en)?(.)?", "igierung", "ektur");
+    putRepl("[mM]itanader", "ana", "einan");
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");

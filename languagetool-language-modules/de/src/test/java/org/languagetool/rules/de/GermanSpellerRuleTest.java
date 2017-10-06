@@ -157,6 +157,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("aufwechselungsreichem", "abwechslungsreichem", rule, lt);
     assertFirstSuggestion("nachwievor", "nach wie vor", rule, lt);
     assertFirstSuggestion("letztenendes", "letzten Endes", rule, lt);
+    assertFirstSuggestion("mitanader", "miteinander", rule, lt);
   }
 
   @Test
