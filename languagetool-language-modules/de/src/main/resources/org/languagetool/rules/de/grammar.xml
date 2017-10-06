@@ -8583,7 +8583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>statt</token>
-                <token regexp="yes">finde[nt]|fand(en)?|gefunden</token>
+                <token inflected="yes" regexp="yes">finden|geben</token>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>statt<match no="2"/></suggestion>?</message>
             <example correction="stattfindet">Wo das Fest das <marker>statt findet</marker>, ist noch nicht klar.</example>
@@ -9275,6 +9275,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>kürzerzutreten</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="kürzerzutreten">Statt <marker>kürzer zu treten</marker>, steigerte er seine Ausgaben.</example>
+           </rule>
+        </rulegroup>
+        <rulegroup id="ZUFRIEDENGEBEN" name="zufrieden geben (zufriedengeben)">
+            <url>http://www.canoo.net/inflection/zufriedengeben:V:haben</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>zufrieden</token>
+                        <token inflected="yes">geben</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'zufriedengeben' (=begnügen) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="zufriedengegeben">Warum hat er sich damit <marker>zufrieden gegeben</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zufrieden</token>
+                    <token>zu</token>
+                    <token>geben</token>
+                </pattern>
+                <message>Das Verb 'zufriedengeben' (=begnügen) wird zusammengeschrieben.</message>
+                <suggestion>zufriedenzugeben</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="zufriedenzugeben">Statt sich <marker>zufrieden zu geben</marker>, forderte er mehr.</example>
            </rule>
         </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
