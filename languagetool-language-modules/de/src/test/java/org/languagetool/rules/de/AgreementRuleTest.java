@@ -183,6 +183,7 @@ public class AgreementRuleTest {
     assertGood("Er hat einen 34-jährigen Sohn.");
     assertGood("Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ.");
     assertGood("Dieses Versäumnis soll vertuscht worden sein - es wurde Anzeige erstattet.");
+    assertGood("Die Firmen - nicht nur die ausländischen, auch die katalanischen - treibt diese Frage um.");
     // TODO: assertGood("Der Obst und Getränke führende Fachmarkt.");
     assertGood("Stell dich dem Leben lächelnd!");
     assertGood("Die Messe wird auf das vor der Stadt liegende Ausstellungsgelände verlegt.");
