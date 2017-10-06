@@ -59,6 +59,14 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
+  private List<TaggedWord> changeLemma(List<TaggedWord> analyzedWordResults, String newLemma){
+    List<TaggedWord> result = new ArrayList<>();
+    for(TaggedWord tw : analyzedWordResults){
+      result.add(new TaggedWord(newLemma, tw.getPosTag()));
+    }
+    return result;
+  }
+
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -168,7 +176,7 @@ public class GermanTagger extends BaseTagger {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
 
-                List<TaggedWord> linkedTaggerTokens = getWordTagger().tag(word); //Try to analyze the last part found
+                List<TaggedWord> linkedTaggerTokens = changeLemma(getWordTagger().tag(word), wordOrig); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
                 if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
@@ -178,10 +186,7 @@ public class GermanTagger extends BaseTagger {
                   }
                 }
 
-                if (linkedTaggerTokens.size() > 0 && linkedTaggerTokens.get(0).getPosTag().matches("SUB.*")) {
-                  word = wordOrig;
-                }
-
+                word = wordOrig;
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.size() > 0) {
                   if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma
@@ -190,15 +195,8 @@ public class GermanTagger extends BaseTagger {
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
                   }
                 } else {
-                  //Wild guess introduces unknown erros
-                  //if (wordOrig.contains("-") && StringTools.startsWithUppercase(wordOrig)) {
-                  //  readings.add(new AnalyzedToken(wordOrig, "SUB", wordOrig));
-                  //} else {
-                  //  readings.add(getNoInfoToken(word));
-                  //}
                   readings.add(getNoInfoToken(word));
                 }
-                word = wordOrig;
               } else {
                 readings.add(getNoInfoToken(word));
               }
