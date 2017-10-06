@@ -587,8 +587,8 @@ public class AgreementRule extends Rule {
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
-	// TODO: remove (token3 == null || token3.getToken().length() < 2) 
-	// see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+    // TODO: remove (token3 == null || token3.getToken().length() < 2) 
+    // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if(token3 == null || token3.getToken().length() < 2) {
       return null;
     }
