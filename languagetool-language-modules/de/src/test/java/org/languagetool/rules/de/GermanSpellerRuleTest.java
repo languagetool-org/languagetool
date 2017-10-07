@@ -494,10 +494,12 @@ public class GermanSpellerRuleTest {
   public void testPosition() throws IOException{
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    RuleMatch[] match1 = rule.match(lt.getAnalyzedSentence("Er ist entsetzt, weil beim 'Wiederaufbau' das original-gotische Achsfenster mit reichem Maßwerk ausgebaut und an die südliche TeStWoRt gesetzt wurde."));
-	assertThat(match1.length, is(1));
-	assertThat(match1[0].getFromPos(), is(126));
-	assertThat(match1[0].getToPos(), is(134));
+    RuleMatch[] match1 = rule.match(lt.getAnalyzedSentence(
+            "Er ist entsetzt, weil beim 'Wiederaufbau' das original-gotische Achsfenster mit reichem Maßwerk ausgebaut " +
+            "und an die südliche TeStWoRt gesetzt wurde."));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getFromPos(), is(126));
+    assertThat(match1[0].getToPos(), is(134));
   }
 
   private void runTests(Dictionary dict, String input) {
