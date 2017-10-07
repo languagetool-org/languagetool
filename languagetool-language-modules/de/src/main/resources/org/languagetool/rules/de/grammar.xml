@@ -7878,6 +7878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Seit dem"><marker>Seitdem</marker> Kampf bin ich müde.</example>
                 <example correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+                <example><marker>Trotzdem</marker> danke.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -8750,6 +8751,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="Dienstagabend">Am <marker>Dienstag abend</marker> geht es rund!</example>
             <example correction="Dienstagabend">Am <marker>Dienstag Abend</marker> geht es rund!</example>
+        </rule>
+        <rule id="DIENSTAG_ABENDS" name="'Dienstag abend (dienstagabends)">
+            <pattern>
+                <token regexp="yes">&wochentage;</token>
+                <token regexp="yes">(&tageszeitangabenklein;)s</token>
+            </pattern>
+            <message>Wochentag + Tageszeit auf 's' wird klein- und zusammengeschrieben.</message>
+            <suggestion><match no="1" case_conversion="startlower"/><match case_conversion="startlower" no="2"/></suggestion>
+            <url>http://www.canoo.net/services/GermanSpelling/Reform/trennung/tageszeitangaben.jsp</url>
+            <short>&getrennt;.</short>
+            <example correction="dienstagabends">Wir treffen uns <marker>Dienstag abends</marker>.</example>
         </rule>
         <rulegroup id="DESWEGEN" name="'des wegen (deswegen)'">
             <rule>
