@@ -20987,6 +20987,53 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espaçamento em unidades de medida">
+    <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
+    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
+    <rule>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
+      <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
+      <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
+      <example correction="-25 °C">Fazem <marker>-25°C</marker>.</example>
+      <example correction="25,5 °F">Fazem <marker>25,5°F</marker>.</example>
+      <example>Fazem <marker>25,5 °C</marker>.</example>
+      <example>Fazem <marker>25,5 °Ra</marker>.</example>
+      <example>São <marker>5 km</marker> gelaufen.</example>
+      <example correction="5 km">São <marker>5km</marker> de distância.</example>
+      <example>São <marker>5 ZiB</marker> de dados.</example>
+      <example correction="5 ZiB">São <marker>5ZiB</marker> de dados.</example>
+      <example>São <marker>5 kB</marker> de dados.</example>
+      <example correction="5 kB">São <marker>5kB</marker> de dados.</example>
+      <example correction="5 kg">Pesa <marker>5kg</marker>.</example>
+      <example correction="5 Mt">Pesa <marker>5Mt</marker>.</example>
+      <example>Pesa <marker>5 µg</marker>.</example>
+      <example>Isótopo 241Am</example>
+      <example>(AsCH3)2n</example>
+      <example>Bd. 1b</example>
+      <example>Primeiro lançamento de Saturno 1B</example>
+      <example correction="2.000 kWh">Foram consumidos <marker>2.000kWh</marker></example>
+      <example>Os juros são de <marker>5 %</marker>.</example>
+    </rule>
+    <rule>
+      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+      <message>Não existe espaçamento a preceder o símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+      <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker></example>
+      <example correction="-25,5°|-25,5 °C">Fazem <marker>-25,5 ° </marker>de temperatura.</example>
+      <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
+      <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker>de abertura.</example>
+      <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
+    </rule>
+    <rule>
+      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (″)</regexp>
+      <message>O sinal de segundos (\2) não é espaçado.</message>
+        <suggestion>\1\2\3</suggestion>
+      <example>3°14′ 45,54″</example>
+      <example correction="45″"><marker>45 ″</marker> E</example>
+      <example correction="45,54″"><marker>45,54 ″</marker> E</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='SI_UNITS_EXPONENT' name="Matemático: Unidades do Sistema Internacional: km2/km²">
     <!-- Created by Tiago F. Santos, 2017-05-12 -->
       <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
