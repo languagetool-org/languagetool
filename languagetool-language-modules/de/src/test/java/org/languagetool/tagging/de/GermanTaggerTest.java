@@ -25,6 +25,8 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
@@ -112,7 +114,7 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken12 = tagger.lookup("IT-Dienstleistungsunternehmen");
     assertTrue(aToken12.getReadings().get(0).getPOSTag().matches("SUB.*"));
-    assertEquals("Unternehmen", aToken12.getReadings().get(0).getLemma());
+    assertEquals("IT-Dienstleistungsunternehmen", aToken12.getReadings().get(0).getLemma());
 
     AnalyzedTokenReadings aToken13 = tagger.lookup("Entweder-oder");
     assertTrue(aToken13.getReadings().get(0).getPOSTag().matches("SUB.*"));

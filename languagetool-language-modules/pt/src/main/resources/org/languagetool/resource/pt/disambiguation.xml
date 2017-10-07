@@ -679,6 +679,26 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="DE_FORMA_ADJECTIVE" name="De forma + adjectivo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-04  -->
+    <rule>
+      <pattern>
+          <token>de</token>
+          <token>forma</token>
+          <token postag="A..[CF]S.+" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token>de</token>
+          <token regexp='yes'>jeito|modo</token>
+          <token postag="A..[CM]S.+" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+  </rulegroup>
+
     <!-- D_R_N : Det + Advérbio + Nome				-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="D_R_N" name="Det + Adv + Nom">
@@ -2152,6 +2172,12 @@
     <rule><!-- Intel CPUs -->
       <pattern>
           <token case_sensitive='yes' regexp="yes">i[357]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token case_sensitive='yes'>4Chan</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

@@ -13243,6 +13243,22 @@ USA
             <example correction=""><marker>The</marker> is the best day of my life.</example>
             <example correction=""><marker>The</marker> are the best.</example>
         </rule>
+        <rulegroup id="MISSING_ARTICLE" name="missing article">
+            <rule>
+                <pattern>
+                    <token postag="NNP|PRP" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">be</token>
+                        <token postag="JJ"><exception postag="R[BP]|IN|VB.?|DT|CD" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NN"><exception postag="R[BP]|IN|VB.?|C[CD]|JJR?|NN:U|DT" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Please check whether an article is missing: <suggestion>\2 a \3</suggestion> or <suggestion>\2 an \3</suggestion></message>
+                <example correction="are a good|are an good">You <marker>are good</marker> boy.</example>
+                <example correction="is a great|is an great">It seems to me that Mr Jones <marker>is great</marker> golfer.</example>
+                <example>What impresses me the most about China is Chinese food.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_I_BE_GERUND" name="'BE I BE GERUND'"><!-- https://github.com/languagetool-org/languagetool/issues/754 -->
             <pattern>
                 <token inflected="yes">be</token>
@@ -15174,6 +15190,15 @@ USA
                 <example>Since when are there fireworks?</example>
             </rule>
         </rulegroup>
+        <rule id="RATIO_RATION" name="ration or ratio">
+            <pattern>
+                <token regexp="yes">aspect|compression</token>
+                <marker><token>ration</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>ratio</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="ratio">The screen aspect <marker>ration</marker>...</example>
+        </rule>
         <rule id="ZERO-SUM_GAIN" name="zero-sum gain (game)">
             <pattern>
                 <token>zero-sum</token>
@@ -22359,6 +22384,83 @@ USA
             <example correction="">The band is <marker>very</marker> irritating.</example>
             <example>The band is irritating.</example>
         </rule>
+
+        <rulegroup id="EMPHATIC_REFLEXIVE_PRONOUNS" name="emphatic reflexive pronouns (I myself)">
+            <url>https://english.stackexchange.com/questions/124786/is-it-correct-to-say-i-myself</url>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token>myself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="I">There are no biscuits. <marker>I myself</marker> ate the last one.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>you</token>
+                    <token>yourself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="you">I cannot do it for you. Only <marker>you yourself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>you</token>
+                    <token inflected="yes">yourself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="you">I cannot do it for you. Only <marker>you yourselves</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>we</token>
+                    <token>ourselves</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="We">They cannot do it for us. <marker>We ourselves</marker> must do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>he</token>
+                    <token>himself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="he">You cannot do it for him. Only <marker>he himself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>she</token>
+                    <token>herself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="she">You cannot do it for her. Only <marker>she herself</marker> can do it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>it</token>
+                    <token>itself</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="It">The software update is not correct. <marker>It itself</marker> causes more problems than in solves.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>they</token>
+                    <token>themselves</token>
+                </pattern>
+                <message>Although '\1 \2' is correct, it is not always necessary. If possible, use only <suggestion>\1</suggestion>.</message>
+                <short>Emphatic reflexive pronoun</short>
+                <example correction="they">You cannot do it them. Only <marker>they themselves</marker> can do it.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->

@@ -1600,12 +1600,13 @@
           <token inflected="yes">be<exception>being</exception></token>
           <marker>
             <and>
-              <token postag="VBG"/>
+              <token postag="VBG" regexp="yes">.+ing</token>
               <token postag="NN(:UN?)?" postag_regexp="yes"/>
             </and>            
           </marker>
         </pattern>
         <disambig postag="VBG"/>
+        <example type="untouched">He is brave.</example>
         <example type="untouched">It's emaciating.</example>
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>                
     </rule>    
@@ -2114,12 +2115,13 @@
     <rule name="VBN + VBN + NN -&gt; JJ" id="VBN_VBN_NN_JJ">
         <pattern>
             <marker>
-                <token postag="VBN"/>
+                <token postag="VBN"><exception>been</exception></token>
             </marker>
             <token postag="VBN"/>
             <token postag_regexp="yes" postag="NN:.*|NNS|NN"/>
         </pattern>
         <disambig postag="JJ"/>
+        <example type="untouched">He had been proven innocent.</example>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>

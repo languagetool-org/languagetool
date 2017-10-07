@@ -222,7 +222,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
        // "... etwas Interessantes und Spannendes suchte"
-       regex("etwas|nichts|viel|wenig"),
+       regex("etwas|nichts|viel|wenig|allerlei"),
        regex("[A-ZÄÖÜ].*es"),
        regex("und|oder|,"),
        regex("[A-ZÄÖÜ].*es")
@@ -294,7 +294,7 @@ public class CaseRule extends Rule {
   }
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
-      "viel", "nichts", "wenig"));
+      "viel", "nichts", "wenig", "allerlei"));
 
   private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
       "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"));

@@ -18,11 +18,22 @@
  */
 package org.languagetool.rules.de;
 
-import morfologik.fsa.FSA;
-import morfologik.fsa.builders.FSABuilder;
-import morfologik.fsa.builders.CFSA2Serializer;
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -34,11 +45,11 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
-import java.io.*;
-import java.util.*;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import morfologik.fsa.FSA;
+import morfologik.fsa.builders.CFSA2Serializer;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
 
 public class GermanSpellerRuleTest {
 
@@ -126,7 +137,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
     assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);
-    assertFirstSuggestion("Interkurelles", "Interkulturelles", rule, lt);
     assertFirstSuggestion("interkurelle", "interkulturelle", rule, lt);
     assertFirstSuggestion("Zuende", "Zu Ende", rule, lt);
     assertFirstSuggestion("zuende", "zu Ende", rule, lt);
@@ -157,6 +167,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("aufwechselungsreichem", "abwechslungsreichem", rule, lt);
     assertFirstSuggestion("nachwievor", "nach wie vor", rule, lt);
     assertFirstSuggestion("letztenendes", "letzten Endes", rule, lt);
+    assertFirstSuggestion("mitanader", "miteinander", rule, lt);
+    assertFirstSuggestion("nocheimal", "noch einmal", rule, lt);
+    assertFirstSuggestion("konflikationen", "Komplikationen", rule, lt);
   }
 
   @Test
@@ -472,6 +485,16 @@ public class GermanSpellerRuleTest {
     InputStream is = new ByteArrayInputStream(infoFile.getBytes("utf-8"));
     Dictionary dict = Dictionary.read(fsaInStream, is);
     runTests(dict, inputWord);
+  }
+
+  @Test
+  public void testPosition() throws IOException{
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] match1 = rule.match(lt.getAnalyzedSentence("Er ist entsetzt, weil beim 'Wiederaufbau' das original-gotische Achsfenster mit reichem Maßwerk ausgebaut und an die südliche TeStWoRt gesetzt wurde."));
+	assertThat(match1.length, is(1));
+	assertThat(match1[0].getFromPos(), is(126));
+	assertThat(match1[0].getToPos(), is(134));
   }
 
   private void runTests(Dictionary dict, String input) {
