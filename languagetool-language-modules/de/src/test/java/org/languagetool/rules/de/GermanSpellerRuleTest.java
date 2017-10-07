@@ -169,6 +169,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("letztenendes", "letzten Endes", rule, lt);
     assertFirstSuggestion("mitanader", "miteinander", rule, lt);
     assertFirstSuggestion("nocheimal", "noch einmal", rule, lt);
+    assertFirstSuggestion("konflikationen", "Komplikationen", rule, lt);
   }
 
   @Test
