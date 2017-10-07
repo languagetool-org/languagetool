@@ -25,7 +25,7 @@ STATIC_DIR=${BASE_DIR}/static
 # Each file contains words where lemma starts with file name part before "-".
 # Example: words that start with letter "j" are in file ${INPUT_DIR}/je-words.txt
 
-for file in a be ce ch de dje dzhe ef em en er es e ge ha i je ka lamda lje nje o pe sha te tshe u ve ze zhe misc
+for file in a be ce ch de dje dzhe ef em en er es e ge ha i je ka ell lje nje o pe sha te tshe u ve ze zhe misc
 do
     # Author keeps his added words in separate files with suffix "-srp"
     for fext in words names

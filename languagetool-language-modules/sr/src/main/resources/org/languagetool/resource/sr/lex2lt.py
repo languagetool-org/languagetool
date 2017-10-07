@@ -41,7 +41,7 @@ CYR_LETTERS = {
     'и' : 'i',
     'ј' : 'je',
     'к' : 'ka',
-    'л' : 'lamda',
+    'л' : 'ell',
     'љ' : 'lje',
     'м' : 'em',
     'н' : 'en',
@@ -65,8 +65,7 @@ CYR_LETTERS = {
 # Types of regex to match lines in input file
 # Regex is selectable from command line using parameter "-r"
 REGEX_TYPE = {
-    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*",
-    "wac" : "^([a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
+    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
 }
 
 # Map holding transliterated Cyrillic letters pointing to
@@ -245,7 +244,6 @@ def parse_file():
     matchcnt = 0
     _logger_.info("PASS 2: Started processing input file '{}' ...".format(_args_.input_file))
     freqfile = open("serbian-wordlist.xml", "wb")
-    #freqfile.write('<wordlist locale="sr" description="Српски" version="3">\n'.encode('utf-8'))
 
     with open(_args_.input_file) as f:
         for line in f:
@@ -261,10 +259,11 @@ def parse_file():
                 frequency = tokens[3]
                 # We need to do transliterating here in order to avoid transliterating POS tag :(
                 flexform_lemma = "{} {}".format(flexform, lemma)
-                # Transliterate all words in line, replacing Latin with Cyrillic characters
-                flexform_lemma = _l2comp_.sub(lambda m: _l2conv_[m.group()], flexform_lemma)
-                # Replace words according to replace map
-                flexform_lemma = _ciregex_.sub(lambda mo: _cirdict_[mo.string[mo.start():mo.end()]], flexform_lemma)
+                if lemma.upper() not in ('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'):
+                    # Transliterate all words in line, replacing Latin with Cyrillic characters
+                    flexform_lemma = _l2comp_.sub(lambda m: _l2conv_[m.group()], flexform_lemma)
+                    # Replace words according to replace map
+                    flexform_lemma = _ciregex_.sub(lambda mo: _cirdict_[mo.string[mo.start():mo.end()]], flexform_lemma)
                 tokens = flexform_lemma.split()
                 flexform = tokens[0]
                 lemma = tokens[1]
