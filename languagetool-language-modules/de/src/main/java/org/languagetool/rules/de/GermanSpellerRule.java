@@ -93,7 +93,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[zZ]uende", "ue", "u E");
     putRepl("[lL]etztenendes", "ene", "en E");
     putRepl("[nN]achwievor", "wievor", " wie vor");
-    putRepl("[uU]nswar", "swar", "nd zwar");
+    putRepl("[uU]nswar", "swar", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
     putRepl("Probiren?", "ir", "ier");
