@@ -67,7 +67,7 @@ class NeuralNetworkRuleEvaluator {
         }
     }
 
-    private Map<Double, ConfusionRuleEvaluator.EvalResult> run(List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) throws IOException {
+    private Map<Double, EvalResult> run(List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) throws IOException {
         for (Double evalFactor : evalMinScores) {
             evalValues.put(evalFactor, new EvalValues());
         }
@@ -134,9 +134,9 @@ class NeuralNetworkRuleEvaluator {
         }
     }
 
-    private Map<Double,ConfusionRuleEvaluator.EvalResult> printEvalResult(List<Sentence> allToken1Sentences, List<Sentence> allToken2Sentences,
+    private Map<Double,EvalResult> printEvalResult(List<Sentence> allToken1Sentences, List<Sentence> allToken2Sentences,
                                                                         String token1, String token2) {
-        Map<Double,ConfusionRuleEvaluator.EvalResult> results = new HashMap<>();
+        Map<Double,EvalResult> results = new HashMap<>();
         int sentences = allToken1Sentences.size() + allToken2Sentences.size();
         System.out.println("\nEvaluation results for " + token1 + "/" + token2
                 + " with " + sentences + " sentences as of " + new Date() + ":");
@@ -149,7 +149,7 @@ class NeuralNetworkRuleEvaluator {
             String summary = String.format(ENGLISH, "%s; %s; %4.2f; # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
                     token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
                     certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
-            results.put(certainty, new ConfusionRuleEvaluator.EvalResult(summary, precision, recall));
+            results.put(certainty, new EvalResult(summary, precision, recall));
             if (verbose) {
                 System.out.println();
                 System.out.printf(ENGLISH, "Certainty: %4.2f - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
@@ -200,7 +200,7 @@ class NeuralNetworkRuleEvaluator {
 
     public static void main(String[] args) throws IOException {
         if (args.length < 3) {
-            System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
+            System.err.println("Usage: " + NeuralNetworkRuleEvaluator.class.getSimpleName()
                     + " <langCode> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
             System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile> either a Wikipedia XML dump, or a Tatoeba file, or");
             System.err.println("                      a plain text file with one sentence per line, a Wikipedia or Tatoeba file");
