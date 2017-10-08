@@ -73,6 +73,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("(an|auf)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
+    put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
+    putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
     put("Germanistiker[ns]", "Germanisten");
