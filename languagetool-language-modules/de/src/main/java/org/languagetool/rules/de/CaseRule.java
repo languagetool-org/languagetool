@@ -252,7 +252,8 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
         // "Er liebt UV-bestrahltes, Na-haltiges und Makeup-freies Obst."
-        regex("[A-ZÄÖÜ]+[a-zäöüß]-[a-zäöüß]+")
+        // "Er vertraut auf CO2-arme Wasserkraft"
+        regex("[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+")
      )
   );
 
