@@ -69,7 +69,8 @@ CYR_LETTERS = {
     '7' : '0-9',
     '8' : '0-9',
     '9' : '0-9',
-    'misc' : 'misc' # For miscellaneous "words"
+    'misc' : 'misc', # For miscellaneous "words"
+    'bad' : 'bad' # For words containing foreign letters
 }
 
 # Types of regex to match lines in input file
@@ -77,6 +78,8 @@ CYR_LETTERS = {
 REGEX_TYPE = {
     "wic" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+(a-zA-Z0-2_)+*"
 }
+
+BAD_GROUPS = ('î', 'ô', 'ﬂ', 'ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'é', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх')
 
 # Map holding transliterated Serbian Cyrillic letters pointing to
 # descriptors of opened files
@@ -391,11 +394,14 @@ def getPOStag(lemma, wictag):
         return "0"
 
 
+def has_bad_letters(word):
+    return any(x in word for x in BAD_GROUPS)
+
 # Parse input file
 def parse_file():
     cnt = 0
     matchcnt = 0
-    _logger_.info("PASS 1: Started processing input file '{}' ...".format(_args_.input_file))
+    _logger_.info("Started processing input file '{}' ...".format(_args_.input_file))
 
     with open(_args_.input_file) as f:
         for line in f:
@@ -422,11 +428,19 @@ def parse_file():
                 or wictag.startswith('A_rel'):
                     continue
                 # We need to do transliterating here in order to avoid transliterating POS tag :(
-                flexform_lemma = "{} {}".format(flexform, lemma)
+                flexform_lemma = "{}\t{}".format(flexform, lemma)
                 # Transliterate all words in line, replacing Latin with Cyrillic characters
                 flexform_lemma = _l2comp_.sub(lambda m: _l2conv_[m.group()], flexform_lemma)
                 # Replace words according to word replace map (Eiffel => Ајфел)
                 flexform_lemma = _ciregex_.sub(lambda mo: _cirdict_[mo.string[mo.start():mo.end()]], flexform_lemma)
+                # Check lemma for non-transliterated letters or some foreign letter combination
+                # If they are found, write lemma in separate file
+                # That will help in creating replacements
+                if has_bad_letters(flexform_lemma):
+                    out_file = WORD_FILES[ 'bad' ][0]
+                    posgr = getPOStag(flexform, wictag)
+                    out_file.write("{}\t{}\t0\n".format(flexform_lemma, posgr).encode('utf-8'))
+                    continue
                 # Split pair again after transliteration
                 tokens = flexform_lemma.split()
                 try:
@@ -458,7 +472,7 @@ def parse_file():
         out_file.write("{}\t{}\tMrc\t0\n".format(roman, roman).encode('utf-8'))
         roman = roman.lower()
         out_file.write("{}\t{}\tMrc\t0\n".format(roman, roman).encode('utf-8'))
-    _logger_.info("PASS 1: Finished processing input file '{}': total {} lines, {} matching lines.".format(
+    _logger_.info("Finished processing input file '{}': total {} lines, {} matching lines.".format(
         _args_.input_file, cnt, matchcnt))
 
 

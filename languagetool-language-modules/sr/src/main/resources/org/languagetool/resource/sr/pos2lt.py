@@ -43,7 +43,7 @@ def parse_args():
 def init():
     global _logger_
     logging.basicConfig(format=LOG_FORMAT)
-    _logger_ = logging.getLogger("lex2lt")
+    _logger_ = logging.getLogger("pos2lt")
 
 
 def open_out_file():

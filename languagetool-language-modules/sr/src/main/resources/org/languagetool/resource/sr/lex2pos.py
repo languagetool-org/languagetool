@@ -59,7 +59,8 @@ CYR_LETTERS = {
     'ч' : 'ch',
     'џ' : 'dzhe',
     'ш' : 'sha',
-    'misc' : 'misc' # For miscellaneous "words"
+    'misc' : 'misc', # For miscellaneous "words"
+    'bad' : 'bad' # For words containing foreign letters
 }
 
 # Types of regex to match lines in input file
@@ -67,6 +68,8 @@ CYR_LETTERS = {
 REGEX_TYPE = {
     "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
 }
+
+BAD_GROUPS = ('î', 'ô', 'ﬂ', 'ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'é', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх')
 
 # Map holding transliterated Cyrillic letters pointing to
 # descriptors of opened files
@@ -121,18 +124,18 @@ def open_out_files():
         if not os.path.exists( out_dir ):
             os.makedirs( out_dir )
         WORD_FILES[ cl ] = list()
-        _logger_.debug( "Opening file {}/{}-words.txt ...".format(out_dir, lett) )
-        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-words.txt'), 'wb' ) )
-        _logger_.debug( "Opening file {}/{}-names.txt ...".format(out_dir, lett) )
-        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-names.txt'), 'wb' ) )
+        _logger_.debug( "Opening file {}/{}-lex-words.txt ...".format(out_dir, lett) )
+        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-lex-words.txt'), 'wb' ) )
+        _logger_.debug( "Opening file {}/{}-lex-names.txt ...".format(out_dir, lett) )
+        WORD_FILES[ cl ].append( open( os.path.join(out_dir, lett + '-lex-names.txt'), 'wb' ) )
 
 
 # Close all files containing words
 def close_out_files():
     for cl, lett_files in WORD_FILES.items():
-        _logger_.debug('Closing file {}-words.txt ...'.format(CYR_LETTERS[ cl ]))
+        _logger_.debug('Closing file {}-lex-words.txt ...'.format(CYR_LETTERS[ cl ]))
         lett_files[0].close()
-        _logger_.debug('Closing file {}-names.txt ...'.format(CYR_LETTERS[ cl ].upper()))
+        _logger_.debug('Closing file {}-lex-names.txt ...'.format(CYR_LETTERS[ cl ]))
         lett_files[1].close()
 
 
@@ -168,19 +171,6 @@ def get_words_out_file( first_char ):
     else:
         out_file = WORD_FILES[ 'misc' ][0]
     return out_file
-
-numeral_map = tuple(zip(
-    (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-    ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
-))
-
-def int_to_roman(i):
-    result = []
-    for integer, numeral in numeral_map:
-        count = i // integer
-        result.append(numeral * count)
-        i -= integer * count
-    return ''.join(result)
 
 
 # Go through input file, read word frequencies and prepare map file
@@ -237,6 +227,9 @@ def distribute_word_frequencies():
         #print( " " )
 
 
+def has_bad_letters(word):
+    return any(x in word for x in BAD_GROUPS)
+
 
 # Parse input file
 def parse_file():
@@ -258,15 +251,19 @@ def parse_file():
                 posgr = tokens[2]
                 frequency = tokens[3]
                 # We need to do transliterating here in order to avoid transliterating POS tag :(
-                flexform_lemma = "{} {}".format(flexform, lemma)
+                flexform_lemma = "{}\t{}".format(flexform, lemma)
                 if lemma.upper() not in ('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'):
                     # Transliterate all words in line, replacing Latin with Cyrillic characters
                     flexform_lemma = _l2comp_.sub(lambda m: _l2conv_[m.group()], flexform_lemma)
                     # Replace words according to replace map
                     flexform_lemma = _ciregex_.sub(lambda mo: _cirdict_[mo.string[mo.start():mo.end()]], flexform_lemma)
+                    if has_bad_letters(flexform_lemma):
+                        out_file = WORD_FILES[ 'bad' ][0]
+                        out_file.write("{}\t{}\t{}\n".format(flexform_lemma, posgr, frequency).encode('utf-8'))
+                        continue
+                # Split pair again after transliteration
                 tokens = flexform_lemma.split()
-                flexform = tokens[0]
-                lemma = tokens[1]
+                flexform, lemma = tokens
                 _logger_.debug('Converted flexform={}, lemma={}, posgr={}'.format(flexform, lemma, posgr))
 
                 # Determine file to write line in ...
