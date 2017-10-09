@@ -7781,9 +7781,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
         </rule>
         <rule id="LOG_IN" name="'Log in (Log-in)'">
-            <pattern>
+            <pattern case_sensitive='yes'>
                 <marker>
-                    <token case_sensitive='yes'>Log</token>
+                    <token>Log</token>
                     <token>in</token>
                 </marker>
             </pattern>
@@ -7958,7 +7958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Da</token>
                     <token>mit</token>
                 </marker>
-                <token regexp="yes">er|sie|es|ich|du|die|das</token>
+                <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
             </pattern>
             <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
             <short>&getrennt;.</short>
@@ -8009,7 +8009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>So</token>
                         <token>bald</token>
                     </marker>
-                    <token regexp="yes">er|sie|es|ich|du|der|die|das</token>
+                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
                 </pattern>
                 <message>&getrennt;: Ist hier die Konjunktion <suggestion>sobald</suggestion> gemeint?</message>
                 <short>&getrennt;.</short>
@@ -8023,7 +8023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>so</token>
                         <token>bald</token>
                     </marker>
-                    <token regexp="yes">er|sie|es|ich|du|der|die|das</token>
+                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
                 </pattern>
                 <message>&getrennt;: Ist hier die Konjunktion <suggestion>sobald</suggestion> gemeint?</message>
                 <short>&getrennt;.</short>
@@ -8044,7 +8044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|Geheimnis|nicht|Verfall|Versteck</token>
+                    <token regexp="yes">es|Geheimnis|nicht|Ver(fall|steck)</token>
                     <marker>
                         <token>preis</token>
                         <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
@@ -10224,6 +10224,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Semantischer Fehler</short>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
                 <example correction="">Unser Universum ist viele <marker>Lichtjahre alt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QUADRATWURZEL" name="Quadratwurzel (2 Lösungen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(Quadrat)?[Ww]urzel</token>
+                    <token regexp="yes">aus|von</token>
+                    <token regexp="yes">\d+</token>
+                    <token>ist</token>
+                    <marker><token regexp="yes">\d+</token></marker>
+                    <token><exception regexp="yes">und|oder|bzw.</exception></token>
+                </pattern>
+                <message>Für reelle Zahlen existieren in der Regel zwei unterschiediche Lösungen.</message>
+                <suggestion>&#0177;\5</suggestion>
+                <example correction="&#0177;3">Die Wurzel aus 9 ist <marker>3</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOPPELTE_TEMPERATUR" name="Temperatur vs. Temperaturdifferenz: 'halb so warm'">
@@ -12915,6 +12930,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Möglicher Tippfehler</short>
                 <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Damen und Herrn</marker></example>
                 <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrte\w?</token>
+                    <token>Dame</token>
+                    <token>und</token>
+                    <token>Herren</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel <suggestion>Sehr geehrte Damen und Herren</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herren</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="LIEBER_ANNA" name="'Lieber (Liebe) Anna, ...' (als Anredeformel)">

@@ -21964,6 +21964,18 @@ TODO Write better examples
       <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
     </rule>
 
+    <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: d' sem espaço">
+    <!--  Created by Tiago F. Santos, 2017-10-06      -->
+      <pattern>
+          <token>d</token>
+          <token spacebefore='no' regexp='yes'>['’]</token>
+          <token spacebefore='yes'/>
+      </pattern>
+      <message>A contração d' não deve ser separada por espaços.</message>
+        <suggestion>\1\2\3</suggestion>
+      <example correction="d'El">Aqui jaz <marker>d' El</marker>-rei D.Sebastião.</example>
+    </rule>
+
   <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
     <!--  Created by Tiago F. Santos, 2017-05-31      -->
     <rule>

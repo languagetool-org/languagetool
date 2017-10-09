@@ -1157,11 +1157,11 @@
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
             <token postag="IN"><exception regexp="yes">as|like</exception></token>
-            <token regexp="yes">this|these</token>
+            <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -2118,7 +2118,7 @@
                 <token postag="VBN"><exception>been</exception></token>
             </marker>
             <token postag="VBN"/>
-            <token postag_regexp="yes" postag="NN:.*|NNS|NN"/>
+            <token postag_regexp="yes" postag="NN:.*|NNS?"/>
         </pattern>
         <disambig postag="JJ"/>
         <example type="untouched">He had been proven innocent.</example>
@@ -2272,7 +2272,7 @@
         <rule>
             <pattern>
                 <token postag="EX"/>
-                <token regexp="yes">have|has</token>
+                <token regexp="yes">ha(ve|s)</token>
                 <token>been</token>
                 <marker>
                     <token postag="RB"><exception postag="CC"/></token>
@@ -2416,7 +2416,7 @@
                 <token postag="NN(:U?N)?" postag_regexp="yes"/>
                 </and>
             </marker>
-            <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+            <token><exception postag="NN(P)?S" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
         <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
@@ -2798,7 +2798,7 @@
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN|NN:UN"/>
+            <token postag_regexp="yes" postag="NN(:UN)?"/>
         </pattern>
         <disambig postag="WDT"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
@@ -2812,7 +2812,7 @@
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token><exception postag_regexp="yes" postag="NN|NN:UN"/></token>
+            <token><exception postag_regexp="yes" postag="NN(:UN)?"/></token>
         </pattern>
         <disambig postag="WP"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
@@ -2827,7 +2827,7 @@
                 </and>
             </marker>
             <token min="0" postag="JJ"/>
-            <token postag_regexp="yes" postag="NN|NN:UN"/>
+            <token postag_regexp="yes" postag="NN(:UN)?"/>
         </pattern>
         <disambig postag="DT"/>
         <example type="ambiguous" inputform="That[that/DT,that/RP,that/WDT,that/WP]" outputform="That[that/DT]"><marker>That</marker> kind of bread is stale.</example>
@@ -3102,7 +3102,7 @@
     <!-- &comparisons then 0END.0::filter=kill -->
     <rule id="COMPARISONS_THEN_0END0" name="comparisons then 0END0">
         <pattern>
-            <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+            <token regexp="yes">hotter|colder|lamer|less(er)?|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
             <token>then</token>
             <token postag="SENT_END"/>
         </pattern>
