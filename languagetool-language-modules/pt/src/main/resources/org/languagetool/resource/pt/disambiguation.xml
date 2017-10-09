@@ -708,7 +708,8 @@
           <token postag="R.*" postag_regexp="yes"/>
         </marker>
           <token postag="N.+" postag_regexp="yes">
-            <exception>são</exception><exception postag="(C|SP).*" postag_regexp="yes"/></token>
+            <exception>são</exception>
+            <exception postag="(C|SP).*" postag_regexp="yes"/></token>
       </pattern>
       <disambig action="filter" postag="R.*"/>
     </rule>
@@ -760,7 +761,8 @@
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes">
-            <exception postag="[DC].+" postag_regexp="yes"/><exception regexp="yes">de|são</exception></token>
+            <exception postag="[DC].+" postag_regexp="yes"/>
+            <exception regexp="yes">de|são</exception></token>
           </unify>
         </marker>
       </pattern>
@@ -2105,28 +2107,35 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-   <rule name="Visual Studio/Basic" id="VISUAL_STUDIO">
-       <pattern case_sensitive="yes">
-            <token>Visual</token>
-            <token regexp="yes">Studio|Basic</token>
-       </pattern>
-       <disambig action="ignore_spelling"/>
+    <rule name="Visual Studio/Basic" id="VISUAL_STUDIO">
+      <pattern case_sensitive="yes">
+          <token>Visual</token>
+          <token regexp="yes">Studio|Basic</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
-   <rule name="low cost" id="LOW_COST">
-       <pattern>
-            <token>low</token>
-            <token regexp="yes" spacebefore='no' min='0'>&hifen;</token>
-            <token regexp="yes">costs?</token>
-       </pattern>
-       <disambig action="ignore_spelling"/>
+    <rule name="Google Maps" id="GOOGLE_MAPS">
+      <pattern case_sensitive="yes">
+          <token>Google</token>
+          <token regexp="yes">Ad|Alerts|Analytics|APIs|App|Apps|Art|Attribution|Authenticator|Bookmarks|Business|Calendar|Charts|Checkout|Classroom|Cloud|Compute|Contacts|Cultural|Current|Data|Developers|Docs|Drive|Fit|Flights|Fonts|for|Fusion|Get|Groups|Home|Maps|Mobile|Moderator|My|Ngram|One|Opinion|Photos|Play|Plugin|Primer|Public|Questions|Schemer|Scholar|Search|Search‎|Shopping|Sites|Spaces|Store|Street|Surveys|Sync|Tez|Translate|Translator|URL|Videos|Wallet|Website|WiFi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
-   <rule name="T-shirts" id="T-SHIRT">
-       <pattern>
-            <token>t</token>
-            <token regexp="yes" spacebefore='no'>&hifen;</token>
-            <token regexp="yes" spacebefore='no'>shirts?</token>
-       </pattern>
-       <disambig action="ignore_spelling"/>
+    <rule name="low cost" id="LOW_COST">
+      <pattern>
+          <token>low</token>
+          <token regexp="yes" spacebefore='no' min='0'>&hifen;</token>
+          <token regexp="yes">costs?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="T-shirts" id="T-SHIRT">
+      <pattern>
+          <token>t</token>
+          <token regexp="yes" spacebefore='no'>&hifen;</token>
+          <token regexp="yes" spacebefore='no'>shirts?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
 
   <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
