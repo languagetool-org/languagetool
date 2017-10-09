@@ -26,9 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
-import org.languagetool.rules.en.neuralnetwork.FormFromRule;
-import org.languagetool.rules.en.neuralnetwork.ThanThenRule;
-import org.languagetool.rules.en.neuralnetwork.ToTooRule;
+import org.languagetool.rules.en.neuralnetwork.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -185,6 +183,10 @@ public class English extends Language implements AutoCloseable {
         new EnglishWrongWordInContextRule(messages),
         new EnglishDashRule(),
         new FormFromRule(messages),
+        new HourOurRule(messages),
+        new OfOffRule(messages),
+        new PageSideRule(messages),
+        new SideSiteRule(messages),
         new ThanThenRule(messages),
         new ToTooRule(messages)
     );

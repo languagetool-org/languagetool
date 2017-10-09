@@ -182,13 +182,15 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new DaDasRule(messages),
             new DichDochRule(messages),
+            new DieDirRule(messages),
             new EinInRule(messages),
             new FielenVielenRule(messages),
             new IhmImRule(messages),
             new ImUmRule(messages),
             new MirMitRule(messages),
             new NachNochRule(messages),
-            new WieWirRule(messages)
+            new WieWirRule(messages),
+            new WirWirdRule(messages)
     );
   }
 
