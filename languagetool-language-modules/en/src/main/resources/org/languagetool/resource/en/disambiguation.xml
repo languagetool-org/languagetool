@@ -1157,11 +1157,11 @@
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
             <token postag="IN"><exception regexp="yes">as|like</exception></token>
-            <token regexp="yes">this|these</token>
+            <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -2118,7 +2118,7 @@
                 <token postag="VBN"><exception>been</exception></token>
             </marker>
             <token postag="VBN"/>
-            <token postag_regexp="yes" postag="NN:.*|NNS|NN"/>
+            <token postag_regexp="yes" postag="NN:.*|NNS?"/>
         </pattern>
         <disambig postag="JJ"/>
         <example type="untouched">He had been proven innocent.</example>

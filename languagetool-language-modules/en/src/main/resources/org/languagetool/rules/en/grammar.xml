@@ -6452,24 +6452,39 @@ USA
                 <example>The most common of <marker>these two is</marker> on the outside.</example>
            </rule>
         </rulegroup>
-        <rule id="THIS_NNS_VB" name="this + plural noun + verb (these)">
-            <antipattern>
-                <token>This</token>
-                <token postag='VB.*' postag_regexp='yes'/>
-                <token postag="JJ"/>
-            </antipattern>
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker>
+        <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
+            <rule>
+                <antipattern>
                     <token>This</token>
-                </marker>
-                <token postag='NNS'><exception postag='NN:UN'/><exception postag='NN'/><exception regexp="yes">does|helps|fish</exception></token>
-                <token postag='VB.*' postag_regexp='yes'><exception>like</exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>these</suggestion>?</message>
-            <example correction='These'><marker>This</marker> images are beautiful.</example>
-            <example>This tastes pretty good to me.</example>
-        </rule>
+                    <token postag='VB.*' postag_regexp='yes'/>
+                    <token postag="JJ"/>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                    <token>This</token>
+                    </marker>
+                    <token postag='NNS'><exception postag='NN:UN'/><exception postag='NN'/><exception regexp="yes">does|helps|fish</exception></token>
+                    <token postag='VB.*' postag_regexp='yes'><exception>like</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>these</suggestion>?</message>
+                <example correction='These'><marker>This</marker> images are beautiful.</example>
+                <example>This tastes pretty good to me.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                    <token>this</token>
+                    </marker>
+                    <token postag='NNS'><exception postag_regexp="yes" postag='NN(:UN?)?|VBZ'/></token>
+                    <token postag='SENT_END'/>
+                </pattern>
+                <message>Did you mean <suggestion>these</suggestion>?</message>
+                <example correction='these'>Can LanguageTool find <marker>this</marker> errors?</example>
+                <example>There is no poison in this fish.</example>
+                <example>I know how this looks.</example>
+            </rule>
+        </rulegroup>
         <rule id="THESE_SINGULAR_NOUN" name="these + singular noun">
             <pattern>
                 <token regexp="yes">th[eo]se</token>
@@ -6981,7 +6996,7 @@ USA
         <rulegroup id="AFFORD_VB" name="'afford', 'choose', etc. used with base form instead of infinitive">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|str(iv|uggl)e|learn</token>
                     <marker>
                         <token postag="VB"><exception postag="JJ"/><exception>reward</exception></token>
                     </marker>
@@ -6996,7 +7011,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|str(iv|uggl)e|learn</token>
                     <token>not</token>
                     <marker>
                         <token postag="VB"/>
