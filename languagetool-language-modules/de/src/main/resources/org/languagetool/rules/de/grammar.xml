@@ -12931,6 +12931,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Damen und Herrn</marker></example>
                 <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrte\w?</token>
+                    <token>Dame</token>
+                    <token>und</token>
+                    <token>Herren</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel <suggestion>Sehr geehrte Damen und Herren</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herren</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="LIEBER_ANNA" name="'Lieber (Liebe) Anna, ...' (als Anredeformel)">
             <rule>
