@@ -73,6 +73,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("(an|auf)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
+    put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
+    putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
     put("Germanistiker[ns]", "Germanisten");
@@ -93,6 +95,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[zZ]uende", "ue", "u E");
     putRepl("[lL]etztenendes", "ene", "en E");
     putRepl("[nN]achwievor", "wievor", " wie vor");
+    putRepl("[uU]nswar", "swar", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
     putRepl("Probiren?", "ir", "ier");
@@ -123,23 +126,26 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
-    // TODO: Add inflected forms for most of the following (such as "Grizzlybären")
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
     put("Grisli", "Grizzly");
     put("Grislibär", "Grizzlybär");
+    put("Grislibären", "Grizzlybären");
     put("Frotté", "Frottee");
     put("Joga", "Yoga");
     put("Kalvinismus", "Calvinismus");
     put("Kollier", "Collier");
+    put("Kolliers", "Colliers");
     put("Ketschup", "Ketchup");
     put("Kommunikee", "Kommuniqué");
     put("Negligee", "Negligé");
     put("Nessessär", "Necessaire");
     put("passee", "passé");
     put("Varietee", "Varieté");
+    put("Varietees", "Varietés");
     put("Wandalismus", "Vandalismus");
     put("Campagne", "Kampagne");
+    put("Campagnen", "Kampagnen");
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
   }

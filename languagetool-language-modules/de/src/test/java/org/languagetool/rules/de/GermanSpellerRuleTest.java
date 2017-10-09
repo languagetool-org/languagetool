@@ -170,6 +170,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("mitanader", "miteinander", rule, lt);
     assertFirstSuggestion("nocheimal", "noch einmal", rule, lt);
     assertFirstSuggestion("konflikationen", "Komplikationen", rule, lt);
+    assertFirstSuggestion("unswar", "und zwar", rule, lt);
+    assertFirstSuggestion("fomelare", "Formulare", rule, lt);
   }
 
   @Test

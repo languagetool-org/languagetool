@@ -259,6 +259,7 @@ public class CaseRuleTest {
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
     assertGood("Er isst Na-haltiges Obst.");
+    assertGood("Er vertraut auf CO2-arme Wasserkraft");
     assertGood("Das Entweder-oder ist kein Problem.");
     assertGood("Er liebt ihre Makeup-freie Haut.");
   }

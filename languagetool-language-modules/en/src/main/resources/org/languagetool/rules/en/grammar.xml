@@ -6470,6 +6470,19 @@ USA
             <example correction='These'><marker>This</marker> images are beautiful.</example>
             <example>This tastes pretty good to me.</example>
         </rule>
+        <rule id="THESE_SINGULAR_NOUN" name="these + singular noun">
+            <pattern>
+                <token regexp="yes">th[eo]se</token>
+                <marker><token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB[GP]|NNS|CD|JJ.?|MD"/></token></marker>
+                <token inflected="yes" regexp="yes">\W+|be</token>
+            </pattern>
+            <message>Please check whether a plural form of '\2' should be used.</message>
+            <suggestion>\2s</suggestion>
+            <example correction="days">How is livelihood in America these <marker>day</marker>?</example>
+            <example>These <marker>people</marker> are amazing.</example>
+            <example>What do you think about these <marker>two</marker>?</example>
+            <example>Those standing were all men.</example>
+        </rule>
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
             <antipattern>
                 <token>of</token>
@@ -15207,6 +15220,16 @@ USA
             <message>Did you mean <suggestion>\1 game</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="zero-sum game">It is a <marker>zero-sum gain</marker> when wages are held flat...</example>
+        </rule>
+        <rule id="RATIONAL_RATIONALE" name="rational (rationale)">
+            <pattern>
+                <token>the</token>
+                <marker><token>rational</token></marker>
+                <token regexp="yes">behind|for</token>
+            </pattern>
+            <message>Did you mean <suggestion>\2e</suggestion> (=an explanation / underlying reason)?</message>
+            <short>Possible typo</short>
+            <example correction="rationale">The <marker>rational</marker> for the policy is not well understood.</example>
         </rule>
         <rule id="TURNED_OFF" name="turned of (off)">
             <pattern>
