@@ -15221,16 +15221,49 @@ USA
             <short>Possible typo</short>
             <example correction="zero-sum game">It is a <marker>zero-sum gain</marker> when wages are held flat...</example>
         </rule>
-        <rule id="RATIONAL_RATIONALE" name="rational (rationale)">
-            <pattern>
-                <token>the</token>
-                <marker><token>rational</token></marker>
-                <token regexp="yes">behind|for</token>
-            </pattern>
-            <message>Did you mean <suggestion>\2e</suggestion> (=an explanation / underlying reason)?</message>
+        <rulegroup id="RATIONAL_RATIONALE" name="rational (rationale)">
             <short>Possible typo</short>
-            <example correction="rationale">The <marker>rational</marker> for the policy is not well understood.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|a</token>
+                    <marker><token>rational</token></marker>
+                    <token>for</token>
+                </pattern>
+                <message>Did you mean <suggestion>\2e</suggestion> (=an explanation / underlying reason)?</message>
+                <example correction="rationale">The <marker>rational</marker> for the policy is not well understood.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>rational</token></marker>
+                    <token>behind</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1e</suggestion> (=an explanation / underlying reason)?</message>
+                <example correction="rationale">I fully understand the <marker>rational</marker> behind it.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CLEAN_UP" name="cleanup / clean up">
+            <url>https://www.thoughtco.com/cleanup-and-clean-up-1689343</url>
+            <short>Possible typo</short>
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <marker><token>cleanup</token></marker>
+                </pattern>
+                <message>Did you mean the phrasal verb <suggestion>clean up</suggestion> instead of the noun 'cleanup'?</message>
+                <example correction="clean up">He promised to <marker>cleanup</marker> his room.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|a|full</token>
+                    <marker>
+                        <token>clean</token>
+                        <token>up</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>cleanup</suggestion> instead of the phrasal verb 'clean up'?</message>
+                <example correction="cleanup">A full <marker>clean up</marker> is required.</example>
+            </rule>
+        </rulegroup>
         <rule id="TURNED_OFF" name="turned of (off)">
             <pattern>
                 <token regexp="yes">turned|switched</token>
