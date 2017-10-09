@@ -2592,6 +2592,14 @@ USA
             </rule>
             <!-- at|be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without it's .*/JJ|NN|NNS::word=\0 its \2::pivots=it's,its -->
             <rule id="ABOUT_ITS_NN" name="about its NN (possessive)">
+                <antipattern>
+                    <token>for</token>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>s</token>
+                    <token></token>
+                    <token>that</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without</token>
                     <token>it</token>
