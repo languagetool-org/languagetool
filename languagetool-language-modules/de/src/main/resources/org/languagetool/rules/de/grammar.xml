@@ -8427,7 +8427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie evt. <suggestion>einstweilen</suggestion> (vorerst)?</message>
             <example correction="einstweilen">Lasst uns das <marker>einst weilen</marker> verschieben.</example>
         </rule>
-        <rule id="MITTLER_WEILE" name="'mittler Weile (mittlerweile)'">
+        <rule id="MITlTLER_WEILE" name="'mittler Weile (mittlerweile)'">
             <regexp>\bmittler weile\b</regexp>
             <message>Meinten Sie evt. <suggestion>mittlerweile</suggestion>?</message>
             <example correction="mittlerweile">Das sollte <marker>mittler Weile</marker> klappen.</example>
@@ -10224,6 +10224,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Semantischer Fehler</short>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
                 <example correction="">Unser Universum ist viele <marker>Lichtjahre alt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QUADRATWURZEL" name="Quadratwurzel (2 Lösungen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(Quadrat)?[Ww]urzel</token>
+                    <token regexp="yes">aus|von</token>
+                    <token regexp="yes">\d+</token>
+                    <token>ist</token>
+                    <marker><token regexp="yes">\d+</token></marker>
+                    <token><exception regexp="yes">und|oder|bzw.</exception></token>
+                </pattern>
+                <message>Für reelle Zahlen existieren in der Regel zwei unterschiediche Lösungen.</message>
+                <suggestion>&#0177;\5</suggestion>
+                <example correction="&#0177;3">Die Wurzel aus 9 ist <marker>3</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOPPELTE_TEMPERATUR" name="Temperatur vs. Temperaturdifferenz: 'halb so warm'">

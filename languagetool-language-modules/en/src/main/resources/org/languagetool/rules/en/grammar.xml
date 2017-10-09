@@ -20701,6 +20701,22 @@ USA
                 <example>A light-year is how astronomers measure distance in space.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SQUARE_ROOT" name="square roots (2 solutions)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>square</token>
+                    <token>root</token>
+                    <token>of</token>
+                    <token regexp="yes">\d+</token>
+                    <token>is</token>
+                    <marker><token regexp="yes">\d+</token></marker>
+                    <token><exception regexp="yes">and|or</exception></token>
+                </pattern>
+                <message>Every positive number a has two square roots.</message>
+                <suggestion>&#0177;\6</suggestion>
+                <example correction="&#0177;3">The square root of 9 is <marker>3</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TWICE_AS_COLD" name="Interval scale: doubling values ('twice as hot')">
             <rule>
                 <pattern>
