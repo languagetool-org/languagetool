@@ -101,6 +101,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Probiren?", "ir", "ier");
     putRepl("[gG]esetztreu(e[nmrs]?)?", "tz", "tzes");
     putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
+    putRepl("[uU]naufbesichtigt(e[nmrs]?)?", "aufbe", "beauf");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
