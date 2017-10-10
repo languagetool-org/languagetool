@@ -1229,6 +1229,24 @@
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
     <rule>
       <pattern>
+          <token>uma</token>
+          <token>vez</token>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">duas|&numero_por_extenso_CP;</token>
+          <token>vezes</token>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup  id="NUMBER" name="number">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
           <token regexp="yes">[1234567890]+</token>
       </pattern>
       <disambig postag="Z0CN0"/>
@@ -2138,6 +2156,15 @@
       <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id='WORDS_WITH_NUMBERS' name='Palavras com números'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->    
+    <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms -->
+      <pattern>
+          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|4Chan|G(20|7)|H[₁₂₃₄₅₆₇₈₉₀]|i[357]|P2P|T[1234560]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
   <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->
     <rule>
@@ -2166,30 +2193,6 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule><!-- dimensions --><!-- cell phone networks -->
-      <pattern>
-          <token case_sensitive='yes' regexp="yes">[2345][DG]</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule><!-- pixels -->
-      <pattern>
-          <token case_sensitive='yes' regexp="yes">[248]K</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule><!-- Intel CPUs -->
-      <pattern>
-          <token case_sensitive='yes' regexp="yes">i[357]</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token case_sensitive='yes'>4Chan</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
     <rule>
       <pattern>
         <marker>
@@ -2204,12 +2207,6 @@
           <token>-</token>
           <token>-</token>
           <token>-</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule><!-- number of rooms -->
-      <pattern case_sensitive='yes'>
-          <token regexp='yes'>T[1234560]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -2247,12 +2244,6 @@
           <token regexp='yes'>\w|&alfabeto_grego;
             <exception>μ</exception></token><!-- XXX don't add μ - possible confusion with loose micro -->
         </marker>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule><!-- hypothesis -->
-      <pattern case_sensitive='yes'>
-          <token regexp='yes'>H[₁₂₃₄₅₆₇₈₉₀]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
