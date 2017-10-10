@@ -15416,15 +15416,24 @@ USA
         </rule>
         <rule id="AND_THAN" name="and than (then)">
             <pattern>
-                <token regexp="yes">and|since</token>
+                <token regexp="yes">and|since|until</token>
                 <marker>
-                    <token>than</token>
+                    <token case_sensitive="yes">than</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>then</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
+        </rule>
+        <rule id="THE_THEY" name="the (they)">
+            <pattern>
+                <marker><token>the</token></marker>
+                <token postag="MD"><exception>will</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>\1y</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="They"><marker>The</marker> cannot help you.</example>
         </rule>
         <rule id="NUMBER_OF_NNS" name="number or (of)">
             <pattern>
@@ -16696,7 +16705,7 @@ USA
             <example>They had a wedding in an airplane hangar.</example>
         </rule>
         <rule id="DO_TO_THE_FACT_THAT" name="'Do to that fact that' -> 'Due to'">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token>Do</token>
                 <token>to</token>
                 <token>the</token>
@@ -16920,10 +16929,10 @@ USA
                     <token>witch</token>
                 </marker>
                 <token regexp='yes'>is|was</token>
-                <token regexp='yes'>wrong|right</token>
+                <token regexp='yes'>wrong|right|(in)?correct|available|good|due|great|likely|responsible</token>
             </pattern>
             <message>Did you mean <suggestion>which</suggestion>?</message>
-            <example correction="which">Which position is right and <marker>witch</marker> is wrong</example>
+            <example correction="which">Which position is right and <marker>witch</marker> is wrong?</example>
         </rule>
         <rule id="THEY_WHERE" name="where (were)">
             <antipattern>
@@ -17010,7 +17019,7 @@ USA
               </marker>
             </antipattern>
             <pattern>
-                <token regexp='yes'>they|we|there</token>
+                <token regexp='yes'>the(y|re)|we</token>
                 <marker>
                     <token>where</token>
                 </marker>
@@ -17483,7 +17492,7 @@ USA
                     <token>case</token>
                 </marker>
                 <token>of</token>
-                <token regexp="yes">it|the|a|an</token>
+                <token regexp="yes">it|the|an?</token>
             </pattern>
             <message>Did you mean <suggestion>care</suggestion>?</message>
             <short>Possible typo</short>
@@ -17594,7 +17603,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBN|VBD" postag_regexp="yes"><exception>did</exception></token>
+                    <token postag="VB[ND]" postag_regexp="yes"><exception>did</exception></token>
                     <marker>
                         <token>accept</token>
                     </marker>
@@ -18436,7 +18445,7 @@ USA
         </rule>
         <rule id="WHIP_CREAM" name="whip cream (whipped cream)">
             <pattern>
-                <token postag="DT|JJ.*|VBZ|VBD" postag_regexp="yes"/>
+                <token postag="DT|JJ.*|VB[ZD]" postag_regexp="yes"/>
                 <marker>
                     <token>whip</token>
                     <token>cream</token>
@@ -18708,7 +18717,7 @@ USA
         <rule id="ACTUAL_EXPERIENCE" name="actual experience/facts (experience/facts)">
             <pattern>
                 <token>actual</token>
-                <token regexp="yes">experience|fact|facts</token>
+                <token regexp="yes">experience|facts?</token>
             </pattern>
             <message>Consider using <suggestion>\2</suggestion>.</message>
             <short>Redundant phrase</short>
@@ -19032,7 +19041,7 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="JJ|JJR|JJS"><exception regexp="yes">similar|alone|religious|corresponding|equal|next|possible|autocratic|necessary|beautiful|rich|back|identical|more|much|second|comparable</exception><exception postag="VBN"/></token>
                 <token>in</token>
-                <token regexp="yes">size|duration|color|colour|number|shape|height|length|weight</token>
+                <token regexp="yes">size|duration|colou?r|number|shape|length|[hw]eight</token>
             </pattern>
             <message>A more concise phrase may lose no meaning and sound more powerful.</message>
             <suggestion>\1</suggestion>
@@ -19127,7 +19136,7 @@ USA
         <rule id="CD_DISC" name="CD disc (CD)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">CD|DVD</token>
-                <token regexp="yes">disk|disc</token>
+                <token regexp="yes">dis[kc]</token>
             </pattern>
             <message>Consider using <suggestion>\1</suggestion>.</message>
             <short>Redundant phrase</short>
@@ -19144,6 +19153,17 @@ USA
             <example correction="CD-ROM">I ordered a <marker>Cdrom</marker> with their software.</example>
             <example>I ordered a <marker>CD-ROM</marker> with their software.</example>
         </rule>
+        <rulegroup id="TREE_THREE" name="tree (three)">
+            <rule>
+                <pattern>
+                    <marker><token>tree</token></marker>
+                    <token regexp="yes">centuries|years|months|weeks|days|decades|hours|minutes|seconds|times|men</token>
+                </pattern>
+                <message>Did you mean <suggestion>three</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="three">I've lived in Barcelona for <marker>tree</marker> years.</example>
+            </rule>
+        </rulegroup>
         <rule id="ACCUSED_OF_A_CHARGE_CHARGED_WITH" name="accused of a charge (charged with)">
          <pattern>
           <token>accused</token>
