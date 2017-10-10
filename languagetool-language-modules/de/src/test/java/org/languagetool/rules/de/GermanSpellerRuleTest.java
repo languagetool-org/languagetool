@@ -24,10 +24,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -483,6 +480,8 @@ public class GermanSpellerRuleTest {
     dictWordsAsBytes.sort(FSABuilder.LEXICAL_ORDERING);
     FSA fsa = FSABuilder.build(dictWordsAsBytes);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+    //FileOutputStream fos = new FileOutputStream("/tmp/morfologik.dict");
+    //fos.write(fsaOutStream.toByteArray());
     ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
     String infoFile = "fsa.dict.speller.replacement-pairs=ä e\n" +
                       "fsa.dict.encoder=SUFFIX\n" +
