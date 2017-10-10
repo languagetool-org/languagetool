@@ -123,6 +123,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
+    putRepl("[iI]nordnung", "ordnung", " Ordnung");
+    putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
