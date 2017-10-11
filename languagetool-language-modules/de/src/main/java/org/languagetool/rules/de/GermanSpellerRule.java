@@ -91,6 +91,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("desweitere[nm]", "des Weiteren");
     putRepl("einzigste[mnrs]?", "einzigst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
+    putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
     putRepl("[wW]olt$", "lt", "llt");
     putRepl("[zZ]uende", "ue", "u E");
     putRepl("[lL]etztenendes", "ene", "en E");

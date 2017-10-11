@@ -174,6 +174,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("fomelare", "Formulare", rule, lt);
     assertFirstSuggestion("inordnung", "in Ordnung", rule, lt);
     assertFirstSuggestion("unaufbesichtigt", "unbeaufsichtigt", rule, lt);
+    assertFirstSuggestion("uberaschend", "überraschend", rule, lt);
+    assertFirstSuggestion("uberagendes", "überragendes", rule, lt);
   }
 
   @Test
