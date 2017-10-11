@@ -27,12 +27,14 @@ title="Easy editing stylesheet" ?>
 
 -->
   <!DOCTYPE rules [
-    <!ENTITY meses_ano_abrev "(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)">
-    <!ENTITY meses_ano "(?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)">
+    <!ENTITY meses_ano_abrev "(?:jan|fev|mar|abr|mai|ju[nl]|ago|set|out|nov|dez)">
+    <!ENTITY meses_ano "(?:janeiro|fevereiro|março|abril|maio|ju[ln]ho|agosto|setembro|outubro|novembro|dezembro)">
     <!ENTITY dias_semana_abrev "(?:seg|ter|qua|qui|sex|sáb|dom)">
     <!ENTITY dias_semana "(?:segunda|terça|quarta|quinta|sexta|sábado|domingo)">
     <!ENTITY partes_do_dia "(?:manhã|matina|tarde|noite)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio|tempo|temporada|época)s?|mês|meses">
+
+    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|demais(?:ado)?|imenso|m(?:ais|enos|uito)|nada|pouco|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)">
 
     <!ENTITY pontos_cardeais "(?:norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste)">
     <!ENTITY adverbios_lugar "(?:abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|nenhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|perto)">
@@ -41,7 +43,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY paises_com_artigo "(?:Afeganistão|Albânia|Alemanha|Arábia|Argélia|Argentina|Arménia|Austrália|Áustria|Azerbaijão|Baamas|Barbados|Bélgica|Belize|Benim|Bielorrússia|Birmânia|Bolívia|Bósnia|Botsuana|Brasil|Bulgária|Burúndi|Butão|Camarões|Camboja|Canadá|Cazaquistão|Chade|Chile|China|Chipre|Colômbia|Comores|Congo|Coreia|Kosovo|Catar|Croácia|Dinamarca|Egito|Emirados|Equador|Eslováquia|Eslovénia|Estónia|Etiópia|EUA|Fiji|Filipinas|Finlândia|Gabão|Gâmbia|Gana|Geórgia|Grécia|Guatemala|Guiana|Guiné|Haiti|Honduras|Hungria|Ilhas|Índia|Indonésia|Irão|Iraque|Irlanda|Islândia|Jamaica|Japão|Jordânia|Laos|Lesoto|Letónia|Líbano|Libéria|Líbia|Lituânia|Luxemburgo|Macedónia|Malásia|Maldivas|Mali|Mauritânia|México|Mianmar|Micronésia|Moldávia|Mónaco|Mongólia|Namíbia|Nepal|Nicarágua|Nigéria|Noruega|Omã|Palestina|Panamá|Papua|Paquistão|Paraguai|Per[uú]|Polónia|Quénia|Quirguistão|Reino|República|Roménia|Ruanda|Rússia|Samoa|Seicheles|Senegal|Sérvia|Síria|Somália|Suazilândia|Sudão|Suécia|Suíça|Suriname|Tailândia|Tajiquistão|Tanzânia|Togo|Tonga|Tunísia|Turcomenistão|Turquia|Ucrânia|Uruguai|Usbequistão|Vaticano|Venezuela|Vietname|Zâmbia)">
     <!-- XXX after adding POSs to Portuguese.dict (POSs) readd Bahamas|Barém|Banglade(?:sh|xe|che)|Brunei|Burquina|Cosovo|Qatar|Cuaite|Iémen|Jibuti|Laus|Maláui|Malawi|Maurícias|Nauru|Quiribáti|Zimbabue|Zimbábue
          XXX See issue #793 -->
-    <!ENTITY outros_toponimos_com_artigo "(?:Europa|Algarve|Amadora|Cairo|Caldas|Covilhã|Figueira|Guarda|Porto)">
+    <!ENTITY outros_toponimos_com_artigo "(?:Europa|Algarve|Amadora|Cairo|Caldas|Covilhã|Figueira|Guarda|Porto|Avenida|Largo|Praç(?:a|eta)|Rua|Terreiro)">
     <!ENTITY toponimos_sem_artigo "(?:Alagoas|Angola|Aragão|Braga|Burma|Castela|Coimbra|Cuba|Espanha|Faro|França|Goiás|Havana|Inglaterra|Itália|Lisboa|Madagáscar|Marrocos|Moçambique|Paris|Pernambuco|Portugal|Rondônia|Roraima|Santa|São|Sergipe|Sri|Tai[uw]an|Taiuã|Timor|Mercúrio|Vénus|Marte|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
     <!ENTITY precede_nome_proprio "(?:associação|avenida|balneário|casa|casal|coligação|cometa|concurso|condecoração|copa|curso|distribuição|escola|estação|estilo|filme|fragata|fundação|galeria|galardão|geração|herdade|ilha|império|iniciativa|instituto|intitulado|lagoa?|lei|liceu|livro|monte|museu|navio|novela|obra|orquestra|praça|prémio|programa|projec?to|quinta|registr?o|reino|relatório|revista|rio|rua|serra|taça|teatro|tema|tipo|universidade|versão)">
@@ -60,7 +62,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY numero_por_extenso "(?:uma?|d(?:ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões)">
     <!ENTITY multiplicadores "(?:dúzia|dezena|centena)s?|mil|milhar(?:es)?|(?:milh|bilh?i)(?:ão|ões)">
-    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh)">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 
@@ -94,7 +96,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY arcaismos "(?:abominábil|aborrimento|absentar|absumir|aceiro|achacar|acoiteza|acontista|acó|advogacia|aguazil|aH|alacrão|alantíase|albora|alfaça|algibebe|alguazil|algur|algures|almeida|almenara|alvazir|amictório|amorar|amículo|anrique|Antigüidade|antão|aperiente|aquessa|aquesse|aquesta|aqueste|aquesto|arcocentro|atá|autopse|açucre|babá|bandir|banguê|benção|boa-venturança|bodalha|bofé|Brazil|bródio|buliço|cafofo|calendairo|carpinteiragem|cassar|cham|chara|coidar|comest[ao]|commummente|comua|concassor|convescote|crecimento|crelgo|créligo|câmera|cã|côvado|desemparar|desnobre|devisar|diabro|diese|dino|diésis|dolor|dorosamente|doroso|díesis|empacar|engrês|entonce|entrelocutor|esto|exprimentava|facha|fatexa|fenestra|fimatíase|fimia|flogose|galactooligossacarídeo|galripo|gasista|giolhos|godalho|godeme|gramasso|guanabarense|guanabarino|heréu|imigo|impida|ingrês|inté|jau|javaril|jericocim|jugadar|jórnea|leixar|lerpe|Lixboa|loar|loeste|lucivelo|lucivéu|lumiar|lüa|marmeluta|meadade|mecê|molher|moínho|muitieramá|muxica|nace|nam|naom|naqueste|nosomania|obfirmar|obseqüente|ocisão|onte|ourinol|paje|pascigo|passal|pharmácia|planej.+|portuguez|proditor|querena|referta|roldar|ruidento|sainho|salhar|salvanor|sapanga|sapaão|saturno|sene|silvano|soer|supresso|suso|sénio|tartamelar|taubateense|tavolagem|teed.+|tábula|távola|unun-héxio|Vascongadas|vassuncê|viado|vitando|vosco|vosmecê|vossancê)">
     <!ENTITY barbarismos "(?:s(?:t(?:r(?:ip(?:tease[rs]?|per|s)?|ess.*|ogonoff|aight)|a(?:nd(?:ard|s)?|ccato|rtup|ff)|o(?:ryboard|kes|ck|p)|i(?:ck|lb)|e(?:nt|p))|p(?:r(?:int(?:er|s)?|ead|ay|ue)|in(?:naker|s)?|a[ms]?|ot)|u(?:b(?:-holding|woofer)|s(?:pense|hi)|perstar|doku|rf)|h(?:ar(?:eware|-pei)|o(?:[tw]|pping)|iatsu|ekel|unt)|a(?:(?:xhor|loo)n|mple[rs]?|shimi|vart)|c(?:herz(?:and)?o|rewball|o[np]e|at)|n(?:o(?:wboard|oker|b)|ack(?:-bar)?)|o(?:(?:cialit|ttovoc|ftwar)e|ul)|m(?:o(?:(?:kin)?g|rzando)|ash)|l(?:i(?:ck|de|p)|alom|ogan)|e(?:t(?:-point|ter)?|xy)|w(?:eat(?:shirt|er)|ing)|i(?:decar|evert|ngle|c)|fo(?:rzand|gat)o|k(?:ipper|ate)|quash)|c(?:a(?:n(?:ta(?:bile|ta)|yoning|iche)|r(?:diofitness|paccio|ré)|(?:che-sex|lzon)e|m(?:p(?:us)?|ber)|t(?:ering|gut)|sh-and-carry)|o(?:r(?:don-bleu|pus)|u(?:lomb|ntry)|(?:spla|wbo)y|(?:ck|v)er|loratura|ntinuum|okie)|h(?:a(?:r(?:leston|treuse)|ise-longue)|e(?:ong-sam|ck-in|ddar)|utney)|l(?:ear(?:ance|s)?|u(?:ster|b)|ipboard|oisonné|arke)|r(?:o(?:issan|que)t|evasse)|zar(?:s?ti|ina)|(?:élad|ân)on|u(?:mbia|p)|ódex|ent)|p(?:a(?:nach(?:és?|es?)|t(?:chouli|hos)|intball|parazzi|hoehoe|lmier|anga|rsec|ssim)|i(?:n(?:s(?:cher)?|ce-nez|g-pong|-?up)?|(?:anofort|ckl)e|ercing|dgin|xel|lé)|o(?:st(?:er(?:iori|s)|-it)|(?:odl|ch|is)e|ltergeist|t-?pourri|grom|p)|e(?:(?:tit-suiss|nc)e|restroika|corino)|r(?:i(?:ori|se)|omenade|essing|áxis)|lay(?:b(?:ack|oy)|station|maker)|hot(?:o(?:-finish|maton)|s)?|u(?:tter|zzle|nk|b))|t(?:a(?:(?:sk-forc|wni)e|l(?:k-show|iban)|ke(?:away|s)?|n(?:dem|k)|volatura|ekwondo|i-chi|blet)|u(?:t(?:(?:ilimúnd|t)i|u)|rbo-diesel|pperware|grik)|r(?:i(?:p(?:-hop|lex)|al)|a(?:velling|iler)|emolo)|i(?:me(?:-sharing|share)|e-break|ramisu|cket)|e(?:le(?:marketing|x)|(?:rylen)?e|chno|flon)|o(?:p(?:(?:les)?s)?|ner|fu|ri)|h(?:esaur(?:us|i)|ink)|(?:w(?:ee|is)|-shir)t|sunami|ópos)|b(?:a(?:by-(?:sitter|doll|grow)|(?:varois|din)e|ckup|ht|rn)|r(?:e(?:akdance|nt)|u(?:shing|nch)|ainstorming|ie)|e(?:ta-tester|nedictus|cquerel|agle|bop)|o(?:bsleigh|dyboard|nsai|xers|ate|rt)|i(?:t(?:map|s)?|odesign|g-bang|p)|u(?:ngee-jumping|lldozer)|l(?:ister|ague|ues|og)|yte)|k(?:i(?:l(?:o(?:(?:vol|wat)t|b(?:yte|it))|im|t)|t(?:chenette|s(?:ch)?)?|ckbox(?:ing|er)|n[ag]|butz|p)|a(?:r(?:a(?:oke|té)|bovanet|ting)|lash(?:nikov|s)?|mikaze|sba)|r(?:(?:ípto|emli)n|aft|ill)|wa(?:(?:ch|nz)a|shiorkor)|e(?:f(?:fieh|ir)|tchup)|un(?:g-fu|a)|oala|yat)|r(?:o(?:c(?:k(?:er|s)?|aille)|(?:entge|ll-o)n|ttweiler|quefort|aming|okie|deo)|e(?:a(?:lpolitik|dy-made)|p(?:rise|s)|dneck|ggae|m)|i(?:n(?:forzando|ggit|k)|ckettsia|tardando|ff)|a(?:l(?:lentando|enti)|p(?:per|s)?|fting|ve)|é(?:veillon|gie|tro)|öntgen|ubato)|m(?:a(?:t(?:ch-point|rioska)|r(?:keting|chand)|(?:estos|mb)o|(?:st?e|yo)r|na(?:ger|t)|gnificat|jorette|xwell|quis)|i(?:l(?:curie|ady)|s(?:erere|ter)|ndfulness|crofarad)|o(?:d(?:e(?:rato|m)|us)|hair)|e(?:morandum|dley)|u(?:sic-hall|esli)|vdol)|f(?:o(?:[bg]|x(?:-terrier|trot)?|r(?:tran|int)|ndue|yer|lk)|a(?:i(?:t-divers|r-play)|rad(?:ay|s)?|nfreluche|twa|x)|l(?:a(?:sh(?:es)?|menco|t)|i(?:p-flop|nt)|ute)|u(?:n(?:board|ky?)|gato|ton)|r(?:anchising|eeware)|ermata|itness|öhn)|a(?:n(?:ti(?:-(?:establishment|apartheid|dumping)|trust)|gström)|p(?:felstrudel|paratchik|artheid|lomb)|l(?:legr(?:ett)?o|zheimer|ibi)|c(?:celerandos?|id-jazz)|uto(?:pullman|cross)|git(?:-?prop|ato)|yurveda|mabile|irbus)|d(?:o(?:p(?:ing|pler)|wnhill|car|jo|ng)|r(?:ive(?:[rs]|-in)?|ugstore)|e(?:sign(?:er)?|ficit|bye)|i(?:s(?:cman|eur)|rham)|u(?:mping|plex|ce)|a(?:nzón|tcha))|g(?:i(?:ga(?:byte|watt)|rlsband|lbert|nseng)|o(?:(?:odwil|spe)l|belet|uda)|l(?:a(?:snost|mour)|ide)|u(?:aracha|lag)|ru(?:yèr|ng)e|a[ly]|eyser)|h(?:a(?:b(?:it(?:at|us)|anera)|(?:m-ioc-chon|shta)g|rd-rock)|i(?:p(?:p(?:ie|y)|-hop)|drospeed)|o(?:rseball|lding|mo)|eavy-metal|usky|ype)|v(?:i(?:de(?:ocl(?:ip(?:es)?|ub)|s)?|(?:t(?:rin|a)|ntag|vac)e|brato)|e(?:r(?:nissage|sus)|lcro|gan)|o(?:lt(?:e-face|s)?|yeur)|audeville)|l(?:e(?:[dk]|a(?:sing|d)|itmotiv|gato)|o(?:c(?:kout|us)|oping|ess|gin)|a(?:rghetto|ser|mé|ts)|i(?:ngerie|fting))|o(?:ff(?:s(?:hore|et)|ice-boy|line)|s(?:tpolitik|sobuco)|u(?:tsider|guiya)|verbooking|n-?line|ersted|rigami|pus)|j(?:a(?:m(?:-session|boree)|c(?:kpot|uzzi)|zz)|o(?:int-ventur|ul)e|u(?:kebox|nkie)|et-(?:lag|set)|iu-jitsu)|w(?:a(?:(?:lkie-talki|ffl)e|rrant|sp|d)|e(?:b(?:er|s)?|stern)|i(?:ld-card|ndsurf)|o(?:rkshop|n)|hist)|i(?:n(?:ter(?:f(?:eron|ace)|net)|f(?:otainment|luenza)|-octavo|s)|(?:bid|t)em|mpedimenta|ppon|d)|n(?:e(?:(?:cessair|w-ag)e|(?:tspli)?t)|o(?:menklatura|ir)|apalm|uance|ylon)|e(?:n(?:s(?:alada|emble)|tente)|r(?:satz|g)|mmenthal|cstasy|vasé|dam)|qu(?:a(?:lifying|ntum|rk)|i(?:lohertz|che))|z(?:e(?:itgeist|kel|n)|apping)|y(?:u(?:ppie|an)|ang|eti|in)|u(?:ndergroun|ploa)d)">
-    <!ENTITY barbarismos2 "birdwatching|chipsets?|dominatrix|hijab|hotspots?|hoverboards?|jetpacks?|kernels?|malwares?|networking|overclock(?:ings?)|parkour|podcasts?|smartwatch(?:es)|stormtroppers?|streaming|trackpads?|whalewatching">
+    <!ENTITY barbarismos2 "b(?:irdwatching|odyboarders?)|c(?:hipset|rowdfunding)s?|dominatrix(?:es)?|h(?:ijab|otspot|overboard)s?|jetpacks?|k(?:ernels?|evlar)|malwares?|networking|overclock(?:ings?)|p(?:arkour|odcast)s?|s(?:martwatch(?:es)|tormtroppers?|treaming)|trackpads?|w(?:halewatching|oks?)">
     <!ENTITY infantil "(?:b[aá]bá|bichano|bilau|bobalhão|bumbum|caca|cachorrês|cocó|cocô|cuti|dodói|escapulir|flango|formiguês|lelé|mamã|maminha|miau|mimir|nananinanão|nana[rs]|oba|oiê|ohoh|olhinho|papá|Papai|pap(?:ar|ei|aste|ou)|peixa|pepeta|pipi|piu|pum|susu|titi[ao]|totó|totô|vovô|xixi)">
     <!ENTITY informal "(?:abafar|adultescente|aham|anh.+|babado|badalhoc[ao]|badalo|badamec[ao]|badana|bagarai|bagunça|baita|baixinh[ao]|balof[ao]|bate-papo|batelada|beiço|bejeca|belê|bichan[ao]|bichinh[ao]|biscate|bitaite|bjs|blablablá|bófia|borrachão|botequeir[ao]|brazuca|breaco|brega|cabaço|cacilda|cadê|cadé|calhamaço|capar|carago|carango|casinha|casório|CDcê|certinh[ao]|chantar|chuto|cobrão|cocó|cocô|coisar|copião|cornear|cutucar|danad[ao]|danar|daonde|desmiolad[ao]|docinh[ao]|doíd[ao]|espertalh(?:ão|ona)|estrovenga|filar|fixe|floripa|fof[ao]|fuxicar|fuxiqueir[ao]|gagá|gaj[ao]|galera|gatunar|gelô|goró|gosma|granel|guit[ao]|guna|gurizada|herman[ao]|irad[ao]|javardice|jola|laivo|laracha|lelé|logar|lulopetismo|macarrone|magrel[ao]|mamaã|manda-chuva|mânfi[ao]|man[ao]|matraca|meia-boca|mitra|moçada|moina|morcão|motoqueir[oa]|muvuca|nintendinho|nop|oi|oiê|olhômetro|olh[ôó]metro|pandeiro|papão|papo|patada|peixão|pejada|pelar|pepeta|perua|petiz|pindaíba|pixulé|pixuleco|porn[oô]|porrad[ao]|porre|pr[aáoó]|promo|prum|pruma|pruns|puto|quebra-galho|queca|racha|ranho|rapaziada|remexer|remexida|ricardão|rolê|sacana|save|selinho|súper|surripi.+|tabefe|tantã|tascar|time|tótil|trampar|trampo|transar|treta|trocentos|trouxa|trucid.+|tuga|vacil.+|vaquinha|vegetar|velhot[ae]|vó|vô|xi|xixi|zen|zi[il]h(ão|ões))">
     <!ENTITY obscenidades "(?:babaca|bacanal|bacorinha|bacurinha|badalo|badamerda|baranga|bardamerda|bedamerda|beita|benga|berdamerda|bichana|bilha|bimba|bimbada|boceta|boiola|bolagato|broche|bruaca|buceta|c[uú]|cabaço|cabrão|cabrões|cacete|cachorra|cadela|cagada|cagalh(ão|ões)|cagar|caralhada|caralho|catatau|catraia|chavasca|chuchu|chuleta|chupeta|comua|cona|conaça|conanas|consolo|coxanga|crica|croquete|cunete|cuzão|fiote|fod.+|forunf.+|fuampa|fufa|furico|furunf.+|gaita|grelo|grutinha|gulosa|jeba|jumento|langonha|lola|mamado|mangalho|marmelar|meinha|merda|merdeiro|messalina|minete|moca|nhonhoca|pandeiro|paneleiro|passaralho|patolar|peid.+|pene|pentelho|piça|pind?oc.+|pintudo|piroca|pirrola|pito|piupiu|pixa|potranca|punheta|punheteiro|puta|putada|putaria|putedo|putice|puto|queca|quenga|(qui|co)lh(ão|ões)|quirica|rabeta|racha|rapidinha|rata|sapatão|sapatona|siririca|suruba|surubandê|tabaca|tanajura|tesão|tesud[ao]|teta|toba|trepada|troca-troca|xana|xarifa|xarol[ao]|xereca|xibungo|ximbica|xiranha|xiri|xota|xoxota)">
@@ -678,6 +680,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|NC|A..|P..|Z.)[MC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception></token>
@@ -686,11 +689,12 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> \3</suggestion>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
       <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
       <example correction="todinho litoral|todo litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
+      <example correction="caso mais preocupante|casos mais preocupantes">Os <marker>casos mais preocupante</marker> são estas.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
       <example>Calças, as mais rasgadas possível!</example>
@@ -702,6 +706,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|DP.|Z.)[MC]P.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
             <exception regexp="yes">[dlv]ê|há|são|ser|haver|devido|média|mídia</exception></token>
@@ -710,7 +715,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='dos pais'>É o orgulho <marker>dos pai</marker>.</example>
     </rule>
     <rule>
@@ -740,14 +745,15 @@ title="Easy editing stylesheet" ?>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
             <exception regexp="yes">há|são|ser|haver|serão|vão|uso|zero</exception>
             <exception regexp='yes'>.+[°′″]</exception></token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> \3</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
       <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
       <example>Sou todo ouvidos</example>
       <example>Uso óculos desde os 6 anos,</example>
@@ -765,14 +771,15 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion>\2s \3</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
       <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
     </rule>
     <rule>
@@ -799,14 +806,15 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> \3</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
       <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
       <example>O programa Lendas do Futuro é bom?</example>
       <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
@@ -818,14 +826,15 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion>\2s \3</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
+        <suggestion>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
       <example correction='numa espécie|numas espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
     </rule>
     <rule>
@@ -848,6 +857,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>.+[°′″]</exception></token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
@@ -855,11 +865,13 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> \3</suggestion>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
       <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
       <example correction='fechadura grande|fechaduras grandes'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
+      <example correction="situação mais preocupante|situações mais preocupantes">A <marker>situações mais preocupante</marker> é esta.</example>
+      <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
     </rule>
     <rule>
@@ -868,6 +880,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
         </marker>
@@ -875,7 +888,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECN;</message>
-        <suggestion>\2 <match no="3" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='numas espécies'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
     </rule>
   </rulegroup>
@@ -2573,7 +2586,7 @@ title="Easy editing stylesheet" ?>
       <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
       <short>Possível 'dequeísmo'.</short>
-      <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrar-mo-nos</example>
+      <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrarmo-nos</example>
       <example>O custo está abaixo do que foi estabelecido.</example>
     </rule>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
@@ -3395,6 +3408,16 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>uma?</token>
           <token>a</token>
           <token regexp='yes'>uma?</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>u(ma?s?|ns)</token>
+          <token>nos</token>
+          <token>outros</token>
+      </antipattern>
+      <antipattern>
+          <token>depois</token>
+          <token>de</token>
+          <token>em</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>pelos?</token>
@@ -6351,6 +6374,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token>
+            <exception>para</exception><!-- XXX better handled by wordiness rules -->
             <exception regexp="yes">“|«</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
             <exception postag='SENT_START'/></token>
@@ -24305,6 +24329,11 @@ TODO Write better examples
       <url>https://pt.wiktionary.org/wiki/Categoria:Obscenidade_(Portugu%C3%AAs)</url>
       <short>Baixo calão</short>
     <rule>
+      <antipattern>
+          <token regexp='yes'>bilhas?</token>
+          <token>de</token>
+          <token>gás</token>
+      </antipattern>
       <pattern>
           <token inflected="yes" regexp="yes">(?:&obscenidades;)s?</token>
       </pattern>
@@ -25115,9 +25144,9 @@ TODO Write better examples
     <rule id='WRONG_REFLEXIVES' name="Contrações: Reflexivos '...mos-nos'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-22 -->
       <pattern>
-          <token regexp="yes">[a-z]+mos</token>
+          <token regexp="yes">[a-z]+mos$</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token spacebefore='no'>nos</token>
+          <token regexp='yes' spacebefore='no'>[ln][ao]s?</token>
       </pattern>
       <message>Verbos reflexivos na 1.ª pessoa do plural omitem o 's'.</message>
         <suggestion><match no='1' regexp_match='(.+?)mos' regexp_replace='$1mo'/>\2\3</suggestion>
@@ -27347,6 +27376,13 @@ TODO Write better examples
       </pattern>
       <message>'Mandala' é um simbola da tradição hindi. O verbo escreve-se <suggestion><match no='1' regexp_match='mandal' regexp_replace='mandá-l'/></suggestion>.</message>
       <example correction="mandá-las">Vou <marker>mandalas</marker> por correio registado.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>alias</token>
+      </pattern>
+      <message>'Alias' é uma forma do verbo 'aliar'. O advérbio escreve-se <suggestion>aliás</suggestion>.</message>
+      <example correction="Aliás"><marker>Alias</marker>, envie por correio registado.</example>
     </rule>
   </rulegroup>
 
