@@ -2678,6 +2678,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>qualssevol altres</example>
             </rule>
             <rule id="ALTRE_CASA" name="altre casa">
+                <antipattern>
+                    <marker>
+                        <token postag="VMM02S00">casa</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="AQ.MS.|AQ..P.|D[^R]0MS0|D[^R]0.P0" postag_regexp="yes"><exception postag="_GN_FS"/></token>
@@ -2689,6 +2695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>altra casa</example>
                 <example>una dona molt de sa casa</example>
                 <example>Són al pati de darrere de sa casa</example>
+                <example>Com a mínim casa't.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10690,6 +10697,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rulegroup id="MARXAR" name="marxar-se">
+            <rule>
+                <pattern>
+                    <token inflected="yes">es</token>
+                    <token inflected="yes">marxar</token>
+                </pattern>
+                <message>El verb 'marxar' no és reflexiu</message>
+                <suggestion>\2</suggestion>
+                <suggestion>se n'<match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <example correction="marxà|se n'anà">Llavors <marker>es marxà</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">es</token>
+                    <token inflected="yes">haver</token>
+                    <token inflected="yes">marxar</token>
+                </pattern>
+                <message>El verb 'marxar' no és reflexiu</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>se n'\2 <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <example correction="ha marxat|se n'ha anat">Llavors <marker>s'ha marxat</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">es</token>
+                    <token inflected="yes">anar</token>
+                    <token inflected="yes">marxar</token>
+                </pattern>
+                <message>El verb 'marxar' no és reflexiu</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>se'n \2 <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <example correction="va marxar|se'n va anar">Llavors <marker>es va marxar</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SIGUI_SENT" name="*sigui sent/continuï sent">
             <pattern>
                 <token regexp="yes">sigui|siga<exception scope="previous" regexp="yes">bé|ja</exception></token>
@@ -44403,8 +44444,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">major|gran|bona</token>
-                    <token>part</token>
+                    <token regexp="yes" inflected="yes">major|gran|bona|formar|fer</token>
+                    <token inflected="yes">part</token>
                 </marker>
             </antipattern>
             <antipattern>

@@ -91,6 +91,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("desweitere[nm]", "des Weiteren");
     putRepl("einzigste[mnrs]?", "einzigst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
+    putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
     putRepl("[wW]olt$", "lt", "llt");
     putRepl("[zZ]uende", "ue", "u E");
     putRepl("[lL]etztenendes", "ene", "en E");
@@ -101,6 +102,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Probiren?", "ir", "ier");
     putRepl("[gG]esetztreu(e[nmrs]?)?", "tz", "tzes");
     putRepl("[wW]ikich(e[nmrs]?)?", "k", "rkl");
+    putRepl("[uU]naufbesichtigt(e[nmrs]?)?", "aufbe", "beauf");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
@@ -123,6 +125,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("bravuröse?[nrms]?", "bravur", "bravour");
     putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
+    putRepl("[iI]nordnung", "ordnung", " Ordnung");
+    putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
