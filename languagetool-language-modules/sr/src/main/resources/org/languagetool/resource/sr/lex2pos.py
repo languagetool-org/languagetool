@@ -66,20 +66,20 @@ CYR_LETTERS = {
 # Types of regex to match lines in input file
 # Regex is selectable from command line using parameter "-r"
 REGEX_TYPE = {
-    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
+    "lex" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôûﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâîôûﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([a-zA-Z0-9\-]+)\s+(\d+)*"
 }
 
-BAD_GROUPS = ('î', 'ô', 'ﬂ', 'ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'é', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх')
+BAD_GROUPS = ('ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх')
 
 # Map holding transliterated Cyrillic letters pointing to
 # descriptors of opened files
 WORD_FILES = {}
 
 # List (or better: tupple) of Latin letters and ligatures
-LAT_LIST = (u"Đ", u"Dž", u"DŽ", u"LJ", u"Lj", u"NJ", u"Nj", u"A", u"B", u"V", u"G", u"D", u"E", u"Ž", u"Z", u"I", u"J", u"K", u"L", u"M", u"N", u"O", u"P", u"R", u"S", u"T", u"Ć", u"U", u"F", u"H", u"C", u"Č", u"Š", u"a", u"b", u"v", u"g", u"dž", u"d", u"e", u"ž", u"z", u"i", u"j", u"k", u"lj", u"l", u"m", u"nj", u"n", u"o", u"p", u"r", u"s", u"t", u"ć", u"u", u"f", u"h", u"c", u"č", u"š", u"đ", u"Ð", u"ǌ", u"ﬂ" )
+LAT_LIST = (u"Đ", u"Dž", u"DŽ", u"LJ", u"Lj", u"NJ", u"Nj", u"A", u"B", u"V", u"G", u"D", u"E", u"Ž", u"Z", u"I", u"J", u"K", u"L", u"M", u"N", u"O", u"P", u"R", u"S", u"T", u"Ć", u"U", u"F", u"H", u"C", u"Č", u"Š", u"a", u"b", u"v", u"g", u"dž", u"d", u"e", u"ž", u"z", u"i", u"j", u"k", u"lj", u"l", u"m", u"nj", u"n", u"o", u"p", u"r", u"s", u"t", u"ć", u"u", u"f", u"h", u"c", u"č", u"š", u"đ", u"Ð", u"ǌ", u"ﬂ", u"î", u"û")
 
 # List (or better: tupple) of Cyrillic letters and ligatures
-CIR_UTF_LIST = (u"Ђ", u"Џ", u"Џ", u"Љ", u"Љ", u"Њ", u"Њ", u"А", u"Б", u"В", u"Г", u"Д", u"Е", u"Ж", u"З", u"И", u"Ј", u"К", u"Л", u"М", u"Н", u"О", u"П", u"Р", u"С", u"Т", u"Ћ", u"У", u"Ф", u"Х", u"Ц", u"Ч", u"Ш", u"а", u"б", u"в", u"г", u"џ", u"д", u"е", u"ж", u"з", u"и", u"ј", u"к", u"љ", u"л", u"м", u"њ", u"н", u"о", u"п", u"р", u"с", u"т", u"ћ", u"у", u"ф", u"х", u"ц", u"ч", u"ш", u"ђ", u"Ђ", u"њ", u"фл" )
+CIR_UTF_LIST = (u"Ђ", u"Џ", u"Џ", u"Љ", u"Љ", u"Њ", u"Њ", u"А", u"Б", u"В", u"Г", u"Д", u"Е", u"Ж", u"З", u"И", u"Ј", u"К", u"Л", u"М", u"Н", u"О", u"П", u"Р", u"С", u"Т", u"Ћ", u"У", u"Ф", u"Х", u"Ц", u"Ч", u"Ш", u"а", u"б", u"в", u"г", u"џ", u"д", u"е", u"ж", u"з", u"и", u"ј", u"к", u"љ", u"л", u"м", u"њ", u"н", u"о", u"п", u"р", u"с", u"т", u"ћ", u"у", u"ф", u"х", u"ц", u"ч", u"ш", u"ђ", u"Ђ", u"њ", u"фл", u"ӣ", u"ӯ")
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Processes file containing Serbian word corpus.')
