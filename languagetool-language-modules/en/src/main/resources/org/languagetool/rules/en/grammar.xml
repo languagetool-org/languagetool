@@ -6172,7 +6172,7 @@ USA
             <message>Did you mean <suggestion>\1 to \2</suggestion>? (You explain something to somebody.)</message>
             <url>http://dictionary.cambridge.org/grammar/british-grammar/common-verbs/explain</url>
             <example correction="explained to him">I <marker>explained him</marker> the difference between right and wrong.</example>
-            <example correction="explain to you">I’ll <marker>explained you</marker> why I like it.</example>
+            <example correction="explain to you">I’ll <marker>explain you</marker> why I like it.</example>
         </rule>
         <rule id="DEPEND_ON" name="depend on">
             <antipattern>
@@ -7485,7 +7485,7 @@ USA
                     -->
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="JJ" min="0"/>
-                    <token postag="NN:UN|NN:U|NNS" postag_regexp="yes"/>
+                    <token postag="NN(:UN?|S)" postag_regexp="yes"/>
                     <marker>
                         <token postag="VBD"><exception postag="VB"/></token>
                     </marker>
@@ -7686,7 +7686,7 @@ USA
         <rulegroup id="NON_ACTION_CONTINUOUS" name="Use of continuous form with non-action verbs">
             <rule>
                 <pattern>
-                    <token regexp="yes">had|has|have</token>
+                    <token regexp="yes">ha([ds]|ve)</token>
                     <token>been</token>
                     <token regexp="yes">knowing|belonging|meaning|supposing</token>
                 </pattern>
@@ -7698,7 +7698,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">were|was</token>
+                    <token regexp="yes">w(ere|as)</token>
                     <token regexp="yes">knowing|belonging|meaning|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
