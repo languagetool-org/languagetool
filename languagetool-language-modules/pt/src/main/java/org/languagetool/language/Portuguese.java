@@ -146,8 +146,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new LongSentenceRule(messages, 30, false),
             new LongSentenceRule(messages, 35, false),
             new LongSentenceRule(messages, 40, false),
-            new LongSentenceRule(messages, 45, true),
-            new LongSentenceRule(messages, 50, false),
+            new LongSentenceRule(messages, 45, false),
+            new LongSentenceRule(messages, 50, true),
             new LongSentenceRule(messages, 60, false),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
@@ -209,7 +209,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "INTERJECTIONS_PUNTUATION":  return 10;
       case "CONFUSION_POR":             return  5;
       case "HOMOPHONE_AS_CARD":         return  3;
-      case "TODOS_PLURAL_NOUNS":        return -4;
+      case "TODOS_FOLLOWED_BY_NOUN":    return -4; // TODO change to 2 after regression tests
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
       case "PT_MULTI_REPLACE":          return -10;

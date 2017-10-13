@@ -1609,6 +1609,19 @@ Ad random -> at random, willekeurig
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 
+		<rulegroup id="DE_WEGGAAT" name="De weggaat = de weg gaat">
+			<rule>
+				<pattern>
+					<token/>
+					<token>de</token>
+					<token inflected="yes">weggaan</token>
+				</pattern>
+				<message>Je bedoelt vast: <suggestion>\1 \2 <match no="3" regexp_match="^(weg)(.*)" regexp_replace="weg $2"/></suggestion></message>
+				<example correction="uit de weg gaat">Ik snap dat hij het <marker>uit de weggaat</marker>.</example>
+				<example>Ik snap dat hij het <marker>uit de weg gaat</marker>.</example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="DANKJE_WEL" name=" ">
 			<rule>
 				<pattern>
