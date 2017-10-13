@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class PageSideRule extends EnglishNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("page", "side");
 
-    private double minScore = 2.75; // p=0.990, r=0.117, tp=103, tn=877, fp=1, fn=775, 152+726, 2017-10-08
+    private double minScore = 2.75; // bad: p=0.990, r=0.117, tp=103, tn=877, fp=1, fn=775, 152+726, 2017-10-08
 
     public PageSideRule(ResourceBundle messages) {
         super(messages);
