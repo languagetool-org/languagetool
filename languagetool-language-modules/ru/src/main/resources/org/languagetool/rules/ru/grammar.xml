@@ -7379,7 +7379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="missing_2_verb" name="Пропущен второй глагол">
             <pattern>
                 <!-- "Любое слово." -->
-                <token skip='-1'>
+                <token postag='SENT_START' skip='-1'>
                     <!-- "Кроме глаголов." -->
                     <exception postag='VB:Past:.*|VB:Real:.*|VB:Fut:.*|VB:IMP:.*' postag_regexp='yes' ></exception>
                     <exception postag='VB:Past:.*|VB:Real:.*|VB:Fut:.*|VB:IMP:.*' postag_regexp='yes' scope='next'></exception>
@@ -7391,13 +7391,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Перед глаголом в неопределённой форме должен быть модальный глагол (хочет, будет, должен, может, ...)</message>
             <example type='incorrect'>Денис <marker>носить</marker> грязные носки.</example>
-            <example type='correct'  >Денис носит грязные носки.</example>
-            <example type='correct'  >Денис будет носить грязные носки.</example>
+            <example>Денис носит грязные носки.</example>
+            <example>Денис будет носить грязные носки.</example>
             <example type='incorrect'>Маша <marker>любить</marker> мягкие игрушки.</example>
-            <example type='correct'  >Маша будет любить мягкие игрушки.</example>
-        </rule> 
-                                                                          
-                                                                                                                                            
+            <example>Маша будет любить мягкие игрушки.</example>
+	    <example>Он взял за правило никогда не говорить дурно о других.</example>
+        </rule>                                                                                                                                                                                                                   
                                                                                                                                                                                                                                                                                 
         <rule default="on" id="Verb_and_PT" name="Глагол и причастие">
             <pattern>
