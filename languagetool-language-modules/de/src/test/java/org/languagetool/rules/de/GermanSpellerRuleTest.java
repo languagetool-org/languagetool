@@ -386,6 +386,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
     assertCorrection(rule, "Medallion", "Medaillon");
+    assertCorrection(rule, "Scheisse", "Scheiße");
     assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
