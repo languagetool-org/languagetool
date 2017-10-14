@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class SeidSeitRule extends GermanNeuralNetworkRule {
     private final List<String> subjects = Arrays.asList("seid", "seit");
 
-    private double minScore = 0.50; // p=1.000, r=0.842, tp=845, tn=1003, fp=0, fn=158, 3+1000, 2017-10-14
+    private double minScore = 0.50; // p=1.000, r=0.845, tp=854, tn=1011, fp=0, fn=157, 11+1000, 2017-10-14
 
     public SeidSeitRule(ResourceBundle messages) {
         super(messages);
