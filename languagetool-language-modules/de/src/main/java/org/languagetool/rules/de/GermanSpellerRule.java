@@ -415,6 +415,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*eiss.*")) {
+      suggestion = word.replaceAll("eiss", "eiß");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
     } else if (word.equals("ua") || word.equals("ua.")) {

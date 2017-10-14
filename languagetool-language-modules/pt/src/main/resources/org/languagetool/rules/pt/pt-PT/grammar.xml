@@ -53,7 +53,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY prefixos_i "(?:(?:p(?:(?:lu|e)r|ol)|m(?:ult|ax|in)|(?:quad|t)r|se(?:squ|m)|a(?:nt|ur)|[ou]n|hem|b)i)">
     <!ENTITY prefixos_o "(?:(?:h(?:i(?:dr|p)|eter|om)|p(?:s(?:eud|ic)|rot)|(?:card|fis|soc|b)i|a(?:[eg]r|rteri|ut)|m(?:[ai]cr|orf)|e(?:letr|nd|x)|i(?:somacr|di)|g(?:astr|e)|r(?:etr|in)|x(?:ant|il)|ne(?:ur)?|o[cr]t|traque|lingu|quil)o)">
-    <!ENTITY prefixos_o_2 "anarco|paleo">
+    <!ENTITY prefixos_o_2 "anarco|bio|paleo">
     <!ENTITY prefixos_o_ambiguos "(?:(?:e(?:stere|ur|g)|(?:cent|sac)r|a(?:str|udi)|t(?:erm|urb)|f(?:il|ot)|i(?:ntr|d)|bronc|labi|mon|vas|zo)o)">
     <!ENTITY prefixos_hifenizados_h "(?:p(?:r(?:(?:ot)?o|e)|seudo|enta|luri|an|os)|m(?:a(?:cro|xi)|i(?:cro|ni)|ulti|ega)|a(?:(?:[eg]r|ut)o|(?:rqu|nt)i)|s(?:u(?:p(?:er|ra)|b)|emi)|h(?:i(?:dro|per)|exa)|in(?:t(?:er|ra)|fra)|t(?:e(?:tra|le)|ri)|e(?:letro|xtra)|c(?:ircum|o)|re(?:tro)?|[gn]eo|ultra|bio?)">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
@@ -1214,7 +1214,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>auto|quilo</token>
-          <token>de</token>
+          <token regexp='yes'>d[aeo]s?</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
@@ -1333,7 +1333,6 @@ title="Easy editing stylesheet" ?>
       <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
     </rule>
   </rulegroup>
-
 
   <rulegroup id='AO90_ACCENTUATED_PREFIXES' name='AO90: Prefixos acentuados'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-08-15 -->
