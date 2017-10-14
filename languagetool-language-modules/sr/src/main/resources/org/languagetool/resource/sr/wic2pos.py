@@ -79,7 +79,7 @@ REGEX_TYPE = {
     "wic" : "^([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâêîôûﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+([!\"\'\(\),\-\.:;\?]|[a-zčćžšđâêîôûﬂǌüöäø’A-ZČĆŽŠĐ0-9_\-]+)\s+(a-zA-Z0-2_)+*"
 }
 
-BAD_GROUPS = ('ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх')
+BAD_GROUPS = ('ü', 'ö', 'ä', 'ø', 'аа', 'ии', 'уу', 'цх', 'тз', 'цз', 'q', 'w', 'x', 'y', 'Q', 'W', 'X', 'Y', 'Ä', 'Ü', 'Ö', 'è', 'à', 'фф', 'бб', 'зз', 'лл', 'мм', 'нн', 'пп', 'рр', 'сс', 'тт', 'гх', 'тх', 'хх')
 
 # Map holding transliterated Serbian Cyrillic letters pointing to
 # descriptors of opened files
@@ -198,13 +198,15 @@ def int_to_roman(i):
 noun_types = {
     'com'  : 'c',
     'prop' : 'p',
-    'col'  : 'o'
+    'col'  : 'o',
+    '0'    : '-'
 }
 
 number_types = {
     'sg' : 's',
     'pl' : 'p',
-    '-'  : '-'
+    '-'  : '-',
+    '0'  : '-'
 }
 
 case_types = {
@@ -215,7 +217,16 @@ case_types = {
     'voc' : 'v',
     'ins' : 'i',
     'loc' : 'l',
-    '-'   : '-'
+    '-'   : '-',
+    '0'   : '-'
+}
+
+gender_types = {
+    'm' : 'm',
+    'f' : 'f',
+    'n' : 'n',
+    '0' : '-',
+    '-' : '-'
 }
 
 adjective_types = {
@@ -224,14 +235,16 @@ adjective_types = {
     'dem'   : '',
     'indef' : '',
     'inter' : '',
-    'rel'   : ''
+    'rel'   : '',
+    '0'     : '-'
 }
 
 degree_types = {
     'pos'  : 'p',
     'comp' : 'c',
     'sup'  : 's',
-    '-'    : '-'
+    '-'    : '-',
+    '0'    : '-'
 }
 
 pronoun_types = {
@@ -241,11 +254,13 @@ pronoun_types = {
     'indef' : 'i',
     'inter' : 'q',
     'rel'   : 'r',
+    '0'     : '-'
 }
 
 verb_types = {
     'main' : 'm',
-    'aux'  : 'a'
+    'aux'  : 'a',
+    '0'    : '-'
 }
 
 verb_form = {
@@ -255,28 +270,31 @@ verb_form = {
     'imper'    : 'm',
     'impf'     : 'e',
     'inf'      : 'n',
-    'partact'  : 'p', # Temporary map all participles to "p" until we decide how to handle them
-    'partpass' : 'p',
-    'partpast' : 'p',
-    'partpres' : 'p'
+    'partact'  : 'p', # Participle active  - глаголски придев радни
+    'partpass' : 'q', # Participle passive - глаголски придев трпни (WARNING: This is not in specification)
+    'partpres' : 's', # Participle present - глаголски прилог садашњи (WARNING: This is not in specification)
+    'partpast' : 't'  # Participle past    - глаголски прилог прошли (WARNING: This is not in specification)
 }
 
 numeral_types = {
     'card' : 'c',
     'ord'  : 'o',
-    'col'  : 'l' # Намерно стављено да се види колико је оваквих бројева у корпусу
+    'col'  : 'l', # Намерно стављено да се види колико је оваквих бројева у корпусу
+    '0'    : '-'
 }
 
 adverb_types = {
     'gen'   : 'g',
     'indef' : 'x',
     'rel'   : 'x',
-    'inter' : 'x'
+    'inter' : 'x',
+    '0'     : '-'
 }
 
 conjunction_types = {
     'sub'  : 's',
-    'coor' : 'c'
+    'coor' : 'c',
+    '0'    : '-'
 }
 
 # Adjective (А) - придев
@@ -285,7 +303,7 @@ def getAdjectiveTag(flexform, parts):
         atype  = adjective_types[ parts[0] ]
         case   = case_types[ parts[1] ]
         number = number_types[ parts[2] ]
-        gender = parts[3]
+        gender = gender_types[ parts[3] ]
         degree = degree_types[ parts[4] ]
     except KeyError:
         _logger_.error("getAdjectiveTag: Error parsing tag '{}', flexform '{}'".format(parts, flexform))
@@ -321,7 +339,7 @@ def getNounTag(flexform, parts):
         ntype  = noun_types[ parts[0] ]
         case   = case_types[ parts[1] ]
         number = number_types[ parts[2] ]
-        gender = parts[3]
+        gender = gender_types[ parts[3] ]
     except KeyError:
         _logger_.error("getNounTag: Error parsing tag '{}', flexform '{}'".format(parts, flexform))
         sys.exit(1)
@@ -331,7 +349,7 @@ def getNounTag(flexform, parts):
 def getNumeralTag(flexform, parts):
     try:
         ntype  = numeral_types[ parts[0] ]
-        gender = parts[1]
+        gender = gender_types[ parts[1] ]
         number = number_types[ parts[2] ]
         case   = case_types[ parts[3] ]
     except KeyError:
@@ -345,7 +363,7 @@ def getPronounTag(flexform, parts):
         ptype  = pronoun_types[ parts[0] ]
         person = parts[1]
         number = number_types[ parts[2] ]
-        gender = parts[3]
+        gender = gender_types[ parts[3] ]
         case   = case_types[ parts[4] ]
     except KeyError:
         _logger_.error("getPronounTag: Error parsing tag '{}', flexform '{}'".format(parts, flexform))
@@ -363,7 +381,7 @@ def getVerbTag(flexform, parts):
         vform    = verb_form[ parts[1] ]
         person   = parts[2]
         number   = number_types[ parts[3] ]
-        gender   = parts[4]
+        gender   = gender_types[ parts[4] ]
         negation = parts[5]
     except KeyError:
         _logger_.error("getVerbTag: Error parsing tag '{}', flexform '{}'".format(parts, flexform))
@@ -373,6 +391,7 @@ def getVerbTag(flexform, parts):
 
 # Maps tags to "normal" POS tags
 def getPOStag(lemma, wictag):
+    # Pointers to functions ... last seen in C long time ago ...
     switch_word_type = {
         'A'    : getAdjectiveTag,    # Adjective - придев
         'Adv'  : getAdverbTag,       # Adverb - прилог
@@ -389,6 +408,12 @@ def getPOStag(lemma, wictag):
     wtype = tagparts[0]
     if wtype in switch_word_type:
         retval = switch_word_type[ wtype ](lemma, tagparts[1:]) # There is no "apply" global function in Python 3
+        # Remove last 4, 3, 2 or 1 continuous series of dashes from the end of tag
+        for i in range(4, 0, -1):
+            ind = retval.rfind('-' * i)
+            if ind > 0:
+                retval = retval[:ind]
+                break
         return retval
     else:
         return "0"
@@ -408,14 +433,6 @@ def parse_file():
             # Remove end of line
             line = line.strip()
             cnt += 1
-            # We will see if line ends in '0' - if so, we'll skip it
-            # The reason is that most of those lines are repeated,
-            # but without "_0" at the end.
-            #
-            # Skip also lines containing "#" - they seem to contain
-            # compound words
-            if line[-1] == '0' or line.find('#') != -1:
-                continue
             tokens = line.split('\t')
             if len(tokens) == 3:
                 matchcnt += 1
@@ -450,7 +467,7 @@ def parse_file():
                     continue
                 posgr = getPOStag(flexform, wictag)
                 _logger_.debug('Converted flexform={}, lemma={}, posgr={}'.format(flexform, lemma, posgr))
-                if posgr[0] in ( 'M', 'S', '0' ):
+                if posgr[0] in ( 'M', 'S', '0' ) or (len(posgr) in (1,2) and posgr[0] in ('N', 'A', 'V')):
                     # We will skip:
                     # 1. prepositions because of lack of information about the case they go with
                     # 2. numerals because of lack of type
