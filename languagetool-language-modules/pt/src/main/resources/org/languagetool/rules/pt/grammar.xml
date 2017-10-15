@@ -59,7 +59,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY contracoes_MP "(?:aos|d(?:os|uns|eles|es[st]es|aqueles|outros)|n(?:os|uns|eles|es[st]es|aqueles|outros)|pelos|alguns|mos|tos|lhos)">
     <!ENTITY contracoes_FP "(?:às|d(?:as|umas|elas|es[st]as|aquelas|outras)|n(?:as|umas|elas|es[st]as|aquelas|outras)|pelas|algumas|mas|tas|lhas)">
 
-    <!ENTITY numero_por_extenso "(?:uma?|d(?:ois|uas)|três|quatro|cinco|seis|sete|oito|nove|dez|dezena|dezenas|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|centos?|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos|mil|milhão|milhões|bilião|biliões|trilião|triliões)">
+    <!ENTITY numero_por_extenso "(?:uma?|d(?:ois|uas)|três|quatro|cinco|s(?:eis|ete)|oito|nove|d(?:ez|ezenas?)|onze|doze|treze|catorze|quinze|dez(?:[ae]sseis|[ae]ssete|oito|anove)|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|ce(?:m|ntos?)|duzentos|trezentos|qu(?:atrocentos|inhentos)|se(?:iscentos|tecentos)|oitocentos|novecentos|mil(?:h(?:ão|ões))?|bili(?:ão|ões)|trili(?:ão|ões))">
     <!ENTITY multiplicadores "(?:dúzia|dezena|centena)s?|mil|milhar(?:es)?|(?:milh|bilh?i)(?:ão|ões)">
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
@@ -71,12 +71,12 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh[aeo]s?|vos)">
 
-    <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|quanto)|orque)|mas|ou|nem|assim|contudo|logo|todavia)">
+    <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|assim|contudo|logo|todavia)">
 
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY verbos_auxiliares_aspectuais "(?:andar|ir|vir|começar|continuar|tornar|voltar|costumar|acabar|deixar)">
     <!ENTITY verbos_auxiliares_modais "(?:dever|poder|querer|conseguir|pretender|tentar|chegar)">
-    <!ENTITY verbos_de_ligacao "(?:andar|continuar|estar|ficar|parecer|permanecer|assemelhar|semelhar|ser|virar|viver)">
+    <!ENTITY verbos_de_ligacao "(?:andar|continuar|estar|ficar|p(?:arecer|ermanecer)|assemelhar|s(?:emelhar|er)|v(?:irar|viver))">
     <!ENTITY verbos_transitivos_diretos "(?:abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar)">
     <!ENTITY haver_impessoal "(?:h(?:á|avia|ouve|ouvera|averá|averia|aja|ouvesse|ouver))">
 
@@ -3059,10 +3059,11 @@ title="Easy editing stylesheet" ?>
       <example correction='deu à luz|deu à luz, a'>Quando <marker>deu à luz a</marker> bebé, ele ficou radiante.</example>
     </rule>
 
-  <rulegroup id='TODOS_FOLLOWED_BY_NOUN' name="Expressão: Todo + 'nome sem artigo'">
+    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'">
     <!-- Created by Tiago F. Santos, 2017-03-12 -->
+    <!-- XXX Brazilian portuguese has as different interpretations for tod[ao] -->
       <antipattern>
-          <token regexp='yes'>tod[ao]s?</token>
+          <token regexp='yes'>tod[ao]s</token>
           <token postag_regexp='yes' postag='A.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='A.+'/></token>
           <token>
@@ -3070,12 +3071,11 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</token>
-          <token regexp='yes'>tod[ao]s?</token>
+          <token regexp='yes'>tod[ao]s</token>
           <token/>
           <token>
             <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
       </antipattern>
-    <rule>
       <pattern>
           <token regexp='yes'>tod[ao]s</token>
           <token postag_regexp='yes' postag='(?:N|A).+'>
@@ -3091,19 +3091,6 @@ title="Easy editing stylesheet" ?>
       <example>Estão todos felizes?</example>
       <example correction='todos os felizes'>Onde estão <marker>todos felizes</marker> convidados?</example>
     </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>tod[ao]</token>
-          <token postag_regexp='yes' postag='N.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
-      </pattern>
-      <message>Esta expressão no plural exige um segundo artigo.</message>
-        <suggestion>\1 <match no='1' regexp_match='...(.)' regexp_replace='$1'/> \2</suggestion>
-      <example correction='todo o dia'>Está aberto das dez às seis <marker>todo dia</marker> durante o ano.</example>
-      <example correction='toda a hora'>Está aberto a <marker>toda hora</marker>.</example>
-      <example>A mulher ficou toda satisfeita.</example>
-    </rule>
-  </rulegroup>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
     <!-- Created by Tiago F. Santos, 2017-03-15 -->
@@ -3364,22 +3351,22 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern><!-- long holophrases -->
           <token postag='SENT_START'/>
-          <token postag='_PUNCT'/>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
           <token max='3'/>
           <token regexp='yes'>[.!?]</token>
       </antipattern>
       <antipattern><!-- long holophrases -->
           <token postag='SENT_START'/>
           <token/>
-          <token postag='_PUNCT'/>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
           <token max='2'/>
           <token regexp='yes'>[.!?]</token>
       </antipattern>
       <antipattern><!-- simple holophrases -->
           <token postag='SENT_START'/>
-          <token postag='_PUNCT'/>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
           <token/>
-          <token postag='_PUNCT'/>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
           <token max='2'/>
           <token regexp='yes'>[.!?]</token>
       </antipattern>
@@ -5467,7 +5454,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>de|pa?ra|sem</token>
           <token>eu</token>
         </marker>
-          <token postag='_PUNCT|CC|SPS00' postag_regexp='yes'/>
+          <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
       </pattern>
       <message>Substitua por <suggestion>de mim</suggestion> ou <suggestion>de me</suggestion>.</message>
       <example correction="de mim|de me">Isto é <marker>de eu</marker> para o Rui.</example>
@@ -5530,7 +5517,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>de|pa?ra|sem</token>
           <token>tu</token>
         </marker>
-          <token postag='_PUNCT|CC|SPS00' postag_regexp='yes'/>
+          <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
       </pattern>
       <message>Substitua por <suggestion>\1 ti</suggestion> ou <suggestion>\1 te</suggestion>.</message>
       <example correction="para ti|para te">Isto é <marker>para tu</marker>.</example>
@@ -6541,7 +6528,7 @@ title="Easy editing stylesheet" ?>
           <token>obstante</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6554,7 +6541,7 @@ title="Easy editing stylesheet" ?>
           <token>saber</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6567,7 +6554,7 @@ title="Easy editing stylesheet" ?>
           <token>exemplo</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6582,7 +6569,7 @@ title="Easy editing stylesheet" ?>
           <token>lado</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2 \3,</suggestion>
@@ -6596,7 +6583,7 @@ title="Easy editing stylesheet" ?>
           <token>dizer</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2 \3,</suggestion>
@@ -6609,7 +6596,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>verdade|prática</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6622,7 +6609,7 @@ title="Easy editing stylesheet" ?>
           <token>entanto</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6635,7 +6622,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>geral|contrapartida</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6649,7 +6636,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token>
             <exception regexp='yes'>d[ao]s?</exception>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6662,7 +6649,7 @@ title="Easy editing stylesheet" ?>
           <token>disso</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6676,7 +6663,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>seja|melhor|antes</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \3,</suggestion>
@@ -6692,7 +6679,7 @@ title="Easy editing stylesheet" ?>
           <token>ver</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2 \3,</suggestion>
@@ -6706,7 +6693,7 @@ title="Easy editing stylesheet" ?>
           <token>tempo</token>
         </marker>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2 \3,</suggestion>
@@ -6720,7 +6707,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token>
             <exception>de</exception>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -6730,7 +6717,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
           <token>
-            <exception postag='_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta conjugação deve ser separada por vírgulas.</message>
         <suggestion>\1, \2</suggestion>
@@ -6928,7 +6915,7 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Se não é um título, falta um ponto no final da frase.</message>
-      <short>Erro de pontuação</short>
+      <short>Falta de pontuação final</short>
       <example correction="">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
       <example correction="">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
       <example>Esta é uma frase curta, que poderia ser um título</example>
@@ -7536,7 +7523,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token postag='I'>
             <exception negate_pos='yes' postag='I'/></token>
-          <token postag='_PUNCT'>
+          <token postag_regexp='yes' postag="_PUNCT|''">
             <exception regexp='yes'>[\!\?:\)]</exception></token>
       </pattern>
       <message>As interjeições devem ser finalizadas com pontos de exclamação ou interrogação.</message>
@@ -7558,7 +7545,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag='I'/></token>
         </marker>
           <token>
-            <exception postag_regexp='yes' postag='I|_PUNCT'/></token>
+            <exception postag_regexp='yes' postag="I|_PUNCT|''"/></token>
       </pattern>
       <message>As interjeições devem ser finalizadas com pontos de exclamação ou interrogação.</message>
         <suggestion>\1!</suggestion>
@@ -7581,7 +7568,7 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
       <pattern>
           <token regexp="yes"  skip='6'>mas|embora|porém|todavia|senão|obstante|contudo|logo|portanto|conforme|entretanto|entanto|também|além|demais|ademais
-            <exception scope='next' postag="_PUNCT"/></token>
+            <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
         <marker>
           <token><match no="0"/></token>
         </marker>
@@ -7613,7 +7600,7 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token regexp='yes'>é|são</token>
           <token><match no="0"/></token>
-          <token postag='_PUNCT'/>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>chupas?</token>
@@ -10014,6 +10001,17 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>\1</suggestion>
         <suggestion>\3</suggestion>
       <example correction='mas|contudo'>Este é um caminho promissor <marker>mas, contudo</marker> ainda há um grande caminho a percorrer.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&conjuncoes_coordenativas;</token>
+          <token regexp='yes'>porque</token>
+      </pattern>
+      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\3</suggestion>
+        <suggestion>\1, \3</suggestion>
+      <example correction='e|porque|e, porque'>Este é um caminho promissor <marker>e porque</marker> ainda há um grande caminho a percorrer, tem de ser continuado.</example>
     </rule>
     <rule>
       <pattern>
@@ -13291,7 +13289,7 @@ o tomate'>
     <rule id='À_QUE' name="Confusão: à que - há que">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token postag_regexp='yes' postag='SENT_START|_PUNCT|CC'/>
+          <token postag_regexp='yes' postag="SENT_START|_PUNCT|''|CC"/>
         <marker>
           <token>à</token>
           <token>que</token>
@@ -23466,6 +23464,13 @@ TODO Write better examples
           <token regexp='yes' min='0'>[ao]s?</token>
           <token regexp='yes'>(?:fêmea|macho)s?</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes' min='0'>[ao]s?</token>
+          <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
+          <token>e</token>
+          <token regexp='yes' min='0'>[ao]s?</token>
+          <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
@@ -23518,6 +23523,19 @@ TODO Write better examples
     </rule>
   </rulegroup>
     <!--	      Style rules from Spanish grammar.xml    - END  -->
+
+    <rule id='REDUNDANCY_MAN_AND_WOMAN' name="Redundâncias não sexistas: Homens e mulheres" type='style'>
+    <!--     Created by Tiago F. Santos, Portuguese rule, 2017-10-13   -->
+      <pattern>
+          <token regexp='yes' min='0'>[ao]s?</token>
+          <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
+          <token>e</token>
+          <token regexp='yes' min='0'>[ao]s?</token>
+          <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
+      </pattern>
+      <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>pessoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+      <example correction="Pessoas"><marker>Homens e mulheres</marker> saíram à rua.</example>
+    </rule>
 
   <rulegroup id='DORAVANTE'  name="Utilização de 'Doravante'" default='off'>
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
