@@ -22,6 +22,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.*;
+import org.languagetool.rules.pt.neuralnetwork.PorPorRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -160,7 +161,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
             new PortugueseWrongWordInContextRule(messages),
-            new PortugueseWordCoherencyRule(messages)
+            new PortugueseWordCoherencyRule(messages),
+            new PorPorRule(messages)
     );
   }
 
