@@ -48,6 +48,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh[aeo]s?|vos)">
 
+    <!ENTITY verbos_de_ligacao "(?:andar|continuar|estar|ficar|p(?:arecer|ermanecer)|assemelhar|s(?:emelhar|er)|v(?:irar|viver))">
+
     <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada)|jamais|sem|tampouco)">
     <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded ali|aqui|acolá -->
 
@@ -109,6 +111,34 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
       <short>Brasileirismo</short>
       <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
+    </rule>
+
+    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'">
+    <!-- Created by Tiago F. Santos, 2017-10-12 -->
+      <antipattern>
+          <token regexp='yes'>tod[ao]</token>
+          <token postag_regexp='yes' postag='A.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='A.+'/></token>
+          <token>
+            <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>tod[ao]</token>
+          <token/>
+          <token>
+            <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>tod[ao]</token>
+          <token postag_regexp='yes' postag='N.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
+      </pattern>
+      <message>Esta expressão no plural exige um segundo artigo.</message>
+        <suggestion>\1 <match no='1' regexp_match='...(.)' regexp_replace='$1'/> \2</suggestion>
+      <example correction='todo o dia'>Está aberto das dez às seis <marker>todo dia</marker> durante o ano.</example>
+      <example correction='toda a hora'>Está aberto a <marker>toda hora</marker>.</example>
+      <example>A mulher ficou toda satisfeita.</example>
     </rule>
 
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
