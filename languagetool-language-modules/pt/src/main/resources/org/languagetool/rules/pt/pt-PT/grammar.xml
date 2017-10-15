@@ -37,18 +37,18 @@ title="Easy editing stylesheet" ?>
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
 
-    <!ENTITY pontos_cardeais "(?:norte|sul|l?este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste)">
+    <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
 
-    <!ENTITY contracoes_MS "(?:ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho)">
-    <!ENTITY contracoes_FS "(?:à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha)">
-    <!ENTITY contracoes_MP "(?:aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos)">
-    <!ENTITY contracoes_FP "(?:às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas)">
+    <!ENTITY contracoes_MS "(?:ao|d(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|n(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|pelo|algum|mo|to|lho)">
+    <!ENTITY contracoes_FS "(?:à|d(?:a|uma|ela|es[st]a|aquela|outra)|n(?:a|uma|ela|nes[st]a|aquela|outra)|pela|alguma|ma|ta|lha)">
+    <!ENTITY contracoes_MP "(?:aos|d(?:os|uns|eles|es[st]es|aqueles|outros)|n(?:os|uns|eles|es[st]es|aqueles|outros)|pelos|alguns|mos|tos|lhos)">
+    <!ENTITY contracoes_FP "(?:às|d(?:as|umas|elas|es[st]as|aquelas|outras)|n(?:as|umas|elas|es[st]as|aquelas|outras)|pelas|algumas|mas|tas|lhas)">
 
-    <!ENTITY pronomes_retos "(?:eu|tu|el[ea]s?|nós|vós|vocês?)">
-    <!ENTITY pronomes_nao_ambiguos "(?:ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos)">
-    <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
+    <!ENTITY pronomes_retos "(?:e(?:l[ea]s?|u)|tu|nós|v(?:ós|ocês?))">
+    <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
+    <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh[aeo]s?|vos)">
 
-    <!ENTITY negacoes "(?:não|nem|nunca|ninguém|nada|jamais|sem|tampouco)">
+    <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada)|jamais|sem|tampouco)">
     <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded ali|aqui|acolá -->
 
     <!ENTITY prefixos_i "(?:(?:p(?:(?:lu|e)r|ol)|m(?:ult|ax|in)|(?:quad|t)r|se(?:squ|m)|a(?:nt|ur)|[ou]n|hem|b)i)">
@@ -1120,6 +1120,10 @@ title="Easy editing stylesheet" ?>
       <example correction='não agressão'>O pacto de <marker>não-agressão</marker> foi a prioridade do dia.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>horas?</token>
+          <token>extra</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
     <!-- contra are better dealt by PortugueseCompoundRule.java -->
@@ -1153,6 +1157,10 @@ title="Easy editing stylesheet" ?>
       <example correction='pentacampeões'>São <marker>penta-campeões</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>horas?</token>
+          <token>extra</token>
+      </antipattern>
       <pattern>
           <token>extra</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -1243,6 +1251,10 @@ title="Easy editing stylesheet" ?>
     </rule>
     <!-- TODO special rules for  ante|contra|entre|sobre  -->
     <rule>
+      <antipattern>
+          <token regexp='yes'>horas?</token>
+          <token>extra</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|&prefixos_o_2;|arqui
             <exception case_sensitive='yes'>Homo</exception></token>
@@ -1257,6 +1269,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>retro</token>
           <token>satanás</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>horas?</token>
+          <token>extra</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|&prefixos_o_2;|arqui
