@@ -5,6 +5,15 @@
 #### Serbian
   * initial support for Serbian by Zoltán Csala
 
+#### Portuguese
+  * added and improved rules
+  * disambiguation improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
+
+
 #### General
   * Now runs with Java 9 (compilation with Maven still has issue with Java9)
 
