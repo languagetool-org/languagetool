@@ -8442,6 +8442,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="en_prep" name="en (preposició)">
+        <pattern>
+            <token postag="V.P.*" postag_regexp="yes"/>
+            <marker>
+               <token postag="SPS00">en</token>
+            </marker>
+        </pattern>
+        <disamb action="filter" postag="SPS00"/>
+    </rule>
     <rulegroup id="DetNom" name="Determinant + nom">
         <!-- Caldria diferenciar/elimianr alguns casos. Per exemple DN + DI
             CAL SEPARAR EL CAS DA+NC QUE ÉS L'UNIC PROBLEMÀTIC -->
