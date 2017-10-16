@@ -71,7 +71,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh[aeo]s?|vos)">
 
-    <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|assim|contudo|logo|todavia)">
+    <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|contudo|logo|todavia)"><!-- XXX do not readd 'assim' -->
 
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY verbos_auxiliares_aspectuais "(?:andar|ir|vir|começar|continuar|tornar|voltar|costumar|acabar|deixar)">
@@ -1692,6 +1692,7 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='SPS00.+'/></token>
           <token regexp='yes'>e|nem</token>
+          <token min='0' max='1' postag='DA0[MF].0' postag_regexp='yes'/>
           <token postag_regexp='yes' postag='N.+'>
             <exception postag_regexp='yes' postag='SPS00.+'/>
             <exception regexp='yes'>u(ns|ma?s?)|[ao]s?|não</exception>
@@ -1705,9 +1706,10 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>&MSG_ECV;</message>
-        <suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)([12]P|[123]S).' postag_replace='$13P0' postag_regexp='yes'/></suggestion>
+        <suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/> <match no='7' include_skipped='all' postag='(V.[CIS].)([12]P|[123]S).' postag_replace='$13P0' postag_regexp='yes'/></suggestion>
       <url>http://books.scielo.org/id/67y3k/pdf/lobo-9788523212308-15.pdf</url>
       <example correction='Cão e gato são'><marker>Cão e gato é</marker> animais.</example>
+      <example correction='cão e o gato são'>O <marker>cão e o gato é</marker> animais.</example>
       <example type="correct">Cão e gato são animais.</example>
     </rule>
 
@@ -9991,23 +9993,51 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
     <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
+      <antipattern>
+          <token regexp='yes'>e</token>
+          <token regexp='yes'>assim|então|porque</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>ou</token>
+          <token regexp='yes'>porque</token>
+      </antipattern>
+      <antipattern>
+          <token>mas</token>
+          <token regexp='yes'>porque</token>
+      </antipattern>
     <rule>
+      <antipattern><!-- XXX dealt in special rule -->
+          <token>e</token>
+          <token>ou</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>&conjuncoes_coordenativas;</token>
           <token min='0'>,</token>
-          <token regexp='yes'>&conjuncoes_coordenativas;</token>
+          <token regexp='yes'>&conjuncoes_coordenativas;
+            <exception regexp='yes'>logo|nem</exception></token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3</suggestion>
       <example correction='mas|contudo'>Este é um caminho promissor <marker>mas, contudo</marker> ainda há um grande caminho a percorrer.</example>
     </rule>
     <rule>
       <pattern>
+          <token>e</token>
+          <token>ou</token>
+      </pattern>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
+        <suggestion>\1/\3</suggestion>
+        <suggestion>\1</suggestion>
+        <suggestion>\3</suggestion>
+      <example correction='e/ou|e|ou'>Este é um caminho promissor <marker>e ou</marker> um com muitos altos e baixos.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token regexp='yes'>&conjuncoes_coordenativas;</token>
           <token regexp='yes'>porque</token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3</suggestion>
         <suggestion>\1, \3</suggestion>
@@ -10020,7 +10050,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>no</token>
           <token>entanto</token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3 \4</suggestion>
       <example correction='mas|no entanto'>Este é um caminho promissor <marker>mas no entanto</marker> ainda há um grande caminho a percorrer.</example>
@@ -10032,7 +10062,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mas</token>
           <token regexp='yes'>ainda|também</token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3 \4</suggestion>
       <example correction='e|mas também'>Este é um caminho promissor <marker>e mas também</marker> ainda há um grande caminho a percorrer.</example>
@@ -10044,7 +10074,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>não</token>
           <token>obstante</token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3 \4</suggestion>
       <example correction='mas|não obstante'>Este é um caminho promissor <marker>mas, não obstante</marker>, ainda há um grande caminho a percorrer.</example>
@@ -10056,7 +10086,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>por</token>
           <token regexp='yes'>conseguinte|isso</token>
       </pattern>
-      <message>Pleonasmo. Utilize apenas uma conjunção deste tipo.</message>
+      <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
         <suggestion>\3 \4</suggestion>
       <example correction='mas|por isso'>Este é um caminho promissor <marker>mas por isso</marker> ainda há um grande caminho a percorrer.</example>
@@ -23716,7 +23746,7 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
-            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?</exception></token><!-- XXX remove after regenerating regexp -->
+            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>‘\1’</suggestion>
@@ -23730,7 +23760,7 @@ TODO Write better examples
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
           <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
-            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?</exception></token><!-- XXX remove after regenerating regexp -->
+            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>‘\2’</suggestion>
