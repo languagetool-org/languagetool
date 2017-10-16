@@ -199,7 +199,7 @@ public class TokenAgreementNounVerbRule extends Rule {
             verbTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + verbTokenReadings));
         }
         
-        String msg = String.format("Неузгоджені іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
+        String msg = String.format("Не узгоджено іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
             nounTokenReadings.get(0).getToken(), formatInflections(masterInflections, true), 
             verbTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
         RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
