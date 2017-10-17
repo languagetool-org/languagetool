@@ -180,6 +180,8 @@ public class German extends Language implements AutoCloseable {
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
             new WiederVsWiderRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages),
+            new EmptyLineRule(messages),
             new LongSentenceRule(messages, 20, false),
             new LongSentenceRule(messages, 30, false),
             new LongSentenceRule(messages, 40, true),
