@@ -130,6 +130,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
+    put("[mM]otorisation", "Motorisierung");
+    put("abgeschaffen", "abgeschafft");
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
     put("Grisli", "Grizzly");
