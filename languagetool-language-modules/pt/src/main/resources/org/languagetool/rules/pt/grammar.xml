@@ -9993,19 +9993,17 @@ tokenizer spreadsheet in the forum	     -->
 
   <rulegroup id='REDUNDANT_CONJUNCTIONS' name='Conjugações redundantes: Mas todavia...'>
     <!-- Created by Tiago F. Santos, 2017-04-21, based on LightProof rule -->
+    <rule>
       <antipattern>
           <token regexp='yes'>e</token>
+          <token min='0'>,</token>
           <token regexp='yes'>assim|então|porque</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>ou</token>
-          <token regexp='yes'>porque</token>
+          <token regexp='yes'>ou|mas</token>
+          <token min='0'>,</token>
+          <token>porque</token>
       </antipattern>
-      <antipattern>
-          <token>mas</token>
-          <token regexp='yes'>porque</token>
-      </antipattern>
-    <rule>
       <antipattern><!-- XXX dealt in special rule -->
           <token>e</token>
           <token>ou</token>
