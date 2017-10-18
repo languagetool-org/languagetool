@@ -87,11 +87,13 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   }
 
   private boolean isWordCount(String tokenText) {
+    char firstChar = tokenText.charAt(0);
     if (tokenText.length() > 0 &&
-            ((tokenText.charAt(0) >= 'A' && tokenText.charAt(0) <= 'Z')
-                    || (tokenText.charAt(0) >= 'a' && tokenText.charAt(0) <= 'z')
-                    || tokenText.charAt(0) == 'ä' || tokenText.charAt(0) == 'ö' || tokenText.charAt(0) == 'ü'
-                    || tokenText.charAt(0) == 'Ä' || tokenText.charAt(0) == 'Ö' || tokenText.charAt(0) == 'Ü')) {
+            ((firstChar >= 'A' && firstChar <= 'Z')
+                    || (firstChar >= 'a' && firstChar <= 'z')
+                    || firstChar == 'ä' || firstChar == 'ö' || firstChar == 'ü'
+                    || firstChar == 'Ä' || firstChar == 'Ö' || firstChar == 'Ü' 
+                    || firstChar == 'ß')) {
       return true;
     } else {
       return false;
