@@ -10033,7 +10033,7 @@ tokenizer spreadsheet in the forum	     -->
     <rule>
       <pattern>
           <token regexp='yes'>&conjuncoes_coordenativas;</token>
-          <token regexp='yes'>porque</token>
+          <token>porque</token>
       </pattern>
       <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
         <suggestion>\1</suggestion>
@@ -22823,6 +22823,30 @@ TODO Write better examples
       <example correction="Blu-ray">Isto é um disco <marker>Blue-ray</marker>.</example>
     </rule>
     <!--  End of German grammar.xml adaptation  -->
+    <rule id='PRESENTATION' name="Nome de Produto: PowerPoint → Apresentação">
+    <!--    Created by Tiago F. Santos, 2017-10-10     -->
+      <pattern>
+          <token postag_regexp="yes" postag='D.+'/>
+          <token regexp="yes">powerpoints?</token>
+      </pattern>
+      <message>PowerPoint é uma programa específico. Se pretende generalizar, utilize:</message>
+        <suggestion><match no='1' postag='(...).(.+)' postag_regexp='yes' postag_replace='$1F$2'/> apresentação de slides</suggestion>
+        <suggestion><match no='1' postag='(...).(.+)' postag_regexp='yes' postag_replace='$1F$2'/> apresentação</suggestion>
+      <example correction="uma apresentação de slides|uma apresentação">Tenho que fazer <marker>um PowerPoint</marker>.</example>
+    </rule>
+    <rule id='SPREADSHEET' name="Nome de Produto: Excel → Folha de Cálculo">
+    <!--    Created by Tiago F. Santos, 2017-10-10     -->
+      <pattern>
+          <token postag_regexp="yes" postag='D.+'/>
+          <token regexp="yes" min='0'>folhas?</token>
+          <token min='0'>de</token>
+          <token regexp="yes">exce(l|is)</token>
+      </pattern>
+      <message>Excel é uma programa específico. Se pretende generalizar, utilize:</message>
+        <suggestion><match no='1' postag='(...).(.+)' postag_regexp='yes' postag_replace='$1F$2'/> <match no='1' postag='....(.).' postag_regexp='yes' postag_replace='NCF$1(000)'>folha</match> de cálculo</suggestion>
+      <example correction="uma folha de cálculo">Tenho que fazer <marker>um Excel</marker>.</example>
+      <example correction="outras folhas de cálculo">Isso está explicado nos <marker>outras folhas de Excel</marker>.</example>
+    </rule>
  </category>
 
  <category id='SEMANTICS' name="Semântica" type="inconsistency">
@@ -23561,8 +23585,9 @@ TODO Write better examples
           <token regexp='yes' min='0'>[ao]s?</token>
           <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
       </pattern>
-      <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>pessoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+      <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match no='1' regexp_match='[Oo]' regexp_replace='a' include_skipped='all'/> pessoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
       <example correction="Pessoas"><marker>Homens e mulheres</marker> saíram à rua.</example>
+      <example correction="As pessoas"><marker>Os homens e mulheres</marker> saíram à rua.</example>
     </rule>
 
   <rulegroup id='DORAVANTE'  name="Utilização de 'Doravante'" default='off'>
