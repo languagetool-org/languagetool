@@ -82,6 +82,9 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   }
 
   private boolean isWordCount(String tokenText) {
+    if (tokenText.length() == 0) {
+      return false;
+    }
     char firstChar = tokenText.charAt(0);
     if (tokenText.length() > 0 &&
             ((firstChar >= 'A' && firstChar <= 'Z')
