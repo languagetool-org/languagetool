@@ -4248,12 +4248,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="scharfe S">Das <marker>scharfe ß</marker> wird nur im Deutschen benutzt.</example>
             <example correction="scharfes S">Ein <marker>scharfes ß</marker> wird nur im Deutschen benutzt.</example>
         </rule>
+        <rulegroup id="LINK_LINKS" name="unten link(s)/recht(s)">
+            <rule>
+                <antipattern>
+                    <token>recht</token>
+                    <token postag="(ADJ|PA2):.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">(?:hint|vorn|ob|unt)en?</token>
+                    <marker><token regexp="yes" case_sensitive="yes">recht|link</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2s</suggestion>?</message>
+                <example correction="links">Die Milch steht hinten <marker>link</marker>.</example>
+                <example correction="rechts">Oben <marker>recht</marker> liegt dein Pass.</example>
+                <example>Die Stoßstange ist vorne recht lädiert.</example>
+                <example>Die Stoßstange ist vorne rechts lädiert.</example>
+                <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>mit</token>
+                    <token>recht</token>
+                </antipattern>
+                <pattern>
+                    <marker><token regexp="yes">recht|link</token></marker>
+                    <token regexp="yes">(?:hint|vorn|ob|unt)en?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1s</suggestion>?</message>
+                <example correction="links">Die Milch steht <marker>link</marker> hinten.</example>
+                <example correction="Rechts"><marker>Recht</marker> oben liegt dein Pass.</example>
+                <example>Die Stoßstange ist vorne recht lädiert.</example>
+                <example>Er steht mit Recht hinten.</example>
+                <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
+            </rule>
+        </rulegroup>
         <rule id="PASSIONIERTE_PASSIERTE" name="passionierte/passierte">
             <pattern>
                 <marker>
                     <token>passionierte</token>
                 </marker>
-                <token regexp="yes">Tomaten?|Früchten?</token>
+                <token regexp="yes">(?:Toma|Früch)ten?</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion>passierte</suggestion> (ohne grobe Teile) statt passionierte (leidenschaftlich)?</message>
             <url>http://www.duden.de/rechtschreibung/passioniert</url>
@@ -4265,7 +4299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">konisch</token>
                 </marker>
-                <token regexp="yes" inflected="yes">Ding|Effekt|Einfall|Einlage|Episode|Figur|Frisur|Gedicht|Gedanke|Gefühl|Geräusch|Geschichte|Heiliger|Held|Hut|Kauz|Kerl|Kontrast|Moment|Name|Nummer|Oper|Roman|Sache|Seite|Situation|Szene|Typ|Verzweiflung|Vogel|Wirkung|Zufall|Zug</token>
+                <token regexp="yes" inflected="yes">Ding|Effekt|Ein(fall|lage)|Episode|Figur|Frisur|Ge(dicht|danke|fühl|räusch|schichte)|He(iliger|ld)|Hut|Kauz|Kerl|Kontrast|Moment|Name|Nummer|Oper|Roman|Sache|Seite|Situation|Szene|Typ|Verzweiflung|Vogel|Wirkung|Zufall|Zug</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="kon" regexp_replace="kom"/></suggestion> (lustig, seltsam) statt konisch (kegelförmig, spitz zulaufend)?</message>
             <short>Mögliche Wortverwechslung</short>
