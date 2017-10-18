@@ -117,7 +117,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
-    putRepl("^[uU]nabsichtig(e(nmrs)?)?", "ig", "lich");
+    putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
@@ -127,6 +127,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
+    putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
+    putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
+    put("[oO]rganisative", "Organisation");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");

@@ -357,6 +357,9 @@ public class GermanSpellerRuleTest {
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 
     assertCorrection(rule, "Autoverkehrr", "Autoverkehr");
+    // assertCorrection(rule, "unabsichtiges", "unabsichtliches");
+    // assertCorrection(rule, "organisatives", "organisatorisches");
+    // assertCorrection(rule, "Organisative", "Organisation");
 
     assertCorrection(rule, "hasslich", "hässlich", "fasslich");
     assertCorrection(rule, "Struße", "Strauße", "Straße", "Sträuße");
