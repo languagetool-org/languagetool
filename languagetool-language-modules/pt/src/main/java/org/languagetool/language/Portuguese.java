@@ -154,6 +154,8 @@ public class Portuguese extends Language implements AutoCloseable {
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages),
+            new EmptyLineRule(messages),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
