@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
@@ -29,11 +28,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * A rule that warns on long sentences. Note that this rule is off by default.
- *
+ * A rule that warns on long sentences.
  * @since 3.9
  */
-
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
@@ -41,7 +38,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   /**
    * @param defaultActive allows default granularity
-   * @since 3.7
    */
   public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
     super(messages);
@@ -57,7 +53,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   /**
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
-   * @since 2.4
    */
   public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
     this(messages, maxSentenceLength, DEFAULT_INACTIVE);
@@ -78,12 +73,12 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getDescription() {
-    return "Sehr langer Satz (mehr als " + maxWords + " Worte)";
+    return "Sehr langer Satz (mehr als " + maxWords + " Wörter)";
   }
 
   @Override
   public String getMessage() {
-    return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Worte).";
+    return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Wörter).";
   }
 
   private boolean isWordCount(String tokenText) {
@@ -109,8 +104,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       return toRuleMatchArray(ruleMatches);
     }
     int i = 0;
-    List<Integer> fromPos = new ArrayList<Integer>();
-    List<Integer> toPos = new ArrayList<Integer>();
+    List<Integer> fromPos = new ArrayList<>();
+    List<Integer> toPos = new ArrayList<>();
     while (i < tokens.length) {
       for (; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
       if (i < tokens.length) {
