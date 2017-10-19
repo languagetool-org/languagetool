@@ -173,6 +173,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unaufbesichtigt", "unbeaufsichtigt", rule, lt);
     assertFirstSuggestion("uberaschend", "überraschend", rule, lt);
     assertFirstSuggestion("uberagendes", "überragendes", rule, lt);
+    assertFirstSuggestion("unabsichtiges", "unabsichtliches", rule, lt);
+    assertFirstSuggestion("organisatives", "organisatorisches", rule, lt);
+    assertFirstSuggestion("Medallion", "Medaillon", rule, lt);
   }
 
   @Test
@@ -357,9 +360,6 @@ public class GermanSpellerRuleTest {
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 
     assertCorrection(rule, "Autoverkehrr", "Autoverkehr");
-    // assertCorrection(rule, "unabsichtiges", "unabsichtliches");
-    // assertCorrection(rule, "organisatives", "organisatorisches");
-    // assertCorrection(rule, "Organisative", "Organisation");
 
     assertCorrection(rule, "hasslich", "hässlich", "fasslich");
     assertCorrection(rule, "Struße", "Strauße", "Straße", "Sträuße");
