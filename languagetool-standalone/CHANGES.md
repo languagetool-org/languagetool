@@ -2,8 +2,9 @@
 
 ## 4.0-SNAPSHOT (release planned for 2017-12-29)
 
-#### Serbian
-  * initial support for Serbian by Zoltán Csala
+#### Galician
+  * updated Hunspell dictionaries to:
+    - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
 
 #### Portuguese
   * added and improved rules
@@ -13,6 +14,8 @@
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
     - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
 
+#### Serbian
+  * initial support for Serbian by Zoltán Csala
 
 #### General
   * Now runs with Java 9 (compilation with Maven still has issue with Java9)
