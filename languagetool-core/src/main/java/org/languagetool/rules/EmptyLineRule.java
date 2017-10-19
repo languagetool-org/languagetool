@@ -41,6 +41,7 @@ public class EmptyLineRule extends Rule {
     if (!defaultActive) {
         setDefaultOff();   //  Default is Off
     }
+    setOfficeDefaultOn();  // Default for LO/OO is always On
       
     setLocQualityIssueType(ITSIssueType.Style);
   }

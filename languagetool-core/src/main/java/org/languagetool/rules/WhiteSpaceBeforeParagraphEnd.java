@@ -41,6 +41,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     if (!defaultActive) {
         setDefaultOff();   //  Default is Off
     }
+    setOfficeDefaultOn();  // Default for LO/OO is always On
     
     setLocQualityIssueType(ITSIssueType.Style);
   }

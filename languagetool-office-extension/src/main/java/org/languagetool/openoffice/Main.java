@@ -388,7 +388,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.activateLanguageModelRules(ngramDirectory);
         }
       }
-      for (Rule rule : langTool.getAllActiveRules()) {
+      for (Rule rule : langTool.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
         }

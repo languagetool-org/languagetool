@@ -892,6 +892,28 @@ public class JLanguageTool {
   }
   
   /**
+   * Works like getAllActiveRules but overrides defaults by officeefaults
+   * @return a List of {@link Rule} objects
+   */
+  public List<Rule> getAllActiveOfficeRules() {
+    List<Rule> rules = new ArrayList<>();
+    List<Rule> rulesActive = new ArrayList<>();
+    rules.addAll(builtinRules);
+    rules.addAll(userRules);
+    for (Rule rule : rules) {
+      if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
+        rulesActive.add(rule);
+      } else if (rule.isOfficeDefaultOn()) {
+        rulesActive.add(rule);
+        enableRule(rule.getId());
+      } else if (!ignoreRule(rule) && rule.isOfficeDefaultOff()) {
+        disableRule(rule.getId());
+      }
+    }    
+    return rulesActive;
+  }
+  
+  /**
    * Get pattern rules by Id and SubId. This returns a list because rules that use {@code <or>...</or>}
    * are internally expanded into several rules.
    * @return a List of {@link Rule} objects
