@@ -32,10 +32,10 @@ public class ScoredConfusionSetLoader {
 
   private static final String CHARSET = "utf-8";
 
-  public ScoredConfusionSetLoader() {
+  private ScoredConfusionSetLoader() {
   }
 
-  public Map<String,List<ScoredConfusionSet>> loadConfusionSet(InputStream stream) throws IOException {
+  public static Map<String,List<ScoredConfusionSet>> loadConfusionSet(InputStream stream) throws IOException {
     Map<String,List<ScoredConfusionSet>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
@@ -43,45 +43,67 @@ public class ScoredConfusionSetLoader {
     ) {
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.startsWith("#") || line.trim().isEmpty()) {
+        if (ignoreLine(line)) {
           continue;
         }
-        String[] parts = line.replaceFirst("\\s*#.*", "").split(";\\s*");
-        if (parts.length != 3) {
-          throw new RuntimeException("Unexpected format: '" + line + "' - expected three semicolon-separated values: word1; word2; factor");
-        }
-        List<ConfusionString> confusionStrings = new ArrayList<>();
-        Set<String> loadedForSet = new HashSet<>();
-        String prevWord = null;
-        for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
-          String[] subParts = part.split("\\|");
-          String word = subParts[0];
-          if (prevWord != null && word.compareTo(prevWord) < 0) {
-            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line);
-          }
-          prevWord = word;
-          String description = subParts.length == 2 ? subParts[1] : null;
-          if (loadedForSet.contains(word)) {
-            throw new RuntimeException("Word appears twice in same confusion set: '" + word + "'");
-          }
-          confusionStrings.add(new ConfusionString(word, description));
-          loadedForSet.add(word);
-        }
-        ScoredConfusionSet confusionSet = new ScoredConfusionSet(Float.parseFloat(parts[parts.length-1]), confusionStrings);
-        for (ConfusionString confusionString : confusionStrings) {
-          String key = confusionString.getString();
-          List<ScoredConfusionSet> existingEntry = map.get(key);
-          if (existingEntry != null) {
-            existingEntry.add(confusionSet);
-          } else {
-            List<ScoredConfusionSet> sets = new ArrayList<>();
-            sets.add(confusionSet);
-            map.put(key, sets);
-          }
-        }
+
+        String[] parts = splitLine(line);
+        List<ConfusionString> confusionStrings = getConfusionStrings(line, parts);
+        addConfusionSets(map, new ScoredConfusionSet(Float.parseFloat(parts[parts.length - 1]), confusionStrings), confusionStrings);
       }
     }
     return map;
+  }
+
+  private static void addConfusionSets(Map<String, List<ScoredConfusionSet>> map, ScoredConfusionSet confusionSet, List<ConfusionString> confusionStrings) {
+    for (ConfusionString confusionString : confusionStrings) {
+      addConfusionSet(map, confusionSet, confusionString);
+    }
+  }
+
+  private static void addConfusionSet(Map<String, List<ScoredConfusionSet>> map, ScoredConfusionSet confusionSet, ConfusionString confusionString) {
+    String key = confusionString.getString();
+    List<ScoredConfusionSet> existingEntry = map.get(key);
+    if (existingEntry != null) {
+      existingEntry.add(confusionSet);
+    } else {
+      List<ScoredConfusionSet> sets = new ArrayList<>();
+      sets.add(confusionSet);
+      map.put(key, sets);
+    }
+  }
+
+  private static String[] splitLine(String line) {
+    String[] parts = line.replaceFirst("\\s*#.*", "").split(";\\s*");
+    if (parts.length != 3) {
+      throw new IllegalArgumentException("Unexpected format: '" + line + "' - expected three semicolon-separated values: word1; word2; factor");
+    }
+    return parts;
+  }
+
+  private static List<ConfusionString> getConfusionStrings(String line, String[] parts) {
+    List<ConfusionString> confusionStrings = new ArrayList<>();
+    Set<String> loadedForSet = new HashSet<>();
+    String prevWord = null;
+    for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
+      String[] subParts = part.split("\\|");
+      String word = subParts[0];
+      if (prevWord != null && word.compareTo(prevWord) < 0) {
+        throw new IllegalArgumentException("Order words alphabetically per line in the confusion set file: " + line);
+      }
+      prevWord = word;
+      String description = subParts.length == 2 ? subParts[1] : null;
+      if (loadedForSet.contains(word)) {
+        throw new IllegalArgumentException("Word appears twice in same confusion set: '" + word + "'");
+      }
+      confusionStrings.add(new ConfusionString(word, description));
+      loadedForSet.add(word);
+    }
+    return confusionStrings;
+  }
+
+  private static boolean ignoreLine(String line) {
+    return line.startsWith("#") || line.trim().isEmpty();
   }
 
 }

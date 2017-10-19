@@ -38,8 +38,7 @@ public class ScoredConfusionSetLoaderTest {
   @Test
   public void testLoadWithStrictLimits() throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/neuralnetwork_confusion_sets.txt")) {
-      ScoredConfusionSetLoader loader = new ScoredConfusionSetLoader();
-      Map<String, List<ScoredConfusionSet>> map = loader.loadConfusionSet(inputStream);
+      Map<String, List<ScoredConfusionSet>> map = ScoredConfusionSetLoader.loadConfusionSet(inputStream);
       assertThat(map.size(), is(10));
 
       assertThat(map.get("there").size(), is(1));
