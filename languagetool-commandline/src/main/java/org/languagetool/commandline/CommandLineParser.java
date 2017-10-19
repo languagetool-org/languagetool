@@ -18,12 +18,12 @@
  */
 package org.languagetool.commandline;
 
+import org.languagetool.Language;
+import org.languagetool.Languages;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Arrays;
-
-import org.languagetool.Language;
-import org.languagetool.Languages;
 
 /**
  * Parser for the command line arguments.
@@ -93,6 +93,9 @@ public class CommandLineParser {
       } else if (args[i].equals("--languagemodel")) {
         checkArguments("--languagemodel", i, args);
         options.setLanguageModel(new File(args[++i]));
+      } else if (args[i].equals("--word2vecmodel")) {
+        checkArguments("--word2vecmodel", i, args);
+        options.setWord2VecModel(new File(args[++i]));
       } else if (args[i].equals("--rulefile")) {
         checkArguments("--rulefile", i, args);
         options.setRuleFile(args[++i]);
@@ -211,6 +214,8 @@ public class CommandLineParser {
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported\n"
+            + "  --word2vecmodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
+            + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
     );

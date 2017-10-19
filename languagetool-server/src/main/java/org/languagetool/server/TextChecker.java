@@ -258,6 +258,9 @@ abstract class TextChecker {
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }
+    if (config.getWord2VecModelDir () != null) {
+      lt.activateWord2VecModelRules(config.getWord2VecModelDir());
+    }
     if (config.getRulesConfigFile() != null) {
       configureFromRulesFile(lt, lang);
     } else {

@@ -39,6 +39,7 @@ public class HTTPServerConfig {
   public static final int DEFAULT_PORT = 8081;
   
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
+  static final String WORD2VEC_MODEL_OPTION = "--word2vecModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -49,6 +50,7 @@ public class HTTPServerConfig {
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected File languageModelDir = null;
+  protected File word2vecModelDir = null;
   protected int requestLimit;
   protected int requestLimitPeriodInSeconds;
   protected boolean trustXForwardForHeader;
@@ -91,7 +93,7 @@ public class HTTPServerConfig {
       }
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION), !ArrayUtils.contains(args, WORD2VEC_MODEL_OPTION));
           break;
         case "-p":
         case "--port":
@@ -113,11 +115,14 @@ public class HTTPServerConfig {
         case LANGUAGE_MODEL_OPTION:
           setLanguageModelDirectory(args[++i]);
           break;
+        case WORD2VEC_MODEL_OPTION:
+          setWord2VecModelDirectory(args[++i]);
+          break;
       }
     }
   }
 
-  private void parseConfigFile(File file, boolean loadLangModel) {
+  private void parseConfigFile(File file, boolean loadLangModel, boolean loadWord2VecModel) {
     try {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
@@ -134,6 +139,10 @@ public class HTTPServerConfig {
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
+        }
+        String word2vecModel = getOptionalProperty(props, "word2vecModel", null);
+        if (word2vecModel != null && loadWord2VecModel) {
+          setWord2VecModelDirectory(word2vecModel);
         }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
@@ -172,6 +181,13 @@ public class HTTPServerConfig {
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
+    }
+  }
+
+  private void setWord2VecModelDirectory(String w2vModelDir) {
+    word2vecModelDir = new File(w2vModelDir);
+    if (!word2vecModelDir.exists() || !word2vecModelDir.isDirectory()) {
+      throw new RuntimeException("Word2Vec directory not found or is not a directory: " + word2vecModelDir);
     }
   }
 
@@ -241,6 +257,15 @@ public class HTTPServerConfig {
   @Nullable
   File getLanguageModelDir() {
     return languageModelDir;
+  }
+
+  /**
+   * Get word2vec model directory (which contains 'en' sub directories and final_embeddings.txt and dictionary.txt) or {@code null}.
+   * @since 3.10
+   */
+  @Nullable
+  File getWord2VecModelDir() {
+    return word2vecModelDir;
   }
 
   /** @since 2.7 */
