@@ -4252,7 +4252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">                    
                     <marker><token>zu</token></marker>
-                    <token regexp="yes">Verfügung|Genüge|Ruhe|Schule</token>
+                    <token regexp="yes">Verfügung|Genüge|Ruhe</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zur</suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Verf%C3%BCgung</url>
@@ -4261,6 +4261,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zur">Mit 50 setze ich mich <marker>zu</marker> Ruhe.</example>
                 <example>Ich stehe zu Ihrer Verfügung.</example>
                 <example>Ich stehe zu Diensten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">  
+                    <token inflected="yes" skip="1">gehen</token>               
+                    <marker><token>zu</token></marker>
+                    <token>Schule</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>zur</suggestion>?</message>
+                <example correction="zur">Er geht nicht <marker>zu</marker> Schule.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LINK_LINKS" name="unten link(s)/recht(s)">
