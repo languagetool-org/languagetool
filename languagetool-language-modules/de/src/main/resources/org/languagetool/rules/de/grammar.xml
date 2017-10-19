@@ -4570,7 +4570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" inflected="yes">basteln|biegen|finden|legen|machen</token>
-                    <token regexp="yes" skip="2">sich|uns|euch|etwas|mir|mich</token>
+                    <token regexp="yes" skip="2">sich|uns|euch|etwas|mi(?:r|ch)</token>
                     <marker>
                         <token>zu</token>
                         <token>recht</token>
@@ -4628,7 +4628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Champignon/Champion">
             <rule>
                 <pattern>
-                    <token regexp="yes">Dosen?|Pizza|Pasta|Nudeln|Soße|Sauce</token>
+                    <token regexp="yes">Dosen?|P(izz|ast)a|Nudeln|Soße|Sauce</token>
                     <token>mit</token>
                     <marker>
                         <token>Champions</token>
@@ -4641,7 +4641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">Dosen?|Glas|Gläsern?|(frisch|gedünstet|gehackt|geschnitten|gebraten|gefüllt)en?</token>
+                    <token regexp="yes">Dosen?|Gl(as|äsern?)|(frisch|gedünstet|gehackt|geschnitten|gebraten|gefüllt)en?</token>
                     <marker>
                         <token regexp="yes">Champions?</token>
                     </marker>
@@ -4656,7 +4656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Champions?</token>
                     </marker>
                     <token skip="1">aus</token>
-                    <token regexp="yes">Dosen?|Glas|Gläsern?</token>
+                    <token regexp="yes">Dosen?|Gl(as|äsern?)</token>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="^Champion" regexp_replace="Champignon"/></suggestion> (Speisepilz)?</message>
                 <short>Mögliche Wortverwechslung</short>
@@ -4768,7 +4768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/rechtschreibung/haengen_verbinden_befestigen</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">an|auf|über|in</token>
+                    <token regexp="yes">[ai]n|auf|über</token>
                     <token regexp="yes">den|die|das</token>
                     <token postag="SUB:AKK:.+" postag_regexp="yes"><exception postag="SUB:DAT:PLU.+" postag_regexp="yes"/></token>
                     <marker>
@@ -4814,7 +4814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="1" regexp="yes">hieß(en)?|heißt|heißen?</token>
+                    <token skip="1" regexp="yes">hieß(en)?|heiß(t|en?)</token>
                     <token>mit</token>
                     <marker>
                         <token regexp="yes">(Vor|Nach)nahmen</token>
@@ -4841,7 +4841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">mein|meinen?|dein|deinen?|unser|unseren?|sein|seinen?|ihr|ihren|euer|euren?</token>
+                    <token regexp="yes">mein(en?)?|dein(en?)?|unser(en?)?|sein(en?)?|ihr(en)?|euer|euren?</token>
                     <marker>
                         <token regexp="yes">(Vor|Nach)nahmen?</token>
                     </marker>
@@ -5143,7 +5143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">ökonomisch</token>
                     </marker>
-                    <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
+                    <token regexp="yes">.*Gottesdienst.*|Kirchen?|Trauung(en)?|Taufe(en)?|Kirchentag[es]?|Kirchentages|Abendmahls?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ökonomisch" regexp_replace="ökumenisch"/></suggestion>? (Ökonomie = Wirtschaft, Ökumene = Zusammenarbeit christlicher Kirchen)</message>
                 <example>Was sind <marker>ökumenische</marker> Gottesdienste?</example>
@@ -5203,7 +5203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="COACH_VS_COUCH" name="Coach/Couch">
             <pattern>
                 <token>auf</token>
-                <token regexp="yes">der|die</token>
+                <token regexp="yes">d(er|ie)</token>
                 <marker>
                     <token>Coach</token>
                 </marker>
@@ -5250,7 +5250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>,</token>
                     <token>das</token>
-                    <token regexp="yes">dort|da|hier|allein|alles|gestern|heute|letztens</token>
+                    <token regexp="yes">dort|da|hier|all(ein|es)|gestern|heute|letztens</token>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
