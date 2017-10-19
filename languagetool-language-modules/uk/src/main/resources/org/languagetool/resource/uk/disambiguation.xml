@@ -1024,6 +1024,26 @@
     <example type="untouched">минулого року.</example>
   </rule>
 
+  <rule name="Як" id="JAK">
+    <pattern>
+      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
+      <marker>
+        <token>як</token>
+      </marker>
+      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:m:v_naz"/>
+    <example type="ambiguous"
+        inputform="як[як/adv:&amp;pron:int:rel,як/conj:subord,як/noun:anim:m:v_naz,як/part]"
+        outputform="як[як/adv:&amp;pron:int:rel,як/conj:subord,як/part]"
+            >і <marker>як</marker> верховний арбітр.</example>
+    <example type="ambiguous"
+        inputform="Як[Як/noun:anim:m:v_naz:prop:lname,як/adv:&amp;pron:int:rel,як/conj:subord,як/noun:anim:m:v_naz,як/part]"
+        outputform="Як[Як/noun:anim:m:v_naz:prop:lname,як/adv:&amp;pron:int:rel,як/conj:subord,як/part]"
+        ><marker>Як</marker> модернізм і тепер постмодернізм</example>
+    <example type="untouched">Дикий як — гірська тварина.</example>
+  </rule>
+
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
     <pattern>
