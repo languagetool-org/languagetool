@@ -4687,6 +4687,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="безготівкою">переказали <marker>по безналу</marker></example>
     </rule>
 
+    <rule id="udilnyi_vs_pytomyi" name="Удільний - питомий">
+      <pattern>
+        <marker>
+          <token inflected="yes">удільний</token>
+        </marker>
+        <token inflected="yes" regexp="yes">вага|витрата</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" postag="adj.*">питомий</match></suggestion></message>
+      <example correction="питомою">з великою <marker>удільною</marker> вагою</example>
+    </rule>
+
+    <rule id="v_dovgyi_yaschyk" name="Відкладати в довгий ящик">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token regexp="yes">довгий|довгу</token>
+        <token regexp="yes">ящик|шухляду</token>
+      </pattern>
+      <message>Краще: <suggestion>на безвік</suggestion></message>
+      <suggestion>на безрік</suggestion>
+      <suggestion>до нових віників</suggestion>
+      <example correction="на безвік|на безрік|до нових віників">він відклав цю справу <marker>в довгий ящик</marker>.</example>
+    </rule>
+
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">
       <pattern>
