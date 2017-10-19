@@ -4251,13 +4251,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZU_ZUR" name="zu (zur)">
             <rule>
                 <pattern case_sensitive="yes">                    
-                    <marker><token>zu</token></marker>
-                    <token regexp="yes">Ver(fügung|nunft)|Genüge</token>
+                    <marker>
+                        <token>zu<exception scope="previous" postag="SUB:.+" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">Ver(fügung|nunft)|(Genü|Nei)ge</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zur</suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Verf%C3%BCgung</url>
                 <example correction="zur">Es steht <marker>zu</marker> Verfügung.</example>
                 <example correction="zur">Ich kenne es <marker>zu</marker> Genüge.</example>
+                <example>Er spricht auf einem Symposium zu Vernunft und Unvernunft in der Gegenwart.</example>
                 <example>Ich stehe zu Ihrer Verfügung.</example>
                 <example>Ich stehe zu Diensten.</example>
             </rule>
@@ -4265,10 +4268,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">  
                     <token inflected="yes" skip="1">gehen</token>               
                     <marker><token>zu</token></marker>
-                    <token>Schule</token>
+                    <token regexp="yes">Schule|Arbeit</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zur</suggestion>?</message>
                 <example correction="zur">Er geht nicht <marker>zu</marker> Schule.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">  
+                    <marker><token>zu</token></marker>
+                    <token regexp="yes">Schule|Arbeit</token>
+                    <token inflected="yes">gehen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>zur</suggestion>?</message>
+                <example correction="zur">Wo bist du <marker>zu</marker> Schule gegangen?</example>
             </rule>
         </rulegroup>
         <rulegroup id="LINK_LINKS" name="unten link(s)/recht(s)">
