@@ -268,7 +268,8 @@ public abstract class Rule {
   /**
    * Checks whether the rule has been turned off by default for Office Extension by the rule author.
    * @return True if the rule is turned off. Overrides the default for LO/OO.
-   */
+   * @since 4.0
+  */
   public final boolean isOfficeDefaultOff() {
     return officeDefaultOff;
   }
@@ -276,20 +277,23 @@ public abstract class Rule {
   /**
    * Checks whether the rule has been turned on by default for Office Extension by the rule author.
    * @return True if the rule is turned on. Overrides the default for LO/OO.
+   * @since 4.0
    */
   public final boolean isOfficeDefaultOn() {
     return officeDefaultOn;
   }
 
   /**
-   * Turns the rule off by default.
+   * Turns the rule off for Office Extension by default.
+   * @since 4.0
    */
   public final void setOfficeDefaultOff() {
     officeDefaultOff = true;
   }
 
   /**
-   * Turns the rule on by default.
+   * Turns the rule on for Office Extension by default.
+   * @since 4.0
    */
   public final void setOfficeDefaultOn() {
     officeDefaultOn = true;

@@ -894,6 +894,7 @@ public class JLanguageTool {
   /**
    * Works like getAllActiveRules but overrides defaults by officeefaults
    * @return a List of {@link Rule} objects
+   * @since 4.0
    */
   public List<Rule> getAllActiveOfficeRules() {
     List<Rule> rules = new ArrayList<>();

@@ -28,6 +28,7 @@ import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * A rule that checks for WhiteSpaces at the begin of a paragraph
+ * @since 4.0
  * 
  * @author Fred Kruse
  */
@@ -35,47 +36,44 @@ import org.languagetool.AnalyzedTokenReadings;
 public class WhiteSpaceAtBeginOfParagraph extends Rule {
 
   public WhiteSpaceAtBeginOfParagraph(ResourceBundle messages, boolean defaultActive) {
-		    super(messages);
-		    super.setCategory(Categories.STYLE.getCategory(messages));
+    super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
 
-		    if (!defaultActive) {
-		        setDefaultOff();   //  Default is Off
-		    }
-	        setOfficeDefaultOn();  // Default for LO/OO is always On
-		    
-		    setLocQualityIssueType(ITSIssueType.Style);
-		  }
+    if (!defaultActive) {
+      setDefaultOff();   //  Default is Off
+    }
+    setOfficeDefaultOn();  // Default for LO/OO is always On
+        
+    setLocQualityIssueType(ITSIssueType.Style);
+  }
 
   public WhiteSpaceAtBeginOfParagraph(ResourceBundle messages) {
-	    this(messages, false);
-	  }
+    this(messages, false);
+  }
 
+  @Override
+  public String getId() {
+    return "WHITESPACE_PARAGRAPH_BEGIN";
+  }
 
+  @Override
+  public String getDescription() {
+    return messages.getString("whitespace_at_begin_parapgraph_desc");
+  }
 
-	@Override
-	public String getId() {
-		return "WHITESPACE_PARAGRAPH_BEGIN";
-	}
-
-	@Override
-	public String getDescription() {
-		return messages.getString("whitespace_at_begin_parapgraph_desc");
-	}
-
-	@Override
-	public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-	    List<RuleMatch> ruleMatches = new ArrayList<>();
-		AnalyzedTokenReadings[] tokens = sentence.getTokens();
-		int i;
-		for(i = 1; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++);
-		if(i > 1 && i < tokens.length && !tokens[i].isLinebreak()) {
-            RuleMatch ruleMatch = new RuleMatch(this, tokens[1].getStartPos(), 
-            		tokens[i].getEndPos(), messages.getString("whitespace_at_begin_parapgraph_msg"));
-            ruleMatch.setSuggestedReplacement(tokens[i].getToken());
-            ruleMatches.add(ruleMatch);
-			
-		}
-		return toRuleMatchArray(ruleMatches);
-	}
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    int i;
+    for(i = 1; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++);
+    if(i > 1 && i < tokens.length && !tokens[i].isLinebreak()) {
+      RuleMatch ruleMatch = new RuleMatch(this, tokens[1].getStartPos(), 
+      tokens[i].getEndPos(), messages.getString("whitespace_at_begin_parapgraph_msg"));
+      ruleMatch.setSuggestedReplacement(tokens[i].getToken());
+      ruleMatches.add(ruleMatch);
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
 
 }
