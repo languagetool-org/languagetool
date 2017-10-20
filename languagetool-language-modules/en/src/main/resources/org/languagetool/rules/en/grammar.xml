@@ -7427,6 +7427,11 @@ USA
         </rule>
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <antipattern>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token regexp="yes">['’]</token>
+                <token>t</token>
+            </antipattern>
+            <antipattern>
                 <token>it</token>
                 <token min="0" max="1" postag="RB"/>
                 <token>second</token>
@@ -11333,7 +11338,7 @@ USA
             <message>Did you mean <suggestion>\1 to \2</suggestion>?</message>
             <example correction="ought to say">We <marker>ought say</marker> the truth.</example>
         </rule>
-        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she' or a pronoun">
+        <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <rule>
                 <antipattern>
@@ -11384,7 +11389,7 @@ USA
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
-                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
+                    <token regexp="yes">s?he|it|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
@@ -11395,6 +11400,7 @@ USA
                 <example correction="doesn't|didn't">He <marker>don't</marker> like fish.</example>
                 <example correction="doesn't|didn't">At her party, everybody <marker>don't</marker> like the music.</example>
                 <example correction="doesn't|didn't">At my party, nobody <marker>don't</marker> like the music.</example>
+                <example correction="doesn't|didn't">It <marker>don't</marker> work correctly.</example>
                 <example>He <marker>doesn't</marker> like fish.</example>
                 <example>She <marker>didn't</marker> like fish when she was young, but she likes it now.</example>
             </rule>
