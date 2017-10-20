@@ -11143,6 +11143,11 @@ USA
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
             <short>Grammatical problem: agreement error</short>
             <rule>
+                <antipattern>
+                    <token postag="VBZ"/>
+                    <token regexp="yes">['’]</token>
+                    <token>t</token>
+                </antipattern>
                 <pattern>
                     <token case_sensitive="yes" skip="1">I<exception scope="previous" regexp="yes" case_sensitive="no">phase|am</exception></token>
                     <marker>
@@ -11160,6 +11165,7 @@ USA
                 <example correction="have|haven">I rarely <marker>has</marker> a bad day.</example>
                 <example>Step i corresponds to the ...</example>
                 <example>... and if phase I corresponds to the ...</example>
+                <example>I <marker>doesn't</marker> sure about this.</example><!-- Not correct English, but correct as a test of this rule. -->
             </rule>
             <rule>
                 <antipattern>
@@ -11188,7 +11194,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="1" regexp="yes" postag="PRP">we|they</token>
+                    <token skip="1" regexp="yes" postag="PRP">I|we|they</token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
                         <token regexp="yes">['’]</token>
@@ -11198,6 +11204,7 @@ USA
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/>n<match no="3"/><match no="4"/></suggestion></message>
                 <example correction="don't">We <marker>doesn't</marker> believe so.</example>
                 <example correction="amn't|aren't|arenn't">We <marker>isn't</marker> believe so.</example>
+                <example correction="don't">What will I <marker>doesn't</marker> now?</example><!-- Refer to https://forum.languagetool.org/t/replacing-contractions-bug/2234/1 -->
             </rule>
             <rule>
                 <antipattern>
