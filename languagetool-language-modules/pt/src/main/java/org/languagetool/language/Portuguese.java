@@ -155,6 +155,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
