@@ -110,10 +110,18 @@ class UserLimits {
       }
       byte[] postDataBytes = postData.toString().getBytes("UTF-8");
       HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
-      conn.setRequestMethod("POST");
-      conn.setDoOutput(true);
-      conn.getOutputStream().write(postDataBytes);
-      return StringTools.streamToString(conn.getInputStream(), "UTF-8");
+      try {
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.getOutputStream().write(postDataBytes);
+        return StringTools.streamToString(conn.getInputStream(), "UTF-8");
+      } catch (IOException e) {
+        if (conn.getResponseCode() == 403) {
+          throw new RuntimeException("Could not get token for user '" + username + "' from " + url + ", invalid username or password (code: 403)", e);
+        } else {
+          throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
+        }
+      }
     } catch (IOException e) {
       throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
     }
