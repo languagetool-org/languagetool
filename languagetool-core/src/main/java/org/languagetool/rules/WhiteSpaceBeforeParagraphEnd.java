@@ -28,21 +28,17 @@ import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * A rule that checks for a whitespace at the end of a paragraph
- * 
  * @author Fred Kruse
  */
-
 public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
 
   public WhiteSpaceBeforeParagraphEnd(ResourceBundle messages, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
-
     if (!defaultActive) {
-        setDefaultOff();   //  Default is Off
+        setDefaultOff();
     }
-    setOfficeDefaultOn();  // Default for LO/OO is always On
-    
+    setOfficeDefaultOn();
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
@@ -68,11 +64,12 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
       AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       int i = 2;
-//    Whitespace before linebreak (includes last non-whitespace because of problems with OO dialog
+      // Whitespace before linebreak (includes last non-whitespace because of problems with OO dialog
       while (i < tokens.length) {
         if(tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i - 1].isWhitespace()) {
           int lastNonWhite = i - 1;
-          for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++);
+          for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++)
+            ;
           if (i < tokens.length && tokens[i].isLinebreak()) { 
             int fromPos = pos + tokens[lastNonWhite].getStartPos();
             int toPos = pos + tokens[i].getStartPos();
@@ -83,10 +80,11 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
         }
         i++;
       }
-//    Whitespace before end of paragraph
-      if(n == sentences.size() - 1) {
-        for (i = tokens.length - 1; i > 0 && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i--);
-        if(i < tokens.length - 1) {
+      // Whitespace before end of paragraph
+      if (n == sentences.size() - 1) {
+        for (i = tokens.length - 1; i > 0 && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i--)
+          ;
+        if (i < tokens.length - 1) {
           int fromPos = pos + tokens[i + 1].getStartPos();
           int toPos = pos + tokens[tokens.length - 1].getStartPos() + 1;
           RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
