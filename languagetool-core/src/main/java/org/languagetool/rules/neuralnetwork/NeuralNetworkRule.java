@@ -138,10 +138,14 @@ public class NeuralNetworkRule extends Rule {
   @NotNull
   private String getMessage(Suggestion suggestion, double[] y) {
     String msg;
-    if (descriptions.get(0).isPresent() && descriptions.get(1).isPresent()) {
-      msg = Tools.i18n(messages, "neural_network_suggest_with_description", subjects.get(0), descriptions.get(0).get(), subjects.get(1), descriptions.get(1).get());
+    int suggestionIndex = suggestion.matches(subjects.get(0)) ? 0 : 1;
+    int wrongWordIndex = (suggestionIndex + 1) % 2;
+    if (descriptions.get(suggestionIndex).isPresent() && descriptions.get(wrongWordIndex).isPresent()) {
+      msg = Tools.i18n(messages, "neural_network_suggest_with_description",
+              subjects.get(suggestionIndex), descriptions.get(suggestionIndex).get(),
+              subjects.get(wrongWordIndex), descriptions.get(wrongWordIndex).get());
     } else {
-      msg = Tools.i18n(messages, "neural_network_suggest", subjects.get(0), subjects.get(1));
+      msg = Tools.i18n(messages, "neural_network_suggest", subjects.get(suggestionIndex), subjects.get(wrongWordIndex));
     }
     if(suggestion.isUnsure()) {
       msg = "(low certainty) " + msg;
@@ -150,6 +154,6 @@ public class NeuralNetworkRule extends Rule {
   }
 
   private String certaintiesToString(double[] y) {
-    return String.format("[%4.2f, %4.2f]", y[0], y[1]);
+    return String.format(Locale.US, "[%4.2f, %4.2f]", y[0], y[1]);
   }
 }
