@@ -3,6 +3,7 @@ package org.languagetool.rules.neuralnetwork;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
@@ -23,7 +24,7 @@ public class NeuralNetworkRule extends Rule {
 
   private final String id;
 
-  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, File weightsDirectory, Dictionary dictionary, Matrix embedding) throws FileNotFoundException {
+  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Dictionary dictionary, Matrix embedding) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
 
@@ -31,8 +32,8 @@ public class NeuralNetworkRule extends Rule {
     this.descriptions = confusionSet.getTokenDescriptions();
     this.minScore = confusionSet.getScore();
 
-    final InputStream WPath = new FileInputStream(pathFor(weightsDirectory, "W_fc1.txt"));
-    final InputStream bPath = new FileInputStream(pathFor(weightsDirectory, "b_fc1.txt"));
+    final InputStream WPath = pathFor(language, "W_fc1.txt");
+    final InputStream bPath = pathFor(language, "b_fc1.txt");
     classifier = new Classifier(dictionary, embedding, WPath, bPath);
 
     this.id = createId(language);
@@ -56,9 +57,9 @@ public class NeuralNetworkRule extends Rule {
     return language.getShortCode().toUpperCase() + "_" + subjects.get(0).toUpperCase(Locale.ENGLISH) + "_VS_" + subjects.get(1).toUpperCase(Locale.ENGLISH) + "_NEURALNETWORK";
   }
 
-  private String pathFor(File weightsDirectory, String filename) {
+  private InputStream pathFor(Language language, String filename) {
     String folderName = String.join("_", subjects);
-    return weightsDirectory.getAbsolutePath() + File.separator + folderName + File.separator + filename;
+    return JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + language.getShortCode() + "/neuralnetwork/" + folderName + "/" + filename);
   }
 
   public List<String> getSubjects() {

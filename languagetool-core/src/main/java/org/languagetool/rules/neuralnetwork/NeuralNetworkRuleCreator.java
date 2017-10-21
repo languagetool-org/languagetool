@@ -7,8 +7,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.ScoredConfusionSet;
 import org.languagetool.rules.ScoredConfusionSetLoader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ public abstract class NeuralNetworkRuleCreator {
   public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     InputStream confusionSetsStream = dataBroker.getFromResourceDirAsStream("/" + language.getShortCode() + "/" + CONFUSION_SET_FILENAME);
-    File weightsDirectory = word2vecModel.getWeightsDirectory();
 
     List<ScoredConfusionSet> confusionSets;
     try {
@@ -35,11 +32,7 @@ public abstract class NeuralNetworkRuleCreator {
 
     List<Rule> neuralNetworkRules = new ArrayList<>();
     for(ScoredConfusionSet confusionSet : confusionSets) {
-      try {
-        neuralNetworkRules.add(new NeuralNetworkRule(messages, language, confusionSet, weightsDirectory, word2vecModel.getDictionary(), word2vecModel.getEmbedding()));
-      } catch (FileNotFoundException e) {
-        System.err.println("Error while creating NeuralNetworkRule: " + e.getLocalizedMessage());
-      }
+      neuralNetworkRules.add(new NeuralNetworkRule(messages, language, confusionSet, word2vecModel.getDictionary(), word2vecModel.getEmbedding()));
     }
 
     return neuralNetworkRules;
