@@ -27693,6 +27693,30 @@ Andere Projekte</example>
                 <example correction="untertan">Der Mensch hat sich die Erde <marker>Untertan</marker> gemacht.</example>
             </rule>
         </rulegroup>
+        <rule id="PROBLEMLOS_KLEIN" name="Problemlos (problemlos)">
+            <antipattern>
+                <token>das</token>
+                <token>Problemlos</token>
+                <token inflected="yes">ziehen</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ziehen</token>
+                <token skip="-1"></token>
+                <token>das</token>
+                <token>Problemlos</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token negate_pos="yes" postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">Problemlos(e[nmrs]?)?</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
+            <example correction="problemlos">Es lief völlig <marker>Problemlos</marker>.</example>
+            <example correction="problemlose">Es war eine <marker>Problemlose</marker> Sache.</example>
+            <example>Ich Pechvogel habe natürlich wieder das Problemlos gezogen.</example>
+            <example>Ich hoffe, wir ziehen nicht das Problemlos.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
