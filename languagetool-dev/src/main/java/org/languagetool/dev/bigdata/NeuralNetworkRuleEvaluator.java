@@ -149,7 +149,7 @@ class NeuralNetworkRuleEvaluator {
             float precision = (float)certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falsePositives);
             float recall = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falseNegatives);
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            String summary = String.format(ENGLISH, "%s; %s; %4.2f; # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
+            String summary = String.format(ENGLISH, "%s; %s; %4.2f # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
                     token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
                     certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
             results.put(certainty, new EvalResult(summary, precision, recall));
