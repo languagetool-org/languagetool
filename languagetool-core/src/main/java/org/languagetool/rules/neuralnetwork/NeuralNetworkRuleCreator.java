@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public abstract class NeuralNetworkRuleCreator {
   private NeuralNetworkRuleCreator() {}
 
-  private static final String CONFUSION_SET_FILENAME = "neuralnetwork_confusion_sets.txt";
+  private static final String CONFUSION_SET_FILENAME = "neuralnetwork/confusion_sets.txt";
 
   public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
