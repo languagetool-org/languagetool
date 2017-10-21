@@ -334,8 +334,7 @@ public class JLanguageTool {
   }
 
   /**
-   * Activate rules that depend on a word2vec language model. The language model currently
-   * consists of Lucene indexes with ngram occurrence counts.
+   * Activate rules that depend on a word2vec language model.
    * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
    * @since 3.10
    */

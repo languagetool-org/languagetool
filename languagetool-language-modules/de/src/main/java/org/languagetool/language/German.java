@@ -28,7 +28,8 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
-import org.languagetool.rules.de.neuralnetwork.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -179,19 +180,7 @@ public class German extends Language implements AutoCloseable {
             new SubjectVerbAgreementRule(messages, this),
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
-            new WiederVsWiderRule(messages),
-            new DaDasRule(messages),
-            new DichDochRule(messages),
-            new DieDirRule(messages),
-            new EinInRule(messages),
-            new FielenVielenRule(messages),
-            new IhmImRule(messages),
-            new ImUmRule(messages),
-            new MirMitRule(messages),
-            new NachNochRule(messages),
-            new SeidSeitRule(messages),
-            new WieWirRule(messages),
-            new WirWirdRule(messages)
+            new WiederVsWiderRule(messages)
     );
   }
 
@@ -235,12 +224,23 @@ public class German extends Language implements AutoCloseable {
     return languageModel;
   }
 
+  @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
             new GermanConfusionProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  /** @since 3.10 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /**
