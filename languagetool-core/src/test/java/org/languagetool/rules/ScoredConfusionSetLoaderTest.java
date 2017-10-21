@@ -27,19 +27,25 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("QuestionableName")
 public class ScoredConfusionSetLoaderTest {
   
   @Test
-  public void testLoadWithStrictLimits() throws IOException {
+  public void testLoadConfusionSet() throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/neuralnetwork_confusion_sets.txt")) {
       List<ScoredConfusionSet> list = ScoredConfusionSetLoader.loadConfusionSet(inputStream);
       assertThat(list.size(), is(6));
 
-      assertThat(list.get(0).getConfusionWords().size(), is(2));
+      assertThat(list.get(0).getConfusionTokens().size(), is(2));
+      assertThat(list.get(0).getConfusionTokens().get(0), is("their"));
+      assertThat(list.get(0).getConfusionTokens().get(1), is("there"));
+
+      assertThat(list.get(0).getTokenDescriptions().size(), is(2));
+      assertThat(list.get(0).getTokenDescriptions().get(0).orElse("fail"), is("example 2"));
+      assertThat(list.get(0).getTokenDescriptions().get(1).orElse("fail"), is("example 1"));
+
+      assertThat(list.get(1).getTokenDescriptions().get(1).orElse("ok"), is("ok"));
 
       assertThat(list.get(0).getScore(), is(5.0f));
       assertThat(list.get(1).getScore(), is(1.1f));
@@ -49,22 +55,7 @@ public class ScoredConfusionSetLoaderTest {
       assertThat(list.get(5).getScore(), is(1.0f));
 
       assertThat(list.get(5).getConfusionTokens().get(0), is("im"));
-
-      List<ConfusionString> their = list.get(0).getConfusionWords();
-      assertTrue(getAsString(their).contains("there - example 1"));
-      assertTrue(getAsString(their).contains("their - example 2"));
-      assertFalse(getAsString(their).contains("comment"));
     }
-  }
-
-  private String getAsString(List<ConfusionString> their) {
-    StringBuilder sb = new StringBuilder();
-    for (ConfusionString confusionString : their) {
-      sb.append(confusionString.getString()).append(" - ");
-      sb.append(confusionString.getDescription());
-      sb.append(" ");
-    }
-    return sb.toString();
   }
 
 }

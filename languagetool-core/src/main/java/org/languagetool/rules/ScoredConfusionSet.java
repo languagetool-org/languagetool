@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -51,12 +51,15 @@ public class ScoredConfusionSet {
     return score;
   }
 
-  public List<ConfusionString> getConfusionWords() {
-    return Collections.unmodifiableList(confusionWords);
+  public List<String> getConfusionTokens() {
+    return confusionWords.stream().map(ConfusionString::getString).collect(Collectors.toList());
   }
 
-  public List<String> getConfusionTokens() {
-    return confusionWords.stream().map(confusionWord -> confusionWord.getString()).collect(Collectors.toList());
+  public List<Optional<String>> getTokenDescriptions() {
+    return confusionWords.stream()
+            .map(ConfusionString::getDescription)
+            .map(Optional::ofNullable)
+            .collect(Collectors.toList());
   }
 
   @Override
