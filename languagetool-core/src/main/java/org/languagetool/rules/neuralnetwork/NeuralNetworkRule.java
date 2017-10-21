@@ -35,7 +35,7 @@ public class NeuralNetworkRule extends Rule {
     final InputStream bPath = new FileInputStream(pathFor(weightsDirectory, "b_fc1.txt"));
     classifier = new Classifier(dictionary, embedding, WPath, bPath);
 
-    this.id = language.getShortCode().toUpperCase() + "_" + subjects.get(0).toUpperCase() + "_VS_" + subjects.get(1).toUpperCase() + "_NEURALNETWORK";
+    this.id = createId(language);
   }
 
   public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, IClassifier classifier) {
@@ -48,7 +48,12 @@ public class NeuralNetworkRule extends Rule {
 
     this.classifier = classifier;
 
-    this.id = language.getShortCode().toUpperCase() + "_" + subjects.get(0).toUpperCase() + "_VS_" + subjects.get(1).toUpperCase() + "_NEURALNETWORK";
+    this.id = createId(language);
+  }
+
+  @NotNull
+  private String createId(Language language) {
+    return language.getShortCode().toUpperCase() + "_" + subjects.get(0).toUpperCase(Locale.ENGLISH) + "_VS_" + subjects.get(1).toUpperCase(Locale.ENGLISH) + "_NEURALNETWORK";
   }
 
   private String pathFor(File weightsDirectory, String filename) {

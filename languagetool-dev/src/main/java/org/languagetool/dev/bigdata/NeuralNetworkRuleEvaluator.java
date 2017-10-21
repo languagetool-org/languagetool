@@ -27,9 +27,11 @@ import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.dev.dumpcheck.SentenceSource;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.neuralnetwork.AbstractNeuralNetworkRule;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRule;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,17 +53,18 @@ class NeuralNetworkRuleEvaluator {
     private static final int MAX_SENTENCES = 1000;
 
     private final Language language;
-    private final AbstractNeuralNetworkRule rule;
+    private final NeuralNetworkRule rule;
     private final Map<Double, EvalValues> evalValues = new HashMap<>();
 
     private boolean verbose = true;
 
-    private NeuralNetworkRuleEvaluator(Language language, String ruleId) throws IOException {
+    private NeuralNetworkRuleEvaluator(Language language, File word2vecDir, String ruleId) throws IOException {
         this.language = language;
-        List<Rule> rules = language.getRelevantRules(JLanguageTool.getMessageBundle());
-        rule = (AbstractNeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof AbstractNeuralNetworkRule)
-                                                         .findFirst()
-                                                         .orElse(null);
+        Word2VecModel word2vecModel = language.getWord2VecModel(word2vecDir);
+        List<Rule> rules = language.getRelevantWord2VecModelRules(JLanguageTool.getMessageBundle(), word2vecModel);
+        rule = (NeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof NeuralNetworkRule)
+                                                 .findFirst()
+                                                 .orElse(null);
         if (rule == null) {
             throw new IllegalArgumentException("Language " + language + " has no neural network rule with id " + ruleId);
         }
@@ -119,7 +122,7 @@ class NeuralNetworkRuleEvaluator {
         } else {
             if (consideredCorrect) {
                 evalValues.get(minScore).falseNegatives++;
-                println("false negative with minScore " + minScore + ": " + displayStr);
+//                println("false negative with minScore " + minScore + ": " + displayStr);
             } else {
                 evalValues.get(minScore).truePositives++;
 //                println("true positive: " + displayStr);
@@ -199,20 +202,22 @@ class NeuralNetworkRuleEvaluator {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 3) {
+        if (args.length < 4) {
             System.err.println("Usage: " + NeuralNetworkRuleEvaluator.class.getSimpleName()
-                    + " <langCode> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+                    + " <langCode> <word2vecDir> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+            System.err.println("   <word2vecDir> is a directory with sub-directories 'en' etc. with dictionary.txt and final_embeddings.txt");
             System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile> either a Wikipedia XML dump, or a Tatoeba file, or");
             System.err.println("                      a plain text file with one sentence per line, a Wikipedia or Tatoeba file");
             System.exit(1);
         }
         long startTime = System.currentTimeMillis();
         String langCode = args[0];
-        String ruleId = args[1];
+        File word2vecDir = new File(args[1]);
+        String ruleId = args[2];
         Language lang;
         lang = Languages.getLanguageForShortCode(langCode);
-        List<String> inputsFiles = Arrays.stream(args).skip(2).collect(toList());
-        NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, ruleId);
+        List<String> inputsFiles = Arrays.stream(args).skip(3).collect(toList());
+        NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, word2vecDir, ruleId);
         generator.run(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
         long endTime = System.currentTimeMillis();
         System.out.println("\nTime: " + (endTime-startTime)+"ms");
