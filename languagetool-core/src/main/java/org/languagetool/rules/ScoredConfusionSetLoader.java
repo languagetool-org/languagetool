@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,8 +37,8 @@ public class ScoredConfusionSetLoader {
   private ScoredConfusionSetLoader() {
   }
 
-  public static Map<String,List<ScoredConfusionSet>> loadConfusionSet(InputStream stream) throws IOException {
-    Map<String,List<ScoredConfusionSet>> map = new HashMap<>();
+  public static List<ScoredConfusionSet> loadConfusionSet(InputStream stream) throws IOException {
+    List<ScoredConfusionSet> list = new ArrayList<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
@@ -48,29 +50,16 @@ public class ScoredConfusionSetLoader {
         }
 
         String[] parts = splitLine(line);
-        List<ConfusionString> confusionStrings = getConfusionStrings(line, parts);
-        addConfusionSets(map, new ScoredConfusionSet(Float.parseFloat(parts[parts.length - 1]), confusionStrings), confusionStrings);
+        List<ConfusionString> confusionStrings = getConfusionStrings(parts);
+        list.add(toScoredConfusionSet(parts, confusionStrings));
       }
     }
-    return map;
+    return list;
   }
 
-  private static void addConfusionSets(Map<String, List<ScoredConfusionSet>> map, ScoredConfusionSet confusionSet, List<ConfusionString> confusionStrings) {
-    for (ConfusionString confusionString : confusionStrings) {
-      addConfusionSet(map, confusionSet, confusionString);
-    }
-  }
-
-  private static void addConfusionSet(Map<String, List<ScoredConfusionSet>> map, ScoredConfusionSet confusionSet, ConfusionString confusionString) {
-    String key = confusionString.getString();
-    List<ScoredConfusionSet> existingEntry = map.get(key);
-    if (existingEntry != null) {
-      existingEntry.add(confusionSet);
-    } else {
-      List<ScoredConfusionSet> sets = new ArrayList<>();
-      sets.add(confusionSet);
-      map.put(key, sets);
-    }
+  @NotNull
+  private static ScoredConfusionSet toScoredConfusionSet(String[] parts, List<ConfusionString> confusionStrings) {
+    return new ScoredConfusionSet(Float.parseFloat(parts[parts.length - 1]), confusionStrings);
   }
 
   private static String[] splitLine(String line) {
@@ -81,7 +70,7 @@ public class ScoredConfusionSetLoader {
     return parts;
   }
 
-  private static List<ConfusionString> getConfusionStrings(String line, String[] parts) {
+  private static List<ConfusionString> getConfusionStrings(String[] parts) {
     List<ConfusionString> confusionStrings = new ArrayList<>();
     Set<String> loadedForSet = new HashSet<>();
     for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {

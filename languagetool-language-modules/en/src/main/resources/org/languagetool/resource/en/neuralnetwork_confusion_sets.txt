@@ -1,0 +1,24 @@
+# English confusion sets, mostly homophones
+#
+# Line format:
+# <word1>|<description1>; <word2>|<description2>; <score>   # optional comment
+#   <word1> and <word2> are words that can easily be confused
+#   <description> will be used in the error message to explain the word (optional)
+#   <score> is the score ("certainty") that one word must have to be considered potentially incorrect.
+#            Use a higher value for better precision but lower recall.
+#   Precision (p) and recall (r) values in the comments come from NeuralNetworkRuleEvaluator
+#     and are based on Wikipedia, Tatoeba, and Enron data, usually with 1000 random
+#     sentences (if that many sentence are available for that pair). The number after recall
+#     is the number of sentences used for evaluation.
+# Order is relevant for ambiguous cases like 'know' ('no' or 'now') where the match
+# is used whose pair comes first in this file.
+for|preposition as in 'I have something for you'; four|the number '4'; 1.50     # p=0.990, r=0.685, tp=1370, tn=1986, fp=14, fn=630, 1000+1000, 2017-10-14
+form;from;1.50                                                                  # p=0.995, r=0.313, tp=627, tn=1997, fp=3, fn=1373, 1000+1000, 2017-09-24
+hour|period of time; our|belonging to us; 0.50                                  # p=1.000, r=0.789, tp=397, tn=503, fp=0, fn=106, 170+333, 2017-10-08
+know|to be aware of; now|in this moment; 0.75                                   # p=0.991, r=0.919, tp=1140, tn=1231, fp=10, fn=101, 241+1000, 2017-10-14
+of; off; 2.00                                                                   # p=0.990, r=0.433, tp=795, tn=1826, fp=8, fn=1039, 1000+834, 2017-10-08
+#page; side; 2.75                                                                # bad recall: p=0.990, r=0.117, tp=103, tn=877, fp=1, fn=775, 152+726, 2017-10-08
+#side; site; 0.5                                                                 # bad recall: p=1.000, r=0.080, tp=107, tn=1333, fp=0, fn=1226, 726+607, 2017-10-08
+than|used in comparisons; then|next in order; 1.25                              # p=0.992, r=0.802, tp=1603, tn=1987, fp=13, fn=397, 1000+1000, 2017-09-24
+their|as in 'It’s not their fault.'; there|as in 'Is there an answer?'; 0.50;   # p=0.994, r=0.940, tp=1880, tn=1989, fp=11, fn=120, 1000+1000, 2017-10-14
+to; too; 1.00                                                                   # p=0.992, r=0.844, tp=1240, tn=1459, fp=10, fn=229, 1000+469, 2017-09-24

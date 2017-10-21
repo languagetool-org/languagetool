@@ -18,45 +18,32 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.tools.StringTools;
-
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Words that can easily be confused - for internal use only.
- * Even though there can be more words in the set, usually there
+ * Even though there can be more words in the confusionWords, usually there
  * are two, as the factor is specific for this pair of words.
  * A ScoredConfusionSet has a positive score associated with it.
  * TODO remove code duplication with ConfusionSet
  */
-class ScoredConfusionSet {
+public class ScoredConfusionSet {
 
-  private final Set<ConfusionString> set = new HashSet<>();
+  private List<ConfusionString> confusionWords;
   private final float score;
 
   /**
    * @param score the score that a string must get at least to be considered a correction, must be &gt; 0
    */
-  public ScoredConfusionSet(float score, List<ConfusionString> confusionStrings) {
+  public ScoredConfusionSet(float score, List<ConfusionString> words) {
     if (score <= 0) {
       throw new IllegalArgumentException("factor must be > 0: " + score);
     }
     this.score = score;
-    set.addAll(Objects.requireNonNull(confusionStrings));
-  }
-
-  /**
-   * @param score the score that a string must get at least to be considered a correction, must be &gt; 0
-   */
-  public ScoredConfusionSet(float score, String... words) {
-    if (score <= 0) {
-      throw new IllegalArgumentException("factor must be > 0: " + score);
-    }
-    Objects.requireNonNull(words);
-    this.score = score;
-    for (String word : words) {
-      set.add(new ConfusionString(word, null));
-    }
+    confusionWords = words;
   }
 
   /* Alternative must be at least this much more probable to be considered correct. */
@@ -64,22 +51,17 @@ class ScoredConfusionSet {
     return score;
   }
 
-  public Set<ConfusionString> getSet() {
-    return Collections.unmodifiableSet(set);
+  public List<ConfusionString> getConfusionWords() {
+    return Collections.unmodifiableList(confusionWords);
   }
 
-  public Set<ConfusionString> getUppercaseFirstCharSet() {
-    Set<ConfusionString> result = new HashSet<>();
-    for (ConfusionString s : set) {
-      ConfusionString newString = new ConfusionString(StringTools.uppercaseFirstChar(s.getString()), s.getDescription());
-      result.add(newString);
-    }
-    return Collections.unmodifiableSet(result);
+  public List<String> getConfusionTokens() {
+    return confusionWords.stream().map(confusionWord -> confusionWord.getString()).collect(Collectors.toList());
   }
 
   @Override
   public String toString() {
-    return set.toString();
+    return confusionWords.toString();
   }
 
   @Override
@@ -87,12 +69,12 @@ class ScoredConfusionSet {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     org.languagetool.rules.ScoredConfusionSet other = (org.languagetool.rules.ScoredConfusionSet) o;
-    return Objects.equals(set, other.set) && Objects.equals(score, other.score);
+    return Objects.equals(confusionWords, other.confusionWords) && Objects.equals(score, other.score);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(set, score);
+    return Objects.hash(confusionWords, score);
   }
 
 }

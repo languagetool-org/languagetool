@@ -26,7 +26,8 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
-import org.languagetool.rules.en.neuralnetwork.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -150,6 +151,11 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Mike Unwalla"), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
@@ -181,15 +187,15 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule(),
-        new ForFourRule(messages),
-        new FormFromRule(messages),
-        new HourOurRule(messages),
-        new KnowNowRule(messages),
-        new OfOffRule(messages),
-        new ThanThenRule(messages),
-        new TheirThereRule(messages),
-        new ToTooRule(messages)
+        new EnglishDashRule()//,
+//        new ForFourRule(messages),
+//        new FormFromRule(messages),
+//        new HourOurRule(messages),
+//        new KnowNowRule(messages),
+//        new OfOffRule(messages),
+//        new ThanThenRule(messages),
+//        new TheirThereRule(messages),
+//        new ToTooRule(messages)
     );
   }
 
@@ -199,6 +205,11 @@ public class English extends Language implements AutoCloseable {
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /**

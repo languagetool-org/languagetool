@@ -24,8 +24,6 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,47 +36,28 @@ public class ScoredConfusionSetLoaderTest {
   @Test
   public void testLoadWithStrictLimits() throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/neuralnetwork_confusion_sets.txt")) {
-      Map<String, List<ScoredConfusionSet>> map = ScoredConfusionSetLoader.loadConfusionSet(inputStream);
-      assertThat(map.size(), is(10));
+      List<ScoredConfusionSet> list = ScoredConfusionSetLoader.loadConfusionSet(inputStream);
+      assertThat(list.size(), is(6));
 
-      assertThat(map.get("there").size(), is(1));
-      assertThat(map.get("there").get(0).getScore(), is(5.0f));
+      assertThat(list.get(0).getConfusionWords().size(), is(2));
 
-      assertThat(map.get("their").size(), is(1));
-      assertThat(map.get("their").get(0).getScore(), is(5.0f));
-      
-      assertThat(map.get("foo").size(), is(2));
-      assertThat(map.get("foo").get(0).getScore(), is(0.5f));
-      assertThat(map.get("foo").get(1).getScore(), is(0.8f));
+      assertThat(list.get(0).getScore(), is(5.0f));
+      assertThat(list.get(1).getScore(), is(1.1f));
+      assertThat(list.get(2).getScore(), is(0.5f));
+      assertThat(list.get(3).getScore(), is(0.8f));
+      assertThat(list.get(4).getScore(), is(1.2f));
+      assertThat(list.get(5).getScore(), is(1.0f));
 
-      assertThat(map.get("goo").size(), is(2));
-      assertThat(map.get("goo").get(0).getScore(), is(1.1f));
-      assertThat(map.get("goo").get(1).getScore(), is(1.2f));
-      assertThat(map.get("lol").size(), is(1));
-      assertThat(map.get("something").size(), is(1));
+      assertThat(list.get(5).getConfusionTokens().get(0), is("im"));
 
-      assertThat(map.get("bar").size(), is(1));
-      assertThat(map.get("bar").get(0).getScore(), is(0.5f));
-
-      Set<ConfusionString> there = map.get("there").get(0).getSet();
-      assertTrue(getAsString(there).contains("there - example 1"));
-      assertTrue(getAsString(there).contains("their - example 2"));
-
-      Set<ConfusionString> their = map.get("their").get(0).getSet();
+      List<ConfusionString> their = list.get(0).getConfusionWords();
       assertTrue(getAsString(their).contains("there - example 1"));
       assertTrue(getAsString(their).contains("their - example 2"));
       assertFalse(getAsString(their).contains("comment"));
-
-      Set<ConfusionString> foo = map.get("foo").get(0).getSet();
-      assertTrue(getAsString(foo).contains("foo"));
-      Set<ConfusionString> bar = map.get("foo").get(0).getSet();
-      assertTrue(getAsString(bar).contains("bar"));
-      Set<ConfusionString> baz = map.get("foo").get(1).getSet();
-      assertTrue(getAsString(baz).contains("baz"));
     }
   }
 
-  private String getAsString(Set<ConfusionString> their) {
+  private String getAsString(List<ConfusionString> their) {
     StringBuilder sb = new StringBuilder();
     for (ConfusionString confusionString : their) {
       sb.append(confusionString.getString()).append(" - ");
