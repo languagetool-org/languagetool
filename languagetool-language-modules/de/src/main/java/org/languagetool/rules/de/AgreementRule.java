@@ -252,7 +252,7 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().pos("KON:UNT").build(),
         new PatternTokenBuilder().csToken("das").build(),
         new PatternTokenBuilder().posRegex("SUB:.+").build(),
-        new PatternTokenBuilder().csToken("bedeuten").matchInflectedForms().build()
+        new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
     )
   );
 
