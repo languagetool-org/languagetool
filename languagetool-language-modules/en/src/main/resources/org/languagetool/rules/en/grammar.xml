@@ -15545,6 +15545,16 @@ USA
             <message>Did you mean <suggestion>heart</suggestion>?</message>
             <example correction="heart">The questions of training and pay lie at the <marker>hard</marker> of the staffing problems.</example>
         </rule>
+        <rule id="CONFUSION_AWAIT_WAIT" name="await (wait)">
+            <pattern>
+                <marker>
+                    <token inflected="yes">await</token>
+                </marker>
+                <token regexp="yes">until|till</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="^a" regexp_replace=""/></suggestion>?</message>
+            <example correction="wait">I can hardly <marker>await</marker> until " Evidence " arrives at my home.</example>
+        </rule>
         <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
