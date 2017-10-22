@@ -8094,6 +8094,21 @@ USA
             <example><marker>Each</marker> children services are available...</example>
             <example><marker>Each</marker> series revolves around a group of magical girls.</example>
         </rule>
+        <rulegroup id="AGREEMENT_THEIR_HIS" name="Possible agreement error: Each of them likes their (his/her)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">Each|None</token>
+                    <token>of</token>
+                    <token skip="3">the</token>
+                    <marker><token>their</token></marker>
+                </pattern>
+                <message>'\2' is singular and thus takes a singular pronoun: <suggestion>his</suggestion>, <suggestion>her</suggestion>, <suggestion>his or her</suggestion>?</message>
+                <url>http://writing2.richmond.edu/writing/wweb/pronoun.html</url>
+                <example correction="his|her|his or her">Each of the boys likes <marker>their</marker> new teacher.</example>
+                <example correction="his|her|his or her">Each of the students remembered <marker>their</marker> their homework.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
             <rule>
                 <pattern>
