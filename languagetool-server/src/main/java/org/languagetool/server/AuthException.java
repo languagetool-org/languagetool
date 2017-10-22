@@ -27,5 +27,9 @@ class AuthException extends RuntimeException {
   AuthException(String message) {
     super(message);
   }
-  
+
+  AuthException(String message, Exception e) {
+    super(message, e);
+  }
+
 }
