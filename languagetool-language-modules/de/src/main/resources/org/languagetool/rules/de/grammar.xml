@@ -3748,6 +3748,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="den">Auf <marker>dem</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
         </rule>
         <rule id="DIES_DIE" name="'dies (die)'">
+            <antipattern>
+                <token postag="KON:UNT"/>
+                <token>dies</token>
+                <token/>
+                <token inflected="yes">bedeuten</token>
+            </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="VER:[123].*"/></token>
                 <marker>
@@ -3760,6 +3766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example>Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
             <example correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
+            <example>Sie sagte, dass dies Rache bedeutet.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
             <regexp>\bzu Neige\b</regexp>
