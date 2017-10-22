@@ -55,6 +55,12 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
   public String getDescription() {
     return messages.getString("whitespace_before_parapgraph_end_desc");
   }
+  
+  private boolean isWhitespaceDel (AnalyzedTokenReadings token) {
+    // returns only whitespaces that may be deleted
+    // "\u200B" is excluded to prevent function (e.g. page number, page count) in LO/OO
+	  return token.isWhitespace() && !token.getToken().equals("\u200B") && !token.isLinebreak();
+  }
 
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
@@ -66,10 +72,9 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
       int i = 2;
       // Whitespace before linebreak (includes last non-whitespace because of problems with OO dialog
       while (i < tokens.length) {
-        if(tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i - 1].isWhitespace()) {
+        if(isWhitespaceDel(tokens[i]) && !tokens[i - 1].isWhitespace()) {
           int lastNonWhite = i - 1;
-          for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++)
-            ;
+          for (i++; i < tokens.length && isWhitespaceDel(tokens[i]); i++);
           if (i < tokens.length && tokens[i].isLinebreak()) { 
             int fromPos = pos + tokens[lastNonWhite].getStartPos();
             int toPos = pos + tokens[i].getStartPos();
@@ -82,8 +87,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
       }
       // Whitespace before end of paragraph
       if (n == sentences.size() - 1) {
-        for (i = tokens.length - 1; i > 0 && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i--)
-          ;
+        for (i = tokens.length - 1; i > 0 && isWhitespaceDel(tokens[i]); i--);
         if (i < tokens.length - 1) {
           int fromPos = pos + tokens[i + 1].getStartPos();
           int toPos = pos + tokens[tokens.length - 1].getStartPos() + 1;

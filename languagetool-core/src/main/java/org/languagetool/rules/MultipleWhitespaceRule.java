@@ -65,14 +65,16 @@ public class MultipleWhitespaceRule extends Rule {
     int i = 1;
     while (i < tokens.length) {
       boolean tokenIsTab = tokens[i].getToken().equals("\t");
+      boolean tokenIsFunction = tokens[i].getToken().equals("\u200B"); // functions (e.g. page number, page count)  in LO/OO 
       boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab;
+      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab && !tokenIsFunction;
       if ((tokens[i].isWhitespace() ||
-          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak && !isLineBreakContinuation) {
+          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !tokenIsFunction
+          && !prevTokenIsLinebreak && !isLineBreakContinuation) {
         int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && (tokens[i].isWhitespace() ||
-            StringTools.isNonBreakingWhitespace(tokens[i].getToken())) 
-        		&& !tokens[i].isLinebreak()) {    // preserve LF because LO/OO can't handle grammar errors including LF
+            StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && !tokenIsFunction
+            && !tokens[i].isLinebreak()) {    // preserve LF because LO/OO can't handle grammar errors including LF
           prevLen += tokens[i].getToken().length();
           i++;
         }

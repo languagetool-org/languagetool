@@ -67,7 +67,7 @@ public class EmptyLineRule extends Rule {
     for(int i = 2; i < tokens.length; i++) {
       if(tokens[i].isLinebreak() && !tokens[i - 1].isLinebreak()) {
         int firstLB = i;
-        for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak(); i++);  
+        for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i].getToken().equals("\u200B"); i++);  
         if (i == tokens.length || tokens[i].isLinebreak()) { 
           int fromPos = tokens[firstLB - 1].getStartPos();
           int toPos = tokens[firstLB - 1].getEndPos();
