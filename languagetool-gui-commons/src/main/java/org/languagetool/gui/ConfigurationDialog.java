@@ -234,6 +234,10 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
+    contentPane.add(getWord2VecPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
     contentPane.add(portPanel, cons);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
@@ -546,6 +550,43 @@ public class ConfigurationDialog implements ActionListener {
           } catch (Exception ex) {
             Tools.showError(ex);
           }
+        }
+      }
+    });
+    panel.add(helpButton, cons);
+    return panel;
+  }
+
+  private JPanel getWord2VecPanel(GridBagConstraints cons) {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel(messages.getString("guiWord2VecDir")), cons);
+    File dir = config.getWord2VecDirectory();
+    int maxDirDisplayLength = 45;
+    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
+    JButton word2vecDirButton = new JButton(buttonText);
+    word2vecDirButton.addActionListener(e -> {
+      File newDir = Tools.openDirectoryDialog(owner, dir);
+      if (newDir != null) {
+        try {
+          config.setWord2VecDirectory(newDir);
+          word2vecDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
+        } catch (Exception ex) {
+          Tools.showErrorMessage(ex);
+        }
+      } else {
+        // not the best UI, but this way user can turn off word2vec feature without another checkbox
+        config.setWord2VecDirectory(null);
+        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
+      }
+    });
+    panel.add(word2vecDirButton, cons);
+    JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
+    helpButton.addActionListener(e -> {
+      if (Desktop.isDesktopSupported()) {
+        try {
+          Desktop.getDesktop().browse(new URL("https://github.com/gulp21/languagetool-neural-network").toURI());
+        } catch (Exception ex) {
+          Tools.showError(ex);
         }
       }
     });
