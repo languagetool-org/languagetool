@@ -53,7 +53,7 @@ class NeuralNetworkRuleEvaluator {
     private static final int MAX_SENTENCES = 1000;
 
     private final Language language;
-    private final NeuralNetworkRule rule;
+    private final List<NeuralNetworkRule> rules;
     private final Map<Double, EvalValues> evalValues = new HashMap<>();
 
     private boolean verbose = true;
@@ -61,16 +61,21 @@ class NeuralNetworkRuleEvaluator {
     private NeuralNetworkRuleEvaluator(Language language, File word2vecDir, String ruleId) throws IOException {
         this.language = language;
         Word2VecModel word2vecModel = language.getWord2VecModel(word2vecDir);
-        List<Rule> rules = language.getRelevantWord2VecModelRules(JLanguageTool.getMessageBundle(), word2vecModel);
-        rule = (NeuralNetworkRule) rules.stream().filter(r -> r.getId().equals(ruleId) && r instanceof NeuralNetworkRule)
-                                                 .findFirst()
-                                                 .orElse(null);
-        if (rule == null) {
+        List<Rule> allRules = language.getRelevantWord2VecModelRules(JLanguageTool.getMessageBundle(), word2vecModel);
+        rules = allRules.stream().filter(r -> r instanceof NeuralNetworkRule)
+                                 .map(r -> (NeuralNetworkRule) r)
+                                 .filter(r -> ruleId.equals("ALL") || r.getId().equals(ruleId))
+                                 .collect(toList());
+        if (rules.isEmpty()) {
             throw new IllegalArgumentException("Language " + language + " has no neural network rule with id " + ruleId);
         }
     }
 
-    private Map<Double, EvalResult> run(List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) throws IOException {
+    private List<Map<Double, EvalResult>> runAll(List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) {
+        return rules.stream().map(rule -> run(rule, inputsOrDir, maxSentences, evalMinScores)).collect(toList());
+    }
+
+    private Map<Double, EvalResult> run(NeuralNetworkRule rule, List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) {
         for (Double evalFactor : evalMinScores) {
             evalValues.put(evalFactor, new EvalValues());
         }
@@ -78,35 +83,40 @@ class NeuralNetworkRuleEvaluator {
         String token2 = rule.getSubjects().get(1);
         List<Sentence> allToken1Sentences = getRelevantSentences(inputsOrDir, token1, maxSentences);
         List<Sentence> allToken2Sentences = getRelevantSentences(inputsOrDir, token2, maxSentences);
-        evaluate(allToken1Sentences, true, token1, token2, evalMinScores);
-        evaluate(allToken1Sentences, false, token2, token1, evalMinScores);
-        evaluate(allToken2Sentences, false, token1, token2, evalMinScores);
-        evaluate(allToken2Sentences, true, token2, token1, evalMinScores);
+        evaluate(rule, allToken1Sentences, true, token1, token2, evalMinScores);
+        evaluate(rule, allToken1Sentences, false, token2, token1, evalMinScores);
+        evaluate(rule, allToken2Sentences, false, token1, token2, evalMinScores);
+        evaluate(rule, allToken2Sentences, true, token2, token1, evalMinScores);
         return printEvalResult(allToken1Sentences, allToken2Sentences, token1, token2);
     }
 
-    private void evaluate(List<Sentence> sentences, boolean isCorrect, String token1, String token2, List<Double> evalMinScores) throws IOException {
+    private void evaluate(NeuralNetworkRule rule, List<Sentence> sentences, boolean isCorrect, String token1, String token2, List<Double> evalMinScores) {
         println("======================");
         printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token1, token2);
         JLanguageTool lt = new JLanguageTool(language);
         disableAllRules(lt);
         for (Sentence sentence : sentences) {
-            evaluateSentence(isCorrect, token1, token2, evalMinScores, lt, sentence);
+            evaluateSentence(rule, isCorrect, token1, token2, evalMinScores, lt, sentence);
         }
     }
 
-    private void evaluateSentence(boolean isCorrect, String token1, String token2, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) throws IOException {
+    private void evaluateSentence(NeuralNetworkRule rule, boolean isCorrect, String token1, String token2, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) {
         String textToken = isCorrect ? token1 : token2;
         String plainText = sentence.getText();
         String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token1) : token1;
         String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
-        AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
-        for (Double minScore : evalMinScores) {
-            evaluateSentenceWithMinScore(isCorrect, textToken, plainText, replacement, analyzedSentence, minScore);
+        AnalyzedSentence analyzedSentence = null;
+        try {
+            analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
+            for (Double minScore : evalMinScores) {
+                evaluateSentenceWithMinScore(rule, isCorrect, textToken, plainText, replacement, analyzedSentence, minScore);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error while analyzing sentence", e);
         }
     }
 
-    private void evaluateSentenceWithMinScore(boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Double minScore) throws IOException {
+    private void evaluateSentenceWithMinScore(NeuralNetworkRule rule, boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Double minScore) throws IOException {
         rule.setMinScore(minScore);
         RuleMatch[] matches = rule.match(analyzedSentence);
         boolean consideredCorrect = matches.length == 0;
@@ -163,8 +173,13 @@ class NeuralNetworkRuleEvaluator {
         return results;
     }
 
-    private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
-        SentenceSource sentenceSource = MixingSentenceSource.create(inputs, language);
+    private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) {
+      SentenceSource sentenceSource = null;
+        try {
+            sentenceSource = MixingSentenceSource.create(inputs, language);
+        } catch (IOException e) {
+            throw new RuntimeException("Error while loading sentence source", e);
+        }
         return getSentencesFromSource(inputs, token, maxSentences, sentenceSource);
     }
 
@@ -206,6 +221,7 @@ class NeuralNetworkRuleEvaluator {
             System.err.println("Usage: " + NeuralNetworkRuleEvaluator.class.getSimpleName()
                     + " <langCode> <word2vecDir> <ruleId> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
             System.err.println("   <word2vecDir> is a directory with sub-directories 'en' etc. with dictionary.txt and final_embeddings.txt");
+            System.err.println("   <ruleId> id of a NeuralNetworkRule or ALL for evaluating all NeuralNetworkRules");
             System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile> either a Wikipedia XML dump, or a Tatoeba file, or");
             System.err.println("                      a plain text file with one sentence per line, a Wikipedia or Tatoeba file");
             System.exit(1);
@@ -218,7 +234,7 @@ class NeuralNetworkRuleEvaluator {
         lang = Languages.getLanguageForShortCode(langCode);
         List<String> inputsFiles = Arrays.stream(args).skip(3).collect(toList());
         NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, word2vecDir, ruleId);
-        generator.run(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
+        generator.runAll(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
         long endTime = System.currentTimeMillis();
         System.out.println("\nTime: " + (endTime-startTime)+"ms");
     }
