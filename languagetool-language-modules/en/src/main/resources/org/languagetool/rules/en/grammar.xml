@@ -12650,6 +12650,30 @@ USA
                 <example>She did not mind not being allowed to cook.</example>
                 <example correction="">... but there wasn’<marker>t nobody</marker> in the office.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">c(an|ouldn)</token>
+                    <token regexp="yes">’|'|´</token>
+                    <token>t</token>
+                    <token>hardly</token>
+                </pattern>
+                <message>Double negatives are discouraged in standard English. Can you reformulate this phrase or is a comma missing?</message>
+                <suggestion><match no="1" regexp_match="dn\b" regexp_replace="d"/> \4</suggestion>
+                <short>Negation after negation</short>
+                <example correction="could hardly">She <marker>couldn't hardly</marker> understand a word.</example>
+                <example>She <marker>can hardly</marker> speak.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">c(an|ould)</token>
+                    <token>not</token>
+                    <token>hardly</token>
+                </pattern>
+                <message>Double negatives are discouraged in standard English. Can you reformulate this phrase or is a comma missing?</message>
+                <suggestion>\1 \3</suggestion>
+                <short>Negation after negation</short>
+                <example correction="could hardly">She <marker>could not hardly</marker> understand a word.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
             <rule>
