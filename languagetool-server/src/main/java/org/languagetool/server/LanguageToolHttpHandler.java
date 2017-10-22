@@ -119,6 +119,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
+      } else if (e instanceof AuthException) {
+        errorCode = HttpURLConnection.HTTP_FORBIDDEN;
+        response = e.getMessage();
       } else if (e instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
