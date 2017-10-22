@@ -8095,6 +8095,7 @@ USA
             <example><marker>Each</marker> series revolves around a group of magical girls.</example>
         </rule>
         <rulegroup id="AGREEMENT_THEIR_HIS" name="Possible agreement error: Each of them likes their (his/her)">
+            <url>http://writing2.richmond.edu/writing/wweb/pronoun.html</url>
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
@@ -8103,10 +8104,20 @@ USA
                     <token skip="3">the</token>
                     <marker><token>their</token></marker>
                 </pattern>
-                <message>'\2' is singular and thus takes a singular pronoun: <suggestion>his</suggestion>, <suggestion>her</suggestion>, <suggestion>his or her</suggestion>?</message>
-                <url>http://writing2.richmond.edu/writing/wweb/pronoun.html</url>
-                <example correction="his|her|his or her">Each of the boys likes <marker>their</marker> new teacher.</example>
-                <example correction="his|her|his or her">Each of the students remembered <marker>their</marker> their homework.</example>
+                <message>'\2' is singular and thus takes a singular pronoun: <suggestion>his</suggestion>, <suggestion>her</suggestion>, <suggestion>his or her</suggestion>, <suggestion>its</suggestion></message>
+                <example correction="his|her|his or her|its">Each of the boys likes <marker>their</marker> new teacher.</example>
+                <example correction="his|her|his or her|its">Each of the students remembered <marker>their</marker> homework.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">each|every|n?either</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"><exception postag="NNS"/></token>
+                    <marker><token>their</token></marker>
+                </pattern>
+                <message>'Each', 'every', 'either' and 'neither' are used with singular and thus take a singular pronoun: <suggestion>his</suggestion>, <suggestion>her</suggestion>, <suggestion>his or her</suggestion>, <suggestion>its</suggestion></message>
+                <example correction="his|her|his or her|its">Each child needs <marker>their</marker> parents.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
