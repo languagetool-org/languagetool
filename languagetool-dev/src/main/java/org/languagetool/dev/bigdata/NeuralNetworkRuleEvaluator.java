@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.Locale.ENGLISH;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -51,6 +52,7 @@ class NeuralNetworkRuleEvaluator {
 
   private static final List<Double> EVAL_MIN_SCORES = Arrays.asList(.5, .75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0);
   private static final int MAX_SENTENCES = 1000;
+  private static final float RECOMMENDED_MIN_PRECISION = 0.99f;
 
   private final Language language;
   private final List<NeuralNetworkRule> rules;
@@ -235,9 +237,28 @@ class NeuralNetworkRuleEvaluator {
     lang = Languages.getLanguageForShortCode(langCode);
     List<String> inputsFiles = Arrays.stream(args).skip(3).collect(toList());
     NeuralNetworkRuleEvaluator generator = new NeuralNetworkRuleEvaluator(lang, word2vecDir, ruleId);
-    generator.runAll(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
+    List<Map<Double, EvalResult>> evaluationResults = generator.runAll(inputsFiles, MAX_SENTENCES, EVAL_MIN_SCORES);
     long endTime = System.currentTimeMillis();
     System.out.println("\nTime: " + (endTime - startTime) + "ms");
+
+    System.out.println("Recommended configuration:");
+    System.out.println(confusionSetConfig(evaluationResults, RECOMMENDED_MIN_PRECISION));
+  }
+
+  private static String confusionSetConfig(List<Map<Double, EvalResult>> evaluationResults, float minPrecision) {
+    return evaluationResults.stream()
+            .map(evaluationResult -> confusionSetConfig(evaluationResult, minPrecision))
+            .collect(joining("\n"));
+  }
+
+  static String confusionSetConfig(Map<Double, EvalResult> evaluationResults, float minPrecision) {
+    return evaluationResults.keySet().stream()
+            .sorted()
+            .map(evaluationResults::get)
+            .filter(evalResult -> evalResult.getPrecision() >= minPrecision)
+            .map(EvalResult::getSummary)
+            .findFirst()
+            .orElse("###");
   }
 
   static class EvalValues { // TODO share class
