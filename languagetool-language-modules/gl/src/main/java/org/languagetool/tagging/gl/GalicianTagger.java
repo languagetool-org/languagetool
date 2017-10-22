@@ -56,7 +56,7 @@ public class GalicianTagger extends BaseTagger {
 
   @Override
   public String getManualRemovalsFileName() {
-    return "/pt/removed.txt";
+    return "/gl/removed.txt";
   }
 
   public GalicianTagger() {
