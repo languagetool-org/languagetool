@@ -7546,6 +7546,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token postag='I'>
+            <exception regexp='yes'>.*?mente$</exception>
             <exception negate_pos='yes' postag='I'/></token>
         </marker>
           <token>
@@ -7561,6 +7562,7 @@ title="Easy editing stylesheet" ?>
       <example>Agradecido, mas não rendido.</example>
       <example>Ano de Nosso Senhor Jesus Cristo</example>
       <example>É uma explicação insuficiente, pois, há outra bem melhor: se tomarmos o…</example>
+      <example>Explique brevemente a sua teoria.</example>
     </rule>
   </rulegroup>
 
@@ -9990,6 +9992,21 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por: </message>
         <suggestion>\1</suggestion>
       <example correction='voar'><marker>voar através do ar</marker>.</example>
+    </rule>
+    <rule id='REDUNDANCY_46_VISIVEL' name='Pleonasmo: voar através do ar'>
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>ver|visível</token>
+          <token>a</token>
+          <token>olho</token>
+        </marker>
+          <token>
+            <exception>nú</exception></token>
+      </pattern>
+      <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <suggestion>\1 \2 \3 nú</suggestion>
+      <example correction='visível|visível a olho nú'>É <marker>visível a olho</marker>.</example>
     </rule>
   </rulegroup>
 
