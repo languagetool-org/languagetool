@@ -132,6 +132,18 @@ public class Galician extends Language {
                 Example.wrong("Esta casa é vella. <marker>foi</marker> construida en 1950."),
                 Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),
             new MultipleWhitespaceRule(messages, this),
+            new LongSentenceRule(messages, 20, false),
+            new LongSentenceRule(messages, 25, false),
+            new LongSentenceRule(messages, 30, false),
+            new LongSentenceRule(messages, 35, false),
+            new LongSentenceRule(messages, 40, false),
+            new LongSentenceRule(messages, 45, false),
+            new LongSentenceRule(messages, 50, true),
+            new LongSentenceRule(messages, 60, false),
+            new SentenceWhitespaceRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new EmptyLineRule(messages),
             // Specific to Galician:
             new SimpleReplaceRule(messages),
             new CastWordsRule(messages)
