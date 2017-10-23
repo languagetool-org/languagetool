@@ -13429,127 +13429,6 @@ USA
             <example>The thing with me <marker>is I am</marker> a team player.</example>
             <example>The reason I'm in Washington <marker>is I was</marker> at the Federal Trade Commission earlier today.</example>
         </rule>
-    </category>
-
-    <!-- ====================================================================== -->
-    <!-- Collocations -->
-    <!-- ====================================================================== -->
-    <category id="COLLOCATIONS" name="Collocations" type="grammar">
-        <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
-            <pattern>
-                <token inflected="yes">have</token>
-                <token postag="CD"/>
-                <token>years</token>
-                <token>old</token>
-            </pattern>
-            <message>This phrase is used with 'be': <suggestion><match no="1" postag_regexp="yes" postag="VB.*">be</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>.</message>
-            <short>Wrong phrase</short>
-            <example>I am 25 years old.</example>
-            <example correction="is 25 years old">He <marker>has 25 years old</marker>.</example>
-        </rule>
-        <rule id="IN_NOWADAYS" name="Wrong phrase: 'in nowadays' (nowadays)">
-            <pattern>
-                <token>in</token>
-                <token>nowadays</token>
-            </pattern>
-            <message>\2 is used without 'in'. Use simply: <suggestion>\2</suggestion>.</message>
-            <short>Wrong phrase</short>
-            <example correction="Nowadays"><marker>In nowadays</marker>, many organizations are jumping in the social websites bandwagon.</example>
-            <example>Nowadays, many organizations are jumping in the social websites bandwagon</example>
-        </rule>
-        <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
-            <rule>
-                <pattern>
-                    <token regexp="yes"><exception scope="previous">more</exception>superior|inferior</token>
-                    <marker>
-                        <token>than</token>
-                    </marker>
-                </pattern>
-                <message>The adjective \1 is normally used with <suggestion>to</suggestion>.</message>
-                <short>Wrong collocation</short>
-                <example correction="to">He feels inferior <marker>than</marker> us.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>more</token>
-                    <token regexp="yes">superior|inferior</token>
-                    <token>than</token>
-                </pattern>
-                <message>The adjective \1 is normally used with to and does not need 'more' (so called implicit comparative). Probably you need to write: <suggestion>\2 to</suggestion>.</message>
-                <short>Wrong collocation</short>
-                <example correction="inferior to">He feels <marker>more inferior than</marker> us.</example>
-                <example>He feels inferior to them.</example>
-            </rule>
-        </rulegroup>
-        <rule id="OBVIOUS_FOR" name="Wrong preposition: 'obvious for' (obvious to)">
-            <pattern>
-                <token>obvious</token>
-                <token>for</token>
-                <token postag="PRP|NN.*" postag_regexp="yes"><exception regexp="yes">he|years|decades|months</exception></token>
-            </pattern>
-            <message>The adjective \1 is normally used with 'to': <suggestion>\1 to \3</suggestion>.</message>
-            <example correction="obvious to me">It's <marker>obvious for me</marker>.</example>
-        </rule>
-        <rule id="TODAY_MORNING" name="Wrong phrase: 'today morning' (this morning)">
-            <pattern>
-                <token>today</token>
-                <token regexp="yes">morning|afternoon|evening</token>
-            </pattern>
-            <message>This is a non-standard collocation. Normally, <suggestion>this \2</suggestion> is used.</message>
-            <short>Wrong collocation</short>
-            <example correction="this evening">I'm going home <marker>today evening</marker>.</example>
-        </rule>
-        <rule id="YESTERDAY_NIGHT" name="Wrong phrase: 'yesterday night' (last night)">
-            <pattern>
-                <token>yesterday</token>
-                <token>night</token>
-            </pattern>
-            <message>This is a non-standard collocation. Normally, <suggestion>last night</suggestion> is used.</message>
-            <short>Wrong collocation</short>
-            <example correction="last night">I was there <marker>yesterday night</marker>.</example>
-        </rule>
-        <rule id="TODAY_NIGHT" name="Wrong phrase: 'today night' (tonight)">
-            <pattern>
-                <token>today</token>
-                <token>night</token>
-            </pattern>
-            <message>This is a non-standard collocation. Normally, <suggestion>tonight</suggestion> is used instead.</message>
-            <short>Wrong collocation</short>
-            <example correction="tonight">I'm going fishing <marker>today night</marker>.</example>
-        </rule>
-        <rule id="WORRY_FOR" name="Wrong collocation: 'worry for' (worry about)">
-            <pattern>
-                <token inflected="yes">worry<exception scope="previous" postag="DT|JJ" postag_regexp="yes"/></token>
-                <token>for</token>
-            </pattern>
-            <message>The verb 'worry' does not normally take the preposition 'for'. Did you mean <suggestion>\1 about</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="worry about">Don't <marker>worry for</marker>.</example>
-            <example>I am worried about her.</example>
-        </rule>
-    </category>
-
-    <!-- ====================================================================== -->
-    <!-- Miscellaneous -->
-    <!-- ====================================================================== -->
-    <category id="MISC" name="Miscellaneous">
-        <rule id="OVERNIGHT" name="overnight instead of 'over night'">
-            <antipattern>
-                <token inflected="yes" skip="-1" regexp="yes">prefer|choose</token>
-                <token>over</token>
-                <token>night</token>
-            </antipattern>
-            <pattern>
-                <token>over</token>
-                <token>night</token>
-            </pattern>
-            <message>Did you mean the adjective or adverb <suggestion>\1night</suggestion> (i.e., for or during the entire night)?</message>
-            <url>http://www.merriam-webster.com/dictionary/overnight</url>
-            <example correction="overnight">She stayed <marker>over night</marker>.</example>
-            <example correction="overnight">The stock has gone down <marker>over night</marker>.</example>
-            <example>Cover and refrigerate <marker>overnight</marker>.</example>
-            <example>I prefer day over night.</example>
-        </rule>
         <rule id="DESPITE_OF" name="despite of (despite)">
             <pattern>
                  <token>despite<exception scope="previous">in</exception></token>
@@ -13561,130 +13440,6 @@ USA
             <example>She had difficulty communicating in French <marker>despite</marker> all her years of study.</example>
             <example>She had difficulty communicating in French <marker>in spite of</marker> all her years of study.</example>
         </rule>
-        <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
-            <pattern>
-                <marker>
-                    <token>also</token>
-                </marker>
-                <token>.</token>
-            </pattern>
-            <message>'Also' is not used at the end of the sentence. Use <suggestion>as well</suggestion> instead.</message>
-            <short>'Also' at the end of sentence</short>
-            <example>You will also buy some eggs.</example>
-            <example correction="as well">You will buy some eggs <marker>also</marker>.</example>
-        </rule>
-        <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
-            <rule> <!-- Passive infinitive (1/2) -->
-                <pattern>
-                    <token>it</token>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip=1 to handle: it is not possible, it is also possible, etc. -->
-                    <token postag="VBN|JJ" postag_regexp="yes"/> <!--said|thought|believed|possible|necessary|impossible|known|argued -->
-                    <token>that</token>
-                </pattern>
-                <message>Change from passive to active voice? Example: "It is possible that the sky is blue." can be changed to "The sky might be blue".</message>
-                <short>Passive voice</short>
-                <example correction=""><marker>It is possible that</marker> the sky is blue.</example>
-                <example correction=""><marker>It is also possible that</marker> the sky is blue.</example>
-                <example>The sky might be blue.</example>
-            </rule>
-            <rule> <!-- Passive infinitive (2/2) -->
-                <pattern>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for: not, also, etc -->
-                    <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
-                    <token>to</token>
-                    <token skip="1">have</token>
-                    <!-- skip to allow for: not, also, etc -->
-                    <token>been</token>
-                </pattern>
-                <message>Change from passive to active voice? Example: "He is said to have been happy."  can be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
-                <short>Passive voice</short>
-                <example correction="">He <marker>is said to have been</marker> happy.</example>
-                <example correction="">He <marker>is said to have not been</marker> happy.</example>
-                <example>The people said that he was happy.</example>
-                <example correction="">He <marker>is not thought to have been</marker> happy.</example>
-                <example correction="">He <marker>was not thought to have been</marker> happy.</example>
-            </rule>
-            <rule> <!-- Passive infinitive (2/2) -->
-                <pattern>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for: not, also, etc -->
-                    <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
-                    <token>to</token>
-                    <token>be</token>
-                </pattern>
-                <message>Change from passive to active voice? Example: "He is said to be happy." could be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
-                <short>Passive voice</short>
-                <example correction="">He <marker>is said to be</marker> happy.</example>
-                <example>People say that he is happy.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token skip="-1" regexp="yes" inflected="yes">advise|insist|propose|recommend|suggest</token>
-                    <marker>
-                        <token postag="NN.*" postag_regexp="yes" skip="1"/>
-                        <!-- skip must/could/should/etc -->
-                        <token>be</token>
-                        <token postag="VBN"/>
-                    </marker>
-                </pattern>
-                <message>Change from passive to active voice? Example: "He insisted that red should be used." can be changed to "He insisted on using red."</message>
-                <short>Passive voice</short>
-                <example correction="">He insisted that <marker>red should be used</marker>.</example>
-                <example correction="">He insisted that <marker>red be used</marker>.</example>
-                <example>He insisted on using red.</example>
-            </rule>
-            <rule>
-                <pattern> <!-- future perfect tense -->
-                    <token skip="1" regexp="yes">will|shall</token>
-                    <!-- skip to allow for "not", "also", etc. -->
-                    <token>have</token>
-                    <token>been</token>
-                    <token postag="VBN"/>
-                </pattern>
-                <message>Change from passive to active voice? Example: "Her work will have been finished by tonight." can be changed to "She will have her work finished by tonight."</message>
-                <short>Passive voice</short>
-                <example correction="">Her work <marker>will have been finished</marker> by tonight.</example>
-                <example correction="">Her work <marker>will not have been finished</marker> by tonight.</example>
-                <example>She will have her work finished by tonight.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="NN.*" postag_regexp="yes"/>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for "not", "also", etc. -->
-                    <token>being</token>
-                    <token postag="VBN"/>
-                </pattern>
-                <message>Change from passive to active voice? Example: "A cake is being baked by him." can be changed to "He is baking a cake."</message>
-                <short>Passive voice</short>
-                <example correction="">A <marker>cake is being baked</marker> by him by tonight.</example>
-                <example>He is baking a cake.</example>
-                <example correction="">A <marker>cake is also being baked</marker> by him by tonight.</example>
-                <example correction="">A <marker>cake was also being baked</marker> by him by tonight.</example>
-                <example correction="">A dozen <marker>cookies were also being baked</marker> by him by tonight.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="NN.*" postag_regexp="yes"/>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for "not", "also", etc. -->
-                    <token skip="2" postag="VBN"/>
-                    <!-- skip to allow for "a noun" or "a adjective noun", etc. -->
-                    <token>by</token>
-                </pattern>
-                <message>Change from passive to active voice? Example: "Instruments are played by her." can be changed to "She plays instruments."</message>
-                <short>Passive voice</short>
-                <example correction=""><marker>Instruments are played by</marker> her.</example>
-                <example correction=""><marker>Instruments were played by</marker> her.</example>
-                <example correction=""><marker>Instruments are not played by</marker> her.</example>
-                <example correction=""><marker>John was given a book by</marker> her.</example>
-                <example>She plays instruments.</example>
-            </rule>
-
-        </rulegroup> <!-- end passive voice rule -->
-
         <rule id="THE_EXACTLY_THE" name="Duplicated 'the' surrounding an adverb">
             <pattern>
                 <token>the</token>
@@ -13827,61 +13582,104 @@ USA
                 <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="I_VE_A" name="Non-standard contractions '(I've a...)'">
+    </category>
+
+    <!-- ====================================================================== -->
+    <!-- Collocations -->
+    <!-- ====================================================================== -->
+    <category id="COLLOCATIONS" name="Collocations" type="grammar">
+        <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
+            <pattern>
+                <token inflected="yes">have</token>
+                <token postag="CD"/>
+                <token>years</token>
+                <token>old</token>
+            </pattern>
+            <message>This phrase is used with 'be': <suggestion><match no="1" postag_regexp="yes" postag="VB.*">be</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>.</message>
+            <short>Wrong phrase</short>
+            <example>I am 25 years old.</example>
+            <example correction="is 25 years old">He <marker>has 25 years old</marker>.</example>
+        </rule>
+        <rule id="IN_NOWADAYS" name="Wrong phrase: 'in nowadays' (nowadays)">
+            <pattern>
+                <token>in</token>
+                <token>nowadays</token>
+            </pattern>
+            <message>\2 is used without 'in'. Use simply: <suggestion>\2</suggestion>.</message>
+            <short>Wrong phrase</short>
+            <example correction="Nowadays"><marker>In nowadays</marker>, many organizations are jumping in the social websites bandwagon.</example>
+            <example>Nowadays, many organizations are jumping in the social websites bandwagon</example>
+        </rule>
+        <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
             <rule>
                 <pattern>
-                    <token/>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>ve</token>
-                    <token regexp="yes">an?</token>
+                    <token regexp="yes"><exception scope="previous">more</exception>superior|inferior</token>
+                    <marker>
+                        <token>than</token>
+                    </marker>
                 </pattern>
-                <message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express possession.</message>
-                <short>Non-standard contraction</short>
-                <example>I've got a new car.</example>
-                <example correction="I have a|I've got a"><marker>I've a</marker> new car.</example>
+                <message>The adjective \1 is normally used with <suggestion>to</suggestion>.</message>
+                <short>Wrong collocation</short>
+                <example correction="to">He feels inferior <marker>than</marker> us.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>ve</token>
-                    <token postag="CD"/>
+                    <token>more</token>
+                    <token regexp="yes">superior|inferior</token>
+                    <token>than</token>
                 </pattern>
-                <message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express possession.</message>
-                <short>Non-standard contraction</short>
-                <example>I've got three new cars.</example>
-                <example correction="have three|'ve got">I<marker>'ve three</marker> new cars.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup type="locale-violation" id="CD_00_O_CLOCK" name="7:00 o'clock (7:00 or 7 o'clock)">
-            <url>http://esl.about.com/library/beginner/bltime.htm</url>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d</token>
-                    <token>:</token>
-                    <token>00</token>
-                    <token>o</token>
-                    <token regexp="yes">['’]</token>
-                    <token>clock</token>
-                </pattern>
-                <message>Wrong phrase. Use <suggestion>\1\2\3</suggestion> or <suggestion>\1 \4\5\6</suggestion>.</message>
-                <short>Non-standard phrase</short>
-                <example correction="7:00|7 o'clock">It's <marker>7:00 o'clock</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d</token>
-                    <token>:</token>
-                    <token regexp="yes">\d\d<exception>00</exception></token>
-                    <token>o</token>
-                    <token regexp="yes">['’]</token>
-                    <token>clock</token>
-                </pattern>
-                <message>Wrong phrase; 'o'clock is used only at the full hour. Use simply <suggestion>\1\2\3</suggestion> instead.</message>
-                <short>Non-standard phrase</short>
-                <example>It's 7 o'clock.</example>
-                <example correction="7:45">It's <marker>7:45 o'clock</marker>.</example>
+                <message>The adjective \1 is normally used with to and does not need 'more' (so called implicit comparative). Probably you need to write: <suggestion>\2 to</suggestion>.</message>
+                <short>Wrong collocation</short>
+                <example correction="inferior to">He feels <marker>more inferior than</marker> us.</example>
+                <example>He feels inferior to them.</example>
             </rule>
         </rulegroup>
+        <rule id="OBVIOUS_FOR" name="Wrong preposition: 'obvious for' (obvious to)">
+            <pattern>
+                <token>obvious</token>
+                <token>for</token>
+                <token postag="PRP|NN.*" postag_regexp="yes"><exception regexp="yes">he|years|decades|months</exception></token>
+            </pattern>
+            <message>The adjective \1 is normally used with 'to': <suggestion>\1 to \3</suggestion>.</message>
+            <example correction="obvious to me">It's <marker>obvious for me</marker>.</example>
+        </rule>
+        <rule id="TODAY_MORNING" name="Wrong phrase: 'today morning' (this morning)">
+            <pattern>
+                <token>today</token>
+                <token regexp="yes">morning|afternoon|evening</token>
+            </pattern>
+            <message>This is a non-standard collocation. Normally, <suggestion>this \2</suggestion> is used.</message>
+            <short>Wrong collocation</short>
+            <example correction="this evening">I'm going home <marker>today evening</marker>.</example>
+        </rule>
+        <rule id="YESTERDAY_NIGHT" name="Wrong phrase: 'yesterday night' (last night)">
+            <pattern>
+                <token>yesterday</token>
+                <token>night</token>
+            </pattern>
+            <message>This is a non-standard collocation. Normally, <suggestion>last night</suggestion> is used.</message>
+            <short>Wrong collocation</short>
+            <example correction="last night">I was there <marker>yesterday night</marker>.</example>
+        </rule>
+        <rule id="TODAY_NIGHT" name="Wrong phrase: 'today night' (tonight)">
+            <pattern>
+                <token>today</token>
+                <token>night</token>
+            </pattern>
+            <message>This is a non-standard collocation. Normally, <suggestion>tonight</suggestion> is used instead.</message>
+            <short>Wrong collocation</short>
+            <example correction="tonight">I'm going fishing <marker>today night</marker>.</example>
+        </rule>
+        <rule id="WORRY_FOR" name="Wrong collocation: 'worry for' (worry about)">
+            <pattern>
+                <token inflected="yes">worry<exception scope="previous" postag="DT|JJ" postag_regexp="yes"/></token>
+                <token>for</token>
+            </pattern>
+            <message>The verb 'worry' does not normally take the preposition 'for'. Did you mean <suggestion>\1 about</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="worry about">Don't <marker>worry for</marker>.</example>
+            <example>I am worried about her.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -18327,7 +18125,23 @@ USA
                 <example>This is the car that you whore stole from me.</example>
             </rule>
         </rulegroup>
-
+        <rule id="OVERNIGHT" name="overnight instead of 'over night'">
+            <antipattern>
+                <token inflected="yes" skip="-1" regexp="yes">prefer|choose</token>
+                <token>over</token>
+                <token>night</token>
+            </antipattern>
+            <pattern>
+                <token>over</token>
+                <token>night</token>
+            </pattern>
+            <message>Did you mean the adjective or adverb <suggestion>\1night</suggestion> (i.e., for or during the entire night)?</message>
+            <url>http://www.merriam-webster.com/dictionary/overnight</url>
+            <example correction="overnight">She stayed <marker>over night</marker>.</example>
+            <example correction="overnight">The stock has gone down <marker>over night</marker>.</example>
+            <example>Cover and refrigerate <marker>overnight</marker>.</example>
+            <example>I prefer day over night.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -18610,6 +18424,61 @@ USA
             <short>Incorrect phrase</short>
             <example correction="very well-known|well-known">He is a <marker>very known</marker> actor.</example>
         </rule>
+        <rulegroup default="off" id="I_VE_A" name="Non-standard contractions '(I've a...)'">
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>ve</token>
+                    <token regexp="yes">an?</token>
+                </pattern>
+                <message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express possession.</message>
+                <short>Non-standard contraction</short>
+                <example>I've got a new car.</example>
+                <example correction="I have a|I've got a"><marker>I've a</marker> new car.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>ve</token>
+                    <token postag="CD"/>
+                </pattern>
+                <message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express possession.</message>
+                <short>Non-standard contraction</short>
+                <example>I've got three new cars.</example>
+                <example correction="have three|'ve got">I<marker>'ve three</marker> new cars.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup type="locale-violation" id="CD_00_O_CLOCK" name="7:00 o'clock (7:00 or 7 o'clock)">
+            <url>http://esl.about.com/library/beginner/bltime.htm</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d</token>
+                    <token>:</token>
+                    <token>00</token>
+                    <token>o</token>
+                    <token regexp="yes">['’]</token>
+                    <token>clock</token>
+                </pattern>
+                <message>Wrong phrase. Use <suggestion>\1\2\3</suggestion> or <suggestion>\1 \4\5\6</suggestion>.</message>
+                <short>Non-standard phrase</short>
+                <example correction="7:00|7 o'clock">It's <marker>7:00 o'clock</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d</token>
+                    <token>:</token>
+                    <token regexp="yes">\d\d<exception>00</exception></token>
+                    <token>o</token>
+                    <token regexp="yes">['’]</token>
+                    <token>clock</token>
+                </pattern>
+                <message>Wrong phrase; 'o'clock is used only at the full hour. Use simply <suggestion>\1\2\3</suggestion> instead.</message>
+                <short>Non-standard phrase</short>
+                <example>It's 7 o'clock.</example>
+                <example correction="7:45">It's <marker>7:45 o'clock</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -20647,6 +20516,128 @@ USA
                 <example>When did <marker>the Hague</marker> Congress thake place?.</example>
             </rule>
         </rulegroup>
+        <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
+            <pattern>
+                <marker>
+                    <token>also</token>
+                </marker>
+                <token>.</token>
+            </pattern>
+            <message>'Also' is not used at the end of the sentence. Use <suggestion>as well</suggestion> instead.</message>
+            <short>'Also' at the end of sentence</short>
+            <example>You will also buy some eggs.</example>
+            <example correction="as well">You will buy some eggs <marker>also</marker>.</example>
+        </rule>
+        <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
+            <rule> <!-- Passive infinitive (1/2) -->
+                <pattern>
+                    <token>it</token>
+                    <token skip="1" inflected="yes">be</token>
+                    <!-- skip=1 to handle: it is not possible, it is also possible, etc. -->
+                    <token postag="VBN|JJ" postag_regexp="yes"/> <!--said|thought|believed|possible|necessary|impossible|known|argued -->
+                    <token>that</token>
+                </pattern>
+                <message>Change from passive to active voice? Example: "It is possible that the sky is blue." can be changed to "The sky might be blue".</message>
+                <short>Passive voice</short>
+                <example correction=""><marker>It is possible that</marker> the sky is blue.</example>
+                <example correction=""><marker>It is also possible that</marker> the sky is blue.</example>
+                <example>The sky might be blue.</example>
+            </rule>
+            <rule> <!-- Passive infinitive (2/2) -->
+                <pattern>
+                    <token skip="1" inflected="yes">be</token>
+                    <!-- skip to allow for: not, also, etc -->
+                    <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
+                    <token>to</token>
+                    <token skip="1">have</token>
+                    <!-- skip to allow for: not, also, etc -->
+                    <token>been</token>
+                </pattern>
+                <message>Change from passive to active voice? Example: "He is said to have been happy."  can be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
+                <short>Passive voice</short>
+                <example correction="">He <marker>is said to have been</marker> happy.</example>
+                <example correction="">He <marker>is said to have not been</marker> happy.</example>
+                <example>The people said that he was happy.</example>
+                <example correction="">He <marker>is not thought to have been</marker> happy.</example>
+                <example correction="">He <marker>was not thought to have been</marker> happy.</example>
+            </rule>
+            <rule> <!-- Passive infinitive (2/2) -->
+                <pattern>
+                    <token skip="1" inflected="yes">be</token>
+                    <!-- skip to allow for: not, also, etc -->
+                    <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
+                    <token>to</token>
+                    <token>be</token>
+                </pattern>
+                <message>Change from passive to active voice? Example: "He is said to be happy." could be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
+                <short>Passive voice</short>
+                <example correction="">He <marker>is said to be</marker> happy.</example>
+                <example>People say that he is happy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes" inflected="yes">advise|insist|propose|recommend|suggest</token>
+                    <marker>
+                        <token postag="NN.*" postag_regexp="yes" skip="1"/>
+                        <!-- skip must/could/should/etc -->
+                        <token>be</token>
+                        <token postag="VBN"/>
+                    </marker>
+                </pattern>
+                <message>Change from passive to active voice? Example: "He insisted that red should be used." can be changed to "He insisted on using red."</message>
+                <short>Passive voice</short>
+                <example correction="">He insisted that <marker>red should be used</marker>.</example>
+                <example correction="">He insisted that <marker>red be used</marker>.</example>
+                <example>He insisted on using red.</example>
+            </rule>
+            <rule>
+                <pattern> <!-- future perfect tense -->
+                    <token skip="1" regexp="yes">will|shall</token>
+                    <!-- skip to allow for "not", "also", etc. -->
+                    <token>have</token>
+                    <token>been</token>
+                    <token postag="VBN"/>
+                </pattern>
+                <message>Change from passive to active voice? Example: "Her work will have been finished by tonight." can be changed to "She will have her work finished by tonight."</message>
+                <short>Passive voice</short>
+                <example correction="">Her work <marker>will have been finished</marker> by tonight.</example>
+                <example correction="">Her work <marker>will not have been finished</marker> by tonight.</example>
+                <example>She will have her work finished by tonight.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token skip="1" inflected="yes">be</token>
+                    <!-- skip to allow for "not", "also", etc. -->
+                    <token>being</token>
+                    <token postag="VBN"/>
+                </pattern>
+                <message>Change from passive to active voice? Example: "A cake is being baked by him." can be changed to "He is baking a cake."</message>
+                <short>Passive voice</short>
+                <example correction="">A <marker>cake is being baked</marker> by him by tonight.</example>
+                <example>He is baking a cake.</example>
+                <example correction="">A <marker>cake is also being baked</marker> by him by tonight.</example>
+                <example correction="">A <marker>cake was also being baked</marker> by him by tonight.</example>
+                <example correction="">A dozen <marker>cookies were also being baked</marker> by him by tonight.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token skip="1" inflected="yes">be</token>
+                    <!-- skip to allow for "not", "also", etc. -->
+                    <token skip="2" postag="VBN"/>
+                    <!-- skip to allow for "a noun" or "a adjective noun", etc. -->
+                    <token>by</token>
+                </pattern>
+                <message>Change from passive to active voice? Example: "Instruments are played by her." can be changed to "She plays instruments."</message>
+                <short>Passive voice</short>
+                <example correction=""><marker>Instruments are played by</marker> her.</example>
+                <example correction=""><marker>Instruments were played by</marker> her.</example>
+                <example correction=""><marker>Instruments are not played by</marker> her.</example>
+                <example correction=""><marker>John was given a book by</marker> her.</example>
+                <example>She plays instruments.</example>
+            </rule>
+        </rulegroup> <!-- end passive voice rule -->
     </category>
 
     <!-- ====================================================================== -->

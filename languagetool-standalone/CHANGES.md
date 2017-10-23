@@ -2,6 +2,9 @@
 
 ## 4.0-SNAPSHOT (release planned for 2017-12-29)
 
+#### English
+  * removed the category MISC and moved the rules to more specific categories
+
 #### Galician
   * updated Hunspell dictionaries to:
     - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
