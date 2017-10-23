@@ -36,8 +36,12 @@ public class ConfusionFileIndenter {
       System.exit(1);
     }
     List<String> lines = Files.readAllLines(Paths.get(args[0]));
+    indent(lines);
+  }
+
+  static void indent(List<String> lines) {
     for (String line : lines) {
-      int commentPos = line.indexOf("#");
+      int commentPos = line.indexOf('#');
       if (commentPos <= 0) {
         System.out.println(line);
       } else {

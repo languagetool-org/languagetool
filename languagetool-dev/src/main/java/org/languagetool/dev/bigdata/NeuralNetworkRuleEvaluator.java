@@ -39,7 +39,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.Locale.ENGLISH;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -242,13 +241,13 @@ class NeuralNetworkRuleEvaluator {
     System.out.println("\nTime: " + (endTime - startTime) + "ms");
 
     System.out.println("Recommended configuration:");
-    System.out.println(confusionSetConfig(evaluationResults, RECOMMENDED_MIN_PRECISION));
+    ConfusionFileIndenter.indent(confusionSetConfig(evaluationResults, RECOMMENDED_MIN_PRECISION));
   }
 
-  private static String confusionSetConfig(List<Map<Double, EvalResult>> evaluationResults, float minPrecision) {
+  private static List<String> confusionSetConfig(List<Map<Double, EvalResult>> evaluationResults, float minPrecision) {
     return evaluationResults.stream()
             .map(evaluationResult -> confusionSetConfig(evaluationResult, minPrecision))
-            .collect(joining("\n"));
+            .collect(toList());
   }
 
   static String confusionSetConfig(Map<Double, EvalResult> evaluationResults, float minPrecision) {
