@@ -36,7 +36,7 @@ import java.net.URL;
  * <code>/gl/redundancies.txt</code>.
  *
  * @author Tiago F. Santos 
- * @since 3.8
+ * @since 4.0
  */
 public class GalicianRedundancyRule extends AbstractSimpleReplaceRule2 {
 
