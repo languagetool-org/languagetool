@@ -264,6 +264,7 @@ title="Easy editing stylesheet" ?>
             <exception postag='(?:N.|A..|Z.)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
             <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
           <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
@@ -275,8 +276,8 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no="5" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
       <example correction='uma omelete|um (omelete)'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
       <example>O Um torna-se Dois, o Dois torna-se Três.</example>
@@ -291,6 +292,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;</token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
@@ -302,7 +304,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no="5" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='no (hora)'>Foi resolvido <marker>no hora</marker> certa.</example>
       <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
     </rule>
@@ -321,24 +323,25 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[CF]P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>termos|nomes</exception></token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>uma|mas|média</exception>
-          </token>
+            <exception regexp='yes'>uma|mas|média</exception></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
       <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte…</example>
       <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erradas.</example>
       <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
       <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
+      <example correction="umas mais terríveis dores|uns mais terríveis (dores)">Tenho <marker>uns mais terríveis dores</marker> na cabeça.</example>
       <example>Existe cada vez mais pressão nos média para que apresentem conteúdos de qualidade.</example>
       <example>Os rios Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
       <example correction="As escolas|Os (escolas)"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
@@ -348,6 +351,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;</token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
@@ -359,7 +363,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
       <example correction='Alguns (frases)'><marker>Alguns frases</marker> tem erros gramaticais.</example>
       <example type='correct'><marker>Algumas frases</marker> tem erros gramaticais.</example>
       <example correction='Nos (mil)'><marker>Nos mil</marker> e uma noites.</example>
@@ -391,6 +395,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
           <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
@@ -401,12 +406,14 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Um boi|Uma vaca'><marker>Uma boi</marker> está no pasto.</example>
+      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa'>Estão comendo um <marker>sanduíche demasiado bom</marker>.</example>
       <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Uma vaca está no pasto.</example>
-      <example correction="um terrível inchaço|uma terrível (inchaço)">Tenho <marker>uma terrível inchaço</marker> na cabeça.</example>
+      <example correction="um terrível inchaço|uma terrível (inchaço)">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
+      <example correction="um mais terrível inchaço|uma mais terrível (inchaço)">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
       <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
       <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
     </rule>
@@ -415,6 +422,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;</token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
@@ -425,7 +433,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
       <example correction='Alguma vaca'><marker>Alguma boi</marker> está no pasto.</example>
     </rule>
     <rule>
@@ -447,6 +455,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[CM]P.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception regexp='yes'>e|mas|palavras|letras|ruas|ilhas</exception></token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
@@ -457,8 +466,8 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
       <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
@@ -473,6 +482,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception></token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
@@ -483,7 +493,7 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no="5" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction="das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
       <example correction='Algumas vacas'><marker>Algumas bois</marker> estão no pasto.</example>
     </rule>
@@ -495,6 +505,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token>a</token>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception></token>
@@ -502,10 +515,11 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECG;</message>
-        <suggestion>o \2</suggestion>
-        <suggestion>a <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+        <suggestion>o <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion>a <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction='O boi|A vaca'><marker>A boi</marker> está no pasto.</example>
+      <example correction='O mais boi|A mais vaca'><marker>A mais boi</marker> está no pasto.</example>
       <example type='correct'>A vaca está no pasto.</example>
     </rule>
 
@@ -27602,6 +27616,13 @@ TODO Write better examples
 
   <rulegroup id='EASILY_CONFUSED_RARE_WORDS' name="Palavras raras facilmente confundidas">
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-08-20      -->
+    <rule>
+      <pattern>
+          <token>alem</token>
+      </pattern>
+      <message>'Alem' é uma forma do verbo 'alar'. O advérbio escreve-se <suggestion>além</suggestion>.</message>
+      <example correction="além">O Mário <marker>alem</marker> de ter pedido uma indemnização, exigiu um pedido de desculpas.</example>
+    </rule>
     <rule>
       <pattern>
           <token>alias</token>
