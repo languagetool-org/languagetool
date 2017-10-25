@@ -35,7 +35,7 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
 
-  private static final Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|durch|für|in|mit|nach|ohne|über|von|zu");
+  private static final Pattern PREPOSITIONS = Pattern.compile("a[bn]|auf|bei|durch|für|in|mit|nach|ohne|über|von|zu");
 
   public GermanWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
@@ -72,6 +72,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     if (position > 0 && tokens[position - 1].getToken().equals("Leben") && tokens[position].getToken().equals("leben")) {
       return true;
     }
+    // "Sie tut das, damit sie sie nicht fortschickt"
+    /*if (position > 2 && tokens[position - 2].hasPosTag("KON:UNT") && tokens[position - 1].getToken().equals("sie") &&
+        tokens[position].getToken().equals("sie")) {
+      return true;
+    }*/
     return false;
   }
 
