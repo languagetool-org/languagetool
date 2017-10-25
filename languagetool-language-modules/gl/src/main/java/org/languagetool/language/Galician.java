@@ -25,8 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.gl.CastWordsRule;
-import org.languagetool.rules.gl.SimpleReplaceRule;
+import org.languagetool.rules.gl.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
@@ -146,7 +145,9 @@ public class Galician extends Language {
             new EmptyLineRule(messages),
             // Specific to Galician:
             new SimpleReplaceRule(messages),
-            new CastWordsRule(messages)
+            new CastWordsRule(messages),
+            new GalicianRedundancyRule(messages),
+            new GalicianWordinessRule(messages)
     );
   }
 
