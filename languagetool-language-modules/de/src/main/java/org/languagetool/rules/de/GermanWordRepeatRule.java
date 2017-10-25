@@ -73,10 +73,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       return true;
     }
     // "Sie tut das, damit sie sie nicht fortschickt"
-    /*if (position > 2 && tokens[position - 2].hasPosTag("KON:UNT") && tokens[position - 1].getToken().equals("sie") &&
+    if (position > 2 && tokens[position - 2].hasPosTag("KON:UNT") && tokens[position - 1].getToken().equals("sie") &&
         tokens[position].getToken().equals("sie")) {
       return true;
-    }*/
+    }
     return false;
   }
 
