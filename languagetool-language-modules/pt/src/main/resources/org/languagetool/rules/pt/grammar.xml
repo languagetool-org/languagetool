@@ -257,6 +257,12 @@ title="Easy editing stylesheet" ?>
           </unify>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
+      <antipattern>
+          <token>tão</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
+          <token>quanto</token>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -316,6 +322,12 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(?:&precede_nome_proprio;)s</token>
           </unify>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token>tão</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'/>
+          <token>quanto</token>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
@@ -389,6 +401,12 @@ title="Easy editing stylesheet" ?>
           <token>alínea</token>
           <token regexp='yes'>\w|\d</token>
       </antipattern>
+      <antipattern>
+          <token>tão</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'/>
+          <token>quanto</token>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -416,6 +434,7 @@ title="Easy editing stylesheet" ?>
       <example correction="um mais terrível inchaço|uma mais terrível (inchaço)">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
       <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
       <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
+      <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
     </rule>
     <rule>
       <pattern>
@@ -444,6 +463,12 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>(?:&precede_nome_proprio;)s</token>
           </unify>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token>tão</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
+          <token>quanto</token>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token>alíneas</token>
