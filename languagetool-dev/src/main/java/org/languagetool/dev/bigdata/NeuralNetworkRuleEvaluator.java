@@ -241,7 +241,7 @@ class NeuralNetworkRuleEvaluator {
     System.out.println("\nTime: " + (endTime - startTime) + "ms");
 
     System.out.println("Recommended configuration:");
-    ConfusionFileIndenter.indent(confusionSetConfig(evaluationResults, RECOMMENDED_MIN_PRECISION));
+    System.out.println(ConfusionFileIndenter.indent(confusionSetConfig(evaluationResults, RECOMMENDED_MIN_PRECISION)));
   }
 
   private static List<String> confusionSetConfig(List<Map<Double, EvalResult>> evaluationResults, float minPrecision) {

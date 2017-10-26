@@ -36,27 +36,25 @@ public class ConfusionFileIndenter {
       System.exit(1);
     }
     List<String> lines = Files.readAllLines(Paths.get(args[0]));
-    indent(lines);
+    System.out.println(indent(lines));
   }
 
-  static void indent(List<String> lines) {
+  static String indent(List<String> lines) {
+    StringBuilder indentedLines = new StringBuilder();
     for (String line : lines) {
-      int commentPos = line.indexOf('#');
+      int commentPos = line.lastIndexOf('#');
       if (commentPos <= 0) {
-        System.out.println(line);
+        indentedLines.append(line).append("\n");
       } else {
-        int endData = commentPos - 1;
-        while (true) {
-          if (Character.isWhitespace(line.charAt(endData))) {
-            endData--;
-          } else {
-            break;
-          }
+        int endData = commentPos;
+        while (Character.isWhitespace(line.charAt(endData - 1))) {
+          endData--;
         }
-        String spaces = StringUtils.repeat(" ", 40-endData);
-        System.out.println(line.substring(0, endData) + spaces + line.substring(commentPos));
+        String spaces = StringUtils.repeat(" ", Math.max(1, 40-endData));
+        indentedLines.append(line.substring(0, endData)).append(spaces).append(line.substring(commentPos)).append("\n");
       }
     }
+    return indentedLines.toString();
   }
 
 }
