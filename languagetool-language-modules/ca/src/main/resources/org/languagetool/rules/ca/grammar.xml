@@ -11481,6 +11481,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="TENIR_EL_COMPTE" name="tenir *el/en compte">
+            <pattern>
+                <token inflected="yes">tenir</token>
+                <marker>
+                    <token>el</token>
+                </marker>
+                <token>compte</token>
+                <token postag="CS|PR.*|PD.*|D.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en</suggestion>?</message>
+            <example correction="en">Tenint <marker>el</marker> compte el que va passar.</example>
+        </rule>
         <rule id="CONVENIENT" name="convenien/convenient">
             <pattern>
                 <token inflected="yes" regexp="yes">ser|resultar|era</token>
