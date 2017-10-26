@@ -54,7 +54,7 @@ public class NeuralNetworkRule extends Rule {
 
   @NotNull
   private String createId(Language language) {
-    return language.getShortCode().toUpperCase() + "_" + subjects.get(0).toUpperCase(Locale.ENGLISH) + "_VS_" + subjects.get(1).toUpperCase(Locale.ENGLISH) + "_NEURALNETWORK";
+    return language.getShortCode().toUpperCase() + "_" + subjects.get(0) + "_VS_" + subjects.get(1) + "_NEURALNETWORK";
   }
 
   private InputStream pathFor(Language language, String filename) {

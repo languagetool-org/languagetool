@@ -38,7 +38,7 @@ public class NeuralNetworkRuleTest {
   public void testNeuralNetworkRule() throws IOException {
     NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new double[]{-0.9, 1.9});
 
-    assertThat(neuralNetworkRule.getId(), is("XX_FOO_VS_BAR_NEURALNETWORK"));
+    assertThat(neuralNetworkRule.getId(), is("XX_foo_VS_bar_NEURALNETWORK"));
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("We go to the foo tomorrow.");
     RuleMatch[] ruleMatches = neuralNetworkRule.match(analyzedSentence);
@@ -51,7 +51,7 @@ public class NeuralNetworkRuleTest {
   public void testSuggestionTextRule() throws IOException {
     NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new double[]{0.9, -1.9});
 
-    assertThat(neuralNetworkRule.getId(), is("XX_FOO_VS_BAR_NEURALNETWORK"));
+    assertThat(neuralNetworkRule.getId(), is("XX_foo_VS_bar_NEURALNETWORK"));
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("We go to the bar tomorrow.");
     RuleMatch[] ruleMatches = neuralNetworkRule.match(analyzedSentence);
@@ -64,7 +64,7 @@ public class NeuralNetworkRuleTest {
   public void testSuggestionTextWithoutDescription() throws IOException {
     NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(1), context -> new double[]{0.9, -1.9});
 
-    assertThat(neuralNetworkRule.getId(), is("XX_FIZZ_VS_BUZZ_NEURALNETWORK"));
+    assertThat(neuralNetworkRule.getId(), is("XX_fizz_VS_buzz_NEURALNETWORK"));
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("We go to the buzz tomorrow.");
     RuleMatch[] ruleMatches = neuralNetworkRule.match(analyzedSentence);
