@@ -205,7 +205,15 @@ Ad random -> at random, willekeurig
 	-->
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
-			<!-- 2014-08-23 TaalTik regel werkt goed -->
+			<rule>
+				<pattern>
+					<token regexp='yes'>droogkuis|nieuwkuis</token> 
+				</pattern>
+				<message>Standaardtaal voor dit woord is <suggestion>stomerij</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/225/droogkuis_nieuwkuis_stomerij/</url>
+				<example correction='stomerij'>Dat hemd moet naar de <marker>droogkuis</marker>.</example>
+				<example>Dat hemd moet naar de stomerij.</example>
+			</rule>
 			<rule>
 				<pattern>
 					<token regexp="yes">barema|weddeschaal</token>
@@ -306,9 +314,6 @@ Ad random -> at random, willekeurig
 				<example>Hij is een <marker>gegoed</marker> mens.</example>
 			</rule>
 			<rule>
-				<!--
-				2014-08-19 TaalTIk: regel werkt prima, url toegevoegd
-				-->
 				<pattern>
 					<token>begroting</token>
 					<token/>
