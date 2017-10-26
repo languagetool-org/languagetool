@@ -4323,6 +4323,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er steht mit Recht hinten.</example>
                 <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>links</token>
+                    <token regexp="yes">und|oder</token>
+                    <token>rechts</token>
+                </antipattern>
+                <antipattern>
+                    <token>rechts</token>
+                    <token regexp="yes">und|oder</token>
+                    <token>links</token>
+                </antipattern>
+                <pattern>
+                        <token regexp="yes">links?|rechts?</token>
+                        <token regexp="yes">und|oder</token>
+                        <token regexp="yes">links?|rechts?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1s</suggestion>?</message>
+                <example correction="links">Schaue erst nach <marker>link und rechts</marker>, bevor du die Straße überquerst.</example>
+            </rule>
         </rulegroup>
         <rule id="PASSIONIERTE_PASSIERTE" name="passionierte/passierte">
             <pattern>
@@ -4821,7 +4840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="1" regexp="yes">hieß(en)?|heiß(t|en?)</token>
+                    <token skip="1" inflected="yes">heißen</token>
                     <token>mit</token>
                     <marker>
                         <token regexp="yes">(Vor|Nach)nahmen</token>
@@ -4840,7 +4859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">(Vor|Nach)nahmen</token>
                     </marker>
-                    <token skip="1" regexp="yes">hieß(en)?|heißt|(ge)?heißen?</token>
+                    <token skip="1" inflected="yes">heißen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
                 <example correction="Nachnamen">Wie kann man nur Müller mit <marker>Nachnahmen</marker> heißen?</example>
@@ -4848,7 +4867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">mein(en?)?|dein(en?)?|unser(en?)?|sein(en?)?|ihr(en)?|euer|euren?</token>
+                    <token regexp="yes">[dms]ein(en?)?|unser(en?)?|ihr(en)?|euer(en?)?</token>
                     <marker>
                         <token regexp="yes">(Vor|Nach)nahmen?</token>
                     </marker>
@@ -5165,7 +5184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">ökologisch</token>
                     </marker>
-                    <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
+                    <token regexp="yes">.*Gottesdienst.*|Kirchen?|Trauung|Trauungen|Taufen?|Kirchentag[es]?|Kirchentages|Abendmahls?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ökologisch" regexp_replace="ökumenisch"/></suggestion>? (Ökologie = Umwelt, Ökumene = Zusammenarbeit christlicher Kirchen)</message>
                 <example>Was sind <marker>ökumenische</marker> Gottesdienste?</example>
@@ -5319,7 +5338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
-                    <token regexp="yes">dort|da|hier|allein|alles|gestern|heute|letztens</token>
+                    <token regexp="yes">dort|da|hier|all(ein|es)|gestern|heute|letztens</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
