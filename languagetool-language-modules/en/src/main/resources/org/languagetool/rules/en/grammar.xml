@@ -18632,27 +18632,29 @@ USA
             <example>I am pretty sure this is right.</example>
             <example>It has grown way beyond that.</example>
         </rule>
-        <rule id="SEND_AN_EMAIL" name="send an email (email)">
+        <rule id="SEND_AN_EMAIL" name="send an email to (email)">
             <pattern>
                 <token>send</token>
                 <token regexp="yes">an|a</token>
                 <token>email</token>
+                <token>to</token>
             </pattern>
             <message>Consider using <suggestion>email</suggestion>.</message>
             <short>Redundant phrase</short>
-            <example>He was going to email her.</example>
-            <example correction="email">He was going to <marker>send an email</marker> to her.</example>
+            <example>He was going to <marker>email</marker> her.</example>
+            <example correction="email">He was going to <marker>send an email to</marker> her.</example>
         </rule>
-        <rule id="SENT_AN_EMAIL" name="sent an email (email)">
+        <rule id="SENT_AN_EMAIL" name="sent an email to (email)">
             <pattern>
                 <token>sent</token>
                 <token regexp="yes">an|a</token>
                 <token>email</token>
+                <token>to</token>
             </pattern>
             <message>Consider using <suggestion>emailed</suggestion>.</message>
             <short>Redundant phrase</short>
-            <example correction="emailed">He <marker>sent an email</marker> to her.</example>
-            <example>He emailed her.</example>
+            <example correction="emailed">He <marker>sent an email to</marker> her.</example>
+            <example>He <marker>emailed</marker> her.</example>
         </rule>
         <rule default="off" id="WORLD_AROUND_IT" name="the world around it (the world)">
             <pattern>
