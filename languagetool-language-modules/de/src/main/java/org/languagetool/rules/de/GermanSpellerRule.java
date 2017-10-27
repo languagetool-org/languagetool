@@ -128,6 +128,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
+    putRepl("[dD]urchnitt?lich(e[nmrs]?)?", "nitt?", "schnitt");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
     put("[oO]rganisative", "Organisation");
     put("zucc?h?inis?", "Zucchini");
@@ -420,6 +421,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("diagno[sz]ier.*")) {
+      suggestion = word.replaceAll("gno[sz]ier", "gnostizier");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches(".*eiss.*")) {
       suggestion = word.replaceAll("eiss", "eiß");
       if (!hunspellDict.misspelled(suggestion)) {
@@ -431,6 +437,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("u.\u202fa.");
     } else if (word.equals("zb") || word.equals("zb.")) {
       return Collections.singletonList("z.\u202fB.");
+    } else if (word.equals("uvm") || word.equals("uvm.")) {
+      return Collections.singletonList("u.\u202fv.\u202fm.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {
