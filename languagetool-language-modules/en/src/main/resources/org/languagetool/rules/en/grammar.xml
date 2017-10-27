@@ -4991,6 +4991,18 @@ USA
             <message>Did you mean <suggestion>couldn't care less</suggestion>?</message>
             <example correction="couldn't care less">The man on the street said he <marker>could care less</marker>.</example>
         </rule>
+        <rule id="COULDNT_CARELESS" name="couldn't careless (care less)">
+            <pattern>
+                <token>couldn</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">t</token>
+                <marker>
+                    <token>careless</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>care less</suggestion>?</message>
+            <example correction="care less">I couldn't <marker>careless</marker>.</example>
+        </rule>
         <!-- could give a damn::word=couldn't give a damn::filter=none -->
         <rule id="COULD_GIVE_A_DAMN" name="could (couldn't) give a damn">
             <pattern>
