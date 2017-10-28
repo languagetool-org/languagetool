@@ -120,6 +120,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>alle</suggestion>?</message>
             <example correction="alle">Ihr installiert Euch <marker>all</marker> das LanguageTool Browser-Add-on.</example>
         </rule>
+        <rule id="INF_VER_MOD" name="Fehlender Infinitiv vor modalem Hilfsverb (sage[n] durfte)">
+            <pattern>
+                <marker>
+                    <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes">
+                        <exception postag="SENT_START" scope="previous"/>
+                        <exception postag="A(DJ|RT):.+|SUB:.+|PRO:POS:.+" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token postag="VER:MOD:[12]:.+" postag_regexp="yes"><exception postag="VER:INF:NON"/></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1n</suggestion>?</message>
+            <example correction="werden">Wir haben uns geeinigt, dass darauf verzichtet <marker>werde</marker> könnte.</example>
+            <example>Wie lange muss man warten?</example>
+            <example correction="werden">Wie er Vorgesetzter <marker>werde</marker> konnte, ist mir ein Rätsel.</example>
+            <example>Die Taube und der Strauß sind beide Vögel; der eine kann fliegen, aber der andere nicht.</example>
+            <example>Ich verlange nur, dass er mir meine lässt.</example>
+        </rule>
         <rule id="OBLIEGT_DES" name="obliegt des (es)">
             <pattern>
                 <token regexp="yes">obl(?:iegt|ag)</token>
