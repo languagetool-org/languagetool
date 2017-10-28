@@ -137,15 +137,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Taube und der Strauß sind beide Vögel; der eine kann fliegen, aber der andere nicht.</example>
             <example>Ich verlange nur, dass er mir meine lässt.</example>
         </rule>
-        <rule id="OBLIEGT_DES" name="obliegt des (es)">
+        <rule id="DES_ES" name="des (es)">
             <pattern>
-                <token regexp="yes">obl(?:iegt|ag)</token>
+                <token postag="VER:.+" postag_regexp="yes"></token>
                 <marker>
                     <token>des</token>
                 </marker>
+                <token postag="(ART|PRO):.+" postag_regexp="yes"></token>
             </pattern>
             <message>Meinten Sie <suggestion>es</suggestion>?</message>
-            <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden..</example>
+            <example correction="es">Dann gab <marker>des</marker> ein großes Fest.</example>
+            <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden.</example>
         </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
