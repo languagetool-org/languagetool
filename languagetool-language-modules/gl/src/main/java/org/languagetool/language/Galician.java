@@ -147,7 +147,8 @@ public class Galician extends Language {
             new SimpleReplaceRule(messages),
             new CastWordsRule(messages),
             new GalicianRedundancyRule(messages),
-            new GalicianWordinessRule(messages)
+            new GalicianWordinessRule(messages),
+            new GalicianBarbarismsRule(messages)
     );
   }
 
