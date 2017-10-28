@@ -80,6 +80,10 @@ echo "" >>$OUTFILE
 echo "Top 10 Errors:" >>$OUTFILE
 grep 'Could not check sentence' $TMPFILE_ALL | grep -v "Caused by:" | uniq -c | sort -n -r | head -n 10 >>$OUTFILE
 
+echo "" >>$OUTFILE
+echo "Top 30 external Referers:" >>$OUTFILE
+grep "Check done:" /tmp/log.temp | awk -F ', ' '{print $4}' | grep -v "languagetool.org" | cut -c -100 | sed 's#https\?://\([.a-z0-9:-]\+\)/.*#\1#' | sort | uniq -c | sort -r -n | head -n 30 >>$OUTFILE
+
 #echo "" >>$OUTFILE
 #echo "Up to 50 client errors sent to the server:" >>$OUTFILE
 #grep "Log message from client:" $TMPFILE | head -n 50 >>$OUTFILE
