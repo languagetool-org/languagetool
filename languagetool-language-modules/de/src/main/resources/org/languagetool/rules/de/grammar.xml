@@ -120,6 +120,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>alle</suggestion>?</message>
             <example correction="alle">Ihr installiert Euch <marker>all</marker> das LanguageTool Browser-Add-on.</example>
         </rule>
+        <rule id="OBLIEGT_DES" name="obliegt des (es)">
+            <pattern>
+                <token regexp="yes">obl(?:iegt|ag)</token>
+                <marker>
+                    <token>des</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>es</suggestion>?</message>
+            <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden..</example>
+        </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
                 <marker>
@@ -17200,7 +17210,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
-                    <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
+                    <token regexp="yes">d(ies)?es|[dms]?eines|ihres|unseres|eures</token>
                     <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -17214,7 +17224,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
-                    <token regexp="yes">der|einer|dieser</token>
+                    <token regexp="yes">d(ies)?er|einer</token>
                     <token postag="SUB:GEN:SIN:FEM"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
