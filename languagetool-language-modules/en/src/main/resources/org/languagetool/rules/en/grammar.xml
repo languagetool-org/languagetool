@@ -6897,23 +6897,45 @@ USA
             <message>Did you mean <suggestion>am I</suggestion>?</message>
             <example correction="am I">Whom <marker>am</marker> talking with?</example>
         </rule>
-        <rule id="SHOULD_BE_DO" name="should be do (done)">
-            <pattern>
-                <token>should</token>
-                <token>be</token>
-                <marker>
-                    <token postag='VB|NN:UN' postag_regexp='yes'><exception postag='JJ'/>
-                        <exception>president</exception>
-                        <exception>off</exception>
-                    </token>
-                </marker>
-                <token><exception>of</exception></token>
-            </pattern>
-            <message>Did you mean  <suggestion><match no = "3" postag ="VBN"/></suggestion>?</message>
-            <example correction='done'>If you have after-school activities, the homework should be <marker>do</marker> first.</example>
-            <example>If you have after-school activities, the homework should be <marker>done</marker> first.</example>
-            <example>All images should be <marker>part of</marker> the plugin.</example>
-        </rule>
+        <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
+            <rule>
+                <pattern>
+                    <token>should</token>
+                    <token>be</token>
+                    <marker>
+                        <token postag='VB|NN:UN' postag_regexp='yes'>
+                            <exception postag='JJ|VBN' postag_regexp='yes'/>
+                            <exception>president</exception>
+                            <exception>off</exception>
+                            <exception>home</exception>
+                        </token>
+                    </marker>
+                    <token><exception>of</exception></token>
+                </pattern>
+                <message>Did you mean  <suggestion><match no = "3" postag ="VBN"/></suggestion>?</message>
+                <example correction='done'>If you have after-school activities, the homework should be <marker>do</marker> first.</example>
+                <example>If you have after-school activities, the homework should be <marker>done</marker> first.</example>
+                <example>All images should be <marker>part of</marker> the plugin.</example>
+                <example>Tom should be home by now.</example>
+                <example>We should be home soon.</example>
+            </rule>
+            <rule id="MUST_BE_DO" name="must be do (done)">
+                <pattern>
+                    <token regexp="yes">must|will|c(an|ould)</token>
+                    <token min="0" regexp="yes">now|soon</token>
+                    <token>be</token>
+                    <marker>
+                        <token postag='VB'>
+                            <exception postag='JJ|VBN|NN.*' postag_regexp='yes'/>
+                            <exception>off</exception>
+                        </token>
+                    </marker>
+                    <token><exception postag="IN"/></token>
+                </pattern>
+                <message>Did you mean  <suggestion><match no = "4" postag ="VBN"/></suggestion>?</message>
+                <example correction='done'>If you have after-school activities, the homework must be <marker>do</marker> first.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NEEDNT_TO_DO_AND_DONT_NEED_DO" name="needn't to do(do)">
             <rule>
                 <pattern>
