@@ -160,7 +160,7 @@ public class Portuguese extends Language implements AutoCloseable {
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
-            new PortugueseReplaceRule2(messages),
+            new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
@@ -216,7 +216,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
-      case "PT_MULTI_REPLACE":          return -10;
+      case "PT_BARBARISMS_REPLACE":     return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
       case "PT_WORDINESS_REPLACE":      return -13;

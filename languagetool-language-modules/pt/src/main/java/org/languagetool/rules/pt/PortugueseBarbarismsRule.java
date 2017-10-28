@@ -39,11 +39,11 @@ import java.net.URL;
  * @author Tiago F. Santos (localized from romanian)
  * @since 3.6
  */
-public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
+public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PORTUGUESE_MULTI_REPLACE_RULE = "PT_MULTI_REPLACE";
+  public static final String PT_BARBARISMS_REPLACE = "PT_BARBARISMS_REPLACE";
 
-  private static final String FILE_NAME = "/pt/replace_multi.txt";
+  private static final String FILE_NAME = "/pt/barbarisms.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
@@ -51,7 +51,7 @@ public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public PortugueseReplaceRule2(ResourceBundle messages) throws IOException {
+  public PortugueseBarbarismsRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -61,7 +61,7 @@ public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
 
   @Override
   public final String getId() {
-    return PORTUGUESE_MULTI_REPLACE_RULE;
+    return PT_BARBARISMS_REPLACE;
   }
 
   @Override
