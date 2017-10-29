@@ -36,7 +36,7 @@ public class NeuralNetworkRuleTest {
 
   @Test
   public void testNeuralNetworkRule() throws IOException {
-    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new double[]{-0.9, 1.9});
+    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new float[]{-0.9f, 1.9f});
 
     assertThat(neuralNetworkRule.getId(), is("XX_foo_VS_bar_NEURALNETWORK"));
 
@@ -49,7 +49,7 @@ public class NeuralNetworkRuleTest {
 
   @Test
   public void testSuggestionTextRule() throws IOException {
-    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new double[]{0.9, -1.9});
+    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(0), context -> new float[]{0.9f, -1.9f});
 
     assertThat(neuralNetworkRule.getId(), is("XX_foo_VS_bar_NEURALNETWORK"));
 
@@ -62,7 +62,7 @@ public class NeuralNetworkRuleTest {
 
   @Test
   public void testSuggestionTextWithoutDescription() throws IOException {
-    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(1), context -> new double[]{0.9, -1.9});
+    NeuralNetworkRule neuralNetworkRule = new NeuralNetworkRule(TestTools.getEnglishMessages(), language, confusionSets.get(1), context -> new float[]{0.9f, -1.9f});
 
     assertThat(neuralNetworkRule.getId(), is("XX_fizz_VS_buzz_NEURALNETWORK"));
 

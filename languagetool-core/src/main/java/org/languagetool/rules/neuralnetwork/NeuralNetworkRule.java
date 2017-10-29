@@ -85,7 +85,7 @@ public class NeuralNetworkRule extends Rule {
     return "Possible Typo '" + getSubjects().get(0) + "'/'" + getSubjects().get(1) + "'";
   }
 
-  private Suggestion getSuggestion(double[] y) {
+  private Suggestion getSuggestion(float[] y) {
     String suggestion;
     boolean unsure;
     if(y[0] > y[1]) {
@@ -106,7 +106,7 @@ public class NeuralNetworkRule extends Rule {
       String token = tokens[i].getToken();
       if(getSubjects().contains(token)) {
         final String[] context = getContext(tokens, i);
-        final double[] y = classifier.getScores(context);
+        final float[] y = classifier.getScores(context);
         final Suggestion suggestion = getSuggestion(y);
         if(!suggestion.matches(token)) {
           if (!suggestion.isUnsure()) {
@@ -133,7 +133,7 @@ public class NeuralNetworkRule extends Rule {
   }
 
   @NotNull
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings token, Suggestion suggestion, double[] y) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings token, Suggestion suggestion, float[] y) {
     String msg = getMessage(suggestion, y);
     int pos = token.getStartPos();
     RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.getToken().length(), msg);
@@ -142,7 +142,7 @@ public class NeuralNetworkRule extends Rule {
   }
 
   @NotNull
-  private String getMessage(Suggestion suggestion, double[] y) {
+  private String getMessage(Suggestion suggestion, float[] y) {
     String msg;
     int suggestionIndex = suggestion.matches(subjects.get(0)) ? 0 : 1;
     int wrongWordIndex = (suggestionIndex + 1) % 2;
@@ -159,7 +159,7 @@ public class NeuralNetworkRule extends Rule {
     return msg + " " + certaintiesToString(y);
   }
 
-  private String certaintiesToString(double[] y) {
+  private String certaintiesToString(float[] y) {
     return String.format(Locale.US, "[%4.2f, %4.2f]", y[0], y[1]);
   }
 }

@@ -6,22 +6,22 @@ import java.util.List;
 
 public class Matrix {
 
-    private double[][] m;
+    private float[][] m;
 
     public Matrix (InputStream filePath) {
         List<String> rows = ResourceReader.readAllLines(filePath);
         fromLines(rows);
     }
 
-    Matrix (double[] row) {
-        m = new double[][]{row};
+    Matrix (float[] row) {
+        m = new float[][]{row};
     }
 
     Matrix (List<String> rows) {
         fromLines(rows);
     }
 
-    Matrix(double[][] matrix) {
+    Matrix(float[][] matrix) {
         m = matrix;
     }
 
@@ -29,17 +29,17 @@ public class Matrix {
         final int nRows = rows.size();
         final int nCols = rows.get(0).split(" ").length;
 
-        m = new double[nRows][nCols];
+        m = new float[nRows][nCols];
 
         for (int i = 0; i < nRows; i++) {
             String[] row = rows.get(i).split(" ");
             for (int j = 0; j < nCols; j++) {
-                m[i][j] = Double.parseDouble(row[j]);
+                m[i][j] = Float.parseFloat(row[j]);
             }
         }
     }
 
-    double[] row(int n) {
+    float[] row(int n) {
         return Arrays.copyOf(m[n], m[n].length);
     }
 
@@ -48,8 +48,8 @@ public class Matrix {
     }
 
     Matrix mul(Matrix that) {
-        double[][] a = this.m;
-        double[][] b = that.m;
+        float[][] a = this.m;
+        float[][] b = that.m;
 
         final int rowsA = a.length;
         final int colsA = a[0].length;
@@ -58,7 +58,7 @@ public class Matrix {
 
         if (colsA != rowsB) throw new AssertionError();
 
-        double[][] c = new double[rowsA][colsB];
+        float[][] c = new float[rowsA][colsB];
 
         for(int i = 0; i < rowsA; i++) {
             for(int j = 0; j < colsB; j++) {
@@ -72,8 +72,8 @@ public class Matrix {
     }
 
     Matrix add(Matrix that) {
-        double[][] a = this.m;
-        double[][] b = that.m;
+        float[][] a = this.m;
+        float[][] b = that.m;
 
         final int rowsA = a.length;
         final int colsA = a[0].length;
@@ -83,7 +83,7 @@ public class Matrix {
         if (rowsA != rowsB) throw new AssertionError();
         if (colsA != colsB) throw new AssertionError();
 
-        double[][] c = new double[rowsA][colsA];
+        float[][] c = new float[rowsA][colsA];
 
         for(int i = 0; i < rowsA; i++) {
             for(int j = 0; j < colsB; j++) {
@@ -105,7 +105,7 @@ public class Matrix {
     public Matrix transpose() {
         int rows = m.length;
         int cols = m[0].length;
-        double[][] b = new double[cols][rows];
+        float[][] b = new float[cols][rows];
 
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
