@@ -37,7 +37,7 @@ import java.net.URL;
  * <code>/ro/replace.txt</code>.
  *
  * @author Tiago F. Santos (localized from romanian)
- * @since 3.6
+ * @since 4.0
  */
 public class GalicianBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
