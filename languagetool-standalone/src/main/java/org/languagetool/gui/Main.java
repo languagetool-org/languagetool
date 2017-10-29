@@ -18,48 +18,24 @@
  */
 package org.languagetool.gui;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MenuItem;
-import java.awt.Point;
-import java.awt.PopupMenu;
-import java.awt.Rectangle;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.awt.TrayIcon;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.languagetool.server.HTTPServer;
+import org.languagetool.server.HTTPServerConfig;
+import org.languagetool.server.PortBindingException;
+import org.languagetool.tools.JnaTools;
+import org.languagetool.tools.StringTools;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
+import java.awt.event.*;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -69,65 +45,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
-import javax.swing.text.Utilities;
-
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Rule;
-import org.languagetool.server.HTTPServer;
-import org.languagetool.server.HTTPServerConfig;
-import org.languagetool.server.PortBindingException;
-import org.languagetool.tools.JnaTools;
-import org.languagetool.tools.StringTools;
 
 /**
  * A simple GUI to check texts with.
@@ -158,8 +86,6 @@ public final class Main {
   private JDialog taggerDialog;
   private JTextPane taggerArea;
   private JTextArea textArea;
-  private LineNumbersView lineNumbersView;
-  private JScrollPane scrollPaneWithLineNumbers;
   private JTextPane resultArea;
   private LanguageComboBox languageBox;
   private CheckboxMenuItem enableHttpServerItem;
@@ -296,7 +222,6 @@ public final class Main {
     fontChooserDialog.setVisible(true);
     if (fontChooserDialog.getSelectedFont() != null) {
       this.textArea.setFont(fontChooserDialog.getSelectedFont());
-      this.lineNumbersView.changedUpdate(null);
       config.setFontName(fontChooserDialog.getSelectedFont().getFamily());
       config.setFontStyle(fontChooserDialog.getSelectedFont().getStyle());
       config.setFontSize(fontChooserDialog.getSelectedFont().getSize());
@@ -346,7 +271,6 @@ public final class Main {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
-    lineNumbersView = new LineNumbersView(textArea);
     resultArea = new JTextPane();
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
@@ -435,10 +359,8 @@ public final class Main {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 5.0f;
-    scrollPaneWithLineNumbers = new JScrollPane(textArea);
-    scrollPaneWithLineNumbers.setRowHeaderView(lineNumbersView);
     splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-            scrollPaneWithLineNumbers, new JScrollPane(resultArea));
+            new JScrollPane(textArea), new JScrollPane(resultArea));
     mainPanel.setLayout(new GridLayout(0,1));
     contentPane.add(mainPanel, cons);
     mainPanel.add(splitPane);
@@ -1124,9 +1046,7 @@ public final class Main {
     if (enable) {
       this.mainPanel.removeAll();
       mainPanel.add(this.splitPane);
-      scrollPaneWithLineNumbers = new JScrollPane(textArea);
-      scrollPaneWithLineNumbers.setRowHeaderView(lineNumbersView);
-      splitPane.setTopComponent(scrollPaneWithLineNumbers);
+      splitPane.setTopComponent(new JScrollPane(textArea));
       splitPane.setDividerLocation(200);
       MainWindowStateBean state
               = localStorage.loadProperty("gui.state", MainWindowStateBean.class);
@@ -1140,9 +1060,7 @@ public final class Main {
       localStorage.saveProperty("gui.state", bean);
       this.mainPanel.removeAll();
       splitPane.setTopComponent(null);
-      scrollPaneWithLineNumbers = new JScrollPane(textArea);
-      scrollPaneWithLineNumbers.setRowHeaderView(lineNumbersView);
-      mainPanel.add(new JScrollPane(scrollPaneWithLineNumbers));
+      mainPanel.add(new JScrollPane(textArea));
       ResultAreaHelper.disable(resultArea);
     }
     mainPanel.validate();
@@ -1628,186 +1546,5 @@ public final class Main {
       configDialogs.put(language, configDialog);
     }
     return configDialog;
-  }
-
-  /**
-   * Left hand side RowHeaderView for a JEditorPane in a JScrollPane. Highlights
-   * the currently selected line. Handles line wrapping, frame resizing.
-   * Source: http://rememberjava.com/ui/2017/02/19/line_numbers.html
-   */
-  class LineNumbersView extends JComponent implements DocumentListener, CaretListener, ComponentListener {
-
-    private static final long serialVersionUID = 1L;
-    private JTextComponent editor;
-    private Font font;
-    private int lineWidth = 36;
-
-    public LineNumbersView(JTextComponent editor) {
-      this.editor = editor;
-
-      editor.getDocument().addDocumentListener(this);
-      editor.addComponentListener(this);
-      editor.addCaretListener(this);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-      super.paintComponent(g);
-
-      Rectangle clip = g.getClipBounds();
-      int startOffset = editor.viewToModel(new Point(0, clip.y));
-      int endOffset = editor.viewToModel(new Point(0, clip.y + clip.height));
-
-      while (startOffset <= endOffset) {
-        try {
-          String lineNumber = getLineNumber(startOffset);
-          if (lineNumber != null) {
-            int x = getInsets().left + 2;
-            int y = getOffsetY(startOffset);
-
-            font = editor.getFont() != null ? editor.getFont() : new Font(Font.MONOSPACED, Font.BOLD, editor.getFont().getSize());
-            g.setFont(font);
-
-            g.setColor(isCurrentLine(startOffset) ? Color.RED : Color.BLACK);
-
-            g.drawString(lineNumber, x, y);
-          }
-
-          startOffset = Utilities.getRowEnd(editor, startOffset) + 1;
-        } catch (BadLocationException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-
-    /**
-     * Returns the line number of the element based on the given (start) offset
-     * in the editor model. Returns null if no line number should or could be
-     * provided (e.g. for wrapped lines).
-     */
-    private String getLineNumber(int offset) {
-      Element root = editor.getDocument().getDefaultRootElement();
-      int index = root.getElementIndex(offset);
-      Element line = root.getElement(index);
-
-      return line.getStartOffset() == offset ? String.format("%3d", index + 1) : null;
-    }
-
-    /**
-     * Returns the y axis position for the line number belonging to the element
-     * at the given (start) offset in the model.
-     */
-    private int getOffsetY(int offset) throws BadLocationException {
-      FontMetrics fontMetrics = editor.getFontMetrics(editor.getFont());
-      int descent = fontMetrics.getDescent();
-
-      Rectangle r = editor.modelToView(offset);
-      int y = r.y + r.height - descent;
-
-      return y;
-    }
-
-    /**
-     * Returns true if the given start offset in the model is the selected (by
-     * cursor position) element.
-     */
-    private boolean isCurrentLine(int offset) {
-      int caretPosition = editor.getCaretPosition();
-      Element root = editor.getDocument().getDefaultRootElement();
-      return root.getElementIndex(offset) == root.getElementIndex(caretPosition);
-    }
-
-    /**
-     * Schedules a refresh of the line number margin on a separate thread.
-     */
-    private void documentChanged() {
-      SwingUtilities.invokeLater(() -> {
-        repaint();
-      });
-    }
-
-    /**
-     * Updates the size of the line number margin based on the editor height.
-     */
-    private void updateSize(int maxLine) {
-      int width = maxLine > 36 ? maxLine + 4 : 36;
-      Dimension size = new Dimension(width, editor.getHeight());
-      setPreferredSize(size);
-      setSize(size);
-    }
-
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-      int lines = countLines(editor.getText());
-      lineWidth = editor.getFontMetrics(editor.getFont()).stringWidth(String.format("%3d", lines));
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-      int lines = countLines(editor.getText());
-      lineWidth = editor.getFontMetrics(editor.getFont()).stringWidth(String.format("%3d", lines));
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-      int lines = countLines(editor.getText());
-      lineWidth = editor.getFontMetrics(editor.getFont()).stringWidth(String.format("%3d", lines));
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void caretUpdate(CaretEvent e) {
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-      int lines = countLines(editor.getText());
-      lineWidth = editor.getFontMetrics(editor.getFont()).stringWidth(String.format("%3d", lines));
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-      updateSize(lineWidth);
-      documentChanged();
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-    }
-
-    // see https://stackoverflow.com/questions/2850203/count-the-number-of-lines-in-a-java-string
-    public int countLines(String str)
-    {
-      if (str == null || str.length() == 0) {
-        return 0;
-      }
-      int lines = 1;
-      int len = str.length();
-      for( int pos = 0; pos < len; pos++) {
-        char c = str.charAt(pos);
-        if( c == '\r' ) {
-          lines++;
-          if ( pos+1 < len && str.charAt(pos+1) == '\n' ) {
-            pos++;
-          }
-        } else if( c == '\n' ) {
-          lines++;
-        }
-      }
-      return lines;
-    }
   }
 }
