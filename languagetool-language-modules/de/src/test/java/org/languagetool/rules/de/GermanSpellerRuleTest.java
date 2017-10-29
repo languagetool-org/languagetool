@@ -179,6 +179,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("diagnosiere", "diagnostiziere", rule, lt);
     assertFirstSuggestion("diagnoziert", "diagnostiziert", rule, lt);
     assertFirstSuggestion("durchnitliche", "durchschnittliche", rule, lt);
+    assertFirstSuggestion("Heileit", "Highlight", rule, lt);
   }
 
   @Test
