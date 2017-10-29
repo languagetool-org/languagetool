@@ -11482,6 +11482,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="ALTA_ALTRA" name="*alta/altra banda">
+            <pattern>
+                <token regexp="yes">d'|per|de</token>
+                <token min="0" regexp="yes">una|l'</token>
+                <marker>
+                    <token>alta</token>
+                </marker>
+                <token regexp="yes">banda|part</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>altra</suggestion>?</message>
+            <example correction="altra">Per una <marker>alta</marker> banda, sí.</example>
+            <example correction="altra">Per l'<marker>alta</marker> banda, no.</example>
+            <example correction="altra">Per <marker>alta</marker> part, no.</example>
+        </rule>
         <rule id="TENIR_EL_COMPTE" name="tenir *el/en compte">
             <pattern>
                 <token inflected="yes">tenir</token>
