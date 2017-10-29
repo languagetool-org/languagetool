@@ -25,8 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.gl.CastWordsRule;
-import org.languagetool.rules.gl.SimpleReplaceRule;
+import org.languagetool.rules.gl.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
@@ -102,25 +101,54 @@ public class Galician extends Language {
     return disambiguator;
   }
 
+/*  @Override
+ * public LanguageMaintainedState getMaintainedState() {
+ *   return LanguageMaintainedState.ActivelyMaintained;
+ * }
+ * Wait a week before uncomenting this.
+ */
+
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Susana Sotelo Docío") };
+    return new Contributor[] {
+            new Contributor("Susana Sotelo Docío"),
+            new Contributor("Tiago F. Santos (4.0)", "https://github.com/TiagoSantos81")
+    };
   }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages,
+                Example.wrong("Tomamos café<marker> ,</marker> queixo, bolachas e uvas."),
+                Example.fixed("Tomamos café<marker>,</marker> queixo, bolachas e uvas.")),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "’", "\"", "'")),
             new HunspellRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this,
+                Example.wrong("Esta casa é vella. <marker>foi</marker> construida en 1950."),
+                Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),
             new MultipleWhitespaceRule(messages, this),
+            new LongSentenceRule(messages, 20, false),
+            new LongSentenceRule(messages, 25, false),
+            new LongSentenceRule(messages, 30, false),
+            new LongSentenceRule(messages, 35, false),
+            new LongSentenceRule(messages, 40, false),
+            new LongSentenceRule(messages, 45, false),
+            new LongSentenceRule(messages, 50, true),
+            new LongSentenceRule(messages, 60, false),
+            new SentenceWhitespaceRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new EmptyLineRule(messages),
             // Specific to Galician:
             new SimpleReplaceRule(messages),
-            new CastWordsRule(messages)
+            new CastWordsRule(messages),
+            new GalicianRedundancyRule(messages),
+            new GalicianWordinessRule(messages),
+            new GalicianBarbarismsRule(messages)
     );
   }
 

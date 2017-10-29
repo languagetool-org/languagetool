@@ -6383,7 +6383,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <unify>
                 <feature id="nombre"/>
                 <token postag="D[^R].*" postag_regexp="yes"/>
-                <token inflected="yes">suau</token><!--<exception postag="N.*" postag_regexp="yes"/></token>-->
+                <token inflected="yes" regexp="yes">suau|diferent</token><!--<exception postag="N.*" postag_regexp="yes"/></token>-->
                 <marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent</token>
                 </marker>
@@ -8441,6 +8441,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="NCMS000">capital</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="en_prep" name="en (preposició)">
+        <pattern>
+            <token postag="V.P.*" postag_regexp="yes"/>
+            <marker>
+               <token postag="SPS00">en</token>
+            </marker>
+            <token regexp="yes">\p{Lu}.*</token>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
     </rule>
     <rulegroup id="DetNom" name="Determinant + nom">
         <!-- Caldria diferenciar/elimianr alguns casos. Per exemple DN + DI

@@ -173,6 +173,13 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unaufbesichtigt", "unbeaufsichtigt", rule, lt);
     assertFirstSuggestion("uberaschend", "überraschend", rule, lt);
     assertFirstSuggestion("uberagendes", "überragendes", rule, lt);
+    assertFirstSuggestion("unabsichtiges", "unabsichtliches", rule, lt);
+    assertFirstSuggestion("organisatives", "organisatorisches", rule, lt);
+    assertFirstSuggestion("Medallion", "Medaillon", rule, lt);
+    assertFirstSuggestion("diagnosiere", "diagnostiziere", rule, lt);
+    assertFirstSuggestion("diagnoziert", "diagnostiziert", rule, lt);
+    assertFirstSuggestion("durchnitliche", "durchschnittliche", rule, lt);
+    assertFirstSuggestion("Heileit", "Highlight", rule, lt);
   }
 
   @Test

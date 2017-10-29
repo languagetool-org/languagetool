@@ -18,10 +18,13 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.List;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
+import org.languagetool.rules.Rule;
 
 /**
  * A thread that shows the configuration dialog which lets the
@@ -49,7 +52,12 @@ class ConfigThread extends Thread {
   public void run() {
     try {
       JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-      cfgDialog.show(langTool.getAllRules());
+      List<Rule> allRules = langTool.getAllRules();
+      for (Rule rule : allRules) {
+        if(rule.isOfficeDefaultOn()) rule.setDefaultOn();
+        else if(rule.isOfficeDefaultOff()) rule.setDefaultOff();
+      }
+      cfgDialog.show(allRules);
       config.saveConfiguration(docLanguage);
       if (mainThread != null) {
         mainThread.resetDocument();

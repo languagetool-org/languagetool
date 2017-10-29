@@ -247,6 +247,12 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().csToken("das").build(),
         new PatternTokenBuilder().posRegex("SUB:NOM:.*").build(),
         new PatternTokenBuilder().pos("PKT").build()
+    ),
+    Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden"
+        new PatternTokenBuilder().pos("KON:UNT").build(),
+        new PatternTokenBuilder().csToken("das").build(),
+        new PatternTokenBuilder().posRegex("SUB:.+").build(),
+        new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
     )
   );
 

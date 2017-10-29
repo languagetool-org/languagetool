@@ -188,6 +188,9 @@ public class AgreementRuleTest {
     assertGood("Stell dich dem Leben lächelnd!");
     assertGood("Die Messe wird auf das vor der Stadt liegende Ausstellungsgelände verlegt.");
     assertGood("Sie sind ein den Frieden liebendes Volk.");
+    //assertGood("Zum Teil sind das Krebsvorstufen.");
+    assertGood("Er sagt, dass das Rache bedeutet.");
+    assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
 
     // incorrect sentences:
     assertBad("Er hat eine 34-jährigen Sohn.");

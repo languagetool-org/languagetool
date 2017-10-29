@@ -2193,6 +2193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va dir el Joan, irritat una altra vegada</example>
                 <example>Explicava a tothom que li havien «embenat els ulls» i l'havien «ensibornat».</example>
                 <example>la reunió, celebrada aquest dimarts</example>
+                <example>Le festin de Pierre (basada en Molière, 1667)</example>
             </rule>
             <rule> <!-- Per al cas: passats els anys -->
                 <pattern>
@@ -3243,6 +3244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>les principals ganivets</marker>.</example>
                 <example correction=""><marker>L'altra gran retorn</marker>.</example>
                 <example correction="">Amb <marker>la suau corrent</marker> del riu.</example>
+                <example correction="">Amb <marker>les diferents corrents</marker> del riu.</example>
                 <example>els principals ganivets.</example>
                 <example>Tenen en si mateixes diferents aspectes.</example>
             </rule>
@@ -11480,6 +11482,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="ALTA_ALTRA" name="*alta/altra banda">
+            <pattern>
+                <token regexp="yes">d'|per|de</token>
+                <token min="0" regexp="yes">una|l'</token>
+                <marker>
+                    <token>alta</token>
+                </marker>
+                <token regexp="yes">banda|part</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>altra</suggestion>?</message>
+            <example correction="altra">Per una <marker>alta</marker> banda, sí.</example>
+            <example correction="altra">Per l'<marker>alta</marker> banda, no.</example>
+            <example correction="altra">Per <marker>alta</marker> part, no.</example>
+        </rule>
+        <rule id="TENIR_EL_COMPTE" name="tenir *el/en compte">
+            <pattern>
+                <token inflected="yes">tenir</token>
+                <marker>
+                    <token>el</token>
+                </marker>
+                <token>compte</token>
+                <token postag="CS|PR.*|PD.*|D.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en</suggestion>?</message>
+            <example correction="en">Tenint <marker>el</marker> compte el que va passar.</example>
+        </rule>
+        <rule id="CONVENIENT" name="convenien/convenient">
+            <pattern>
+                <token inflected="yes" regexp="yes">ser|resultar|era</token>
+                <marker>
+                    <token>convenien</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>convenient</suggestion>?</message>
+            <example correction="convenient">Va dir que seria <marker>convenien</marker> fer-ho així.</example>
+            <example correction="convenient">Va dir que era <marker>convenien</marker> fer-ho així.</example>
+        </rule>
         <rule id="PER_SEU_PEL_SEU" name="per*/pel seu">
             <pattern>
                 <token>per<exception scope="previous" inflected="yes" regexp="yes">tenir|títol</exception></token>
@@ -30989,7 +31028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CAS_DE" name="*cas de">
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">en|donat|posat|qualsevol|per</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
+                    <token><exception regexp="yes">en|donat|posat|qualsevol|per|de</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
                     <marker>
                         <token>cas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token regexp="yes">de|d'</token>
@@ -31004,7 +31043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">en|donat|posat|qualsevol|per</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
+                    <token><exception regexp="yes">en|donat|posat|qualsevol|per|de</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
                     <marker>
                         <token>cas</token>
                         <token regexp="yes">de|d'</token>
@@ -31020,7 +31059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">en|donat|posat|qualsevol|per</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
+                    <token><exception regexp="yes">en|donat|posat|qualsevol|per|de</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
                     <marker>
                         <token>cas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token skip="3">que</token>
@@ -44722,9 +44761,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la de sobre ha d'arribar</example>
                 <example>per sobre comença a escalfar-se</example>
                 <example>però és menys precisa en la presa de mostres</example>
-                <example>les pupil·les completament dilatades en disminueixen la capacitat</example>
+                <example>Les pupil·les completament dilatades en disminueixen la capacitat.</example>
                 <example>segons el model de vas trobat en aquest jaciment romà.</example>
                 <example>procedent de vés a saber on</example>
+                <example>La posició enlairada en fa un mirador magnífic.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44846,6 +44886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Useu plural en -os.</message>
             <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1os"/></suggestion>.
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=24</url>
             <example correction="boscos">Els <marker>boscs</marker></example>
             <example correction="pretextos">Els seus <marker>pretexts</marker></example>
             <example>Aquests són els caliptoblasts</example>
@@ -44891,6 +44932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Useu plural en -os.</message>
                 <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1jos"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=24</url>
                 <example correction="assajos">Els <marker>assaigs</marker></example>
                 <example correction="fajos">Els <marker>faigs</marker></example>
                 <example correction="fastijos">Els <marker>fastigs</marker></example>
@@ -44902,6 +44944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Useu plural en -jos.</message>
                 <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1tjos"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=24</url>
                 <example correction="desitjos">Els <marker>desigs</marker></example>
                 <example correction="lletjos">Els <marker>lleigs</marker></example>
                 <example>faigs</example>

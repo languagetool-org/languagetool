@@ -318,7 +318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag_regexp="yes" postag=".*:abbr"/>
           </token>
         </pattern>
-        <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
+        <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \3</message>
         <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
         <example correction="у"><marker>в</marker> вівторок.</example>
         <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
@@ -1094,6 +1094,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Це слово є жаргонним</message>
       <example correction="">Ось так він <marker>лоханувся</marker>.</example>
       <example>прапор</example>
+    </rule>
+
+    <rule id="nezvazhayuchi_na" name="Незважаючи на">
+      <pattern>
+        <marker>
+          <token>незважаючи</token>
+          <token>на</token>
+        </marker>
+      </pattern>
+      <message>Хоча вислів незважаючи на засвідчений у словниках, текстах і чинному правописі, у багатьох випадках те саме значення можна передати іншими словами</message>
+      <suggestion>попри</suggestion>
+      <suggestion>дарма що</suggestion>
+      <suggestion>всупереч</suggestion>
+      <suggestion>наперекір</suggestion>
+      <suggestion>хоч</suggestion>
+      <suggestion>не зважаючи на</suggestion>
+      <suggestion>не вважаючи на</suggestion>
+      <suggestion>незалежно від</suggestion>
+      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на|незалежно від">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
+      <example correction="попри|дарма що|всупереч|наперекір|хоч|не зважаючи на|не вважаючи на|незалежно від">Вони бігли туди <marker>незважаючи на</marker> сильну зливу.</example>
+      <example>Гра тривала попри сильну зливу.</example>
+      <example>Вони бігли туди не зважаючи на сильну зливу.</example>
     </rule>
 
 <!--

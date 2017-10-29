@@ -1281,6 +1281,7 @@
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
+            <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token><!-- 'Be' and 'do' do not have the postag MD. The safe option is to use a list of verbs rather than changing the postags of 'do' and 'be'. -->
             <token regexp="yes">['’]</token>
             <marker>
                 <token>t</token>
@@ -1288,6 +1289,7 @@
         </pattern>
         <disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
         <example type="untouched">I cannot do it.</example>
+        <example type="untouched">I work'<marker>t</marker> carefully.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
     <rule name="haven't => verb only" id="HAVENT">

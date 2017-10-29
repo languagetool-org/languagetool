@@ -70,7 +70,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
-    putRepl("(an|auf)gehangen(e[mnrs]?)?$", "hangen", "hängt");
+    putRepl("(an|auf|ein)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
@@ -117,7 +117,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
-    putRepl("^[uU]nabsichtig(e(nmrs)?)?", "ig", "lich");
+    putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
@@ -127,9 +127,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
+    putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
+    putRepl("[dD]urchnitt?lich(e[nmrs]?)?", "nitt?", "schnitt");
+    putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
+    putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
+    put("[oO]rganisative", "Organisation");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
+    put("[mM]otorisation", "Motorisierung");
+    put("abgeschaffen", "abgeschafft");
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
     put("Grisli", "Grizzly");
@@ -415,6 +422,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("diagno[sz]ier.*")) {
+      suggestion = word.replaceAll("gno[sz]ier", "gnostizier");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches(".*eiss.*")) {
       suggestion = word.replaceAll("eiss", "eiß");
       if (!hunspellDict.misspelled(suggestion)) {
@@ -426,6 +438,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("u.\u202fa.");
     } else if (word.equals("zb") || word.equals("zb.")) {
       return Collections.singletonList("z.\u202fB.");
+    } else if (word.equals("uvm") || word.equals("uvm.")) {
+      return Collections.singletonList("u.\u202fv.\u202fm.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {

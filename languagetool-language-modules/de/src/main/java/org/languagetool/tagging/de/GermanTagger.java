@@ -59,11 +59,11 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
-  private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem){
+  private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem) {
     List<TaggedWord> result = new ArrayList<>();
     for (TaggedWord tw : analyzedWordResults) {
       String lemma = tw.getLemma();
-      if (tw.getPosTag().matches("SUB.*") && stem.charAt(stem.length() - 1) != '-') {
+      if (tw.getPosTag().matches("SUB.*") && stem.length() > 0 && stem.charAt(stem.length() - 1) != '-') {
         lemma = lemma.toLowerCase();
       }
       result.add(new TaggedWord(stem + lemma, tw.getPosTag()));

@@ -12378,6 +12378,56 @@ though, and has since been slightly modified)-->
         <example>Mes enfants ne m’en veulent pas.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart <marker>pense</marker> qu’il gagnera.</example>
+        <example>La plupart <marker>pensent</marker> qu’il gagnera.</example>
+        <example correction="">La plupart ne <marker>pense</marker> pas qu’il gagnera.</example>
+        <example>La plupart ne <marker>pensent</marker> pas qu’il gagnera.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <token regexp="yes">l[ae]|les|lui|leur|[nv]ous</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart ne nous <marker>voit</marker> pas.</example>
+        <example>La plupart ne nous <marker>voient</marker> pas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <token regexp="yes">[lmnst]</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token min="0" max="1">en</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart n’<marker>arrive</marker> jamais à l’heure.</example>
+        <example>La plupart n’<marker>arrivent</marker> jamais à l’heure.</example>
+        <example correction="">La plupart s’<marker>intéresse</marker> à la politique.</example>
+        <example>La plupart s’<marker>intéressent</marker> à la politique.</example>
+        <example correction="">La plupart ne s’<marker>intéresse</marker> à la politique.</example>
+        <example>La plupart ne s’<marker>intéressent</marker> à la politique.</example>
+        <example correction="">La plupart s’en <marker>fiche</marker>.</example>
+        <example>La plupart s’en <marker>fichent</marker>.</example>
+        <example correction="">La plupart ne s’en <marker>fiche</marker>.</example>
+        <example>La plupart ne s’en <marker>fichent</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ACCORD_LA_PLUPART_DES" name="Accord avec la plupart des">
       <rule>
         <pattern>

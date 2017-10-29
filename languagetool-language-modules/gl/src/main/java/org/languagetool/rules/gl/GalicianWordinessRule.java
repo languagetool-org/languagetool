@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pt;
+package org.languagetool.rules.gl;
 
-import org.languagetool.language.Portuguese;
+import org.languagetool.language.Galician;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -27,56 +27,55 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * A rule that matches words which should not be used and suggests correct ones instead. 
- * Romanian implementations. Loads the list of words from
- * <code>/ro/replace.txt</code>.
+ * A rule that matches wordy expressions. 
+ * Galician implementation. Loads the list of words from
+ * <code>/gl/wordiness.txt</code>.
  *
- * @author Tiago F. Santos (localized from romanian)
- * @since 3.6
+ * @author Tiago F. Santos 
+ * @since 4.0
  */
-public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
+public class GalicianWordinessRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PORTUGUESE_MULTI_REPLACE_RULE = "PT_MULTI_REPLACE";
+  public static final String GL_WORDINESS_REPLACE = "GL_WORDINESS_REPLACE";
 
-  private static final String FILE_NAME = "/pt/replace_multi.txt";
-  private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
+  private static final String FILE_NAME = "/gl/wordiness.txt";
+  private static final Locale GL_LOCALE = new Locale("gl");  // locale used on case-conversion
 
   @Override
   public final String getFileName() {
     return FILE_NAME;
   }
 
-  public PortugueseReplaceRule2(ResourceBundle messages) throws IOException {
-    super(messages, new Portuguese());
-    super.setCategory(Categories.STYLE.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
-                   Example.fixed("<marker>currículo</marker>"));
+  public GalicianWordinessRule(ResourceBundle messages) throws IOException {
+    super(messages, new Galician());
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Style);
+    addExamplePair(Example.wrong("<marker>Raramente é o caso en que acontece</marker> isto."),
+                   Example.fixed("<marker>Raramente acontece</marker> isto."));
   }
 
   @Override
   public final String getId() {
-    return PORTUGUESE_MULTI_REPLACE_RULE;
+    return GL_WORDINESS_REPLACE;
   }
 
   @Override
   public String getDescription() {
-    return "Palavras de origem estrangeira evitáveis";
+    return "2. Expresións prolixas";
   }
 
   @Override
   public String getShort() {
-    return "Estrangeirismo";
+    return "Expresión prolixa";
   }
 
   @Override
   public String getSuggestion() {
-    return " é um estrangeirismo. É preferível dizer ";
+    return " é unha expresión innecesariamente complexa. É preferíbel dicir ";
   }
 
   @Override
@@ -84,18 +83,18 @@ public class PortugueseReplaceRule2 extends AbstractSimpleReplaceRule2 {
     return " ou ";
   }
 
-  @Override
-  public URL getUrl() {
-    try {
-      return new URL("https://pt.wikipedia.org/wiki/Estrangeirismo");
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
-  }
+  /* @Override
+   * public URL getUrl() {
+   *  try {
+   *    return new URL("https://gl.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo");
+   *  } catch (MalformedURLException e) {
+   *    throw new RuntimeException(e);
+   *  }
+    }*/
 
   @Override
   public Locale getLocale() {
-    return PT_LOCALE;
+    return GL_LOCALE;
   }
 
 }
