@@ -31,7 +31,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.gl.GalicianHybridDisambiguator;
 import org.languagetool.tagging.gl.GalicianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -96,7 +96,7 @@ public class Galician extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new Galician());
+      disambiguator = new GalicianHybridDisambiguator();
     }
     return disambiguator;
   }
