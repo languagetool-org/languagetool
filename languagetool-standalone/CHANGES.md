@@ -6,6 +6,13 @@
   * removed the category MISC and moved the rules to more specific categories
 
 #### Galician
+  * added and improved style rules, including:
+    - style: barbarism, redundant expressions, and wordy expressions detection added
+  * multiword disambiguation added
+  * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for abbreviations, variables in formulas, units, related
+    statistical vocabulary, common Latin, English, French expressions, species scientific
+    names, and famous personalities
   * updated Hunspell dictionaries to:
     - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
 
