@@ -1912,14 +1912,14 @@ public final class Main {
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-      setPreferredWidth();
-      documentChanged();
+      //setPreferredWidth();
+      //documentChanged();
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-      //setPreferredWidth();
-      //documentChanged();
+      setPreferredWidth();
+      documentChanged();
     }
 
     @Override
