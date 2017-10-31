@@ -1771,8 +1771,8 @@ public final class Main {
     }
 
     /**
-     *  Specify the mimimum number of digits used to calculate the preferred
-     *  width of the component. Default is 3.
+     *  Specify the minimum number of digits used to calculate the preferred
+     *  width of the component.
      *
      *  @param minimumDisplayDigits  the number digits used in the preferred
      *                               width calculation
@@ -1918,8 +1918,8 @@ public final class Main {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-      setPreferredWidth();
-      documentChanged();
+      //setPreferredWidth();
+      //documentChanged();
     }
 
     @Override
