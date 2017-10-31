@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.gl.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
