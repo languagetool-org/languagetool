@@ -153,6 +153,7 @@ public final class Main {
   private static final String TRAY_SMALL_SERVER_ICON = "/TrayIconSmallWithServer.png";
   private static final String TRAY_TOOLTIP = "LanguageTool";
   private static final String TAG_COLOR = "#888888";
+  private static final String GUI_STATE = "gui.state";
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
@@ -216,13 +217,13 @@ public final class Main {
               ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
               ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
       String charsetName;
-      if (bomIn.hasBOM() == false) {
+      if (bomIn.hasBOM()) {
+        bom = bomIn.getBOM();
+        charsetName = bom.getCharsetName();
+      } else {
         // No BOM found
         bom = null;
         charsetName = null;
-      } else {
-        bom = bomIn.getBOM();
-        charsetName = bom.getCharsetName();
       }
       String fileContents = StringTools.readStream(bomIn, charsetName);
       textArea.setText(fileContents);
@@ -832,10 +833,10 @@ public final class Main {
       bean.setDividerLocation(((JSplitPane)comp).getDividerLocation());
     } else {
       MainWindowStateBean old = 
-        localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+        localStorage.loadProperty(GUI_STATE, MainWindowStateBean.class);
       bean.setDividerLocation(old.getDividerLocation());
     }
-    localStorage.saveProperty("gui.state", bean);
+    localStorage.saveProperty(GUI_STATE, bean);
 
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
@@ -1136,7 +1137,7 @@ public final class Main {
       splitPane.setTopComponent(numberedtextAreaPane);
       splitPane.setDividerLocation(200);
       MainWindowStateBean state
-              = localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+              = localStorage.loadProperty(GUI_STATE, MainWindowStateBean.class);
       if (state != null && state.getDividerLocation() != null) {
         splitPane.setDividerLocation(state.getDividerLocation());
       }
@@ -1144,7 +1145,7 @@ public final class Main {
     } else {
       MainWindowStateBean bean = new MainWindowStateBean();
       bean.setDividerLocation(splitPane.getDividerLocation());
-      localStorage.saveProperty("gui.state", bean);
+      localStorage.saveProperty(GUI_STATE, bean);
       this.mainPanel.removeAll();
       splitPane.setTopComponent(null);
       mainPanel.add(numberedtextAreaPane);
@@ -1217,13 +1218,11 @@ public final class Main {
 
     @Override
     public void keyPressed(KeyEvent e) {
-      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-        if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == KeyEvent.CTRL_DOWN_MASK) {
-          checkTextAndDisplayResults();
-        }
+      if (e.getKeyCode() == KeyEvent.VK_ENTER &&
+          (e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == KeyEvent.CTRL_DOWN_MASK) {
+        checkTextAndDisplayResults();
       }
     }
-
   }
 
   //
@@ -1660,7 +1659,7 @@ public final class Main {
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
 
-    private final  Border OUTER = new MatteBorder(0, 2, 0, 2, Color.GRAY);
+    private final Border OUTER = new MatteBorder(0, 0, 0, 1, Color.GRAY);
 
     //  Text component this TextTextLineNumber component is in sync with
     private JTextComponent component;
@@ -1962,7 +1961,9 @@ public final class Main {
   }
 
   @Override
-  public void componentMoved(ComponentEvent e) {}
+  public void componentMoved(ComponentEvent e) {
+    // nothing to do here because moving the component does not change line numbers
+  }
 
   @Override
   public void componentShown(ComponentEvent e) {
@@ -1971,6 +1972,8 @@ public final class Main {
   }
 
   @Override
-  public void componentHidden(ComponentEvent e) {}
+  public void componentHidden(ComponentEvent e) {
+    // nothing to do here because moving the component does not change line numbers
+  }
  }
 }
