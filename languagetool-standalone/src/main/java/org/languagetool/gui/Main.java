@@ -18,24 +18,50 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Rule;
-import org.languagetool.server.HTTPServer;
-import org.languagetool.server.HTTPServerConfig;
-import org.languagetool.server.PortBindingException;
-import org.languagetool.tools.JnaTools;
-import org.languagetool.tools.StringTools;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.CheckboxMenuItem;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.MenuItem;
+import java.awt.Point;
+import java.awt.PopupMenu;
+import java.awt.Rectangle;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -45,17 +71,70 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import javax.swing.text.Utilities;
+
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.languagetool.server.HTTPServer;
+import org.languagetool.server.HTTPServerConfig;
+import org.languagetool.server.PortBindingException;
+import org.languagetool.tools.JnaTools;
+import org.languagetool.tools.StringTools;
+
 
 /**
  * A simple GUI to check texts with.
@@ -86,6 +165,8 @@ public final class Main {
   private JDialog taggerDialog;
   private JTextPane taggerArea;
   private JTextArea textArea;
+  private TextLineNumber textLineNumber;
+  private JScrollPane numberedtextAreaPane;
   private JTextPane resultArea;
   private LanguageComboBox languageBox;
   private CheckboxMenuItem enableHttpServerItem;
@@ -217,6 +298,7 @@ public final class Main {
     if (fontChooserDialog == null) {
       fontChooserDialog = new FontChooser(frame, true);
       Tools.centerDialog(fontChooserDialog);
+      fontChooserDialog.addPropertyChangeListener(textLineNumber);
     }
     fontChooserDialog.setSelectedFont(this.textArea.getFont());
     fontChooserDialog.setVisible(true);
@@ -271,6 +353,11 @@ public final class Main {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
+
+    textLineNumber = new TextLineNumber(textArea, 3);
+    numberedtextAreaPane = new JScrollPane(textArea);
+    numberedtextAreaPane.setRowHeaderView(textLineNumber);
+
     resultArea = new JTextPane();
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
@@ -360,7 +447,7 @@ public final class Main {
     cons.gridy = 2;
     cons.weighty = 5.0f;
     splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-            new JScrollPane(textArea), new JScrollPane(resultArea));
+            numberedtextAreaPane, new JScrollPane(resultArea));
     mainPanel.setLayout(new GridLayout(0,1));
     contentPane.add(mainPanel, cons);
     mainPanel.add(splitPane);
@@ -1046,7 +1133,7 @@ public final class Main {
     if (enable) {
       this.mainPanel.removeAll();
       mainPanel.add(this.splitPane);
-      splitPane.setTopComponent(new JScrollPane(textArea));
+      splitPane.setTopComponent(numberedtextAreaPane);
       splitPane.setDividerLocation(200);
       MainWindowStateBean state
               = localStorage.loadProperty("gui.state", MainWindowStateBean.class);
@@ -1060,7 +1147,7 @@ public final class Main {
       localStorage.saveProperty("gui.state", bean);
       this.mainPanel.removeAll();
       splitPane.setTopComponent(null);
-      mainPanel.add(new JScrollPane(textArea));
+      mainPanel.add(numberedtextAreaPane);
       ResultAreaHelper.disable(resultArea);
     }
     mainPanel.validate();
@@ -1547,4 +1634,340 @@ public final class Main {
     }
     return configDialog;
   }
+  /**
+   *  This class will display line numbers for a related text component. The text
+   *  component must use the same line height for each line. TextLineNumber
+   *  supports wrapped lines and will highlight the line number of the current
+   *  line in the text component.
+   *
+   *  This class was designed to be used as a component added to the row header
+   *  of a JScrollPane.
+   *
+   *  Credits: The implementation of this class is based on
+   *  "Text Component Line Number" Posted by Rob Camick on May 23, 2009 at
+   *  https://tips4java.wordpress.com/2009/05/23/text-component-line-number/
+   *
+   *  Usage / License according to https://tips4java.wordpress.com/about/ :
+   *  You are free to use and/or modify and/or distribute any or all code posted
+   *  on the Java Tips Weblog without restriction. A credit in the code comments
+   *  would be nice, but not in any way mandatory.
+   */
+  public class TextLineNumber extends JPanel
+    implements CaretListener, DocumentListener, ComponentListener, PropertyChangeListener
+  {
+    private static final long serialVersionUID = 1L;
+    public final static float LEFT = 0.0f;
+    public final static float CENTER = 0.5f;
+    public final static float RIGHT = 1.0f;
+
+    private final  Border OUTER = new MatteBorder(0, 2, 0, 2, Color.GRAY);
+
+    //  Text component this TextTextLineNumber component is in sync with
+    private JTextComponent component;
+
+    //  Properties that can be changed
+    private int borderGap;
+    private Color currentLineForeground;
+    private float digitAlignment;
+    private int minimumDisplayDigits;
+
+    //  Keep history information to reduce the number of times the component
+    //  needs to be repainted
+    private int lastDigits;
+    private int lastLine;
+
+    /**
+     *  Create a line number component for a text component.
+     *
+     *  @param component  the related text component
+     *  @param minimumDisplayDigits  the number of digits used to calculate
+     *                               the minimum width of the component
+     */
+    public TextLineNumber(JTextComponent component, int minimumDisplayDigits) {
+      this.component = component;
+
+      setFont( component.getFont() );
+      setBorderGap( 5 );
+      setCurrentLineForeground( Color.RED );
+      setDigitAlignment( RIGHT );
+      setMinimumDisplayDigits( minimumDisplayDigits );
+
+      component.getDocument().addDocumentListener(this);
+      component.addCaretListener( this );
+      component.addPropertyChangeListener("font", this);
+      component.addComponentListener(this);
+    }
+
+    /**
+     *  Gets the border gap
+     *  @return the border gap in pixels
+     */
+    public int getBorderGap() {
+      return borderGap;
+    }
+
+    /**
+     *  The border gap is used in calculating the left and right insets of the
+     *  border. Default value is 5.
+     *  @param borderGap  the gap in pixels
+     */
+    public void setBorderGap(int borderGap) {
+      this.borderGap = borderGap;
+      Border inner = new EmptyBorder(0, borderGap, 0, borderGap);
+      setBorder( new CompoundBorder(OUTER, inner) );
+      lastDigits = 0;
+      setPreferredWidth();
+    }
+
+    /**
+     *  Gets the current line rendering Color
+     *
+     *  @return the Color used to render the current line number
+     */
+    public Color getCurrentLineForeground() {
+      return currentLineForeground == null ? getForeground() : currentLineForeground;
+    }
+
+    /**
+     *  The Color used to render the current line digits. Default is Coolor.RED.
+     *
+     *  @param currentLineForeground  the Color used to render the current line
+     */
+    public void setCurrentLineForeground(Color currentLineForeground) {
+      this.currentLineForeground = currentLineForeground;
+    }
+
+    /**
+     *  Gets the digit alignment
+     *
+     *  @return the alignment of the painted digits
+     */
+    public float getDigitAlignment() {
+     return digitAlignment;
+    }
+
+    /**
+     *  Specify the horizontal alignment of the digits within the component.
+     *  Common values would be:
+     *  <ul>
+     *  <li>TextLineNumber.LEFT
+     *  <li>TextLineNumber.CENTER
+     *  <li>TextLineNumber.RIGHT (default)
+     *  </ul>
+     *  @param currentLineForeground  the Color used to render the current line
+     */
+    public void setDigitAlignment(float digitAlignment)  {
+      this.digitAlignment =
+        digitAlignment > 1.0f ? 1.0f : digitAlignment < 0.0f ? -1.0f : digitAlignment;
+    }
+
+    /**
+     *  Gets the minimum display digits
+     *
+     *  @return the minimum display digits
+     */
+    public int getMinimumDisplayDigits() {
+      return minimumDisplayDigits;
+    }
+
+    /**
+     *  Specify the mimimum number of digits used to calculate the preferred
+     *  width of the component. Default is 3.
+     *
+     *  @param minimumDisplayDigits  the number digits used in the preferred
+     *                               width calculation
+     */
+    public void setMinimumDisplayDigits(int minimumDisplayDigits) {
+      this.minimumDisplayDigits = minimumDisplayDigits;
+      setPreferredWidth();
+    }
+
+    /**
+     *  Calculate the width needed to display the maximum line number
+     */
+    private void setPreferredWidth() {
+      Element root = component.getDocument().getDefaultRootElement();
+      int lines = root.getElementCount();
+      int digits = Math.max(String.valueOf(lines).length(), minimumDisplayDigits);
+
+      FontMetrics fontMetrics = getFontMetrics( getFont() );
+      int width = fontMetrics.charWidth( '0' ) * digits;
+      Insets insets = getInsets();
+      int preferredWidth = insets.left + insets.right + width;
+
+      Dimension d = getPreferredSize();
+      d.setSize(preferredWidth, component.getHeight());
+      setPreferredSize( d );
+      setSize( d );
+    }
+
+    /**
+     *  Draw the line numbers
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+      super.paintComponent(g);
+
+      //  Determine the width of the space available to draw the line number
+      FontMetrics fontMetrics = component.getFontMetrics( component.getFont() );
+      Insets insets = getInsets();
+      int availableWidth = getSize().width - insets.left - insets.right;
+
+      //  Determine the rows to draw within the clipped bounds.
+      Rectangle clip = g.getClipBounds();
+      int rowStartOffset = component.viewToModel( new Point(0, clip.y) );
+      int endOffset      = component.viewToModel( new Point(0, clip.y + clip.height) );
+
+      while (rowStartOffset <= endOffset)
+      {
+        try {
+          if (isCurrentLine(rowStartOffset)) {
+            g.setColor( getCurrentLineForeground() );
+          } else {
+            g.setColor( getForeground() );
+          }
+          //  Get the line number as a string and then determine the
+          //  "X" and "Y" offsets for drawing the string.
+
+          String lineNumber = getTextLineNumber(rowStartOffset);
+          if (!lineNumber.isEmpty()) {
+            int stringWidth = fontMetrics.stringWidth( lineNumber );
+            int x = getOffsetX(availableWidth, stringWidth) + insets.left;
+            int y = getOffsetY(rowStartOffset, fontMetrics);
+            g.drawString(lineNumber, x, y);
+          }
+          //  Move to the next row
+          rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
+        }
+        catch(Exception e) {break;}
+      }
+    }
+
+    /*
+     *  We need to know if the caret is currently positioned on the line we
+     *  are about to paint so the line number can be highlighted.
+     */
+    private boolean isCurrentLine(int rowStartOffset) {
+      int caretPosition = component.getCaretPosition();
+      Element root = component.getDocument().getDefaultRootElement();
+
+      return root.getElementIndex( rowStartOffset ) == root.getElementIndex(caretPosition);
+    }
+
+    /*
+     *  Get the line number to be drawn. The empty string will be returned
+     *  when a line of text has wrapped.
+     */
+    protected String getTextLineNumber(int rowStartOffset) {
+      Element root = component.getDocument().getDefaultRootElement();
+      int index = root.getElementIndex( rowStartOffset );
+      Element line = root.getElement( index );
+
+      if (line.getStartOffset() == rowStartOffset) {
+        return String.valueOf(index + 1);
+      } else {
+        return "";
+      }
+    }
+
+    /*
+     *  Determine the X offset to properly align the line number when drawn
+     */
+    private int getOffsetX(int availableWidth, int stringWidth)
+    {
+      return (int)((availableWidth - stringWidth) * digitAlignment);
+    }
+
+    /*
+     *  Determine the Y offset for the current row
+     */
+    private int getOffsetY(int rowStartOffset, FontMetrics fontMetrics) throws BadLocationException {
+      //  Get the bounding rectangle of the row
+      Rectangle r = component.modelToView( rowStartOffset );
+      int y = r.y + r.height;
+
+      //  The text needs to be positioned above the bottom of the bounding
+      //  rectangle based on the descent of the font(s) contained on the row.
+
+      return y - fontMetrics.getDescent();
+    }
+
+    @Override
+    public void caretUpdate(CaretEvent e) {
+      //  Get the line the caret is positioned on
+      int caretPosition = component.getCaretPosition();
+      Element root = component.getDocument().getDefaultRootElement();
+      int currentLine = root.getElementIndex( caretPosition );
+
+      //  Need to repaint so the correct line number can be highlighted
+      if (lastLine != currentLine) {
+        setPreferredWidth();
+        documentChanged();
+        lastLine = currentLine;
+      }
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+      setPreferredWidth();
+      documentChanged();
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+      setPreferredWidth();
+      documentChanged();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+      //setPreferredWidth();
+      documentChanged();
+    }
+
+    /*
+     *  A document change may affect the number of displayed lines of text.
+     *  Therefore the lines numbers will also change.
+     */
+    private void documentChanged() {
+      //  View of the component has not been updated at the time
+      //  the DocumentEvent is fired
+      SwingUtilities.invokeLater(new Runnable()
+      {
+        @Override
+        public void run() {
+          repaint();
+        }
+      });
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      if (evt.getNewValue() instanceof Font) {
+        Font newFont = (Font) evt.getNewValue();
+        setFont(newFont);
+        lastDigits = 0;
+        setPreferredWidth();
+        documentChanged();
+      }
+    }
+
+  @Override
+  public void componentResized(ComponentEvent e) {
+    setPreferredWidth();
+    documentChanged();
+  }
+
+  @Override
+  public void componentMoved(ComponentEvent e) {}
+
+  @Override
+  public void componentShown(ComponentEvent e) {
+    setPreferredWidth();
+    documentChanged();
+  }
+
+  @Override
+  public void componentHidden(ComponentEvent e) {}
+ }
 }
