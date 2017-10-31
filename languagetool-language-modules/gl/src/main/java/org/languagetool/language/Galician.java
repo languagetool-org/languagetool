@@ -101,12 +101,10 @@ public class Galician extends Language {
     return disambiguator;
   }
 
-/*  @Override
- * public LanguageMaintainedState getMaintainedState() {
- *   return LanguageMaintainedState.ActivelyMaintained;
- * }
- * Wait a week before uncomenting this.
- */
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
 
   @Override
   public Contributor[] getMaintainers() {
