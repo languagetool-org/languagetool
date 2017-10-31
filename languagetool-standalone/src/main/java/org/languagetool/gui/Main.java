@@ -1839,7 +1839,10 @@ public final class Main {
           //  Move to the next row
           rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
         }
-        catch(Exception e) {break;}
+        catch(Exception e) {
+          e.printStackTrace();
+          break;
+        }
       }
     }
 
