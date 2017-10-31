@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-<!--
+    <!--
   Galician Disambiguation Rules for LanguageTool
   Copyright © 2011 Susana Sotelo Docío
   Copyright © 2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
@@ -33,153 +33,164 @@
 
 <rules lang="gl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <unification feature="number">
-        <equivalence type="singular">
-            <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
-        </equivalence>
+  <unification feature="number">
+    <equivalence type="singular">
+          <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+    </equivalence>
 
-        <equivalence type="plural">
-            <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
+    <equivalence type="plural">
+          <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
 
-    <unification feature="gender">
-        <equivalence type="masc">
-            <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
-        </equivalence>
+  <unification feature="gender">
+    <equivalence type="masc">
+          <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+    </equivalence>
 
-        <equivalence type="fem">
-            <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
+    <equivalence type="fem">
+          <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
 
-    <unification feature="person">
-        <equivalence type="first">
-            <token postag="(V...|PP)1.*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="second">
-            <token postag="(V...|PP)2.*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="third">
-            <token postag="(V...|PP)3.*" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
+  <unification feature="person">
+    <equivalence type="first">
+          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="second">
+          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="third">
+          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
 
     <rule id="DET_SUBST_ADX" name="det + subst + adx (unify)">
-        <pattern>
-            <unify>
-                <feature id="gender"/>
-                <feature id="number"/>
+      <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
 
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">gran|grande</exception></token>
-                <token postag="A.*" postag_regexp="yes"/>
-            </unify>
-        </pattern>
-        <disambig action="filterall"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes">
+            <exception regexp="yes">gran|grande</exception></token>
+          <token postag="A.*" postag_regexp="yes"/>
+          </unify>
+      </pattern>
+      <disambig action="filterall"/>
     </rule>
 
     <rule id="DET_SUBST" name="det|pron + subst|adx (det + subst|adx)">
-        <pattern>
-            <token><exception postag="V.*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="D.*" postag_regexp="yes"/>
-            </marker>
-            <token postag="[NA].*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
-        </pattern>
+      <pattern>
+          <token>
+            <exception postag="V.*" postag_regexp="yes"/></token>
+        <marker>
+          <token postag="D.*" postag_regexp="yes"/>
+        </marker>
+          <token postag="[NA].*" postag_regexp="yes">
+            <exception postag="V.*" postag_regexp="yes"/></token>
+      </pattern>
 
-        <disambig action="filter" postag="D.*"/>
+      <disambig action="filter" postag="D.*"/>
     </rule>
 
     <rule id="VOGAIS" name="[^o|letra] e[subst|conx] (e[subst])">
-        <pattern>
-            <token><exception regexp="yes">o|letra|vogal</exception></token>
-            <marker>
-                <token regexp="yes">[aeo]</token>
-            </marker>
-        </pattern>
+      <pattern>
+          <token>
+            <exception regexp="yes">o|letra|vogal</exception></token>
+        <marker>
+          <token regexp="yes">[aeo]</token>
+        </marker>
+      </pattern>
 
-        <disambig action="remove"><wd pos="NCMS000"/></disambig>
+      <disambig action="remove"><wd pos="NCMS000"/></disambig>
     </rule>
 
-    <rulegroup id="PERIFRASES" name="perífrases de infinitivo">
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">haber|ter</token>
-                <token>que</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+  <rulegroup id="PERIFRASES" name="perífrases de infinitivo">
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">haber|ter</token>
+          <token>que</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|botar|comezar|pegar|vir|chegar|voltar|tornar|romper|pór|poñer</token>
-                <token>a</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|botar|comezar|pegar|vir|chegar|voltar|tornar|romper|pór|poñer</token>
+          <token>a</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">deber|haber|deixar|parar|acabar|rematar|terminar|vir|ter</token>
-                <token>de</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">deber|haber|deixar|parar|acabar|rematar|terminar|vir|ter</token>
+          <token>de</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes">acabar</token>
-                <token>por</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">acabar</token>
+          <token>por</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes">estar</token>
-                <token>para</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">estar</token>
+          <token>para</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes">dar</token>
-                <token>en</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">dar</token>
+          <token>en</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">querer|ir|deber|haber|poder|volver|adoitar|acostumar</token>
-                <marker>
-                    <token postag="VMN0000"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">querer|ir|deber|haber|poder|volver|adoitar|acostumar</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
 
-            <disambig postag="VMN0000"/>
-        </rule>
-    </rulegroup>
+      <disambig postag="VMN0000"/>
+    </rule>
+  </rulegroup>
 
     <!-- XXX Ignore Spelling Rules XXX -->
     <rule name="en vogue" id="EN_VOGUE">
@@ -777,7 +788,7 @@
 
   <rulegroup id='LOOSE_UPPERCASES' name='Maiúsculas soltas'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
-    <rule> 
+    <rule>
       <pattern>
           <token regexp='yes'>(categoría|paso|grupo|turma|vitamina)s?</token>
           <token case_sensitive='yes' regexp='yes'>\p{Lu}</token>
@@ -794,7 +805,7 @@
   </rulegroup>
 
     <rule id='WORDS_WITH_NUMBERS' name='Palavras com números'>
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->    
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
     <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways -->
       <pattern>
           <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|4Chan|G(20|7)|H[₁₂₃₄₅₆₇₈₉₀]|i[357]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}</token>
