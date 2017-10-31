@@ -354,7 +354,7 @@ public final class Main {
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
 
-    textLineNumber = new TextLineNumber(textArea, 3);
+    textLineNumber = new TextLineNumber(textArea, 2);
     numberedtextAreaPane = new JScrollPane(textArea);
     numberedtextAreaPane.setRowHeaderView(textLineNumber);
 
