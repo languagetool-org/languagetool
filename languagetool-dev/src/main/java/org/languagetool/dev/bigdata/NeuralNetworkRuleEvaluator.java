@@ -29,7 +29,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +54,8 @@ class NeuralNetworkRuleEvaluator {
 
   private final Language language;
   private final List<NeuralNetworkRule> rules;
-  private final Map<Double, EvalValues> evalValues = new HashMap<>();
+  private final Map<Double, EvalValues> evalValues1 = new HashMap<>();
+  private final Map<Double, EvalValues> evalValues2 = new HashMap<>();
 
   private boolean verbose = true;
 
@@ -79,46 +79,46 @@ class NeuralNetworkRuleEvaluator {
 
   private Map<Double, EvalResult> run(NeuralNetworkRule rule, List<String> inputsOrDir, int maxSentences, List<Double> evalMinScores) {
     for (Double evalFactor : evalMinScores) {
-      evalValues.put(evalFactor, new EvalValues());
+      evalValues1.put(evalFactor, new EvalValues());
+      evalValues2.put(evalFactor, new EvalValues());
     }
     String token1 = rule.getSubjects().get(0);
     String token2 = rule.getSubjects().get(1);
     List<Sentence> allToken1Sentences = getRelevantSentences(inputsOrDir, token1, maxSentences);
     List<Sentence> allToken2Sentences = getRelevantSentences(inputsOrDir, token2, maxSentences);
-    evaluate(rule, allToken1Sentences, true, token1, token2, evalMinScores);
-    evaluate(rule, allToken1Sentences, false, token2, token1, evalMinScores);
-    evaluate(rule, allToken2Sentences, false, token1, token2, evalMinScores);
-    evaluate(rule, allToken2Sentences, true, token2, token1, evalMinScores);
+    evaluate(rule, allToken1Sentences, true, token1, token2, evalValues1, evalMinScores);
+    evaluate(rule, allToken1Sentences, false, token2, token1, evalValues2, evalMinScores);
+    evaluate(rule, allToken2Sentences, true, token2, token1, evalValues2, evalMinScores);
+    evaluate(rule, allToken2Sentences, false, token1, token2, evalValues1, evalMinScores);
     return printEvalResult(allToken1Sentences, allToken2Sentences, token1, token2);
   }
 
-  private void evaluate(NeuralNetworkRule rule, List<Sentence> sentences, boolean isCorrect, String token1, String token2, List<Double> evalMinScores) {
+  private void evaluate(NeuralNetworkRule rule, List<Sentence> sentences, boolean isCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores) {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token1, token2);
     JLanguageTool lt = new JLanguageTool(language);
     disableAllRules(lt);
     for (Sentence sentence : sentences) {
-      evaluateSentence(rule, isCorrect, token1, token2, evalMinScores, lt, sentence);
+      evaluateSentence(rule, isCorrect, token1, token2, evalValues, evalMinScores, lt, sentence);
     }
   }
 
-  private void evaluateSentence(NeuralNetworkRule rule, boolean isCorrect, String token1, String token2, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) {
+  private void evaluateSentence(NeuralNetworkRule rule, boolean isCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) {
     String textToken = isCorrect ? token1 : token2;
     String plainText = sentence.getText();
-    String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token1) : token1;
+    String replacement = token1;
     String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
-    AnalyzedSentence analyzedSentence = null;
     try {
-      analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
+      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
       for (Double minScore : evalMinScores) {
-        evaluateSentenceWithMinScore(rule, isCorrect, textToken, plainText, replacement, analyzedSentence, minScore);
+        evaluateSentenceWithMinScore(rule, isCorrect, textToken, plainText, replacement, analyzedSentence, evalValues, minScore);
       }
     } catch (IOException e) {
       throw new RuntimeException("Error while analyzing sentence", e);
     }
   }
 
-  private void evaluateSentenceWithMinScore(NeuralNetworkRule rule, boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Double minScore) throws IOException {
+  private void evaluateSentenceWithMinScore(NeuralNetworkRule rule, boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Map<Double, EvalValues> evalValues, Double minScore) throws IOException {
     rule.setMinScore(minScore);
     RuleMatch[] matches = rule.match(analyzedSentence);
     boolean consideredCorrect = matches.length == 0;
@@ -155,28 +155,35 @@ class NeuralNetworkRuleEvaluator {
     int sentences = allToken1Sentences.size() + allToken2Sentences.size();
     System.out.println("\nEvaluation results for " + token1 + "/" + token2
             + " with " + sentences + " sentences as of " + new Date() + ":");
-    List<Double> certainties = evalValues.keySet().stream().sorted().collect(toList());
-    for (Double certainty : certainties) {
-      EvalValues certaintyEvalValues = evalValues.get(certainty);
-      float precision = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falsePositives);
-      float recall = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falseNegatives);
-      String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-      String summary = String.format(ENGLISH, "%s; %s; %4.2f # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
-              token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
-              certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
-      results.put(certainty, new EvalResult(summary, precision, recall));
-      if (verbose) {
-        System.out.println();
-        System.out.printf(ENGLISH, "Certainty: %4.2f - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
-                certainty, certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives);
-        System.out.printf(summary + "\n");
-      }
-    }
+
+    System.out.println("Results for " + token1);
+    evalValues1.keySet().stream()
+            .sorted()
+            .map(certainty -> new EvalResult(allToken1Sentences, allToken2Sentences, token1, token2, evalValues1.get(certainty), certainty))
+            .forEach(evalResult -> System.out.println(evalResult.getSummary()));
+    System.out.println();
+
+    System.out.println("Results for " + token2);
+    evalValues2.keySet().stream()
+            .sorted()
+            .map(certainty -> new EvalResult(allToken1Sentences, allToken2Sentences, token1, token2, evalValues2.get(certainty), certainty))
+            .forEach(evalResult -> System.out.println(evalResult.getSummary()));
+    System.out.println();
+
+    System.out.println("Results for both tokens");
+    evalValues1.keySet().stream()
+            .sorted()
+            .forEach(certainty -> results.put(certainty, new EvalResult(allToken1Sentences, allToken2Sentences, token1, token2, evalValues1.get(certainty).plus(evalValues2.get(certainty)), certainty)));
+
+    results.keySet().stream()
+            .sorted()
+            .forEach(certainty -> System.out.println(results.get(certainty).getSummary()));
+
     return results;
   }
 
   private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) {
-    SentenceSource sentenceSource = null;
+    SentenceSource sentenceSource;
     try {
       sentenceSource = MixingSentenceSource.create(inputs, language);
     } catch (IOException e) {
@@ -265,6 +272,23 @@ class NeuralNetworkRuleEvaluator {
     private int trueNegatives = 0;
     private int falsePositives = 0;
     private int falseNegatives = 0;
+
+    public EvalValues() {
+    }
+
+    public EvalValues(int truePositives, int trueNegatives, int falsePositives, int falseNegatives) {
+      this.truePositives = truePositives;
+      this.trueNegatives = trueNegatives;
+      this.falsePositives = falsePositives;
+      this.falseNegatives = falseNegatives;
+    }
+
+    EvalValues plus(EvalValues that) {
+      return new EvalValues(this.truePositives + that.truePositives,
+              this.trueNegatives + that.trueNegatives,
+              this.falsePositives + that.falsePositives,
+              this.falseNegatives + that.falseNegatives);
+    }
   }
 
   static class EvalResult { // TODO share class
@@ -274,6 +298,18 @@ class NeuralNetworkRuleEvaluator {
     private final float recall;
 
     EvalResult(String summary, float precision, float recall) {
+      this.summary = summary;
+      this.precision = precision;
+      this.recall = recall;
+    }
+
+    EvalResult (List<Sentence> allToken1Sentences, List<Sentence> allToken2Sentences, String token1, String token2, EvalValues certaintyEvalValues, Double certainty) {
+      float precision = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falsePositives);
+      float recall = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falseNegatives);
+      String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+      String summary = String.format(ENGLISH, "%s; %s; %4.2f # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
+              token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
+              certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
       this.summary = summary;
       this.precision = precision;
       this.recall = recall;
