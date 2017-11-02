@@ -253,6 +253,10 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().csToken("das").build(),
         new PatternTokenBuilder().posRegex("SUB:.+").build(),
         new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
+    ),
+    Arrays.asList( // "Karl sagte, dass sie niemandem Bescheid gegeben habe."
+        new PatternTokenBuilder().token("niemand").matchInflectedForms().build(),
+        new PatternTokenBuilder().posRegex("SUB:.+").build()
     )
   );
 

@@ -117,6 +117,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
+    putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
+    putRepl("todesbedroh(end|lich)(e[nmrs]?)?", "todes", "lebens");
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));

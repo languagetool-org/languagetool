@@ -2073,13 +2073,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>      
                 <pattern>
-                    <token inflected="yes">скрытый</token>
-                    <token inflected="yes" regexp="yes">характер|человек</token>
+                    <token postag_regexp="yes" postag="PNN|NN:Anim:.*" skip="-1"></token>
+                    <marker>     
+                        <token inflected="yes">скрытый</token>
+                        <token inflected="yes" regexp="yes">характер|человек</token>
+                    </marker>
                 </pattern>
-                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(скрыт)(.*)" regexp_replace="скрытн$2" /> <match no="2"  /></suggestion>?</message>
+                <message>Логическая ошибка: <suggestion><match no="2" regexp_match="(скрыт)(.*)" regexp_replace="скрытн$2" /> <match no="3"  /></suggestion>?</message>
                 
                 <short>Логическая ошибка.</short>
                 <example correction="скрытный характер">У этого человека очень <marker>скрытый характер</marker>.</example>
+                <example>Повреждения носят <marker>скрытый характер</marker>.</example>
             </rule>
         </rulegroup>  
         
@@ -8669,7 +8673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]|-|–|—</exception><exception regexp="yes" scope="next">и|только</exception></token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]|-|–|—</exception><exception regexp="yes" scope="next">и|только|или</exception></token>
                         <token skip="-1">не<exception  scope="previous" regexp="yes">['"«]</exception></token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>

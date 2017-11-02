@@ -414,7 +414,8 @@
       <pattern>
         <marker>
           <token>cara
-            <exception scope="previous" postag="D.*" postag_regexp="yes"/><exception scope="previous">de</exception></token>
+            <exception scope="previous" postag="D.*" postag_regexp="yes"/>
+            <exception scope="previous">de</exception></token>
         </marker>
           <token regexp="yes">a|as</token>
           <token postag="A...S.|NC.S..." postag_regexp="yes"/>
@@ -534,7 +535,8 @@
       <pattern>
     <!-- Exceptions: o, mailo + o, por + o, de + o, en + o, todos + o, con + o, ca + o, a + o    //   e, ou -->
           <token>demais
-            <exception regexp="yes" scope="previous">(mail|pol|d|n)?[ao]s?</exception><exception regexp="yes" scope="previous">tódolos|tódalas|coa?s?|c?[óá]s?|aos?|e|ou</exception></token>
+            <exception regexp="yes" scope="previous">(mail|pol|d|n)?[ao]s?</exception>
+            <exception regexp="yes" scope="previous">tódolos|tódalas|coa?s?|c?[óá]s?|aos?|e|ou</exception></token>
       </pattern>
       <message>En galego 'demais' escríbese xunto só cando é pronome, e nese caso vai precedido por un artigo. Polo contexto semella estar vostede empregándoo como adverbio, que indica exceso dunha cantidade, e neste caso vai separado. Quería vostede dicir <suggestion>de máis</suggestion>?</message>
       <example correction="de máis">Sempre fala <marker>demais</marker>.</example>
@@ -653,9 +655,11 @@
 
     <rule id="AMBO_TRA_ENTRAMBO_PO_TODO_LOS" name="tódo-los (tódolos)">
       <pattern>
-          <token regexp="yes">(ámbo|tra|entrámbo|mai|po)-l[oa]s?|tóda-las?|tódo-los?</token>
+          <token regexp="yes">(ámbo|tra|entrámbo|mai|po|tód[ao])</token>
+          <token>-</token>
+          <token regexp='yes'>l[oa]s?</token>
       </pattern>
-      <message>As formas 'e mais', 'ambos', 'entrambos', 'por', 'tras' e 'todos' non marcan a segunda forma do artigo mediante un trazo. Quería vostede dicir <suggestion><match no="1" regexp_match="\-" regexp_replace=""/></suggestion>?</message>
+      <message>As formas 'e mais', 'ambos', 'entrambos', 'por', 'tras' e 'todos' non marcan a segunda forma do artigo mediante un trazo. Quería vostede dicir <suggestion>\1\3</suggestion>?</message>
       <example correction="Tódolos"><marker>Tódo-los</marker> días vou mercar á praza.</example>
     </rule>
 
@@ -1804,4 +1808,6 @@
   </rulegroup>
 
  </category>
+ 
+
 </rules>

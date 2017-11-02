@@ -6,8 +6,23 @@
   * removed the category MISC and moved the rules to more specific categories
 
 #### Galician
+  * added and improved rules, including:
+    - style: barbarism, redundant expressions, and wordy expressions detection added
+  * multiword disambiguation added
+  * new word tokenizer
+  * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for:
+    - abbreviations;
+    - variables in formulas, units, and related statistical vocabulary;
+    - common Latin, English and French expressions;
+    - species scientific names;
+    - famous personalities
   * updated Hunspell dictionaries to:
     - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
+
+#### German
+  * added and improved rules
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
 
 #### Portuguese
   * added and improved rules
@@ -22,6 +37,9 @@
 
 #### General
   * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+
+#### GUI (stand-alone version)
+  * show line numbers in the text area
 
 
 ## 3.9 (2017-09-26)

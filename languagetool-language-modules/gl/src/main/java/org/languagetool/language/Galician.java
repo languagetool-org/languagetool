@@ -18,25 +18,26 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.gl.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.gl.GalicianHybridDisambiguator;
 import org.languagetool.tagging.gl.GalicianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.gl.GalicianWordTokenizer;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class Galician extends Language {
 
@@ -96,17 +97,15 @@ public class Galician extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new Galician());
+      disambiguator = new GalicianHybridDisambiguator();
     }
     return disambiguator;
   }
 
-/*  @Override
- * public LanguageMaintainedState getMaintainedState() {
- *   return LanguageMaintainedState.ActivelyMaintained;
- * }
- * Wait a week before uncomenting this.
- */
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
 
   @Override
   public Contributor[] getMaintainers() {

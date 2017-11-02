@@ -18896,75 +18896,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>Col·legi</suggestion>?</message>
                 <example correction="Col·legi"><marker>Collegi</marker> Superior.</example>
             </rule>
-            <rule>
+            <rule> <!-- formes valencianes i balears -->
                 <pattern>
                     <and>
                         <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|V.SP...V|N.*|AQ.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|africa</exception></token>
                         <token postag="_possible_nompropi"/>
                     </and>
-                </pattern>
+                </pattern> 
                 <message>Paraula desconeguda com a nom propi.</message>
                 <example correction="">Maria <marker>Barbara</marker> Bach</example>
                 <example correction="">i <marker>Adoram</marker>, fill d'Abdà,</example>
                 <example correction="">El fill de Dèquer s'estava a <marker>Macàs</marker></example>
+                <!-- <example correction="">de la <marker>Musique</marker> de Russie</example>-->
                 <example>Digui el que Vulgui.</example>
                 <example>La senyora Reis Pérez diu que sí.</example>
                 <example>El Font Nacional de Le Pen</example>
             </rule>
-            <rule>
-                <!--<antipattern>
-                    <marker>
-                        <token regexp="yes">[\.\(\?!\[]</token>
-                        <token/>
-                    </marker>
-                </antipattern>-->
-                <antipattern>
-                    <marker>
-                        <token postag="SENT_START"/>
-                        <token regexp="yes" min="1" max="6">[\d+\.]+|[a-z]|\)</token>
-                        <token/>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <marker>
-                        <token postag="SENT_START"/>
-                        <token regexp="yes">[•\*]</token>
-                        <token/>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <marker>
-                        <token postag="SENT_START"/>
-                        <token regexp="yes">[\("'«“‘]</token>
-                        <token spacebefore="no"/>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <marker>
-                        <token postag="SENT_START"/>
-                        <token regexp="yes">[a-z]|\d+|1r|2n|3r|4t|[0-9]+è</token>
-                        <token regexp="yes">[\).]</token>
-                        <token/>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <marker>
-                        <token postag="SENT_START"/>
-                        <token min="1" max="3" postag="_PUNCT.*" postag_regexp="yes"></token>
-                        <token postag="_possible_nompropi"/>
-                    </marker>
-                </antipattern>
+            <rule> <!-- resta de formes, però només darrere de preposició o conjunció -->
                 <pattern>
+                    <token postag="SPS00|C." postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <marker>
                     <and>
                         <token postag="V.{6}[0CXY12]|V.SP...V" postag_regexp="yes"><exception postag="N.*|AQ.*|V.P.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|cal|africa</exception></token>
                         <token postag="_possible_nompropi"/>
                     </and>
+                    </marker>
                 </pattern>
                 <message>Paraula desconeguda com a nom propi.</message>
-                <suggestion><match no="1" case_conversion="alllower"/></suggestion>
-                <example correction="patís">Se n'ha anat a <marker>Patís</marker>.</example>
-                <example correction="vulgui">Digui el que <marker>Vulgui</marker>.</example>
-                <example correction="musique">estudis (<marker>Musique</marker> de Russie)</example>
+                <example correction="">Se n'ha anat a <marker>Patís</marker>.</example>
+                <example correction="">Digui el que <marker>Vulgui</marker>.</example>
+                <!--<example correction="musique">estudis (<marker>Musique</marker> de Russie)</example>-->
                 <example>La senyora Reis Pérez diu que sí.</example>
                 <example>El Front Nacional de Le Pen</example>
                 <example>Vam anar a Cal Xato.</example>
