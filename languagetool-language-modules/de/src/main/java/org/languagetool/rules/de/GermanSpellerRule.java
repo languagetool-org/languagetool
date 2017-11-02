@@ -107,6 +107,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Internetkaffees?", "kaffee", "café");
+    putRepl("[gG]ehorsamkeitsverweigerung(en?)", "[gG]ehorsamkeit", "Gehorsam");
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
