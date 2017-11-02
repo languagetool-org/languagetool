@@ -145,6 +145,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
+    message += "User agent param: " + params.get("useragent") + ", ";
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
     String text = params.get("text");
@@ -161,10 +162,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
+  @Nullable
   private String getHttpUserAgent(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("User-Agent");
   }
 
+  @Nullable
   private String getHttpReferrer(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("Referer");
   }
