@@ -20,6 +20,21 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+  <!DOCTYPE rules [
+    <!ENTITY meses_ano_abrev "(?:jan|feb|mar|abr|mai|xu[lnñ]|ago|set|out|nov|dec)">
+    <!ENTITY meses_ano "(?:x(?:aneiro|u(?:ñ|ll)o)|febreiro|marzo|abril|maio|agosto|setembro|outubro|novembro|decembro)">
+    <!ENTITY dias_semana_abrev "(?:seg|ter|cua|mar|qui|sex|sáb|dom)">
+    <!ENTITY dias_semana "(?:segunda|terza|martes|cuarta|quinta|sexta|sábado|domingo)">
+    <!ENTITY partes_do_dia "(?:mañá|matina|tarde|noite)">
+    <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|día|semana|(?:bi|tri|quadri|se)mestre|ano|década|decenio|milenio|tempo|temporada|época)s?|mes|meses">
+
+    <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
+
+    <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
+    <!ENTITY hifen "(?:[-‑])">
+    <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+]>
+
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <unification feature="number">
@@ -54,6 +69,389 @@
     </equivalence>
   </unification>
 
+<category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+
+  <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formateo de números: 10 341 330">
+    <!-- Created by Tiago F. Santos, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url>
+      <short>Erro tipográfico</short>
+    <rule>
+      <antipattern>
+          <token spacebefore='no'>,</token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{4}</token>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
+      </antipattern>
+      <antipattern>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
+          <token postag='SENT_END' regexp="yes">\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp="yes">\d+</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d+\d{3}(?:,\d+)?</token>
+        </marker>
+      </pattern>
+      <message>Se non é un ano, os algarismos deben ser agrupados en grupos de 3.</message>
+        <suggestion><match no="2" regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
+      <example correction='10 341'>En 2016, Portugal rexistrou <marker>10341</marker> miles de habitantes.</example>
+      <example correction='1 034'><marker>1034</marker> 133 corresponde a un décimo dos habitantes portugueses</example>
+      <example>O ano ten exactamente 365,24219858156 días.</example>
+      <example>É o ano de <marker>1989</marker>.</example>
+      <example>É o ano de <marker>1989</marker></example>
+      <example>ISBN 0-522-85317-X.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+\,\d{3}\d+</token>
+      </pattern>
+      <message>Os algarismos deben ser agrupados en grupos de 3.</message>
+        <suggestion><match no="3" regexp_match="(\d+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+      <example correction='17,103 41'>A media exacta é de <marker>17,10341</marker> valores.</example>
+      <example correction='365,242 19858156'>O ano ten exactamente <marker>365,24219858156</marker> días.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espazos en unidades de medida">
+    <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
+    <url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url>
+    <rule>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
+      <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url>
+      <example correction="25 °C">Fan <marker>25°C</marker>.</example>
+      <example correction="-25 °C">Fan <marker>-25°C</marker>.</example>
+      <example correction="25,5 °F">Fan <marker>25,5°F</marker>.</example>
+      <example>Fan <marker>25,5 °C</marker>.</example>
+      <example>Fan <marker>25,5 °Ra</marker>.</example>
+      <example>San <marker>5 km</marker> gelaufen.</example>
+      <example correction="5 km">San <marker>5km</marker> de distancia.</example>
+      <example>San <marker>5 ZiB</marker> de datos.</example>
+      <example correction="5 ZiB">San <marker>5ZiB</marker> de datos.</example>
+      <example>San <marker>5 kB</marker> de datos.</example>
+      <example correction="5 kB">San <marker>5kB</marker> de datos.</example>
+      <example correction="5 kg">Pesa <marker>5kg</marker>.</example>
+      <example correction="5 Mt">Pesa <marker>5Mt</marker>.</example>
+      <example>Pesa <marker>5 µg</marker>.</example>
+      <example>Isótopo 241Am</example>
+      <example>(AsCH3)2n</example>
+      <example>Bd. 1b</example>
+      <example>Primeiro lanzamento de Saturno 1B</example>
+      <example correction="2.000 kWh">Foron consumidos <marker>2.000kWh</marker></example>
+      <example>Os xuros son de 5 <marker>%</marker>.</example>
+    </rule>
+    <rule>
+      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+      <message>Non existe espaçamento a preceder o símbolo de grao. Utilice <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+      <example correction="25°|25 °C">O ángulo é <marker>25 ° </marker></example>
+      <example correction="-25,5°|-25,5 °C">Fan <marker>-25,5 ° </marker>de temperatura.</example>
+      <example correction="-25°|-25 °C">Fan <marker>-25 ° </marker>de temperatura.</example>
+      <example correction="25°|25 °C">O ángulo é <marker>25 ° </marker>de abertura.</example>
+      <example correction="-25°|-25 °C">Fan <marker>-25 ° </marker>de temperatura.</example>
+    </rule>
+    <rule>
+      <regexp>((\-)?[0-9]+[0-9.,]{1,}) (″)</regexp>
+      <message>O sinal de segundos (\2) non é espaçado.</message>
+        <suggestion>\1\2\3</suggestion>
+      <example>3°14′ 45,54″</example>
+      <example correction="45″"><marker>45 ″</marker> E</example>
+      <example correction="45,54″"><marker>45,54 ″</marker> E</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='SI_UNITS_EXPONENT' name="Matemático: Unidades do Sistema Internacional: km2/km²">
+    <!-- Created by Tiago F. Santos, 2017-05-12 -->
+      <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
+      <short>Erro tipográfico</short>
+    <!--rule> XXX disambiguate numbers Z.+ and uncomment
+      <pattern case_sensitive="yes">
+          <token postag_regexp='yes' postag='Z.+' skip='3'/>
+        <marker>
+          <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?2
+            <exception regexp='yes'>(?:TV|GT)2</exception></token>
+        </marker>
+      </pattern>
+      <message>Os expoentes deben estar en sobrescrito.</message>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)(⁻?)2' regexp_replace='$1$4²'/></suggestion>
+      <example correction="km²">..estado o ano de 2010, foi de 4,68 habitantes por <marker>km2</marker>, sendo a vixésima cuarta maior do Brasil e a quin…</example>
+      <example correction="km²">..estado o ano de 2010, foi de 4,68 habitantes por <marker>km^2</marker>, sendo a vixésima cuarta maior do Brasil e a quin…</example>
+      <example correction="s⁻²">g = 9,8 m.<marker>s⁻2</marker></example>
+    </rule>
+    <rule>  XXX disambiguate numbers Z.+ and uncomment
+      <pattern case_sensitive="yes">
+          <token postag_regexp='yes' postag='Z.+' skip='3'/>
+        <marker>
+          <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?3
+            <exception regexp='yes'>(?:TV|GT)3</exception></token>
+        </marker>
+      </pattern>
+      <message>Os expoentes deben estar en sobrescrito.</message>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)(⁻?)3' regexp_replace='$1$4³'/></suggestion>
+      <example correction="m³">A banheira tiña 2 <marker>m3</marker>.</example>
+      <example correction="m³">A banheira tiña 2 <marker>m^3</marker>.</example>
+      <example correction="s⁻³">g.t = 9,8 m.<marker>s⁻3</marker></example>
+    </rule-->
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>/</token>
+        <marker>
+          <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?2</token>
+        </marker>
+      </pattern>
+      <message>Os expoentes deben estar en sobrescrito.</message>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)2' regexp_replace='$1²'/></suggestion>
+      <example correction="s²">g = 9,8 m/<marker>s2</marker></example>
+      <example correction="s²">g = 9,8 m/<marker>s^2</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>/</token>
+        <marker>
+          <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?3</token>
+        </marker>
+      </pattern>
+      <message>Os expoentes deben estar en sobrescrito.</message>
+        <suggestion><match no="2" regexp_match='(.+?)((\^)?)3' regexp_replace='$1³'/></suggestion>
+      <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm3</marker>.</example>
+      <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm^3</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="kWh" name="kW/h → kWh">
+    <!-- Localized from French grammar.xml by Tiago F. Santos, 2017-06-28 -->
+      <url>https://pt.wikipedia.org/wiki/Watt-hora</url>
+    <rule>
+      <pattern>
+          <token regexp="yes">[KMGT]?W|(kilo|mega|giga|tera)?watt</token>
+          <token spacebefore="no">/</token>
+          <token spacebefore="no" regexp="yes">h|hora</token>
+      </pattern>
+      <message>Se se refire á unidade de consumo de enerxía, debe escribir <suggestion>\1\3</suggestion>.</message>
+      <example correction="kWh">O aparello consome 5 <marker>kW/h</marker>.</example>
+      <example>O aparello consome 5 kW.h.</example>
+      <example>O aparello consome 5 kWh.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">(?-i)KW</token>
+          <token spacebefore="no" regexp='yes'>[·.]</token>
+          <token spacebefore="no">h</token>
+      </pattern>
+      <message>O prefixo kilo debe ser escrito en minúsculas.</message>
+        <suggestion><match no="1" case_conversion="startlower"/>h</suggestion>
+        <suggestion><match no="1" case_conversion="startlower"/>.h</suggestion>
+      <example correction="kWh|kW.h">O aparello consome 5 <marker>KW.h</marker>.</example>
+      <example>O aparello consome 5 kWh.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>KWh</token>
+      </pattern>
+      <message>O prefixo kilo debe ser escrito en minúsculas.</message>
+        <suggestion><match no="1" case_conversion="startlower"/></suggestion>
+      <example correction="kWh">O aparello consome 5 <marker>KWh</marker>.</example>
+      <example>O aparello consome 5 kW·h.</example>
+      <example>O aparello consome 5 kWh.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id="SPACES_BETWEEN_OPERATORS" name="Matemático: Espazo entre operadores">
+    <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-09 -->
+      <antipattern>    <!-- time exception: -->
+          <token regexp="yes">(?:[01]?[0-9]|2[0-4])[0-9]?</token>
+          <token>:</token>
+          <token regexp="yes">[0-5][0-9]</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">(?:[0-9]+[a-z]*)
+            <exception scope="previous" regexp="yes">escalas?</exception>
+            <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
+          </token>
+          <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+          <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+
+            <exception regexp="yes">\d\dh</exception></token>
+        </marker>
+          <token negate="yes">h</token>
+      </pattern>
+      <message>Separe as fórmulas con espazos (protexidos).</message>
+        <suggestion>\1 \2 \3</suggestion>
+      <example correction="5 * 5"><marker>5*5</marker>.</example>
+      <example correction="3a = 2"><marker>3a=2</marker>.</example>
+      <example>Un mapa na escala 1:80000.</example>
+      <example>Teño unha reunión ás 7:00 h.</example>
+      <example>Teño unha reunión ás 7:00h.</example>
+      <example>Enviado a 2014-01-23 10:32 :</example>
+      <example>a = 2 · x² + 5</example>
+      <example>4,5 × 2,5</example>
+      <example>Entre as 9:00 e as 16:45.</example>
+    </rule>
+
+  <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicación: x - × ">
+    <!-- Created by Tiago F. Santos, 2017-03-27 -->
+    <rule>
+      <antipattern>
+          <token regexp='yes'>[,o]</token>
+          <token>x</token>
+          <token regexp='yes'>[,e]</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+        <marker>
+          <token regexp='yes'>[x\*]</token>
+        </marker>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+      </pattern>
+      <message>Prefira o símbolo de multiplicación.</message>
+        <suggestion>×</suggestion>
+        <suggestion>·</suggestion>
+      <example correction="×|·">h = 6,626 <marker>x</marker> 10⁻³⁴ J.s</example>
+      <example correction="×|·">h = 6.626 <marker>x</marker> 10⁻³⁴ J.s</example>
+      <example correction="×|·">5 <marker>*</marker> 2 = 10</example>
+      <example correction="×|·">a = 5 <marker>*</marker> x + 7</example>
+      <example correction="×|·">a = 5x <marker>*</marker> 5 + 7</example>
+      <example correction="×|·">a <marker>*</marker> b</example>
+      <example>a = 2 · x² + 5</example>
+      <example>4,5 × 2,5 = 11,25</example>
+      <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
+    </rule>
+    <rule>
+      <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <message>Prefira o símbolo de multiplicación.</message>
+        <suggestion>\1×\2</suggestion>
+        <suggestion>\1·\2</suggestion>
+      <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
+      <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
+      <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+      <example>a=2·x²+5</example>
+      <example>4,5×2,5=11,25</example>
+    </rule>
+    <rule>
+      <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+      <message>Prefira o símbolo de multiplicación.</message>
+        <suggestion>\1×\2</suggestion>
+        <suggestion>\1·\2</suggestion>
+      <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
+      <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+      <example correction="a×b|a·b"><marker>a*b</marker></example>
+      <example>a=2·x²+5</example>
+      <example>4,5×2,5=11,25</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='PLUS_MINUS' name="Matemático: +- - ± ">
+    <!-- Created by Tiago F. Santos, 2017-03-28 -->
+    <rule>
+      <pattern>
+          <token>+</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>+-</marker> 0,1 g</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&hifen;</token>
+          <token spacebefore='no'>+</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="EQUAL_OR_X" name="Matemático: &gt;= (≥)">
+    <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+    <rule>
+      <regexp>&gt;=</regexp>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>≥</suggestion>
+        <suggestion>≧</suggestion>
+      <example>1 = 1</example>
+      <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+    </rule>
+    <!--rule> FIXME &lt; sequence is not being properly escaped. Verify interpreter.
+      <pattern>
+          <token>&lt;</token>
+          <token>=</token>
+          <token negate="yes">></token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>≤</suggestion>
+        <suggestion>≦</suggestion>
+      <example>1 ≤ 3</example>
+      <example type="incorrect">1 <marker>&gt;=</marker> 3</example>
+            </rule-->
+  </rulegroup>
+
+  <rulegroup id="ARROWS" name="-&gt; (→)">
+    <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+    <rule>
+      <pattern>
+          <token negate="yes">&lt;</token>
+        <marker>
+          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token>&gt;</token>
+        </marker>
+      </pattern>
+      <message>Pretende utilizar un frecha?</message>
+        <suggestion>≥</suggestion>
+        <suggestion>→</suggestion>
+        <suggestion>⇾</suggestion>
+        <suggestion>⇉</suggestion>
+        <suggestion>⇒</suggestion>
+        <suggestion>⇨</suggestion>
+        <suggestion>⇛</suggestion>
+      <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
+    </rule>
+    <!--rule> FIXME &lt; equence is not being properly escaped. Verify interpreter.
+      <pattern>
+        <marker>
+          <token>&lt;</token>
+          <token regexp="yes">(?:\-|=){1,2}</token>
+        </marker>
+          <token negate="yes">&gt;</token>
+      </pattern>
+      <message>Pretende utilizar um seta?</message>
+        <suggestion>≤</suggestion>
+        <suggestion>←</suggestion>
+        <suggestion>⇽</suggestion>
+        <suggestion>⇇</suggestion>
+        <suggestion>⇐</suggestion>
+        <suggestion>⇦</suggestion>
+        <suggestion>⇚</suggestion>
+      <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+      <example >A ← B</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>&lt;</token>
+          <token regexp="yes">\-|=</token>
+          <token>&gt;</token>
+      </pattern>
+      <message>Pretende utilizar um seta?</message>
+        <suggestion>↔</suggestion>
+        <suggestion>⇿</suggestion>
+        <suggestion>⇄</suggestion>
+        <suggestion>⇆</suggestion>
+        <suggestion>⇋</suggestion>
+        <suggestion>⇌</suggestion>
+        <suggestion>⇔</suggestion>
+      <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+      <example>A ⇔ B</example>
+            </rule-->
+  </rulegroup>
+
+ </category>
 
  <category id="CAT1" name="Gramática::Verbo">
 
@@ -1808,6 +2206,5 @@
   </rulegroup>
 
  </category>
- 
 
 </rules>
