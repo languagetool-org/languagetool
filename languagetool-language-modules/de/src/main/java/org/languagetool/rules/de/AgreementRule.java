@@ -553,7 +553,15 @@ public class AgreementRule extends Rule {
     if (token2.isImmunized()) {
       return null;
     }
-    Set<String> set1 = getAgreementCategories(token1);
+    Set<String> set1 = null;
+    if (token1.getReadings().size() == 1 &&
+        token1.getReadings().get(0).getPOSTag() != null &&
+        token1.getReadings().get(0).getPOSTag().endsWith(":STV")) {
+      // catch the error in "Meiner Chef raucht."
+      set1 = Collections.emptySet(); 
+    } else {
+      set1 = getAgreementCategories(token1);
+    }
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }

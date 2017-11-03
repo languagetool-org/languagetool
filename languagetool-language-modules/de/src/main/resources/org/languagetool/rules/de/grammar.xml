@@ -304,7 +304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="paar kleine|Paar keine">... nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
         </rule>
         <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir/dir/uns">
-            <regexp>\bmir (mir|dir|ihm|uns|euch|ihnen|meinem|deinem|seinem|unserem|eurem|ihrem)\b</regexp>
+            <regexp>\bmir ([dm]ir|ihm|euch|ihnen|[dms]einem|uns(erem)?|(eu|ih)rem)\b</regexp>
             <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \1</suggestion>?</message>
             <example correction="mit dir">Ich will <marker>mir dir</marker> reden.</example>
         </rule>
@@ -326,7 +326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>seihe</token>
                 </marker>
-                <token regexp="yes">unten|oben|Kapital|Folge|Absatz|Abschnitt|Seite|nächste[ns]?|folgende[ns]?</token>
+                <token regexp="yes">unten|oben|Kapitel|Folge|Abs(atz|chnitt)|Seite|nächste[ns]?|folgende[ns]?</token>
             </pattern>
             <message>Meinten Sie <suggestion>siehe</suggestion>?</message>
             <example correction="Siehe">"<marker>Seihe</marker> unten", meinte er trocken, als der Stift vom Tisch rollte.</example>
@@ -658,7 +658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>reiz</token>
                     </marker>
-                    <token regexp="yes">mich|dich|ihn|sie|es|uns|euch</token>
+                    <token regexp="yes">[dm]ich|ihn|sie|es|uns|euch</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>reizt</suggestion>?</message>
                 <example correction="reizt">Dies <marker>reiz</marker> mich an der Arbeit eines Wirtschaftsinformatikers.</example>
@@ -666,7 +666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">mich|dich|ihn|sie|es|uns|euch</token>
+                    <token regexp="yes">[dm]ich|ihn|sie|es|uns|euch</token>
                     <marker>
                         <token>reiz</token>
                     </marker>

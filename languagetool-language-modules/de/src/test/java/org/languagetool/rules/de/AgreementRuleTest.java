@@ -194,6 +194,7 @@ public class AgreementRuleTest {
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
 
     // incorrect sentences:
+    assertBad("Meiner Chef raucht.");
     assertBad("Er hat eine 34-jährigen Sohn.");
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
     assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
