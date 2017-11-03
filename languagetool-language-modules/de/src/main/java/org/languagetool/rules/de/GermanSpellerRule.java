@@ -746,16 +746,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
     @Override
     public String readLine() throws IOException {
-      if (buffer.size() > 0) {
-        return buffer.remove(0);
-      } else {
+      if (buffer.isEmpty()) {
         String line = super.readLine();
         if (line == null) {
           return null;
         }
         buffer.addAll(lineExpander.expandLine(line));
-        return buffer.remove(0);
       }
+      return buffer.remove(0);
     }
   }
 
