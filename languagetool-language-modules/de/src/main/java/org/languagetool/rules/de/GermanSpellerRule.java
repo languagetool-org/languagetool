@@ -108,6 +108,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Internetkaffees?", "kaffee", "café");
     putRepl("[gG]ehorsamkeitsverweigerung(en?)", "[gG]ehorsamkeit", "Gehorsam");
+    putRepl("[wW]ochende[ns]?", "[wW]ochend", "Wochenend");
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
