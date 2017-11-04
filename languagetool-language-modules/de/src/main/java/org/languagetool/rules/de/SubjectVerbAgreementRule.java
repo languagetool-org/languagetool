@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.language.German;
 import org.languagetool.rules.*;
@@ -72,13 +73,13 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().token("gemeinsam").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
       new PatternTokenBuilder().pos("ZAL").build(),
       new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
       new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
       new PatternTokenBuilder().posRegex("ADV:MOD|ADJ:PRD:GRU").build(),
       new PatternTokenBuilder().pos("ZAL").build(),
       new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),

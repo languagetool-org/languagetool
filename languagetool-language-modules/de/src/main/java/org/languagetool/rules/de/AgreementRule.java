@@ -175,14 +175,14 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
-        new PatternTokenBuilder().pos("SENT_END").build()
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
     Arrays.asList( // "Bei mir löste das Panik aus."
         new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
         new PatternTokenBuilder().token("das").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
-        new PatternTokenBuilder().pos("SENT_END").build()
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
     Arrays.asList(
         new PatternTokenBuilder().token("Außenring").build(),
