@@ -128,7 +128,7 @@
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
     <rule>
-      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
       <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">Fan <marker>25°C</marker>.</example>
@@ -151,6 +151,7 @@
       <example>Primeiro lanzamento de Saturno 1B</example>
       <example correction="2.000 kWh">Foron consumidos <marker>2.000kWh</marker></example>
       <example>Os xuros son de 5 <marker>%</marker>.</example>
+      <example>jbo:1901moi</example>
     </rule>
     <rule>
       <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
@@ -307,6 +308,11 @@
           <token>x</token>
           <token regexp='yes'>[,e]</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>\p{Lu}</token>
+          <token spacebefore='no'>.</token>
+          <token regexp='yes' spacebefore='yes'>\p{Lu}</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
         <marker>
@@ -326,6 +332,7 @@
       <example>a = 2 · x² + 5</example>
       <example>4,5 × 2,5 = 11,25</example>
       <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
+      <example>Regueira Fernández, X. L.</example>
     </rule>
     <rule>
       <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
@@ -465,7 +472,7 @@
           <token regexp="yes">\d\.\d{3}</token>
         </marker>
       </pattern>
-      <message>Os anos os números non deben ser separados.</message>
+      <message>En anos os números non deben ser separados.</message>
         <suggestion><match no='2' regexp_match='(\d)(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
       <example correction="1989">É o ano de <marker>1.989</marker>.</example>
     </rule>
@@ -477,7 +484,7 @@
           <token regexp="yes">\d{1,2}\.\d{3}</token>
         </marker>
       </pattern>
-      <message>Os anos os números non deben ser separados.</message>
+      <message>En anos os números non deben ser separados.</message>
         <suggestion><match no='3' regexp_match='(\d{1,2})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
       <example correction="1989">É decembro de <marker>1.989</marker>.</example>
     </rule>
@@ -488,7 +495,7 @@
         </marker>
           <token regexp="yes">aC|dC</token>
       </pattern>
-      <message>Os anos os números non deben ser separados.</message>
+      <message>En anos os números non deben ser separados.</message>
         <suggestion><match no='1' regexp_match='(\d{1,3})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
       <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
     </rule>
@@ -792,6 +799,378 @@
       <example>50-30</example>
       <example>…cunha pedra…—, penso que…</example>
     </rule>
+
+  <rulegroup id='HYPOTHESIS_TIPOGRAPHY' name='Tipografia de Hipóteses'>
+    <!-- Created by Tiago F. Santos, 2017-09-01 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H0</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₀</suggestion>
+      <example correction='H₀'><marker>H0</marker>: Non existen efectos significativos.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H1</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₁</suggestion>
+      <example correction='H₁'><marker>H1</marker>: Existen efectos significativos co composto A.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H2</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₂</suggestion>
+      <example correction='H₂'><marker>H2</marker>: Existen efectos significativos co composto B.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H3</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₃</suggestion>
+      <example correction='H₃'><marker>H3</marker>: Existen efectos significativos cos compostos A e B combinados.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H4</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₄</suggestion>
+      <example correction='H₄'><marker>H4</marker>: Existen efectos significativos na ausencia do composto C.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H5</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₅</suggestion>
+      <example correction='H₅'><marker>H5</marker>: Existen efectos significativos do composto C.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H6</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₆</suggestion>
+      <example correction='H₆'><marker>H6</marker>: Existen efectos significativos do composto D.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H7</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₇</suggestion>
+      <example correction='H₇'><marker>H7</marker>: Existen efectos significativos do composto E.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H8</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₈</suggestion>
+      <example correction='H₈'><marker>H8</marker>: Existen efectos significativos do composto F.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>H9</token>
+      </pattern>
+      <message>Prefira o símbolo tipográfico.</message>
+        <suggestion>H₉</suggestion>
+      <example correction='H₉'><marker>H9</marker>: Existen efectos significativos do composto G.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+    <!-- Created by Tiago F. Santos, 2017-02-12 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os multiplicadores nas fórmulas químicas deben ser separados.</message>
+        <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
+      <example correction='4 H₂O'><marker>4H₂O</marker></example>
+    </rule>
+    <!-- Created by Tiago F. Santos, 2017-01-18 -->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]2</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
+      <example correction='O₂'><marker>O2</marker></example>
+      <example correction='4H₂O'><marker>4H2O</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]3</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
+      <example correction='2S₃'><marker>2S3</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]4</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
+      <example correction='CH₄'><marker>CH4</marker></example>
+      <example correction='H₄Si'><marker>H4Si</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
+      <example correction='H₂O₂'><marker>H2O2</marker></example>
+      <example correction='H₂NO₂Al'><marker>H2NO2Al</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
+      <example correction='K₂HPO₃'><marker>K2HPO3</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
+      <example correction='CH₃CH₂OH'><marker>CH3CH2OH</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
+      <example correction='CH₃CH₃'><marker>CH3CH3</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?4((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
+      <example correction='H₂SO₄'><marker>H2SO4</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?5((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
+      <example correction='C₂H₅OH'><marker>C2H5OH</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?6((?:&tabela_periodica;)+)?</token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
+      <example correction='C₂H₆'><marker>C2H6</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+7((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]7</exception>
+            <exception>V7</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
+      <example correction='C₇H₁₆'><marker>C7H₁₆</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+8((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]8</exception>
+            <exception>V8</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
+      <example correction='C₈H₁₈'><marker>C8H₁₈</marker></example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+9((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>I[CP]9</exception>
+            <exception>V9</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
+      <example correction='C₉H₂₀'><marker>C9H₂₀</marker></example>
+      <example>Lola T70 Chevy V8</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+0((?:&tabela_periodica;)+)?
+            <exception>V0</exception></token>
+      </pattern>
+      <message>Os números nas fórmulas químicas deben estar en subscrito.</message>
+        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
+      <example correction='C₉H₂₀'><marker>C₉H₂0</marker></example>
+    </rule>
+  </rulegroup>
+
+    <rule id='DEGREE_SYMBOL' name="Matemático: Símbolo de grau (°)">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+      <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
+      <message>Se está a indicar graos, utilice o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
+      <example correction="&#8239;°C">Fai 25<marker>º C</marker> á sombra.</example>
+      <example correction="&#8239;°C">Fai 25<marker>ºC</marker> á sombra.</example>
+      <example correction="&#8239;°C">Fai 25<marker> º C</marker> á sombra.</example>
+      <example correction="&#8239;°C">Fai 25<marker> ºC</marker> á sombra.</example>
+      <example>Fai 25°.</example>
+      <example>…o da Unión, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da Unión E…</example>
+      <example>…que puxo fin á República Vella, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
+    <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
+    </rule>
+
+    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemático: Abreviaturas de unidades de medida">
+    <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token regexp="yes">\d+</token>
+        <marker>
+          <token regexp="yes">(?:&unidades_de_medida;)s</token>
+        </marker>
+      </pattern>
+      <message>As abreviaturas de unidades de medida padrão non ten plural.</message>
+        <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
+      <example correction="kg">Son 2 <marker>kgs</marker> de maças.</example>
+    </rule>
+
+    <rule id='KELVIN' name="Matemático: Kelvin (sem graus)">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
+      <regexp>\s*[º°]\s*K\b</regexp>
+      <message>Kelvin non utiliza o sinal de grao.</message>
+        <suggestion>&#8239;K</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Kelvin</url>
+      <example correction="&#8239;K">A 30<marker> ºK</marker>.</example>
+      <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
+      <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
+    </rule>
+
+  <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemático: Tipografia de graus, minutos e segundos: 50°45′ 20″">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
+      <message>Utilice os símbolos de graos, minutos e segundos.</message>
+        <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
+      <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
+      <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
+      <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
+      <example correction="25°&#8239;29′&#8239;49″"><marker>25 º 29' 49'</marker>.</example>
+      <example correction="25°&#8239;29′&#8239;49″"><marker>25º29’49”</marker>  N.</example>
+      <example>25° 29′ 34″</example>
+    </rule>
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’`]</regexp>
+      <message>Utilice os símbolos de graos e minutos.</message>
+        <suggestion>\1°&#8239;\2′</suggestion>
+      <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
+      <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
+      <example correction="25°&#8239;29,1′"><marker>25 º 29,1'</marker>.</example>
+      <example correction="25°&#8239;29′"><marker>25 º29'</marker>.</example>
+      <example correction="25°&#8239;29′"><marker>25º29’</marker>  N.</example>
+      <example>25° 29′</example>
+    </rule>
+    <rule>
+      <regexp>\b([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
+      <message>Utilice os símbolos de minutos e segundos.</message>
+        <suggestion>\1′&#8239;\2″</suggestion>
+      <example correction="29,1′&#8239;49″"><marker>29,1' 49"</marker>.</example>
+      <example correction="29′&#8239;49″"><marker>29' 49 '</marker>.</example>
+      <example correction="29,1′&#8239;49″"><marker>29,1' 49 "</marker>.</example>
+      <example correction="29′&#8239;49″"><marker>29 ' 49'</marker>.</example>
+      <example correction="29′&#8239;49″"><marker>29’49”</marker>  N.</example>
+      <example>29′ 34″</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='LOOSE_ACCENTS' name="Acentos soltos">
+    <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
+      <regexp>[`´]</regexp>
+      <message>Caratere incorreto. Utilice antes o apóstrofe ou revise a acentuación.</message>
+        <suggestion>’</suggestion>
+        <suggestion/>
+      <short>Caractere incorreto.</short>
+      <example correction="’|">Non e<marker>´</marker> común encontrar erros deste tipo.</example>
+    </rule>
+
+    <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: d' sem espazo">
+    <!--  Created by Tiago F. Santos, 2017-10-06      -->
+      <pattern>
+          <token>d</token>
+          <token spacebefore='no' regexp='yes'>['’]</token>
+          <token spacebefore='yes'/>
+      </pattern>
+      <message>A contracción d' non debe ser separada por espazos.</message>
+        <suggestion>\1\2\3</suggestion>
+      <example correction="d'El">Aquí xace <marker>d' El</marker>-rei D.Sebastião.</example>
+    </rule>
+
+  <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
+    <!--  Created by Tiago F. Santos, 2017-05-31      -->
+    <rule>
+      <pattern>
+          <token skip='-1'>‘
+            <exception scope="next">’</exception></token>
+          <token regexp='yes'>[«“]</token>
+      </pattern>
+      <message>Utilice primeiro aspas dobres.</message>
+        <suggestion><match no='1' regexp_match='‘' regexp_replace='“' include_skipped='all'/> ‘</suggestion>
+      <example correction="“Dixen que ‘"><marker>‘Dixen que “</marker>si”.</example>
+      <example>“Dixen que ‘si’”.</example>
+      <example>«Dixen que “si”».</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1' regexp='yes'>[”»]
+            <exception regexp='yes' scope="next">[«“‘]</exception></token>
+          <token>’</token>
+      </pattern>
+      <message>Utilice primeiro aspas dobres.</message>
+        <suggestion><match no='1' regexp_match='[”»]' regexp_replace='’' include_skipped='all'/>”</suggestion>
+      <example correction="’.”">Dixen que “si<marker>”.’</marker></example>
+      <example>“Dixen que ‘si’”.</example>
+      <example>«Dixen que “si”».</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1'>“
+            <exception scope="next">”</exception></token>
+          <token>«</token>
+      </pattern>
+      <message>Utilice primeiro aspas #baixo.</message>
+        <suggestion><match no='1' regexp_match='“' regexp_replace='«' include_skipped='all'/> “</suggestion>
+      <example correction="«Dixen que “"><marker>“Dixen que «</marker>si»”.</example>
+      <example>“Dixen que ‘si’”.</example>
+      <example>«Dixen que “si”».</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1'>»
+            <exception regexp='yes' scope="next">[«“]</exception></token>
+          <token>”</token>
+      </pattern>
+      <message>Utilice primeiro aspas baixa.</message>
+        <suggestion><match no='1' regexp_match='»' regexp_replace='”' include_skipped='all'/>»</suggestion>
+      <example correction="”»">“Dixen que «si<marker>»”</marker>.</example>
+      <example>“Dixen que ‘si’”.</example>
+      <example>«Dixen que “si”».</example>
+    </rule>
+  </rulegroup>
 
  </category>
 
