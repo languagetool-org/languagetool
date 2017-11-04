@@ -151,4 +151,49 @@ public class Galician extends Language {
     );
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      // case "FRAGMENT_TWO_ARTICLES":     return 50;
+      case "DEGREE_MINUTES_SECONDS":    return 30;
+      // case "INTERJECTIONS_PUNTUATION":  return 20;
+      // case "CONFUSION_POR":             return 10;
+      // case "HOMOPHONE_AS_CARD":         return  5;
+      // case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
+      // case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;
+      case "UNPAIRED_BRACKETS":         return -5;
+      // case "PROFANITY":                 return -6;
+      case "GL_BARBARISM_REPLACE":      return -10;
+      case "GL_SIMPLE_REPLACE":         return -11;
+      case "GL_REDUNDANCY_REPLACE":     return -12;
+      case "GL_WORDINESS_REPLACE":      return -13;
+      // case "GL_CLICHE_REPLACE":         return -17;
+      // case "CHILDISH_LANGUAGE":         return -25;
+      // case "ARCHAISMS":                 return -26;
+      // case "INFORMALITIES":             return -27;
+      // case "PUFFERY":                   return -30;
+      // case "BIASED_OPINION_WORDS":      return -31;
+      // case "WEAK_WORDS":                return -32;
+      // case "PT_AGREEMENT_REPLACE":      return -35;
+      case "HUNSPELL_RULE":             return -50;
+      // case "NO_VERB":                   return -52;
+      // case "CRASE_CONFUSION":           return -55;
+      // case "FINAL_STOPS":               return -75;
+      // case "T-V_DISTINCTION":           return -100;
+      // case "T-V_DISTINCTION_ALL":       return -101;
+      // case "REPEATED_WORDS":            return -210;
+      // case "REPEATED_WORDS_3X":         return -211;
+      // case "WIKIPEDIA_COMMON_ERRORS":   return -500;
+      case "TOO_LONG_SENTENCE_20":      return -997;
+      case "TOO_LONG_SENTENCE_25":      return -998;
+      case "TOO_LONG_SENTENCE_30":      return -999;
+      case "TOO_LONG_SENTENCE_35":      return -1000;
+      case "TOO_LONG_SENTENCE_40":      return -1001;
+      case "TOO_LONG_SENTENCE_45":      return -1002;
+      case "TOO_LONG_SENTENCE_50":      return -1003;
+      case "TOO_LONG_SENTENCE_60":      return -1004;
+      // case "CACOPHONY":                 return -2000;
+    }
+    return 0;
+  }
 }
