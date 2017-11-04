@@ -411,6 +411,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) { // suggest e.g. 'Ticketreservierung', but not 'Blödsinnsquatschreservierung'
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches("[rR]eschaschier.+")) {
+      suggestion = word.replaceFirst("schaschier", "cherchier");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.matches(".*[lL]aborants$")) {
       suggestion = word.replaceFirst("ts$", "ten");
       if (!hunspellDict.misspelled(suggestion)) {
