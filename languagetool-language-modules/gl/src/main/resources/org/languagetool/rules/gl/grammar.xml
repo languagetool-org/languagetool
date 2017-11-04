@@ -33,6 +33,10 @@
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
+    <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
+    <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 ]>
 
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -450,6 +454,344 @@
       <example>A ⇔ B</example>
             </rule-->
   </rulegroup>
+
+  <rulegroup id='YEAR_NUMBER_FORMAT' name="Formateo de números: anos">
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
+      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
+    <rule>
+      <pattern>
+          <token regexp="yes" skip='1'>anos?</token>
+        <marker>
+          <token regexp="yes">\d\.\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Os anos os números non deben ser separados.</message>
+        <suggestion><match no='2' regexp_match='(\d)(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <example correction="1989">É o ano de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&meses_ano;</token>
+          <token skip="1">de</token>
+        <marker>
+          <token regexp="yes">\d{1,2}\.\d{3}</token>
+        </marker>
+      </pattern>
+      <message>Os anos os números non deben ser separados.</message>
+        <suggestion><match no='3' regexp_match='(\d{1,2})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <example correction="1989">É decembro de <marker>1.989</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}\.\d{3}</token>
+        </marker>
+          <token regexp="yes">aC|dC</token>
+      </pattern>
+      <message>Os anos os números non deben ser separados.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,3})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemático: Evitar apóstrofe en decimais">
+    <!--  Based on Catalan version, by Tiago F. Santos, 2017-02-27      -->
+      <antipattern>
+          <token regexp="yes">\d{1,2}\,\d+</token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(?:%|&unidades_de_medida;)?</token>
+          <token spacebefore="no" regexp="yes">[”"]</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">\d+|\d{1,3}(?:[\. &#8239;&#160;]\d\d\d)+
+            <exception regexp="yes">\d{1,2}\,\d+</exception>
+            <exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+          <token spacebefore="no" regexp="yes">['`’‘]</token>
+          <token spacebefore="no" regexp="yes">\d+(?:%|&unidades_de_medida;)?</token>
+      </pattern>
+      <message>Utilice antes unha vírgula para separar os decimais.</message>
+        <suggestion>\1,\3</suggestion>
+      <example correction="9,5"><marker>9'5</marker></example>
+      <example correction="9,5%"><marker>9'5%</marker></example>
+      <example correction="9.349,5"><marker>9.349'5</marker></example>
+      <example correction="1.999.349,5"><marker>1.999.349'5</marker></example>
+      <example correction="349,5">1 999 <marker>349'5</marker></example>
+      <example>1,23'2</example>
+      <example>41° 22'44.</example>
+      <example>41º 12’12” N.</example>
+    </rule>
+
+    <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espazo en percentagens (3%)" default="on">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token regexp="yes">[\d.,]+
+            <exception regexp="yes">[.,]</exception></token>
+          <token spacebefore="yes" regexp="yes">[%‰‱]</token>
+      </pattern>
+      <message>Escriba a porcentaxe sen espazos (estilo padrão).</message>
+        <suggestion>\1\2</suggestion>
+      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentagem/18011</url TODO localize -->
+      <example correction="23,5%">A taxa é de <marker>23,5 %</marker>.</example>
+      <example correction="23,5‰">Paga <marker>23,5 ‰</marker>.</example>
+      <example>Neste caso a % é de 1 a 2.</example>
+      <example>Paga 25%.</example>
+    </rule>
+
+    <rule id='PERCENT_WITH_SPACE' name="Matemático: Acrescentar espazo en percentagens (3 %)" default="off">
+    <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <pattern>
+          <token regexp="yes">[\d.,]+[%‰‱]</token>
+      </pattern>
+      <message>Escolleu a opción de inserción de espazo.</message>
+        <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion>
+      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentaxe/18011</url TODO localize -->
+      <example correction="23,5 %">A taxa é do <marker>23,5%</marker>.</example>
+      <example correction="23,5 ‰">Paga <marker>23,5‰</marker>.</example>
+      <example>Paga 25 %.</example>
+    </rule>
+
+  <rulegroup id='DASH_RULE' name='Guión, Meio-Raia e Raia'>
+    <!-- Created by Tiago F. Santos, 2017-01-23 -->
+      <url>https://gl.wikipedia.org/wiki/Raia_(puntuaci%C3%B3n)</url>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token min='0' regexp='yes'>["'«»“”]</token>
+        <marker>
+          <token regexp='yes'>-|–</token>
+        </marker>
+      </pattern>
+      <message>En diálogos e enumerações debe utilizar trazo longo.</message>
+        <suggestion>—</suggestion>
+      <short>Nesta situación debe utilizar o travessão.</short>
+      <example correction='—'><marker>-</marker> O que é iso, nai?</example>
+      <example correction='—'>« <marker>-</marker> O que é iso, nai?</example>
+      <example>— É o seu presente de aniversario, miña filla.</example>
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>2560-657 TORRES VEDRAS</example>
+      <example>---------------------------------------</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>-</token>
+          <token regexp='yes'>-</token>
+          <token regexp='yes'>-</token>
+          <token regexp='yes'>,</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp='yes' spacebefore='yes'>-|–</token>
+        </marker>
+          <token spacebefore="no">,</token>
+      </pattern>
+      <message>Termine a frase parentética cun trazo longo.</message>
+        <suggestion>—</suggestion>
+      <short>Nesta situación debe utilizar o travessão.</short>
+      <example correction='—'>como dixen <marker>-</marker>,…</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token spacebefore="yes" regexp='yes'>-|–</token>
+        </marker>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Se non pretende unir dúas palabras, debe utilizar trazo longo.</message>
+        <suggestion>—</suggestion>
+      <short>Nesta situación debe utilizar trazo longo.</short>
+      <example correction='—'>Neses establecementos de ensino existían matrículas <marker>-</marker> a maioría de ensino fundamental — e un total de docentes.</example>
+      <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Asociación de promoción cultural da Compañía de Jesus en Macau</example>
+      <example>Na porción centro-oeste e noroeste presentan maiores elevacións, podendo atinxir 500 metros por enriba do nivel do mar, destacándose a Serra do Tumucumaque e a Serra Lombarda.</example>
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>2560-657 TORRES VEDRAS</example>
+      <example>---------------------------------------</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>Estrada</token>
+          <token>Nacional</token>
+          <token regexp="yes">\d{3}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d</token>
+      </antipattern>
+      <antipattern><!-- XXX Postal codes -->
+          <token regexp="yes">\d{4}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d{3}</token>
+          <token>
+            <exception case_sensitive='yes'>a</exception></token>
+      </antipattern>
+      <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
+          <token regexp="yes">\d{2}|\d{4}</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d{2}</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp="yes">—|&hifen;</token>
+          <token regexp='yes'>\d+%?|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </pattern>
+      <message>Se pretende indicar unha gama temporal ou numérica, debe utilizar o medio-trazo.</message>
+        <suggestion>\1 – \3</suggestion>
+        <suggestion>\1–\3</suggestion>
+      <short>En gamas numéricas/temporais, debe utilizar o medio-trazo.</short>
+      <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e profesor universitario.</example>
+      <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>2560-657 TORRES VEDRAS</example>
+      <example>---------------------------------------</example>
+      <example>10-10-10 — Data</example>
+      <example>10-10-2010 — Data</example>
+      <example>2010-10-10 — Data</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='DASH_SPACE_RULES' name="Trazo longo en enumerações" default="on">
+    <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
+      <url>https://gl.wikipedia.org/wiki/Raia_(puntuaci%C3%B3n)</url>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+|\w</token>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="no">
+            <exception regexp="yes">\d+</exception></token>
+      </pattern>
+      <message>En enumerações, debe dar un espazo despois do trazo longo.</message>
+        <suggestion>\2 — \4</suggestion>
+      <short>Erro tipográfico</short>
+      <example correction="1 — Influencia"><marker>1—Influencia</marker> artística.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='DASH_ENUMERATION_NO_SPACE_RULE' name="Trazo longo en diálogos: Sem espazo" default="off">
+    <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>En diálogos, debe remover o espazo despois do trazo longo.</message>
+        <suggestion>—\3</suggestion>
+      <example correction="—Corre"><marker>— Corre</marker>! Vaia!</example>
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>—Saltar</example>
+      <example>—Correr</example>
+      <example>—Rastejar</example>
+      <example>---------------------------------------</example>
+    </rule>
+
+    <rule id='DASH_ENUMERATION_SPACE_RULE' name="Trazo longo en diálogos: Espazo depois" default="on">
+    <!-- Based on Catalan version by Tiago F. Santos, 2017-05-16 -->
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <message>En diálogos, debe dar espazo despois do trazo longo.</message>
+        <suggestion>— \3</suggestion>
+      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/o-uso-do-hifen-e-do-travessao/31251</url TODO localize -->
+      <example correction="— Corre"><marker>—Corre</marker>! Vaia!</example>
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>— Saltar</example>
+      <example>— Correr</example>
+      <example>— Rastejar</example>
+      <example>---------------------------------------</example>
+    </rule>
+
+  <rulegroup id='HIPHEN_SPACE_RULES' name="Espaçamento en hífens e travessões" default="on">
+    <!-- Created by Tiago F. Santos, 2017-XX-XX -->
+    <rule>
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>–|&hifen;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>\p{L}+</token>
+          <token spacebefore="yes" regexp='yes'>&tracos_de_separacao;</token>
+          <token spacebefore="no" regexp='yes'>\p{L}+</token>
+      </pattern>
+      <message>Se pretende unir dúas palabras, non debe espaçar e debe utilizar o hífen. En caso contrario, utilice espazos e un trazo longo.</message>
+        <suggestion>\1-\3</suggestion>
+        <suggestion>\1 — \3</suggestion>
+      <short>Erro tipográfico.</short>
+      <example correction='Tras-os|Tras — os'>Alfándega da Fe fica en <marker>Tras -os</marker>-Montes.</example>
+      <example>Ayer, A. J.— As Ideas de Bertrand Russel.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>–|&hifen;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+          <token/>
+          <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
+          <token spacebefore="yes"/>
+      </pattern>
+      <message>Se pretende unir dúas palabras, non debe espaçar e debe utilizar o hífen. En caso contrario, utilice espazos e un trazo longo.</message>
+        <suggestion>\1-\3</suggestion>
+        <suggestion>\1 — \3</suggestion>
+      <short>Erro tipográfico.</short>
+      <example correction='Tras-os|Tras — os'>Alfándega da Fe fica en <marker>Tras- os</marker>-Montes.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='ENUMERATION_AND_DASHES' name="Enumerações com travessões: 1.2.-">
+    <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
+      <antipattern>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+          <token regexp='yes'>–|&hifen;</token>
+          <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+      </antipattern>
+      <pattern>
+          <token postag='SENT_START'/>
+          <token regexp="yes">\d+(?:\.\d+)?</token>
+          <token>.</token>
+          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+      </pattern>
+      <message>Os trazos longos son desnecessários en enumerações.</message>
+        <suggestion>\2.</suggestion>
+      <example correction="1."><marker>1.-</marker> Introdución</example>
+      <example correction="1."><marker>1.--</marker> Introdución</example> 
+      <example correction="1.3."><marker>1.3.—</marker> Introdución</example>
+      <example>1139–1385 — Formación do Reino de Portugal</example>
+      <example>50-30</example>
+      <example>…cunha pedra…—, penso que…</example>
+    </rule>
 
  </category>
 
