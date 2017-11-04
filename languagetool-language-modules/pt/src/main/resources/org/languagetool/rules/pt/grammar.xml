@@ -21164,7 +21164,7 @@ TODO Write better examples
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
     <rule>
-      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))</regexp>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
       <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
@@ -21187,6 +21187,7 @@ TODO Write better examples
       <example>Primeiro lançamento de Saturno 1B</example>
       <example correction="2.000 kWh">Foram consumidos <marker>2.000kWh</marker></example>
       <example>Os juros são de <marker>5 %</marker>.</example>
+      <example>jbo:1901moi</example>
     </rule>
     <rule>
       <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
@@ -21343,6 +21344,11 @@ TODO Write better examples
           <token>x</token>
           <token regexp='yes'>[,e]</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>\p{Lu}</token>
+          <token spacebefore='no'>.</token>
+          <token regexp='yes' spacebefore='yes'>\p{Lu}</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
         <marker>
@@ -21362,6 +21368,7 @@ TODO Write better examples
       <example>a = 2 · x² + 5</example>
       <example>4,5 × 2,5 = 11,25</example>
       <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
+      <example>Rodrigues Fernandes, X. L.</example>
     </rule>
     <rule>
       <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
