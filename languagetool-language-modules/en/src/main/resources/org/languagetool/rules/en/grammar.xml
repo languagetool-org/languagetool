@@ -10550,6 +10550,15 @@ USA
                 <example>I look forward <marker>to seeing</marker> you.</example>
                 <example>But he was looking forward to snow.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">need</token>
+                    <token>to</token>
+                    <token postag="VBG"></token>
+                </pattern>
+                <message>The verb 'need' must be followed with the gerund (<suggestion>\1 \3</suggestion>) or with the infinitve (<suggestion>\1 to <match no="3" postag="VB"/></suggestion>)?</message>
+                <example correction="needs getting|needs to get">She <marker>needs to getting</marker> started.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
             <rule>
@@ -20889,6 +20898,17 @@ USA
                     <example correction=""><marker>January, 10 – 1</marker>, 2016.</example>                    
              </rule>
         </rulegroup>
+        <rulegroup id="ORDINAL_NUMBER_SUFFIX" name="wrong suffix of ordinal number">
+            <rule>
+                <regexp>\b([2-9]*)([13]nd|[12]rd|[23]st|[123]th)\b</regexp>
+                <message>Please check the suffix, if this is an ordinal number.</message>
+                <suggestion><match no="1" regexp_match="[a-z]+" regexp_replace=""/>1st</suggestion>
+                <suggestion><match no="1" regexp_match="[a-z]+" regexp_replace=""/>2nd</suggestion>
+                <suggestion><match no="1" regexp_match="[a-z]+" regexp_replace=""/>3rd</suggestion>
+                <example correction="1st|2nd|3rd">This was my <marker>1nd</marker> try.</example>
+                <example correction="91st|92nd|93rd">This was my <marker>92rd</marker> try.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LIGHTYEAR" name="Light-year as a unit of time">
             <rule>
                 <regexp>\b(light[- ]?years? ago)\b</regexp>
@@ -23015,11 +23035,12 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">[;:"]</token>
+                    <token regexp="yes" min="0">[;:"]</token>
                     <token>t</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
                 <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
+                <example correction="couldn't|couldn’t">I <marker>couldn t</marker> do it!</example>
             </rule>
         </rulegroup>   
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
