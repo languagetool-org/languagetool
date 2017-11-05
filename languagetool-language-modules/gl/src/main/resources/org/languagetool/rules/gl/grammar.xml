@@ -800,7 +800,7 @@
       <example>…cunha pedra…—, penso que…</example>
     </rule>
 
-  <rulegroup id='HYPOTHESIS_TIPOGRAPHY' name='Tipografia de Hipóteses'>
+  <rulegroup id='HYPOTHESIS_TYPOGRAPHY' name='Tipografia de Hipóteses'>
     <!-- Created by Tiago F. Santos, 2017-09-01 -->
     <rule>
       <pattern case_sensitive='yes'>
@@ -1120,7 +1120,7 @@
       <example correction="d'El">Aquí xace <marker>d' El</marker>-rei D.Sebastião.</example>
     </rule>
 
-  <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
+  <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de comiñas: «“‘...’”»." default="off">
     <!--  Created by Tiago F. Santos, 2017-05-31      -->
     <rule>
       <pattern>
@@ -1128,7 +1128,7 @@
             <exception scope="next">’</exception></token>
           <token regexp='yes'>[«“]</token>
       </pattern>
-      <message>Utilice primeiro aspas dobres.</message>
+      <message>Utilice primeiro comiñas dobres.</message>
         <suggestion><match no='1' regexp_match='‘' regexp_replace='“' include_skipped='all'/> ‘</suggestion>
       <example correction="“Dixen que ‘"><marker>‘Dixen que “</marker>si”.</example>
       <example>“Dixen que ‘si’”.</example>
@@ -1140,7 +1140,7 @@
             <exception regexp='yes' scope="next">[«“‘]</exception></token>
           <token>’</token>
       </pattern>
-      <message>Utilice primeiro aspas dobres.</message>
+      <message>Utilice primeiro comiñas dobres.</message>
         <suggestion><match no='1' regexp_match='[”»]' regexp_replace='’' include_skipped='all'/>”</suggestion>
       <example correction="’.”">Dixen que “si<marker>”.’</marker></example>
       <example>“Dixen que ‘si’”.</example>
@@ -1152,7 +1152,7 @@
             <exception scope="next">”</exception></token>
           <token>«</token>
       </pattern>
-      <message>Utilice primeiro aspas #baixo.</message>
+      <message>Utilice primeiro comiñas #baixo.</message>
         <suggestion><match no='1' regexp_match='“' regexp_replace='«' include_skipped='all'/> “</suggestion>
       <example correction="«Dixen que “"><marker>“Dixen que «</marker>si»”.</example>
       <example>“Dixen que ‘si’”.</example>
@@ -1164,13 +1164,336 @@
             <exception regexp='yes' scope="next">[«“]</exception></token>
           <token>”</token>
       </pattern>
-      <message>Utilice primeiro aspas baixa.</message>
+      <message>Utilice primeiro comiñas baixa.</message>
         <suggestion><match no='1' regexp_match='»' regexp_replace='”' include_skipped='all'/>»</suggestion>
       <example correction="”»">“Dixen que «si<marker>»”</marker>.</example>
       <example>“Dixen que ‘si’”.</example>
       <example>«Dixen que “si”».</example>
     </rule>
   </rulegroup>
+
+  <rulegroup id='UNPAIRED_BRACKET_SUGGESTIONS' name='Tipografia: Corrección de comiñas inteligentes repetidas'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-25 -->
+    <rule>
+      <pattern>
+          <token skip='-1'>‘
+            <exception scope="next">’</exception></token>
+        <marker>
+          <token>‘</token>
+        </marker>
+      </pattern>
+      <message>Utilice unha aspa de fecho.</message>
+        <suggestion>’</suggestion>
+      <example correction="’">Dixen que ‘si<marker>‘</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token skip='-1'>“
+            <exception scope="next">”</exception></token>
+        <marker>
+          <token>“</token>
+        </marker>
+      </pattern>
+      <message>Utilice unha aspa de fecho.</message>
+        <suggestion>”</suggestion>
+      <example correction="”">Dixen que “si<marker>“</marker>.</example>
+    </rule>
+  </rulegroup>
+
+    <!--     Typography rules from English grammar.xml      - START-->
+    <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+  <rulegroup id='TRADEMARK' name="Tipografia: Trademark - ™">
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>\p{Lu}.*</token>
+        <marker>
+          <token>(</token>
+          <token>TM</token>
+          <token>)</token>
+        </marker>
+      </pattern>
+      <message>Pretende dicir: <suggestion>™</suggestion>?</message>
+      <short>Anotación non padronizada de ™</short>
+      <example correction='™'>O novo produto é de Escolla Executiva<marker>(TM)</marker> Plus.</example>
+    </rule>
+    <rule id='SERVICEMARK' name="Tipografia: Servicemark - ℠">
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>\p{Lu}.*</token>
+        <marker>
+          <token>(</token>
+          <token>SM</token>
+          <token>)</token>
+        </marker>
+      </pattern>
+      <message>Pretende dicir: <suggestion>℠</suggestion>?</message>
+      <short>Anotación non padronizada de ℠</short>
+      <example correction='℠'>O novo produto é de Escolla Executiva<marker>(SM)</marker> Plus.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='R_SYMBOL' name="Tipografia: Marca Rexistrada - ®">
+      <antipattern case_sensitive="yes">
+        <marker>
+          <token>(</token>
+          <token>R</token>
+          <token skip="-1">)</token>
+        </marker>
+          <token regexp="yes">[\p{Lu}^R]
+            <exception scope="previous" negate="yes">(</exception></token>
+          <token skip="-1">)</token>
+      </antipattern>
+      <antipattern case_sensitive="yes">
+          <token>(</token>
+          <token regexp="yes">[\p{Lu}^R]</token>
+          <token skip="-1">)</token>
+        <marker>
+          <token>R
+            <exception scope="previous" negate="yes">(</exception></token>
+          <token skip="-1">)</token>
+        </marker>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>\p{Lu}.*</token>
+        <marker>
+          <token>(</token>
+          <token>R</token>
+          <token>)</token>
+        </marker>
+      </pattern>
+      <message>Pretende dicir: <suggestion>®</suggestion>?</message>
+      <short>Anotación non padronizada de ®</short>
+      <example correction='®'>Windows <marker>(R)</marker></example>
+      <example>Estes San Richard Burr (D) e Kay Hagan (R).</example>
+    </rule>
+
+    <rule id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
+      <antipattern>
+          <token>(</token>
+          <token>a</token>
+          <token skip="-1">)</token>
+          <token>b
+            <exception scope="previous" negate="yes">(</exception></token>
+          <token skip="-1">)</token>
+        <marker>
+          <token>c
+            <exception scope="previous" negate="yes">(</exception></token>
+          <token>)</token>
+        </marker>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token>(</token>
+          <token>c</token>
+          <token>)</token>
+        </marker>
+          <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+      </pattern>
+      <message>Esta anotación non é padronizada, utilice antes o símbolo: <suggestion>©</suggestion></message>
+      <short>Anotación non padronizada de ©</short>
+      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+      <example correction="©">Copyright <marker>(C)</marker> 2010 O Estado da Gramática</example>
+      <example>Isto é unha lista: (a) item, (b) 2 itens, (c) 2014 itens.</example>
+    </rule>
+
+  <rulegroup type="locale-violation" id='CURRENCY' name="Posición dos símbolos de moeda: '100£ (£100)">
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d\,\.]+[$£¥\u8371]</token>
+      </pattern>
+      <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no="1" regexp_match="([\d\,\.]+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
+      <short>Coloque a divisa no inicio</short>
+      <example correction="£100">Debe <marker>100£</marker>.</example>
+      <example correction="£100.00">Debe <marker>100.00£</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d\,\.]+</token>
+          <token regexp="yes">[$£¥\u8371]</token>
+      </pattern>
+      <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\2\1</suggestion>.</message>
+      <short>Coloque a divisa no inicio</short>
+      <example correction="£100">Debe <marker>100 £</marker>.</example>
+      <example correction="£100.00">Debe <marker>100.00 £</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[€\u8371]</token>
+          <token regexp="yes">\d+(?:[\,\.]\d+)?</token>
+      </pattern>
+      <message>O símbolos de euro é colocado despois do valor: <suggestion>\2 \1</suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Euro</url>
+      <short>Coloque a divisa no fin</short>
+      <example correction="100 €">Debe <marker>€ 100</marker>.</example>
+      <example correction="100,00 €">Debe <marker>€ 100,00</marker>.</example>
+    </rule>
+  </rulegroup>
+
+    <rule type="whitespace" id='CURRENCY_SPACE' name="Símbolos monetários sem espazo en branco: '$ 100' ($100)">
+      <pattern>
+          <token regexp="yes">[$£¥\u8371]</token>
+          <token regexp="yes" spacebefore="yes">\d+(?:[\,\.]\d+)?</token>
+      </pattern>
+      <message>Os símbolos monetarios internacionais non son separados por un espazo: <suggestion>\1\2</suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Euro</url>
+      <short>Remover espazo</short>
+      <example correction="$100">Débese <marker>$ 100</marker>.</example>
+    </rule>
+
+    <rule type="whitespace" id='CURRENCY_SPACE_2' name="Espazo en branco antes de símbolos monetários: '100,00€' (100,00 €)">
+      <pattern>
+          <token regexp="yes">\d+(?:[\,\.]\d+)?[€]</token>
+      </pattern>
+      <message>Os símbolos monetarios do euro (€) son separados por un espazo<suggestion><match no="1" regexp_match="(\d+)([€\u8371])" regexp_replace="$1 $2"/></suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Euro</url>
+      <short>Erro tipográfico</short>
+      <example correction="100 €">Débese <marker>100€</marker>.</example>
+    </rule>
+
+  <rulegroup id='SMART_QUOTES' name="Comiñas inteligentes (“”)">
+    <rule>
+      <pattern>
+          <token postag="``"/>
+      </pattern>
+      <message>Utilice aquí comiñas intelixentes: <suggestion>“</suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Comiñas</url>
+      <short>Utilice comiñas intelixentes</short>
+      <example correction="“">Isto é un (<marker>&quot;</marker>proba&quot;).</example>
+      <example correction="“"><marker>&quot;</marker>Proba&quot;!</example>
+      <example>“Proba”!</example>
+      <example correction="“">Isto é outra proba <marker>&quot;</marker>proba&quot;.</example>
+    </rule>
+    <rule>
+      <antipattern> <!-- não embelezar polegadas -->
+          <token postag_regexp="yes" postag="''|SENT_START" skip="-1">
+            <exception scope="next" postag="``"/></token>
+          <token regexp="yes">\d{1,2}</token>
+          <token regexp='yes' min='0' spacebefore='no'>[-\.]</token>
+          <token regexp='yes' min='0' spacebefore='no'>\d{1,2}</token>
+        <marker><token postag="''"/></marker>
+      </antipattern>
+      <pattern>
+          <token postag="''"/>
+      </pattern>
+      <message>Utilice unha comiña de fecho aquí: <suggestion>”</suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Comiñas</url>
+      <short>Utilice comiñas intelixentes</short>
+      <example correction="”">Isto é unha proba (&quot;proba<marker>&quot;</marker>)</example>
+      <example correction="”">Use as comiñas &quot;aquí<marker>&quot;</marker> para dicir algo.</example>
+      <example correction="”">Isto é outra proba &quot;proba<marker>&quot;</marker>.</example>
+      <example correction="”">Achilles falou na canción &quot;57821<marker>&quot;</marker>, de Janelle Monáe ft.</example>
+      <example>“Proba”!</example>
+    <!-- FIXME Clash with paired pontuation. Re-enable when fixed. -->
+      <example>Os assentos da classe económica tem uma profundidade de 31-33&quot;</example>
+      <example correction="”">O xogador de fútbol apelidado do &quot;Animal<marker>&quot;</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>`</token>
+          <token spacebefore="no">`</token>
+      </pattern>
+      <message>Utilice unha comiñas intelixente de abertura aquí: <suggestion>“</suggestion>.</message>
+      <url>https://gl.wikipedia.org/wiki/Comiñas</url>
+      <short>Utilice comiñas intelixentes</short>
+      <example correction="“"><marker>``</marker>Proba”.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>„</token>
+      </pattern>
+      <message>Abertura de comiñas posibelmente errada: <suggestion>“</suggestion>.</message>
+      <url>https://en.wikipedia.org/wiki/„</url>
+      <example correction="“"><marker>„</marker>Proba”.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='ELLIPSIS' name="Reticências inteligentes (…)">
+      <antipattern>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+      </antipattern>
+      <pattern>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+      </pattern>
+      <message>Utilice o caractér tipográfico de reticências en vez de: <suggestion>…</suggestion>.</message>
+      <example correction="…">Isto é importante <marker>. . .</marker> tanto canto sei.</example>
+      <example>Isto é importante – tanto canto sei.</example>
+      <example correction="…">Isto é importante<marker>...</marker> tanto canto sei.</example>
+      <example>1. Introdución .................................... 3</example>
+    </rule>
+
+  <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
+    <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rúbricas/idioma/sóbrea-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+      <short>Preferencia tipográfica</short>
+    <rule>
+      <pattern>
+          <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?</token>
+      </pattern>
+      <message>En expresións de horas, utilice dous puntos.</message>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1:$2:$3'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1&#160;h&#160;$2&#160;min&#160;$3&#160;s'/></suggestion>
+      <example correction="10:00:43|10&#160;h&#160;00&#160;min&#160;43&#160;s">Ás <marker>10.00.43</marker>.</example>
+      <example correction="10:00:43,5|10&#160;h&#160;00&#160;min&#160;43,5&#160;s">Ás <marker>10.00.43,5</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+          <token regexp="yes">h|horas|hrs|hs|hora</token>
+      </pattern>
+      <message>En expresións de horas, utilice dous puntos.</message>
+        <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/>&#160;\4</suggestion>
+      <example correction="22:50&#160;h">Ás <marker>22.50 h</marker>.</example>
+      <example correction="6:05&#160;h">Ás <marker>6,05 h</marker>.</example>
+      <example>Ás 22:30 h.</example>
+      <example>A subida demora 8, 10 hores.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ás?|das?</token>
+          <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+      </pattern>
+      <message>En expresións de horas, utilice dous puntos.</message>
+        <suggestion>\1 <match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+      <example correction="Ás 10:00"><marker>Ás 10.00</marker>.</example>
+      <example correction="Da 01:00"><marker>Da 01.00</marker> a as… </example>
+      <example correction="ás 10:50">Das 10:00 <marker>ás 10.50</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" skip="2">[012]?\d[,\.][012345]\d</token>
+          <token regexp="yes" inflected="yes">&partes_do_dia;</token>
+      </pattern>
+      <message>En expresións de horas, utilice dous puntos.</message>
+        <suggestion><match no='1' include_skipped='all' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/> <match no='2' include_skipped='all'/></suggestion>
+      <example correction="5:00 da mañá">Ás <marker>5.00 da mañá</marker>.</example>
+      <example correction="6:05 da tarde">Ás <marker>6.05 da tarde</marker>.</example>
+      <example correction="6:05 da noite">Ás <marker>6.05 da noite</marker>.</example>
+      <example>Ás 22:30 h.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='APOSTROPHE_IN_DATES' name="Apóstrofe en datas">
+      <pattern>
+          <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0
+            <exception regexp='yes'>2[1-9]\d0</exception></token>
+          <token regexp="yes">['’]</token>
+          <token>s</token>
+      </pattern>
+      <message>Apostrofes non son necesarios en décadas: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+      <url>http://@www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+      <short>Apóstrofe desnecessário</short>
+      <example correction='1970s'>O Diácono Remedios preguntou onde estabas nos <marker>1970's</marker>.</example>
+      <example correction='70s'>O Diácono Remedios preguntou onde estabas nos <marker>70's</marker>.</example>
+      <example correction='1990s'>Onde estabas nos <marker>1990’s</marker>?</example>
+      <example>Discos de travões da <marker>Alvis 12/70</marker> adaptados a jantes máis largas.</example>
+    </rule>
+    <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <!-- Localization of rules from the English grammar.xml - END  -->
 
  </category>
 
