@@ -4733,7 +4733,7 @@ USA
                 <token>they</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>re</token>
-                <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="NN[PS]?|NN:UN?" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> <match no="2"/> their <match no="6"/></suggestion>?</message>
             <example correction="another is their boyfriend">And if <marker>another is they're boyfriend</marker>, I will be angry.</example>
@@ -4741,7 +4741,7 @@ USA
         <!-- need|going|have|ought to .*/VBG::word=\0 \1 \2:base::pivots=\2,\2:base -->
         <rule id="NEED_TO_VBG" name="need to VBG (VB)">
             <pattern>
-                <token regexp="yes">need|going|have|ought</token>
+                <token regexp="yes">need(s|ed)?|going|ha(ve|[sd])|ought</token>
                 <token>to</token>
                 <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
             </pattern>
@@ -4753,7 +4753,7 @@ USA
                 <marker>
                     <token>Ill<exception scope="previous" postag_regexp="yes" postag="DT|TO"/><exception scope="previous" inflected="yes">be</exception></token>
                 </marker>
-                <token postag_regexp="yes" postag="VB|RB"/>
+                <token postag_regexp="yes" postag="[VR]B"/>
             </pattern>
             <message>Did you mean <suggestion>I'll</suggestion>?</message>
             <short>Possible typo</short>
@@ -4830,6 +4830,14 @@ USA
             <message>Did you mean <suggestion>Jimmy Buffett</suggestion>?</message>
             <example correction="Jimmy Buffett"><marker>Jimmy Buffet</marker> sang at the Arco Arena.</example>
             <example>Jimmy Buffett sang at Arco Arena.</example>
+        </rule>
+        <rule id="HARRISON_FORD" name="Harison (Harrison) Ford">
+            <pattern case_sensitive="yes">
+                <token>Harison</token>
+                <token>Ford</token>
+            </pattern>
+            <message>Did you mean <suggestion>Harrison Ford</suggestion>?</message>
+            <example correction="Harrison Ford"><marker>Harison Ford</marker> is famous for playing Indiana Jones.</example>
         </rule>
         <!-- Jimmy Hendrix::word=Jimi Hendrix::pivots=Jimmy,Jimi -->
         <rule id="JIMMY_HENDRIX" name="Jimmy (Jimi) Hendrix">
@@ -10549,15 +10557,6 @@ USA
                 <example correction="to seeing">I look forward <marker>to see</marker> you.</example>
                 <example>I look forward <marker>to seeing</marker> you.</example>
                 <example>But he was looking forward to snow.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">need</token>
-                    <token>to</token>
-                    <token postag="VBG"></token>
-                </pattern>
-                <message>The verb 'need' must be followed with the gerund (<suggestion>\1 \3</suggestion>) or with the infinitve (<suggestion>\1 to <match no="3" postag="VB"/></suggestion>)?</message>
-                <example correction="needs getting|needs to get">She <marker>needs to getting</marker> started.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
