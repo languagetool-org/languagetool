@@ -1679,6 +1679,51 @@
     </rule>
   </rulegroup>
 
+    <rule id="SEMICOLON_COLON_SPACING" name="Espazos en falta: ':' e ';'">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+      <antipattern>
+          <token regexp="yes">“|«|"|\(</token>
+          <token regexp="yes">:|;</token>
+          <token regexp="yes">”|»|"|\)</token>
+      </antipattern>
+      <antipattern><!-- XXX Wikipedia lists and time formats -->
+          <token>:</token>
+          <token spacebefore="no"/>
+          <token spacebefore="no">:</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">&codigos_de_pais;</token>
+          <token spacebefore="no">:</token>
+      </antipattern>
+      <antipattern>
+          <token>;</token>
+          <token regexp="yes">“|»|«|"|”</token>
+          <token spacebefore="yes"/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">.*[0-9]</token>
+          <token>:</token>
+          <token regexp="yes">[0-9].*</token>
+      </antipattern>
+      <antipattern>
+    <!-- smiley -->
+          <token regexp="yes">[:;]</token>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no" regexp="yes">[()]</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">:|;</token>
+          <token spacebefore="no">
+            <exception postag="SENT_END"/></token>
+        </marker>
+      </pattern>
+      <message>Deve colocar um espazo após '\1'.</message>
+        <suggestion>\1 \2</suggestion>
+      <example correction=": «">Ele dixo<marker>:«</marker>O xardín é verdadeiramente bonito.»</example>
+      <example>A cea estará pronto ás 18:30.</example>
+    </rule>
+
  </category>
 
  <category id="CAT1" name="Gramática::Verbo">
