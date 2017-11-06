@@ -37,6 +37,8 @@
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
+
+    <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
 ]>
 
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -1152,7 +1154,7 @@
             <exception scope="next">”</exception></token>
           <token>«</token>
       </pattern>
-      <message>Utilice primeiro comiñas #baixo.</message>
+      <message>Utilice primeiro unha comiña baixa.</message>
         <suggestion><match no='1' regexp_match='“' regexp_replace='«' include_skipped='all'/> “</suggestion>
       <example correction="«Dixen que “"><marker>“Dixen que «</marker>si»”.</example>
       <example>“Dixen que ‘si’”.</example>
@@ -1164,7 +1166,7 @@
             <exception regexp='yes' scope="next">[«“]</exception></token>
           <token>”</token>
       </pattern>
-      <message>Utilice primeiro comiñas baixa.</message>
+      <message>Utilice primeiro unha comiña baixa.</message>
         <suggestion><match no='1' regexp_match='»' regexp_replace='”' include_skipped='all'/>»</suggestion>
       <example correction="”»">“Dixen que «si<marker>»”</marker>.</example>
       <example>“Dixen que ‘si’”.</example>
@@ -1182,7 +1184,7 @@
           <token>‘</token>
         </marker>
       </pattern>
-      <message>Utilice unha aspa de fecho.</message>
+      <message>Utilice unha comiña de fecho.</message>
         <suggestion>’</suggestion>
       <example correction="’">Dixen que ‘si<marker>‘</marker>.</example>
     </rule>
@@ -1194,7 +1196,7 @@
           <token>“</token>
         </marker>
       </pattern>
-      <message>Utilice unha aspa de fecho.</message>
+      <message>Utilice unha comiña de fecho.</message>
         <suggestion>”</suggestion>
       <example correction="”">Dixen que “si<marker>“</marker>.</example>
     </rule>
@@ -1494,6 +1496,50 @@
     </rule>
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <!-- Localization of rules from the English grammar.xml - END  -->
+
+  <rulegroup id='SPACE_AFTER_PUNCTUATION' name='Espazos após pontuación'>
+    <!--   Created by Tiago F. Santos, Portuguese rule, 2017-01-01 -->
+    <rule>
+      <antipattern>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+          <token regexp='yes'>[.]</token>
+        </marker>
+          <token spacebefore='no'>
+            <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
+            <exception postag='SENT_END'/></token>
+      </pattern>
+      <message>Coloque un espazo despois das reticencias</message>
+        <suggestion>… </suggestion>
+      <example correction='… '>Cole aquí o seu texto<marker>...</marker>ou verifique este texto.</example>
+      <example correction='… '><marker>...</marker>e os votos de Bo Ano Novo.</example>
+      <example>Cole aquí o seu texto<marker>...</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>…
+            <exception postag='SENT_END'/></token>
+        </marker>
+          <token spacebefore='no'>
+            <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
+            <exception postag='SENT_END'/></token>
+      </pattern>
+      <message>Coloque un espazo despois das reticencias</message>
+        <suggestion>… </suggestion>
+      <example correction='… '>Cole aquí o seu texto<marker>…</marker>ou verifique este texto.</example>
+      <example correction='… '><marker>…</marker>e os votos de Bo Ano Novo.</example>
+      <example>Cole aquí o seu texto<marker>…</marker></example>
+      <example>Alén diso<marker>…</marker> </example>
+    </rule>
+  </rulegroup>
 
  </category>
 
