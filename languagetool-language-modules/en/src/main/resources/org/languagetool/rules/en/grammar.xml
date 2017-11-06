@@ -2694,8 +2694,8 @@ USA
             </rule>
         </rulegroup>
         <rule id="WRONG_GENITIVE_APOSTROPHE" name="wrong genitive (e.g., 'employees's' instead of 'employee's')">
-            <pattern>
-                <token postag="NNS" regexp="yes">[a-z]+s</token>
+            <pattern case_sensitive="yes">
+                <token postag="NNS" regexp="yes">[a-z]+s<exception postag="NNP"/></token>
                 <token regexp="yes">['´]</token>
                 <token>s</token>
             </pattern>
