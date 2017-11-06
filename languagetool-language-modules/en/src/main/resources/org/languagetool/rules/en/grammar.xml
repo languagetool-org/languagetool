@@ -4213,12 +4213,12 @@ USA
             <message>Did you mean <suggestion>and so forth</suggestion>?</message>
             <example correction="and so forth">And so on <marker>and so fourth</marker>.</example>
         </rule>
-        <!-- put fourth the|a|an::word=put forth \2::pivots=fourth,forth::options=fourth,forth -->
+        <!-- put fourth the|an?::word=put forth \2::pivots=fourth,forth::options=fourth,forth -->
         <rule id="PUT_FOURTH_THEAAN" name="put fourth (forth) the">
             <pattern>
                 <token>put</token>
                 <token>fourth</token>
-                <token regexp="yes">the|a|an</token>
+                <token regexp="yes">the|an?</token>
             </pattern>
             <message>Did you mean <suggestion>put forth <match no="3"/></suggestion>?</message>
             <example correction="put forth the">He <marker>put fourth the</marker> proposal.</example>
@@ -13160,7 +13160,7 @@ USA
                 <token>of</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">a|an|the</token>
+                <token regexp="yes">an?|the</token>
                 <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
                 <token>of</token>
             </pattern>
@@ -13505,8 +13505,8 @@ USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|an|the</token>
-                        <token postag="DT" regexp="yes">a|an|the|each</token>
+                        <token regexp="yes">an?|the</token>
+                        <token postag="DT" regexp="yes">an?|the|each</token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
                 </pattern>
@@ -24297,7 +24297,7 @@ USA
                     <marker>
                         <token regexp="yes">inform|informs|informing</token>
                     </marker>
-                    <token><exception regexp="yes">a|an|the|all|each</exception></token><!-- Not all determiners, thus not DT -->
+                    <token><exception regexp="yes">an?|the|all|each</exception></token><!-- Not all determiners, thus not DT -->
                 </pattern>
                 <message>'To inform' requires a direct object (inform the public/us/them etc.) and cannot be used without one except in passive sentences ('we were informed of something', for example). In some cases you can add the relevant object ('a number of Member States informed the Commission…'), otherwise, Alternatives: 
                 <suggestion><match no="1" postag="VB.*">announce</match></suggestion>, 
