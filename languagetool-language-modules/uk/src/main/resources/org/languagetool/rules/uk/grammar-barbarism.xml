@@ -1588,7 +1588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </marker>
             <token postag="noun.*" postag_regexp="yes">
               <exception postag=".*:(v_kly|v_dav|nv|fname).*" postag_regexp="yes"/>
-              <exception inflected="yes" regexp="yes">друг|чадо|братик|сестричка|син|тато|татко|мама|мати|зять|він|вона|той</exception>
+              <exception inflected="yes" regexp="yes">друг|чадо|братик|сестричка|син|тато|татко|мама|мати|зять|нащадок|він|вона|той</exception>
             </token>
           </unify>
         </pattern>
@@ -4714,7 +4714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">з?находити</token>
+            <token inflected="yes" regexp="yes">з?находити|з?найти</token>
             <token>можливим</token>
           </marker>
         </pattern>
@@ -4724,7 +4724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">з?находити</token>
+            <token inflected="yes" regexp="yes">з?находити|з?найти</token>
             <token>потрібним</token>
           </marker>
         </pattern>
@@ -4732,6 +4732,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="вважати за потрібне|визнавати за потрібне">що конгрес не <marker>знаходить потрібним</marker> такий підхід</example>
       </rule>
     </rulegroup>
+
+    <rule id="dalniy_skhid" name="Дальній Схід">
+      <pattern>
+        <token inflected="yes">дальній</token>
+        <token inflected="yes">схід</token>
+      </pattern>
+      <message>Правильно: <suggestion>Далекий Схід</suggestion></message>
+      <example correction="Далекий Схід">на <marker>Дальній Схід</marker> подалися.</example>
+    </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">

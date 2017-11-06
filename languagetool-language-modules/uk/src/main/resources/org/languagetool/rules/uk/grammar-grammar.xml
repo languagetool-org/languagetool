@@ -533,7 +533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">половиною|третиною|чвертю</token>
           <token postag_regexp="yes" postag="adj.*" min="0"/>
           <marker>
-            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
               <exception case_sensitive="yes">ВАТ</exception>
             </token>
           </marker>
@@ -543,8 +543,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
         <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
         <example>п'ять з половиною <marker>разів</marker></example>
+        <example>тримали п'ять бейсбольних біт</example>
       </rule>
       <rule>
+        <antipattern>
+          <token inflected="yes">бейсбольний</token>
+          <token inflected="yes">біта</token>
+        </antipattern>
         <pattern>
           <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]+11)
             <exception postag_regexp="yes" postag=".*:v_oru.*"/>
@@ -561,7 +566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
                 </token>
             -->
-            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
               <exception case_sensitive="yes">ВАТ</exception>
             </token>
           </marker>
@@ -596,6 +601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>керував сотнею німець</example>
         <example>комендантом сотні став Віталій</example>
         <example>ці мільйони слід шукати там</example>
+        <example>тримали 75 бейсбольних біт</example>
       </rule>
 
       <rule>
