@@ -2123,7 +2123,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">along|alongside|amid|amidst|among|amongst</token>
+                    <token regexp="yes">along(side)?|amid(st)?|among(st)?</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2693,6 +2693,16 @@ USA
                 <example>We'd love to eat ice cream!</example>
             </rule>
         </rulegroup>
+        <rule id="WRONG_GENITIVE_APOSTROPHE" name="wrong genitive (e.g., 'employees's' instead of 'employee's')">
+            <pattern>
+                <token postag="NNS" regexp="yes">[a-z]+s</token>
+                <token regexp="yes">['´]</token>
+                <token>s</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="s$" regexp_replace=""/>\2s</suggestion> or <suggestion>\1\2</suggestion>?</message>
+            <example correction="employee's|employees'">This was the <marker>employees's</marker> decision.</example>
+            <example>People's Republic of China</example>
+        </rule>
         <rulegroup id="WHOS" name="who's (whose)">
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
