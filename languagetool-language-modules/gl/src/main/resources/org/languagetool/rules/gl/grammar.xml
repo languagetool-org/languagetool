@@ -1541,6 +1541,29 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espazos antes da pontuación">
+    <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
+    <rule>
+      <regexp>\b([\p{L}\d]+) ([!?»”’,….])</regexp>
+      <message>Remova o espazo antes deste sinal de puntuación.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="escapou!">Como isto me <marker>escapou !</marker></example>
+    <!--example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example-->
+      <example correction="roda.">Existen dúas estratexias posíbeis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
+    </rule>
+    <rule>
+      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/])</regexp>
+      <message>Remova o espazo antes deste sinal de puntuación.</message>
+        <suggestion>\1\2</suggestion>
+      <example correction="posíbeis:">Existen dúas estratexias <marker>posíbeis :</marker> aproveitar o que existe ou reinventar a roda.</example>
+      <example>Un sorriso :-)</example>
+      <example>Un sorriso :)</example>
+      <example>Un sorriso :(</example>
+      <example>Un sorriso :-/</example>
+      <example>Un sorriso :/</example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id="CAT1" name="Gramática::Verbo">
