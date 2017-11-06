@@ -31,6 +31,11 @@
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
     - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
+    
+    
+#### Russian
+  * new false friends added (thanks to ZakShaker)
+  * added and improved some rules
 
 #### Serbian
   * initial support for Serbian by Zoltán Csala

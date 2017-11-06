@@ -122,14 +122,14 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("Land").build()  // https://de.wikipedia.org/wiki/Kein_sch%C3%B6ner_Land
     ),
     Arrays.asList(
-        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
         new PatternTokenBuilder().tokenRegex("Ist|Sind").build(),
         new PatternTokenBuilder().token("das").build(),
         new PatternTokenBuilder().posRegex("SUB:.*").build(),
         new PatternTokenBuilder().posRegex("PKT|KON:NEB").build()// "Ist das Kunst?" / "Ist das Kunst oder Abfall?"
     ),
     Arrays.asList(
-        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
         new PatternTokenBuilder().tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten").build(),
         new PatternTokenBuilder().tokenRegex("sind|waren|ist").build(),
         new PatternTokenBuilder().token("das").build(),
@@ -141,7 +141,7 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().token("ich").build()// Wes Brot ich ess, des Lied ich sing
     ),
     Arrays.asList(
-        new PatternTokenBuilder().pos("SENT_START").build(),
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
         new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
@@ -175,14 +175,14 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
-        new PatternTokenBuilder().pos("SENT_END").build()
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
     Arrays.asList( // "Bei mir löste das Panik aus."
         new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
         new PatternTokenBuilder().token("das").build(),
         new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
         new PatternTokenBuilder().pos("ZUS").build(),
-        new PatternTokenBuilder().pos("SENT_END").build()
+        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
     Arrays.asList(
         new PatternTokenBuilder().token("Außenring").build(),
@@ -553,7 +553,15 @@ public class AgreementRule extends Rule {
     if (token2.isImmunized()) {
       return null;
     }
-    Set<String> set1 = getAgreementCategories(token1);
+    Set<String> set1 = null;
+    if (token1.getReadings().size() == 1 &&
+        token1.getReadings().get(0).getPOSTag() != null &&
+        token1.getReadings().get(0).getPOSTag().endsWith(":STV")) {
+      // catch the error in "Meiner Chef raucht."
+      set1 = Collections.emptySet(); 
+    } else {
+      set1 = getAgreementCategories(token1);
+    }
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }
@@ -565,8 +573,8 @@ public class AgreementRule extends Rule {
     RuleMatch ruleMatch = null;
     if (set1.isEmpty() && !isException(token1, token2)) {
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
-      String errorDetails = errorCategories.size() > 0 ?
-              String.join(" und ", errorCategories) : "Kasus, Genus oder Numerus";
+      String errorDetails = errorCategories.isEmpty() ?
+            "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
       String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;

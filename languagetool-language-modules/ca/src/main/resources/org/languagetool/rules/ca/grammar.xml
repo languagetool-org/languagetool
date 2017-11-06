@@ -4947,6 +4947,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>que</token>
+                        <token>hi</token>
+                        <token regexp="yes">ha|havia</token>
+                        <token postag="V.G.*" postag_regexp="yes"></token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="1">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
@@ -4973,6 +4981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>N'hi ha per a complicar la situació</example>
                 <example>que hi ha hagut, coincidint amb</example>
                 <example>on hi ha, dominant el poble,</example>
+                <example>amb uns nens que hi havia jugant al carrer</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">

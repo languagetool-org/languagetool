@@ -180,6 +180,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("diagnoziert", "diagnostiziert", rule, lt);
     assertFirstSuggestion("durchnitliche", "durchschnittliche", rule, lt);
     assertFirstSuggestion("Heileit", "Highlight", rule, lt);
+    assertFirstSuggestion("todesbedrohende", "lebensbedrohende", rule, lt);
+    assertFirstSuggestion("todesbedrohliches", "lebensbedrohliches", rule, lt);
+    assertFirstSuggestion("folklorisch", "folkloristisch", rule, lt);
+    assertFirstSuggestion("reschaschiert", "recherchiert", rule, lt);
   }
 
   @Test

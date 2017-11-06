@@ -1064,19 +1064,20 @@
       <disambig action="filter" postag="V.+"/>
     </rule>
 
+    <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-XX-XX  	-->
+      <pattern>
+          <token postag="VMN0000" regexp='yes'>.+[^r]$</token>
+      </pattern>
+      <disambig action="remove" postag="V.N.+"/>
+    </rule>
+
     <rule id="PUNCT" name="pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
           <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+\/÷:=]</token>
       </pattern>
       <disambig action="add"><wd pos="_PUNCT"/></disambig>
-    </rule>
-
-    <rule id='PHONETIC_INFINITIVE_FIX' name='correção de infinitivo fonético'>
-      <pattern>
-          <token postag="VMN0000" regexp='yes'>.+[^r]$</token>
-      </pattern>
-      <disambig action="remove" postag="V.N.+"/>
     </rule>
 
   <rulegroup name="Quotation marks" id="QUOT">

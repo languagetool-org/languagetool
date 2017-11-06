@@ -107,6 +107,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Internetkaffees?", "kaffee", "café");
+    putRepl("[gG]ehorsamkeitsverweigerung(en?)", "[gG]ehorsamkeit", "Gehorsam");
+    putRepl("[wW]ochende[ns]?", "[wW]ochend", "Wochenend");
     putRepl("[kK]ongratulier(en?|t(en?)?|st)", "[kK]on", "");
     putRepl("[wWkKdD]an$", "n$", "nn");
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
@@ -407,6 +409,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.matches(".*[rR]es(a|er)[vw]i[he]?rung(en)?")) {
       suggestion = word.replaceFirst("es(a|er)[vw]i[he]?rung", "eservierung");
       if (!hunspellDict.misspelled(suggestion)) { // suggest e.g. 'Ticketreservierung', but not 'Blödsinnsquatschreservierung'
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("[rR]eschaschier.+")) {
+      suggestion = word.replaceFirst("schaschier", "cherchier");
+      if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
     } else if (word.matches(".*[lL]aborants$")) {
@@ -745,16 +752,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
     @Override
     public String readLine() throws IOException {
-      if (buffer.size() > 0) {
-        return buffer.remove(0);
-      } else {
+      if (buffer.isEmpty()) {
         String line = super.readLine();
         if (line == null) {
           return null;
         }
         buffer.addAll(lineExpander.expandLine(line));
-        return buffer.remove(0);
       }
+      return buffer.remove(0);
     }
   }
 
