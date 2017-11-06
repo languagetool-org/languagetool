@@ -41,7 +41,7 @@ public class UkrainianTagger extends BaseTagger {
   
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
-  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9][\u2013][а-яіїєґ]");
+  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9][\u2013][а-яіїєґ]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
@@ -100,9 +100,10 @@ public class UkrainianTagger extends BaseTagger {
           AnalyzedToken analyzedToken = newTokens.get(i);
           if( newWord.equals(analyzedToken.getToken()) ) {
             String lemma = analyzedToken.getLemma();
-            if( lemma != null ) {
-              lemma = lemma.replace('-', otherHyphen);
-            }
+    // we probably want the original lemma
+//            if( lemma != null ) {
+//              lemma = lemma.replace('-', otherHyphen);
+//            }
             AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
             newTokens.set(i, newToken);
           }

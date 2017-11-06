@@ -45,6 +45,9 @@ class LetterEndingForNumericHelper {
     map2.put("ту", Arrays.asList(RegexToCaseList.always(":f:v_zna"))); // 4-ту
     map2.put("тю", Arrays.asList(RegexToCaseList.always(":f:v_zna"))); // 3-тю
     map2.put("ою", Arrays.asList(RegexToCaseList.always(":f:v_oru"))); // 4-ою
+    map2.put("ю", Arrays.asList(
+        RegexToCaseList.regex(".*([^3]|13)", ":f:v_zna"), // 3-ю
+        RegexToCaseList.always(":f:v_oru"))); // 4-ю
     map2.put("е", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 1-е
     map2.put("є", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 3-є
     map2.put("ше", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 1-ше

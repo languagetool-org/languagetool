@@ -1,5 +1,6 @@
 package org.languagetool.tagging.uk;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -23,6 +24,7 @@ public final class PosTagHelper {
 
   public static final Map<String, String> VIDMINKY_MAP;
   public static final Map<String, String> GENDER_MAP;
+  public static final List<String> BASE_GENDERS = Arrays.asList("m", "f", "n", "p");
   public static final Map<String, String> PERSON_MAP;
 
   static {
@@ -45,7 +47,7 @@ public final class PosTagHelper {
     map2.put("i", "інф.");
     map2.put("o", "безос. форма");
     GENDER_MAP = Collections.unmodifiableMap(map2);
-    
+
     Map<String, String> map3 = new LinkedHashMap<>();
     map3.put("1", "1-а особа");
     map3.put("2", "2-а особа");
