@@ -3480,4 +3480,60 @@
 
  </category>
 
+<category id="LIBREOFFICE_RULES" name="LibreOffice: Regras para textos formatados" default="off">
+
+    <rule id="FINAL_PUNCTUATION" name="Puntuación final en falta">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token skip="-1">
+            <exception postag="V.+" postag_regexp="yes"/>
+            <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
+          <token postag="SENT_END">
+            <exception postag="V.+" postag_regexp="yes"/></token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token max="3"/>
+          <token postag="SENT_END"/>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">«|“|"</token>
+          <token skip="-1" case_sensitive="yes" regexp="yes">[A-ZÁÀÂÉÊÍÓÔÚ].+</token>
+        <marker>
+          <token postag="SENT_END" regexp="yes">[a-záàâéêíóú][a-záàâéêíóú]+</token>
+        </marker>
+      </pattern>
+      <message>Puntuación final en falta.</message>
+        <suggestion>\4.</suggestion>
+        <suggestion>\4?</suggestion>
+        <suggestion>\4!</suggestion>
+        <suggestion>\4:</suggestion>
+      <example correction="casa.|casa?|casa!|casa:">Vou en dirección a <marker>casa</marker></example>
+    </rule>
+    <rule id="SPACE_INDENTATION" name="Indentación con espazos">
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+      <regexp>^ +</regexp>
+      <message>No LibreOffice, a indentação é máis precisa se utilizar as ferramentas de tabulação ou indentação.</message>
+        <suggestion/>
+      <example correction=""><marker> </marker>El saíu de casa.</example>
+    </rule>
+
+ </category>
+
+ <category id='DEVELOPMENT' name="Desenvolvemento" type="grammar" default='off'>
+
+    <rule id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-24 -->
+      <pattern>
+          <token postag='UNKNOWN'/>
+      </pattern>
+      <message>Palabra non identificada.</message>
+      <example correction=''>De acordo co teorema central do límite, a distribución normal aborda o comportamento <marker>assentótico</marker> de varias distribucións de probabilidade.</example>
+      <example>Xuros do 0,2% ao ano.</example>
+    </rule>
+
+ </category>
+
 </rules>

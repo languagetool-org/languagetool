@@ -479,6 +479,31 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="PERCENTAGES" name="Porcentaxes">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
+            <exception regexp='yes'>1[&#37;&#8240;&#8241;]</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">1 ?[&#37;&#8240;&#8241;]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMC000"/></disambig>
+    </rule>
+  </rulegroup>
+
+    <rule id="PUNCT" name="pontuação">
+    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
+      <pattern>
+          <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+\/÷:=]</token>
+      </pattern>
+      <disambig action="add"><wd pos="_PUNCT"/></disambig>
+    </rule>
+
   <rulegroup name="Quotation marks" id="QUOT">
     <!-- 		l18n from English disambiguation.xml by Tiago F. Santos		-->
     <rule>

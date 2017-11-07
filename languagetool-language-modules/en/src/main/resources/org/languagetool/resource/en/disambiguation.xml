@@ -1678,13 +1678,16 @@
             <marker>
                 <and>
                   <token postag="VBZ"/>
-                  <token postag="NNS"/>                  
+                  <token postag="NNS"/>
+                  <token chunk="B-VP"/>
                 </and>
             </marker>
         </pattern>
         <disambig postag="VBZ"/>
         <example type="untouched">These may be to bring about political change.</example>
-        <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>        
+        <example type="untouched">I want to determine the approximate time taken for each production <marker>steps</marker>.</example>
+        <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>
+        <example type="ambiguous" inputform="walks[walk/NNS,walk/VBZ]" outputform="walks[walk/VBZ]">Each robot <marker>walks</marker> quickly.</example>
     </rule>        
             
     <rule name="SENT_START + the + nn/jj + verb sing => nn" id="SENT_START_the_NNJJ_VBZ">
@@ -3188,6 +3191,7 @@
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <pattern>
         <token chunk="E-NP-plural"/>
+        <token min="0" max="1" postag="RB"/>
         <marker>
         <and>
           <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
@@ -3198,6 +3202,7 @@
       <disambig postag="VBP"/>
       <example type="untouched">The application form</example>
       <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+      <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
       <example type="untouched">So Rand fell into a severe depression.</example>
       <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
     </rule>
@@ -3258,12 +3263,15 @@
             <token postag="VBZ"/>
           </and>
           </marker>
+          <token min="0" max="1" postag="RB"/>
           <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/></token>        
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
       <example type="ambiguous" inputform="taxis[taxi/NNS,taxi/VBZ,taxis/NN]" outputform="taxis[taxi/NNS]">Would <marker>taxis</marker> be cheaper?</example>
       <example type="ambiguous" inputform="troops[troop/NNS,troop/VBZ]" outputform="troops[troop/NNS]">Confederate commanders would need it should <marker>troops</marker> pass that way in retreat.</example>
+      <example type="ambiguous" inputform="pigs[pig/NNS,pig/VBZ]" outputform="pigs[pig/NNS]">… but might <marker>pigs</marker> fly?</example>
+      <example type="ambiguous" inputform="pigs[pig/NNS,pig/VBZ]" outputform="pigs[pig/NNS]">Will <marker>pigs</marker> ever have wings?</example>
     </rule>
     
     

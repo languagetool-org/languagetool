@@ -183,6 +183,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("todesbedrohende", "lebensbedrohende", rule, lt);
     assertFirstSuggestion("todesbedrohliches", "lebensbedrohliches", rule, lt);
     assertFirstSuggestion("folklorisch", "folkloristisch", rule, lt);
+    assertFirstSuggestion("Religiösischen", "Religiösen", rule, lt);
     assertFirstSuggestion("reschaschiert", "recherchiert", rule, lt);
   }
 

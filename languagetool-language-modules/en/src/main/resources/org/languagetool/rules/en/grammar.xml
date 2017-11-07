@@ -2694,13 +2694,15 @@ USA
             </rule>
         </rulegroup>
         <rule id="WRONG_GENITIVE_APOSTROPHE" name="wrong genitive (e.g., 'employees's' instead of 'employee's')">
-            <pattern>
-                <token postag="NNS" regexp="yes">[a-z]+s</token>
+            <pattern case_sensitive="yes">
+                <token postag="NNS" regexp="yes">[a-z]+s<exception postag="NNP"/></token>
                 <token regexp="yes">['´]</token>
                 <token>s</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1" regexp_match="s$" regexp_replace=""/>\2s</suggestion> or <suggestion>\1\2</suggestion>?</message>
             <example correction="employee's|employees'">This was the <marker>employees's</marker> decision.</example>
+            <example>The actress's role was pretty small.</example>
+            <example>Mr. Lewis's dog bit me yesterday.</example>
             <example>People's Republic of China</example>
         </rule>
         <rulegroup id="WHOS" name="who's (whose)">
