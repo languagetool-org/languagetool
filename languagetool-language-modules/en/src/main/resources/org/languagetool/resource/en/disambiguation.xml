@@ -3191,6 +3191,7 @@
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <pattern>
         <token chunk="E-NP-plural"/>
+        <token min="0" max="1" postag="RB"/>
         <marker>
         <and>
           <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
@@ -3201,6 +3202,7 @@
       <disambig postag="VBP"/>
       <example type="untouched">The application form</example>
       <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+      <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
       <example type="untouched">So Rand fell into a severe depression.</example>
       <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
     </rule>
