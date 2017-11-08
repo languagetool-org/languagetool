@@ -28,6 +28,7 @@
     <!ENTITY partes_do_dia "(?:mañá|matina|tarde|noite)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|día|semana|(?:bi|tri|quadri|se)mestre|ano|década|decenio|milenio|tempo|temporada|época)s?|mes|meses">
 
+    <!ENTITY puntos_cardeais "(?:n(?:acente|or(?:te|[do]este))|su(?:l|(?:ro)este)|este|o(?:este|ccidente|riente)|poñente)">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -38,12 +39,53 @@
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 
+    <!ENTITY precede_nome_proprio "(asociación|avenida|balneario|parella?|coalición|cometa|concurso|copa|curso|designación|designado|distribución|escola|estación|estilo|filme|fundación|galardón|xeración|illa|imperio|iniciativa|instituto|titulado|lagoa?|lei|libro|monte|museo|navío|novela|obra|orquestra|praza|premio|programa|proxecto|quinta|rexistro|reino|informe|revista|río|rúa|serra|teatro|tema|tipo|universidade|versión)">
+    <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|algún)"><!-- XXX lost 'por+o|me+o|che+o|lle+o'-->
+    <!ENTITY contraccions_FS "(?:á|d(?:a|uña|ela|est?a|aquela|outra)|n(?:a|unha|ela|nest?a|aquela|outra)|algunha)"><!-- XXX lost 'por+a|me+a|che+a|lle+a'-->
+    <!ENTITY contraccions_MP "(?:aos|d(?:os|uns|eles|est?es|aqueles|outros)|n(?:os|uns|eles|est?es|aqueles|outros)|algúns)"><!-- XXX lost 'por+o|me+o|che+o|lle+o'+s-->
+    <!ENTITY contraccions_FP "(?:ás|d(?:as|uñas|elas|est?as|aquelas|outras)|n(?:as|unhas|elas|est?as|aquelas|outras)|algunhas)"><!-- XXX lost 'por+a|me+a|che+a|lle+a'+s-->
+
     <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
+
+    <!ENTITY MSG_ECV "Posíbel erro de concordancia verbal.">
+    <!ENTITY MSG_ECG "Posíbel erro de concordancia de xénero.">
+    <!ENTITY MSG_ECN "Posíbel erro de concordancia de número.">
+
 ]>
 
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <unification feature="number">
+    <equivalence type="singular">
+          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="plural">
+          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="gender">
+    <equivalence type="masc">
+          <token postag="(?:[NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="fem">
+          <token postag="(?:[NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="person">
+    <equivalence type="first">
+          <token postag="(?:V...|PP)1.+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="second">
+          <token postag="(?:V...|PP)2.+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="third">
+          <token postag="(?:V...|PP)3.+" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  
+  <!--unification feature="number">  XXX orginal rules. comparare if differences in verb gender work better this way
     <equivalence type="singular">
           <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
     </equivalence>
@@ -73,9 +115,9 @@
     <equivalence type="third">
           <token postag="(V...|PP)3.*" postag_regexp="yes"/>
     </equivalence>
-  </unification>
+  </unification-->
 
-<category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+ <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
   <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formateo de números: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
