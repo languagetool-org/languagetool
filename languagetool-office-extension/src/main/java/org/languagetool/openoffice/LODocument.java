@@ -18,19 +18,11 @@
  */
 package org.languagetool.openoffice;
 
-/**
- * Information about LibreOffice/OpenOffice documents
- * needed for full text search
- * @since 4.0
- * 
- * @author Fred Kruse
- */
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
@@ -48,10 +40,17 @@ import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
+/**
+ * Information about LibreOffice/OpenOffice documents
+ * needed for full text search
+ * @since 4.0
+ * 
+ * @author Fred Kruse
+ */
 public class LODocument {
 
 	/** Returns the current XDesktop */
-	public static XDesktop getCurrentDesktop(XComponentContext xContext) {
+	private static XDesktop getCurrentDesktop(XComponentContext xContext) {
 		if(xContext == null) return null;
 		XMultiComponentFactory xMCF = (XMultiComponentFactory) UnoRuntime.queryInterface(XMultiComponentFactory.class,
 			xContext.getServiceManager());
@@ -71,25 +70,15 @@ public class LODocument {
    	else return (XComponent) xdesktop.getCurrentComponent();
   }
     
-  /** Returns the current frame */
-  public static XFrame getCurrentFrame(XComponentContext xContext) {
-  	XComponent curcomp = getCurrentComponent(xContext);
-   	if (curcomp == null) return null;
-   	else {
-      XModel xModel = (XModel) UnoRuntime.queryInterface(XModel.class, curcomp);
-      return xModel.getCurrentController().getFrame();
-    }
-  }
-
-  /** Returns the current text document (if any) */
-  public static XTextDocument getCurrentDocument(XComponentContext xContext) {
+    /** Returns the current text document (if any) */
+  private static XTextDocument getCurrentDocument(XComponentContext xContext) {
   	XComponent curcomp = getCurrentComponent(xContext);
    	if (curcomp == null) return null;
    	else return (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, curcomp);
   }
 
   /** Returns the text cursor (if any) */
-  public static XTextCursor getCursor(XComponentContext xContext) {
+  private static XTextCursor getCursor(XComponentContext xContext) {
    	XTextDocument curdoc = getCurrentDocument(xContext);
     if (curdoc == null) return null;
     XText xText = curdoc.getText();
@@ -98,7 +87,7 @@ public class LODocument {
   }
 
   /** Returns ParagraphCursor from TextCursor */
-  public static XParagraphCursor getParagraphCursor(XComponentContext xContext) {
+  private static XParagraphCursor getParagraphCursor(XComponentContext xContext) {
     XTextCursor xcursor = getCursor(xContext);
     if(xcursor == null) return null;
     return (XParagraphCursor) UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
@@ -115,7 +104,7 @@ public class LODocument {
   }
 
   /** Returns ViewCursor */
-  public static XTextViewCursor getViewCursor(XComponentContext xContext) {
+  private static XTextViewCursor getViewCursor(XComponentContext xContext) {
     XDesktop xDesktop = getCurrentDesktop(xContext);
     if(xDesktop == null) return null;
     XComponent xCurrentComponent = xDesktop.getCurrentComponent();
