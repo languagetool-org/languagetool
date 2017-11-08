@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Fred Kruse
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,37 +44,38 @@ import com.sun.star.uno.XComponentContext;
  * Information about LibreOffice/OpenOffice documents
  * needed for full text search
  * @since 4.0
- * 
  * @author Fred Kruse
  */
-public class LODocument {
+class LODocument {
 
-	/** Returns the current XDesktop */
-	private static XDesktop getCurrentDesktop(XComponentContext xContext) {
-		if(xContext == null) return null;
-		XMultiComponentFactory xMCF = (XMultiComponentFactory) UnoRuntime.queryInterface(XMultiComponentFactory.class,
-			xContext.getServiceManager());
-      Object desktop = null;
-		try {
-			desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-		} catch (Exception e) {
-			return null;
-		}
-      return (XDesktop) UnoRuntime.queryInterface(com.sun.star.frame.XDesktop.class, desktop);
-	}
-	
-	/** Returns the current XComponent */
+  /**
+   * Returns the current XDesktop
+   */
+  private static XDesktop getCurrentDesktop(XComponentContext xContext) {
+    if (xContext == null) return null;
+    XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+            xContext.getServiceManager());
+    Object desktop;
+    try {
+      desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
+    } catch (Exception e) {
+      return null;
+    }
+    return UnoRuntime.queryInterface(XDesktop.class, desktop);
+  }
+
+  /** Returns the current XComponent */
   private static XComponent getCurrentComponent(XComponentContext xContext) {
   	XDesktop xdesktop = getCurrentDesktop(xContext);
    	if(xdesktop == null) return null;
-   	else return (XComponent) xdesktop.getCurrentComponent();
+   	else return xdesktop.getCurrentComponent();
   }
     
-    /** Returns the current text document (if any) */
+  /** Returns the current text document (if any) */
   private static XTextDocument getCurrentDocument(XComponentContext xContext) {
   	XComponent curcomp = getCurrentComponent(xContext);
    	if (curcomp == null) return null;
-   	else return (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, curcomp);
+   	else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
   }
 
   /** Returns the text cursor (if any) */
@@ -90,11 +91,11 @@ public class LODocument {
   private static XParagraphCursor getParagraphCursor(XComponentContext xContext) {
     XTextCursor xcursor = getCursor(xContext);
     if(xcursor == null) return null;
-    return (XParagraphCursor) UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
+    return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
   }
   
   /** Returns Number of all Paragraphs of Document without footnotes etc.  */
-  public static int getNumberOfAllTextParagraphs(XComponentContext xContext) {
+  static int getNumberOfAllTextParagraphs(XComponentContext xContext) {
     XParagraphCursor xpcursor = getParagraphCursor(xContext);
     if (xpcursor == null) return 0;
     xpcursor.gotoStart(false);
@@ -120,14 +121,14 @@ public class LODocument {
   }
 
   /** Returns Paragraph number under ViewCursor */
-  public static int getViewCursorParagraph(XComponentContext xContext) {
+  static int getViewCursorParagraph(XComponentContext xContext) {
     XTextViewCursor xViewCursor = getViewCursor(xContext);
     if(xViewCursor == null) return -4;
     XText xDocumentText = xViewCursor.getText();
     if(xDocumentText == null) return -3;
     XTextCursor xModelCursor = xDocumentText.createTextCursorByRange(xViewCursor.getStart());
     if(xModelCursor == null) return -2;
-    XParagraphCursor xParagraphCursor = (XParagraphCursor)UnoRuntime.queryInterface(
+    XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(
         XParagraphCursor.class, xModelCursor);
     if(xParagraphCursor == null) return -1;
     int pos = 0;
@@ -136,7 +137,7 @@ public class LODocument {
   }
 
   /** Returns Number of Paragraph from FlatParagaph */
-  public static int getNumFlatParagraphs(XComponentContext xContext) {
+  static int getNumFlatParagraphs(XComponentContext xContext) {
     XComponent xCurrentComponent = getCurrentComponent(xContext);
     if(xCurrentComponent == null) return -3;
     XFlatParagraphIteratorProvider xFlatParaItPro 
@@ -160,8 +161,8 @@ public class LODocument {
   }
 
   /** Returns all Paragraphs of Document */
-  public static List<String> getAllParagraphs(XComponentContext xContext) {
-    List<String> allParas = new ArrayList<String>();
+  static List<String> getAllParagraphs(XComponentContext xContext) {
+    List<String> allParas = new ArrayList<>();
     XFlatParagraph lastFlatPara = null;
     XComponent xCurrentComponent = getCurrentComponent(xContext);
     if(xCurrentComponent == null) return allParas;
@@ -187,8 +188,8 @@ public class LODocument {
   }
 
   /** Returns Number of all Paragraphs of Document / Returns < 0 on Error  */
-  public static int getNumberOfAllParagraphs(XComponentContext xContext) {
-    XFlatParagraph lastFlatPara = null;
+  static int getNumberOfAllParagraphs(XComponentContext xContext) {
+    XFlatParagraph lastFlatPara;
     XComponent xCurrentComponent = getCurrentComponent(xContext);
     if(xCurrentComponent == null) return -3;
     XFlatParagraphIteratorProvider xFlatParaItPro 
