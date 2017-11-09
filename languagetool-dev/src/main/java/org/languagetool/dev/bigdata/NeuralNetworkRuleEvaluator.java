@@ -49,7 +49,7 @@ import static java.util.stream.Collectors.toList;
 class NeuralNetworkRuleEvaluator {
 
   private static final List<Double> EVAL_MIN_SCORES = Arrays.asList(.5, .75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0);
-  private static final int MAX_SENTENCES = 1000;
+  private static final int MAX_SENTENCES = 5000;
   private static final float RECOMMENDED_MIN_PRECISION = 0.99f;
 
   private final Language language;
@@ -66,7 +66,7 @@ class NeuralNetworkRuleEvaluator {
     rules = allRules.stream()
             .filter(r -> r instanceof NeuralNetworkRule)
             .map(r -> (NeuralNetworkRule) r)
-            .filter(r -> ruleId.equals("ALL") || r.getId().equals(ruleId))
+            .filter(r -> ruleId.equals("ALL") || ruleId.contains(r.getId()))
             .collect(toList());
     if (rules.isEmpty()) {
       throw new IllegalArgumentException("Language " + language + " has no neural network rule with id " + ruleId);
@@ -194,7 +194,7 @@ class NeuralNetworkRuleEvaluator {
 
   private List<Sentence> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
     List<Sentence> sentences = new ArrayList<>();
-    Pattern pattern = Pattern.compile(".*\\b" + token + "\\b.*");
+    Pattern pattern = Pattern.compile(".*[^-]\\b" + token + "\\b[^-].*");
     while (sentenceSource.hasNext()) {
       Sentence sentence = sentenceSource.next();
       String sentenceText = sentence.getText();
