@@ -85,6 +85,9 @@ class CompoundTagger {
     "багато", "мало", "високо", "низько"
   );
 
+  private static final List<String> WORDS_WITH_YEAR = Arrays.asList("євро", "гра", "бюджет", "вибори", "олімпіада", "універсіада");
+  private static final List<String> NUMBERED_ENTITIES = Arrays.asList("Ан", "Боїнг", "ВАЗ", "ГАЗ", "Мі", "Міг", "ЗІЛ", "ЗАЗ", "Т", "Ту", "УТ", "Як");
+
   static {
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb.*:impr|.*pron|noun|adv|intj|part|predic).*"));
     rightPartsWithLeftTagMap.put("но", Pattern.compile("(verb.*:(impr|futr)|intj).*")); 
@@ -217,6 +220,9 @@ class CompoundTagger {
         else if( "мм".equals(rightWord) ) {
           for(String gender: PosTagHelper.BASE_GENDERS ) {
             for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
+              if( vidm.equals("v_kly") )
+                continue;
+
               String posTag = IPOSTag.adj.getText() + ":" + gender + ":" + vidm;
               newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
             }
@@ -241,17 +247,51 @@ class CompoundTagger {
       return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
     }
 
+
+    // Ан-140
+    if( NOUN_PREFIX_NUMBER.matcher(rightWord).matches()
+        && NUMBERED_ENTITIES.contains(leftWord) ) {
+
+      List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+
+      // червоненька ВАЗ-2107
+      List<String> gens = Arrays.asList("ВАЗ", "ЗАЗ").contains(leftWord) ? Arrays.asList("m", "f") : Arrays.asList("m");
+      for (String gen: gens) {
+        for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
+          if( vidm.equals("v_kly") )
+            continue;
+          String posTag = "noun:" + gen + ":" + vidm + ":prop";
+          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
+        }
+      }
+
+      return newAnalyzedTokens;
+    }
+
     // Євро-2014
-    if( YEAR_NUMBER.matcher(rightWord).matches() && ! leftWdList.isEmpty() ) {
-      if( Character.isUpperCase(leftWord.charAt(0)) 
-          && Arrays.asList("євро", "Євробачення", "Мундіаль", "Європа", "гра", "Олімпіада", "ЧЄ", "ЧС", "ЧУ", "ЛЧ", "ЗНО").contains(leftWdList.iterator().next().getLemma()) ) {
+    if( YEAR_NUMBER.matcher(rightWord).matches() && ! leftWdList.isEmpty() && Character.isUpperCase(leftWord.charAt(0)) ) {
+      List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+
+      if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, ":prop")
+          || WORDS_WITH_YEAR.contains(leftWdList.iterator().next().getLemma()) ) {
         List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
-        List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
-        
+
         for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
           String posTag = analyzedToken.getPOSTag();
-          if( ! "гра".equals(analyzedToken.getLemma()) && posTag.contains(":p:") )
+
+          // Афіни-2014 - потрібне лише місто, не ім'я
+          if( posTag == null || posTag.contains(":anim") )
             continue;
+
+          if( posTag.contains("v_kly") )
+            continue;
+
+          if( posTag.contains(":p:")
+                && ! Arrays.asList("гра", "вибори", "бюджет").contains(analyzedToken.getLemma())
+                && ! posTag.contains(":ns") )
+            continue;
+
+          // Євро-2014
           if( "євро".equals(analyzedToken.getLemma()) && ! posTag.contains(":m:") )
             continue;
 
@@ -262,11 +302,10 @@ class CompoundTagger {
           }
           newAnalyzedTokens.add(new AnalyzedToken(word, posTag, lemma + "-" + rightWord));
         }
-        
+
         return newAnalyzedTokens;
       }
     }
-    
 
     // по-болгарськи, по-болгарському
 
@@ -744,6 +783,9 @@ class CompoundTagger {
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag.startsWith( IPOSTag.adj.getText() ) ) {
+        if( posTag.contains(":comp") || posTag.contains(":super") ) {
+          posTag = posTag.replaceFirst(":comp[br]|:super", "");
+        }
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag + extraTag, leftWord.toLowerCase() + "-" + analyzedToken.getLemma()));
       }
     }

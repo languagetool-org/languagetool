@@ -491,8 +491,9 @@ public class TokenAgreementAdjNounRuleTest {
     //////// adjp ////////////
 
     // adjp:actv:imperf + noun (case government)
-    // we ignore adjp:actv:imperf - it's handled by simple replace rule
+    // we ignore adjp:actv.*:bad - it's handled by simple replace rule
     assertEmptyMatch("обмежуючий власність");
+    assertEmptyMatch("створивший історію");
 
     
     // adjp + (весь) в біле/чорне
