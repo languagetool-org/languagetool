@@ -25268,7 +25268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">[XICV]+è<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
+                    <token regexp="yes">[XICV]+[èé]<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
                 </marker>
             </pattern>
             <message>Els ordinals romans no necessiten la terminació -è.</message>
@@ -38949,6 +38949,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
+        <rule id="A_SOVINT" name="a sovint">
+            <pattern>
+                <token>a</token>
+                <token>sovint</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion>sovint</suggestion>
+            <suggestion>tot sovint</suggestion>
+            <example correction="sovint|tot sovint"><marker>a sovint</marker></example>
+            <example>sovint</example>
+        </rule>
        <rule id="ATRONAR" name="atronar">
             <pattern>
                 <token inflected="yes">atronar</token>
@@ -39236,7 +39247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">milloria</token>
             </pattern>
-            <message>Val més dir: <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">millora</match></suggestion>. "Milloria" té sentits més poc habituals.</message>
+            <message>Val més dir: <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">millora</match></suggestion>. "Milloria" té sentits poc habituals.</message>
             <example correction="millora">Ha experimentat una <marker>milloria</marker>.</example>
             <example>Quina millora!</example>
         </rule>
@@ -39740,17 +39751,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Expressió preferible</short>
             <example correction="braç a braç|de costat|amb familiaritat"><marker>colze a colze</marker></example>
             <example>de costat</example>
-        </rule>
-        <rule id="A_SOVINT" name="a sovint">
-            <pattern>
-                <token>a</token>
-                <token>sovint</token>
-            </pattern>
-            <message>Expressió preferible.</message>
-            <suggestion>sovint</suggestion>
-            <suggestion>tot sovint</suggestion>
-            <example correction="sovint|tot sovint"><marker>a sovint</marker></example>
-            <example>sovint</example>
         </rule>
         <rule id="TROBAR_SE_ESTAR_SITUAT" name="trobar-se/estar situat...">
             <pattern>
@@ -40735,10 +40735,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">(tele)?faxs</token>
             </pattern>
-            <message>Val més dir: <suggestion><match no="1" regexp_match="(.*fax)s" regexp_replace="$1os"/></suggestion>.</message>
-            <short>Expressió preferible</short>
+            <message>Forma preferible.</message>
+            <suggestion><match no="1" regexp_match="(.*fax)s" regexp_replace="$1os"/></suggestion>
             <example correction="faxos"><marker>faxs</marker></example>
-            <example>faxos</example>
         </rule>
         <rule id="AL_MATI_SEGUENT" name="al matí següent">
             <pattern>
@@ -40820,10 +40819,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dia</token>
                     <token regexp="yes">següent|després</token>
                 </pattern>
-                <message>Val més dir: <suggestion><match no="1"/> a l'endemà</suggestion>.</message>
-                <short>Expressió preferible</short>
+                <message>Expressió preferible</message>
+                <suggestion><match no="1"/> a l'endemà</suggestion>
                 <example correction="per a l'endemà"><marker>per al dia següent</marker></example>
-                <example>fins a l'endemà</example>
             </rule>
             <rule>
                 <pattern>
@@ -40835,10 +40833,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">següent|després</token>
                     </marker>
                 </pattern>
-                <message>Val més dir: <suggestion>l'endemà</suggestion>.</message>
-                <short>Expressió preferible</short>
+                <message>Expressió preferible.</message>
+                <suggestion>l'endemà</suggestion>
                 <example correction="l'endemà"><marker>al dia següent</marker></example>
-                <example>l'endemà</example>
             </rule>
             <rule>
                 <pattern>
@@ -40846,10 +40843,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dia</token>
                     <token regexp="yes">següent|després</token>
                 </pattern>
-                <message>Val més dir: <suggestion>l'endemà</suggestion>.</message>
-                <short>Expressió preferible</short>
+                <message>Expressió preferible</message>
+                <suggestion>l'endemà</suggestion>
                 <example correction="l'endemà"><marker>el dia següent</marker></example>
-                <example>l'endemà</example>
             </rule>
             <rule>
                 <pattern>
@@ -40857,8 +40853,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dia</token>
                     <token regexp="yes">següent|després</token>
                 </pattern>
-                <message>Val més dir: <suggestion> l'endemà</suggestion>.</message>
-                <short>Expressió preferible</short>
+                <message>Expressió preferible.</message>
+                <suggestion> l'endemà</suggestion>
                 <example correction=" l'endemà">de<marker>l dia següent</marker></example>
                 <example>de l'endemà</example>
             </rule>
@@ -40867,8 +40863,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">consellar</token>
             </pattern>
-            <message>Val més dir: <suggestion>a<match no="1"/></suggestion>.</message>
-            <short>Forma preferible</short>
+            <message>Forma secundària.</message>
+            <suggestion>a<match no="1"/></suggestion>
             <example correction="aconsellar">Fes el que et va <marker>consellar</marker>.</example>
             <example>aconsellar</example>
         </rule>
@@ -41745,7 +41741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">farragós</token>
             </pattern>
-            <message>Paraula només admesa per alguns diccionaris.</message>
+            <message>Paraula col·loquial només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">confús</match></suggestion>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">enrevessat</match></suggestion>
             <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">embullar</match></suggestion>
