@@ -76,6 +76,24 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("Li", tokens, position)) {
       return true;   // "Li Li", Chinese name
     }
+    if (position > 0 && tokens[position - 1].getToken().matches("may") && tokens[position].getToken().matches("May")) {
+      return true;   // "may May"
+    }
+    if (position > 0 && tokens[position - 1].getToken().matches("May") && tokens[position].getToken().matches("may")) {
+      return true;   // "May may"
+    }
+    if (position > 0 && tokens[1].getToken().matches("May") && tokens[2].getToken().matches("May")) {
+      return true;   // "May May" SENT_START
+    }
+    if (position > 0 && tokens[position - 1].getToken().matches("will") && tokens[position].getToken().matches("Will")) {
+      return true;   // "will Will"
+    }
+    if (position > 0 && tokens[position - 1].getToken().matches("Will") && tokens[position].getToken().matches("will")) {
+      return true;   // "Will will"
+    }
+    if (position > 0 && tokens[1].getToken().matches("Will") && tokens[2].getToken().matches("Will")) {
+      return true;   // "Will Will" SENT_START
+    }
     return false;
   }
 
