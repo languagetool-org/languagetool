@@ -123,13 +123,13 @@ public class Main extends WeakBase implements XJobExecutor,
    * Full text Check
    */
   
-  //  NUM_CHECKED_PARA: Paragraphs to be checked for full text rules
+  //  numParasToCheck: Paragraphs to be checked for full text rules
   //  < 0 check full text (time intensive)
   //  == 0 check only one paragraph (works like LT Version <= 3.9)
-  //   > 0 checks NUM_CHECKED_PARA before and after the processed paragraph 
+  //   > 0 checks numParasToCheck before and after the processed paragraph 
   
-  private int NUM_CHECKED_PARA = 5;
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private int numParasToCheck = 5;
   private List<String> allParas = null;
   private List<RuleMatch> fullTextMatches;
   private boolean textIsChecked = false; 
@@ -147,6 +147,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void prepareConfig(Language lang) {
     try {
       config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
+      numParasToCheck = config.getNumParasToCheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -465,7 +466,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
           paragraphMatches = langTool.check(paraText, true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
-        } else if (NUM_CHECKED_PARA > 0 && !doFullTextCheck) {          //  Check NUM_CHECKED_PARA paragraphs while text is changed
+        } else if (numParasToCheck > 0 && !doFullTextCheck) {          //  Check numParasToCheck paragraphs while text is changed
           paragraphMatches = langTool.check(getDocAsString(), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
         }
@@ -595,6 +596,7 @@ public class Main extends WeakBase implements XJobExecutor,
     prepareConfig(lang);
     ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
+    numParasToCheck = config.getNumParasToCheck();
   }
 
   /**
@@ -904,13 +906,13 @@ public class Main extends WeakBase implements XJobExecutor,
     if (allParas == null || allParas.size() < 1) return "";
     int startPos;
     int endPos;
-    if(NUM_CHECKED_PARA < 1 || doFullTextCheck) {
+    if(numParasToCheck < 1 || doFullTextCheck) {
       startPos = 0;
       endPos = allParas.size();
     } else {
-      startPos = numCurPara - NUM_CHECKED_PARA;
+      startPos = numCurPara - numParasToCheck;
       if(startPos < 0) startPos = 0;
-      endPos = numCurPara + NUM_CHECKED_PARA;
+      endPos = numCurPara + numParasToCheck;
       if(endPos > allParas.size()) endPos = allParas.size();
     }
     String docText = allParas.get(startPos);
@@ -926,10 +928,10 @@ public class Main extends WeakBase implements XJobExecutor,
   private int getStartOfParagraph(int nPara) {
     if (allParas != null) {
       int startPos;
-      if(NUM_CHECKED_PARA < 1 || doFullTextCheck) {
+      if(numParasToCheck < 1 || doFullTextCheck) {
         startPos = 0;
       } else {
-        startPos = numCurPara - NUM_CHECKED_PARA;
+        startPos = numCurPara - numParasToCheck;
         if(startPos < 0) startPos = 0;
       }
       int pos = 0;
@@ -958,7 +960,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
   private int getParaPos(String chPara) {
-    if(NUM_CHECKED_PARA == 0) {  //  check only the processed paragraph
+    if(numParasToCheck == 0) {  //  check only the processed paragraph
       doFullTextCheck = false;
       return -1;
     }
@@ -987,7 +989,7 @@ public class Main extends WeakBase implements XJobExecutor,
       return -1;
     }
     
-    if(NUM_CHECKED_PARA > 0) doFullTextCheck = false;
+    if(numParasToCheck > 0) doFullTextCheck = false;
     else doFullTextCheck = true;  //  do full check - if not explicitly changed (only full text search)
     
     if (numCurPara >= allParas.size()) {  //   a paragraph is added
@@ -999,7 +1001,7 @@ public class Main extends WeakBase implements XJobExecutor,
       allParas = tmpAllParas;
       divNum = allParas.size() - LODocument.getNumberOfAllTextParagraphs(xContext);
       textIsChecked = false;
-      if(NUM_CHECKED_PARA > 0) doFullTextCheck = false;
+      if(numParasToCheck > 0) doFullTextCheck = false;
     } else if (!chPara.equals(allParas.get(numCurPara))) {   //  text is changed
       int nParas = LODocument.getNumberOfAllParagraphs(xContext);
       if (nParas > 0 && nParas != allParas.size()) {   //  paragraphs were added or deleted 
@@ -1013,7 +1015,7 @@ public class Main extends WeakBase implements XJobExecutor,
       } else { 
         allParas.set(numCurPara, chPara);
       }
-      if(NUM_CHECKED_PARA > 0) doFullTextCheck = false;
+      if(numParasToCheck > 0) doFullTextCheck = false;
       textIsChecked = false;
     }
     return getStartOfParagraph(numCurPara);
