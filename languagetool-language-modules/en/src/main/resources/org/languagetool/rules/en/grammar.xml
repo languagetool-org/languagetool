@@ -6157,6 +6157,14 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="PLEASE_VBZ" name="please + 3rd person verb">
+            <pattern>
+                <token>please</token>
+                <marker><token postag="VBZ"></token></marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="VB"/></suggestion>?</message>
+            <example correction="answer">Please <marker>answers</marker> quickly!</example>
+        </rule>
         <rule id="BE_WILL" name="will follows be ('he is would')">
             <pattern>
                 <token postag="W(RB|P)" postag_regexp="yes"/>
@@ -15166,7 +15174,7 @@ USA
         <rulegroup id="THERE_THEIR" name="there (their)">
             <rule>
                 <pattern>
-                    <token regexp="yes">in|at|on|to|of|with|without</token>
+                    <token regexp="yes">in|at|o[nf]|to|with(out)?</token>
                     <marker><token>there</token></marker>
                     <token postag="JJ" min="0"/>
                     <token postag="NNS?" postag_regexp="yes"/>
