@@ -25266,13 +25266,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">siècles?</token>
                 </marker>
             </antipattern>
-            <pattern>
+            <pattern case_sensitive="yes">
                 <marker>
                     <token regexp="yes">[XICV]+[èé]<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
                 </marker>
             </pattern>
             <message>Els ordinals romans no necessiten la terminació -è.</message>
-            <suggestion><match no="1" regexp_match="([XICV]+)è" regexp_replace="$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="([XICV]+)[èé]" regexp_replace="$1"/></suggestion>
             <example correction="XI"><marker>XIè</marker> seminari.</example>
             <example>Le XXè siècle</example>
         </rule>
