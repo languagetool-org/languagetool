@@ -395,6 +395,40 @@
       <disambig action="filter" postag="D.*"/>
     </rule>
 
+  <rulegroup id="CONTRACAO_L" name="Contracción l'">
+    <!-- Created by Tiago F. Santos, Galician rule, 2017-11-09  	-->
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)M.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0MS0"/><wd pos="DA0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)F.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0FS0"/><wd pos="DA0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)C.+|UNKNOWN" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0NS0"/><wd pos="DA0NS0"/></disambig>
+    </rule>
+  </rulegroup>
+
     <rule id="VOGAIS" name="[^o|letra] e[subst|conx] (e[subst])">
       <pattern>
           <token>
