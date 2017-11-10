@@ -8000,17 +8000,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule>
             <pattern>
                 <!--              PREP при -> NN:.*:P   -->
+                <marker>
                 <token>при</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
-                <token skip="1">и</token>
+                <token skip="1">и<exception postag="UNKNOWN" scope="next"></exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
-                    <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
+                </marker>
+                <token><exception postag="NN:.*:.*:.*:Nom"  postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" include_skipped="all"></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется предложный падеж.</short>
             <example>В университете лаборатории созданы при кафедре и факультете.</example>
+            <example>В битве с наполеоновскими войсками при Йене и Ауэрштедте Пруссия потерпела сокрушительное поражение.</example>
             <example correction="при кафедре и факультете">В университете лаборатории созданы <marker>при кафедре и факультет</marker>.</example>
             <example correction="при кафедре и профильном факультете">В университете лаборатории созданы <marker>при кафедре и профильном факультет</marker>.</example>
         </rule>
@@ -8019,7 +8023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
-                <token skip="1">,<exception postag="CONJ" scope="next"></exception></token>
+                <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
@@ -8029,6 +8033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется предложный падеж.</short>
             <example>В университете лаборатории созданы при кафедре, факультете.</example>
             <example>С 5 апреля 1797 великие князья при крещении, а князья императорской крови при совершеннолетии получали льготы.</example>
+            <example>В морской битве при Ладе, вследствие измены, эллины были разбиты.</example>
             <example correction="при кафедре, факультете">В университете лаборатории созданы <marker>при кафедре, факультет</marker>.</example>
             <example correction="при кафедре, профильном факультете">В университете лаборатории созданы <marker>при кафедре, профильном факультет</marker>.</example>
         </rule>
@@ -8039,7 +8044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token>,</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
-                <token skip="1">,<exception postag="CONJ" scope="next"></exception></token>
+                <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
@@ -8058,7 +8063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token>,</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
-                <token skip="1">и</token>
+                <token skip="1">и<exception postag="UNKNOWN" scope="next"></exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
