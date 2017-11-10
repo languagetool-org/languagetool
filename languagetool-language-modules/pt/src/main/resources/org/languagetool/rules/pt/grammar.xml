@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verufy -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:asal?|o(?:ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|ipo)|universidade|versão)">
+    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:asal?|o(?:lec?ção|ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|ipo)|universidade|versão)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -273,7 +273,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
           <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -301,7 +301,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -338,7 +338,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas|média</exception></token>
         </marker>
           <token>
@@ -366,7 +366,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>uma|mas</exception>
           </token>
         </marker>
@@ -416,7 +416,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
           <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -444,7 +444,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -483,7 +483,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -510,7 +510,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
           <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
             <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
         </marker>
           <token>
@@ -722,7 +722,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[MC]S.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
+            <exception postag='(?:N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*|VMG0000' postag_regexp='yes'/>
             <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception></token>
         </marker>
           <token>
@@ -791,7 +791,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[MC]P.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+            <exception postag='(?:N.|A..|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -821,7 +821,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&contracoes_MS;</token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[MC]P.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+            <exception postag='(?:N.|A..|DP.|Z.)[MC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -858,7 +858,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+            <exception postag='(?:N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -882,7 +882,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&contracoes_FS;</token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[FC]P.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
+            <exception postag='(?:N.|A..|DP.|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token><!-- FIXME Review patterns to include passive without crippling detection -->
         </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
@@ -913,7 +913,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>.+[°′″]</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[FC]S.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+            <exception postag='(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
@@ -940,7 +940,7 @@ title="Easy editing stylesheet" ?>
             <exception>mas</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|DP.|Z.)[FC]S.+' postag_regexp='yes'>
-            <exception postag='(?:N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+            <exception postag='(?:N.|A..|DP.|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
