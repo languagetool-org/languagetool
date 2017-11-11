@@ -337,6 +337,124 @@
       <example correction='Algunhas (bois)'><marker>Algunhas bois</marker> están no pasto.</example>
     </rule>
   </rulegroup>
+
+    <!-- Specific gender concordance errors - A > Masculine Noun -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordancia de género: A + Masculino">
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|exemplo|fin|favor|serio|tempo|lado|uso|dereito</exception></token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>o \2</suggestion>
+        <suggestion>a <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction='O boi|A (boi)'><marker>A boi</marker> está no pasto.</example>
+      <example type='correct'>A vaca está no pasto.</example>
+    </rule>
+
+    <rule default='off' id='A_WORD_A' name="Concordancia de género: A + palavra terminada em A">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+      <pattern>
+          <token regexp='yes'>a</token>
+          <token postag='(?:A..|N.|Z.)M.+' postag_regexp='yes' regexp='yes'>.+a$
+            <exception regexp='yes'>palabra|letra</exception></token>
+      </pattern>
+      <message>Posíbel erro de concordancia de xénero.</message>
+        <suggestion>o \2</suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
+    </rule>
+
+  <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordancia: SER + adjetivo + nome">
+    <!--      Created by Tiago F. Santos, 2017-09-06      -->
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..MS.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)MS.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CF][SN].+"/>
+          <token postag_regexp="yes" postag="A..[CF][SN].+" min='0' max='2'/>
+          <token postag="N.FS.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]S.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="É necesaria unha festa"><marker>É necesario unha festa</marker>.</example>
+      <example correction="É necesaria unha gran festa"><marker>É necesario unha gran festa</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..FS.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)FS.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CM][SN].+"/>
+          <token postag_regexp="yes" postag="A..[CM][SN].+" min='0' max='2'/>
+          <token postag="N.MS.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]S.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="É necesario un acordo"><marker>É necesaria un acordo</marker>.</example>
+      <example correction="É necesario un gran acordo"><marker>É necesaria un gran acordo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..MP.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)MP.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CF][PN].+"/>
+          <token postag_regexp="yes" postag="A..[CF][PN].+" min='0' max='2'/>
+          <token postag="N.FP.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]P.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MP(.+)' postag_replace='$1FP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="Son necesarias unhas festas"><marker>Son necesarios unhas festas</marker>.</example>
+      <example correction="Son necesarias unhas grandes festas"><marker>Son necesarios unhas grandes festas</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..FP.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)FP.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CM][PN].+"/>
+          <token postag_regexp="yes" postag="A..[CM][PN].+" min='0' max='2'/>
+          <token postag="N.MP.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]P.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FP(.+)' postag_replace='$1MP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="Son necesarios uns acordos"><marker>Son necesarias uns acordos</marker>.</example>
+      <example correction="Son necesarios uns grandes acordos"><marker>Son necesarias uns grandes acordos</marker>.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- Specific gender concordance errors - O > Feminine Noun  -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordancia de género: O + Feminino">
+      <pattern>
+        <marker>
+          <token>o</token>
+          <token postag='(?:A..|N.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)F.+' postag_regexp='yes' negate_pos='yes'/>
+            <exception regexp='yes'>unha|unhas|e|ser|nome|termo</exception></token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>a \2</suggestion>
+        <suggestion>o <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction='A cadela|O can'><marker>O cadela</marker> está no pasto.</example>
+      <example type='correct'>A cadela está no pasto.</example>
+    </rule>
+
  </category>
 
  <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
