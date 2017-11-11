@@ -4694,7 +4694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token inflected="yes" regexp="yes">вага|витрата</token>
       </pattern>
-      <message>Правильно: <suggestion><match no="1" postag="adj.*">питомий</match></suggestion></message>
+      <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">питомий</match></suggestion></message>
       <example correction="питомою">з великою <marker>удільною</marker> вагою</example>
     </rule>
 
@@ -4740,6 +4740,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>Далекий Схід</suggestion></message>
       <example correction="Далекий Схід">на <marker>Дальній Схід</marker> подалися.</example>
+    </rule>
+
+    <rule id="na_pidkhvati" name="На підхваті">
+      <pattern>
+        <token>на</token>
+        <token>підхваті</token>
+      </pattern>
+      <message>Правильно: <suggestion>напохваті</suggestion></message>
+      <example correction="напохваті">він був там <marker>на підхваті</marker>.</example>
     </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt

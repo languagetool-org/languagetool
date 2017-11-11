@@ -7,8 +7,13 @@
 
 #### Galician
   * added and improved rules, including:
+    - grammar: agreement rules added (only number and gender agreement)
     - style: barbarism, redundant expressions, and wordy expressions detection added
+    - typography: spacing and number formatting improvements; chemical formulas; degree 
+      signs; dashes; punctuation; international system standards; and mathematical symbol formatting
+  * development and LibreOffice rules categories added
   * multiword disambiguation added
+  * disambiguation improvements
   * new word tokenizer
   * significant POS tagging and synthesizing improvements
   * spellchecking exceptions for:

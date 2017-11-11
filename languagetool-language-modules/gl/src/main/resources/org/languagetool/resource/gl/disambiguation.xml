@@ -29,6 +29,12 @@
     <!ENTITY alfabeto_grego "[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜμΩω]">
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
 
+    <!ENTITY numero_por_extenso_CP "tres|catro|cinco|seis|sete|oito|nove|dez|once|doce|trece|catorce|quince|dezaseis|dezasete|dezaoito|dezanove|vinte|trinta|corenta|cincuenta|sesenta|setenta|oitenta|noventa|cen|mil">
+    <!ENTITY numero_por_extenso_MS "un|(mi|bi|tri|cuadri)llón">
+    <!ENTITY numero_por_extenso_FS "unha|decena">
+    <!ENTITY numero_por_extenso_MP "uns|dous|centos?|(douscent|trescent|catrocent|cincocent|seiscent|setecent|oitocent|novecent)os|(mi|bi|tri|cuadri)ll?óne?s">
+    <!ENTITY numero_por_extenso_FP "unhas|dúas|decenas|ducias|centenares|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)as">
+
 ]>
 
 <rules lang="gl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -389,6 +395,40 @@
       <disambig action="filter" postag="D.*"/>
     </rule>
 
+  <rulegroup id="CONTRACAO_L" name="Contracción l'">
+    <!-- Created by Tiago F. Santos, Galician rule, 2017-11-09  	-->
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)M.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0MS0"/><wd pos="DA0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)F.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0FS0"/><wd pos="DA0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)C.+|UNKNOWN" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0NS0"/><wd pos="DA0NS0"/></disambig>
+    </rule>
+  </rulegroup>
+
     <rule id="VOGAIS" name="[^o|letra] e[subst|conx] (e[subst])">
       <pattern>
           <token>
@@ -476,6 +516,122 @@
         </marker>
       </pattern>
       <disambig postag="VMN0000"/>
+    </rule>
+  </rulegroup>
+
+  <rulegroup  id="NUMBER" name="number">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
+          <token regexp="yes">[1234567890]+</token>
+      </pattern>
+      <disambig postag="Z0CN0"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
+      </pattern>
+      <disambig postag="Z0CN0"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_CP;</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0CP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_MP;
+            <exception>uns</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_FP;
+            <exception>unhas</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_MS;</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_FS;</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
     </rule>
   </rulegroup>
 

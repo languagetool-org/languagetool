@@ -556,16 +556,16 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
       // дев'яте травня
       if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":n:")
-          && LemmaHelper.hasLemma(tokens[i], LemmaHelper.MONTH_LEMMAS, "v_rod") ) { 
+          && LemmaHelper.hasLemma(tokens[i], LemmaHelper.MONTH_LEMMAS, "v_rod") ) {
         logException();
         return true;
       }
     }
 
 
-    // обмежуючий власність 
+    // обмежуючий власність, створивший історію
     // let simple replace rule take care of this
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:actv:imperf") ) { 
+    if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, ".*?adjp:actv.*:bad.*") ) {
 //        && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*v_zna")) {
       logException();
       return true;

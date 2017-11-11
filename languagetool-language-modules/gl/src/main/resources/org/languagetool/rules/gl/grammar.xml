@@ -28,6 +28,7 @@
     <!ENTITY partes_do_dia "(?:mañá|matina|tarde|noite)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|día|semana|(?:bi|tri|quadri|se)mestre|ano|década|decenio|milenio|tempo|temporada|época)s?|mes|meses">
 
+    <!ENTITY puntos_cardeais "(?:n(?:acente|or(?:te|[do]este))|su(?:l|(?:ro)este)|este|o(?:este|ccidente|riente)|poñente)">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -38,44 +39,425 @@
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 
+    <!ENTITY precede_nome_proprio "(asociación|avenida|balneario|parella?|coalición|colección|cometa|concurso|copa|curso|designación|designado|distribución|escola|estación|estilo|filme|fundación|galardón|xeración|illa|imperio|iniciativa|instituto|titulado|lagoa?|lei|libro|monte|museo|navío|novela|obra|orquestra|praza|premio|programa|proxecto|quinta|rexistro|reino|informe|revista|río|rúa|serra|teatro|tema|tipo|universidade|versión)">
+    <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|algún)"><!-- XXX lost 'por+o|me+o|che+o|lle+o'-->
+    <!ENTITY contraccions_FS "(?:á|d(?:a|uña|ela|est?a|aquela|outra)|n(?:a|unha|ela|nest?a|aquela|outra)|algunha)"><!-- XXX lost 'por+a|me+a|che+a|lle+a'-->
+    <!ENTITY contraccions_MP "(?:aos|d(?:os|uns|eles|est?es|aqueles|outros)|n(?:os|uns|eles|est?es|aqueles|outros)|algúns)"><!-- XXX lost 'por+o|me+o|che+o|lle+o'+s-->
+    <!ENTITY contraccions_FP "(?:ás|d(?:as|uñas|elas|est?as|aquelas|outras)|n(?:as|unhas|elas|est?as|aquelas|outras)|algunhas)"><!-- XXX lost 'por+a|me+a|che+a|lle+a'+s-->
+
     <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
+
+    <!ENTITY MSG_ECV "Posíbel erro de concordancia verbal.">
+    <!ENTITY MSG_ECX "Posíbel erro de concordancia de xénero.">
+    <!ENTITY MSG_ECN "Posíbel erro de concordancia de número.">
+
 ]>
 
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
     </equivalence>
-
     <equivalence type="plural">
-          <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="gender">
     <equivalence type="masc">
-          <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
     </equivalence>
-
     <equivalence type="fem">
-          <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"/>
+          <token postag="(?:[NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="person">
     <equivalence type="first">
-          <token postag="(V...|PP)1.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)1.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="second">
-          <token postag="(V...|PP)2.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)2.+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="third">
-          <token postag="(V...|PP)3.*" postag_regexp="yes"/>
+          <token postag="(?:V...|PP)3.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
+  
+ <category id="CAT0" name="Gramática::Concordancia">
 
-<category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+  <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordancia de género: Geral">
+    <!--            General gender concordance errors            -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
+      <antipattern case_sensitive='yes'><!-- XXX Proper names exception -->
+          <unify negate='yes'>
+            <feature id="gender"/><feature id="number"/>
+          <token postag_regexp='yes' postag='(?:N|A).+|UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+          <token regexp='yes'>\p{Lu}.+</token>
+          </unify>
+      </antipattern>
+    <rule>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
+            <exception regexp='yes'>e|ser|son|termo|nome</exception></token>
+          <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>unha|mas</exception>
+          </token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+      <example correction='Unha vaca|Un (vaca)'><marker>Un vaca</marker> está no pasto.</example>
+      <example correction='unha tortilla|un (tortilla)'>Vostede pode facer <marker>un tortilla</marker> española para eu cea, por favor?</example>
+      <example>O Un tórnase Dous, o Dous tórnase Tres.</example>
+      <!--example>Dise que a cada día nace un trouxa, e diso o vigarista sabe.</example--><!-- XXX solved after disambiguation rules are converted -->
+      <!--example correction='unha sándwich|un (sándwich)'>Están comendo <marker>un sándwich</marker>.</example-->
+      <!--example correction="unha espantosa dor|un espantosa (dor)">Teño <marker>un espantosa dor</marker> na cabeza.</example--><!-- XXX make example with neutral adjective instead of espantosa>
+      <example correction="unha gran erupción|un gran (erupción)">Por exemplo, <marker>un gran erupción</marker> volcánica causa maior reflexión da luz solar de vo…</example-->
+      <example>O monte Fariña é unha montaña do distrito de Vila Real.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token regexp='yes'>&contraccions_MS;</token>
+          <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[SN].+'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>unha|mas</exception>
+          </token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+      <example correction='no (hora)'>Foi resolto <marker>no hora</marker> correcta.</example>
+      <example type='correct'>Foi resolto <marker>na hora</marker> correcta.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>(?:&precede_nome_proprio;)s</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF]P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception regexp='yes'>as|termos|nomes</exception></token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
+          <token postag='(?:N.|A..|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>unha|media</exception>
+          </token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+      <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiron ir en dirección ao Río Grande do Norte…</example>
+      <example correction='As frases|Os (frases)'><marker>Os frases</marker> están erradas.</example>
+      <example correction='Unhas cadelas|Uns cans'><marker>Uns cadelas</marker> están na rúa.</example>
+      <example type='correct'><marker>Os bois</marker> están no pasto.</example>
+      <!--example correction="unhas espantosas dores|uns espantosas (dores)">Teño <marker>uns espantosas dores</marker> na cabeza.</example--><!-- XXX adapt example with neutral adjective -->
+      <example>Existe cada vez máis presión nos media para que presenten contidos de calidade.</example>
+      <example>Os ríos Onda, Ave e Leça pertencen á mesma rexión hidrográfica.</example>
+      <example correction="As escolas|Os (escolas)"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Persoa teñen sido ben avaliadas.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token regexp='yes'>&contraccions_MP;</token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>unha|mas</exception>
+          </token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+      <example correction='Algúns (frases)'><marker>Algúns frases</marker> ten erros gramaticais.</example>
+      <example type='correct'><marker>Algunhas frases</marker> ten erros gramaticais.</example>
+      <example correction='Nos (mil)'><marker>Nos mil</marker> e unha noites.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>industria</token>
+          <token>automóbil</token>
+      </antipattern>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>&precede_nome_proprio;</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>zonas?</token>
+          <token>euro</token>
+      </antipattern>
+      <antipattern>
+          <token>alínea</token>
+          <token regexp='yes'>\w|\d</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception regexp='yes'>e|ser|a|palabra|letra|comunidade</exception></token>
+          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|son</exception></token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+      <example correction='Un boi|Unha (boi)'><marker>Unha boi</marker> está no pasto.</example>
+      <example>Á comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
+      <example>Unha vaca está no pasto.</example>
+      <!--example correction="un espantosa inchazo|unha espantosa (inchazo)">Teño <marker>unha espantoso inchazo</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
+      <example>Alemaña perdera a Primeira Guerra Mundial debido á Revolución alemá.</example>
+      <example>Unha rúa Roberto Duarte Silva, tantas memorias.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token regexp='yes'>&contraccions_FS;</token>
+          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NS].+'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|son</exception></token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+      <example correction='Algunha (boi)'><marker>Algunha boi</marker> está no pasto.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <unify>
+            <feature id="gender"/><feature id="number"/>
+          <token/>
+          <token regexp='yes'>(?:&precede_nome_proprio;)s</token>
+          </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token>alíneas</token>
+          <token regexp='yes'>\w|\d</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CM]P.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
+            <exception regexp='yes'>e|palabras|letras|rúas|illas</exception></token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
+          <token postag='(?:N.|A..|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|son</exception></token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> \4</suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+      <example correction='Uns bois|Unhas (bois)'><marker>Unhas bois</marker> están no pasto.</example>
+      <example type='correct'><marker>Unhas vacas</marker> están no pasto.</example>
+      <!-- example correction="uns terríveis inchaços|unhas terríveis (inchaços)">Teño <marker>unhas espantosas inchaços</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
+      <example correction="os millónes|as (millónes)">Vexan <marker>as millónes</marker> de mulleres.</example>
+    <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
+      <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Persoa.</example>
+      <example correction="Os ríos|As (ríos)"><marker>As ríos</marker> Onda, Ave e Leça pertencen á mesma rexión hidrográfica.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+        <marker>
+          <token regexp='yes'>&contraccions_FP;</token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..|Z.)C[NP].+'/></token>
+          <token postag='(?:N.|A..|DP.|Z.)M.+' postag_regexp='yes'>
+            <exception postag='(?:N.|A..|DP.|Z.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|son</exception></token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+      <!--example correction="das grandes descubertas">A maioría <marker>das grandes descubertos</marker> científicas son nada menos que o descubrimento do ób…</example XXX add after disambiguation sync -->
+      <example correction='Algunhas (bois)'><marker>Algunhas bois</marker> están no pasto.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- Specific gender concordance errors - A > Masculine Noun -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordancia de género: A + Masculino">
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)MS.+' postag_regexp='yes' negate_pos='yes'/>
+            <exception regexp='yes'>un|uns|ser|&puntos_cardeais;|números?|exemplo|fin|favor|serio|tempo|lado|uso|dereito</exception></token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>o \2</suggestion>
+        <suggestion>a <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction='O boi|A (boi)'><marker>A boi</marker> está no pasto.</example>
+      <example type='correct'>A vaca está no pasto.</example>
+    </rule>
+
+    <rule default='off' id='A_WORD_A' name="Concordancia de género: A + palavra terminada em A">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+      <pattern>
+          <token regexp='yes'>a</token>
+          <token postag='(?:A..|N.|Z.)M.+' postag_regexp='yes' regexp='yes'>.+a$
+            <exception regexp='yes'>palabra|letra</exception></token>
+      </pattern>
+      <message>Posíbel erro de concordancia de xénero.</message>
+        <suggestion>o \2</suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
+    </rule>
+
+  <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordancia: SER + adjetivo + nome">
+    <!--      Created by Tiago F. Santos, 2017-09-06      -->
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..MS.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)MS.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CF][SN].+"/>
+          <token postag_regexp="yes" postag="A..[CF][SN].+" min='0' max='2'/>
+          <token postag="N.FS.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]S.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="É necesaria unha festa"><marker>É necesario unha festa</marker>.</example>
+      <example correction="É necesaria unha gran festa"><marker>É necesario unha gran festa</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..FS.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)FS.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CM][SN].+"/>
+          <token postag_regexp="yes" postag="A..[CM][SN].+" min='0' max='2'/>
+          <token postag="N.MS.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]S.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="É necesario un acordo"><marker>É necesaria un acordo</marker>.</example>
+      <example correction="É necesario un gran acordo"><marker>É necesaria un gran acordo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..MP.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)MP.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CF][PN].+"/>
+          <token postag_regexp="yes" postag="A..[CF][PN].+" min='0' max='2'/>
+          <token postag="N.FP.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]P.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MP(.+)' postag_replace='$1FP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="Son necesarias unhas festas"><marker>Son necesarios unhas festas</marker>.</example>
+      <example correction="Son necesarias unhas grandes festas"><marker>Son necesarios unhas grandes festas</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">ser</token>
+          <token postag_regexp="yes" postag="A..FP.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="(?:A..|N.)FP.+"/></token>
+          <token postag_regexp="yes" postag="(?:Z|D..)[CM][PN].+"/>
+          <token postag_regexp="yes" postag="A..[CM][PN].+" min='0' max='2'/>
+          <token postag="N.MP.+" postag_regexp='yes'>
+            <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]P.+"/></token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FP(.+)' postag_replace='$1MP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+      <example correction="Son necesarios uns acordos"><marker>Son necesarias uns acordos</marker>.</example>
+      <example correction="Son necesarios uns grandes acordos"><marker>Son necesarias uns grandes acordos</marker>.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- Specific gender concordance errors - O > Feminine Noun  -->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordancia de género: O + Feminino">
+      <pattern>
+        <marker>
+          <token>o</token>
+          <token postag='(?:A..|N.|Z.)F.+' postag_regexp='yes'>
+            <exception postag='(?:A..|N.|Z.)F.+' postag_regexp='yes' negate_pos='yes'/>
+            <exception regexp='yes'>unha|unhas|e|ser|nome|termo</exception></token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>&MSG_ECX;</message>
+        <suggestion>a \2</suggestion>
+        <suggestion>o <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
+      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction='A cadela|O can'><marker>O cadela</marker> está no pasto.</example>
+      <example type='correct'>A cadela está no pasto.</example>
+    </rule>
+
+ </category>
+
+ <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
   <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formateo de números: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
@@ -138,12 +520,12 @@
       <example correction="25,5 °F">Fan <marker>25,5°F</marker>.</example>
       <example>Fan <marker>25,5 °C</marker>.</example>
       <example>Fan <marker>25,5 °Ra</marker>.</example>
-      <example>San <marker>5 km</marker> gelaufen.</example>
-      <example correction="5 km">San <marker>5km</marker> de distancia.</example>
-      <example>San <marker>5 ZiB</marker> de datos.</example>
-      <example correction="5 ZiB">San <marker>5ZiB</marker> de datos.</example>
-      <example>San <marker>5 kB</marker> de datos.</example>
-      <example correction="5 kB">San <marker>5kB</marker> de datos.</example>
+      <example>Son <marker>5 km</marker> gelaufen.</example>
+      <example correction="5 km">Son <marker>5km</marker> de distancia.</example>
+      <example>Son <marker>5 ZiB</marker> de datos.</example>
+      <example correction="5 ZiB">Son <marker>5ZiB</marker> de datos.</example>
+      <example>Son <marker>5 kB</marker> de datos.</example>
+      <example correction="5 kB">Son <marker>5kB</marker> de datos.</example>
       <example correction="5 kg">Pesa <marker>5kg</marker>.</example>
       <example correction="5 Mt">Pesa <marker>5Mt</marker>.</example>
       <example>Pesa <marker>5 µg</marker>.</example>
@@ -1265,7 +1647,7 @@
       <message>Pretende dicir: <suggestion>®</suggestion>?</message>
       <short>Anotación non padronizada de ®</short>
       <example correction='®'>Windows <marker>(R)</marker></example>
-      <example>Estes San Richard Burr (D) e Kay Hagan (R).</example>
+      <example>Estes son Richard Burr (D) e Kay Hagan (R).</example>
     </rule>
 
     <rule id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
