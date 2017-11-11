@@ -61,7 +61,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
     }
   }
 
-  protected void doTest() throws InterruptedException, ExecutionException {
+  void doTest() throws InterruptedException, ExecutionException {
     ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount());
     List<Future> futures = new ArrayList<>();
     for (int i = 0; i < getThreadCount(); i++) {
