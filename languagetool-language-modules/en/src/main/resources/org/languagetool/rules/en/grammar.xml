@@ -7041,6 +7041,37 @@ USA
             <message>Did you mean <suggestion><match no="2" postag="VBD"/></suggestion>?</message>
             <example correction='used'>He is <marker>use</marker> to a vegetarian diet.</example>
         </rule>
+        <rulegroup id="AT_TIME" name="wrong preposition with times 'on (at) 7:30 p.m.'">
+             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[oi]n</token>
+                    </marker>
+                    <token postag="CD"/>
+                    <token regexp="yes" min="0">.</token>
+                    <token postag="CD" min="0"/>
+                    <token regexp="yes">[ap]</token>
+                    <token>.</token>
+                    <token>m</token>
+                </pattern>
+                <message>Did you mean <suggestion>at</suggestion>?</message>
+                <example correction="at">She came <marker>on</marker> 7:30 p.m.</example>
+                <example correction="at">She came <marker>on</marker> 7 p.m.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[oi]n</token>
+                    </marker>
+                    <token postag="CD"/>
+                    <token>o</token>
+                    <token regexp="yes">['’]</token>
+                    <token>clock</token>
+                </pattern>
+                <message>Did you mean <suggestion>at</suggestion>?</message>
+                <example correction="at">She came <marker>on</marker> 7 o'clock.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DISCUSS_ABOUT" name="wrong preposition: 'discuss about something' (discuss something)">
             <rule>
                 <pattern>
@@ -18831,6 +18862,23 @@ USA
                 </pattern>
                 <message>Redundant phrase. Consider using <suggestion>\1 \2\3\4</suggestion> or <suggestion>\1 \5</suggestion>.</message>
                 <example correction="7 o'clock|7 AM">It's <marker>7 o'clock AM</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AM_PM" name="12;30 a.m. (12:30 a.m.)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD"/>
+                        <token regexp="yes">.<exception>:</exception><exception>.</exception></token>
+                        <token postag="CD"/>
+                    </marker>
+                    <token regexp="yes">[ap]</token>
+                    <token>.</token>
+                    <token>m</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1:\3</suggestion>?</message>
+                <example correction="7:30">It's <marker>7,30</marker> p.m.</example>
+                <example>The asteroid will arrive first-class at 10.45 a.m.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AM_IN_THE_MORNING" name="AM in the morning (AM)">
