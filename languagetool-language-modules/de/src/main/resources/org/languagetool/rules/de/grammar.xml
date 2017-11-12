@@ -33064,6 +33064,28 @@ Andere Projekte</example>
                 <example correction='?|.'>Die Zahl der ins Ausland reisenden Schüler nimmt gegenwärtig zu<marker>?.</marker></example>
             </rule>
         </rulegroup>
+        <rule id="PUNKT_ENDE_ABSATZ" name="Fehlender Punkt am Ende des Absatzes">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token max="3"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token skip="-1" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+|„|»|«|”|"</token>
+                <token skip="-1" postag="VER:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes"/></token>
+                <marker>
+                <token postag="SENT_END" regexp="yes">[a-zäöüß]+</token>
+                </marker>
+            </pattern>
+            <message>Am Ende des Absatzes fehlt ein Satzzeichen.</message>
+            <suggestion>\4.</suggestion>
+            <suggestion>\4?</suggestion>
+            <suggestion>\4!</suggestion>
+            <suggestion>\4:</suggestion>
+            <example correction="Hause.|Hause?|Hause!|Hause:">Er ging auf direktem Weg nach <marker>Hause</marker></example>
+            <example>Weitergabe, Verkauf etc. nur mit explizitem Einverständnis des Autors</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -36851,40 +36873,6 @@ Andere Projekte</example>
                 <example correction="Posemuckel"><marker>Posemukel</marker></example>
             </rule>
         </rulegroup>
-    </category>
-    <category id="REGELN_FUER_LIBREOFFICE" name="LibreOffice / OpenOffice" default="off">
-        <rule id="PUNKT_ENDE_ABSATZ" name="Fehlender Punkt am Ende des Absatzes">
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token skip="-1"><exception postag="VER:.*" postag_regexp="yes"/><exception scope="next" postag="VER:.*" postag_regexp="yes"/></token>
-                <token postag="SENT_END"><exception postag="VER:.*" postag_regexp="yes"/></token>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token max="3"/>
-                <token postag="SENT_END"/>
-            </antipattern>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token min="0" max="1" regexp="yes">„|»|«|”|"</token>
-                <token skip="-1" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
-                <marker>
-                <token postag="SENT_END" regexp="yes">[a-zäöüß][a-zäöüß]+</token>
-                </marker>
-            </pattern>
-            <message>Am Ende des Absatzes fehlt ein Satzzeichen.</message>
-            <suggestion>\4.</suggestion>
-            <suggestion>\4?</suggestion>
-            <suggestion>\4!</suggestion>
-            <suggestion>\4:</suggestion>
-            <example correction="Hause.|Hause?|Hause!|Hause:">Er ging auf direktem Weg nach <marker>Hause</marker></example>
-        </rule>
-        <rule id="LEERZEICHEN_ANFANG_ABSATZ" name="Leerzeichen am Anfang des Absatzes">
-            <regexp>^ +</regexp>
-            <message>Ein Leerzeichen am Anfang eines Absatzes ist kein guter Stil. Bitte löschen Sie es und nutzen Sie die Formatierung!</message>
-            <suggestion></suggestion>        
-            <example correction=""><marker> </marker>Er ging nach Hause.</example>
-        </rule>
     </category>
 </rules>
 
