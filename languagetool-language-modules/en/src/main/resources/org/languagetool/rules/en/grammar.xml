@@ -8220,7 +8220,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
@@ -8236,7 +8236,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -8252,8 +8252,8 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="JJ"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="JJ" chunk="I-NP-plural"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
@@ -8266,12 +8266,13 @@ USA
                 <example correction="bark">The black dogs <marker>barks</marker> loudly.</example>
                 <example>The Canadian Badlands has much to offer.</example>
                 <example>The public demands answers.</example>
+                <example>The work leaves traces on it.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
                     <marker>
@@ -8283,11 +8284,12 @@ USA
                 <example>The dogs of war <marker>are</marker> released.</example>
                 <example>The dog of war is released.</example>
                 <example correction="bark">The dogs of war <marker>barks</marker> loudly.</example>
+                <example>This species of butterfly has already gone extinct.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>is</token>
@@ -8301,7 +8303,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token>was</token>
@@ -8316,7 +8318,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
                     <marker>
@@ -8326,6 +8328,7 @@ USA
                 <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dog of war is released.</example>
+                <example>That species of bird is said to be in danger of dying out.</example>
                 <example correction="are">The dogs of war <marker>is</marker> released.</example>
             </rule>
             <rule>
@@ -8348,7 +8351,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8364,7 +8367,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -8381,7 +8384,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="JJ"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
@@ -8398,7 +8401,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
@@ -8417,7 +8420,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8433,7 +8436,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8449,8 +8452,8 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN:UN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
                     <token skip="-1">,</token>
@@ -8462,12 +8465,13 @@ USA
                 <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dog of war is released.</example>
+                <example>The handling of dynamite is dangerous.</example>
                 <example correction="are">The dogs of war, finally, <marker>is</marker> released.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
@@ -8967,7 +8971,7 @@ USA
                     <marker>
                         <token regexp="yes">an?</token>
                         <token postag="NNP?S" postag_regexp="yes">
-                            <exception postag="NN:.*|NN|VBZ|NNP|C[CD]" postag_regexp="yes"/>
+                            <exception postag="NN:.*|VBZ|NNP?|C[CD]" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
                             <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
                         </token>
