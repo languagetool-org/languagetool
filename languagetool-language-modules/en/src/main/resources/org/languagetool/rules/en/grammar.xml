@@ -29,7 +29,7 @@ USA
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|S(atur|un)day">
+    <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
@@ -8879,10 +8879,74 @@ USA
                  <example>Both of them <marker>believed</marker> in God.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_QUESTION" name="agreement error: auxiliary verb (do/have) and subject in questions">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Do</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NN(:UN)?" postag_regexp="yes"><exception postag="NNS"/></token>
+                    <token postag="VB" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion>\3es</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Does"><marker>Do</marker> your father live in England?</example>
+                <example correction="Does"><marker>Do</marker> the man like you?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Have</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NN(:UN)?" postag_regexp="yes"><exception postag="NNS"/></token>
+                    <token postag="VBN" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="ve" regexp_replace="s"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Has"><marker>Have</marker> your father lived in England?</example>
+                <example correction="Has"><marker>Have</marker> the man talked tou you?</example>
+                <example correction="has">Where <marker>have</marker> the man been?</example>
+                <example>Have the police questioned you yet?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Has</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NNS"><exception postag="NN(:UN)?" postag_regexp="yes"/></token>
+                    <token postag="VBN" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="s" regexp_replace="ve"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Have"><marker>Has</marker> your parents told you everything?</example>
+                <example correction="have">When <marker>has</marker> your parents told you th truth?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Does</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NNS"><exception postag="NN(:UN)?" postag_regexp="yes"/></token>
+                    <token postag="VBP?" postag_regexp="yes" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="es" regexp_replace=""/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Do"><marker>Does</marker> your parents live in England?</example>
+                <example correction="do">What <marker>does</marker> your parents know?</example>
+            </rule>
+        </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
                 <token regexp="yes">a|one</token>
-                <token regexp="yes">hundreds|thousands|millions|billions|trillions|quadrillions</token>
+                <token regexp="yes">hundreds|thousands|[bm]illions|trillions|quadrillions</token>
             </pattern>
             <message>Possible agreement error. Consider using: <suggestion><match no="1"/> <match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion></message>
             <short>Possible agreement error</short>
@@ -8903,7 +8967,7 @@ USA
                     <marker>
                         <token regexp="yes">an?</token>
                         <token postag="NNP?S" postag_regexp="yes">
-                            <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
+                            <exception postag="NN:.*|NN|VBZ|NNP|C[CD]" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
                             <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
                         </token>
