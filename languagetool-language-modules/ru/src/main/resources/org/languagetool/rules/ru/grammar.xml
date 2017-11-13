@@ -3776,28 +3776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Тогда как мыши являются переносчиком серьезных заболеваний.</example>
                 <example correction="Тогда как"><marker>Тогда, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
-            </rule>
-            <!-- TODO: требуется доработка-->
-            <!-- Если придаточная часть сложноподчиненного предложения стоит перед главной,
-            запятая между частями союза «в то время как» обычно не ставится (постановка запятой допустима,
-            но такое пунктуационное оформление считается устаревшим). -->
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>в</token>
-                        <token>то</token>  
-                        <token>время</token>
-                        <token>,</token>
-                        <token>как</token>
-                    </marker>
-                </pattern>
-                <message>Запятая обычно не ставится, но допустима:<suggestion>\2 \3 \4 \6</suggestion>.</message>
-                <url>http://new.gramota.ru/spravka/punctum?id=58_127&amp;layout=item</url>
-                <short>Запятая обычно не ставится.</short>
-                <example>В то время как мыши являются переносчиком серьезных заболеваний.</example>
-                <example correction="В то время как"><marker>В то время, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
-            </rule>
+            </rule>       
             <rule>
                 <pattern>
                     <token regexp="yes">между|меж</token>
@@ -3810,23 +3789,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Между тем как мыши являются переносчиком серьезных заболеваний.</example>
                 <example correction="Между тем как"><marker>Между тем, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
-            </rule>
-            <!-- так что  (в значении следствия) не разделяется запятой, Не смешивать с сочетанием наречия «так» и союза «что» (в знач. «таким образом, что»).-->
-            <!-- TODO: требуется доработка-->
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>так</token>  
-                        <token>,</token>
-                        <token>что</token>
-                    </marker>
-                </pattern>
-                <message>Запятая не нужна:<suggestion>\2 \4</suggestion>.</message>
-                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_727</url>
-                <short>Запятая не нужна.</short>
-                <example>Так что мыши являются переносчиком серьезных заболеваний.</example>
-                <example correction="Так что"><marker>Так, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3851,6 +3813,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Сомневаться в существовании действительности мы можем, лишь когда не спим.</example>
                 <example correction="лишь когда">Сомневаться в существовании действительности мы можем, <marker>лишь, когда</marker> не спим.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA2" name="Сложные союзы не разделяются запятой 2">
+         <!-- Сложные союзы не разделяются «в то время как    »,  ...  ->> запятая не ставится. $ 108 Розенталь -->
+          <!-- TODO: требуется доработка-->
+            <!-- Если придаточная часть сложноподчиненного предложения стоит перед главной,
+            запятая между частями союза «в то время как» обычно не ставится (постановка запятой допустима,
+            но такое пунктуационное оформление считается устаревшим). -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>в</token>
+                        <token>то</token>  
+                        <token>время</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Запятая обычно не ставится, но допустима:<suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?id=58_127&amp;layout=item</url>
+                <short>Запятая обычно не ставится.</short>
+                <example>В то время как мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="В то время как"><marker>В то время, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+            <!-- так что  (в значении следствия) не разделяется запятой, Не смешивать с сочетанием наречия «так» и союза «что» (в знач. «таким образом, что»).-->
+            <!-- TODO: требуется доработка-->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>так</token>  
+                        <token>,</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\2 \4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_727</url>
+                <short>Запятая не нужна.</short>
+                <example>Так что мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Так что"><marker>Так, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
             </rule>
         </rulegroup>
         
