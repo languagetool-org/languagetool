@@ -46,6 +46,13 @@ regexp case-insensitive maken : (?i)
 <!-- MOGELIJKE REGELS 
 Ad random -> at random, willekeurig
 -->
+<!-- mogelijk ook te gebruiken!
+<rule ...>
+<regexp>\bhalf an our\b</regexp>
+<message>Did you mean <suggestion>half an hour</suggestion>?</message>
+<example>....</example>
+</rule>
+-->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
@@ -16850,6 +16857,20 @@ Ad random -> at random, willekeurig
 		</rule>
 		</rulegroup>
 		-->
+		<rulegroup id="BAADT_NIET" name="Baadt het niet → baat het niet">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">baadt|baad</token>	
+					</marker>
+					<token regexp="yes">het|dit|dat</token>
+					<token>niet</token>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>baat</suggestion> \2 \3?</message>
+				<example correction="Baat"><marker>Baadt</marker> dit niet, dan is het fout.</example>
+				<example><marker>Baat</marker> dit niet, dan is het goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
 			<rule>
 				<pattern>
