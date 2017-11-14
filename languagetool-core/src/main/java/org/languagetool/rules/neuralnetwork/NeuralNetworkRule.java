@@ -32,9 +32,16 @@ public class NeuralNetworkRule extends Rule {
     this.descriptions = confusionSet.getTokenDescriptions();
     this.minScore = confusionSet.getScore();
 
-    final InputStream WPath = pathFor(language, "W_fc1.txt");
-    final InputStream bPath = pathFor(language, "b_fc1.txt");
-    classifier = new Classifier(dictionary, embedding, WPath, bPath);
+    final InputStream W1Stream = streamFor(language, "W_fc1.txt");
+    final InputStream b1Stream = streamFor(language, "b_fc1.txt");
+    try {
+      final InputStream W2Stream = streamFor(language, "W_fc2.txt");
+      final InputStream b2Stream = streamFor(language, "b_fc2.txt");
+      System.out.println("deep rule for" + confusionSet.toString());
+      classifier = new TwoLayerClassifier(dictionary, embedding, W1Stream, b1Stream, W2Stream, b2Stream);
+    } catch (RuntimeException e) {
+      classifier = new Classifier(dictionary, embedding, W1Stream, b1Stream);
+    }
 
     this.id = createId(language);
   }
@@ -57,7 +64,7 @@ public class NeuralNetworkRule extends Rule {
     return language.getShortCode().toUpperCase() + "_" + subjects.get(0) + "_VS_" + subjects.get(1) + "_NEURALNETWORK";
   }
 
-  private InputStream pathFor(Language language, String filename) {
+  private InputStream streamFor(Language language, String filename) {
     String folderName = String.join("_", subjects);
     return JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + language.getShortCode() + "/neuralnetwork/" + folderName + "/" + filename);
   }
@@ -102,7 +109,8 @@ public class NeuralNetworkRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    for(int i = CONTEXT_LENGTH/2; i < tokens.length - CONTEXT_LENGTH/2; i++) {
+    for(int i = 1; i < tokens.length; i++) {
+//    for(int i = CONTEXT_LENGTH/2; i < tokens.length - CONTEXT_LENGTH/2; i++) {
       String token = tokens[i].getToken();
       if(getSubjects().contains(token)) {
         final String[] context = getContext(tokens, i);
@@ -124,12 +132,19 @@ public class NeuralNetworkRule extends Rule {
   private String[] getContext(AnalyzedTokenReadings[] tokens, int center) {
     String[] context = new String[CONTEXT_LENGTH - 1];
     for(int i = 0; i < CONTEXT_LENGTH/2; i++) {
-      context[i] = tokens[center - CONTEXT_LENGTH/2 + i].getToken();
+      context[i] = safeGetToken(tokens, center - CONTEXT_LENGTH/2 + i);
     }
     for(int i = 0; i < CONTEXT_LENGTH/2; i++) {
-      context[CONTEXT_LENGTH/2 + i] = tokens[center + 1 + i].getToken();
+      context[CONTEXT_LENGTH/2 + i] = safeGetToken(tokens, center + 1 + i);
     }
     return context;
+  }
+
+  private static String safeGetToken(AnalyzedTokenReadings[] arr, int i) {
+    if (i <= 0 || i >= arr.length) {
+      return ".";
+    }
+    return arr[i].getToken();
   }
 
   @NotNull

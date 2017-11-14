@@ -16,6 +16,16 @@ public class MatrixTest {
         assertEquals(expectedMatrix, matrix);
     }
 
+//    @Test
+//    public void bigtest() throws IOException {
+//      FileInputStream fileInputStream = new FileInputStream("/tmp/m");
+//      long start = System.currentTimeMillis();
+//      float m[][] = new float[52520][64];
+//      Matrix matrix = new Matrix(fileInputStream);
+//      long end = System.currentTimeMillis();
+//      System.out.println((end - start)/1000.0);
+//    }
+
     @Test
     public void matMulTest() {
         final Matrix a = new Matrix(new float[][]{{1,2},{3,4},{5,6}});
@@ -31,5 +41,12 @@ public class MatrixTest {
         Matrix c = new Matrix(new float[][]{{2,4},{6,8},{10,13}});
         assertEquals(c, a.add(b));
     }
+
+  @Test
+  public void matReluTest() {
+    Matrix a = new Matrix(new float[][]{{1,2},{-3,0}});
+    Matrix b = new Matrix(new float[][]{{1,2},{0,0}});
+    assertEquals(b, a.relu());
+  }
 
 }

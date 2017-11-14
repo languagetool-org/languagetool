@@ -8,8 +8,8 @@ public class Matrix {
 
     private float[][] m;
 
-    public Matrix (InputStream filePath) {
-        List<String> rows = ResourceReader.readAllLines(filePath);
+    public Matrix (InputStream stream) {
+        List<String> rows = ResourceReader.readAllLines(stream);
         fromLines(rows);
     }
 
@@ -43,6 +43,14 @@ public class Matrix {
         return Arrays.copyOf(m[n], m[n].length);
     }
 
+    int rows() {
+        return m.length;
+    }
+
+    int columns() {
+        return m[0].length;
+    }
+
     void printDimension() {
         System.out.println(m.length + "/" + m[0].length);
     }
@@ -56,7 +64,9 @@ public class Matrix {
         final int rowsB = b.length;
         final int colsB = b[0].length;
 
-        if (colsA != rowsB) throw new AssertionError();
+        if (colsA != rowsB) {
+          throw new AssertionError("Matrix with " + colsA + " columns cannot be multiplied with matrix with " + colsB + " rows");
+        }
 
         float[][] c = new float[rowsA][colsB];
 
@@ -110,6 +120,20 @@ public class Matrix {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
                 b[j][i] = m[i][j];
+            }
+        }
+
+        return new Matrix(b);
+    }
+
+    public Matrix relu() {
+        int rows = m.length;
+        int cols = m[0].length;
+        float[][] b = new float[rows][cols];
+
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+               b[i][j] = m[i][j] < 0 ? 0 : m[i][j];
             }
         }
 
