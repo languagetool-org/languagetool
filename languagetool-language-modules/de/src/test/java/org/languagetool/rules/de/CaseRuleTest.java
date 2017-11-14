@@ -112,6 +112,7 @@ public class CaseRuleTest {
     assertGood("Bei einer Veranstaltung Rechtsextremer passierte es.");
     assertGood("Eine Gruppe Betrunkener singt.");
     assertGood("Bei Betreten des Hauses.");
+    assertGood("Das Aus für Italien ist bitter.");
 
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");

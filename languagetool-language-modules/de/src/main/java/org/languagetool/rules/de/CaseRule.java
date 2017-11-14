@@ -254,11 +254,21 @@ public class CaseRule extends Rule {
         // "Er liebt UV-bestrahltes, Na-haltiges und Makeup-freies Obst."
         // "Er vertraut auf CO2-arme Wasserkraft"
         regex("[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+")
+     ),
+     Arrays.asList(
+       // "Das Aus für Italien kam unerwartet."
+       token("das"),
+       csToken("Aus"),
+       posRegex("^PRP:.+")
      )
   );
 
   private static PatternToken token(String token) {
     return new PatternTokenBuilder().tokenRegex(token).build();
+  }
+
+  private static PatternToken csToken(String token) {
+    return new PatternTokenBuilder().csToken(token).build();
   }
 
   private static PatternToken regex(String regex) {

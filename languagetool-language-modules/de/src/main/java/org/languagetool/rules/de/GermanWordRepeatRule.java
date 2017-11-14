@@ -77,6 +77,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         tokens[position].getToken().equals("sie")) {
       return true;
     }
+    // "Dann warfen sie sie weg."
+    if (tokens.length > position && position > 2 && tokens[position - 2].matchesPosTagRegex("VER:3:PLU:.+") && tokens[position - 1].getToken().equals("sie") &&
+      tokens[position].getToken().equals("sie") && (tokens[position + 1].hasPosTag("ZUS"))) {
+      return true;
+    }
     return false;
   }
 
