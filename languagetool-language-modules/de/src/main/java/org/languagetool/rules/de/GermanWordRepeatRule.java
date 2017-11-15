@@ -82,6 +82,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       tokens[position].getToken().equals("sie") && (tokens[position + 1].hasPosTag("ZUS"))) {
       return true;
     }
+    // "Dann konnte sie sie sehen."
+    if (tokens.length+1 > position && position > 2 && tokens[position - 2].matchesPosTagRegex("VER:MOD:3:.+") && tokens[position - 1].getToken().equals("sie") &&
+      tokens[position].getToken().equals("sie") && (tokens[position + 1].hasPosTag("VER:INF:NON"))) {
+      return true;
+    }
     return false;
   }
 
