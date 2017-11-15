@@ -108,32 +108,32 @@ public class CaseRule extends Rule {
       regex("Staaten|Königreiche?s?")
     ),
     Arrays.asList(
-      token("Den"),
-      token("Haag")
+      csToken("Den"),
+      csToken("Haag")
     ),
     Arrays.asList(
       token("Neues"),
       token("\\?")
     ),
     Arrays.asList(
-      token("Hin"),
-      token("und"),
-      token("Her")
+      csToken("Hin"),
+      csToken("und"),
+      csToken("Her")
     ),
     Arrays.asList(
-      token("Bares"),
-      token("ist"),
-      token("Wahres")
+      csToken("Bares"),
+      csToken("ist"),
+      csToken("Wahres")
     ),
     Arrays.asList(
-      token("Auf"),
-      token("und"),
-      token("Ab")
+      csToken("Auf"),
+      csToken("und"),
+      csToken("Ab")
     ),
     Arrays.asList(
-      token("Lug"),
-      token("und"),
-      token("Trug")
+      csToken("Lug"),
+      csToken("und"),
+      csToken("Trug")
     ),
     Arrays.asList(
         token("Zahl"),
@@ -163,7 +163,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
         //token("dass"),
         posRegex("PRO:PER:.*|EIG:.*"),
-        token("das"),
+        csToken("das"),
         posRegex("PA2:.*"),
         posRegex("VER:AUX:.*")
     ),
@@ -183,22 +183,19 @@ public class CaseRule extends Rule {
         regex("und|oder")
     ),
     Arrays.asList(
-      token("Treu"),
-      token("und"),
-      token("Glauben")
+      csToken("Treu"),
+      csToken("und"),
+      csToken("Glauben")
     ),
     Arrays.asList(
-      token("Speis"),
-      token("und"),
-      token("Trank")
+      csToken("Speis"),
+      csToken("und"),
+      csToken("Trank")
     ),
     Arrays.asList(
-        token("Sang"),
-        token("und"),
-        token("Klang")
-    ),
-    Arrays.asList(
-        regex("US-amerikanisch(e|e[rsnm])?")
+      csToken("Sang"),
+      csToken("und"),
+      csToken("Klang")
     ),
     Arrays.asList(
       // "... weshalb ihr das wissen wollt."
