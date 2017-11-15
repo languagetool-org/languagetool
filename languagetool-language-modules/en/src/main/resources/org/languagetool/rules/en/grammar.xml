@@ -20627,13 +20627,13 @@ USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
                     <token regexp="yes">['’`´‘]</token>
                     <token>s</token>
                     <token>Day</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
                     <token regexp="yes">['’`´‘]</token>
                     <token>s</token>
                     <token>day</token>
@@ -20642,6 +20642,19 @@ USA
                 <suggestion><match no="1" case_conversion="startupper"/>\2s Day</suggestion>
                 <example correction="Valentine's Day">What did you do on <marker>Valentine's day</marker> last year?</example>
                 <example>What are your plans for <marker>President's Day</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Veterans</token>
+                    <token>Day</token>
+                </antipattern>
+                <pattern>
+                    <token>veterans</token>
+                    <token>day</token>
+                </pattern>
+                <message>Capitalize holidays.</message>
+                <suggestion><match no="1" case_conversion="startupper"/> Day</suggestion>
+                <example correction="Veterans Day">What did you do on <marker>Veterans day</marker> last year?</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -23189,7 +23202,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">a(i|re)n|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|m(ay|ight|ust)n|needn|oughtn|sh(a|ould)n|w(as|ere|o)n|wouldn</token>
                     <token regexp="yes" min="0">[;:"]</token>
                     <token>t</token>
                 </pattern>
