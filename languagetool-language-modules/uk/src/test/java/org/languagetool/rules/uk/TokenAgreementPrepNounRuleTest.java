@@ -78,6 +78,18 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("на дому");
     assertEmptyMatch("на біс");
 
+    assertEmptyMatch("згідно з документом");
+    assertEmptyMatch("Серед святкових товарів");
+    assertEmptyMatch("зовсім не святкові товари Серед святкових товарів");
+
+    assertEmptyMatch("при кому знайдено вогнепальну");
+    
+    assertEmptyMatch("славетних од цареві");
+    
+    //TODO: temporary until we have a better logic
+    assertEmptyMatch("при їх опублікуванні");
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("при їх опублікування")).length);
+
     assertEmptyMatch("окрім як українці");
     assertEmptyMatch("за двісті метрів");
     assertEmptyMatch("переходить у Фрідріх Штрассе");
@@ -115,6 +127,7 @@ public class TokenAgreementPrepNounRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("неба"), matches[0].getSuggestedReplacements());
+    assertTrue("Не містить «родовий»: " + matches[0].getMessage(), matches[0].getMessage().contains("родовий"));
 
     matches = rule.match(langTool.getAnalyzedSentence("не в останню чергу через    корупцією, міжрелігійну ворожнечу"));
     assertEquals(1, matches.length);

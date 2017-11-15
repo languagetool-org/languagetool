@@ -160,6 +160,17 @@
         >До <marker>тих</marker> людей.</example>
   </rule>
 
+  <rule name="Округи (іменник - не прийменник)" id="OKRUGY">
+    <pattern>
+      <token>округи</token>
+    </pattern>
+    <disambig action="remove" postag="prep:rv_rod"/>
+    <example type="ambiguous"
+        inputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna,округи/prep:rv_rod]"
+        outputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna]"
+        >Одномандатні <marker>округи</marker>.</example>
+  </rule>
+
   <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
     <pattern>
       <token>на</token>
@@ -353,7 +364,7 @@
         <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
           <exception scope="previous" postag="SENT_START"/>
           <exception scope="previous" regexp="yes">[«„“*\[\]:(—–-]</exception>
-          <exception>Як</exception>
+          <exception regexp="yes">Як|Серед</exception>
         </token>
         <token postag_regexp="yes" postag="(verb|prep|adv).*"/>
       </and>
@@ -371,6 +382,7 @@
     <example type="untouched">Читайте також: Менше законів.</example>
     <example type="untouched">Слово подяки Як побачать читачі</example>
     <example type="untouched">* Нехай роблять все</example>
+    <example type="untouched">східної Галичини XV-XVIII ст. Серед них – привілеї</example>
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
