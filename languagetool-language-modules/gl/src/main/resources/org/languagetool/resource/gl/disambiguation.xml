@@ -395,6 +395,17 @@
       <disambig action="filter" postag="D.*"/>
     </rule>
 
+    <rule id="DET_CANS" name="det + can(s)">
+    <!-- XXX remove after more general disambiguation -->
+      <pattern>
+          <token postag="D.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">cans?</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="N.*"/>
+    </rule>
+
   <rulegroup id="CONTRACAO_L" name="Contracción l'">
     <!-- Created by Tiago F. Santos, Galician rule, 2017-11-09  	-->
     <rule>
