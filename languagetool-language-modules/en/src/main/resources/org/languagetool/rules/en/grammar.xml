@@ -12808,12 +12808,12 @@ USA
                 <antipattern>
                     <token>who</token> 
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
-                    <token regexp="yes">nobody|nothing|nowhere</token>
+                    <token regexp="yes">no(thing|body|where)</token>
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
-                    <token regexp="yes">nothing|nobody|nowhere</token>
+                    <token regexp="yes">no(thing|body|where)</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>not|nobody|nothing|never</token>
+                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>no(t|body|thing)|never</token>
                     <token postag="VB.*" postag_regexp="yes" skip="1"><exception>believe</exception></token>
                     <marker>
                         <token regexp="yes"><exception negate_pos="yes" postag="PRP|VB.*|TO|IN" postag_regexp="yes" scope="previous"/>nothing|nobody|nowhere</token>
@@ -12882,6 +12882,20 @@ USA
                 <suggestion>\1 \3</suggestion>
                 <short>Negation after negation</short>
                 <example correction="could hardly">She <marker>could not hardly</marker> understand a word.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token min="0" regexp="yes">[`´']</token>
+                    <token regexp="yes">(no)?t|never</token>
+                    <token postag="VBN"/>
+                    <token regexp="yes">n(othing|e(ith|v)er|obody|owhere)</token>
+                </pattern>
+                <message>Double negatives are discouraged in standard English. Can you reformulate this phrase or is a comma missing?</message>
+                <short>Negation after negation</short>
+                <example correction="">She <marker>hasn't seen nobody</marker>.</example>
+                <example correction="">We <marker>have not heard nothing</marker>.</example>
+                <example>I <marker>haven't said no</marker> yet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
