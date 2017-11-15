@@ -2259,9 +2259,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: This rules can unify -->
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
-                <pattern case_sensitive="yes">      
-                    <token postag="VB:Past:Masc" skip="2" ><exception negate_pos="yes" postag="VB:Past:Masc"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Masc"><exception negate_pos="yes" postag="VB:Past:Masc"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
+                <pattern case_sensitive="yes">
+                    <unify negate="no">
+                        <feature id="gender"/>      
+                        <token postag="VB:Past:.*" postag_regexp="yes"  skip="2" >
+                            <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
+                            <exception regexp="yes">Бил|МОК</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception>
+                            <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
+                        </token>
+                        <token postag="VB:Past:.*" postag_regexp="yes">
+                            <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
+                            <exception regexp="yes">Бил|МОК</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception>
+                            <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
+                        </token>
+                    </unify>
                 </pattern>      
                 <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -2269,40 +2282,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он смеялся и радовался жизни.</example>
                 <example>Он шёл по улице, говорил по телефону.</example>
                 <example correction="смеялся, радовался|смеялся и радовался">Он <marker>смеялся радовался</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes">      
-                    <token postag="VB:Past:Fem" skip="2"><exception negate_pos="yes" postag="VB:Past:Fem"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Fem"><exception negate_pos="yes" postag="VB:Past:Fem"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Она смеялась и радовалась жизни.</example>
-                <example correction="смеялась, радовалась|смеялась и радовалась">Он <marker>смеялась радовалась</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes">    
-                    <token postag="VB:Past:PL" skip="2"><exception negate_pos="yes" postag="VB:Past:PL"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:PL"><exception negate_pos="yes" postag="VB:Past:PL"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Они смеялись и радовались жизни.</example>
+                <example correction="смеялась, радовалась|смеялась и радовалась">Она <marker>смеялась радовалась</marker> жизни.</example>
                 <example correction="смеялись, радовались|смеялись и радовались">Они <marker>смеялись радовались</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes"> 
-                    <token postag="VB:Past:Neut" skip="2"><exception negate_pos="yes" postag="VB:Past:Neut"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Neut"><exception negate_pos="yes" postag="VB:Past:Neut"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Солнце взошло и освещало местность.</example>
                 <example correction="взошло, освещало|взошло и освещало">Солнце <marker>взошло освещало</marker> местность.</example>
-            </rule>                                                                                                                 
+            </rule>
+                                                                                                         
         </rulegroup>                 
     	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
