@@ -2259,9 +2259,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: This rules can unify -->
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
-                <pattern case_sensitive="yes">      
-                    <token postag="VB:Past:Masc" skip="2" ><exception negate_pos="yes" postag="VB:Past:Masc"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Masc"><exception negate_pos="yes" postag="VB:Past:Masc"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
+                <pattern case_sensitive="yes">
+                    <unify negate="no">
+                        <feature id="gender"/>      
+                        <token postag="VB:Past:.*" postag_regexp="yes"  skip="2" >
+                            <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
+                            <exception regexp="yes">Бил|МОК</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception>
+                            <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
+                        </token>
+                        <token postag="VB:Past:.*" postag_regexp="yes">
+                            <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
+                            <exception regexp="yes">Бил|МОК</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception>
+                            <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
+                        </token>
+                    </unify>
                 </pattern>      
                 <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -2269,40 +2282,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он смеялся и радовался жизни.</example>
                 <example>Он шёл по улице, говорил по телефону.</example>
                 <example correction="смеялся, радовался|смеялся и радовался">Он <marker>смеялся радовался</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes">      
-                    <token postag="VB:Past:Fem" skip="2"><exception negate_pos="yes" postag="VB:Past:Fem"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Fem"><exception negate_pos="yes" postag="VB:Past:Fem"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Она смеялась и радовалась жизни.</example>
-                <example correction="смеялась, радовалась|смеялась и радовалась">Он <marker>смеялась радовалась</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes">    
-                    <token postag="VB:Past:PL" skip="2"><exception negate_pos="yes" postag="VB:Past:PL"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:PL"><exception negate_pos="yes" postag="VB:Past:PL"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Они смеялись и радовались жизни.</example>
+                <example correction="смеялась, радовалась|смеялась и радовалась">Она <marker>смеялась радовалась</marker> жизни.</example>
                 <example correction="смеялись, радовались|смеялись и радовались">Они <marker>смеялись радовались</marker> жизни.</example>
-            </rule>
-            <rule>    
-                <pattern case_sensitive="yes"> 
-                    <token postag="VB:Past:Neut" skip="2"><exception negate_pos="yes" postag="VB:Past:Neut"/><exception regexp="yes">Бил|МОК</exception><exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или|--</exception><exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                    <token postag="VB:Past:Neut"><exception negate_pos="yes" postag="VB:Past:Neut"/><exception regexp="yes">Бил|МОК</exception><exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|не|и|или</exception><exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception></token>
-                </pattern>      
-                <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
-                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
-                <short>Однородные члены предложения</short>
-                <example>Солнце взошло и освещало местность.</example>
                 <example correction="взошло, освещало|взошло и освещало">Солнце <marker>взошло освещало</marker> местность.</example>
-            </rule>                                                                                                                 
+            </rule>
+                                                                                                         
         </rulegroup>                 
     	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
@@ -3760,6 +3744,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая обычно не ставится.</short>
                 <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
                 <example correction="Тем более что"><marker>Тем более, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA" name="Сложные союзы не разделяются «тогда как», «словно как», ...">
+            <!-- Сложные союзы не разделяются «тогда как», «словно как», ...  ->> запятая не ставится. $ 108 Розенталь -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">тогда|словно</token>
+                    <token>,</token>
+                    <token>как</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum/punctum-attach3</url>
+                <short>Запятая не нужна.</short>
+                <example>Тогда как мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Тогда как"><marker>Тогда, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>       
+            <rule>
+                <pattern>
+                    <token regexp="yes">между|меж</token>
+                    <token>тем</token>  
+                    <token>,</token>
+                    <token>как</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum/punctum-attach3</url>
+                <short>Запятая не нужна.</short>
+                <example>Между тем как мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Между тем как"><marker>Между тем, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>даже</token>  
+                    <token>,</token>
+                    <token>если</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <url>https://punktuaciya.academic.ru/196/%D0%B4%D0%B0%D0%B6%D0%B5_%D0%B5%D1%81%D0%BB%D0%B8</url>
+                <short>Запятая не нужна.</short>
+                <example>Даже если мы с тобой не будем вместе.</example>
+                <example correction="Даже если"><marker>Даже, если</marker> мы с тобой не будем вместе.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>лишь</token>  
+                    <token>,</token>
+                    <token>когда</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?id=58_395&amp;layout=item</url>
+                <short>Запятая не нужна.</short>
+                <example>Сомневаться в существовании действительности мы можем, лишь когда не спим.</example>
+                <example correction="лишь когда">Сомневаться в существовании действительности мы можем, <marker>лишь, когда</marker> не спим.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA2" name="Сложные союзы не разделяются запятой 2">
+         <!-- Сложные союзы не разделяются «в то время как    »,  ...  ->> запятая не ставится. $ 108 Розенталь -->
+          <!-- TODO: требуется доработка-->
+            <!-- Если придаточная часть сложноподчиненного предложения стоит перед главной,
+            запятая между частями союза «в то время как» обычно не ставится (постановка запятой допустима,
+            но такое пунктуационное оформление считается устаревшим). -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>в</token>
+                        <token>то</token>  
+                        <token>время</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Запятая обычно не ставится, но допустима:<suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?id=58_127&amp;layout=item</url>
+                <short>Запятая обычно не ставится.</short>
+                <example>В то время как мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="В то время как"><marker>В то время, как</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+            <!-- так что  (в значении следствия) не разделяется запятой, Не смешивать с сочетанием наречия «так» и союза «что» (в знач. «таким образом, что»).-->
+            <!-- TODO: требуется доработка-->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>так</token>  
+                        <token>,</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\2 \4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_727</url>
+                <short>Запятая не нужна.</short>
+                <example>Так что мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Так что"><marker>Так, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
             </rule>
         </rulegroup>
         

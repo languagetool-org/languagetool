@@ -99,6 +99,16 @@ abstract class Server {
     return null;
   }
 
+  @Nullable
+  protected ErrorRequestLimiter getErrorRequestLimiterOrNull(HTTPServerConfig config) {
+    int requestLimit = config.getRequestLimit();
+    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
+      return new ErrorRequestLimiter(2, 60);  // TODO: use config values
+    }
+    return null;
+  }
+
   protected static boolean usageRequested(String[] args) {
     return args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
   }

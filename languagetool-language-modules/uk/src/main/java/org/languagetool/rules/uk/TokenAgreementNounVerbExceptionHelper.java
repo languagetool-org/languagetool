@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
+import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
@@ -266,7 +267,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
         && PosTagHelper.hasPosTag(tokens[i-3], Pattern.compile("adj:.*"))
         && PosTagHelper.hasPosTagPart(tokens[i-4], "prep") ) {
 
-      Collection<String> prepGovernedCases = TokenAgreementAdjNounExceptionHelper.getPrepGovernedCases(tokens[i-4]);
+      Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-4], IPOSTag.prep.name());
       if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-2])
             && TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-3]) ) {
         logException();
@@ -367,7 +368,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
       if( PosTagHelper.hasPosTag(tokens[vPos-2], Pattern.compile("noun:inanim:.*"))
           && PosTagHelper.hasPosTagPart(tokens[vPos-3], "prep") ) {
 
-        Collection<String> prepGovernedCases = TokenAgreementAdjNounExceptionHelper.getPrepGovernedCases(tokens[vPos-3]);
+        Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[vPos-3], IPOSTag.prep.name());
         if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[vPos-2]) ) {
           logException();
           return true;

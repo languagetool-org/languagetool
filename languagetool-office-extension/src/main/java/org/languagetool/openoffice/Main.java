@@ -979,6 +979,10 @@ public class Main extends WeakBase implements XJobExecutor,
     if (numCurPara < 0) {    
       // no automatic FlatParagraph Iterator -> try to get ViewCursor position 
       numCurPara = LODocument.getViewCursorParagraph(xContext) + divNum;
+      if (numCurPara < 0) {
+        doFullTextCheck = false;   // paragraph position can not be found
+        return -1;
+      }
       if (!chPara.equals(allParas.get(numCurPara))) {
         //   text can't be changed -> search for next match
         numCurPara = findNextParaPos(numCurPara, chPara);

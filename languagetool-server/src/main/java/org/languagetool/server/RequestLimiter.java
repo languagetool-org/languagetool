@@ -27,9 +27,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class RequestLimiter {
 
-  private static final int API_REQUEST_QUEUE_SIZE = 1000;
+  static final int REQUEST_QUEUE_SIZE = 1000;
 
-  private final List<RequestEvent> requestEvents = new CopyOnWriteArrayList<>();
+  final List<RequestEvent> requestEvents = new CopyOnWriteArrayList<>();
+  
   private final int requestLimit;
   private final int requestLimitPeriodInSeconds;
 
@@ -61,14 +62,14 @@ class RequestLimiter {
    * @return true if access is allowed because the request limit is not reached yet
    */
   boolean isAccessOkay(String ipAddress) {
-    while (requestEvents.size() > API_REQUEST_QUEUE_SIZE) {
+    while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
     requestEvents.add(new RequestEvent(ipAddress, new Date()));
     return !limitReached(ipAddress);
   }
   
-  private boolean limitReached(String ipAddress) {
+  boolean limitReached(String ipAddress) {
     int requestsByIp = 0;
     // all requests before this date are considered old:
     Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
@@ -83,7 +84,7 @@ class RequestLimiter {
     return false;
   }
   
-  static class RequestEvent {
+  protected static class RequestEvent {
 
     private final String ip;
     private final Date date;
@@ -92,6 +93,11 @@ class RequestLimiter {
       this.ip = ip;
       this.date = new Date(date.getTime());
     }
+
+    protected Date getDate() {
+      return date;
+    }
+
   }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
+import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
@@ -404,7 +406,7 @@ final class TokenAgreementAdjNounExceptionHelper {
         && PosTagHelper.hasPosTagPart(tokens[i-2], "prep")
         && PosTagHelper.hasPosTagPart(tokens[i-1], "num")) {
 
-      Collection<String> prepGovernedCases = TokenAgreementAdjNounExceptionHelper.getPrepGovernedCases(tokens[i-2]);
+      Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-2], IPOSTag.prep.name());
       if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-3])
           && TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-1]) ) {
         logException();
@@ -702,7 +704,7 @@ final class TokenAgreementAdjNounExceptionHelper {
       if( PosTagHelper.hasPosTagPart(tokens[i-2], "prep") ) {
         if (PosTagHelper.hasPosTag(tokens[i-3], "(adj|verb|part|noun|adv).*")) {
 
-          Collection<String> prepGovernedCases = getPrepGovernedCases(tokens[i-2]);
+          Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-2], IPOSTag.prep.name());
           if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-1]) ) {
 
             // відрізнялася (б) від нинішньої ситуація
@@ -775,7 +777,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // verb + adj:v_oru + noun:v_zna
     // зроблять неможливою ротацію влади
     // we still want to trigger on: за наявною інформацію
-    if( (i < 3 || ! PosTagHelper.hasPosTag(tokens[i-2], "prep.*rv_oru.*|adj.*adjp:pasv.*"))
+    if( (i < 3 || ! CaseGovernmentHelper.hasCaseGovernment(tokens[i-2], "v_oru"))
         && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "v_oru") 
         && PosTagHelper.hasPosTag(slaveTokenReadings, ".*v_zna.*") 
         && genderMatches(masterInflections, slaveInflections, "v_oru", "v_zna") ) {
@@ -866,20 +868,6 @@ final class TokenAgreementAdjNounExceptionHelper {
     return false;
   }
 
-  static Collection<String> getPrepGovernedCases(AnalyzedTokenReadings analyzedTokenReadings) {
-    ArrayList<String> reqCases = new ArrayList<>(); 
-    for(AnalyzedToken reading: analyzedTokenReadings.getReadings()) {
-      String posTag = reading.getPOSTag();
-      if( posTag != null && posTag.contains("rv_") ) {
-        Matcher matcher = TokenAgreementPrepNounRule.REQUIRE_VIDMINOK_REGEX.matcher(posTag);
-        while( matcher.find() ) {
-          reqCases.add(matcher.group(1));
-        }
-        break;
-      }
-    }
-    return reqCases;
-  }
 
   private static boolean reverseConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
     for(int i=pos; i>pos-depth && i>=0; i--) {

@@ -135,6 +135,11 @@ public final class PosTagHelper {
     return posTag != null && posTag.matches(posTagRegex);
   }
 
+  public static boolean hasPosTagPart(AnalyzedToken analyzedToken, String posTagPart) {
+    String posTag = analyzedToken.getPOSTag();
+    return posTag != null && posTag.contains(posTagPart);
+  }
+
   public static boolean hasPosTag(AnalyzedToken analyzedToken, Pattern posTagRegex) {
     String posTag = analyzedToken.getPOSTag();
     return posTag != null && posTagRegex.matcher(posTag).matches();

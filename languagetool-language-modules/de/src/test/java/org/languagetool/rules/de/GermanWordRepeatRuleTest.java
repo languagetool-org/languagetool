@@ -42,6 +42,8 @@ public class GermanWordRepeatRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Warum fragen Sie sie nicht selbst?")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Er will nur sein Leben leben.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Wie bei Honda, die die Bezahlung erhöht haben.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Dann warfen sie sie weg.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Dann konnte sie sie sehen.")).length, is(0));
   }
 
 }

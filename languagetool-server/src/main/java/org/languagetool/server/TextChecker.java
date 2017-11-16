@@ -79,7 +79,7 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     UserLimits limits = getUserLimits(parameters);
@@ -139,7 +139,10 @@ abstract class TextChecker {
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString(): "(unknown)";
+        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+        if (errorRequestLimiter != null) {
+          errorRequestLimiter.logAccess(remoteAddress);
+        }
         String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() +

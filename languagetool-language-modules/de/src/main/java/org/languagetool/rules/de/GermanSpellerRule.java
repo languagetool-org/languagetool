@@ -443,6 +443,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*uess.*")) {
+      suggestion = word.replaceAll("uess", "üß");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("bi[sß][ij]en")) {
+      return Collections.singletonList("bisschen");
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
     } else if (word.equals("ua") || word.equals("ua.")) {
@@ -451,6 +458,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return Collections.singletonList("u.\u202fv.\u202fm.");
+    } else if (word.equals("udgl") || word.equals("udgl.")) {
+      return Collections.singletonList("u.\u202fdgl.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {

@@ -46,6 +46,13 @@ regexp case-insensitive maken : (?i)
 <!-- MOGELIJKE REGELS 
 Ad random -> at random, willekeurig
 -->
+<!-- mogelijk ook te gebruiken!
+<rule ...>
+<regexp>\bhalf an our\b</regexp>
+<message>Did you mean <suggestion>half an hour</suggestion>?</message>
+<example>....</example>
+</rule>
+-->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
@@ -165,7 +172,7 @@ Ad random -> at random, willekeurig
 				</pattern>
 				<message>Februari heeft maar 28 dagen, of 29 in schrikkeljaren.</message>
 				<example type="incorrect">Het gebeurde op <marker>30 feb</marker> 2014.</example>
-				<example>Heet gebeurde op <marker>28 feb</marker> 2014.</example>
+				<example>Het gebeurde op <marker>28 feb</marker> 2014.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -14684,6 +14691,18 @@ Ad random -> at random, willekeurig
 		<example>A <marker>zien; tijdelijk de functie hebben van</marker>.</example>
 		</rule>
 		-->
+		<rulegroup id="AL_WEER" name="al weer / alweer">
+			<rule>
+				<pattern>
+					<token>al</token>
+					<token>weer</token>
+				</pattern>
+				<message>Juist is <suggestion>alweer</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/39/al_weer_alweer/</url>
+				<example correction="alweer">Het wordt <marker>al weer</marker> vroeg donker.</example>
+				<example>AHet wordt <marker>alweer</marker> vroeg donker.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="WEDER" name="weder">
 			<rule>
 				<pattern>
@@ -16838,6 +16857,51 @@ Ad random -> at random, willekeurig
 		</rule>
 		</rulegroup>
 		-->
+		
+		<rulegroup id="HET_ZEI_ZO" name="het zei zo → het zij zo">
+			<rule>
+				<pattern>
+					<token regexp="yes">het|dit|dat</token>	
+					<marker>
+					<token>zei</token>	
+				</marker>
+					<token>zo</token>	
+				</pattern>
+				<message>U bedoelt vast : \1 <suggestion>zij</suggestion> zo.</message>
+				<url>https://onzetaal.nl/taaladvies/het-zij-zo-het-zei-zo/</url>
+				<example correction="zij">Het <marker>zei</marker> zo.</example>
+				<example>Het <marker>zij</marker>zo.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="METEN_PERSEN" name="meten en persen → Meden en Perzen">
+			<rule>
+				<pattern>
+					<token>wet</token>	
+					<token>van</token>	
+					<token>meten</token>	
+					<token>en</token>	
+					<token>persen</token>	
+				</pattern>
+				<message>Dit kan grappig bedoeld zijn, maar ook gewoon fout van: <suggestion>wet van Meden en Perzen</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/dat-is-geen-wet-van-meden-en-perzen/</url>
+				<example correction="wet van Meden en Perzen">Dit is geen <marker>wet van meten en persen</marker>.</example>
+				<example>Dit is geen <marker>wet van Meden en Perzen</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BAADT_NIET" name="Baadt het niet → baat het niet">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">baadt|baad</token>	
+					</marker>
+					<token regexp="yes">het|dit|dat</token>
+					<token>niet</token>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>baat</suggestion> \2 \3?</message>
+				<example correction="Baat"><marker>Baadt</marker> dit niet, dan is het fout.</example>
+				<example><marker>Baat</marker> dit niet, dan is het goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
 			<rule>
 				<pattern>

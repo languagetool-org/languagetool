@@ -29,7 +29,7 @@ USA
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|S(atur|un)day">
+    <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
@@ -8220,7 +8220,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
@@ -8236,7 +8236,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -8252,8 +8252,8 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="JJ"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="JJ" chunk="I-NP-plural"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
@@ -8266,12 +8266,13 @@ USA
                 <example correction="bark">The black dogs <marker>barks</marker> loudly.</example>
                 <example>The Canadian Badlands has much to offer.</example>
                 <example>The public demands answers.</example>
+                <example>The work leaves traces on it.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
                     <marker>
@@ -8283,11 +8284,12 @@ USA
                 <example>The dogs of war <marker>are</marker> released.</example>
                 <example>The dog of war is released.</example>
                 <example correction="bark">The dogs of war <marker>barks</marker> loudly.</example>
+                <example>This species of butterfly has already gone extinct.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>is</token>
@@ -8301,7 +8303,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token>was</token>
@@ -8316,7 +8318,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
                     <marker>
@@ -8326,6 +8328,7 @@ USA
                 <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dog of war is released.</example>
+                <example>That species of bird is said to be in danger of dying out.</example>
                 <example correction="are">The dogs of war <marker>is</marker> released.</example>
             </rule>
             <rule>
@@ -8348,7 +8351,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8364,7 +8367,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -8381,7 +8384,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="JJ"/>
                     <token postag="NNS"><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
@@ -8398,7 +8401,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
@@ -8417,7 +8420,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8433,7 +8436,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -8449,8 +8452,8 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
-                    <token postag="NNS"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN:UN"/></token>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
                     <token skip="-1">,</token>
@@ -8462,12 +8465,13 @@ USA
                 <message>Possible agreement error. You should probably use: <suggestion>are</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>The dog of war is released.</example>
+                <example>The handling of dynamite is dangerous.</example>
                 <example correction="are">The dogs of war, finally, <marker>is</marker> released.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
                     <token postag="NN|NN:.*" postag_regexp="yes"/>
@@ -8879,10 +8883,74 @@ USA
                  <example>Both of them <marker>believed</marker> in God.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_QUESTION" name="agreement error: auxiliary verb (do/have) and subject in questions">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Do</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NN(:UN)?" postag_regexp="yes"><exception postag="NNS"/></token>
+                    <token postag="VB" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion>\3es</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Does"><marker>Do</marker> your father live in England?</example>
+                <example correction="Does"><marker>Do</marker> the man like you?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Have</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NN(:UN)?" postag_regexp="yes"><exception postag="NNS"/></token>
+                    <token postag="VBN" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="ve" regexp_replace="s"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Has"><marker>Have</marker> your father lived in England?</example>
+                <example correction="Has"><marker>Have</marker> the man talked to you?</example>
+                <example correction="has">Where <marker>have</marker> the man been?</example>
+                <example>Have the police questioned you?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Has</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NNS"><exception postag="NN(:UN)?" postag_regexp="yes"/></token>
+                    <token postag="VBN" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="s" regexp_replace="ve"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Have"><marker>Has</marker> your parents told you everything?</example>
+                <example correction="have">When <marker>has</marker> your parents told you the truth?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">wh(at|ere|en)</token>
+                    <marker><token>Does</token></marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"></token>
+                    <token postag="NNS"><exception postag="NN(:UN)?" postag_regexp="yes"/></token>
+                    <token postag="VBP?" postag_regexp="yes" skip="-1"></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion><match no="3" regexp_match="es" regexp_replace=""/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="Do"><marker>Does</marker> your parents live in England?</example>
+                <example correction="do">What <marker>does</marker> your parents know?</example>
+            </rule>
+        </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
                 <token regexp="yes">a|one</token>
-                <token regexp="yes">hundreds|thousands|millions|billions|trillions|quadrillions</token>
+                <token regexp="yes">hundreds|thousands|[bm]illions|trillions|quadrillions</token>
             </pattern>
             <message>Possible agreement error. Consider using: <suggestion><match no="1"/> <match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion></message>
             <short>Possible agreement error</short>
@@ -8903,7 +8971,7 @@ USA
                     <marker>
                         <token regexp="yes">an?</token>
                         <token postag="NNP?S" postag_regexp="yes">
-                            <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
+                            <exception postag="NN:.*|VBZ|NNP?|C[CD]" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
                             <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
                         </token>
@@ -9642,7 +9710,7 @@ USA
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">speak|talk|go|happen|listen|attach|refer|lead</token>
+                    <token inflected="yes" regexp="yes">speak|talk|go|happen|listen|attach|refer|lead|propose</token>
                     <token>to</token>
                     <token/>
                 </antipattern>
@@ -9651,7 +9719,7 @@ USA
                     <token min="0">not</token>
                     <token>to</token>
                     <marker>
-                        <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNP|NNPS" postag_regexp="yes"/></token>
+                        <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNPS?" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>The verb after "to" should be in the base form: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
@@ -9693,6 +9761,21 @@ USA
                 <example correction="get">She is manipulating her father to <marker>got</marker> her way.</example>
                 <example correction="lift">He tried very hard to <marker>lifted</marker> the rock.</example>
                 <example>She teaches English to advanced students.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">advise|ask|encourage|invite|order|persuade|remind|warn|expect|intend|want|allow|enable|force|teach|convince|manipulate|try<exception scope="next">,</exception></token>
+                    <token>to</token>
+                    <marker>
+                        <token postag="VBZ"><exception postag="NNPS?" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="RB|PRP\$" postag_regexp="yes"><exception postag="JJ"/></token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>?</message>
+                <example correction="go">She wants you to <marker>goes</marker> there.</example>
+                <example correction="get">She is manipulating her father to <marker>gets</marker> her way.</example>
+                <example>Tom doesn't get invited to parties anymore.</example>
+                <example>Tom gets invited to parties often.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -12740,12 +12823,12 @@ USA
                 <antipattern>
                     <token>who</token> 
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
-                    <token regexp="yes">nobody|nothing|nowhere</token>
+                    <token regexp="yes">no(thing|body|where)</token>
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
-                    <token regexp="yes">nothing|nobody|nowhere</token>
+                    <token regexp="yes">no(thing|body|where)</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>not|nobody|nothing|never</token>
+                    <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>no(t|body|thing)|never</token>
                     <token postag="VB.*" postag_regexp="yes" skip="1"><exception>believe</exception></token>
                     <marker>
                         <token regexp="yes"><exception negate_pos="yes" postag="PRP|VB.*|TO|IN" postag_regexp="yes" scope="previous"/>nothing|nobody|nowhere</token>
@@ -12814,6 +12897,20 @@ USA
                 <suggestion>\1 \3</suggestion>
                 <short>Negation after negation</short>
                 <example correction="could hardly">She <marker>could not hardly</marker> understand a word.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token min="0" regexp="yes">[`´']</token>
+                    <token regexp="yes">(no)?t|never</token>
+                    <token postag="VBN"/>
+                    <token regexp="yes">n(othing|e(ith|v)er|obody|owhere)</token>
+                </pattern>
+                <message>Double negatives are discouraged in standard English. Can you reformulate this phrase or is a comma missing?</message>
+                <short>Negation after negation</short>
+                <example correction="">She <marker>hasn't seen nobody</marker>.</example>
+                <example correction="">We <marker>have not heard nothing</marker>.</example>
+                <example>I <marker>haven't said no</marker> yet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
@@ -13604,6 +13701,11 @@ USA
                 <token regexp="yes">(?-i)It</token>
                 <token inflected="yes">girl</token>
             </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token case_sensitive="yes">My</token>
+                <token case_sensitive="yes">Lai</token>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
                 <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE</exception></token>
@@ -13626,6 +13728,7 @@ USA
             <example>Olivia certainly is the <marker>It</marker> girl [https://en.wikipedia.org/wiki/It_girl].</example>
             <example>And now, live on stage, <marker>the one</marker> and only, the incomparable, Kermit the Frog!</example>
             <example>This is your chance of a lifetime! For <marker>A ONE</marker> DAY ONLY SALE of exclusive jewellery, visit our store.</example>
+            <example>The event is referred to as the My Lai Massacre in the United States</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
@@ -20539,13 +20642,13 @@ USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
                     <token regexp="yes">['’`´‘]</token>
                     <token>s</token>
                     <token>Day</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
                     <token regexp="yes">['’`´‘]</token>
                     <token>s</token>
                     <token>day</token>
@@ -20554,6 +20657,19 @@ USA
                 <suggestion><match no="1" case_conversion="startupper"/>\2s Day</suggestion>
                 <example correction="Valentine's Day">What did you do on <marker>Valentine's day</marker> last year?</example>
                 <example>What are your plans for <marker>President's Day</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Veterans</token>
+                    <token>Day</token>
+                </antipattern>
+                <pattern>
+                    <token>veterans</token>
+                    <token>day</token>
+                </pattern>
+                <message>Capitalize holidays.</message>
+                <suggestion><match no="1" case_conversion="startupper"/> Day</suggestion>
+                <example correction="Veterans Day">What did you do on <marker>Veterans day</marker> last year?</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -23101,7 +23217,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">a(i|re)n|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|m(ay|ight|ust)n|needn|oughtn|sh(a|ould)n|w(as|ere|o)n|wouldn</token>
                     <token regexp="yes" min="0">[;:"]</token>
                     <token>t</token>
                 </pattern>

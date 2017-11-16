@@ -32,7 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
  * @author Fred Kruse
  */
 
-public class EmptyLineRule extends Rule {
+public class EmptyLineRule extends TextLevelRule {
 
   public EmptyLineRule(ResourceBundle messages, boolean defaultActive) {
     super(messages);
@@ -61,25 +61,29 @@ public class EmptyLineRule extends Rule {
   }
 
   @Override
-  public org.languagetool.rules.RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+  public org.languagetool.rules.RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    for(int i = 2; i < tokens.length; i++) {
-      if(tokens[i].isLinebreak() && !tokens[i - 1].isLinebreak()) {
-        int firstLB = i;
-        for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i].getToken().equals("\u200B"); i++);  
-        if (i == tokens.length || tokens[i].isLinebreak()) { 
-          int fromPos = tokens[firstLB - 1].getStartPos();
-          int toPos = tokens[firstLB - 1].getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("empty_line_rule_msg"));
-          // Can't use SuggestedReplacement because of problems in LO/OO dialog with linebreaks
-          ruleMatches.add(ruleMatch);
-          i--;
+    int pos = 0;
+    for (int n = 0; n < sentences.size(); n++) {
+      AnalyzedSentence sentence = sentences.get(n);
+      AnalyzedTokenReadings[] tokens = sentence.getTokens();
+      for(int i = 2; i < tokens.length; i++) {
+        if(tokens[i].isLinebreak() && !tokens[i - 1].isLinebreak()) {
+          int firstLB = i;
+          for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i].getToken().equals("\u200B"); i++);  
+          if (i < tokens.length && tokens[i].isLinebreak()) { 
+            int toPos = pos + tokens[firstLB - 1].getEndPos();
+            int fromPos = toPos - 1;
+            RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("empty_line_rule_msg"));
+            // Can't use SuggestedReplacement because of problems in LO/OO dialog with linebreaks
+            ruleMatches.add(ruleMatch);
+            i--;
+          }
         }
       }
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
-
 
 }
