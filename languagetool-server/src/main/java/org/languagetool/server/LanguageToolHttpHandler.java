@@ -41,15 +41,17 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
+  private final ErrorRequestLimiter errorRequestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
+    this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
     if (config.getTrustXForwardForHeader()) {
       this.ownIps = getServersOwnIps();
@@ -88,6 +90,18 @@ class LanguageToolHttpHandler implements HttpHandler {
               " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
         return;
       }
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
+        String text = parameters.get("text");
+        String textSizeMessage = text != null ? " Text size: " + text.length() + "." :  "";
+        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts." +
+                textSizeMessage +
+                " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
+                " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
+        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+        print(errorMessage + " - useragent: " + parameters.get("useragent") +
+                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+        return;
+      }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
         print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
@@ -98,7 +112,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (requestedUri.getRawPath().startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
-          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters);
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress);
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else {
