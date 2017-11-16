@@ -451,6 +451,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return Collections.singletonList("u.\u202fv.\u202fm.");
+    } else if (word.equals("udgl") || word.equals("udgl.")) {
+      return Collections.singletonList("u.\u202fdgl.");
     } else if (word.equals("Ruhigkeit")) {
       return Collections.singletonList("Ruhe");
     } else if (word.equals("angepreist")) {
