@@ -61,7 +61,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
-      "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep:rv_rod  /[null]null " +
+      "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep  /[null]null " +
       "впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]</adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
@@ -83,7 +83,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("до",
       "/[null]SENT_START до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_mis:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv|до/[до]noun:inanim:n:v_rod:nv"
-      +"|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_mis:nv|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep:rv_rod",
+      +"|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_mis:nv|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     // still v_kly
@@ -122,7 +122,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("на Андрії",
-        "/[null]SENT_START на/[на]prep:rv_zna:rv_mis"
+        "/[null]SENT_START на/[на]prep"
         + "  /[null]null Андрії/[Андрій]noun:anim:m:v_mis:prop:fname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 

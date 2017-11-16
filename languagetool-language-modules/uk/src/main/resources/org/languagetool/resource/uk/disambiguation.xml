@@ -164,9 +164,9 @@
     <pattern>
       <token>округи</token>
     </pattern>
-    <disambig action="remove" postag="prep:rv_rod"/>
+    <disambig action="remove" postag="prep"/>
     <example type="ambiguous"
-        inputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna,округи/prep:rv_rod]"
+        inputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna,округи/prep]"
         outputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna]"
         >Одномандатні <marker>округи</marker>.</example>
   </rule>
@@ -184,8 +184,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*|&lt;.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="На[на/intj,на/part,на/prep:rv_zna:rv_mis]" 
-        outputform="На[на/prep:rv_zna:rv_mis]"><marker>На</marker> столі лежала книжка.</example>
+        inputform="На[на/intj,на/part,на/prep]" 
+        outputform="На[на/prep]"><marker>На</marker> столі лежала книжка.</example>
     <example type="untouched">На тобі портфель.</example>
     <!--
     <example type="untouched">Виносити на люди внутрішні проблеми.</example>
@@ -214,9 +214,9 @@
         <token>з</token>
       </marker>
     </pattern>
-    <disambig action="remove" postag="prep:rv_rod:rv_zna:rv_oru"></disambig>
+    <disambig action="remove" postag="prep"></disambig>
     <example type="ambiguous" 
-        inputform="з[з/prep:rv_rod:rv_zna:rv_oru]"
+        inputform="з[з/prep]"
         outputform="з[з]">Згідно <marker>з</marker> правилом.</example>
     <example type="untouched">Вони жили згідно.</example>
   </rule>
@@ -323,7 +323,7 @@
     </pattern>
     <disambig><match no="1" postag="noun:anim:m:nv:prop:lname"/></disambig>
     <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep:rv_mis:rv_zna]" 
+        inputform="По[&lt;/S&gt;,по/prep]" 
         outputform="По[&lt;/S&gt;,по/noun:anim:m:nv:prop:lname,по/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
     <example type="untouched">Едгара по полю.</example>
   </rule>
@@ -524,8 +524,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*|.*adv.*|&lt;.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="до[до/noun:inanim:n:v_dav:nv,до/noun:inanim:n:v_mis:nv,до/noun:inanim:n:v_naz:nv,до/noun:inanim:n:v_oru:nv,до/noun:inanim:n:v_rod:nv,до/noun:inanim:n:v_zna:nv,до/noun:inanim:p:v_dav:nv,до/noun:inanim:p:v_mis:nv,до/noun:inanim:p:v_naz:nv,до/noun:inanim:p:v_oru:nv,до/noun:inanim:p:v_rod:nv,до/noun:inanim:p:v_zna:nv,до/prep:rv_rod]"
-        outputform="до[до/prep:rv_rod]"><marker>до</marker> паркану</example>
+        inputform="до[до/noun:inanim:n:v_dav:nv,до/noun:inanim:n:v_mis:nv,до/noun:inanim:n:v_naz:nv,до/noun:inanim:n:v_oru:nv,до/noun:inanim:n:v_rod:nv,до/noun:inanim:n:v_zna:nv,до/noun:inanim:p:v_dav:nv,до/noun:inanim:p:v_mis:nv,до/noun:inanim:p:v_naz:nv,до/noun:inanim:p:v_oru:nv,до/noun:inanim:p:v_rod:nv,до/noun:inanim:p:v_zna:nv,до/prep]"
+        outputform="до[до/prep]"><marker>до</marker> паркану</example>
     <example type="untouched">до мажор</example>
     <example type="untouched">до ре мі</example>
   </rule>
@@ -581,8 +581,8 @@
       </pattern>
       <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
-          outputform="о[о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/prep]"
               >шарпнув <marker>о</marker> двері</example>
       <example type="untouched">о, люди!</example>
       <example type="untouched">о мамо!</example>
@@ -596,11 +596,11 @@
       </pattern>
       <disambig postag="intj"/>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
           outputform="о[о/intj]"
               ><marker>о</marker>, море!</example>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
           outputform="о[о/intj]"
               ><marker>о</marker> ти!</example>
       <example type="untouched">грюкнув о двері</example>
@@ -615,11 +615,11 @@
       </pattern>
       <disambig postag="intj"/>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
           outputform="о[о/intj]"
               ><marker>о</marker> люди!</example>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
           outputform="о[о/intj]"
               ><marker>о</marker> бідні люди!</example>
       <example type="untouched">грюкнув о двері</example>
@@ -638,12 +638,12 @@
       </pattern>
       <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
-          outputform="о[о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/prep]"
               >стусонув <marker>о</marker> двері</example>
       <example type="ambiguous"
-          inputform="о[о/intj,о/prep:rv_zna:rv_mis]"
-          outputform="о[о/prep:rv_zna:rv_mis]"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/prep]"
               ><marker>о</marker> тримати</example> <!-- treat prep/intj + verb as prep + verb so we can trigger error -->
     </rule>
   </rulegroup>
@@ -659,7 +659,7 @@
     </pattern>
     <disambig><match no="1" postag="adv.*" postag_regexp="yes" /></disambig>
     <example type="ambiguous" 
-        inputform="попереду[попереду/adv,попереду/prep:rv_rod]" 
+        inputform="попереду[попереду/adv,попереду/prep]" 
         outputform="попереду[попереду/adv]"><marker>попереду</marker> поїхав</example>
     <example type="untouched">попереду поїзда</example>
   </rule>
@@ -673,8 +673,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes" /></disambig>
     <example type="ambiguous" 
-        inputform="попереду[попереду/adv,попереду/prep:rv_rod]" 
-        outputform="попереду[попереду/prep:rv_rod]"><marker>попереду</marker> поїзда</example>
+        inputform="попереду[попереду/adv,попереду/prep]" 
+        outputform="попереду[попереду/prep]"><marker>попереду</marker> поїзда</example>
     <example type="untouched">попереду поїхав</example>
   </rule>
   -->
@@ -691,8 +691,8 @@
       <match no="1" postag="prep.*" postag_regexp="yes"/>
     </disambig>
     <example type="ambiguous"
-        inputform="після[після/adv,після/prep:rv_rod]"
-        outputform="після[після/prep:rv_rod]"
+        inputform="після[після/adv,після/prep]"
+        outputform="після[після/prep]"
             ><marker>після</marker> століть поневолення</example>
     <example type="untouched">Ото завше так — як сперва дуже весело, то після будеш плакать</example>
   </rule>
@@ -708,8 +708,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep:rv_rod]"
-        outputform="поруч[поруч/prep:rv_rod]"
+        inputform="поруч[поруч/adv,поруч/prep]"
+        outputform="поруч[поруч/prep]"
             >пливти <marker>поруч</marker> із судном</example>
     <example type="untouched">пливти поруч</example>
   </rule>
@@ -724,8 +724,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep:rv_rod]"
-        outputform="поруч[поруч/prep:rv_rod]"
+        inputform="поруч[поруч/adv,поруч/prep]"
+        outputform="поруч[поруч/prep]"
             >поставив відро <marker>поруч</marker> стільця</example>
     <example type="untouched">пливти поруч</example>
   </rule>
@@ -739,7 +739,7 @@
     </pattern>
     <disambig><match no="1" postag="adv.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="Відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
+        inputform="Відповідно[відповідно/adv:compb,відповідно/prep]"
         outputform="Відповідно[відповідно/adv:compb]"
             ><marker>Відповідно</marker>, цей газ був спільним</example>
     <example type="untouched">відповідно до тих обставин</example>
@@ -756,8 +756,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
-        outputform="відповідно[відповідно/prep:rv_dav]"
+        inputform="відповідно[відповідно/adv:compb,відповідно/prep]"
+        outputform="відповідно[відповідно/prep]"
             ><marker>відповідно</marker> до тих обставин</example>
     <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
   </rule>
@@ -772,8 +772,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
-        outputform="відповідно[відповідно/prep:rv_dav]"
+        inputform="відповідно[відповідно/adv:compb,відповідно/prep]"
+        outputform="відповідно[відповідно/prep]"
             >Переписав <marker>відповідно</marker> словам</example>
     <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
   </rule>
@@ -788,8 +788,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="серед[серед/prep:rv_rod,середа/noun:inanim:p:v_rod]"
-        outputform="серед[серед/prep:rv_rod]"
+        inputform="серед[серед/prep,середа/noun:inanim:p:v_rod]"
+        outputform="серед[серед/prep]"
             ><marker>серед</marker> степу</example>
     <example type="untouched">Валько боявся тих серед.</example>
   </rule>
@@ -804,8 +804,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
-        inputform="при[перти/verb:imperf:impr:s:2,при/prep:rv_mis]"
-        outputform="при[при/prep:rv_mis]"
+        inputform="при[перти/verb:imperf:impr:s:2,при/prep]"
+        outputform="при[при/prep]"
             >очі їй засвітились <marker>при</marker> згадці про свого штурманця</example>
     <example type="untouched">Давай! При в ту сторону!</example>
   </rule>
@@ -869,8 +869,8 @@
     </pattern>
     <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="за[за/adv,за/prep:rv_rod:rv_zna:rv_oru]"
-        outputform="за[за/prep:rv_rod:rv_zna:rv_oru]"
+        inputform="за[за/adv,за/prep]"
+        outputform="за[за/prep]"
         >Потрапляти <marker>за</marker> грати.
       </example>
     <example type="untouched">Всі проголосували за.</example>
