@@ -16787,7 +16787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]ie</token>
+                    <token regexp="yes">[dD]ie|[ds]eine</token>
                     <marker>
                         <token regexp="yes">fresse|schnauze|klappe</token>
                     </marker>
@@ -16825,7 +16825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
+                    <token regexp="yes">Die(se)?|[DMS]eine|Ihre|Eure|Unsere</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
@@ -16851,7 +16851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
+                    <token regexp="yes">Die(se)?|[DMS]eine|Ihre|Eure|Unsere</token>
                     <token postag="ADJ:NOM:PLU:(FEM|MAS|NEU):GRU:IND" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
@@ -18936,7 +18936,7 @@ Andere Projekte</example>
                 <marker>
                     <token>tat</token>
                 </marker>
-                <token regexp="yes" negate="yes">s?ich|er|sie|es</token>
+                <token regexp="yes" negate="yes">s?ich|e[rs]|sie</token>
             </pattern>
             <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
             <short>&prgk;.</short>
@@ -19019,7 +19019,7 @@ Andere Projekte</example>
                         <token>und</token>
                         <token>sehen</token>
                     </marker>
-                    <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
+                    <token inflected="yes">vergehen</token>
                 </pattern>
                 <message>&prgk;: Meinten Sie <suggestion>Hören und Sehen</suggestion>?</message>
                 <short>&prgk;.</short>
@@ -19028,7 +19028,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
+                    <token inflected="yes">vergehen</token>
                     <marker>
                         <token>hören</token>
                         <token>und</token>
@@ -19042,8 +19042,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
-                    <token regexp="yes">dir|ihr|mir|ihm|euch|uns|ihnen|einem</token>
+                    <token inflected="yes">vergehen</token>
+                    <token regexp="yes">ih[mr]|[dm]ir|euch|uns|ihnen|einem</token>
                     <marker>
                         <token>hören</token>
                         <token>und</token>
@@ -19113,7 +19113,7 @@ Andere Projekte</example>
         <rulegroup id="ZEIT_SUBST" name="'zeit (Zeit) haben' etc.">
             <antipattern>
                 <token case_sensitive="yes">zeit</token>
-                <token regexp="yes">meines|deines|seines|ihres|unseres</token>
+                <token regexp="yes">[dms]eines|ihres|unseres</token>
                 <token>Lebens</token>
             </antipattern>
             <rule>
@@ -19992,7 +19992,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
                     <token>dem</token>
-                    <token postag="ADJ:DAT:SIN:MAS:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes"/>
                     <marker>
                         <token>stand</token>
                     </marker>
@@ -20346,7 +20346,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
+                    <token regexp="yes">[Dd]e[rsmn]|[vV]om|[iI]m</token>
                     <marker>
                         <token regexp="yes">heilige[rn]?</token>
                     </marker>
@@ -20360,7 +20360,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](er|es|em|en)</token>
+                    <token regexp="yes">[Dd]e[rsmn]</token>
                     <marker>
                         <token>hl</token>
                     </marker>
@@ -20404,7 +20404,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
+                    <token regexp="yes">[Dd]e[rsmn]|[vV]om|[iI]m</token>
                     <marker>
                         <token regexp="yes">pazifische[rn]?|indische[rn]?|atlantische[rn]?</token>
                     </marker>
@@ -20434,7 +20434,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](ie|er|en)</token>
+                    <token regexp="yes">[Dd](ie|e[rn])</token>
                     <marker>
                         <token>vereinigten</token>
                     </marker>
@@ -20550,7 +20550,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
+                    <token regexp="yes">([Dd](as|e[ms])|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">[hH]eilige[sn]?</token>
                         <token regexp="yes">römischen?</token>
@@ -20565,7 +20565,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
+                    <token regexp="yes">([Dd](as|e[ms])|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">heilige[sn]?</token>
                         <token regexp="yes">[rR]ömischen?</token>
@@ -20580,7 +20580,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
+                    <token regexp="yes">([Dd](as|e[sm])|[vV]om|[iIaA]m)</token>
                     <token regexp="yes">[hH]eilige[sn]?</token>
                     <token regexp="yes">[Rr]ömischen?</token>
                     <token regexp="yes">Reiche?s?</token>
@@ -20635,7 +20635,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](er|es|em|en)|[vV]om|[iI]m</token>
+                    <token regexp="yes">[Dd](e[rsmn])|[vV]om|[iI]m</token>
                     <marker>
                         <token regexp="yes">gelbe[rn]?</token>
                     </marker>
@@ -20648,7 +20648,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](ie|er|en)</token>
+                    <token regexp="yes">[Dd](ie|e[rn])</token>
                     <marker>
                         <token regexp="yes">gelben?</token>
                     </marker>
@@ -20662,7 +20662,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](ie|er|en)</token>
+                    <token regexp="yes">[Dd](ie|e[rn])</token>
                     <marker>
                         <token regexp="yes">gelben?</token>
                     </marker>
@@ -20676,7 +20676,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](er|es|en|em)</token>
+                    <token regexp="yes">[Dd](e[rsnm])</token>
                     <marker>
                         <token>wiener</token>
                     </marker>
@@ -20689,7 +20689,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](er|es|en|em)|[Ii]m|[vV]om</token>
+                    <token regexp="yes">[Dd](e[rsnm])|[Ii]m|[vV]om</token>
                     <marker>
                         <token regexp="yes">deutsche[rn]?</token>
                     </marker>
@@ -20746,7 +20746,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
+                    <token regexp="yes">([Dd](e[rsmn])|[vV]om|[iI]m)</token>
                     <marker>
                         <token regexp="yes">heilige[rn]?</token>
                     </marker>
@@ -20771,7 +20771,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd](er|es|em|en)</token>
+                    <token regexp="yes">[Dd](e[rsmn])</token>
                     <marker>
                         <token>hl</token>
                     </marker>
@@ -20812,7 +20812,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[aA]m)</token>
+                    <token regexp="yes">([Dd](e[rsmn])|[vV]om|[aA]m)</token>
                     <marker>
                         <token regexp="yes">heiligen?</token>
                     </marker>
@@ -20825,7 +20825,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om)</token>
+                    <token regexp="yes">([Dd](e[rsmn])|[vV]om)</token>
                     <marker>
                         <token regexp="yes">ersten?</token>
                     </marker>
@@ -21148,7 +21148,7 @@ Andere Projekte</example>
                     <marker>
                         <token>spitze</token>
                     </marker>
-                    <token regexp="yes">des|der|seines|ihres</token>
+                    <token regexp="yes">de[sr]|seines|ihres</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -21262,7 +21262,7 @@ Andere Projekte</example>
                     <marker>
                         <token>flucht</token>
                     </marker>
-                    <token regexp="yes">ergreifen?|ergriff(en)?|ergreifs?t</token>
+                    <token inflected="yes">ergreifen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -21271,7 +21271,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">ergreifen?|ergriff(en)?|ergreifs?t</token>
+                    <token inflected="yes" skip="1">ergreifen</token>
                     <token>die</token>
                     <marker>
                         <token>flucht</token>
@@ -21340,7 +21340,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>gegen</token>
-                    <token postag="PRO:POS:AKK:SIN:MAS.*" postag_regexp="yes"/>
+                    <token postag="PRO:POS:AKK:SIN:MAS:.*" postag_regexp="yes"/>
                     <marker>
                         <token case_sensitive="yes">willen</token>
                     </marker>
@@ -21914,7 +21914,7 @@ Andere Projekte</example>
         <rulegroup id="WIEGE_SUBST" name="'an der wiege (Wiege) gesungen'">
             <rule>
                 <pattern>
-                    <token regexp="yes">in|an|von</token>
+                    <token regexp="yes">[ai]n|von</token>
                     <token regexp="yes">d(ie|er)</token>
                     <marker>
                         <token case_sensitive="yes">wiege</token>
@@ -22101,7 +22101,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">[Ss]ollen</token>
-                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
                     <marker>
                         <token>Recht</token>
                     </marker>
@@ -22114,7 +22114,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">sein|geschehen</token>
-                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
                     <token min="0"></token>
                     <token min="0">nicht</token>
                     <token postag="ADJ:PRD:GRU" min="0"/>
@@ -22655,7 +22655,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]er|[Dd]en|[Dd]em|[Ii]m</token>
+                    <token regexp="yes">[Dd]e[rnm]|[Ii]m</token>
                     <token regexp="yes">ersten?|zweiten?|dritten?|vierten?|fünften?|sechsten?|siebten?|achten?|neunten?|letzten?</token>
                     <marker>
                         <token>schritt</token>
@@ -22787,7 +22787,7 @@ Andere Projekte</example>
                 <marker>
                     <token>träger</token>
                 </marker>
-                <token regexp="yes">des|von|seiner|ihrer|seines|ihres</token>
+                <token regexp="yes">des|von|seine[rs]|ihre[rs]</token>
             </pattern>
             <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
             <example>Er ist heute etwas <marker>träger</marker> als damals.</example>
@@ -22894,7 +22894,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>eine</token>
-                    <token postag="ADJ:AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="ADJ:AKK:SIN:FEM:.*" postag_regexp="yes" min="0" max="1"/>
                     <marker>
                         <token>rede</token>
                     </marker>
@@ -22909,7 +22909,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">halten</token>
                     <token>eine</token>
-                    <token postag="ADJ:AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="ADJ:AKK:SIN:FEM:.*" postag_regexp="yes" min="0" max="1"/>
                     <marker>
                         <token>rede</token>
                     </marker>
@@ -22921,7 +22921,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">nicht|nie</token>
+                    <token regexp="yes">ni(cht|e)</token>
                     <token>die</token>
                     <marker>
                         <token>rede</token>
@@ -23019,7 +23019,7 @@ Andere Projekte</example>
                         <token>schuld</token>
                     </marker>
                     <token>von</token>
-                    <token regexp="yes">mir|dir|sich|uns|euch</token>
+                    <token regexp="yes">[dm]ir|sich|uns|euch</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <example correction="Schuld">Ich weise alle <marker>schuld</marker> von mir.</example>
@@ -23030,7 +23030,7 @@ Andere Projekte</example>
                         <token>schuld</token>
                     </marker>
                     <token>auf</token>
-                    <token regexp="yes">mich|dich|sich|uns|euch</token>
+                    <token regexp="yes">[dms]ich|uns|euch</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <example correction="Schuld">Wir haben schwere <marker>schuld</marker> auf uns geladen.</example>
@@ -23059,7 +23059,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">meine|[dD]eine|seine|[iI]hre|unsere|[eE]ure|[wW]essen|niemandes|jemandes|keine|ohne</token>
+                    <token regexp="yes">[dDkms]eine|[iI]hre|unsere|[eE]ure|[wW]essen|niemandes|jemandes|ohne</token>
                     <marker>
                         <token>schuld</token>
                     </marker>
@@ -23072,7 +23072,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="PRO:REF:DAT.+" postag_regexp="yes"/>
+                    <token postag="PRO:REF:DAT:.+" postag_regexp="yes"/>
                     <token regexp="yes">keiner(lei)?</token>
                     <marker>
                         <token>schuld</token>
@@ -23274,7 +23274,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">kommen</token>
-                    <token regexp="yes">ich|du|er|[sS]ie|es|wir|[iI]hr</token>
+                    <token regexp="yes">ich|du|e[rs]|[sS]ie|wir|[iI]hr</token>
                     <token>an</token>
                     <token>die</token>
                     <marker>
@@ -23326,7 +23326,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]as|[eE]in|machen?|macht?|ins|ans|(helle|grelle|gleißende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
+                    <token regexp="yes">[dD]as|[eE]in|machen?|macht?|[ai]ns|(helle|grelle|gleißende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
                     <marker>
                         <token>licht</token>
                     </marker>
@@ -23667,37 +23667,17 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[sS]eit|[vV]or|[nN]ach</token>
+                    <token min="0" postag_regexp="yes" postag="PRO:IND:DAT:PLU:FEM:B/S|ZAL"/>
                     <marker>
                         <token regexp="yes">tagen|stunden</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Tagen">Seit <marker>tagen</marker> schon warten wir auf Nachricht.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n|[Ss]eit|[vV]or|[nN]ach</token>
-                    <token regexp="yes">wenigen|einigen|mehreren|vielen</token>
-                    <marker>
-                        <token regexp="yes">tagen|stunden</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
+                <example correction="Tagen">Wir warten seit einigen <marker>tagen</marker> darauf.</example>
                 <example correction="Tagen">Seit einigen <marker>tagen</marker> läuft es wieder.</example>
                 <example correction="Stunden">Nach einigen <marker>stunden</marker> lief es wieder.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n|[Ss]eit|[vV]or|[nN]ach</token>
-                    <token postag="ZAL"/>
-                    <marker>
-                        <token regexp="yes">tagen|stunden</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Tagen">Seit zwei <marker>tagen</marker> läuft es wieder.</example>
             </rule>
             <rule>
@@ -32169,6 +32149,13 @@ Andere Projekte</example>
                 <token>:</token>
                 <token regexp="yes">[0-5][0-9]</token>
             </antipattern>
+            <antipattern>
+                <!-- vermutlich Spielstand -->
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden</token>
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes">[0-9]+</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">([0-9]+[a-z]*)
@@ -32188,6 +32175,7 @@ Andere Projekte</example>
             <example>Am 2014-01-23 10:32 schrieb ich:</example>
             <example>a = 2 · x² + 5</example>
             <example>4,5 × 2,5</example>
+            <example>Sie verloren das Spiel mit 3:0.</example>
             <example>Zwischen 9:00 und 16:45.</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
