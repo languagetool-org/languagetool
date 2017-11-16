@@ -257,6 +257,12 @@ public class CaseRule extends Rule {
        token("das"),
        csToken("Aus"),
        posRegex("^PRP:.+")
+     ),
+     Arrays.asList(
+       // "Bündnis 90/Die Grünen"
+       csToken("90"),
+       csToken("/"),
+       csToken("Die")
      )
   );
 
